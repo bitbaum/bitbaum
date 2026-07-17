@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 355" width="400" height="355">
+  <title>bitbaum</title>
+  <desc>bitbaum — AI-First Product Studio. Mark: two infinity symbols representing the two Bs.</desc>
+
+  <defs>
+    <style>
+      .b-mark {
+        fill: none;
+        stroke: #0d1117;
+        stroke-width: 18;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .wordmark {
+        font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 32px;
+        font-weight: 300;
+        letter-spacing: 9px;
+        fill: #0d1117;
+      }
+    </style>
+  </defs>
+
+  <!--
+    Mark concept: the two Bs in "bitbaum" rendered as two infinity symbols (∞).
+    Each infinity is a pair of loops — mirroring the two bumps of a capital B.
+    Stacked vertically, they suggest a tree (Baum) growing upward from a shared axis.
+    The center crossing of each ∞ aligns on x=200, forming an invisible trunk.
+  -->
+
+  <!-- Upper ∞  (the B in "bit") -->
+  <path class="b-mark" d="
+    M 200,120
+    C 195,93  173,87  152,99
+    C 128,114 128,126 152,141
+    C 173,153 195,147 200,120
+    C 205,93  227,87  248,99
+    C 272,114 272,126 248,141
+    C 227,153 205,147 200,120
+  "/>
+
+  <!-- Lower ∞  (the B in "baum") -->
+  <path class="b-mark" d="
+    M 200,232
+    C 195,205 173,199 152,211
+    C 128,226 128,238 152,253
+    C 173,265 195,259 200,232
+    C 205,205 227,199 248,211
+    C 272,226 272,238 248,253
+    C 227,265 205,259 200,232
+  "/>
+
+  <!-- Wordmark -->
+  <text class="wordmark" x="200" y="318" text-anchor="middle">bitbaum</text>
+
+</svg>
