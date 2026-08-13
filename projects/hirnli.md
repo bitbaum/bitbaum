@@ -188,6 +188,24 @@ Row-Level Security in Supabase. Organization-based isolation — every user belo
 
 ---
 
+## Distribution
+
+**Nothing exists — there is no codebase.** `/home/g/dev/hirnli/` (referenced in the header) does not exist on disk, and no hirnli repo exists under `~/dev`. No site, blog, RSS, newsletter, OG assets, or social presence.
+
+The closest working system is **revamp-info** (`/home/g/dev/revamp-info`, live at revamp-info.orangecat.ch): a single-tenant fundraising-intelligence platform built for Revamp-IT whose candidate product name is literally "Hirnli" — 15,506 Swiss foundations in DB, 212 generated Gesuch pages. See `projects/revamp-info.md`; multi-tenant path documented in its `docs/HIRNLI-REPLATFORM-PLAN.md`.
+
+---
+
+## Go-to-market
+
+- **ICP:** Swiss NGOs, Vereine, and social enterprises raising foundation grants (Verein vertical first).
+- **Positioning one-liner:** "Replace your fundraising team with AI."
+- **Shortest first-paying-customer path:** not via this (nonexistent) codebase — the realistic path runs through revamp-info: prove the pipeline on Revamp-IT (proof already live), replatform multi-tenant, then convert the first external NGO pilot to paid.
+- **Monetization state:** none — pre-launch, no product. All revenue figures in this brief are targets, not actuals.
+- **Key metrics to move:** none active. Fleet GTM (2026-08) deprioritizes everything outside vitareba/kivvi/evig/fleetcrown until one of those has a paying customer.
+
+---
+
 ## Success Metrics
 
 ### Year 1 (Q2 2026 – Q2 2027)
