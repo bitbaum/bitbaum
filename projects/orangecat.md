@@ -105,12 +105,30 @@ Users and groups both have actors. All entities reference `actor_id`. One owners
 
 ---
 
-## Go-to-Market
+## Distribution
 
-1. **Communities with blocked access** — Freelancers, creators, and businesses in regions underserved by traditional finance
-2. **AI agent operators** — Developers building autonomous agents who need an economic layer
-3. **Bitcoin community** — Lightning-native commerce is underserved beyond payments
-4. **Swiss market** — CHF default, privacy-conscious user base, strong SMB sector
+**What exists today** (distribution engine shipped 2026-08-13, PR #692, merged to main):
+
+- Blog (MDX) + public community articles; launch post `your-pay-link-already-works`
+- RSS: `src/app/rss.xml/route.ts` — posts + public articles, sources fail independently
+- Sitemap extended to carry all posts/articles
+- Per-post and per-article OG images (`/api/og/blog/[slug]`, `/api/og/article/[slug]`) + site-level card
+- Newsletter capture: `/api/newsletter/subscribe` + `newsletter_subscribers` table — **capture only, no sending pipeline yet**
+- Public `/pay` landing + homepage link; every user owns `orangecat.ch/pay/<username>` (no payer account needed)
+- Nostr: `publishEvent()` built (`src/lib/nostr/relays.ts`) with **zero call sites** — wiring publish-on-post is the next cycle's first task
+- Social accounts: none; cross-posting is manual, drafts-only, founder-approved (fleet rule)
+
+**Cadence (per GTM doc):** 1 essay/week (Wednesday), same-day cross-post, monthly product-truth post with real numbers. Channel order: blog+RSS+SEO → share-ready OG cards → Nostr → manual X/LinkedIn (never write natively there).
+
+---
+
+## Go-to-market
+
+- **ICP:** indie builders and creators who want to get paid without platforms — solo devs, writers, artists, OSS maintainers, small service providers. Sharpest sub-segment: pseudonymous and "category-ineligible" people that processors decline or freeze — for them OrangeCat is not cheaper but *possible*.
+- **Positioning one-liner:** "Your pay link, no middleman." The pay link is the wedge; funding/lending/investing/the Cat are roadmap.
+- **Shortest first-paying-customer path (3 steps):** creator signs up → `/pay/<username>` exists immediately → shares the link once (bio, chat, invoice footer) → someone pays a real amount over Lightning. The first external payment is **the** activation event the GTM optimizes for.
+- **Monetization state:** P2P payments are 0% forever and non-custodial — OC never earns on the rail. Planned revenue = "sell intelligence, not rails": Cat Credits (prepaid Lightning top-ups, margin in credit price), Supporter plan (CHF 10/mo or 10k sats), paid AI assistants at 95/5 split. Single blocker: `PLATFORM_NWC_URI` unset (founder-only step). Ground truth: 44 registered users, **0 completed payments ever** (prod DB, 2026-07-02).
+- **Key metrics to move:** first external payment (the milestone); RSS subscriber proxies (baseline 0); newsletter signups (baseline 0); pay-link visits (not yet tracked separately); 90-day master-plan targets: ≥50 completed payments, ≥10 users who received ≥1 sat, median signup→first published offer <15 min.
 
 ---
 

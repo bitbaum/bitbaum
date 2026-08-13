@@ -86,6 +86,29 @@ A two-sided marketplace: creators list agents (prompt templates or code), busine
 
 ---
 
+## Distribution
+
+**Reality check:** the deployed app at [botsmann.orangecat.ch](https://botsmann.orangecat.ch) is currently "six domain-specialized AI professionals" (Lex/Imhotep/Nerd/Heidi/Muse/Trident, multi-LLM routing Ollama → Groq → OpenRouter) — not yet the marketplace described above. `botsmann.com` has lapsed nameservers; the app serves on the orangecat.ch subdomain.
+
+**What exists today:**
+- Blog: 3 static posts at `/blog` (welcome, future-of-shopping, libertech-revolution)
+- RSS / sitemap / OG cards / newsletter capture / social queue: **none — fleet distribution standard pending**
+- Social accounts: none
+
+**Planned:** fleet distribution standard (RSS + sitemap + OG cards + newsletter capture + share buttons + social queue) when next touched — per fleet GTM (2026-08), no distribution push here until a revenue-priority project has a paying customer.
+
+---
+
+## Go-to-market
+
+- **ICP:** SMBs (50–500 employees) wanting task-specific AI without ML engineers; near-term, users wanting a domain-calibrated AI professional over a generic chatbot.
+- **Positioning one-liner:** "Domain-specialized AI professionals, not another generic chatbot wrapper."
+- **Shortest first-paying-customer path:** none active — botsmann sits below the fleet's top-4 revenue priorities; the validation gates above must pass first (≥50% of 20 interviewed SMBs would pay CHF 99/mo; ≥5 of 10 creators would list).
+- **Monetization state:** no pricing page, no payment processor, no revenue. Marketplace take-rate model is hypothesis only.
+- **Key metrics to move:** validation interview counts (buyer + seller gates). Until then: none — focus beats spread.
+
+---
+
 ## Success Metrics
 
 ### Year 1 (2027, from launch)

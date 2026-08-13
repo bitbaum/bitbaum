@@ -18,10 +18,10 @@ This is a **documentation-only** repository — no code, no tests, no deployment
 
 ```
 README.md          — Company overview, portfolio, shared infra, business model
-projects/
-  orangecat.md     — AI-native economic platform (live at orangecat.ch)
-  hirnli.md        — Fundraising intelligence platform (pre-launch, Q2 2026)
-  botsmann.md      — AI agent marketplace (concept validation)
+projects/          — one brief per fleet project (20 briefs, 2026-08), named after
+                     the repo dir under ~/dev so FleetCrown's enrichment pipeline
+                     can ingest projects/<name>.md. Each brief carries status,
+                     business model, ## Distribution, and ## Go-to-market sections.
 docs/              — (reserved for cross-product docs, legal templates, etc.)
 ```
 
