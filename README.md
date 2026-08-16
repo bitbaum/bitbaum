@@ -143,7 +143,7 @@ Not a single product company. Not a consulting agency. A **product studio** that
 
 **Status:** Active (separate nonprofit — not part of bitbaum)
 **Vertical:** Social Impact / Circular Economy
-**Codebase:** `/home/g/dev/revampit/`
+**Codebase:** `/home/g/dev/evig/` (rebranded from Revamp-IT; `/home/g/dev/revampit/` is now an archived alias)
 
 **Structure:** Revamp-IT is a legally independent nonprofit (Verein). Swiss law does not permit a for-profit entity to "own" a Verein — they can have the same founder, collaborate closely, and share services, but ownership is not possible. bitbaum's relationship with Revamp-IT is: founder overlap + hirn.li's first customer (proof of concept).
 

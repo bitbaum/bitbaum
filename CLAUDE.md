@@ -32,7 +32,7 @@ docs/              — (reserved for cross-product docs, legal templates, etc.)
 | orangecat | `/home/g/dev/orangecat/` | Live |
 | hirn.li | `/home/g/dev/hirnli/` | Pre-launch |
 | botsmann | — | Concept only |
-| revampit | `/home/g/dev/revampit/` | Active (separate entity) |
+| evig | `/home/g/dev/evig/` | Active (Live) |
 
 ## Conventions for This Repo
 
