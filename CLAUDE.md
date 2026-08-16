@@ -18,7 +18,7 @@ This is a **documentation-only** repository — no code, no tests, no deployment
 
 ```
 README.md          — Company overview, portfolio, shared infra, business model
-projects/          — one brief per fleet project (20 briefs, 2026-08), named after
+projects/          — one brief per fleet project, named after
                      the repo dir under ~/dev so FleetCrown's enrichment pipeline
                      can ingest projects/<name>.md. Each brief carries status,
                      business model, ## Distribution, and ## Go-to-market sections.

@@ -53,7 +53,7 @@ Not a single product company. Not a consulting agency. A **product studio** that
 
 **Status:** Active Development (Live at [orangecat.ch](https://orangecat.ch))
 **Vertical:** Decentralized Finance / Economic Infrastructure
-**Codebase:** `/home/g/dev/orangecat/`
+**Codebase:** `/home/g/dev/orangecat/` · **Project doc:** `projects/orangecat.md`
 
 **Problem:** Economic participation requires gatekeepers — banks, payment processors, platforms that demand identity verification, take cuts, and exclude entire categories of people (and AI agents).
 
@@ -99,10 +99,11 @@ Not a single product company. Not a consulting agency. A **product studio** that
 
 ### 👑 FleetCrown — AI Agent Fleet Command Platform
 
-**Status:** Private Development (codenamed "Cockpit" in repo paths; rename to FleetCrown pending launch)
+**Status:** Active Development (Live at [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch), pre-1.0)
 **Vertical:** AI-Agent Orchestration / Personal Operations
-**Codebase:** `/home/g/dev/cockpit/`
-**Domain:** fleetcrown.com (to be registered 2026-06-02)
+**Codebase:** `/home/g/dev/fleetcrown/` · [github.com/maonakamoto/fleetcrown](https://github.com/maonakamoto/fleetcrown) (public)
+**Domain:** fleetcrown.com — unregistered; the brand/domain decision is the open blocker for paid marketing
+**Project doc:** `projects/fleetcrown.md`
 
 **Problem:** Builders running multiple projects simultaneously have to context-switch constantly — between codebases, tickets, calendars, contacts, and now dozens of AI agents working in parallel. There's no single command surface where a human captain stays in judgment mode while agents execute.
 
@@ -112,7 +113,7 @@ Not a single product company. Not a consulting agency. A **product studio** that
 
 **Architecture:** Next.js 16 + Drizzle/Postgres for the web; Electron + local Node "Brain/Bridge/Worker" stack for the desktop runner; agents dispatched into zellij tabs on the user's own machine. Schema-as-SSOT throughout.
 
-**Business Model:** SaaS subscription for FleetCrown Web (cloud command + multi-machine sync); local Fleet Runner free or bundled. Pricing TBD pending validation.
+**Business Model:** Tiered SaaS subscription (Free / Personal / Pro / Team, CHF 0–90/month, billed annually); local Fleet Runner is the free executor. Stripe fully coded but not yet live — revenue to date CHF 0.
 
 **Moat:** Local-first execution (no cloud GPU costs, agents work where the code is) + remote command surface (works from anywhere) + neutral orchestration layer (agnostic to which AI provider runs each agent).
 
@@ -394,7 +395,7 @@ Revamp-IT (Verein / nonprofit — independent, not part of bitbaum)
 3. **Incorporate bitbaum AG** — Holding entity (Zug canton); then hirn.li GmbH before first external investment
 4. **Validate botsmann** — Interview 20 SMBs on AI agent marketplace demand before building
 5. **Register bitbaum.ch** — Corporate/investor-facing site; keep product domains independent
-6. **Register fleetcrown.com** — Locked as the FleetCrown product domain (2026-06-02); register before any external-facing FleetCrown surface goes live
+6. **Register fleetcrown.com** — Locked as the FleetCrown product domain (2026-06-02); still unregistered while the app runs live at fleetcrown.orangecat.ch. The open brand/domain decision blocks paid marketing, not the product
 
 ---
 
