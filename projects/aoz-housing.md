@@ -1,9 +1,14 @@
 # aoz-housing — Shared-Living Management & Compatibility Placement
 
+**created_date:** 2026-08-20  
+**last_modified_date:** 2026-08-20  
+**last_modified_summary:** Pseudonymous public profile is AOM only (no expanded fictional name).
+
 **Status:** Active Development (Live — REAL instance since 2026-08-13)
 **Tagline:** One product, two faces: a WG/shared-flat tool and a staff placement system for refugee housing
-**URL:** [aoz-wohnen.orangecat.ch](https://aoz-wohnen.orangecat.ch) — runs in REAL mode (Witikonerstrasse 458 "Singapur", George's flat); demo mode OFF there (reset timer would truncate real data)
+**URL:** [aoz.orangecat.ch](https://aoz.orangecat.ch) — runs in REAL mode (Witikonerstrasse 458 "Singapur", George's flat); demo mode OFF there (reset timer would truncate real data)
 **Codebase:** `/home/g/dev/aoz-housing/`
+**Pseudonymous public profile:** `AOM` (see `projects/aom.md`)
 
 ---
 

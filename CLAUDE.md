@@ -10,6 +10,12 @@ bitbaum is a solo-founder AI product studio: multiple vertical SaaS products on 
 
 ---
 
+## Infrastructure (Hetzner — not Neon)
+
+Every live product database is PostgreSQL on the Hetzner box **bitbaum** (`167.233.22.31`). The fleet list is `~/dev/fleetcrown/scripts/hetzner/apps.conf`. Neon, Vercel Postgres and hosted Supabase were left on **2026-06-12**. They are not a fallback. A laptop `.env` naming `neon.tech` is leftover garbage; Prisma/Drizzle will load it and time out — that is not "production is down". Env SSOT is `/opt/<app>/shared/.env` on the box.
+
+AOZ Wohnen: database `aoz_wohnen`, app `/opt/aoz-wohnen/`, https://aoz-wohnen.orangecat.ch.
+
 ## What This Repo Is
 
 This is a **documentation-only** repository — no code, no tests, no deployments. It contains the strategic vision, product specs, and business plans for all bitbaum products.
