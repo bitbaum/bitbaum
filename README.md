@@ -101,7 +101,7 @@ Not a single product company. Not a consulting agency. A **product studio** that
 
 **Status:** Active Development (Live at [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch), pre-1.0)
 **Vertical:** AI-Agent Orchestration / Personal Operations
-**Codebase:** `/home/g/dev/fleetcrown/` · [github.com/maonakamoto/fleetcrown](https://github.com/maonakamoto/fleetcrown) (public)
+**Codebase:** `/home/g/dev/fleetcrown/` · [github.com/catomean/fleetcrown](https://github.com/catomean/fleetcrown) (public)
 **Domain:** fleetcrown.com — unregistered; the brand/domain decision is the open blocker for paid marketing
 **Project doc:** `projects/fleetcrown.md`
 

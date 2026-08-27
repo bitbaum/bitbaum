@@ -3,7 +3,7 @@
 **Status:** Active Development (Live, pre-1.0, single-builder)
 **Tagline:** "The captain's bridge over AI agent runtimes — not a runtime, not an agent"
 **URL:** [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch) · fleetcrown.com **unregistered** (see blocker)
-**Repo:** [github.com/maonakamoto/fleetcrown](https://github.com/maonakamoto/fleetcrown) (public)
+**Repo:** [github.com/catomean/fleetcrown](https://github.com/catomean/fleetcrown) (public)
 **Codebase:** `/home/g/dev/fleetcrown/`
 
 ---
