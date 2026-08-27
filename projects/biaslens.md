@@ -1,6 +1,13 @@
 # biaslens — Media Bias Analysis Engine
 
-**Status:** Experimental (step 1 of 6 built, no deploy, dark)
+> **ARCHIVED 2026-08-27.** No deploy, no users, no commercial relationship. Archived
+> rather than deleted: the work is kept, but it stops voting. A dark repo costs
+> nothing in disk and everything in attention — every fleet sweep, dependabot
+> alert and audit touched 24 projects instead of the ~12 that are actually live.
+> Un-archive by removing this note and giving it a status above.
+
+
+**Status:** Archived (was: Experimental (step 1 of 6 built, no deploy, dark)
 **Tagline:** Evidence before conclusions — separate fact from framing, measure uncertainty, every score explainable
 **URL:** none — CI only, never deployed; requires a Postgres that is not provisioned anywhere in-repo
 **Codebase:** `/home/g/dev/biaslens/` (public GitHub repo, 4 commits)

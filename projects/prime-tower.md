@@ -1,6 +1,13 @@
 # Prime tower — undecided scaffold
 
-**Status:** Idea / scaffold only — no product decision has been made
+> **ARCHIVED 2026-08-27.** No deploy, no users, no commercial relationship. Archived
+> rather than deleted: the work is kept, but it stops voting. A dark repo costs
+> nothing in disk and everything in attention — every fleet sweep, dependabot
+> alert and audit touched 24 projects instead of the ~12 that are actually live.
+> Un-archive by removing this note and giving it a status above.
+
+
+**Status:** Archived (was: Idea / scaffold only — no product decision has been made
 **Tagline:** none yet
 **URL:** none
 **Codebase:** none locally; the FleetCrown profile describes a generated Next.js starter

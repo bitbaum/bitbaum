@@ -1,6 +1,13 @@
 # truthseeker — First-Principles Rebuttal Generator
 
-**Status:** Experimental (v0.1, no deploy, dark)
+> **ARCHIVED 2026-08-27.** No deploy, no users, no commercial relationship. Archived
+> rather than deleted: the work is kept, but it stops voting. A dark repo costs
+> nothing in disk and everything in attention — every fleet sweep, dependabot
+> alert and audit touched 24 projects instead of the ~12 that are actually live.
+> Un-archive by removing this note and giving it a status above.
+
+
+**Status:** Archived (was: Experimental (v0.1, no deploy, dark)
 **Tagline:** Paste an article → claims split into factual/normative/causal, first-principles critique, source and author transparency
 **URL:** none — CI only, never deployed
 **Codebase:** `/home/g/dev/truthseeker/` (public GitHub repo, 7 commits)
