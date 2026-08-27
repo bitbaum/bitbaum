@@ -2,7 +2,7 @@
 
 **created_date:** 2026-08-20
 **last_modified_date:** 2026-08-27
-**last_modified_summary:** Rewritten against reality — separates what exists from what was documented but never built, and records Camille as the worked case study.
+**last_modified_summary:** Rewritten against reality; Camille recorded as the worked case study; new-site.sh built, so the scaffold row is now real.
 
 ---
 
@@ -129,13 +129,22 @@ Procedure: `camille-boulangerie/HANDOVER.md`.
 | DNS for a new subdomain | wildcard `*.orangecat.ch` → 167.233.22.31 | **yes** — zero-touch since 2026-08-27 |
 | Handover procedure | `camille-boulangerie/HANDOVER.md` | **yes** — rehearsed |
 | Site import from a URL | — | no |
-| One-command scaffold | — | no |
+| One-command scaffold | `fleetcrown/scripts/hetzner/new-site.sh <slug>` | **yes** — since 2026-08-27 |
 | Per-site FleetCrown project + widget token | — | no |
 | Preview / approve / revert for agent changes | — | no |
 
-Spinning up Substrata by hand took nine steps. Eight are scriptable from the
-above; the ninth — setting `HETZNER_SSH_PRIVATE_KEY` on each new repo — is best
-removed rather than automated, by putting a self-hosted Actions runner on the box.
+Spinning up Substrata by hand took nine steps. Eight are now one command —
+`new-site.sh <slug>` does repo → register → box → deploy, refusing reserved and
+duplicate slugs and allocating the port from the register rather than from
+`ss -ltnp`. The ninth — setting `HETZNER_SSH_PRIVATE_KEY` on each new repo — is
+deliberately not automated: a script should not handle private keys, and the
+better fix is to put a self-hosted Actions runner on the box so the secret stops
+existing at all.
+
+The scaffold automates the *boring* steps on purpose. Camille's two missing
+steps — create the repository, register it — were precisely the ones with no
+visible payoff on the day, which is why they were skipped and why they are now
+the ones a machine does.
 
 ---
 
