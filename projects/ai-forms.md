@@ -2,7 +2,7 @@
 
 **Status:** Shipped v0.1.0 (library, not a product; no deploy target by nature)
 **Tagline:** Headless AI form filling and conversational refinement — fill any form from prose
-**URL:** [github.com/maonakamoto/ai-forms](https://github.com/maonakamoto/ai-forms) (public); **not on npm** — installed via git tag (`npm install github:maonakamoto/ai-forms#v0.1.0`)
+**URL:** [github.com/bitbaum/ai-forms](https://github.com/bitbaum/ai-forms) (public); **not on npm** — installed via git tag (`npm install github:bitbaum/ai-forms#v0.1.0`)
 **Codebase:** `/home/g/dev/ai-forms/` (1 squashed commit, ~1,050 LOC, zero runtime deps)
 
 ---

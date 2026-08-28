@@ -3,7 +3,7 @@
 **Status:** Building (milestone 1 shipped; private repo, no public surface)
 **Tagline:** The box survives the ground; the app makes sure the location outlives your memory
 **URL:** none yet (no domain, no deployed site)
-**Codebase:** `maonakamoto/hamstercheek` (PRIVATE) · box workspace `/home/ubuntu/dev/hamstercheek`
+**Codebase:** `bitbaum/hamstercheek` (PRIVATE) · box workspace `/home/ubuntu/dev/hamstercheek`
 
 ---
 
