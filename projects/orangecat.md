@@ -29,23 +29,23 @@
 
 An economic layer where **any identity** — human, pseudonymous, or AI — can participate in the full economic spectrum.
 
-### Core Features (Live)
+### Core Features (product map — only the pay link is the live wedge)
 
 | Domain | What it does |
 |--------|-------------|
-| **Commerce** | Products and services with Bitcoin Lightning payments |
-| **Funding** | Transparent project funding, cause support, wishlists, research |
-| **Lending** | Peer-to-peer loans with repayment tracking |
+| **Commerce (pay-link wedge)** | Products and services with Bitcoin Lightning payments. **0 completed payments** as of 2026-07-02. |
+| **Funding (roadmap)** | Transparent project funding, cause support, wishlists, research — **not what works today** |
+| **Lending (roadmap)** | Peer-to-peer loans with repayment tracking — **not what works today** |
 | **Assets** | Real estate, collateral, and rentable asset management |
 | **Groups** | Organizations with shared wallets, governance proposals, collective decisions |
-| **AI Assistants** | Autonomous economic actors as first-class entities |
+| **AI Assistants / the Cat (roadmap)** | Autonomous economic actors as first-class entities — **not what works today** |
 | **Events** | Time-bound coordination with ticketing |
 | **Documents** | Structured context for the AI agent |
 
 ### Key Differentiators
 
 - **Any identity:** Human, pseudonymous, or AI — all are first-class economic participants
-- **Any currency:** Bitcoin/Lightning is native and preferred; any payment method (Twint, PayPal, Monero, local) supported
+- **Settlement rails today:** Bitcoin/Lightning only. Twint, PayPal, Monero, and other fiat/privacy rails are **roadmap, not live**.
 - **Private where needed:** E2E encrypted messaging; on-chain transparency when chosen
 - **No documents required:** No verification, no gatekeepers
 
@@ -64,7 +64,7 @@ Users and groups both have actors. All entities reference `actor_id`. One owners
 ### Currency Model
 - **Storage:** BTC as `NUMERIC`/`DECIMAL` in DB (not integer satoshis)
 - **Primary display:** BTC (crypto) / CHF (fiat default)
-- **All payment methods** accepted as secondary rails
+- **Secondary rails:** Twint / PayPal / Monero / local are **not live**; only Lightning and on-chain Bitcoin settle today
 
 ---
 
@@ -72,12 +72,12 @@ Users and groups both have actors. All entities reference `actor_id`. One owners
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | Next.js 15, React 18, TypeScript 5.8 |
+| Framework | Next.js 16, React 19, TypeScript 6 |
 | Styling | Tailwind CSS, shadcn/ui |
 | Database | Supabase (PostgreSQL + RLS) |
 | Bitcoin | Lightning Network, BTCPay, NWC |
 | Auth | Supabase Auth, JWT, Row Level Security |
-| Deployment | Vercel, GitHub Actions CI/CD |
+| Deployment | Hetzner (self-hosted), GitHub Actions CI (gate only, no deploy) |
 | AI | Claude API (Anthropic) |
 
 ---
@@ -176,7 +176,7 @@ Monetization activates after critical mass in ≥1 entity type — validate volu
 
 ### Risk 2: Lightning Network Adoption Still Niche
 **Likelihood:** Medium
-**Mitigation:** "Any currency" positioning is the hedge — accept Twint, PayPal, bank transfer from day one; Lightning is preferred but never required
+**Mitigation:** Broader rails (Twint, PayPal, bank transfer, Monero) remain **roadmap**; Lightning and on-chain Bitcoin are the only live settlement rails today
 
 ### Risk 3: Regulatory Uncertainty (FINMA / MiCA)
 **Likelihood:** Medium
