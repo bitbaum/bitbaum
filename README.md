@@ -1,6 +1,6 @@
 # bitbaum — AI-First Product Studio
 
-**Status:** Early Stage — orangecat live · hirn.li launching Q2 2026 · FleetCrown in private development · bitbaum AG incorporation pending
+**Status:** Early Stage — orangecat live · hirn.li launching Q2 2026 · FleetCrown public and live at [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch) (pre-1.0) · bitbaum AG incorporation pending
 **Type:** Umbrella Company / Holding Structure
 **Inspired By:** ByteDance (multiple products, shared infrastructure)
 
@@ -59,11 +59,11 @@ Not a single product company. Not a consulting agency. A **product studio** that
 
 **Solution:** An open platform where any identity — human, pseudonymous, or AI — participates in the full economic spectrum: exchanging, funding, lending, investing, and governing. Bitcoin/Lightning native. CHF as default fiat. No documents required.
 
-**Core capabilities (live):** Commerce · Funding · Lending · Assets · Groups · AI Assistants · Events · Documents
+**What works today:** pay-link wedge (Bitcoin Lightning). **0 completed payments** as of 2026-07-02. Funding / lending / investing / the Cat are **roadmap**, not live. No institutional customers.
 
 **Architecture:** 13 entity types driven by a single registry SSOT. One actor model covers users, organizations, and AI agents. Row Level Security at database level — not in application code.
 
-**Stack:** Next.js 15 · TypeScript 5.8 · Supabase (PostgreSQL + RLS) · Lightning Network · Vercel
+**Stack:** Next.js 16 · React 19 · TypeScript 6 · Supabase (PostgreSQL + RLS) · Lightning Network · Hetzner
 
 **Business Model:** Platform fees on transactions + "My Cat" AI agent subscription (premium) + Enterprise API
 
@@ -99,10 +99,10 @@ Not a single product company. Not a consulting agency. A **product studio** that
 
 ### 👑 FleetCrown — AI Agent Fleet Command Platform
 
-**Status:** Private Development (codenamed "Cockpit" in repo paths; rename to FleetCrown pending launch)
+**Status:** Public and live at [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch) (pre-1.0, single-builder)
 **Vertical:** AI-Agent Orchestration / Personal Operations
-**Codebase:** `/home/g/dev/cockpit/`
-**Domain:** fleetcrown.com (to be registered 2026-06-02)
+**Codebase:** `/home/g/dev/fleetcrown/` (public repo: [bitbaum/fleetcrown](https://github.com/bitbaum/fleetcrown))
+**Domain:** live at fleetcrown.orangecat.ch. `fleetcrown.com` is **unregistered**.
 
 **Problem:** Builders running multiple projects simultaneously have to context-switch constantly — between codebases, tickets, calendars, contacts, and now dozens of AI agents working in parallel. There's no single command surface where a human captain stays in judgment mode while agents execute.
 
@@ -112,11 +112,11 @@ Not a single product company. Not a consulting agency. A **product studio** that
 
 **Architecture:** Next.js 16 + Drizzle/Postgres for the web; Electron + local Node "Brain/Bridge/Worker" stack for the desktop runner; agents dispatched into zellij tabs on the user's own machine. Schema-as-SSOT throughout.
 
-**Business Model:** SaaS subscription for FleetCrown Web (cloud command + multi-machine sync); local Fleet Runner free or bundled. Pricing TBD pending validation.
+**Business Model:** Planned SaaS subscription for FleetCrown Web (cloud command + multi-machine sync); local Fleet Runner free or bundled. **Not billed:** Stripe is dark, CHF 0, 0 paying users. Pricing table is designed, not charged. Hosting is Hetzner (not Vercel).
 
 **Moat:** Local-first execution (no cloud GPU costs, agents work where the code is) + remote command surface (works from anywhere) + neutral orchestration layer (agnostic to which AI provider runs each agent).
 
-*Pre-launch: validate with a small cohort of multi-project builders before opening signups.*
+*Live and public; still pre-1.0 / single-builder. Not a paying-customer product yet.*
 
 ---
 
@@ -178,7 +178,7 @@ Not a single product company. Not a consulting agency. A **product studio** that
 - **Database:** Supabase (PostgreSQL with RLS for multi-tenancy)
 - **Payments:** Stripe (subscriptions, invoicing, Swiss CHF)
 - **Email:** Resend (transactional email)
-- **Hosting:** Vercel (edge network, automatic scaling)
+- **Hosting:** Hetzner (self-hosted). Live products are not on Vercel.
 
 ### AI Layer
 - **LLMs:** Claude API (Anthropic) — primary across all products
@@ -215,7 +215,7 @@ Not a single product company. Not a consulting agency. A **product studio** that
 bitbaum AG (Holding)
 ├── orangecat GmbH (SaaS — live)
 ├── hirn.li GmbH (SaaS — pre-launch)
-├── FleetCrown GmbH (SaaS — private development)
+├── FleetCrown GmbH (SaaS — live, pre-1.0)
 └── botsmann GmbH (SaaS — concept)
 
 Revamp-IT (Verein / nonprofit — independent, not part of bitbaum)
@@ -263,13 +263,15 @@ Revamp-IT (Verein / nonprofit — independent, not part of bitbaum)
 |---------|-------|--------------------------|--------------------------|
 | hirn.li | SaaS + success fees | CHF 1.2M | CHF 8.9M |
 | botsmann | Marketplace (30% take rate) | CHF 500k † | CHF 15M |
-| orangecat | Platform fees + AI agent subscription | CHF 300k | CHF 2M |
+| orangecat | Platform fees + AI agent subscription (target, not current) | CHF 300k (target, not in motion) | CHF 2M (target) |
 | **2026 target (2 products)** | | **CHF 1.5M** ‡ | — |
 | **Studio potential (all 3)** | | — | **CHF 25.9M** |
 
 *† botsmann is pre-launch in 2026 (concept validation phase); its Year 1 ARR begins from its own launch date, expected 2027. Not included in the 2026 revenue target.*
 
 *‡ "2026 target" = sum of each product's own Year 1 ARR from launch: orangecat CHF 300k + hirn.li CHF 1.2M. hirn.li Year 1 closes Q2 2027 (Investment vertical launches Q1 2027, its own Year 1 = hirn.li Year 2). Calendar year 2026 combined = CHF 1.1M (hirn.li Verein + Kapital only).*
+
+**Honesty (2026-09-03):** orangecat CHF 300k Year-1 ARR is a **target, not current revenue**. OrangeCat has 0 completed payments (as of 2026-07-02) and no institutional customers. FleetCrown: CHF 0 billed, 0 paying. These tables are not in-motion actuals.
 
 ### Profitability
 
@@ -394,7 +396,7 @@ Revamp-IT (Verein / nonprofit — independent, not part of bitbaum)
 3. **Incorporate bitbaum AG** — Holding entity (Zug canton); then hirn.li GmbH before first external investment
 4. **Validate botsmann** — Interview 20 SMBs on AI agent marketplace demand before building
 5. **Register bitbaum.ch** — Corporate/investor-facing site; keep product domains independent
-6. **Register fleetcrown.com** — Locked as the FleetCrown product domain (2026-06-02); register before any external-facing FleetCrown surface goes live
+6. **`fleetcrown.com` is unregistered** — live surface is [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch); do not treat fleetcrown.com as a dated lock or an upcoming launch gate
 
 ---
 
