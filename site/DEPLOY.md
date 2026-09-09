@@ -36,7 +36,7 @@ This writes `index.html` with all ventures baked in. The first paint shows every
 
 **26 ventures from projects/*.md plus client work:**
 
-**Companies:** OrangeCat, FleetCrown, kivvi, vitareba, datacat, printcraft, petvity, surf-your-life, reparaturbonus-zh, aoz-housing, evig
+**Live projects:** OrangeCat, FleetCrown, kivvi, vitareba, datacat, printcraft, petvity, surf-your-life, reparaturbonus-zh, aoz-housing, evig
 
 **Client work:** S.Ink, Annushka
 

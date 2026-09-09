@@ -30,7 +30,7 @@ const html = `<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>bitbaum</title>
-  <meta name="description" content="bitbaum is the parent company. Each venture is its own company.">
+  <meta name="description" content="bitbaum. The work, each its own.">
   
   <style>
     * {
@@ -154,6 +154,26 @@ const html = `<!DOCTYPE html>
       color: #6b6b6b;
     }
 
+    footer p {
+      margin-bottom: 0.5rem;
+    }
+
+    .registration-note {
+      font-size: 0.875rem;
+      opacity: 0.7;
+    }
+
+    .registration-note a {
+      color: #6b6b6b;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+
+    .registration-note a:hover {
+      border-bottom-color: #6b6b6b;
+    }
+
     @media (max-width: 768px) {
       .container {
         padding: 2rem 1.5rem 3rem;
@@ -186,7 +206,7 @@ const html = `<!DOCTYPE html>
   <div class="container">
     <header>
       <div class="wordmark">bitbaum</div>
-      <h1 class="statement">One parent company. Each venture its own.</h1>
+      <h1 class="statement">The work, each its own.</h1>
     </header>
 
     <main>
@@ -197,6 +217,7 @@ ${venturesHTML}
 
     <footer>
       <p>Cato, Zürich</p>
+      <p class="registration-note">Registration lives in <a href="https://solon.orangecat.ch">Solon</a>. None of this is registered yet.</p>
     </footer>
   </div>
 
