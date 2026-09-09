@@ -1,0 +1,238 @@
+{
+  "companies": [
+    {
+      "id": "orangecat",
+      "name": "OrangeCat",
+      "tagline": "AI-native economic participation platform",
+      "kind": "company",
+      "listed": true,
+      "url": "https://orangecat.ch",
+      "door": "own-domain"
+    },
+    {
+      "id": "fleetcrown",
+      "name": "FleetCrown",
+      "tagline": "Fleet command for AI agent runtimes",
+      "kind": "company",
+      "listed": true,
+      "url": "https://fleetcrown.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "kivvi",
+      "name": "kivvi",
+      "tagline": "The ERP that knows things have a history",
+      "kind": "company",
+      "listed": true,
+      "url": "https://kivvi.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "vitareba",
+      "name": "VitaReBa",
+      "tagline": "Clinical platform for metabolic psychiatry and longevity",
+      "kind": "company",
+      "listed": true,
+      "url": "https://vitareba.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "datacat",
+      "name": "datacat",
+      "tagline": "AI-powered data ingestion and form platform",
+      "kind": "company",
+      "listed": true,
+      "url": "https://datacat.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "printcraft",
+      "name": "printcraft",
+      "tagline": "Scene composer for physical art",
+      "kind": "company",
+      "listed": true,
+      "url": "https://printcraft.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "petvity",
+      "name": "petvity",
+      "tagline": "Global multi-species pet care platform",
+      "kind": "company",
+      "listed": true,
+      "url": "https://petvity.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "surf-your-life",
+      "name": "Surf Your Life",
+      "tagline": "Clinic portal for burnout and Long-COVID care",
+      "kind": "company",
+      "listed": true,
+      "url": "https://surf-your-life.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "reparaturbonus-zh",
+      "name": "Reparaturbonus Zürich",
+      "tagline": "Zürich repair-bonus platform",
+      "kind": "company",
+      "listed": true,
+      "url": "https://reparaturbonus.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "aoz-housing",
+      "name": "AOZ Housing",
+      "tagline": "Shared-living management and compatibility placement",
+      "kind": "company",
+      "listed": true,
+      "url": "https://aoz-wohnen.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "evig",
+      "name": "evig",
+      "tagline": "Affordable intelligence, circular tech",
+      "kind": "company",
+      "listed": true,
+      "url": "https://revampit.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "sink",
+      "name": "S.Ink",
+      "tagline": "Client work",
+      "kind": "client",
+      "listed": true,
+      "url": null,
+      "door": "none"
+    },
+    {
+      "id": "annushka",
+      "name": "Annushka",
+      "tagline": "Client work",
+      "kind": "client",
+      "listed": true,
+      "url": null,
+      "door": "none"
+    },
+    {
+      "id": "solon",
+      "name": "Solon",
+      "tagline": "Bitcoin-native governance rail",
+      "kind": "early",
+      "listed": false,
+      "url": "https://solon.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "hamstercheek",
+      "name": "HamsterCheek",
+      "tagline": "Off-site storage for what must not be lost",
+      "kind": "early",
+      "listed": false,
+      "url": null,
+      "door": "none"
+    },
+    {
+      "id": "truthseeker",
+      "name": "truthseeker",
+      "tagline": "First-principles rebuttal generator",
+      "kind": "early",
+      "listed": false,
+      "url": null,
+      "door": "none"
+    },
+    {
+      "id": "biaslens",
+      "name": "biaslens",
+      "tagline": "Media bias analysis engine",
+      "kind": "early",
+      "listed": false,
+      "url": null,
+      "door": "none"
+    },
+    {
+      "id": "hirnli",
+      "name": "hirn.li",
+      "tagline": "Fundraising intelligence platform",
+      "kind": "upcoming",
+      "listed": false,
+      "url": null,
+      "door": "none"
+    },
+    {
+      "id": "botsmann",
+      "name": "botsmann",
+      "tagline": "AI agent marketplace",
+      "kind": "upcoming",
+      "listed": false,
+      "url": "https://botsmann.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "sbb-lost-found",
+      "name": "SBB Lost & Found",
+      "tagline": "Real-time lost-item recovery for Swiss public transport",
+      "kind": "upcoming",
+      "listed": false,
+      "url": "https://sbb.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "diplodoctor",
+      "name": "diplodoctor",
+      "tagline": "Not yet set up",
+      "kind": "upcoming",
+      "listed": false,
+      "url": null,
+      "door": "none"
+    },
+    {
+      "id": "causius",
+      "name": "Causius",
+      "tagline": "Not yet set up",
+      "kind": "upcoming",
+      "listed": false,
+      "url": null,
+      "door": "none"
+    },
+    {
+      "id": "ai-forms",
+      "name": "@fleet/ai-forms",
+      "tagline": "Internal library for AI form filling",
+      "kind": "internal",
+      "listed": false,
+      "url": "https://github.com/bitbaum/ai-forms",
+      "door": "none"
+    },
+    {
+      "id": "ivy-portal",
+      "name": "ivy-portal",
+      "tagline": "Personal assistant dashboard",
+      "kind": "internal",
+      "listed": false,
+      "url": null,
+      "door": "none"
+    },
+    {
+      "id": "prime-tower",
+      "name": "Prime Tower",
+      "tagline": "Undecided scaffold",
+      "kind": "internal",
+      "listed": false,
+      "url": null,
+      "door": "none"
+    },
+    {
+      "id": "revamp-info",
+      "name": "revamp-info",
+      "tagline": "Single-tenant fundraising intelligence proof-of-concept",
+      "kind": "internal",
+      "listed": false,
+      "url": "https://revamp-info.orangecat.ch",
+      "door": "orangecat-subdomain"
+    }
+  ]
+}

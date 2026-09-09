@@ -1,8 +1,12 @@
 # bitbaum — AI-First Product Studio
 
-**Status:** Early Stage — orangecat live · hirn.li launching Q2 2026 · FleetCrown public and live at [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch) (pre-1.0) · bitbaum AG incorporation pending
-**Type:** Umbrella Company / Holding Structure
+**Public site:** [bitbaum.orangecat.ch](https://bitbaum.orangecat.ch) · **Ventures registry:** `site/companies.json`
+
+**Status:** Early Stage — orangecat live · hirn.li launching Q2 2026 · FleetCrown public and live at [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch) (pre-1.0)
+**Type:** Organization / Umbrella
 **Inspired By:** ByteDance (multiple products, shared infrastructure)
+
+> This README contains strategic planning and internal documentation. For the public-facing site, see `site/` directory. Registration lives in Solon; none of this is registered yet.
 
 ---
 
