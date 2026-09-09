@@ -2,22 +2,51 @@
 
 ## What's Built
 
-- **Static site:** `site/index.html` — near-black field, huge type, minimal chrome
-- **Companies registry:** `site/companies.json` — single source of truth for all ventures
-- **Logo assets:** `assets/avatar.svg` — square mark for GitHub org avatar
-- **Logo mark:** `site/logo-mark.svg` — mark displayed on the site
+- **Static site:** `site/index.html` — full viewport, near-black, huge type, hover-revealed details
+- **Companies registry:** `site/companies.json` — single source of truth
+- **Build script:** `site/generate.mjs` — reads registry, writes HTML with ventures baked in
+- **Logo assets:** `assets/avatar.{svg,png}` — square mark for GitHub org
 
 ## Design
 
-Inspired by x.ai's restraint: near-black background, one type family, display-size type, almost no chrome. The venture list IS the page. No hero images, no feature columns, no badges.
+Full viewport, near-black field, huge type. No centered column, no brochure. The venture list IS the page.
 
-Every documented venture appears on the page with its kind shown as quiet type (company, early, upcoming, client, internal). Hover reveals the URL with slow, subtle motion. No JavaScript framework — vanilla JS reads the JSON, CSS handles all interaction.
+- Small wordmark
+- One line of huge type as the statement
+- Each venture is display-size name
+- Description and URL appear on hover/focus only
+- No "loading" state — first paint is complete
+- No kind labels repeating down the page
+- Pure CSS interaction, minimal JavaScript
 
-## How It Works
+## Build Process
 
-The site reads `companies.json` and displays **all** entries. The `kind` field determines how each venture is labeled, but nothing is filtered or hidden. The `listed` field is preserved in the registry but currently unused by the page — the full catalog is shown.
+**The HTML is generated from companies.json, not fetched at runtime.**
 
-Changing a venture's status, URL, kind, or tagline is a data edit in `companies.json`, not a layout change.
+After editing `companies.json`:
+
+```bash
+cd site
+node generate.mjs
+```
+
+This writes `index.html` with all ventures baked in. The first paint shows everything.
+
+## Registry
+
+**26 ventures from projects/*.md plus client work:**
+
+**Companies:** OrangeCat, FleetCrown, kivvi, vitareba, datacat, printcraft, petvity, surf-your-life, reparaturbonus-zh, aoz-housing, evig
+
+**Client work:** S.Ink, Annushka
+
+**Early:** Solon, hamstercheek, truthseeker, biaslens
+
+**Upcoming:** hirn.li, botsmann, sbb-lost-found, diplodoctor, Causius
+
+**Internal:** ai-forms, ivy-portal, prime-tower, revamp-info
+
+Changing a venture's data is a registry edit + regenerate.
 
 ## Test Locally
 

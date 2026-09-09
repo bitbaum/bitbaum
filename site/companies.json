@@ -91,6 +91,33 @@
       "door": "orangecat-subdomain"
     },
     {
+      "id": "evig",
+      "name": "evig",
+      "tagline": "Affordable intelligence, circular tech",
+      "kind": "company",
+      "listed": true,
+      "url": "https://revampit.orangecat.ch",
+      "door": "orangecat-subdomain"
+    },
+    {
+      "id": "sink",
+      "name": "S.Ink",
+      "tagline": "Client work",
+      "kind": "client",
+      "listed": true,
+      "url": null,
+      "door": "none"
+    },
+    {
+      "id": "annushka",
+      "name": "Annushka",
+      "tagline": "Client work",
+      "kind": "client",
+      "listed": true,
+      "url": null,
+      "door": "none"
+    },
+    {
       "id": "solon",
       "name": "Solon",
       "tagline": "Bitcoin-native governance rail",
