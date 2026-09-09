@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bitbaum — AI-First Product Studio</title>
+  <meta name="description" content="bitbaum is a parent company building multiple AI-powered ventures. Each is its own company, each owns a specific niche.">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #ffffff;
+      --fg: #0d1117;
+      --subtle: #6e7781;
+      --border: #d0d7de;
+      --link: #0969da;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1117;
+        --fg: #c9d1d9;
+        --subtle: #8b949e;
+        --border: #30363d;
+        --link: #58a6ff;
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--fg);
+      background: var(--bg);
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 4rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      width: 120px;
+      height: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 1.125rem;
+      color: var(--subtle);
+      font-weight: 400;
+    }
+
+    main {
+      margin-bottom: 4rem;
+    }
+
+    .intro {
+      font-size: 1.125rem;
+      margin-bottom: 3rem;
+      line-height: 1.7;
+    }
+
+    .companies {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .company {
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: border-color 0.2s;
+    }
+
+    .company:hover {
+      border-color: var(--subtle);
+    }
+
+    .company-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .company-name a {
+      color: var(--fg);
+      text-decoration: none;
+    }
+
+    .company-name a:hover {
+      color: var(--link);
+    }
+
+    .company-tagline {
+      color: var(--subtle);
+      font-size: 0.95rem;
+    }
+
+    .company-meta {
+      margin-top: 0.75rem;
+      font-size: 0.875rem;
+      color: var(--subtle);
+    }
+
+    footer {
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--subtle);
+      font-size: 0.9rem;
+    }
+
+    footer p {
+      margin-bottom: 0.5rem;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      padding: 1rem;
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 6px;
+      color: #000;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1.5rem 1rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .intro {
+        font-size: 1rem;
+      }
+
+      .company {
+        padding: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="./logo-mark.svg" alt="bitbaum" class="logo">
+      <h1>bitbaum</h1>
+      <p class="subtitle">AI-First Product Studio</p>
+    </header>
+
+    <main>
+      <div class="intro">
+        <p>bitbaum is the parent company. We build multiple AI-powered ventures. Each is its own company, each owns a specific niche.</p>
+      </div>
+
+      <div id="companies-container" class="companies">
+        <p>Loading companies...</p>
+      </div>
+    </main>
+
+    <footer>
+      <p>Cato, Zürich</p>
+      <p>One company. Many ventures. All AI-powered.</p>
+    </footer>
+  </div>
+
+  <script>
+    async function loadCompanies() {
+      const container = document.getElementById('companies-container');
+      
+      try {
+        const response = await fetch('./companies.json');
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const companies = data.companies.filter(c => c.kind === 'company' && c.listed === true);
+
+        if (companies.length === 0) {
+          container.innerHTML = '<p class="error">No companies to display.</p>';
+          return;
+        }
+
+        container.innerHTML = companies.map(company => {
+          const doorLabel = company.door === 'own-domain' ? 'Own domain' : 
+                           company.door === 'orangecat-subdomain' ? 'Hosted on orangecat.ch' : 
+                           'No public URL';
+          
+          return `
+            <article class="company">
+              <h2 class="company-name">
+                ${company.url ? `<a href="${company.url}">${company.name}</a>` : company.name}
+              </h2>
+              <p class="company-tagline">${company.tagline}</p>
+              <div class="company-meta">${doorLabel}</div>
+            </article>
+          `;
+        }).join('');
+
+      } catch (error) {
+        container.innerHTML = `<p class="error">Error loading companies: ${error.message}</p>`;
+        console.error('Failed to load companies:', error);
+      }
+    }
+
+    loadCompanies();
+  </script>
+</body>
+</html>
