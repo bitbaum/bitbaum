@@ -1,0 +1,27 @@
+{
+  "$schema": "./org.schema.json",
+  "version": "2026-09-09",
+  "organization": {
+    "public_name": "Cato",
+    "legal_status": "unregistered",
+    "legal_status_notes": "Not an AG, not incorporated, not incorporation-pending, not a registered company in any jurisdiction"
+  },
+  "hosting": {
+    "primary": "Hetzner dedicated server",
+    "register": "bitbaum/fleetcrown scripts/hetzner/apps.conf",
+    "orangecat_ch_subdomains": "house addresses until venture has own domain",
+    "github_pages": false,
+    "github_pages_notes": "GitHub Pages is not a host; do not mention or link https://bitbaum.github.io/bitbaum/"
+  },
+  "ventures": {
+    "solon": {
+      "url": "solon.orangecat.ch",
+      "status": "early venture, live MVP",
+      "status_notes": "Not a shipped registration system or tax desk; governance app in development"
+    }
+  },
+  "design": {
+    "tokens_package": "@bitbaum/design-tokens",
+    "notes": "Instrument Serif display, Inter body, role classes"
+  }
+}

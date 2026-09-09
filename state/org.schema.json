@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Organization Register",
+  "description": "Organizational facts that no other system produces",
+  "type": "object",
+  "required": ["version", "organization", "hosting"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Date this register was last updated (YYYY-MM-DD)",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "organization": {
+      "type": "object",
+      "required": ["public_name", "legal_status"],
+      "properties": {
+        "public_name": {
+          "type": "string",
+          "description": "Public name used externally"
+        },
+        "legal_status": {
+          "type": "string",
+          "enum": ["unregistered", "pending", "registered"],
+          "description": "Current legal registration status"
+        },
+        "legal_status_notes": {
+          "type": "string",
+          "description": "Additional context about legal status"
+        }
+      }
+    },
+    "hosting": {
+      "type": "object",
+      "required": ["primary", "register", "github_pages"],
+      "properties": {
+        "primary": {
+          "type": "string",
+          "description": "Primary hosting infrastructure"
+        },
+        "register": {
+          "type": "string",
+          "description": "Path to hosting configuration source of truth"
+        },
+        "orangecat_ch_subdomains": {
+          "type": "string",
+          "description": "What orangecat.ch subdomains represent"
+        },
+        "github_pages": {
+          "type": "boolean",
+          "description": "Whether GitHub Pages is used as a host"
+        },
+        "github_pages_notes": {
+          "type": "string",
+          "description": "Additional context about GitHub Pages"
+        }
+      }
+    },
+    "ventures": {
+      "type": "object",
+      "description": "Specific venture facts that need clarification",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "status_notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "design": {
+      "type": "object",
+      "properties": {
+        "tokens_package": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

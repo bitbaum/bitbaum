@@ -1,0 +1,12 @@
+{
+  "name": "bitbaum-docs",
+  "version": "1.0.0",
+  "description": "Strategic planning repository for independent ventures",
+  "private": true,
+  "scripts": {
+    "check": "node scripts/check-stale-claims.js"
+  },
+  "dependencies": {
+    "glob": "^10.4.5"
+  }
+}

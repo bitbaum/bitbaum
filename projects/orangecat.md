@@ -2,7 +2,7 @@
 
 **Status:** Active Development (Live)
 **URL:** [orangecat.ch](https://orangecat.ch)
-**Type:** Open platform (under bitbaum umbrella)
+**Type:** Independent venture
 **Vertical:** Decentralized Finance / Economic Infrastructure
 **Codebase:** `/home/g/dev/orangecat/`
 
