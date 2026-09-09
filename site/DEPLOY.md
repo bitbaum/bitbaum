@@ -2,18 +2,22 @@
 
 ## What's Built
 
-- **Static site:** `site/index.html` — data-driven parent page
+- **Static site:** `site/index.html` — near-black field, huge type, minimal chrome
 - **Companies registry:** `site/companies.json` — single source of truth for all ventures
 - **Logo assets:** `assets/avatar.svg` — square mark for GitHub org avatar
 - **Logo mark:** `site/logo-mark.svg` — mark displayed on the site
 
+## Design
+
+Inspired by x.ai's restraint: near-black background, one type family, display-size type, almost no chrome. The venture list IS the page. No hero images, no feature columns, no badges.
+
+Every documented venture appears on the page with its kind shown as quiet type (company, early, upcoming, client, internal). Hover reveals the URL with slow, subtle motion. No JavaScript framework — vanilla JS reads the JSON, CSS handles all interaction.
+
 ## How It Works
 
-The site reads `companies.json` and displays only entries where:
-- `kind` is `"company"` (not `"early"`, `"upcoming"`, `"client"`, or `"internal"`)
-- `listed` is `true`
+The site reads `companies.json` and displays **all** entries. The `kind` field determines how each venture is labeled, but nothing is filtered or hidden. The `listed` field is preserved in the registry but currently unused by the page — the full catalog is shown.
 
-Changing a company's status, URL, or visibility is a data edit in `companies.json`, not a layout change.
+Changing a venture's status, URL, kind, or tagline is a data edit in `companies.json`, not a layout change.
 
 ## Test Locally
 

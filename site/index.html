@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bitbaum — AI-First Product Studio</title>
-  <meta name="description" content="bitbaum is a parent company building multiple AI-powered ventures. Each is its own company, each owns a specific niche.">
+  <title>bitbaum</title>
+  <meta name="description" content="bitbaum is the parent company. Each venture is its own company.">
   
   <style>
     * {
@@ -14,157 +14,196 @@
     }
 
     :root {
-      --bg: #ffffff;
-      --fg: #0d1117;
-      --subtle: #6e7781;
-      --border: #d0d7de;
-      --link: #0969da;
+      --bg: #0a0a0a;
+      --fg: #e8e8e8;
+      --subtle: #6b6b6b;
+      --rule: #1a1a1a;
+      --hover-rule: #2a2a2a;
+      --link: #a8a8a8;
     }
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0d1117;
-        --fg: #c9d1d9;
-        --subtle: #8b949e;
-        --border: #30363d;
-        --link: #58a6ff;
-      }
+    @font-face {
+      font-family: 'System';
+      src: local('SF Pro Display'), local('Segoe UI'), local('Roboto'), local('Helvetica Neue'), local('Arial');
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-      color: var(--fg);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       background: var(--bg);
-      padding: 2rem 1rem;
+      color: var(--fg);
+      padding: 0;
+      line-height: 1.3;
     }
 
     .container {
-      max-width: 680px;
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 4rem 2rem;
     }
 
     header {
-      margin-bottom: 4rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 6rem;
     }
 
-    .logo {
-      width: 120px;
-      height: auto;
-      margin-bottom: 1.5rem;
+    .mark {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 3rem;
+      opacity: 0.9;
+    }
+
+    .mark svg {
+      width: 100%;
+      height: 100%;
     }
 
     h1 {
-      font-size: 2rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.02em;
-    }
-
-    .subtitle {
-      font-size: 1.125rem;
-      color: var(--subtle);
+      font-size: clamp(2.5rem, 8vw, 5rem);
       font-weight: 400;
-    }
-
-    main {
-      margin-bottom: 4rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 2rem;
+      line-height: 1.1;
     }
 
     .intro {
-      font-size: 1.125rem;
-      margin-bottom: 3rem;
-      line-height: 1.7;
+      font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+      color: var(--subtle);
+      font-weight: 300;
+      line-height: 1.5;
+      max-width: 42rem;
     }
 
-    .companies {
+    main {
+      margin-top: 8rem;
+    }
+
+    .ventures {
+      list-style: none;
+    }
+
+    .venture {
+      border-top: 1px solid var(--rule);
+      padding: 2.5rem 0;
+      transition: border-color 0.4s ease;
+    }
+
+    .venture:hover {
+      border-top-color: var(--hover-rule);
+    }
+
+    .venture-header {
       display: flex;
-      flex-direction: column;
-      gap: 2rem;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
     }
 
-    .company {
-      padding: 1.5rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      transition: border-color 0.2s;
+    .venture-name {
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
     }
 
-    .company:hover {
-      border-color: var(--subtle);
-    }
-
-    .company-name {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .company-name a {
+    .venture-name a {
       color: var(--fg);
       text-decoration: none;
+      transition: color 0.3s ease;
     }
 
-    .company-name a:hover {
+    .venture-name a:hover {
       color: var(--link);
     }
 
-    .company-tagline {
-      color: var(--subtle);
-      font-size: 0.95rem;
-    }
-
-    .company-meta {
-      margin-top: 0.75rem;
+    .venture-kind {
       font-size: 0.875rem;
       color: var(--subtle);
+      text-transform: lowercase;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      opacity: 0.7;
+    }
+
+    .venture-tagline {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--subtle);
+      font-weight: 300;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+
+    .venture-door {
+      font-size: 0.9375rem;
+      color: var(--subtle);
+      font-weight: 300;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .venture:hover .venture-door,
+    .venture:focus-within .venture-door {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .venture-door a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .venture-door a:hover {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
     }
 
     footer {
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
+      margin-top: 8rem;
+      padding: 3rem 0 4rem;
+      border-top: 1px solid var(--rule);
       color: var(--subtle);
-      font-size: 0.9rem;
-    }
-
-    footer p {
-      margin-bottom: 0.5rem;
-    }
-
-    a {
-      color: var(--link);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
+      font-size: 0.9375rem;
+      font-weight: 300;
     }
 
     .error {
-      padding: 1rem;
-      background: #fff3cd;
-      border: 1px solid #ffc107;
-      border-radius: 6px;
-      color: #000;
+      padding: 2rem;
+      background: #1a0a0a;
+      border: 1px solid #3a0a0a;
+      border-radius: 4px;
+      color: #ff6b6b;
+      font-size: 0.9375rem;
     }
 
-    @media (max-width: 640px) {
-      body {
-        padding: 1.5rem 1rem;
+    @media (max-width: 768px) {
+      .container {
+        padding: 3rem 1.5rem;
       }
 
-      h1 {
-        font-size: 1.75rem;
+      header {
+        margin-bottom: 4rem;
       }
 
-      .intro {
-        font-size: 1rem;
+      main {
+        margin-top: 5rem;
       }
 
-      .company {
-        padding: 1.25rem;
+      .venture {
+        padding: 2rem 0;
+      }
+
+      .venture-header {
+        gap: 0.75rem;
+      }
+
+      .venture-door {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
   </style>
@@ -172,30 +211,33 @@
 <body>
   <div class="container">
     <header>
-      <img src="./logo-mark.svg" alt="bitbaum" class="logo">
+      <div class="mark">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="110 76 180 202">
+          <path fill="none" stroke="#e8e8e8" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"
+            d="M 200,120 C 195,93 173,87 152,99 C 128,114 128,126 152,141 C 173,153 195,147 200,120 C 205,93 227,87 248,99 C 272,114 272,126 248,141 C 227,153 205,147 200,120"/>
+          <path fill="none" stroke="#e8e8e8" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"
+            d="M 200,232 C 195,205 173,199 152,211 C 128,226 128,238 152,253 C 173,265 195,259 200,232 C 205,205 227,199 248,211 C 272,226 272,238 248,253 C 227,265 205,259 200,232"/>
+        </svg>
+      </div>
+
       <h1>bitbaum</h1>
-      <p class="subtitle">AI-First Product Studio</p>
+      <p class="intro">bitbaum is the parent company. Each venture below is its own company.</p>
     </header>
 
     <main>
-      <div class="intro">
-        <p>bitbaum is the parent company. We build multiple AI-powered ventures. Each is its own company, each owns a specific niche.</p>
-      </div>
-
-      <div id="companies-container" class="companies">
-        <p>Loading companies...</p>
-      </div>
+      <ul id="ventures-list" class="ventures">
+        <li class="error">Loading ventures...</li>
+      </ul>
     </main>
 
     <footer>
       <p>Cato, Zürich</p>
-      <p>One company. Many ventures. All AI-powered.</p>
     </footer>
   </div>
 
   <script>
-    async function loadCompanies() {
-      const container = document.getElementById('companies-container');
+    async function loadVentures() {
+      const container = document.getElementById('ventures-list');
       
       try {
         const response = await fetch('./companies.json');
@@ -204,36 +246,45 @@
         }
         
         const data = await response.json();
-        const companies = data.companies.filter(c => c.kind === 'company' && c.listed === true);
+        const ventures = data.companies;
 
-        if (companies.length === 0) {
-          container.innerHTML = '<p class="error">No companies to display.</p>';
+        if (ventures.length === 0) {
+          container.innerHTML = '<li class="error">No ventures to display.</li>';
           return;
         }
 
-        container.innerHTML = companies.map(company => {
-          const doorLabel = company.door === 'own-domain' ? 'Own domain' : 
-                           company.door === 'orangecat-subdomain' ? 'Hosted on orangecat.ch' : 
-                           'No public URL';
+        container.innerHTML = ventures.map(venture => {
+          const kindLabel = venture.kind || 'project';
           
+          let doorDisplay = '';
+          if (venture.url) {
+            const urlDisplay = venture.url.replace(/^https?:\/\//, '');
+            doorDisplay = `<div class="venture-door"><a href="${venture.url}">${urlDisplay}</a></div>`;
+          }
+
+          const nameContent = venture.url 
+            ? `<a href="${venture.url}">${venture.name}</a>`
+            : venture.name;
+
           return `
-            <article class="company">
-              <h2 class="company-name">
-                ${company.url ? `<a href="${company.url}">${company.name}</a>` : company.name}
-              </h2>
-              <p class="company-tagline">${company.tagline}</p>
-              <div class="company-meta">${doorLabel}</div>
-            </article>
+            <li class="venture">
+              <div class="venture-header">
+                <h2 class="venture-name">${nameContent}</h2>
+                <span class="venture-kind">${kindLabel}</span>
+              </div>
+              <p class="venture-tagline">${venture.tagline}</p>
+              ${doorDisplay}
+            </li>
           `;
         }).join('');
 
       } catch (error) {
-        container.innerHTML = `<p class="error">Error loading companies: ${error.message}</p>`;
-        console.error('Failed to load companies:', error);
+        container.innerHTML = `<li class="error">Error loading ventures: ${error.message}</li>`;
+        console.error('Failed to load ventures:', error);
       }
     }
 
-    loadCompanies();
+    loadVentures();
   </script>
 </body>
 </html>
