@@ -10,7 +10,7 @@
     "substrata":         { "name": "substrata",        "what": "Physical chokepoints", "order": 9 },
     "aoz-housing":       { "name": "AOZ Begleitung",   "what": "Beyond housing. Built for AOZ.", "order": 1 },
     "kivvi":             { "name": "kivvi",            "what": "ERP for RevampIT", "order": 2 },
-    "vitareba":          { "name": "VitaReBa",         "what": "Clinic", "order": 3 },
+    "vitareba":          { "name": "Vita",             "what": "Clinic", "order": 3 },
     "surf-your-life":    { "name": "Surf Your Life",   "what": "Burnout and long COVID", "group": "clients", "order": 4 },
     "printcraft":        { "name": "printcraft",       "what": "Scene composer", "group": "clients", "order": 5 },
     "s-ink":             { "name": "S.Ink",            "what": "Studio site", "order": 6 },
