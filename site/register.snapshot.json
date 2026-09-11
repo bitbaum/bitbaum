@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-11T12:39:03.811Z",
+  "generatedAt": "2026-09-11T13:51:19.114Z",
   "solonChecked": true,
   "summary": {
-    "projects": 39,
+    "projects": 38,
     "sites": 25,
     "fleetcrown": 38,
     "orangecat": 7,
@@ -12,6 +12,7 @@
     {
       "slug": "aoz-housing",
       "name": "aoz-housing",
+      "description": null,
       "repo": "aoz-housing",
       "site": {
         "url": "https://aoz.orangecat.ch",
@@ -31,6 +32,7 @@
     {
       "slug": "biaslens",
       "name": "BiasLens",
+      "description": null,
       "repo": "biaslens",
       "site": null,
       "fleetcrown": {
@@ -43,6 +45,7 @@
     {
       "slug": "bitbaum",
       "name": "Bitbaum",
+      "description": null,
       "repo": "bitbaum",
       "site": null,
       "fleetcrown": {
@@ -57,6 +60,7 @@
     {
       "slug": "botsmann",
       "name": "botsmann",
+      "description": null,
       "repo": "botsmann",
       "site": {
         "url": "https://botsmann.orangecat.ch",
@@ -76,6 +80,7 @@
     {
       "slug": "camille-boulangerie",
       "name": "camille-boulangerie",
+      "description": null,
       "repo": "camille-boulangerie",
       "site": {
         "url": "https://camille.orangecat.ch",
@@ -95,6 +100,7 @@
     {
       "slug": "causius",
       "name": "Causius",
+      "description": null,
       "repo": "causius",
       "site": {
         "url": "https://causius.orangecat.ch",
@@ -114,6 +120,7 @@
     {
       "slug": "coldstart-sep10-2339",
       "name": "coldstart-sep10-2339",
+      "description": null,
       "repo": "coldstart-sep10-2339",
       "site": {
         "url": "https://coldstart-sep10-2339.orangecat.ch",
@@ -133,6 +140,7 @@
     {
       "slug": "datacat",
       "name": "datacat",
+      "description": null,
       "repo": "datacat",
       "site": {
         "url": "https://datacat.orangecat.ch",
@@ -152,6 +160,7 @@
     {
       "slug": "diplodoctor",
       "name": "Diplodoctor",
+      "description": null,
       "repo": null,
       "site": {
         "url": "https://diplodoctor.orangecat.ch",
@@ -173,6 +182,7 @@
     {
       "slug": "dogfood-bridge-test-2026-09-06b",
       "name": "Dogfood Bridge Test 2026-09-06b",
+      "description": null,
       "repo": null,
       "site": null,
       "fleetcrown": {
@@ -187,6 +197,7 @@
     {
       "slug": "dogfood-site-sep10-1201",
       "name": "dogfood-site-sep10-1201",
+      "description": null,
       "repo": "dogfood-site-sep10-1201",
       "site": {
         "url": "https://dogfood-site-sep10-1201.orangecat.ch",
@@ -208,6 +219,7 @@
     {
       "slug": "evig",
       "name": "evig",
+      "description": null,
       "repo": "evig",
       "site": {
         "url": "https://evig.orangecat.ch",
@@ -227,6 +239,7 @@
     {
       "slug": "factory-sep11-0040",
       "name": "Factory",
+      "description": null,
       "repo": "factory-sep11-0040",
       "site": {
         "url": "https://factory-sep11-0040.orangecat.ch",
@@ -246,6 +259,7 @@
     {
       "slug": "factory-sep11-0110",
       "name": "Factory Two",
+      "description": null,
       "repo": "factory-sep11-0110",
       "site": {
         "url": "https://factory-sep11-0110.orangecat.ch",
@@ -265,6 +279,7 @@
     {
       "slug": "fleetcrown",
       "name": "fleetcrown",
+      "description": null,
       "repo": "fleetcrown",
       "site": null,
       "fleetcrown": {
@@ -279,6 +294,7 @@
     {
       "slug": "hamstercheek",
       "name": "HamsterCheek",
+      "description": null,
       "repo": "hamstercheek",
       "site": null,
       "fleetcrown": {
@@ -291,6 +307,7 @@
     {
       "slug": "heidi",
       "name": "Heidi",
+      "description": null,
       "repo": "heidi",
       "site": {
         "url": "https://heidi.orangecat.ch",
@@ -312,6 +329,7 @@
     {
       "slug": "ivy-portal",
       "name": "ivy-portal",
+      "description": null,
       "repo": "ivy-portal",
       "site": null,
       "fleetcrown": {
@@ -324,6 +342,7 @@
     {
       "slug": "kaffeeklappe-sep11",
       "name": "kaffeeklappe-sep11",
+      "description": null,
       "repo": "kaffeeklappe-sep11",
       "site": {
         "url": "https://kaffeeklappe-sep11.orangecat.ch",
@@ -343,6 +362,7 @@
     {
       "slug": "kivvi",
       "name": "kivvi",
+      "description": null,
       "repo": "kivvi",
       "site": {
         "url": "https://kivvi.orangecat.ch",
@@ -362,6 +382,7 @@
     {
       "slug": "lifeops",
       "name": "lifeops",
+      "description": null,
       "repo": "lifeops",
       "site": null,
       "fleetcrown": {
@@ -372,24 +393,9 @@
       "solon": null
     },
     {
-      "slug": "nordbahn-fundbuero",
-      "name": "nordbahn-fundbuero",
-      "repo": null,
-      "site": {
-        "url": "https://nordbahn.orangecat.ch",
-        "host": "nordbahn.orangecat.ch",
-        "kind": "demo",
-        "status": "demo",
-        "owner": "-",
-        "since": "-"
-      },
-      "fleetcrown": null,
-      "orangecat": null,
-      "solon": null
-    },
-    {
       "slug": "orangecat",
       "name": "orangecat",
+      "description": null,
       "repo": "orangecat",
       "site": null,
       "fleetcrown": {
@@ -406,6 +412,7 @@
     {
       "slug": "osteosynthesis-systems",
       "name": "osteosynthesis systems ",
+      "description": null,
       "repo": null,
       "site": null,
       "fleetcrown": {
@@ -418,6 +425,7 @@
     {
       "slug": "petvity",
       "name": "petvity",
+      "description": null,
       "repo": "petvity",
       "site": {
         "url": "https://petvity.orangecat.ch",
@@ -437,6 +445,7 @@
     {
       "slug": "prime-tower",
       "name": "Prime tower",
+      "description": null,
       "repo": "prime-tower",
       "site": null,
       "fleetcrown": {
@@ -449,6 +458,7 @@
     {
       "slug": "printcraft",
       "name": "printcraft",
+      "description": null,
       "repo": "printcraft",
       "site": {
         "url": "https://printcraft.orangecat.ch",
@@ -468,6 +478,7 @@
     {
       "slug": "reparaturbonus-zh",
       "name": "reparaturbonus-zh",
+      "description": null,
       "repo": "reparaturbonus-zh",
       "site": {
         "url": "https://reparaturbonus.orangecat.ch",
@@ -487,6 +498,7 @@
     {
       "slug": "revamp-info",
       "name": "revamp-info",
+      "description": null,
       "repo": "revamp-info",
       "site": {
         "url": "https://revamp-info.orangecat.ch",
@@ -506,6 +518,7 @@
     {
       "slug": "s-ink",
       "name": "sink",
+      "description": null,
       "repo": "sink",
       "site": {
         "url": "https://sinktattoo.com",
@@ -525,8 +538,16 @@
     {
       "slug": "sbb-fundbuero",
       "name": "sbb-lost-found",
+      "description": null,
       "repo": "sbb-lost-found",
-      "site": null,
+      "site": {
+        "url": "https://sbbfundbuero.orangecat.ch",
+        "host": "sbbfundbuero.orangecat.ch",
+        "kind": "demo",
+        "status": "demo",
+        "owner": "-",
+        "since": "-"
+      },
       "fleetcrown": {
         "id": "63b971da-f8dc-4c1e-8a9c-25566cdff545",
         "liveUrl": "https://sbb.orangecat.ch"
@@ -537,6 +558,7 @@
     {
       "slug": "solon",
       "name": "solon",
+      "description": null,
       "repo": "solon",
       "site": {
         "url": "https://solon.orangecat.ch",
@@ -556,6 +578,7 @@
     {
       "slug": "substrata",
       "name": "substrata",
+      "description": null,
       "repo": "substrata",
       "site": {
         "url": "https://substrata.orangecat.ch",
@@ -575,6 +598,7 @@
     {
       "slug": "surf-your-life",
       "name": "surf-your-life",
+      "description": null,
       "repo": "surf-your-life",
       "site": {
         "url": "https://surf-your-life.orangecat.ch",
@@ -594,6 +618,7 @@
     {
       "slug": "truthseeker",
       "name": "truthseeker",
+      "description": null,
       "repo": "truthseeker",
       "site": null,
       "fleetcrown": {
@@ -606,6 +631,7 @@
     {
       "slug": "velokiosk-sep10",
       "name": "velokiosk-sep10",
+      "description": null,
       "repo": "velokiosk-sep10",
       "site": {
         "url": "https://velokiosk-sep10.orangecat.ch",
@@ -625,6 +651,7 @@
     {
       "slug": "vitareba",
       "name": "vitareba",
+      "description": null,
       "repo": "vitareba",
       "site": {
         "url": "https://vitareba.orangecat.ch",
@@ -644,6 +671,7 @@
     {
       "slug": "website-design-development-your-site-live-in-days-hosted-free",
       "name": "Website design & development — your site live in days, hosted free",
+      "description": null,
       "repo": null,
       "site": null,
       "fleetcrown": {
@@ -656,6 +684,7 @@
     {
       "slug": "wild-spirit",
       "name": "Annushka Wild Spirit Art",
+      "description": null,
       "repo": "annushka",
       "site": null,
       "fleetcrown": {
