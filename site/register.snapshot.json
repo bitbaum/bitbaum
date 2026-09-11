@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-11T07:48:44.964Z",
+  "generatedAt": "2026-09-11T12:39:03.811Z",
   "solonChecked": true,
   "summary": {
-    "projects": 37,
+    "projects": 39,
     "sites": 25,
-    "fleetcrown": 37,
-    "orangecat": 6,
+    "fleetcrown": 38,
+    "orangecat": 7,
     "solon": 1
   },
   "rows": [
@@ -18,7 +18,8 @@
         "host": "aoz.orangecat.ch",
         "kind": "client-app",
         "status": "live",
-        "owner": "AOZ"
+        "owner": "AOZ",
+        "since": "2026-08-13"
       },
       "fleetcrown": {
         "id": "8ba5d91d-54ca-47cb-85d3-9160c10e454b",
@@ -62,7 +63,8 @@
         "host": "botsmann.orangecat.ch",
         "kind": "product",
         "status": "validating",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "53a280fe-7365-407e-8f22-54b2bf2bda8a",
@@ -80,7 +82,8 @@
         "host": "camille.orangecat.ch",
         "kind": "demo",
         "status": "demo",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "2026-08-19"
       },
       "fleetcrown": {
         "id": "4e62d90b-8630-4cc2-9980-b6b589f4890f",
@@ -98,7 +101,8 @@
         "host": "causius.orangecat.ch",
         "kind": "product",
         "status": "validating",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "2026-09-10"
       },
       "fleetcrown": {
         "id": "f6607808-973c-4fc5-adbc-9e2dbe0f4f7c",
@@ -116,7 +120,8 @@
         "host": "coldstart-sep10-2339.orangecat.ch",
         "kind": "client-site",
         "status": "prospect",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "2026-09-10"
       },
       "fleetcrown": {
         "id": "eb50ed6d-bd79-40b1-99d6-336f595c5375",
@@ -134,7 +139,8 @@
         "host": "datacat.orangecat.ch",
         "kind": "product",
         "status": "live",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "48bc162a-801c-4e3f-a7d3-ad64cea0abdd",
@@ -152,7 +158,8 @@
         "host": "diplodoctor.orangecat.ch",
         "kind": "product",
         "status": "prospect",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "2026-09-10"
       },
       "fleetcrown": {
         "id": "23b19ae6-ee90-4e16-8739-1b92af308832",
@@ -186,7 +193,8 @@
         "host": "dogfood-site-sep10-1201.orangecat.ch",
         "kind": "client-site",
         "status": "prospect",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "2026-09-10"
       },
       "fleetcrown": {
         "id": "2c1dc180-70e0-44b0-9c0c-69d2168b31e2",
@@ -206,7 +214,8 @@
         "host": "evig.orangecat.ch",
         "kind": "product",
         "status": "live",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "2d493410-66f8-4c14-8e7f-879fa42a9e62",
@@ -224,7 +233,8 @@
         "host": "factory-sep11-0040.orangecat.ch",
         "kind": "demo",
         "status": "demo",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "2026-09-11"
       },
       "fleetcrown": {
         "id": "88c811fa-c716-4ca2-a4da-68e1ac6087cd",
@@ -242,7 +252,8 @@
         "host": "factory-sep11-0110.orangecat.ch",
         "kind": "demo",
         "status": "demo",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "2026-09-11"
       },
       "fleetcrown": {
         "id": "97eb0266-712d-42d1-8e9f-ef8fccc65006",
@@ -286,13 +297,16 @@
         "host": "heidi.orangecat.ch",
         "kind": "product",
         "status": "prospect",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "2026-09-10"
       },
       "fleetcrown": {
         "id": "0364ab4e-3136-44e4-b81f-98d043151aad",
         "liveUrl": "https://heidi.orangecat.ch"
       },
-      "orangecat": null,
+      "orangecat": {
+        "projectId": "01affb7e-b5f6-45d8-a9a4-20bff670d013"
+      },
       "solon": null
     },
     {
@@ -316,7 +330,8 @@
         "host": "kaffeeklappe-sep11.orangecat.ch",
         "kind": "client-site",
         "status": "prospect",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "2026-09-11"
       },
       "fleetcrown": {
         "id": "15d3e7a3-c694-435b-9676-1f91e6e6fc49",
@@ -334,7 +349,8 @@
         "host": "kivvi.orangecat.ch",
         "kind": "client-app",
         "status": "live",
-        "owner": "RevampIT"
+        "owner": "RevampIT",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "3bd5cddc-246f-4dec-96bf-a4c2c9adc829",
@@ -352,6 +368,22 @@
         "id": "dc3afd67-d776-4834-9d31-f81c6f918e61",
         "liveUrl": null
       },
+      "orangecat": null,
+      "solon": null
+    },
+    {
+      "slug": "nordbahn-fundbuero",
+      "name": "nordbahn-fundbuero",
+      "repo": null,
+      "site": {
+        "url": "https://nordbahn.orangecat.ch",
+        "host": "nordbahn.orangecat.ch",
+        "kind": "demo",
+        "status": "demo",
+        "owner": "-",
+        "since": "-"
+      },
+      "fleetcrown": null,
       "orangecat": null,
       "solon": null
     },
@@ -392,7 +424,8 @@
         "host": "petvity.orangecat.ch",
         "kind": "product",
         "status": "live",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "2cad088b-c76a-4407-b7e8-4e9921ee6a18",
@@ -422,7 +455,8 @@
         "host": "printcraft.orangecat.ch",
         "kind": "client-app",
         "status": "prospect",
-        "owner": "-"
+        "owner": "-",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "9df0417c-22a4-46d3-8f61-943eac57d642",
@@ -440,7 +474,8 @@
         "host": "reparaturbonus.orangecat.ch",
         "kind": "client-app",
         "status": "unverified",
-        "owner": "Stadt Zürich?"
+        "owner": "Stadt Zürich?",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "2fdef5ca-b028-4305-bf42-49968c0d1a93",
@@ -458,7 +493,8 @@
         "host": "revamp-info.orangecat.ch",
         "kind": "product",
         "status": "live",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "8355b25a-de15-46be-b286-96b708dc06f4",
@@ -476,7 +512,8 @@
         "host": "sinktattoo.com",
         "kind": "client-site",
         "status": "live",
-        "owner": "S-Ink"
+        "owner": "S-Ink",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "905483f5-6ab2-48c8-92aa-e68531533f9d",
@@ -489,13 +526,7 @@
       "slug": "sbb-fundbuero",
       "name": "sbb-lost-found",
       "repo": "sbb-lost-found",
-      "site": {
-        "url": "https://sbbfundbuero.orangecat.ch",
-        "host": "sbbfundbuero.orangecat.ch",
-        "kind": "demo",
-        "status": "demo",
-        "owner": "-"
-      },
+      "site": null,
       "fleetcrown": {
         "id": "63b971da-f8dc-4c1e-8a9c-25566cdff545",
         "liveUrl": "https://sbb.orangecat.ch"
@@ -512,7 +543,8 @@
         "host": "solon.orangecat.ch",
         "kind": "product",
         "status": "live",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "474cec37-2481-4d46-9036-6537f14a480b",
@@ -530,7 +562,8 @@
         "host": "substrata.orangecat.ch",
         "kind": "product",
         "status": "live",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "2026-08-27"
       },
       "fleetcrown": {
         "id": "64f150b3-74bf-4b12-959d-541fc3f2c48f",
@@ -548,7 +581,8 @@
         "host": "surf-your-life.orangecat.ch",
         "kind": "product",
         "status": "live",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "cb0b41b0-0d71-429f-b878-c27eafbc9477",
@@ -578,7 +612,8 @@
         "host": "velokiosk-sep10.orangecat.ch",
         "kind": "client-site",
         "status": "prospect",
-        "owner": "bitbaum"
+        "owner": "bitbaum",
+        "since": "2026-09-10"
       },
       "fleetcrown": {
         "id": "06ce2bb9-47f9-4aa9-a13b-bbcc73b830bb",
@@ -596,11 +631,24 @@
         "host": "vitareba.orangecat.ch",
         "kind": "client-app",
         "status": "live",
-        "owner": "clinic"
+        "owner": "clinic",
+        "since": "-"
       },
       "fleetcrown": {
         "id": "02a77737-bc62-4e40-ad67-35f16766732a",
         "liveUrl": "https://vitareba.orangecat.ch"
+      },
+      "orangecat": null,
+      "solon": null
+    },
+    {
+      "slug": "website-design-development-your-site-live-in-days-hosted-free",
+      "name": "Website design & development — your site live in days, hosted free",
+      "repo": null,
+      "site": null,
+      "fleetcrown": {
+        "id": "92dbb4c7-bf31-4c73-ad0e-dac63f99e9a7",
+        "liveUrl": null
       },
       "orangecat": null,
       "solon": null
