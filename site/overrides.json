@@ -15,7 +15,7 @@
     "printcraft":        { "name": "printcraft",       "what": "Scene composer", "group": "clients", "order": 5 },
     "s-ink":             { "name": "S.Ink",            "what": "Studio site", "order": 6 },
     "reparaturbonus-zh": { "name": "Reparaturbonus",   "what": "Repair bonus, Zurich", "group": "clients", "order": 8 },
-    "nordbahn-fundbuero": { "name": "Nordbahn Fundbüro","what": "Lost on the train, while you are still on it.", "order": 1 },
+    "sbb-fundbuero":     { "name": "Nordbahn Fundbüro","what": "Lost on the train, while you are still on it.", "order": 1 },
     "camille-boulangerie": { "name": "Camille",        "what": "Bakery handover demo", "order": 2 },
     "heidi":             { "name": "Heidi",            "what": "Zurich German, for learners", "group": "next", "door": "not live", "order": 1 },
     "diplodoctor":       { "name": "Diplodoctor",      "what": "Health platform", "group": "next", "door": "not built", "order": 2 },
