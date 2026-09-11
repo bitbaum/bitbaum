@@ -1,6 +1,6 @@
 # bitbaum — AI-First Product Studio
 
-**Public site:** [bitbaum.orangecat.ch](https://bitbaum.orangecat.ch) · **Ventures registry:** `site/companies.json`
+**Public site:** [bitbaum.orangecat.ch](https://bitbaum.orangecat.ch) · **Ventures list:** derived from the [fleet register](https://fleetcrown.orangecat.ch/fleet); presentation in `site/overrides.json`
 
 **Status:** Early Stage — orangecat live · hirn.li launching Q2 2026 · FleetCrown public and live at [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch) (pre-1.0)
 **Type:** Organization / Umbrella
