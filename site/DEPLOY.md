@@ -17,7 +17,7 @@ What this repository owns is presentation only, in `site/overrides.json`:
 | key       | meaning                                                        |
 | --------- | -------------------------------------------------------------- |
 | `what`    | the one-line tagline. **Required** — a row without one is not shown |
-| `name`    | display name when the slug is not the name (`revamp-info` → hirn.li) |
+| `name`    | display name when the slug is not the name (`revamp-info` → Hirnli) |
 | `group`   | `products` / `clients` / `demos` / `next`; overrides the kind-derived group |
 | `order`   | position within the section                                     |
 | `door`    | text in the right column when there is no URL (`not built`)     |
