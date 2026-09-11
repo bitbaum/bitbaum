@@ -1,10 +1,18 @@
 {
-  "generatedAt": "2026-09-11T06:59:37.525Z",
+  "generatedAt": "2026-09-11T07:32:12.557Z",
+  "solonChecked": true,
+  "summary": {
+    "projects": 37,
+    "sites": 25,
+    "fleetcrown": 37,
+    "orangecat": 6,
+    "solon": 1
+  },
   "rows": [
     {
       "slug": "aoz-housing",
-      "name": "aoz-wohnen",
-      "repo": null,
+      "name": "aoz-housing",
+      "repo": "aoz-housing",
       "site": {
         "url": "https://aoz.orangecat.ch",
         "host": "aoz.orangecat.ch",
@@ -12,14 +20,43 @@
         "status": "live",
         "owner": "AOZ"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "8ba5d91d-54ca-47cb-85d3-9160c10e454b",
+        "liveUrl": "https://aoz-wohnen.orangecat.ch"
+      },
       "orangecat": null,
+      "solon": null
+    },
+    {
+      "slug": "biaslens",
+      "name": "BiasLens",
+      "repo": "biaslens",
+      "site": null,
+      "fleetcrown": {
+        "id": "d99b84f4-3adc-4acd-b468-ace504c9a755",
+        "liveUrl": null
+      },
+      "orangecat": null,
+      "solon": null
+    },
+    {
+      "slug": "bitbaum",
+      "name": "Bitbaum",
+      "repo": "bitbaum",
+      "site": null,
+      "fleetcrown": {
+        "id": "d8ac46d0-862a-4e3d-94fa-1ee120a56d8b",
+        "liveUrl": null
+      },
+      "orangecat": {
+        "projectId": "7a41a97f-e8d1-4565-a11b-4350ddb3a58b"
+      },
       "solon": null
     },
     {
       "slug": "botsmann",
       "name": "botsmann",
-      "repo": null,
+      "repo": "botsmann",
       "site": {
         "url": "https://botsmann.orangecat.ch",
         "host": "botsmann.orangecat.ch",
@@ -27,14 +64,17 @@
         "status": "validating",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "53a280fe-7365-407e-8f22-54b2bf2bda8a",
+        "liveUrl": "https://botsmann.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "camille-boulangerie",
       "name": "camille-boulangerie",
-      "repo": null,
+      "repo": "camille-boulangerie",
       "site": {
         "url": "https://camille.orangecat.ch",
         "host": "camille.orangecat.ch",
@@ -42,14 +82,17 @@
         "status": "demo",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "4e62d90b-8630-4cc2-9980-b6b589f4890f",
+        "liveUrl": null
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "causius",
-      "name": "causius",
-      "repo": null,
+      "name": "Causius",
+      "repo": "causius",
       "site": {
         "url": "https://causius.orangecat.ch",
         "host": "causius.orangecat.ch",
@@ -57,14 +100,17 @@
         "status": "validating",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "f6607808-973c-4fc5-adbc-9e2dbe0f4f7c",
+        "liveUrl": null
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "coldstart-sep10-2339",
       "name": "coldstart-sep10-2339",
-      "repo": null,
+      "repo": "coldstart-sep10-2339",
       "site": {
         "url": "https://coldstart-sep10-2339.orangecat.ch",
         "host": "coldstart-sep10-2339.orangecat.ch",
@@ -72,14 +118,17 @@
         "status": "prospect",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "eb50ed6d-bd79-40b1-99d6-336f595c5375",
+        "liveUrl": "https://coldstart-sep10-2339.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "datacat",
-      "name": "datacat-web",
-      "repo": null,
+      "name": "datacat",
+      "repo": "datacat",
       "site": {
         "url": "https://datacat.orangecat.ch",
         "host": "datacat.orangecat.ch",
@@ -87,13 +136,16 @@
         "status": "live",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "48bc162a-801c-4e3f-a7d3-ad64cea0abdd",
+        "liveUrl": "https://datacat.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "diplodoctor",
-      "name": "diplodoctor",
+      "name": "Diplodoctor",
       "repo": null,
       "site": {
         "url": "https://diplodoctor.orangecat.ch",
@@ -102,14 +154,33 @@
         "status": "prospect",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
-      "orangecat": null,
+      "fleetcrown": {
+        "id": "23b19ae6-ee90-4e16-8739-1b92af308832",
+        "liveUrl": null
+      },
+      "orangecat": {
+        "projectId": "9ab54187-755b-4077-910f-fd877709877a"
+      },
+      "solon": null
+    },
+    {
+      "slug": "dogfood-bridge-test-2026-09-06b",
+      "name": "Dogfood Bridge Test 2026-09-06b",
+      "repo": null,
+      "site": null,
+      "fleetcrown": {
+        "id": "5ad1a3e6-1e34-4e78-8db0-9541fbfa175e",
+        "liveUrl": null
+      },
+      "orangecat": {
+        "projectId": "7ad598b9-0a24-4e62-8e1b-d3338b90d811"
+      },
       "solon": null
     },
     {
       "slug": "dogfood-site-sep10-1201",
       "name": "dogfood-site-sep10-1201",
-      "repo": null,
+      "repo": "dogfood-site-sep10-1201",
       "site": {
         "url": "https://dogfood-site-sep10-1201.orangecat.ch",
         "host": "dogfood-site-sep10-1201.orangecat.ch",
@@ -117,14 +188,19 @@
         "status": "prospect",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
-      "orangecat": null,
+      "fleetcrown": {
+        "id": "2c1dc180-70e0-44b0-9c0c-69d2168b31e2",
+        "liveUrl": "https://dogfood-site-sep10-1201.orangecat.ch"
+      },
+      "orangecat": {
+        "projectId": "cfd28b72-aa9c-403f-8ca7-d773414515bb"
+      },
       "solon": null
     },
     {
       "slug": "evig",
       "name": "evig",
-      "repo": null,
+      "repo": "evig",
       "site": {
         "url": "https://evig.orangecat.ch",
         "host": "evig.orangecat.ch",
@@ -132,14 +208,17 @@
         "status": "live",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "2d493410-66f8-4c14-8e7f-879fa42a9e62",
+        "liveUrl": "https://revampit.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "factory-sep11-0040",
-      "name": "factory-sep11-0040",
-      "repo": null,
+      "name": "Factory",
+      "repo": "factory-sep11-0040",
       "site": {
         "url": "https://factory-sep11-0040.orangecat.ch",
         "host": "factory-sep11-0040.orangecat.ch",
@@ -147,14 +226,17 @@
         "status": "demo",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "88c811fa-c716-4ca2-a4da-68e1ac6087cd",
+        "liveUrl": null
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "factory-sep11-0110",
-      "name": "factory-sep11-0110",
-      "repo": null,
+      "name": "Factory Two",
+      "repo": "factory-sep11-0110",
       "site": {
         "url": "https://factory-sep11-0110.orangecat.ch",
         "host": "factory-sep11-0110.orangecat.ch",
@@ -162,14 +244,43 @@
         "status": "demo",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "97eb0266-712d-42d1-8e9f-ef8fccc65006",
+        "liveUrl": null
+      },
+      "orangecat": null,
+      "solon": null
+    },
+    {
+      "slug": "fleetcrown",
+      "name": "fleetcrown",
+      "repo": "fleetcrown",
+      "site": null,
+      "fleetcrown": {
+        "id": "05dcb767-08b5-4257-99d6-272fe3706c72",
+        "liveUrl": "https://fleetcrown.orangecat.ch"
+      },
+      "orangecat": {
+        "projectId": "8130c927-114a-45b7-8cc2-99efd5224025"
+      },
+      "solon": null
+    },
+    {
+      "slug": "hamstercheek",
+      "name": "HamsterCheek",
+      "repo": "hamstercheek",
+      "site": null,
+      "fleetcrown": {
+        "id": "f3ff2f28-4fb4-4643-895b-8359b4acb075",
+        "liveUrl": null
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "heidi",
-      "name": "heidi",
-      "repo": null,
+      "name": "Heidi",
+      "repo": "heidi",
       "site": {
         "url": "https://heidi.orangecat.ch",
         "host": "heidi.orangecat.ch",
@@ -177,14 +288,29 @@
         "status": "prospect",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "0364ab4e-3136-44e4-b81f-98d043151aad",
+        "liveUrl": "https://heidi.orangecat.ch"
+      },
+      "orangecat": null,
+      "solon": null
+    },
+    {
+      "slug": "ivy-portal",
+      "name": "ivy-portal",
+      "repo": "ivy-portal",
+      "site": null,
+      "fleetcrown": {
+        "id": "abb3529f-5837-4980-a174-6f0d266f0157",
+        "liveUrl": null
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "kaffeeklappe-sep11",
       "name": "kaffeeklappe-sep11",
-      "repo": null,
+      "repo": "kaffeeklappe-sep11",
       "site": {
         "url": "https://kaffeeklappe-sep11.orangecat.ch",
         "host": "kaffeeklappe-sep11.orangecat.ch",
@@ -192,14 +318,17 @@
         "status": "prospect",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "15d3e7a3-c694-435b-9676-1f91e6e6fc49",
+        "liveUrl": "https://kaffeeklappe-sep11.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "kivvi",
       "name": "kivvi",
-      "repo": null,
+      "repo": "kivvi",
       "site": {
         "url": "https://kivvi.orangecat.ch",
         "host": "kivvi.orangecat.ch",
@@ -207,14 +336,57 @@
         "status": "live",
         "owner": "RevampIT"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "3bd5cddc-246f-4dec-96bf-a4c2c9adc829",
+        "liveUrl": "https://kivvi.orangecat.ch"
+      },
+      "orangecat": null,
+      "solon": null
+    },
+    {
+      "slug": "lifeops",
+      "name": "lifeops",
+      "repo": "lifeops",
+      "site": null,
+      "fleetcrown": {
+        "id": "dc3afd67-d776-4834-9d31-f81c6f918e61",
+        "liveUrl": null
+      },
+      "orangecat": null,
+      "solon": null
+    },
+    {
+      "slug": "orangecat",
+      "name": "orangecat",
+      "repo": "orangecat",
+      "site": null,
+      "fleetcrown": {
+        "id": "dd291cd0-4dde-4ade-971f-7fa28f7efa5c",
+        "liveUrl": "https://orangecat.ch"
+      },
+      "orangecat": {
+        "projectId": "cb093f00-8745-4579-98df-050ebfb37181"
+      },
+      "solon": {
+        "slug": "orangecat"
+      }
+    },
+    {
+      "slug": "osteosynthesis-systems",
+      "name": "osteosynthesis systems ",
+      "repo": null,
+      "site": null,
+      "fleetcrown": {
+        "id": "50d7bd84-7b2e-4918-b6b7-7b58ad643813",
+        "liveUrl": null
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "petvity",
       "name": "petvity",
-      "repo": null,
+      "repo": "petvity",
       "site": {
         "url": "https://petvity.orangecat.ch",
         "host": "petvity.orangecat.ch",
@@ -222,14 +394,29 @@
         "status": "live",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "2cad088b-c76a-4407-b7e8-4e9921ee6a18",
+        "liveUrl": "https://petvity.orangecat.ch"
+      },
+      "orangecat": null,
+      "solon": null
+    },
+    {
+      "slug": "prime-tower",
+      "name": "Prime tower",
+      "repo": "prime-tower",
+      "site": null,
+      "fleetcrown": {
+        "id": "6567af7e-c95c-4655-a3d6-ac834823173e",
+        "liveUrl": null
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "printcraft",
       "name": "printcraft",
-      "repo": null,
+      "repo": "printcraft",
       "site": {
         "url": "https://printcraft.orangecat.ch",
         "host": "printcraft.orangecat.ch",
@@ -237,14 +424,17 @@
         "status": "prospect",
         "owner": "-"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "9df0417c-22a4-46d3-8f61-943eac57d642",
+        "liveUrl": "https://printcraft.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "reparaturbonus-zh",
       "name": "reparaturbonus-zh",
-      "repo": null,
+      "repo": "reparaturbonus-zh",
       "site": {
         "url": "https://reparaturbonus.orangecat.ch",
         "host": "reparaturbonus.orangecat.ch",
@@ -252,14 +442,17 @@
         "status": "unverified",
         "owner": "Stadt Zürich?"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "2fdef5ca-b028-4305-bf42-49968c0d1a93",
+        "liveUrl": "https://reparaturbonus.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "revamp-info",
       "name": "revamp-info",
-      "repo": null,
+      "repo": "revamp-info",
       "site": {
         "url": "https://revamp-info.orangecat.ch",
         "host": "revamp-info.orangecat.ch",
@@ -267,14 +460,17 @@
         "status": "live",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "8355b25a-de15-46be-b286-96b708dc06f4",
+        "liveUrl": "https://revamp-info.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "s-ink",
       "name": "sink",
-      "repo": null,
+      "repo": "sink",
       "site": {
         "url": "https://sinktattoo.com",
         "host": "sinktattoo.com",
@@ -282,14 +478,17 @@
         "status": "live",
         "owner": "S-Ink"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "905483f5-6ab2-48c8-92aa-e68531533f9d",
+        "liveUrl": null
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "sbb-fundbuero",
-      "name": "sbb-fundbuero",
-      "repo": null,
+      "name": "sbb-lost-found",
+      "repo": "sbb-lost-found",
       "site": {
         "url": "https://sbbfundbuero.orangecat.ch",
         "host": "sbbfundbuero.orangecat.ch",
@@ -297,14 +496,17 @@
         "status": "demo",
         "owner": "-"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "63b971da-f8dc-4c1e-8a9c-25566cdff545",
+        "liveUrl": "https://sbb.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "solon",
       "name": "solon",
-      "repo": null,
+      "repo": "solon",
       "site": {
         "url": "https://solon.orangecat.ch",
         "host": "solon.orangecat.ch",
@@ -312,14 +514,17 @@
         "status": "live",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "474cec37-2481-4d46-9036-6537f14a480b",
+        "liveUrl": "https://solon.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "substrata",
       "name": "substrata",
-      "repo": null,
+      "repo": "substrata",
       "site": {
         "url": "https://substrata.orangecat.ch",
         "host": "substrata.orangecat.ch",
@@ -327,14 +532,17 @@
         "status": "live",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "64f150b3-74bf-4b12-959d-541fc3f2c48f",
+        "liveUrl": null
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "surf-your-life",
       "name": "surf-your-life",
-      "repo": null,
+      "repo": "surf-your-life",
       "site": {
         "url": "https://surf-your-life.orangecat.ch",
         "host": "surf-your-life.orangecat.ch",
@@ -342,14 +550,29 @@
         "status": "live",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "cb0b41b0-0d71-429f-b878-c27eafbc9477",
+        "liveUrl": "https://surf-your-life.orangecat.ch"
+      },
+      "orangecat": null,
+      "solon": null
+    },
+    {
+      "slug": "truthseeker",
+      "name": "truthseeker",
+      "repo": "truthseeker",
+      "site": null,
+      "fleetcrown": {
+        "id": "4f103f65-20dd-4411-8aaf-8befb734f810",
+        "liveUrl": null
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "velokiosk-sep10",
       "name": "velokiosk-sep10",
-      "repo": null,
+      "repo": "velokiosk-sep10",
       "site": {
         "url": "https://velokiosk-sep10.orangecat.ch",
         "host": "velokiosk-sep10.orangecat.ch",
@@ -357,14 +580,17 @@
         "status": "prospect",
         "owner": "bitbaum"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "06ce2bb9-47f9-4aa9-a13b-bbcc73b830bb",
+        "liveUrl": "https://velokiosk-sep10.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     },
     {
       "slug": "vitareba",
       "name": "vitareba",
-      "repo": null,
+      "repo": "vitareba",
       "site": {
         "url": "https://vitareba.orangecat.ch",
         "host": "vitareba.orangecat.ch",
@@ -372,7 +598,22 @@
         "status": "live",
         "owner": "clinic"
       },
-      "fleetcrown": null,
+      "fleetcrown": {
+        "id": "02a77737-bc62-4e40-ad67-35f16766732a",
+        "liveUrl": "https://vitareba.orangecat.ch"
+      },
+      "orangecat": null,
+      "solon": null
+    },
+    {
+      "slug": "wild-spirit",
+      "name": "Annushka Wild Spirit Art",
+      "repo": "annushka",
+      "site": null,
+      "fleetcrown": {
+        "id": "f1ca2eea-d253-41e3-8e5a-a508b1b2e3c0",
+        "liveUrl": "https://annushka.orangecat.ch"
+      },
       "orangecat": null,
       "solon": null
     }
