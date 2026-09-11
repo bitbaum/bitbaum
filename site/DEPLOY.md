@@ -1,157 +1,60 @@
-# bitbaum Parent Site Deployment
+# bitbaum.orangecat.ch
 
-## What's Built
+The studio's ventures, in four groups: Products, Clients, Demos, Not live.
+Static HTML, no framework, no runtime fetch. Caddy serves `/opt/bitbaum/app`
+on the box.
 
-- **Static site:** `site/index.html` — full viewport, near-black, huge type, hover-revealed details
-- **Companies registry:** `site/companies.json` — single source of truth
-- **Build script:** `site/generate.mjs` — reads registry, writes HTML with ventures baked in
-- **Logo assets:** `assets/avatar.{svg,png}` — square mark for GitHub org
+## Where the list comes from
 
-## Design
+Nobody types the list. It is derived from the fleet register —
+<https://fleetcrown.orangecat.ch/api/fleet/register> (human view:
+<https://fleetcrown.orangecat.ch/fleet>) — which FleetCrown builds from the
+hosting register (`apps.conf`) joined with project profiles. That register is
+the one place a project's existence, host and status are recorded.
 
-Full viewport, near-black field, huge type. No centered column, no brochure. The venture list IS the page.
+What this repository owns is presentation only, in `site/overrides.json`:
 
-- Small wordmark
-- One line of huge type as the statement
-- Each venture is display-size name
-- Description and URL appear on hover/focus only
-- No "loading" state — first paint is complete
-- No kind labels repeating down the page
-- Pure CSS interaction, minimal JavaScript
+| key       | meaning                                                        |
+| --------- | -------------------------------------------------------------- |
+| `what`    | the one-line tagline. **Required** — a row without one is not shown |
+| `name`    | display name when the slug is not the name (`revamp-info` → hirn.li) |
+| `group`   | `products` / `clients` / `demos` / `next`; overrides the kind-derived group |
+| `order`   | position within the section                                     |
+| `door`    | text in the right column when there is no URL (`not built`)     |
+| `url`     | override the register's URL                                     |
+| `extras`  | things the register does not know (no host row): OrangeCat and FleetCrown themselves, Annushka's static page, a name with nothing written down yet |
 
-## Build Process
+So: a new site provisioned through FleetCrown appears in the register within
+minutes, and on this page once someone writes its line here.
 
-**The HTML is generated from companies.json, not fetched at runtime.**
-
-After editing `companies.json`:
-
-```bash
-cd site
-node generate.mjs
-```
-
-This writes `index.html` with all ventures baked in. The first paint shows everything.
-
-## Registry
-
-**26 ventures from projects/*.md plus client work:**
-
-**Live projects:** OrangeCat, FleetCrown, kivvi, vitareba, datacat, printcraft, petvity, surf-your-life, reparaturbonus-zh, aoz-housing, evig
-
-**Client work:** S.Ink, Annushka
-
-**Early:** Solon, hamstercheek, truthseeker, biaslens
-
-**Upcoming:** hirn.li, botsmann, sbb-lost-found, diplodoctor, Causius
-
-**Internal:** ai-forms, ivy-portal, prime-tower, revamp-info
-
-Changing a venture's data is a registry edit + regenerate.
-
-## Test Locally
+## Build and publish
 
 ```bash
-cd site
-python3 -m http.server 8000
-# Open http://localhost:8000 in browser
+node site/generate.mjs             # fetches the register, writes site/index.html and site/register.snapshot.json
+node site/generate.mjs --offline   # builds from the snapshot (no network)
+node site/generate.mjs --check     # exit 1 if index.html is stale
+site/publish.sh                    # --check, then scp index.html to the box (keeps a .bak)
 ```
 
-Or with Node:
-
-```bash
-cd site
-npx serve
-```
-
-## Deploy to bitbaum.orangecat.ch
-
-### Prerequisites
-
-The site should be served alongside other orangecat.ch subdomains using Caddy (matching the pattern used by fleetcrown.orangecat.ch, solon.orangecat.ch, etc.).
-
-### Caddy Configuration
-
-Add to your Caddyfile:
-
-```caddy
-bitbaum.orangecat.ch {
-    root * /path/to/bitbaum/site
-    file_server
-    encode gzip
-}
-```
-
-### Deploy Steps
-
-1. Copy the `site/` directory to the server
-2. Update the Caddyfile with the correct path
-3. Reload Caddy: `sudo systemctl reload caddy`
-4. Verify: `curl -I https://bitbaum.orangecat.ch`
-
-## Updating the Site
-
-### Add a New Company
-
-Edit `site/companies.json`:
-
-```json
-{
-  "id": "newcompany",
-  "name": "NewCompany",
-  "tagline": "What it does in one line",
-  "kind": "company",
-  "listed": true,
-  "url": "https://newcompany.ch",
-  "door": "own-domain"
-}
-```
-
-### Change a Company's Status
-
-To hide a company temporarily:
-
-```json
-"listed": false
-```
-
-To mark a company as early-stage (not shown publicly):
-
-```json
-"kind": "early"
-```
-
-### Update a Company's URL
-
-When a company moves from subdomain to own domain:
-
-```json
-"url": "https://newcompany.ch",
-"door": "own-domain"
-```
-
-No HTML changes needed — the site reads the data and updates automatically.
+`register.snapshot.json` is committed so the page can be rebuilt without the
+API and so a diff shows what changed in the register between two builds.
 
 ## Files
 
 ```
 site/
-├── index.html          # Parent site layout
-├── companies.json      # Companies registry (SSOT)
-├── logo-mark.svg       # bitbaum mark
-└── DEPLOY.md           # This file
-
-assets/
-├── avatar.svg          # Square avatar for GitHub org (SVG)
-├── avatar.png          # Square avatar for GitHub org (PNG, 512x512)
-├── logo.svg            # Full logo with wordmark
-├── logo-mark.svg       # Mark only
-└── logo-white.svg      # White version for dark backgrounds
+├── index.html               # generated — do not edit by hand
+├── head.html                # <head> and styles, the design
+├── overrides.json           # editorial layer (see above)
+├── register.snapshot.json   # last register the page was built from
+├── generate.mjs             # the build
+├── publish.sh               # the deploy
+└── DEPLOY.md
 ```
 
-## Notes
+## History
 
-- Static HTML, no build step, no framework
-- Works without JavaScript (progressive enhancement)
-- Semantic HTML, accessible
-- Dark mode via `prefers-color-scheme`
-- The registry tracks all ventures (companies, early-stage, upcoming) but only displays `kind=company` and `listed=true`
+Until 2026-09-11 the list lived in `site/companies.json` here, and the page
+that was actually live had been edited by hand on the server with no source in
+this repository. Both drifted from reality within days (renamed repos,
+retired hosts, redirects listed as sites). The register ended that.

@@ -1,239 +1,151 @@
 #!/usr/bin/env node
+// bitbaum.orangecat.ch — generated from the fleet register.
+//
+// What this page is: the studio's ventures, grouped as Products, Clients,
+// Demos and Not live. What it is NOT: a list anyone types. The list comes from
+// FleetCrown's public register (which joins the hosting register with project
+// profiles), and this file only decides presentation via overrides.json.
+//
+// Why: the previous companies.json had drifted from reality within days — it
+// named aoz-wohnen (renamed), sent evig to revampit.orangecat.ch (a redirect),
+// listed sbb.orangecat.ch (retired) — and the page that was actually live had
+// been edited by hand on the server with no source here at all.
+//
+//   node site/generate.mjs            fetch register, write index.html + snapshot
+//   node site/generate.mjs --offline  build from site/register.snapshot.json
+//   node site/generate.mjs --check    exit 1 if index.html differs from generation
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 
-import { readFileSync, writeFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+const here = dirname(fileURLToPath(import.meta.url));
+const REGISTER_URL = process.env.FLEET_REGISTER_URL ?? "https://fleetcrown.orangecat.ch/api/fleet/register";
+const SNAPSHOT = join(here, "register.snapshot.json");
+const GROUPS = [
+  ["products", "Products"],
+  ["clients", "Clients"],
+  ["demos", "Demos"],
+  ["next", "Not live"],
+];
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const args = new Set(process.argv.slice(2));
 
-const companiesData = JSON.parse(readFileSync(join(__dirname, 'companies.json'), 'utf-8'));
-const ventures = companiesData.companies;
-
-const venturesHTML = ventures.map(venture => {
-  const urlAttr = venture.url ? ` data-url="${venture.url}"` : '';
-  const hasUrl = venture.url ? ' has-url' : '';
-  const urlDisplay = venture.url ? venture.url.replace(/^https?:\/\//, '') : '';
-  
-  return `      <li class="venture${hasUrl}"${urlAttr}>
-        <h2 class="venture-name">${venture.name}</h2>
-        <div class="venture-details">
-          <p class="venture-tagline">${venture.tagline}</p>
-          ${venture.url ? `<p class="venture-url">${urlDisplay}</p>` : ''}
-        </div>
-      </li>`;
-}).join('\n');
-
-const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bitbaum</title>
-  <meta name="description" content="bitbaum. The work, each its own.">
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      overflow-x: hidden;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      background: #0a0a0a;
-      color: #e8e8e8;
-      line-height: 1;
-    }
-
-    .container {
-      min-height: 100vh;
-      padding: 3rem 3rem 5rem;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      margin-bottom: clamp(4rem, 8vh, 6rem);
-    }
-
-    .wordmark {
-      font-size: 1.125rem;
-      font-weight: 400;
-      letter-spacing: 0.05em;
-      margin-bottom: 3rem;
-      opacity: 0.6;
-    }
-
-    .statement {
-      font-size: clamp(2.5rem, 7vw, 6rem);
-      font-weight: 300;
-      letter-spacing: -0.04em;
-      line-height: 1;
-      max-width: 30ch;
-    }
-
-    main {
-      flex: 1;
-    }
-
-    .ventures {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .venture {
-      border-top: 1px solid #1a1a1a;
-      padding: clamp(1.5rem, 3vh, 2.5rem) 0;
-      cursor: default;
-      transition: border-color 0.5s ease;
-    }
-
-    .venture.has-url {
-      cursor: pointer;
-    }
-
-    .venture:hover {
-      border-top-color: #2a2a2a;
-    }
-
-    .venture-name {
-      font-size: clamp(2rem, 5vw, 4.5rem);
-      font-weight: 300;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      transition: color 0.3s ease;
-    }
-
-    .venture.has-url:hover .venture-name {
-      color: #a8a8a8;
-    }
-
-    .venture-details {
-      margin-top: 0.75rem;
-      opacity: 0;
-      transform: translateY(-8px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .venture:hover .venture-details,
-    .venture:focus-within .venture-details {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .venture-tagline {
-      font-size: clamp(1rem, 2vw, 1.375rem);
-      font-weight: 300;
-      color: #6b6b6b;
-      line-height: 1.4;
-      margin-bottom: 0.5rem;
-    }
-
-    .venture-url {
-      font-size: 1rem;
-      font-weight: 300;
-      color: #6b6b6b;
-      font-variant-numeric: tabular-nums;
-    }
-
-    footer {
-      margin-top: 5rem;
-      padding-top: 2rem;
-      border-top: 1px solid #1a1a1a;
-      font-size: 0.9375rem;
-      font-weight: 300;
-      color: #6b6b6b;
-    }
-
-    footer p {
-      margin-bottom: 0.5rem;
-    }
-
-    .registration-note {
-      font-size: 0.875rem;
-      opacity: 0.7;
-    }
-
-    .registration-note a {
-      color: #6b6b6b;
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s ease;
-    }
-
-    .registration-note a:hover {
-      border-bottom-color: #6b6b6b;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 2rem 1.5rem 3rem;
+async function loadRegister() {
+  if (!args.has("--offline")) {
+    try {
+      const res = await fetch(REGISTER_URL, { signal: AbortSignal.timeout(8000) });
+      if (res.ok) {
+        const json = await res.json();
+        writeFileSync(SNAPSHOT, JSON.stringify(json, null, 2) + "\n");
+        return json;
       }
-
-      .wordmark {
-        margin-bottom: 2rem;
-      }
-
-      .statement {
-        max-width: none;
-      }
-
-      .venture-details {
-        opacity: 1;
-        transform: translateY(0);
-        margin-top: 1rem;
-      }
+      console.error(`register answered ${res.status}; using snapshot`);
+    } catch (e) {
+      console.error(`register unreachable (${e?.message ?? e}); using snapshot`);
     }
+  }
+  if (!existsSync(SNAPSHOT)) throw new Error("no register and no snapshot — cannot build");
+  return JSON.parse(readFileSync(SNAPSHOT, "utf8"));
+}
 
-    @media (hover: none) {
-      .venture-details {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <div class="wordmark">bitbaum</div>
-      <h1 class="statement">The work, each its own.</h1>
-    </header>
+/**
+ * Default group from the register's own facts; overrides win.
+ * Returns null for anything not live: the "Not live" section is curated by
+ * hand (a `group: "next"` override), because the register also holds factory
+ * test sites and half-day prospects that nobody wants on the front page.
+ */
+function defaultGroup(row) {
+  const s = row.site;
+  if (!s) return null;
+  if (s.kind === "demo" || s.status === "demo") return "demos";
+  if (s.status !== "live") return null;
+  if (s.kind === "product") return "products";
+  if (s.kind === "client-app" || s.kind === "client-site") return "clients";
+  return null;
+}
 
-    <main>
-      <ul class="ventures">
-${venturesHTML}
-      </ul>
-    </main>
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+}
 
-    <footer>
-      <p>Cato, Zürich</p>
-      <p class="registration-note">Registration lives in <a href="https://solon.orangecat.ch">Solon</a>. None of this is registered yet.</p>
-    </footer>
-  </div>
+function rowHtml(v) {
+  const door = v.door ?? (v.url ? v.url.replace(/^https?:\/\//, "") : "not live");
+  const inner = `<span class="name">${esc(v.name)}</span><span class="what">${esc(v.what)}</span><span class="door">${esc(door)}</span>`;
+  return v.url && v.group !== "next"
+    ? `      <a class="row" href="${esc(v.url)}">${inner}</a>`
+    : `      <div class="row">${inner}</div>`;
+}
 
-  <script>
-    document.querySelectorAll('.venture.has-url').forEach(venture => {
-      const url = venture.dataset.url;
-      if (url) {
-        venture.addEventListener('click', () => {
-          window.location.href = url;
-        });
-      }
+function build(register, cfg) {
+  const ov = cfg.overrides ?? {};
+  const ventures = [];
+  for (const r of register.rows) {
+    const o = ov[r.slug];
+    // No tagline, no row: the register lists every host on the box, including
+    // factory test sites and half-day prospects. Writing the one line in
+    // overrides.json is the editorial act that puts something on this page.
+    if (!o?.what) continue;
+    const group = o.group ?? defaultGroup(r);
+    if (!group) continue;
+    const url = o.url ?? r.site?.url ?? null;
+    ventures.push({
+      slug: r.slug,
+      name: o.name ?? r.name ?? r.slug,
+      what: o.what,
+      url,
+      door: o.door,
+      group,
+      order: o.order ?? 99,
     });
-  </script>
+  }
+  for (const x of cfg.extras ?? []) ventures.push({ order: 0, ...x });
+  // An extra that the register has since learned about would render twice.
+  const seen = new Set();
+  for (const v of ventures) {
+    if (seen.has(v.slug)) throw new Error(`${v.slug} is both in the register and in extras — drop the extra`);
+    seen.add(v.slug);
+  }
+
+  const sections = GROUPS.map(([id, title]) => {
+    const items = ventures
+      .filter((v) => v.group === id)
+      .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
+    if (!items.length) return "";
+    return `    <section class="group" id="${id}">\n      <h2>${title}</h2>\n${items.map(rowHtml).join("\n")}\n    </section>`;
+  })
+    .filter(Boolean)
+    .join("\n");
+
+  const head = readFileSync(join(here, "head.html"), "utf8");
+  return `${head}<body>
+  <header class="top">
+    <a class="mark" href="#top">bitbaum</a>
+    <nav>
+${GROUPS.map(([id, t]) => `      <a href="#${id}">${t}</a>`).join("\n")}
+    </nav>
+  </header>
+  <h1 id="top">The work, each its own.</h1>
+${sections}
+  <footer>Cato. Nothing here is registered. An orangecat.ch name is an address on this box.
+    <span class="src">Generated from the <a href="${esc(REGISTER_URL.replace(/\/api\/.*/, "/fleet"))}">fleet register</a>${register.generatedAt ? `, ${register.generatedAt.slice(0, 10)}` : ""}.</span></footer>
 </body>
 </html>
 `;
+}
 
-writeFileSync(join(__dirname, 'index.html'), html, 'utf-8');
-console.log('Generated index.html with', ventures.length, 'ventures');
+const register = await loadRegister();
+const cfg = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
+const html = build(register, cfg);
+const target = join(here, "index.html");
+if (args.has("--check")) {
+  const current = existsSync(target) ? readFileSync(target, "utf8") : "";
+  if (current !== html) {
+    console.error("index.html differs from the register — run: node site/generate.mjs");
+    process.exit(1);
+  }
+  console.log("index.html is in sync with the register");
+} else {
+  writeFileSync(target, html);
+  const n = (html.match(/class="row"/g) || []).length;
+  console.log(`wrote site/index.html (${n} ventures, register ${register.generatedAt ?? "snapshot"})`);
+}
