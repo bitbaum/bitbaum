@@ -3,7 +3,7 @@
   "overrides": {
     "solon":             { "name": "Solon",            "what": "Governance you can recount", "order": 3 },
     "evig":              { "name": "evig",             "what": "Hardware, repair, workshops", "order": 4 },
-    "revamp-info":       { "name": "hirn.li",          "what": "Fundraising intelligence", "url": "https://hirnli.orangecat.ch", "order": 5 },
+    "revamp-info":       { "name": "Hirnli",           "what": "Fundraising intelligence", "url": "https://hirnli.orangecat.ch", "order": 5 },
     "datacat":           { "name": "datacat",          "what": "Records in, records out", "order": 6 },
     "petvity":           { "name": "petvity",          "what": "Pet care", "order": 7 },
     "botsmann":          { "name": "botsmann",         "what": "Domain assistants", "group": "products", "order": 8 },
