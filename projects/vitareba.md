@@ -1,4 +1,4 @@
-# vitareba — Clinical Platform for VitaReBa GmbH
+# vitareba — Clinical Platform for Vita GmbH
 
 **Status:** Active Development (Live, one real clinic)
 **Tagline:** Patient portal + clinician console for a metabolic-psychiatry / longevity practice
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-Purpose-built platform for VitaReBa GmbH — Manuel Schabus's metabolic-psychiatry clinic in Zürich. Public multilingual marketing site (de/en/fr/it) + patient portal + clinician admin. The flagship programme is ADHD diagnosis & optimisation for high performers.
+Purpose-built platform for Vita GmbH — Manuel Schabus's metabolic-psychiatry clinic in Zürich. Public multilingual marketing site (de/en/fr/it) + patient portal + clinician admin. The flagship programme is ADHD diagnosis & optimisation for high performers.
 
 **This is the fleet's #1 revenue priority: a real external user already exists.** The relationship beats any funnel.
 
