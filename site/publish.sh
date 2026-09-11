@@ -9,6 +9,9 @@ set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 BOX="${BOX:-ubuntu@167.233.22.31}"
 node "$HERE/generate.mjs" --check
-ssh -o BatchMode=yes "$BOX" "cp /opt/bitbaum/app/index.html /opt/bitbaum/app/index.html.bak-$(date -u +%Y%m%d-%H%M%S) 2>/dev/null || true"
-scp -o BatchMode=yes "$HERE/index.html" "$BOX:/opt/bitbaum/app/index.html"
+# The web root is root-owned (Caddy's file_server reads it; nothing writes it
+# but this), so the copy lands in /tmp and sudo installs it.
+stamp="$(date -u +%Y%m%d-%H%M%S)"
+scp -q -o BatchMode=yes "$HERE/index.html" "$BOX:/tmp/bitbaum-index.$stamp.html"
+ssh -o BatchMode=yes "$BOX" "sudo cp -a /opt/bitbaum/app/index.html /opt/bitbaum/app/index.html.bak-$stamp && sudo install -m 644 -o root -g root /tmp/bitbaum-index.$stamp.html /opt/bitbaum/app/index.html && rm /tmp/bitbaum-index.$stamp.html"
 curl -fsS -o /dev/null https://bitbaum.orangecat.ch/ && echo "live: https://bitbaum.orangecat.ch/"
