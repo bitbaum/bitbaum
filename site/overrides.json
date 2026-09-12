@@ -1,30 +1,178 @@
 {
   "_comment": "Editorial layer over the fleet register (https://fleetcrown.orangecat.ch/api/fleet/register). The register says WHAT EXISTS and WHERE; this file says how bitbaum presents it: the one-line `what`, the display `name`, `order` within a section, a `group` when the register's kind/status would file it wrongly (or to curate 'Not live'), and `extras` for things the register does not know. Keyed by canonical slug = repository name. A register row without a `what` here is not shown at all; a live row with one is filed by its kind.",
   "overrides": {
-    "solon":             { "name": "Solon",            "what": "Governance you can recount", "order": 3 },
-    "evig":              { "name": "evig",             "what": "Hardware, repair, workshops", "order": 4 },
-    "revamp-info":       { "name": "Hirnli",           "what": "Fundraising intelligence", "url": "https://hirnli.orangecat.ch", "order": 5 },
-    "datacat":           { "name": "datacat",          "what": "Records in, records out", "order": 6 },
-    "petvity":           { "name": "petvity",          "what": "Pet care", "order": 7 },
-    "botsmann":          { "name": "botsmann",         "what": "Domain assistants", "group": "products", "order": 8 },
-    "substrata":         { "name": "substrata",        "what": "Physical chokepoints", "order": 9 },
-    "aoz-housing":       { "name": "AOZ Begleitung",   "what": "Beyond housing. Built for AOZ.", "order": 1 },
-    "kivvi":             { "name": "kivvi",            "what": "ERP for RevampIT", "order": 2 },
-    "vitareba":          { "name": "Vita",             "what": "Clinic", "order": 3 },
-    "surf-your-life":    { "name": "Surf Your Life",   "what": "Burnout and long COVID", "group": "clients", "order": 4 },
-    "printcraft":        { "name": "printcraft",       "what": "Scene composer", "group": "clients", "order": 5 },
-    "s-ink":             { "name": "S.Ink",            "what": "Studio site", "order": 6 },
-    "reparaturbonus-zh": { "name": "Reparaturbonus",   "what": "Repair bonus, Zurich", "group": "clients", "order": 8 },
-    "sbb-fundbuero":     { "name": "Nordbahn Fundbüro","what": "Lost on the train, while you are still on it.", "order": 1 },
-    "camille-boulangerie": { "name": "Camille",        "what": "Bakery handover demo", "order": 2 },
-    "heidi":             { "name": "Heidi",            "what": "Zurich German, for learners", "group": "next", "door": "not live", "order": 1 },
-    "diplodoctor":       { "name": "Diplodoctor",      "what": "Health platform", "group": "next", "door": "not built", "order": 2 },
-    "causius":           { "name": "Causius",          "what": "Law, same shape as Diplodoctor", "group": "next", "door": "not built", "order": 3 }
+    "solon": {
+      "name": "Solon",
+      "what": "Governance you can recount",
+      "order": 3
+    },
+    "evig": {
+      "name": "evig",
+      "what": "Hardware, repair, workshops",
+      "order": 4
+    },
+    "revamp-info": {
+      "name": "Hirnli",
+      "what": "Fundraising intelligence",
+      "url": "https://hirnli.orangecat.ch",
+      "order": 5
+    },
+    "datacat": {
+      "name": "datacat",
+      "what": "Records in, records out",
+      "order": 6
+    },
+    "petvity": {
+      "name": "petvity",
+      "what": "Pet care",
+      "order": 7
+    },
+    "botsmann": {
+      "name": "botsmann",
+      "what": "Domain assistants",
+      "group": "products",
+      "order": 8
+    },
+    "substrata": {
+      "name": "substrata",
+      "what": "Physical chokepoints",
+      "order": 9
+    },
+    "aoz-housing": {
+      "name": "AOZ Begleitung",
+      "what": "Beyond housing. Built for AOZ.",
+      "order": 1
+    },
+    "kivvi": {
+      "name": "kivvi",
+      "what": "ERP for RevampIT",
+      "order": 2
+    },
+    "vitareba": {
+      "name": "Vita",
+      "what": "Clinic",
+      "order": 3
+    },
+    "surf-your-life": {
+      "name": "Surf Your Life",
+      "what": "Burnout and long COVID",
+      "group": "clients",
+      "order": 4
+    },
+    "printcraft": {
+      "name": "printcraft",
+      "what": "Scene composer",
+      "group": "clients",
+      "order": 5
+    },
+    "s-ink": {
+      "name": "S.Ink",
+      "what": "Studio site",
+      "order": 6
+    },
+    "reparaturbonus-zh": {
+      "name": "Reparaturbonus",
+      "what": "Repair bonus, Zurich",
+      "group": "clients",
+      "order": 8
+    },
+    "sbb-fundbuero": {
+      "name": "Nordbahn Fundbüro",
+      "what": "Lost on the train, while you are still on it.",
+      "order": 1
+    },
+    "camille-boulangerie": {
+      "name": "Camille",
+      "what": "Bakery handover demo",
+      "order": 2
+    },
+    "heidi": {
+      "name": "Heidi",
+      "what": "Zurich German, for learners",
+      "group": "next",
+      "door": "not live",
+      "order": 1
+    },
+    "diplodoctor": {
+      "name": "Diplodoctor",
+      "what": "Health platform",
+      "group": "next",
+      "door": "not built",
+      "order": 2
+    },
+    "causius": {
+      "name": "Causius",
+      "what": "Law, same shape as Diplodoctor",
+      "group": "next",
+      "door": "not built",
+      "order": 3
+    }
   },
   "extras": [
-    { "slug": "orangecat", "name": "OrangeCat", "what": "Economic agent", "url": "https://orangecat.ch", "group": "products", "order": 1, "_why": "served from the main Caddyfile, not registered in apps.conf yet" },
-    { "slug": "fleetcrown", "name": "FleetCrown", "what": "Execution OS", "url": "https://fleetcrown.orangecat.ch", "group": "products", "order": 2, "_why": "same; and the register deliberately excludes its own host" },
-    { "slug": "wild-spirit", "name": "Annushka", "what": "Painter, shown on a house address", "url": "https://annushka.orangecat.ch", "group": "clients", "order": 7, "_why": "static site plus a dead :4030 api; does not fit an apps.conf row" },
-    { "slug": "skif", "name": "Skif", "what": "Named. Not written down.", "group": "next", "door": "not live", "order": 4 }
-  ]
+    {
+      "slug": "orangecat",
+      "name": "OrangeCat",
+      "what": "Economic agent",
+      "url": "https://orangecat.ch",
+      "group": "products",
+      "order": 1,
+      "_why": "served from the main Caddyfile, not registered in apps.conf yet"
+    },
+    {
+      "slug": "fleetcrown",
+      "name": "FleetCrown",
+      "what": "Execution OS",
+      "url": "https://fleetcrown.orangecat.ch",
+      "group": "products",
+      "order": 2,
+      "_why": "same; and the register deliberately excludes its own host"
+    },
+    {
+      "slug": "wild-spirit",
+      "name": "Annushka",
+      "what": "Painter, shown on a house address",
+      "url": "https://annushka.orangecat.ch",
+      "group": "clients",
+      "order": 7,
+      "_why": "static site plus a dead :4030 api; does not fit an apps.conf row"
+    },
+    {
+      "slug": "skif",
+      "name": "Skif",
+      "what": "Named. Not written down.",
+      "group": "next",
+      "door": "not live",
+      "order": 4
+    }
+  ],
+  "_packages_comment": "Editorial layer over the DERIVED package registry (https://raw.githubusercontent.com/bitbaum/fleet/main/registers/packages.json, generated by fleet's shared-registry audit from real package.json data across the org). The registry says WHICH packages exist, how many apps use each, and the install line; this file says how bitbaum describes them in one line. Keyed by package slug. No `what` here falls back to the package's own npm description, which is usually too long for a card.",
+  "packages": {
+    "ai-kit": {
+      "what": "Which model to call, whether the vendor still serves it, and what to do when every one of them fails."
+    },
+    "mail-kit": {
+      "what": "One email layer for every app. Never throws — it returns whether the mail was sent."
+    },
+    "bip-kit": {
+      "what": "Blog, roadmap and changelog from repo-authored markdown. Typed blocks, your design tokens on top."
+    },
+    "ai-forms": {
+      "what": "Fill a form from prose, then refine it in conversation. Headless, so every app keeps its own look."
+    },
+    "threadkit": {
+      "what": "Message threads where permission is participation — not a role column. An AI obeys the same rules as a person."
+    },
+    "limitkit": {
+      "what": "Rate limiting as a decision, not middleware. Bounded memory by construction, standard headers."
+    },
+    "listkit": {
+      "what": "A list as a query: facets, a URL you can share, sorting that puts missing values last. No markup."
+    },
+    "sitekit": {
+      "what": "A website as data — a closed set of section shapes, validated, with per-field provenance."
+    },
+    "design-tokens": {
+      "what": "One tokens.css behind three products, so a retheme is an edit to one file."
+    }
+  }
 }
