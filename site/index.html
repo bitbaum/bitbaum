@@ -3,83 +3,243 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>bitbaum</title>
-<meta name="description" content="bitbaum. The work, each its own.">
+<title>bitbaum — the work, and what it is built from</title>
+<meta name="description" content="bitbaum: products, client systems, and the shared packages they are all built from. One person, one box.">
+<meta property="og:title" content="bitbaum">
+<meta property="og:description" content="Products, client systems, and the shared packages they are all built from.">
+<meta property="og:type" content="website">
 <style>
 @font-face { font-family: "Instrument Serif"; font-weight: 400; font-style: normal; font-display: swap; src: url("/fonts/instrument-serif-latin.woff2") format("woff2"); }
 @font-face { font-family: "Inter"; font-weight: 400 700; font-style: normal; font-display: swap; src: url("/fonts/inter-latin.woff2") format("woff2"); }
-:root { --bg: hsl(0 0% 7%); --fg: hsl(0 0% 96%); --muted: hsl(0 0% 58%); --line: hsl(0 0% 16%); }
-* { box-sizing: border-box; }
-html, body { margin: 0; background: var(--bg); color: var(--fg); }
-body { font-family: Inter, system-ui, sans-serif; }
-a { color: inherit; text-decoration: none; }
-.top { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding: 1.1rem 4vw; background: hsl(0 0% 7% / 0.9); backdrop-filter: blur(10px); }
-.mark { letter-spacing: 0.14em; font-size: 0.8rem; color: var(--muted); }
-nav { display: flex; gap: 1.1rem; font-size: 0.85rem; color: var(--muted); }
-nav a { border-bottom: 1px solid transparent; }
-nav a:hover, nav a.on { color: var(--fg); border-color: var(--fg); }
-h1 { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; letter-spacing: -0.03em; font-size: clamp(3.4rem, 8vw, 7.5rem); line-height: 0.9; margin: 0; padding: 8vh 6vw 6vh; max-width: 10ch; }
-.group { padding: 0 6vw 2rem; }
-.group h2 { margin: 2rem 0 0; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
-.row { display: grid; grid-template-columns: 1.4fr 1fr auto; gap: 1rem; align-items: baseline; border-top: 1px solid var(--line); padding: 1.15rem 0; }
-.name { font-family: "Instrument Serif", Georgia, serif; font-size: clamp(2rem, 4vw, 3.6rem); letter-spacing: -0.03em; line-height: 1; }
-.what { color: var(--muted); }
-.door { color: var(--muted); font-size: 0.85rem; text-align: right; }
-.row:hover .name { color: #fff; }
-footer { padding: 2rem 6vw 3rem; color: var(--muted); font-size: 0.85rem; }
-@media (max-width: 800px) {
-  .row { grid-template-columns: 1fr; }
-  .door { text-align: left; }
+
+/*
+ * HIERARCHY IS THE POINT.
+ *
+ * The previous version set every venture name at up to 3.6rem serif and the
+ * section labels at 0.75rem muted — so 23 rows all shouted at one volume and
+ * the structure that organised them was the quietest thing on the page. Sizes
+ * here descend deliberately: hero > section > row name > supporting text, and
+ * nothing below a section heading competes with it.
+ */
+:root {
+  --bg:      hsl(24 12% 6%);
+  --raised:  hsl(24 10% 9%);
+  --fg:      hsl(30 12% 96%);
+  --muted:   hsl(30 6% 68%);   /* ~7:1 on --bg */
+  --dim:     hsl(30 5% 58%);   /* ~5:1, never below 0.8rem */
+  --line:    hsl(30 6% 16%);
+  --line-2:  hsl(30 6% 22%);
+  --accent:  hsl(24 88% 62%);
+
+  --w: 68rem;
+  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
 }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html, body { margin: 0; background: var(--bg); color: var(--fg); }
+body { font-family: var(--sans); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.wrap { max-width: var(--w); margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 3rem); }
+
+/* ── header ─────────────────────────────────────────────────────────────── */
+.top { position: sticky; top: 0; z-index: 5; background: hsl(24 12% 6% / 0.86); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding-block: 0.85rem; }
+.mark { font-family: var(--serif); font-size: 1.25rem; letter-spacing: -0.01em; }
+.top nav { display: flex; gap: clamp(0.9rem, 2.5vw, 1.75rem); font-size: 0.875rem; color: var(--muted); }
+.top nav a { padding-block: 0.15rem; border-bottom: 1px solid transparent; }
+.top nav a:hover { color: var(--fg); border-color: var(--line-2); }
+
+/* ── hero ───────────────────────────────────────────────────────────────── */
+.hero { padding: clamp(3.5rem, 11vh, 7rem) 0 clamp(2.5rem, 6vh, 4rem); }
+.hero h1 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.025em; font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1.02; margin: 0; max-width: 14ch; }
+.lead { margin: 1.5rem 0 0; max-width: 46ch; color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.15rem); line-height: 1.6; }
+.stats { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: 0.875rem; color: var(--dim); }
+.stats b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ── section heading: now clearly ABOVE its rows ────────────────────────── */
+.group { padding-bottom: clamp(2.5rem, 6vh, 4rem); scroll-margin-top: 5rem; }
+.sec { display: flex; align-items: baseline; gap: 0.75rem; margin: 0 0 0.25rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--line-2); }
+.sec h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.6rem, 3vw, 2.1rem); letter-spacing: -0.02em; margin: 0; }
+/* A badge, not a footnote marker: a bare small number beside a heading reads
+   as a reference mark and made "Products 9" look like a citation. */
+.sec .count { font-size: 0.7rem; color: var(--muted); font-variant-numeric: tabular-nums; border: 1px solid var(--line-2); border-radius: 999px; padding: 0.1rem 0.5rem; align-self: center; }
+.sec .note { margin-left: auto; font-size: 0.8rem; color: var(--dim); text-align: right; }
+
+/* ── venture rows ───────────────────────────────────────────────────────── */
+.row { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) auto; gap: 0.35rem 2rem; align-items: baseline; padding: 1.05rem 0.75rem 1.05rem 0; border-bottom: 1px solid var(--line); margin-right: -0.75rem; border-radius: 3px; transition: background 120ms ease; }
+a.row:hover { background: var(--raised); }
+a.row:hover .door { color: var(--fg); }
+a.row:hover .arrow { transform: translateX(3px); }
+.name { font-family: var(--serif); font-size: 1.45rem; line-height: 1.2; letter-spacing: -0.015em; }
+.what { color: var(--muted); font-size: 0.95rem; }
+.door { color: var(--dim); font-size: 0.85rem; text-align: right; white-space: nowrap; }
+.arrow { display: inline-block; transition: transform 120ms ease; }
+/* Not live: legible, but unmistakably not a door you can walk through. */
+.row.off .name, .row.off .what { color: var(--dim); }
+.row.off .door { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--line-2); border-radius: 999px; padding: 0.15rem 0.6rem; }
+
+/* ── packages: a different KIND of object, so a different shape ─────────── */
+.pkgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(20.5rem, 1fr)); gap: 0.85rem; margin-top: 1.4rem; }
+.pkg { display: flex; flex-direction: column; gap: 0.6rem; background: var(--raised); border: 1px solid var(--line); border-radius: 10px; padding: 1.15rem 1.25rem 1.1rem; }
+.pkg-top { display: flex; align-items: baseline; gap: 0.6rem; }
+.pkg-name { font-family: var(--serif); font-size: 1.3rem; letter-spacing: -0.015em; }
+.pkg-uses { margin-left: auto; font-size: 0.75rem; color: var(--dim); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pkg-what { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.5; flex: 1; }
+/* A cut-off install command is a command someone will paste wrong. Let a long
+   one wrap at its own separators rather than scroll out of sight. */
+.pkg-install { display: block; font-family: var(--mono); font-size: 0.75rem; line-height: 1.5; color: var(--fg); background: var(--bg); border: 1px solid var(--line-2); border-radius: 6px; padding: 0.5rem 0.65rem; overflow-wrap: anywhere; }
+.pkg-links { display: flex; gap: 0.35rem; font-size: 0.78rem; color: var(--dim); margin-top: -0.15rem; }
+.pkg-links a, .pkg-links span { display: inline-flex; align-items: center; min-height: 24px; padding: 0 0.5rem; border-radius: 5px; }
+.pkg-links a:first-child { margin-left: -0.5rem; }
+.pkg-links a { border: 1px solid transparent; }
+.pkg-links a:hover { color: var(--accent); border-color: var(--line-2); background: var(--bg); }
+
+/* ── footer ─────────────────────────────────────────────────────────────── */
+footer { border-top: 1px solid var(--line); margin-top: 1rem; }
+footer .wrap { padding-block: 2.5rem 3.5rem; color: var(--dim); font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
+footer a { border-bottom: 1px solid var(--line-2); }
+footer a:hover { color: var(--fg); }
+
+@media (max-width: 760px) {
+  .row { grid-template-columns: 1fr; gap: 0.2rem; padding-block: 0.95rem; }
+  .door { text-align: left; }
+  .row.off .door { justify-self: start; }
+  .name { font-size: 1.3rem; }
+  /* Five nav items do not fit at 390px. Left alone they pushed the document
+     23px wide and the whole page scrolled sideways — so the nav scrolls
+     instead of the page, and no item is hidden to achieve it. */
+  .top .wrap { gap: 1rem; }
+  .top nav { gap: 1rem; min-width: 0; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .top nav::-webkit-scrollbar { display: none; }
+  .top nav a { white-space: nowrap; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
   <header class="top">
-    <a class="mark" href="#top">bitbaum</a>
-    <nav>
-      <a href="#products">Products</a>
-      <a href="#clients">Clients</a>
-      <a href="#demos">Demos</a>
-      <a href="#next">Not live</a>
-    </nav>
+    <div class="wrap">
+      <a class="mark" href="#top">bitbaum</a>
+      <nav>
+        <a href="#products">Products</a>
+        <a href="#clients">Clients</a>
+        <a href="#demos">Demos</a>
+        <a href="#next">Not live</a>
+        <a href="#packages">Packages</a>
+      </nav>
+    </div>
   </header>
-  <h1 id="top">The work, each its own.</h1>
+  <main class="wrap">
+    <div class="hero" id="top">
+      <h1>The work, each its own.</h1>
+      <p class="lead">Products, client systems, and the shared packages they are all built from. One person, one box, no crew.</p>
+      <p class="stats"><span><b>19</b> live systems</span><span><b>9</b> open-source packages</span><span><b>1</b> server</span></p>
+    </div>
     <section class="group" id="products">
-      <h2>Products</h2>
-      <a class="row" href="https://orangecat.ch"><span class="name">OrangeCat</span><span class="what">Economic agent</span><span class="door">orangecat.ch</span></a>
-      <a class="row" href="https://fleetcrown.orangecat.ch"><span class="name">FleetCrown</span><span class="what">Execution OS</span><span class="door">fleetcrown.orangecat.ch</span></a>
-      <a class="row" href="https://solon.orangecat.ch"><span class="name">Solon</span><span class="what">Governance you can recount</span><span class="door">solon.orangecat.ch</span></a>
-      <a class="row" href="https://evig.orangecat.ch"><span class="name">evig</span><span class="what">Hardware, repair, workshops</span><span class="door">evig.orangecat.ch</span></a>
-      <a class="row" href="https://hirnli.orangecat.ch"><span class="name">Hirnli</span><span class="what">Fundraising intelligence</span><span class="door">hirnli.orangecat.ch</span></a>
-      <a class="row" href="https://datacat.orangecat.ch"><span class="name">datacat</span><span class="what">Records in, records out</span><span class="door">datacat.orangecat.ch</span></a>
-      <a class="row" href="https://petvity.orangecat.ch"><span class="name">petvity</span><span class="what">Pet care</span><span class="door">petvity.orangecat.ch</span></a>
-      <a class="row" href="https://botsmann.orangecat.ch"><span class="name">botsmann</span><span class="what">Domain assistants</span><span class="door">botsmann.orangecat.ch</span></a>
-      <a class="row" href="https://substrata.orangecat.ch"><span class="name">substrata</span><span class="what">Physical chokepoints</span><span class="door">substrata.orangecat.ch</span></a>
+      <div class="sec"><h2>Products</h2><span class="count">9</span></div>
+      <a class="row" href="https://orangecat.ch"><span class="name">OrangeCat</span><span class="what">Economic agent</span><span class="door">orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://fleetcrown.orangecat.ch"><span class="name">FleetCrown</span><span class="what">Execution OS</span><span class="door">fleetcrown.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://solon.orangecat.ch"><span class="name">Solon</span><span class="what">Governance you can recount</span><span class="door">solon.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://evig.orangecat.ch"><span class="name">evig</span><span class="what">Hardware, repair, workshops</span><span class="door">evig.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://hirnli.orangecat.ch"><span class="name">Hirnli</span><span class="what">Fundraising intelligence</span><span class="door">hirnli.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://datacat.orangecat.ch"><span class="name">datacat</span><span class="what">Records in, records out</span><span class="door">datacat.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://petvity.orangecat.ch"><span class="name">petvity</span><span class="what">Pet care</span><span class="door">petvity.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://botsmann.orangecat.ch"><span class="name">botsmann</span><span class="what">Domain assistants</span><span class="door">botsmann.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://substrata.orangecat.ch"><span class="name">substrata</span><span class="what">Physical chokepoints</span><span class="door">substrata.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
     </section>
     <section class="group" id="clients">
-      <h2>Clients</h2>
-      <a class="row" href="https://aoz.orangecat.ch"><span class="name">AOZ Begleitung</span><span class="what">Beyond housing. Built for AOZ.</span><span class="door">aoz.orangecat.ch</span></a>
-      <a class="row" href="https://kivvi.orangecat.ch"><span class="name">kivvi</span><span class="what">ERP for RevampIT</span><span class="door">kivvi.orangecat.ch</span></a>
-      <a class="row" href="https://vitareba.orangecat.ch"><span class="name">Vita</span><span class="what">Clinic</span><span class="door">vitareba.orangecat.ch</span></a>
-      <a class="row" href="https://surf-your-life.orangecat.ch"><span class="name">Surf Your Life</span><span class="what">Burnout and long COVID</span><span class="door">surf-your-life.orangecat.ch</span></a>
-      <a class="row" href="https://printcraft.orangecat.ch"><span class="name">printcraft</span><span class="what">Scene composer</span><span class="door">printcraft.orangecat.ch</span></a>
-      <a class="row" href="https://sinktattoo.com"><span class="name">S.Ink</span><span class="what">Studio site</span><span class="door">sinktattoo.com</span></a>
-      <a class="row" href="https://annushka.orangecat.ch"><span class="name">Annushka</span><span class="what">Painter, shown on a house address</span><span class="door">annushka.orangecat.ch</span></a>
-      <a class="row" href="https://reparaturbonus.orangecat.ch"><span class="name">Reparaturbonus</span><span class="what">Repair bonus, Zurich</span><span class="door">reparaturbonus.orangecat.ch</span></a>
+      <div class="sec"><h2>Clients</h2><span class="count">8</span></div>
+      <a class="row" href="https://aoz.orangecat.ch"><span class="name">AOZ Begleitung</span><span class="what">Beyond housing. Built for AOZ.</span><span class="door">aoz.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://kivvi.orangecat.ch"><span class="name">kivvi</span><span class="what">ERP for RevampIT</span><span class="door">kivvi.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://vitareba.orangecat.ch"><span class="name">Vita</span><span class="what">Clinic</span><span class="door">vitareba.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://surf-your-life.orangecat.ch"><span class="name">Surf Your Life</span><span class="what">Burnout and long COVID</span><span class="door">surf-your-life.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://printcraft.orangecat.ch"><span class="name">printcraft</span><span class="what">Scene composer</span><span class="door">printcraft.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://sinktattoo.com"><span class="name">S.Ink</span><span class="what">Studio site</span><span class="door">sinktattoo.com <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://annushka.orangecat.ch"><span class="name">Annushka</span><span class="what">Painter, shown on a house address</span><span class="door">annushka.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://reparaturbonus.orangecat.ch"><span class="name">Reparaturbonus</span><span class="what">Repair bonus, Zurich</span><span class="door">reparaturbonus.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
     </section>
     <section class="group" id="demos">
-      <h2>Demos</h2>
-      <a class="row" href="https://sbbfundbuero.orangecat.ch"><span class="name">Nordbahn Fundbüro</span><span class="what">Lost on the train, while you are still on it.</span><span class="door">sbbfundbuero.orangecat.ch</span></a>
-      <a class="row" href="https://camille.orangecat.ch"><span class="name">Camille</span><span class="what">Bakery handover demo</span><span class="door">camille.orangecat.ch</span></a>
+      <div class="sec"><h2>Demos</h2><span class="count">2</span></div>
+      <a class="row" href="https://sbbfundbuero.orangecat.ch"><span class="name">Nordbahn Fundbüro</span><span class="what">Lost on the train, while you are still on it.</span><span class="door">sbbfundbuero.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="row" href="https://camille.orangecat.ch"><span class="name">Camille</span><span class="what">Bakery handover demo</span><span class="door">camille.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
     </section>
     <section class="group" id="next">
-      <h2>Not live</h2>
-      <div class="row"><span class="name">Heidi</span><span class="what">Zurich German, for learners</span><span class="door">not live</span></div>
-      <div class="row"><span class="name">Diplodoctor</span><span class="what">Health platform</span><span class="door">not built</span></div>
-      <div class="row"><span class="name">Causius</span><span class="what">Law, same shape as Diplodoctor</span><span class="door">not built</span></div>
-      <div class="row"><span class="name">Skif</span><span class="what">Named. Not written down.</span><span class="door">not live</span></div>
+      <div class="sec"><h2>Not live</h2><span class="count">4</span></div>
+      <div class="row off"><span class="name">Heidi</span><span class="what">Zurich German, for learners</span><span class="door">not live</span></div>
+      <div class="row off"><span class="name">Diplodoctor</span><span class="what">Health platform</span><span class="door">not built</span></div>
+      <div class="row off"><span class="name">Causius</span><span class="what">Law, same shape as Diplodoctor</span><span class="door">not built</span></div>
+      <div class="row off"><span class="name">Skif</span><span class="what">Named. Not written down.</span><span class="door">not live</span></div>
     </section>
-  <footer>Cato. Nothing here is registered. An orangecat.ch name is an address on this box.
-    <span class="src">Generated from the <a href="https://fleetcrown.orangecat.ch/fleet">fleet register</a>, 2026-09-11.</span></footer>
+    <section class="group" id="packages">
+      <div class="sec"><h2>Packages</h2><span class="count">9</span><span class="note">open source &middot; install any of them</span></div>
+      <div class="pkgs">
+      <article class="pkg">
+        <div class="pkg-top"><span class="pkg-name">ai-kit</span><span class="pkg-uses">used in 13 apps</span></div>
+        <p class="pkg-what">Which model to call, whether the vendor still serves it, and what to do when every one of them fails.</p>
+        <code class="pkg-install">pnpm add @bitbaum/ai-kit</code>
+        <div class="pkg-links"><a href="https://github.com/bitbaum/ai-kit">source</a><a href="https://www.npmjs.com/package/@bitbaum/ai-kit">npm</a></div>
+      </article>
+      <article class="pkg">
+        <div class="pkg-top"><span class="pkg-name">mail-kit</span><span class="pkg-uses">used in 11 apps</span></div>
+        <p class="pkg-what">One email layer for every app. Never throws — it returns whether the mail was sent.</p>
+        <code class="pkg-install">pnpm add @bitbaum/mail-kit</code>
+        <div class="pkg-links"><a href="https://github.com/bitbaum/mail-kit">source</a><a href="https://www.npmjs.com/package/@bitbaum/mail-kit">npm</a></div>
+      </article>
+      <article class="pkg">
+        <div class="pkg-top"><span class="pkg-name">bip-kit</span><span class="pkg-uses">used in 8 apps</span></div>
+        <p class="pkg-what">Blog, roadmap and changelog from repo-authored markdown. Typed blocks, your design tokens on top.</p>
+        <code class="pkg-install">pnpm add bip-kit</code>
+        <div class="pkg-links"><a href="https://github.com/bitbaum/bip-kit">source</a><a href="https://www.npmjs.com/package/bip-kit">npm</a></div>
+      </article>
+      <article class="pkg">
+        <div class="pkg-top"><span class="pkg-name">ai-forms</span><span class="pkg-uses">used in 6 apps</span></div>
+        <p class="pkg-what">Fill a form from prose, then refine it in conversation. Headless, so every app keeps its own look.</p>
+        <code class="pkg-install">pnpm add ai-forms</code>
+        <div class="pkg-links"><a href="https://github.com/bitbaum/ai-forms">source</a><a href="https://www.npmjs.com/package/ai-forms">npm</a></div>
+      </article>
+      <article class="pkg">
+        <div class="pkg-top"><span class="pkg-name">limitkit</span><span class="pkg-uses">used in 3 apps</span></div>
+        <p class="pkg-what">Rate limiting as a decision, not middleware. Bounded memory by construction, standard headers.</p>
+        <code class="pkg-install">pnpm add limitkit</code>
+        <div class="pkg-links"><a href="https://github.com/bitbaum/limitkit">source</a><a href="https://www.npmjs.com/package/limitkit">npm</a></div>
+      </article>
+      <article class="pkg">
+        <div class="pkg-top"><span class="pkg-name">threadkit</span><span class="pkg-uses">used in 3 apps</span></div>
+        <p class="pkg-what">Message threads where permission is participation — not a role column. An AI obeys the same rules as a person.</p>
+        <code class="pkg-install">pnpm add threadkit</code>
+        <div class="pkg-links"><a href="https://github.com/bitbaum/threadkit">source</a><a href="https://www.npmjs.com/package/threadkit">npm</a></div>
+      </article>
+      <article class="pkg">
+        <div class="pkg-top"><span class="pkg-name">design-tokens</span><span class="pkg-uses">used in 2 apps</span></div>
+        <p class="pkg-what">One tokens.css behind three products, so a retheme is an edit to one file.</p>
+        <code class="pkg-install">pnpm add @bitbaum/design-tokens</code>
+        <div class="pkg-links"><a href="https://github.com/bitbaum/design-tokens">source</a><a href="https://www.npmjs.com/package/@bitbaum/design-tokens">npm</a></div>
+      </article>
+      <article class="pkg">
+        <div class="pkg-top"><span class="pkg-name">listkit</span><span class="pkg-uses">used in 2 apps</span></div>
+        <p class="pkg-what">A list as a query: facets, a URL you can share, sorting that puts missing values last. No markup.</p>
+        <code class="pkg-install">pnpm add github:bitbaum/listkit#v0.1.0</code>
+        <div class="pkg-links"><a href="https://github.com/bitbaum/listkit">source</a><span>git tag</span></div>
+      </article>
+      <article class="pkg">
+        <div class="pkg-top"><span class="pkg-name">sitekit</span><span class="pkg-uses">used in 2 apps</span></div>
+        <p class="pkg-what">A website as data — a closed set of section shapes, validated, with per-field provenance.</p>
+        <code class="pkg-install">pnpm add @bitbaum/sitekit</code>
+        <div class="pkg-links"><a href="https://github.com/bitbaum/sitekit">source</a><a href="https://www.npmjs.com/package/@bitbaum/sitekit">npm</a></div>
+      </article>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <span>Cato. Nothing here is registered. An orangecat.ch name is an address on this box.</span>
+      <span>Generated from the <a href="https://fleetcrown.orangecat.ch/fleet">fleet register</a>, 2026-09-12, and from the <a href="https://github.com/bitbaum/fleet/blob/main/SHARED.md">package registry</a>.</span>
+    </div>
+  </footer>
 </body>
 </html>
