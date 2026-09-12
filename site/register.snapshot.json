@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-11T13:51:19.114Z",
+  "generatedAt": "2026-09-12T18:42:44.008Z",
   "solonChecked": true,
   "summary": {
-    "projects": 38,
-    "sites": 25,
-    "fleetcrown": 38,
-    "orangecat": 7,
+    "projects": 34,
+    "sites": 19,
+    "fleetcrown": 34,
+    "orangecat": 6,
     "solon": 1
   },
   "rows": [
@@ -118,26 +118,6 @@
       "solon": null
     },
     {
-      "slug": "coldstart-sep10-2339",
-      "name": "coldstart-sep10-2339",
-      "description": null,
-      "repo": "coldstart-sep10-2339",
-      "site": {
-        "url": "https://coldstart-sep10-2339.orangecat.ch",
-        "host": "coldstart-sep10-2339.orangecat.ch",
-        "kind": "client-site",
-        "status": "prospect",
-        "owner": "bitbaum",
-        "since": "2026-09-10"
-      },
-      "fleetcrown": {
-        "id": "eb50ed6d-bd79-40b1-99d6-336f595c5375",
-        "liveUrl": "https://coldstart-sep10-2339.orangecat.ch"
-      },
-      "orangecat": null,
-      "solon": null
-    },
-    {
       "slug": "datacat",
       "name": "datacat",
       "description": null,
@@ -195,28 +175,6 @@
       "solon": null
     },
     {
-      "slug": "dogfood-site-sep10-1201",
-      "name": "dogfood-site-sep10-1201",
-      "description": null,
-      "repo": "dogfood-site-sep10-1201",
-      "site": {
-        "url": "https://dogfood-site-sep10-1201.orangecat.ch",
-        "host": "dogfood-site-sep10-1201.orangecat.ch",
-        "kind": "client-site",
-        "status": "prospect",
-        "owner": "bitbaum",
-        "since": "2026-09-10"
-      },
-      "fleetcrown": {
-        "id": "2c1dc180-70e0-44b0-9c0c-69d2168b31e2",
-        "liveUrl": "https://dogfood-site-sep10-1201.orangecat.ch"
-      },
-      "orangecat": {
-        "projectId": "cfd28b72-aa9c-403f-8ca7-d773414515bb"
-      },
-      "solon": null
-    },
-    {
       "slug": "evig",
       "name": "evig",
       "description": null,
@@ -241,14 +199,7 @@
       "name": "Factory",
       "description": null,
       "repo": "factory-sep11-0040",
-      "site": {
-        "url": "https://factory-sep11-0040.orangecat.ch",
-        "host": "factory-sep11-0040.orangecat.ch",
-        "kind": "demo",
-        "status": "demo",
-        "owner": "bitbaum",
-        "since": "2026-09-11"
-      },
+      "site": null,
       "fleetcrown": {
         "id": "88c811fa-c716-4ca2-a4da-68e1ac6087cd",
         "liveUrl": null
@@ -261,14 +212,7 @@
       "name": "Factory Two",
       "description": null,
       "repo": "factory-sep11-0110",
-      "site": {
-        "url": "https://factory-sep11-0110.orangecat.ch",
-        "host": "factory-sep11-0110.orangecat.ch",
-        "kind": "demo",
-        "status": "demo",
-        "owner": "bitbaum",
-        "since": "2026-09-11"
-      },
+      "site": null,
       "fleetcrown": {
         "id": "97eb0266-712d-42d1-8e9f-ef8fccc65006",
         "liveUrl": null
@@ -335,26 +279,6 @@
       "fleetcrown": {
         "id": "abb3529f-5837-4980-a174-6f0d266f0157",
         "liveUrl": null
-      },
-      "orangecat": null,
-      "solon": null
-    },
-    {
-      "slug": "kaffeeklappe-sep11",
-      "name": "kaffeeklappe-sep11",
-      "description": null,
-      "repo": "kaffeeklappe-sep11",
-      "site": {
-        "url": "https://kaffeeklappe-sep11.orangecat.ch",
-        "host": "kaffeeklappe-sep11.orangecat.ch",
-        "kind": "client-site",
-        "status": "prospect",
-        "owner": "bitbaum",
-        "since": "2026-09-11"
-      },
-      "fleetcrown": {
-        "id": "15d3e7a3-c694-435b-9676-1f91e6e6fc49",
-        "liveUrl": "https://kaffeeklappe-sep11.orangecat.ch"
       },
       "orangecat": null,
       "solon": null
@@ -624,26 +548,6 @@
       "fleetcrown": {
         "id": "4f103f65-20dd-4411-8aaf-8befb734f810",
         "liveUrl": null
-      },
-      "orangecat": null,
-      "solon": null
-    },
-    {
-      "slug": "velokiosk-sep10",
-      "name": "velokiosk-sep10",
-      "description": null,
-      "repo": "velokiosk-sep10",
-      "site": {
-        "url": "https://velokiosk-sep10.orangecat.ch",
-        "host": "velokiosk-sep10.orangecat.ch",
-        "kind": "client-site",
-        "status": "prospect",
-        "owner": "bitbaum",
-        "since": "2026-09-10"
-      },
-      "fleetcrown": {
-        "id": "06ce2bb9-47f9-4aa9-a13b-bbcc73b830bb",
-        "liveUrl": "https://velokiosk-sep10.orangecat.ch"
       },
       "orangecat": null,
       "solon": null
