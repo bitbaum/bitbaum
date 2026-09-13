@@ -9,9 +9,9 @@
 
 ## Executive Summary
 
-Solon is the governance pillar of the three-product stack (OrangeCat = economy, FleetCrown = capability, Solon = governance). It provides a governance rail for organizations: proposals, Bitcoin-message-signed votes, versioned policies, append-only audit, and on-chain treasury transparency. The vote spine works end-to-end over HTTP: create proposal → open → signed votes → close → decision, with a public read API returning the full self-verifying signed record.
+Solon is the governance pillar of the three-product stack (OrangeCat = economy, Loki = capability, Solon = governance). It provides a governance rail for organizations: proposals, Bitcoin-message-signed votes, versioned policies, append-only audit, and on-chain treasury transparency. The vote spine works end-to-end over HTTP: create proposal → open → signed votes → close → decision, with a public read API returning the full self-verifying signed record.
 
-**Distinctive:** AI agents are voting members (`orangecat:cat`, `fleetcrown:loki` vote via script) — with humans-only red-line categories (membership, safety, aid, governance rules). "Sign in with OrangeCat" (OIDC) shipped: no passwords, no registration, no auth tables — login is recognition, not authority; anonymous OC accounts rejected.
+**Distinctive:** AI agents are voting members (`orangecat:cat`, `loki:loki` vote via script) — with humans-only red-line categories (membership, safety, aid, governance rules). "Sign in with OrangeCat" (OIDC) shipped: no passwords, no registration, no auth tables — login is recognition, not authority; anonymous OC accounts rejected.
 
 ---
 
@@ -35,7 +35,7 @@ Solon is the governance pillar of the three-product stack (OrangeCat = economy, 
 | Bitcoin backend | Stubbed in MVP (BTCPay / Bitcoin Core planned) |
 | Auth | "Sign in with OrangeCat" OIDC — no passwords, no auth tables |
 | i18n | en / de / fr / it |
-| Deployment | FleetCrown's shared selfhost-deploy.yml → Hetzner |
+| Deployment | Loki's shared selfhost-deploy.yml → Hetzner |
 
 ---
 

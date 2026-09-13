@@ -1,8 +1,8 @@
 # bitbaum — AI-First Product Studio
 
-**Public site:** [bitbaum.orangecat.ch](https://bitbaum.orangecat.ch) · **Ventures list:** derived from the [fleet register](https://fleetcrown.orangecat.ch/fleet); presentation in `site/overrides.json`
+**Public site:** [bitbaum.orangecat.ch](https://bitbaum.orangecat.ch) · **Ventures list:** derived from the [fleet register](https://loki.orangecat.ch/fleet); presentation in `site/overrides.json`
 
-**Status:** Early Stage — orangecat live · hirn.li launching Q2 2026 · FleetCrown public and live at [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch) (pre-1.0)
+**Status:** Early Stage — orangecat live · hirn.li launching Q2 2026 · Loki public and live at [loki.orangecat.ch](https://loki.orangecat.ch) (pre-1.0)
 **Type:** Organization / Umbrella
 **Inspired By:** ByteDance (multiple products, shared infrastructure)
 
@@ -101,22 +101,22 @@ Not a single product company. Not a consulting agency. A **product studio** that
 
 ---
 
-### 👑 FleetCrown — AI Agent Fleet Command Platform
+### 👑 Loki — AI Agent Fleet Command Platform
 
-**Status:** Public and live at [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch) (pre-1.0, single-builder)
+**Status:** Public and live at [loki.orangecat.ch](https://loki.orangecat.ch) (pre-1.0, single-builder)
 **Vertical:** AI-Agent Orchestration / Personal Operations
-**Codebase:** `/home/g/dev/fleetcrown/` (public repo: [bitbaum/fleetcrown](https://github.com/bitbaum/fleetcrown))
-**Domain:** live at fleetcrown.orangecat.ch. `fleetcrown.com` is **unregistered**.
+**Codebase:** `/home/g/dev/loki/` (public repo: [bitbaum/loki](https://github.com/bitbaum/loki))
+**Domain:** live at loki.orangecat.ch. `loki.com` is **unregistered**.
 
 **Problem:** Builders running multiple projects simultaneously have to context-switch constantly — between codebases, tickets, calendars, contacts, and now dozens of AI agents working in parallel. There's no single command surface where a human captain stays in judgment mode while agents execute.
 
-**Solution:** A captain-mode platform with two surfaces sharing one substrate: **FleetCrown Web** (cloud SaaS for remote command and monitoring) and **Fleet Runner** (local Electron desktop app that executes agent work where the code lives). One interface to track goals, people, habits, money, and events; one neutral orchestration layer to dispatch and monitor AI agents across projects.
+**Solution:** A captain-mode platform with two surfaces sharing one substrate: **Loki Web** (cloud SaaS for remote command and monitoring) and **Fleet Runner** (local Electron desktop app that executes agent work where the code lives). One interface to track goals, people, habits, money, and events; one neutral orchestration layer to dispatch and monitor AI agents across projects.
 
 **Core capabilities:** Control (fleet command center) · Today (calendar/weather/commitments) · People · Projects (with GitHub CI) · Goals · Habits · Money · Prompts · System
 
 **Architecture:** Next.js 16 + Drizzle/Postgres for the web; Electron + local Node "Brain/Bridge/Worker" stack for the desktop runner; agents dispatched into zellij tabs on the user's own machine. Schema-as-SSOT throughout.
 
-**Business Model:** Planned SaaS subscription for FleetCrown Web (cloud command + multi-machine sync); local Fleet Runner free or bundled. **Not billed:** Stripe is dark, CHF 0, 0 paying users. Pricing table is designed, not charged. Hosting is Hetzner (not Vercel).
+**Business Model:** Planned SaaS subscription for Loki Web (cloud command + multi-machine sync); local Fleet Runner free or bundled. **Not billed:** Stripe is dark, CHF 0, 0 paying users. Pricing table is designed, not charged. Hosting is Hetzner (not Vercel).
 
 **Moat:** Local-first execution (no cloud GPU costs, agents work where the code is) + remote command surface (works from anywhere) + neutral orchestration layer (agnostic to which AI provider runs each agent).
 
@@ -219,7 +219,7 @@ Not a single product company. Not a consulting agency. A **product studio** that
 bitbaum AG (Holding)
 ├── orangecat GmbH (SaaS — live)
 ├── hirn.li GmbH (SaaS — pre-launch)
-├── FleetCrown GmbH (SaaS — live, pre-1.0)
+├── Loki GmbH (SaaS — live, pre-1.0)
 └── botsmann GmbH (SaaS — concept)
 
 Revamp-IT (Verein / nonprofit — independent, not part of bitbaum)
@@ -275,7 +275,7 @@ Revamp-IT (Verein / nonprofit — independent, not part of bitbaum)
 
 *‡ "2026 target" = sum of each product's own Year 1 ARR from launch: orangecat CHF 300k + hirn.li CHF 1.2M. hirn.li Year 1 closes Q2 2027 (Investment vertical launches Q1 2027, its own Year 1 = hirn.li Year 2). Calendar year 2026 combined = CHF 1.1M (hirn.li Verein + Kapital only).*
 
-**Honesty (2026-09-03):** orangecat CHF 300k Year-1 ARR is a **target, not current revenue**. OrangeCat has 0 completed payments (as of 2026-07-02) and no institutional customers. FleetCrown: CHF 0 billed, 0 paying. These tables are not in-motion actuals.
+**Honesty (2026-09-03):** orangecat CHF 300k Year-1 ARR is a **target, not current revenue**. OrangeCat has 0 completed payments (as of 2026-07-02) and no institutional customers. Loki: CHF 0 billed, 0 paying. These tables are not in-motion actuals.
 
 ### Profitability
 
@@ -400,7 +400,7 @@ Revamp-IT (Verein / nonprofit — independent, not part of bitbaum)
 3. **Incorporate bitbaum AG** — Holding entity (Zug canton); then hirn.li GmbH before first external investment
 4. **Validate botsmann** — Interview 20 SMBs on AI agent marketplace demand before building
 5. **Register bitbaum.ch** — Corporate/investor-facing site; keep product domains independent
-6. **`fleetcrown.com` is unregistered** — live surface is [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch); do not treat fleetcrown.com as a dated lock or an upcoming launch gate
+6. **`loki.com` is unregistered** — live surface is [loki.orangecat.ch](https://loki.orangecat.ch); do not treat loki.com as a dated lock or an upcoming launch gate
 
 ---
 

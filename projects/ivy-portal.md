@@ -23,7 +23,7 @@ A single-page personal dashboard over George's OpenClaw/"Ivy" assistant infrastr
 
 ## Go-to-market
 
-- **ICP / positioning / first-customer path:** not applicable. If the "personal life OS" thesis ever productizes, that path runs through FleetCrown (which already has the Today/People/Money surfaces multi-user), not this repo.
+- **ICP / positioning / first-customer path:** not applicable. If the "personal life OS" thesis ever productizes, that path runs through Loki (which already has the Today/People/Money surfaces multi-user), not this repo.
 - **Key metrics to move:** none.
 
 ---

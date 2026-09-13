@@ -4,7 +4,7 @@
   "summary": {
     "projects": 34,
     "sites": 19,
-    "fleetcrown": 34,
+    "loki": 34,
     "orangecat": 6,
     "solon": 1
   },
@@ -22,7 +22,7 @@
         "owner": "AOZ",
         "since": "2026-08-13"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "8ba5d91d-54ca-47cb-85d3-9160c10e454b",
         "liveUrl": "https://aoz-wohnen.orangecat.ch"
       },
@@ -35,7 +35,7 @@
       "description": null,
       "repo": "biaslens",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "d99b84f4-3adc-4acd-b468-ace504c9a755",
         "liveUrl": null
       },
@@ -48,7 +48,7 @@
       "description": null,
       "repo": "bitbaum",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "d8ac46d0-862a-4e3d-94fa-1ee120a56d8b",
         "liveUrl": null
       },
@@ -70,7 +70,7 @@
         "owner": "bitbaum",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "53a280fe-7365-407e-8f22-54b2bf2bda8a",
         "liveUrl": "https://botsmann.orangecat.ch"
       },
@@ -90,7 +90,7 @@
         "owner": "bitbaum",
         "since": "2026-08-19"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "4e62d90b-8630-4cc2-9980-b6b589f4890f",
         "liveUrl": null
       },
@@ -110,7 +110,7 @@
         "owner": "bitbaum",
         "since": "2026-09-10"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "f6607808-973c-4fc5-adbc-9e2dbe0f4f7c",
         "liveUrl": null
       },
@@ -130,7 +130,7 @@
         "owner": "bitbaum",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "48bc162a-801c-4e3f-a7d3-ad64cea0abdd",
         "liveUrl": "https://datacat.orangecat.ch"
       },
@@ -150,7 +150,7 @@
         "owner": "bitbaum",
         "since": "2026-09-10"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "23b19ae6-ee90-4e16-8739-1b92af308832",
         "liveUrl": null
       },
@@ -165,7 +165,7 @@
       "description": null,
       "repo": null,
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "5ad1a3e6-1e34-4e78-8db0-9541fbfa175e",
         "liveUrl": null
       },
@@ -187,7 +187,7 @@
         "owner": "bitbaum",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "2d493410-66f8-4c14-8e7f-879fa42a9e62",
         "liveUrl": "https://revampit.orangecat.ch"
       },
@@ -200,7 +200,7 @@
       "description": null,
       "repo": "factory-sep11-0040",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "88c811fa-c716-4ca2-a4da-68e1ac6087cd",
         "liveUrl": null
       },
@@ -213,7 +213,7 @@
       "description": null,
       "repo": "factory-sep11-0110",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "97eb0266-712d-42d1-8e9f-ef8fccc65006",
         "liveUrl": null
       },
@@ -221,14 +221,14 @@
       "solon": null
     },
     {
-      "slug": "fleetcrown",
-      "name": "fleetcrown",
+      "slug": "loki",
+      "name": "loki",
       "description": null,
-      "repo": "fleetcrown",
+      "repo": "loki",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "05dcb767-08b5-4257-99d6-272fe3706c72",
-        "liveUrl": "https://fleetcrown.orangecat.ch"
+        "liveUrl": "https://loki.orangecat.ch"
       },
       "orangecat": {
         "projectId": "8130c927-114a-45b7-8cc2-99efd5224025"
@@ -241,7 +241,7 @@
       "description": null,
       "repo": "hamstercheek",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "f3ff2f28-4fb4-4643-895b-8359b4acb075",
         "liveUrl": null
       },
@@ -261,7 +261,7 @@
         "owner": "bitbaum",
         "since": "2026-09-10"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "0364ab4e-3136-44e4-b81f-98d043151aad",
         "liveUrl": "https://heidi.orangecat.ch"
       },
@@ -276,7 +276,7 @@
       "description": null,
       "repo": "ivy-portal",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "abb3529f-5837-4980-a174-6f0d266f0157",
         "liveUrl": null
       },
@@ -296,7 +296,7 @@
         "owner": "RevampIT",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "3bd5cddc-246f-4dec-96bf-a4c2c9adc829",
         "liveUrl": "https://kivvi.orangecat.ch"
       },
@@ -309,7 +309,7 @@
       "description": null,
       "repo": "lifeops",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "dc3afd67-d776-4834-9d31-f81c6f918e61",
         "liveUrl": null
       },
@@ -322,7 +322,7 @@
       "description": null,
       "repo": "orangecat",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "dd291cd0-4dde-4ade-971f-7fa28f7efa5c",
         "liveUrl": "https://orangecat.ch"
       },
@@ -339,7 +339,7 @@
       "description": null,
       "repo": null,
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "50d7bd84-7b2e-4918-b6b7-7b58ad643813",
         "liveUrl": null
       },
@@ -359,7 +359,7 @@
         "owner": "bitbaum",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "2cad088b-c76a-4407-b7e8-4e9921ee6a18",
         "liveUrl": "https://petvity.orangecat.ch"
       },
@@ -372,7 +372,7 @@
       "description": null,
       "repo": "prime-tower",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "6567af7e-c95c-4655-a3d6-ac834823173e",
         "liveUrl": null
       },
@@ -392,7 +392,7 @@
         "owner": "-",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "9df0417c-22a4-46d3-8f61-943eac57d642",
         "liveUrl": "https://printcraft.orangecat.ch"
       },
@@ -412,7 +412,7 @@
         "owner": "Stadt Zürich?",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "2fdef5ca-b028-4305-bf42-49968c0d1a93",
         "liveUrl": "https://reparaturbonus.orangecat.ch"
       },
@@ -432,7 +432,7 @@
         "owner": "bitbaum",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "8355b25a-de15-46be-b286-96b708dc06f4",
         "liveUrl": "https://revamp-info.orangecat.ch"
       },
@@ -452,7 +452,7 @@
         "owner": "S-Ink",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "905483f5-6ab2-48c8-92aa-e68531533f9d",
         "liveUrl": null
       },
@@ -472,7 +472,7 @@
         "owner": "-",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "63b971da-f8dc-4c1e-8a9c-25566cdff545",
         "liveUrl": "https://sbb.orangecat.ch"
       },
@@ -492,7 +492,7 @@
         "owner": "bitbaum",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "474cec37-2481-4d46-9036-6537f14a480b",
         "liveUrl": "https://solon.orangecat.ch"
       },
@@ -512,7 +512,7 @@
         "owner": "bitbaum",
         "since": "2026-08-27"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "64f150b3-74bf-4b12-959d-541fc3f2c48f",
         "liveUrl": null
       },
@@ -532,7 +532,7 @@
         "owner": "bitbaum",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "cb0b41b0-0d71-429f-b878-c27eafbc9477",
         "liveUrl": "https://surf-your-life.orangecat.ch"
       },
@@ -545,7 +545,7 @@
       "description": null,
       "repo": "truthseeker",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "4f103f65-20dd-4411-8aaf-8befb734f810",
         "liveUrl": null
       },
@@ -565,7 +565,7 @@
         "owner": "clinic",
         "since": "-"
       },
-      "fleetcrown": {
+      "loki": {
         "id": "02a77737-bc62-4e40-ad67-35f16766732a",
         "liveUrl": "https://vitareba.orangecat.ch"
       },
@@ -578,7 +578,7 @@
       "description": null,
       "repo": null,
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "92dbb4c7-bf31-4c73-ad0e-dac63f99e9a7",
         "liveUrl": null
       },
@@ -591,7 +591,7 @@
       "description": null,
       "repo": "annushka",
       "site": null,
-      "fleetcrown": {
+      "loki": {
         "id": "f1ca2eea-d253-41e3-8e5a-a508b1b2e3c0",
         "liveUrl": "https://annushka.orangecat.ch"
       },

@@ -14,7 +14,7 @@ it is. Sign in → drop a map pin on the hiding spot → photo + notes → name 
 recovery contact. The physical box is deliberately **not** fleet work: agents
 build the digital half only.
 
-Kicked off 2026-08-04 through FleetCrown's own "Make it happen" hero. Milestone 1
+Kicked off 2026-08-04 through Loki's own "Make it happen" hero. Milestone 1
 (map pin + notes + photo + detail page) is merged as `c516c8b8`.
 
 ## Tech Stack
