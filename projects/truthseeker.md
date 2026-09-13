@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-Self-described "v0.1 — text-only, English + German articles": paste an article URL (or text) and get structured output — core claims classified, first-principles critique, named sources and people quoted, author/publication bias notes. Historically notable as **the first dogfood project of the FleetCrown bootstrap loop** (documented in a published FleetCrown essay).
+Self-described "v0.1 — text-only, English + German articles": paste an article URL (or text) and get structured output — core claims classified, first-principles critique, named sources and people quoted, author/publication bias notes. Historically notable as **the first dogfood project of the Loki bootstrap loop** (documented in a published Loki essay).
 
 **What's built:** one page, one API route (`/api/analyze`), a small lib (LLM via Groq `llama-3.3-70b`, provider swappable), and a CLI that writes analyses to markdown — one sample analysis committed. Roadmap items (permanent analysis URLs, author profiles, transcript analysis) are unbuilt.
 

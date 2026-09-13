@@ -202,7 +202,7 @@ The closest working system is **revamp-info** (`/home/g/dev/revamp-info`, live a
 - **Positioning one-liner:** "Replace your fundraising team with AI."
 - **Shortest first-paying-customer path:** not via this (nonexistent) codebase — the realistic path runs through revamp-info: prove the pipeline on Revamp-IT (proof already live), replatform multi-tenant, then convert the first external NGO pilot to paid.
 - **Monetization state:** none — pre-launch, no product. All revenue figures in this brief are targets, not actuals.
-- **Key metrics to move:** none active. Fleet GTM (2026-08) deprioritizes everything outside vitareba/kivvi/evig/fleetcrown until one of those has a paying customer.
+- **Key metrics to move:** none active. Fleet GTM (2026-08) deprioritizes everything outside vitareba/kivvi/evig/loki until one of those has a paying customer.
 
 ---
 

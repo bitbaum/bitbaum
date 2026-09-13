@@ -1,16 +1,16 @@
-# fleetcrown — Fleet Command for AI Agent Runtimes
+# loki — Fleet Command for AI Agent Runtimes
 
 **Status:** Active Development (Live, pre-1.0, single-builder)
 **Tagline:** "The captain's bridge over AI agent runtimes — not a runtime, not an agent"
-**URL:** [fleetcrown.orangecat.ch](https://fleetcrown.orangecat.ch) · fleetcrown.com **unregistered** (see blocker)
-**Repo:** [github.com/bitbaum/fleetcrown](https://github.com/bitbaum/fleetcrown) (public)
-**Codebase:** `/home/g/dev/fleetcrown/`
+**URL:** [loki.orangecat.ch](https://loki.orangecat.ch) · loki.com **unregistered** (see blocker)
+**Repo:** [github.com/bitbaum/loki](https://github.com/bitbaum/loki) (public)
+**Codebase:** `/home/g/dev/loki/`
 
 ---
 
 ## Executive Summary
 
-FleetCrown is a multi-user SaaS for commanding AI agent fleets across projects: sign in with GitHub, register projects, dispatch and monitor agents from one dashboard. Strategy: **"borrow the workers, own the bridge"** — coding agents (Claude Code, Cursor, Codex, Grok Build, OpenClaw, …) are adapters in a registry, not rivals; 6 runtimes live. One assistant identity ("Loki") over a swappable runtime roster. Sibling stack: OrangeCat (economy), Solon (governance); FleetCrown is OrangeCat's first customer.
+Loki is a multi-user SaaS for commanding AI agent fleets across projects: sign in with GitHub, register projects, dispatch and monitor agents from one dashboard. Strategy: **"borrow the workers, own the bridge"** — coding agents (Claude Code, Cursor, Codex, Grok Build, OpenClaw, …) are adapters in a registry, not rivals; 6 runtimes live. One assistant identity ("Loki") over a swappable runtime roster. Sibling stack: OrangeCat (economy), Solon (governance); Loki is OrangeCat's first customer.
 
 **Moat:** cross-model verification (a single agent's judge would be itself), fleet-wide governance and visibility, self-improvement loop wired to the OrangeCat economy.
 
@@ -49,7 +49,7 @@ AI-assisted solo builders run 3–15 projects with no dashboard: no cross-projec
 - Stripe fully coded (checkout, portal, webhook) behind `isStripeReady()`; **zero price IDs configured** → monetization scaffolded but dark. Parallel dark rail: OrangeCat pay (`src/lib/oc-pay.ts`)
 - Revenue to date: **CHF 0**
 - 90-day targets (master plan 2026-07): ≥10 external users with a connected runner · ≥5 paying customers · median signup→first successful dispatch <30 min
-- **Blocker:** fleetcrown.com unregistered — the brand/domain decision blocks paid marketing, not the product. No paid ads before that decision (GTM rule).
+- **Blocker:** loki.com unregistered — the brand/domain decision blocks paid marketing, not the product. No paid ads before that decision (GTM rule).
 
 ---
 
@@ -64,7 +64,7 @@ AI-assisted solo builders run 3–15 projects with no dashboard: no cross-projec
 - Share buttons on every essay (`ShareBar`)
 - Social queue: `content/social/queue.md` — X + LinkedIn drafts only; nothing posts without founder approval
 
-**Planned:** 1 essay/week + cross-post drafts the next day; HN/lobste.rs for the 3 engineering deep-dives; outbound GTM agent dogfooding FleetCrown's own approval queue ("FleetCrown runs its own outbound") — buying-signal-triggered, sourced dossiers, any reply halts the queue.
+**Planned:** 1 essay/week + cross-post drafts the next day; HN/lobste.rs for the 3 engineering deep-dives; outbound GTM agent dogfooding Loki's own approval queue ("Loki runs its own outbound") — buying-signal-triggered, sourced dossiers, any reply halts the queue.
 
 ---
 

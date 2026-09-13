@@ -3,7 +3,7 @@
 //
 // What this page is: the studio's ventures, grouped as Products, Clients,
 // Demos and Not live. What it is NOT: a list anyone types. The list comes from
-// FleetCrown's public register (which joins the hosting register with project
+// Loki's public register (which joins the hosting register with project
 // profiles), and this file only decides presentation via overrides.json.
 //
 // Why: the previous companies.json had drifted from reality within days — it
@@ -19,7 +19,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const REGISTER_URL = process.env.FLEET_REGISTER_URL ?? "https://fleetcrown.orangecat.ch/api/fleet/register";
+const REGISTER_URL = process.env.FLEET_REGISTER_URL ?? "https://loki.orangecat.ch/api/fleet/register";
 const SNAPSHOT = join(here, "register.snapshot.json");
 // The packages are NOT the fleet register: ventures are things that run,
 // packages are things you install. Two different objects, so two sources —

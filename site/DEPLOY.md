@@ -11,8 +11,8 @@ way is what made the distinction invisible.
 ## Where the list comes from
 
 Nobody types the list. It is derived from the fleet register —
-<https://fleetcrown.orangecat.ch/api/fleet/register> (human view:
-<https://fleetcrown.orangecat.ch/fleet>) — which FleetCrown builds from the
+<https://loki.orangecat.ch/api/fleet/register> (human view:
+<https://loki.orangecat.ch/fleet>) — which Loki builds from the
 hosting register (`apps.conf`) joined with project profiles. That register is
 the one place a project's existence, host and status are recorded.
 
@@ -41,9 +41,9 @@ What this repository owns is presentation only, in `site/overrides.json`:
 | `door`    | text in the right column when there is no URL (`not built`)     |
 | `url`     | override the register's URL                                     |
 | `packages` | one-line tagline per package slug, over the derived registry |
-| `extras`  | things the register does not know (no host row): OrangeCat and FleetCrown themselves, Annushka's static page, a name with nothing written down yet |
+| `extras`  | things the register does not know (no host row): OrangeCat and Loki themselves, Annushka's static page, a name with nothing written down yet |
 
-So: a new site provisioned through FleetCrown appears in the register within
+So: a new site provisioned through Loki appears in the register within
 minutes, and on this page once someone writes its line here.
 
 ## Build and publish

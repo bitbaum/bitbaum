@@ -3,14 +3,14 @@
 **Status:** Idea / scaffold only — no product decision has been made
 **Tagline:** none yet
 **URL:** none
-**Codebase:** none locally; the FleetCrown profile describes a generated Next.js starter
+**Codebase:** none locally; the Loki profile describes a generated Next.js starter
 
 ---
 
 ## Executive Summary
 
 **Read this before doing any work here.** "Prime tower" is currently a
-FleetCrown-generated Next.js starter — root layout, home page, globals.css —
+Loki-generated Next.js starter — root layout, home page, globals.css —
 named after Zurich's Prime Tower. Its recorded mission ("provide information
 about the Prime Tower to its audience") is the scaffold's own placeholder, not a
 decision George made.

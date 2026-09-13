@@ -11,7 +11,7 @@
 
 Provider-agnostic core + React hook + server route factory implementing the fleet's AI-form standard. An app conforms when: forms fill from prose, refine by talking, never overwrite user typing, AI edits are reversible and visible, and page-aware chat can drive the form. Core mechanism: `fill` vs `refine` intent decides who wins on merge conflicts.
 
-**Consumers (verified):** FleetCrown (merged — config SSOT, API route, assist bar, six New-X buttons, conformance script in CI) and aoz-housing (in-flight on a worktree, not yet merged to its main).
+**Consumers (verified):** Loki (merged — config SSOT, API route, assist bar, six New-X buttons, conformance script in CI) and aoz-housing (in-flight on a worktree, not yet merged to its main).
 
 Stack: pure TypeScript ESM, React optional peer dep, `node --test`. MIT in package.json (LICENSE file missing — known gap).
 
@@ -19,7 +19,7 @@ Stack: pure TypeScript ESM, React optional peer dep, `node --test`. MIT in packa
 
 ## Business Model
 
-- **Monetization state: none, and none intended** — this is shared fleet infrastructure. Its value is realized inside the products that consume it (a FleetCrown differentiator, an aoz-housing demo feature).
+- **Monetization state: none, and none intended** — this is shared fleet infrastructure. Its value is realized inside the products that consume it (a Loki differentiator, an aoz-housing demo feature).
 
 ---
 
