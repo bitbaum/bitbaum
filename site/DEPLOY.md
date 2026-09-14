@@ -25,10 +25,17 @@ line in particular is taken from what adopters actually write rather than
 assumed from the package name: `listkit`'s npm name belongs to a stranger, so
 `pnpm add listkit` would install the wrong package.
 
-Both sources snapshot locally (`map.snapshot.json`,
-`packages.snapshot.json`) so `--offline` builds work, and a missing package
-registry throws rather than quietly producing a page with no packages on it —
-that would read exactly like "we have none".
+The origin ledger is derived from a third source —
+<https://raw.githubusercontent.com/bitbaum/fleet/main/registers/origin.json>,
+which `bitbaum/fleet`'s nightly origin-proof workflow builds from its
+OpenTimestamps manifests, GitHub's first-commit dates and Software Heritage's
+archive. Git dates are set by whoever commits; every date in that section is
+from a clock nobody here controls, and the page types none of them.
+
+All three sources snapshot locally (`map.snapshot.json`,
+`packages.snapshot.json`, `origin.snapshot.json`) so `--offline` builds work,
+and a missing source throws rather than quietly producing a page with nothing
+on it — that would read exactly like "we have none".
 
 What this repository owns is presentation only, in `site/overrides.json`:
 

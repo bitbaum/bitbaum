@@ -99,6 +99,23 @@ a.row:hover .arrow { transform: translateX(3px); }
 .pkg-links a { border: 1px solid transparent; }
 .pkg-links a:hover { color: var(--accent); border-color: var(--line-2); background: var(--bg); }
 
+/* ── origin: a ledger, because a proof is a row you check, not a card ──── */
+.origin-lead { margin: 1.1rem 0 0; max-width: 62ch; color: var(--muted); font-size: 0.9rem; line-height: 1.55; }
+.origin-lead a { border-bottom: 1px solid var(--line-2); }
+.origin-lead a:hover { color: var(--fg); }
+.ledger { margin-top: 1.25rem; border-top: 1px solid var(--line-2); font-variant-numeric: tabular-nums; }
+.ledger-row, .ledger-head { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); gap: 0.25rem 1.5rem; align-items: baseline; padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-size: 0.875rem; }
+.ledger-head { padding-block: 0.55rem; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
+.ledger-name { font-family: var(--serif); font-size: 1.1rem; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.ledger-name:hover { color: var(--accent); }
+.ledger-cell { color: var(--muted); }
+.ledger-cell a { border-bottom: 1px solid var(--line-2); }
+.ledger-cell a:hover { color: var(--fg); }
+.ledger-dim { color: var(--dim); }
+/* Column headers live in each cell and hide on wide screens: the layout is
+   the header there, and on a phone the cells stack so each needs its name. */
+.ledger-label { display: none; }
+
 /* ── footer ─────────────────────────────────────────────────────────────── */
 footer { border-top: 1px solid var(--line); margin-top: 1rem; }
 footer .wrap { padding-block: 2.5rem 3.5rem; color: var(--dim); font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
@@ -117,6 +134,11 @@ footer a:hover { color: var(--fg); }
   .top nav { gap: 1rem; min-width: 0; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   .top nav::-webkit-scrollbar { display: none; }
   .top nav a { white-space: nowrap; }
+  .ledger-head { display: none; }
+  .ledger-dim { display: block; }
+  .ledger-row { grid-template-columns: 1fr 1fr; gap: 0.3rem 1rem; padding-block: 0.85rem; }
+  .ledger-name { grid-column: 1 / -1; }
+  .ledger-label { display: block; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 .what .now { display: block; font-size: 0.78rem; color: var(--dim); margin-top: 0.2rem; }
@@ -134,6 +156,7 @@ footer a:hover { color: var(--fg); }
         <a href="#demos">Demos</a>
         <a href="#next">Not live</a>
         <a href="#packages">Packages</a>
+        <a href="#origin">Origin</a>
         <a href="map.json">map.json</a>
       </nav>
     </div>
@@ -143,7 +166,7 @@ footer a:hover { color: var(--fg); }
       <h1>The work, each its own.</h1>
       <p class="lead">One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.</p>
       <p class="pillars"><span><b>OrangeCat</b> economic</span><span><b>Loki</b> capability</span><span><b>Solon</b> governance</span></p>
-      <p class="stats"><span><b>19</b> live systems</span><span><b>9</b> open-source packages</span><span><b>1</b> run in flight</span><span><b>1</b> server</span></p>
+      <p class="stats"><span><b>19</b> live systems</span><span><b>9</b> open-source packages</span><span><b>1</b> run in flight</span><span><b>44</b> repos with proven origin</span><span><b>1</b> server</span></p>
     </div>
     <section class="group" id="products">
       <div class="sec"><h2>Products</h2><span class="count">9</span></div>
@@ -237,6 +260,277 @@ footer a:hover { color: var(--fg); }
         <code class="pkg-install">pnpm add @bitbaum/sitekit</code>
         <div class="pkg-links"><a href="https://github.com/bitbaum/sitekit">source</a><a href="https://www.npmjs.com/package/@bitbaum/sitekit">npm</a></div>
       </article>
+      </div>
+    </section>
+    <section class="group" id="origin">
+      <div class="sec"><h2>Origin</h2><span class="count">44</span><span class="note">git dates prove nothing &middot; these clocks are not ours</span></div>
+      <p class="origin-lead">Every repository's HEAD is stamped nightly through <a href="https://opentimestamps.org/">OpenTimestamps</a> and archived by <a href="https://www.softwareheritage.org/">Software Heritage</a>. First anchored in Bitcoin block 966918, 14 Sep 2026. 44 of 44 proven, 19 archived, 3 private repositories stamped but not listed. <a href="https://github.com/bitbaum/fleet/tree/main/proofs/origin">The proofs</a> &middot; <a href="https://raw.githubusercontent.com/bitbaum/fleet/main/registers/origin.json">origin.json</a></p>
+      <div class="ledger">
+        <div class="ledger-head" aria-hidden="true"><span>repository</span><span>first commit</span><span>proven since</span><span>archived</span></div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/botsmann">botsmann</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>14 Oct 2024</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fbotsmann">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/botsmann-blog-content">botsmann-blog-content</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>4 Mar 2025</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fbotsmann-blog-content">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/orangecat">orangecat</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>2 Apr 2025</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/evig">evig</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>8 Apr 2025</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/fitfoot">fitfoot</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>27 May 2025</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/reparaturbonus-zh">reparaturbonus-zh</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>18 Jun 2025</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Freparaturbonus-zh">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/datacat">datacat</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>7 Jul 2025</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/solon">solon</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>26 Aug 2025</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fsolon">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/botsmann-knowledge-content">botsmann-knowledge-content</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>12 Jan 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fbotsmann-knowledge-content">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/aoz-housing">aoz-housing</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>22 Jan 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Faoz-housing">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/sbb-fundbuero">sbb-fundbuero</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>23 Jan 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/hirnli">hirnli</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>5 Feb 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/kivvi">kivvi</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>11 Feb 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/dotfiles">dotfiles</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>18 Feb 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/g-but">g-but</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>25 Feb 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/ivy-portal">ivy-portal</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>17 Mar 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/printcraft">printcraft</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>26 Mar 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fprintcraft">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/loki">loki</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>4 Apr 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Floki">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/surf-your-life">surf-your-life</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>10 Apr 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/vitareba">vitareba</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>13 Apr 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fvitareba">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/petvity">petvity</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>20 Apr 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/loki-releases">loki-releases</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>3 Jun 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Floki-releases">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/truthseeker">truthseeker</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>5 Jun 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/biaslens">biaslens</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>8 Jul 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fbiaslens">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/bitbaum">bitbaum</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>17 Jul 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fbitbaum">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/ai-forms">ai-forms</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>4 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fai-forms">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/hamstercheek">hamstercheek</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>4 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fhamstercheek">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/s-ink">s-ink</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>6 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/design-tokens">design-tokens</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>14 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fdesign-tokens">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/hire">hire</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>15 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/ai-kit">ai-kit</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>16 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fai-kit">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/threadkit">threadkit</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>16 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/limitkit">limitkit</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>20 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/bip-kit">bip-kit</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>20 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fbip-kit">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/crewless">crewless</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>22 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/substrata">substrata</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>27 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/camille-boulangerie">camille-boulangerie</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>27 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/sitekit">sitekit</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>28 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/fleet">fleet</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>28 Aug 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Ffleet">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/mail-kit">mail-kit</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>5 Sep 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/diplodoctor">diplodoctor</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>10 Sep 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/heidi">heidi</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>10 Sep 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fheidi">14 Sep 2026</a></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/causius">causius</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>10 Sep 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/listkit">listkit</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>11 Sep 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
       </div>
     </section>
   </main>
