@@ -99,6 +99,23 @@ a.row:hover .arrow { transform: translateX(3px); }
 .pkg-links a { border: 1px solid transparent; }
 .pkg-links a:hover { color: var(--accent); border-color: var(--line-2); background: var(--bg); }
 
+/* ── origin: a ledger, because a proof is a row you check, not a card ──── */
+.origin-lead { margin: 1.1rem 0 0; max-width: 62ch; color: var(--muted); font-size: 0.9rem; line-height: 1.55; }
+.origin-lead a { border-bottom: 1px solid var(--line-2); }
+.origin-lead a:hover { color: var(--fg); }
+.ledger { margin-top: 1.25rem; border-top: 1px solid var(--line-2); font-variant-numeric: tabular-nums; }
+.ledger-row, .ledger-head { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); gap: 0.25rem 1.5rem; align-items: baseline; padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-size: 0.875rem; }
+.ledger-head { padding-block: 0.55rem; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
+.ledger-name { font-family: var(--serif); font-size: 1.1rem; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.ledger-name:hover { color: var(--accent); }
+.ledger-cell { color: var(--muted); }
+.ledger-cell a { border-bottom: 1px solid var(--line-2); }
+.ledger-cell a:hover { color: var(--fg); }
+.ledger-dim { color: var(--dim); }
+/* Column headers live in each cell and hide on wide screens: the layout is
+   the header there, and on a phone the cells stack so each needs its name. */
+.ledger-label { display: none; }
+
 /* ── footer ─────────────────────────────────────────────────────────────── */
 footer { border-top: 1px solid var(--line); margin-top: 1rem; }
 footer .wrap { padding-block: 2.5rem 3.5rem; color: var(--dim); font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
@@ -117,6 +134,11 @@ footer a:hover { color: var(--fg); }
   .top nav { gap: 1rem; min-width: 0; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   .top nav::-webkit-scrollbar { display: none; }
   .top nav a { white-space: nowrap; }
+  .ledger-head { display: none; }
+  .ledger-dim { display: block; }
+  .ledger-row { grid-template-columns: 1fr 1fr; gap: 0.3rem 1rem; padding-block: 0.85rem; }
+  .ledger-name { grid-column: 1 / -1; }
+  .ledger-label { display: block; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 .what .now { display: block; font-size: 0.78rem; color: var(--dim); margin-top: 0.2rem; }

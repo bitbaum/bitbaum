@@ -35,6 +35,17 @@ const PACKAGES_URL =
   "https://raw.githubusercontent.com/bitbaum/fleet/main/registers/packages.json";
 const PACKAGES_SNAPSHOT = join(here, "packages.snapshot.json");
 
+// Origin is a third kind of object again: not something you visit or install
+// but something you can CHECK. Git dates are set by whoever commits, so the
+// page shows clocks nobody here controls — GitHub's first-commit date, the
+// Bitcoin block an OpenTimestamps manifest naming the repo is anchored in, and
+// Software Heritage's archive date. Derived nightly by bitbaum/fleet from its
+// proofs/origin; this page renders it and types none of it.
+const ORIGIN_URL =
+  process.env.FLEET_ORIGIN_URL ??
+  "https://raw.githubusercontent.com/bitbaum/fleet/main/registers/origin.json";
+const ORIGIN_SNAPSHOT = join(here, "origin.snapshot.json");
+
 const GROUPS = [
   ["products", "Products"],
   ["clients", "Clients"],
@@ -95,6 +106,34 @@ function ago(iso, now) {
   return `${Math.floor(days / 30)} months ago`;
 }
 
+/** "14 Sep 2026" — absolute, because a proof is a date, not a feeling. */
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function day(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+}
+
+/** One ledger row: the repo and its three clocks. Missing clocks say so. */
+function originRowHtml(r) {
+  const name = r.repo.replace(/^[^/]+\//, "");
+  const first = r.firstCommit ? day(r.firstCommit.date) : day(r.createdAt);
+  const proven = r.provenSince
+    ? `${day(r.provenSince.at)} <span class="ledger-dim">&middot; block ${r.provenSince.block}</span>`
+    : r.stamped
+      ? `<span class="ledger-dim">stamped ${day(r.stamped.at)}, awaiting a block</span>`
+      : `<span class="ledger-dim">not yet stamped</span>`;
+  const archive = r.swh
+    ? `<a href="${esc(r.swh.url)}">${day(r.swh.date)}</a>`
+    : `<span class="ledger-dim">not yet</span>`;
+  return `        <div class="ledger-row">
+          <a class="ledger-name" href="${esc(r.url)}">${esc(name)}</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>${esc(first)}</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span>${proven}</span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span>${archive}</span>
+        </div>`;
+}
+
 /** The one line under a venture that says what last moved on it. */
 /** One line, not a paragraph: a dev-log entry is a report, the page is a glance. */
 function oneLine(text, max = 110) {
@@ -148,7 +187,7 @@ function pkgHtml(p, editorial) {
       </article>`;
 }
 
-export function build(map, packages, cfg, now = Date.now()) {
+export function build(map, packages, cfg, now = Date.now(), origin = null) {
   const ov = cfg.overrides ?? {};
   const ventures = [];
   const seen = new Set();
@@ -207,12 +246,37 @@ ${pkgRows}
     </section>`
     : "";
 
+  // Oldest first: the ledger reads as a history, and the point of it is "since".
+  const originRows = [...(origin?.repos ?? [])]
+    .sort((a, b) => (a.firstCommit?.date ?? a.createdAt).localeCompare(b.firstCommit?.date ?? b.createdAt))
+    .map(originRowHtml)
+    .join("\n");
+  const provenCount = (origin?.repos ?? []).filter((r) => r.provenSince).length;
+  const archivedCount = (origin?.repos ?? []).filter((r) => r.swh).length;
+  const firstProven = (origin?.repos ?? [])
+    .map((r) => r.provenSince)
+    .filter(Boolean)
+    .sort((a, b) => a.at.localeCompare(b.at))[0];
+  const originSection = originRows
+    ? `    <section class="group" id="origin">
+      <div class="sec"><h2>Origin</h2><span class="count">${origin.repos.length}</span><span class="note">git dates prove nothing &middot; these clocks are not ours</span></div>
+      <p class="origin-lead">Every repository's HEAD is stamped nightly through <a href="https://opentimestamps.org/">OpenTimestamps</a> and archived by <a href="https://www.softwareheritage.org/">Software Heritage</a>. ${
+        firstProven ? `First anchored in Bitcoin block ${firstProven.block}, ${day(firstProven.at)}. ` : ""
+      }${provenCount} of ${origin.repos.length} proven, ${archivedCount} archived${origin.privateRepos ? `, ${origin.privateRepos} private ${origin.privateRepos === 1 ? "repository" : "repositories"} stamped but not listed` : ""}. <a href="${esc(origin.proofs.dir)}">The proofs</a> &middot; <a href="${esc(ORIGIN_URL)}">origin.json</a></p>
+      <div class="ledger">
+        <div class="ledger-head" aria-hidden="true"><span>repository</span><span>first commit</span><span>proven since</span><span>archived</span></div>
+${originRows}
+      </div>
+    </section>`
+    : "";
+
   const liveCount = (counts.products ?? 0) + (counts.clients ?? 0) + (counts.demos ?? 0);
   const pkgCount = (packages.packages ?? []).length;
   const inFlight = map.summary?.inFlight ?? 0;
   const navItems = [
     ...GROUPS.filter(([id]) => counts[id] > 0),
     ...(pkgRows ? [["packages", "Packages"]] : []),
+    ...(originRows ? [["origin", "Origin"]] : []),
   ];
   const pillars = (map.pillars ?? [])
     .map((p) => {
@@ -237,10 +301,11 @@ ${navItems.map(([id, t]) => `        <a href="#${id}">${t}</a>`).join("\n")}
       <h1>The work, each its own.</h1>
       <p class="lead">${esc(map.thesis ?? "Products, client systems, and the shared packages they are all built from.")}</p>
       <p class="pillars">${pillars}</p>
-      <p class="stats"><span><b>${liveCount}</b> live systems</span><span><b>${pkgCount}</b> open-source packages</span><span><b>${inFlight}</b> ${inFlight === 1 ? "run" : "runs"} in flight</span><span><b>1</b> server</span></p>
+      <p class="stats"><span><b>${liveCount}</b> live systems</span><span><b>${pkgCount}</b> open-source packages</span><span><b>${inFlight}</b> ${inFlight === 1 ? "run" : "runs"} in flight</span>${provenCount ? `<span><b>${provenCount}</b> repos with proven origin</span>` : ""}<span><b>1</b> server</span></p>
     </div>
 ${sections}
 ${pkgSection}
+${originSection}
   </main>
   <footer>
     <div class="wrap">
@@ -261,11 +326,12 @@ if (isMain) {
   if (args.has("--check")) args.add("--offline");
   const map = await fetchOrSnapshot(MAP_URL, SNAPSHOT, "fleet map");
   const packages = await fetchOrSnapshot(PACKAGES_URL, PACKAGES_SNAPSHOT, "package registry");
+  const origin = await fetchOrSnapshot(ORIGIN_URL, ORIGIN_SNAPSHOT, "origin register");
   const cfg = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
   // The page is rendered against a fixed clock in --check so "3 days ago" does
   // not make a fresh generation differ from the committed one by the hour.
   const clock = new Date(map.generatedAt ?? Date.now()).getTime();
-  const html = build(map, packages, cfg, clock);
+  const html = build(map, packages, cfg, clock, origin);
   const target = join(here, "index.html");
   const mapTarget = join(here, "map.json");
   const mapJson = JSON.stringify(map, null, 2) + "\n";
@@ -282,7 +348,7 @@ if (isMain) {
     writeFileSync(mapTarget, mapJson);
     const n = (html.match(/class="row(?: off)?"/g) || []).length;
     console.log(
-      `wrote site/index.html + site/map.json (${n} ventures, ${(packages.packages ?? []).length} packages, map ${map.generatedAt ?? "snapshot"})`,
+      `wrote site/index.html + site/map.json (${n} ventures, ${(packages.packages ?? []).length} packages, ${(origin.repos ?? []).length} origin rows, map ${map.generatedAt ?? "snapshot"})`,
     );
   }
 }
