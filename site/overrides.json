@@ -106,27 +106,19 @@
       "group": "next",
       "door": "not built",
       "order": 3
+    },
+    "orangecat": {
+      "name": "OrangeCat",
+      "what": "Economic agent",
+      "order": 1
+    },
+    "loki": {
+      "name": "Loki",
+      "what": "Execution OS",
+      "order": 2
     }
   },
   "extras": [
-    {
-      "slug": "orangecat",
-      "name": "OrangeCat",
-      "what": "Economic agent",
-      "url": "https://orangecat.ch",
-      "group": "products",
-      "order": 1,
-      "_why": "served from the main Caddyfile, not registered in apps.conf yet"
-    },
-    {
-      "slug": "loki",
-      "name": "Loki",
-      "what": "Execution OS",
-      "url": "https://loki.orangecat.ch",
-      "group": "products",
-      "order": 2,
-      "_why": "same; and the register deliberately excludes its own host"
-    },
     {
       "slug": "wild-spirit",
       "name": "Annushka",

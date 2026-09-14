@@ -12,7 +12,7 @@ bitbaum is a solo-founder AI product studio: multiple vertical SaaS products on 
 
 ## What This Repo Is
 
-This is a **documentation-only** repository — no code, no tests, no deployments. It contains the strategic vision, product specs, and business plans for all bitbaum products.
+This repository holds the strategic vision, product briefs and business plans for all bitbaum products — plus `site/`, the generator for bitbaum.orangecat.ch. The site is a VIEW: `site/generate.mjs` renders Loki's public fleet map (https://loki.orangecat.ch/api/fleet/map — every project with purpose, layer, state, doors and last movement) and publishes it next to the page as `map.json`. Never type a venture into the page; describe it in its Loki profile and it appears.
 
 ## Structure
 

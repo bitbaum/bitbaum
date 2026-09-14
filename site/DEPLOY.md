@@ -11,7 +11,7 @@ way is what made the distinction invisible.
 ## Where the list comes from
 
 Nobody types the list. It is derived from the fleet register —
-<https://loki.orangecat.ch/api/fleet/register> (human view:
+<https://loki.orangecat.ch/api/fleet/map> (human view:
 <https://loki.orangecat.ch/fleet>) — which Loki builds from the
 hosting register (`apps.conf`) joined with project profiles. That register is
 the one place a project's existence, host and status are recorded.
@@ -25,7 +25,7 @@ line in particular is taken from what adopters actually write rather than
 assumed from the package name: `listkit`'s npm name belongs to a stranger, so
 `pnpm add listkit` would install the wrong package.
 
-Both sources snapshot locally (`register.snapshot.json`,
+Both sources snapshot locally (`map.snapshot.json`,
 `packages.snapshot.json`) so `--offline` builds work, and a missing package
 registry throws rather than quietly producing a page with no packages on it —
 that would read exactly like "we have none".
@@ -49,13 +49,13 @@ minutes, and on this page once someone writes its line here.
 ## Build and publish
 
 ```bash
-node site/generate.mjs             # fetches the register, writes site/index.html and site/register.snapshot.json
+node site/generate.mjs             # fetches the map, writes site/index.html, site/map.json and site/map.snapshot.json
 node site/generate.mjs --offline   # builds from the snapshot (no network)
 node site/generate.mjs --check     # exit 1 if index.html is stale
 site/publish.sh                    # --check, then scp index.html to the box (keeps a .bak)
 ```
 
-`register.snapshot.json` is committed so the page can be rebuilt without the
+`map.snapshot.json` is committed so the page can be rebuilt without the
 API and so a diff shows what changed in the register between two builds.
 
 ## Files
@@ -65,7 +65,7 @@ site/
 ├── index.html               # generated — do not edit by hand
 ├── head.html                # <head> and styles, the design
 ├── overrides.json           # editorial layer (see above)
-├── register.snapshot.json   # last register the page was built from
+├── map.snapshot.json   # last map the page was built from
 ├── generate.mjs             # the build
 ├── publish.sh               # the deploy
 └── DEPLOY.md

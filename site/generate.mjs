@@ -1,33 +1,40 @@
 #!/usr/bin/env node
-// bitbaum.orangecat.ch — generated from the fleet register.
+// bitbaum.orangecat.ch — generated from the fleet MAP.
 //
 // What this page is: the studio's ventures, grouped as Products, Clients,
-// Demos and Not live. What it is NOT: a list anyone types. The list comes from
-// Loki's public register (which joins the hosting register with project
-// profiles), and this file only decides presentation via overrides.json.
+// Demos and Not live, each with what it is and the last thing that moved on
+// it — and, next to it, the same map as machine-readable JSON (map.json) for
+// anyone (or any agent) who wants the studio's shape without scraping a page.
+// What it is NOT: a list anyone types. The list comes from Loki's public map
+// (the register — hosting facts joined with project profiles — plus purpose,
+// layer, state and activity), and this file only decides presentation via
+// overrides.json.
 //
 // Why: the previous companies.json had drifted from reality within days — it
 // named aoz-wohnen (renamed), sent evig to revampit.orangecat.ch (a redirect),
 // listed sbb.orangecat.ch (retired) — and the page that was actually live had
 // been edited by hand on the server with no source here at all.
 //
-//   node site/generate.mjs            fetch register, write index.html + snapshot
-//   node site/generate.mjs --offline  build from site/register.snapshot.json
+//   node site/generate.mjs            fetch map, write index.html + map.json + snapshots
+//   node site/generate.mjs --offline  build from site/map.snapshot.json
 //   node site/generate.mjs --check    exit 1 if index.html differs from generation
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const REGISTER_URL = process.env.FLEET_REGISTER_URL ?? "https://loki.orangecat.ch/api/fleet/register";
-const SNAPSHOT = join(here, "register.snapshot.json");
-// The packages are NOT the fleet register: ventures are things that run,
-// packages are things you install. Two different objects, so two sources —
-// this one is derived by bitbaum/fleet's shared-registry audit from real
-// package.json data across the org, never typed. Same fetch-or-snapshot
-// contract as the register above.
-const PACKAGES_URL = process.env.FLEET_PACKAGES_URL ?? "https://raw.githubusercontent.com/bitbaum/fleet/main/registers/packages.json";
+const MAP_URL = process.env.FLEET_MAP_URL ?? "https://loki.orangecat.ch/api/fleet/map";
+const SNAPSHOT = join(here, "map.snapshot.json");
+
+// The packages are NOT the fleet map: ventures are things that run, packages
+// are things you install. Two different objects, so two sources — this one is
+// derived by bitbaum/fleet's shared-registry audit from real package.json data
+// across the org, never typed. Same fetch-or-snapshot contract as the map.
+const PACKAGES_URL =
+  process.env.FLEET_PACKAGES_URL ??
+  "https://raw.githubusercontent.com/bitbaum/fleet/main/registers/packages.json";
 const PACKAGES_SNAPSHOT = join(here, "packages.snapshot.json");
+
 const GROUPS = [
   ["products", "Products"],
   ["clients", "Clients"],
@@ -37,92 +44,90 @@ const GROUPS = [
 
 const args = new Set(process.argv.slice(2));
 
-async function loadRegister() {
+async function fetchOrSnapshot(url, snapshot, what) {
   if (!args.has("--offline")) {
     try {
-      const res = await fetch(REGISTER_URL, { signal: AbortSignal.timeout(8000) });
+      const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
       if (res.ok) {
         const json = await res.json();
-        writeFileSync(SNAPSHOT, JSON.stringify(json, null, 2) + "\n");
+        writeFileSync(snapshot, JSON.stringify(json, null, 2) + "\n");
         return json;
       }
-      console.error(`register answered ${res.status}; using snapshot`);
+      console.error(`${what} answered ${res.status}; using snapshot`);
     } catch (e) {
-      console.error(`register unreachable (${e?.message ?? e}); using snapshot`);
+      console.error(`${what} unreachable (${e?.message ?? e}); using snapshot`);
     }
   }
-  if (!existsSync(SNAPSHOT)) throw new Error("no register and no snapshot — cannot build");
-  return JSON.parse(readFileSync(SNAPSHOT, "utf8"));
+  // A missing source must not silently produce a page with nothing on it —
+  // that reads exactly like "we have none".
+  if (!existsSync(snapshot)) throw new Error(`no ${what} and no snapshot — cannot build`);
+  return JSON.parse(readFileSync(snapshot, "utf8"));
 }
 
-async function loadPackages() {
-  if (!args.has("--offline")) {
-    try {
-      const res = await fetch(PACKAGES_URL, { signal: AbortSignal.timeout(8000) });
-      if (res.ok) {
-        const json = await res.json();
-        writeFileSync(PACKAGES_SNAPSHOT, JSON.stringify(json, null, 2) + "\n");
-        return json;
-      }
-      console.error(`package registry answered ${res.status}; using snapshot`);
-    } catch (e) {
-      console.error(`package registry unreachable (${e?.message ?? e}); using snapshot`);
-    }
+/** The map's layer → this page's section. Overrides win. */
+function groupFor(p) {
+  switch (p.layer) {
+    case "economic":
+    case "capability":
+    case "governance":
+    case "product":
+      return p.status === "live" ? "products" : "next";
+    case "client":
+      return p.status === "live" ? "clients" : "next";
+    case "demo":
+      return "demos";
+    default:
+      return null; // the map also holds factory test sites and half-day prospects
   }
-  if (!existsSync(PACKAGES_SNAPSHOT)) {
-    // A missing package registry must not silently produce a page with no
-    // packages on it — that reads exactly like "we have none".
-    throw new Error("no package registry and no snapshot — cannot build");
-  }
-  return JSON.parse(readFileSync(PACKAGES_SNAPSHOT, "utf8"));
-}
-
-/**
- * Default group from the register's own facts; overrides win.
- * Returns null for anything not live: the "Not live" section is curated by
- * hand (a `group: "next"` override), because the register also holds factory
- * test sites and half-day prospects that nobody wants on the front page.
- */
-function defaultGroup(row) {
-  const s = row.site;
-  if (!s) return null;
-  if (s.kind === "demo" || s.status === "demo") return "demos";
-  if (s.status !== "live") return null;
-  if (s.kind === "product") return "products";
-  if (s.kind === "client-app" || s.kind === "client-site") return "clients";
-  return null;
 }
 
 function esc(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 }
 
-function rowHtml(v) {
+/** "3 days ago" for a stamp, "" when there is none. Coarse on purpose. */
+function ago(iso, now) {
+  if (!iso) return "";
+  const days = Math.floor((now - new Date(iso).getTime()) / 86_400_000);
+  if (days <= 0) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 30) return `${days} days ago`;
+  return `${Math.floor(days / 30)} months ago`;
+}
+
+/** The one line under a venture that says what last moved on it. */
+function nowLine(p, now) {
+  const log = p.now?.lastLog;
+  const run = p.now?.lastRun;
+  const open = p.now?.openRuns ?? 0;
+  const parts = [];
+  if (open > 0) parts.push(open === 1 ? "1 run in flight" : `${open} runs in flight`);
+  if (log?.done) parts.push(`${ago(log.date.includes("T") ? log.date : `${log.date}T12:00:00Z`, now)}: ${log.done}`);
+  else if (run) parts.push(`last run ${run.outcome}, ${ago(run.at, now)}`);
+  return parts.join(" · ");
+}
+
+function rowHtml(v, now) {
   const live = Boolean(v.url) && v.group !== "next";
   const door = v.door ?? (v.url ? v.url.replace(/^https?:\/\//, "") : "not live");
-  // The door is the promise of the row, so it carries a direction marker when
-  // it is walkable and a pill when it is not. Previously a live venture and an
-  // unbuilt one rendered identically and a visitor could not tell them apart.
   const doorHtml = live
     ? `<span class="door">${esc(door)} <span class="arrow" aria-hidden="true">&rarr;</span></span>`
     : `<span class="door">${esc(door)}</span>`;
-  const inner = `<span class="name">${esc(v.name)}</span><span class="what">${esc(v.what)}</span>${doorHtml}`;
+  const line = nowLine(v, now);
+  const nowHtml = line ? `<span class="now">${esc(line)}</span>` : "";
+  const inner = `<span class="name">${esc(v.name)}</span><span class="what">${esc(v.what)}${nowHtml}</span>${doorHtml}`;
   return live
     ? `      <a class="row" href="${esc(v.url)}">${inner}</a>`
     : `      <div class="row off">${inner}</div>`;
 }
 
-/**
- * A package is not a venture: you install it, you do not visit it. So it gets
- * its own shape — the install line is the primary action, and the adopter
- * count is the honest trust signal, derived rather than claimed.
- */
 function pkgHtml(p, editorial) {
   const what = editorial?.what ?? p.description ?? "";
   const uses = p.adopters === 1 ? "used in 1 app" : `used in ${p.adopters} apps`;
-  const npmHref = p.install.source === "npm"
-    ? `https://www.npmjs.com/package/${encodeURIComponent(p.name).replace("%40", "@").replace("%2F", "/")}`
-    : null;
+  const npmHref =
+    p.install.source === "npm"
+      ? `https://www.npmjs.com/package/${encodeURIComponent(p.name).replace("%40", "@").replace("%2F", "/")}`
+      : null;
   const links = [
     `<a href="${esc(p.repo)}">source</a>`,
     npmHref ? `<a href="${esc(npmHref)}">npm</a>` : `<span>git tag</span>`,
@@ -135,34 +140,37 @@ function pkgHtml(p, editorial) {
       </article>`;
 }
 
-function build(register, packages, cfg) {
+export function build(map, packages, cfg, now = Date.now()) {
   const ov = cfg.overrides ?? {};
   const ventures = [];
-  for (const r of register.rows) {
-    const o = ov[r.slug];
-    // No tagline, no row: the register lists every host on the box, including
-    // factory test sites and half-day prospects. Writing the one line in
-    // overrides.json is the editorial act that puts something on this page.
-    if (!o?.what) continue;
-    const group = o.group ?? defaultGroup(r);
+  const seen = new Set();
+  for (const p of map.projects) {
+    const o = ov[p.slug] ?? {};
+    // The map's own purpose line is the default; overrides.json can still
+    // shorten or replace it. No line anywhere, no row: a venture nobody has
+    // described in one sentence is not ready to be shown.
+    const what = o.what ?? p.what;
+    if (!what) continue;
+    const group = o.group ?? groupFor(p);
     if (!group) continue;
-    const url = o.url ?? r.site?.url ?? null;
+    seen.add(p.slug);
     ventures.push({
-      slug: r.slug,
-      name: o.name ?? r.name ?? r.slug,
-      what: o.what,
-      url,
+      slug: p.slug,
+      name: o.name ?? p.name ?? p.slug,
+      what,
+      url: o.url ?? p.urls?.live ?? null,
       door: o.door,
       group,
       order: o.order ?? 99,
+      now: p.now,
     });
   }
-  for (const x of cfg.extras ?? []) ventures.push({ order: 0, ...x });
-  // An extra that the register has since learned about would render twice.
-  const seen = new Set();
-  for (const v of ventures) {
-    if (seen.has(v.slug)) throw new Error(`${v.slug} is both in the register and in extras — drop the extra`);
-    seen.add(v.slug);
+  // Extras exist for things the map cannot know yet. Once the map learns
+  // about one, the map wins and the extra is skipped — a page must never show
+  // the same venture twice, and it must never go stale for having been typed.
+  for (const x of cfg.extras ?? []) {
+    if (seen.has(x.slug)) continue;
+    ventures.push({ order: 0, ...x });
   }
 
   const counts = {};
@@ -174,7 +182,7 @@ function build(register, packages, cfg) {
     if (!items.length) return "";
     return `    <section class="group" id="${id}">
       <div class="sec"><h2>${title}</h2><span class="count">${items.length}</span></div>
-${items.map(rowHtml).join("\n")}
+${items.map((v) => rowHtml(v, now)).join("\n")}
     </section>`;
   })
     .filter(Boolean)
@@ -193,8 +201,18 @@ ${pkgRows}
 
   const liveCount = (counts.products ?? 0) + (counts.clients ?? 0) + (counts.demos ?? 0);
   const pkgCount = (packages.packages ?? []).length;
-
-  const navItems = [...GROUPS.filter(([id]) => counts[id] > 0), ...(pkgRows ? [["packages", "Packages"]] : [])];
+  const inFlight = map.summary?.inFlight ?? 0;
+  const navItems = [
+    ...GROUPS.filter(([id]) => counts[id] > 0),
+    ...(pkgRows ? [["packages", "Packages"]] : []),
+  ];
+  const pillars = (map.pillars ?? [])
+    .map((p) => {
+      const v = ventures.find((x) => x.slug === p.slug);
+      const name = v?.name ?? p.slug;
+      return `<span><b>${esc(name)}</b> ${esc(p.layer)}</span>`;
+    })
+    .join("");
   const head = readFileSync(join(here, "head.html"), "utf8");
   return `${head}<body>
   <header class="top">
@@ -202,14 +220,16 @@ ${pkgRows}
       <a class="mark" href="#top">bitbaum</a>
       <nav>
 ${navItems.map(([id, t]) => `        <a href="#${id}">${t}</a>`).join("\n")}
+        <a href="map.json">map.json</a>
       </nav>
     </div>
   </header>
   <main class="wrap">
     <div class="hero" id="top">
       <h1>The work, each its own.</h1>
-      <p class="lead">Products, client systems, and the shared packages they are all built from. One person, one box, no crew.</p>
-      <p class="stats"><span><b>${liveCount}</b> live systems</span><span><b>${pkgCount}</b> open-source packages</span><span><b>1</b> server</span></p>
+      <p class="lead">${esc(map.thesis ?? "Products, client systems, and the shared packages they are all built from.")}</p>
+      <p class="pillars">${pillars}</p>
+      <p class="stats"><span><b>${liveCount}</b> live systems</span><span><b>${pkgCount}</b> open-source packages</span><span><b>${inFlight}</b> ${inFlight === 1 ? "run" : "runs"} in flight</span><span><b>1</b> server</span></p>
     </div>
 ${sections}
 ${pkgSection}
@@ -217,7 +237,7 @@ ${pkgSection}
   <footer>
     <div class="wrap">
       <span>Cato. Nothing here is registered. An orangecat.ch name is an address on this box.</span>
-      <span>Generated from the <a href="${esc(REGISTER_URL.replace(/\/api\/.*/, "/fleet"))}">fleet register</a>${register.generatedAt ? `, ${register.generatedAt.slice(0, 10)}` : ""}, and from the <a href="https://github.com/bitbaum/fleet/blob/main/SHARED.md">package registry</a>.</span>
+      <span>Generated from the <a href="${esc(MAP_URL)}">fleet map</a>${map.generatedAt ? `, ${esc(map.generatedAt.slice(0, 10))}` : ""} &middot; <a href="map.json">map.json</a></span>
     </div>
   </footer>
 </body>
@@ -225,24 +245,36 @@ ${pkgSection}
 `;
 }
 
-const register = await loadRegister();
-const packages = await loadPackages();
-const cfg = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
-const html = build(register, packages, cfg);
-const target = join(here, "index.html");
-if (args.has("--check")) {
-  const current = existsSync(target) ? readFileSync(target, "utf8") : "";
-  if (current !== html) {
-    console.error("index.html differs from the register — run: node site/generate.mjs");
-    process.exit(1);
+const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+if (isMain) {
+  // --check proves the committed page matches the committed snapshot. It must
+  // NOT refetch: the map carries a generatedAt that changes on every call, so
+  // a live fetch would make every check fail and the gate would be deleted.
+  if (args.has("--check")) args.add("--offline");
+  const map = await fetchOrSnapshot(MAP_URL, SNAPSHOT, "fleet map");
+  const packages = await fetchOrSnapshot(PACKAGES_URL, PACKAGES_SNAPSHOT, "package registry");
+  const cfg = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
+  // The page is rendered against a fixed clock in --check so "3 days ago" does
+  // not make a fresh generation differ from the committed one by the hour.
+  const clock = new Date(map.generatedAt ?? Date.now()).getTime();
+  const html = build(map, packages, cfg, clock);
+  const target = join(here, "index.html");
+  const mapTarget = join(here, "map.json");
+  const mapJson = JSON.stringify(map, null, 2) + "\n";
+  if (args.has("--check")) {
+    const current = existsSync(target) ? readFileSync(target, "utf8") : "";
+    const currentMap = existsSync(mapTarget) ? readFileSync(mapTarget, "utf8") : "";
+    if (current !== html || currentMap !== mapJson) {
+      console.error("index.html / map.json differ from the map — run: node site/generate.mjs");
+      process.exit(1);
+    }
+    console.log("index.html and map.json are in sync with the map");
+  } else {
+    writeFileSync(target, html);
+    writeFileSync(mapTarget, mapJson);
+    const n = (html.match(/class="row(?: off)?"/g) || []).length;
+    console.log(
+      `wrote site/index.html + site/map.json (${n} ventures, ${(packages.packages ?? []).length} packages, map ${map.generatedAt ?? "snapshot"})`,
+    );
   }
-  console.log("index.html is in sync with the register");
-} else {
-  writeFileSync(target, html);
-  // `class="row"` and `class="row off"` are both rows. Matching the exact
-  // string silently under-counted by four the moment not-live rows gained a
-  // modifier — a build log reporting a number nobody checks is worse than one
-  // reporting none.
-  const n = (html.match(/class="row(?: off)?"/g) || []).length;
-  console.log(`wrote site/index.html (${n} ventures, ${(packages.packages ?? []).length} packages, register ${register.generatedAt ?? "snapshot"})`);
 }
