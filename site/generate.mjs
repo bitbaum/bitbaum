@@ -96,13 +96,21 @@ function ago(iso, now) {
 }
 
 /** The one line under a venture that says what last moved on it. */
+/** One line, not a paragraph: a dev-log entry is a report, the page is a glance. */
+function oneLine(text, max = 110) {
+  const t = String(text).replace(/\s+/g, " ").trim();
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max);
+  return `${cut.slice(0, Math.max(cut.lastIndexOf(" "), 60))}…`;
+}
+
 function nowLine(p, now) {
   const log = p.now?.lastLog;
   const run = p.now?.lastRun;
   const open = p.now?.openRuns ?? 0;
   const parts = [];
   if (open > 0) parts.push(open === 1 ? "1 run in flight" : `${open} runs in flight`);
-  if (log?.done) parts.push(`${ago(log.date.includes("T") ? log.date : `${log.date}T12:00:00Z`, now)}: ${log.done}`);
+  if (log?.done) parts.push(`${ago(log.date.includes("T") ? log.date : `${log.date}T12:00:00Z`, now)}: ${oneLine(log.done)}`);
   else if (run) parts.push(`last run ${run.outcome}, ${ago(run.at, now)}`);
   return parts.join(" · ");
 }
