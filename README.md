@@ -1,4 +1,4 @@
-# bitbaum — AI-First Product Studio
+# bitbaum — the studio
 
 **Public site:** [bitbaum.orangecat.ch](https://bitbaum.orangecat.ch) · **Ventures list:** derived from the [fleet register](https://loki.orangecat.ch/fleet); presentation in `site/overrides.json`
 

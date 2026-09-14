@@ -1,0 +1,931 @@
+{
+  "generatedAt": "2026-09-14T01:45:29.416Z",
+  "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
+  "pillars": [
+    {
+      "slug": "orangecat",
+      "layer": "economic",
+      "role": "Move value: identity, entities, Bitcoin settlement, the economy that remembers need."
+    },
+    {
+      "slug": "loki",
+      "layer": "capability",
+      "role": "Get work built: a captain over a fleet of agents, with verification and approval built in."
+    },
+    {
+      "slug": "solon",
+      "layer": "governance",
+      "role": "Coordinate without a coercive state: signed voting, transparent treasury, rules people can recount."
+    }
+  ],
+  "summary": {
+    "projects": 35,
+    "live": 14,
+    "clients": 5,
+    "inFlight": 1
+  },
+  "projects": [
+    {
+      "slug": "loki",
+      "name": "loki",
+      "what": "Capability layer: a captain over a fleet of AI agents that builds and ships projects, with verification and approval built in — improve it by typing into it",
+      "stack": "Next.js 16 App Router · TypeScript strict · Tailwind 4 + ui-* design system (globals.css SSOT) · Drizzle ORM + PostgreSQL 17 (self-hosted Hetzner) · box-runner + Fleet Runner desktop (Electron, node-pty) · pgvector fleet-knowledge RAG (fastembed 384-dim) · Auth.js (GitHub/Google/X/email + OrangeCat OIDC)",
+      "layer": "capability",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://loki.orangecat.ch",
+        "repo": "https://github.com/bitbaum/loki",
+        "orangecat": "https://orangecat.ch/projects/8130c927-114a-45b7-8cc2-99efd5224025",
+        "solon": null
+      },
+      "next": "EMPTY — nothing mid-flight in this repo. On the box: run the two ln -sfn commands below then restart the unit.",
+      "now": {
+        "openRuns": 1,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-09-14T00:27:35.019Z"
+        },
+        "lastLog": {
+          "date": "2026-09-11",
+          "done": "Diagnosed sbb-fundbuero-app.service (a separate, non-loki app hosted on the box, port 4016) as a box-side deploy artifact, not a loki repo bug: loki's own register (scripts/hetzner/apps.conf) is already correct — it was renamed to nordbahn-fundbuero and reverted back to sbb-fundbuero same-day in #649 — but the app's most recent release (/opt/sbb-fundbuero/releases/20260911-123358-de3c8d7; the three prior releases are fine) has launch.sh and .env symlinked to the now-nonexistent /opt/nordbahn-fundbuero/shared/*, so the service 203/EXECs in a restart loop. /opt is out of my sandbox by design, so I did not touch it; gave the operator the exact repoint+restart commands instead. No loki repo change was needed or made."
+        }
+      }
+    },
+    {
+      "slug": "orangecat",
+      "name": "orangecat",
+      "what": "Economic layer: Bitcoin-native identity, entities and settlement — the economy that remembers need, where Cat is every actor's AI economic agent",
+      "stack": "Next.js 15 · TypeScript · Supabase (self-hosted on the bitbaum box) · BTC/Lightning (NWC, LNURL, Alby) · pgvector (Cat memory) · Groq + OpenRouter BYOK · OIDC provider (PKCE, JWKS, refresh rotation)",
+      "layer": "economic",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://orangecat.ch",
+        "repo": "https://github.com/bitbaum/orangecat",
+        "orangecat": "https://orangecat.ch/projects/cb093f00-8745-4579-98df-050ebfb37181",
+        "solon": "https://solon.orangecat.ch/orgs/orangecat"
+      },
+      "next": "(1) FOUNDER — seven apps on this box share ONE OpenRouter key (fingerprint match on /opt/*/app/.env); OrangeCat's own key is on a DIFFERENT account, while two unused keys named \"OrangeCat Prod 2026-06-10\" / \"OrangeCat Production\" sit on the account at openrouter.ai/workspaces/default/keys. HAZARD: \"OrangeCat Prod 2026-06-10\" is deployed on evig, kivvi and sbb-fundbuero — rotating it by name breaks three client apps, not OrangeCat. (2) CEREBRAS_API_KEY in /opt/orangecat/app/.env activates a third link with no deploy (probed: /v1/models answers 403). (3) ADR-0008 D4 computer use: gate DONE, executor needs a sandboxed browser per user. (4) Migrate OrangeCat onto ai-kit's chain/meter — it hand-rolled parallel copies of both.\ndone-latest: #1006 corrects #1005 — I wrote three vendors FROM MEMORY into the file about model rot; probing found GitHub Models RETIRED (410, github_models_retirement_brownout) and Google's OpenAI-compat /models 404. Only Cerebras answers. REJECTED_VENDORS records why, so nobody re-adds them.\ndone-also: measured, not assumed — Groq's link carries 1 prior exchange on a create-intent turn (6115-tok selected prompt + 1024 reply reserve vs 8000 TPM), 4 on light chat. Prompt weight is DIFFUSE: 17 sections, largest 713 tok, 12 sections to reach 90% — so a \"prompt diet\" is a twelve-section rewrite, not one cut. cat_messages.tool_calls migration applied and PostgREST knows the column (200 vs 400 control).\nci: green through #1005. Every PR mutation-tested; mutation found 3 real defects a green suite hid.",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-08-29T14:50:24.514Z"
+        },
+        "lastLog": {
+          "date": "2026-09-12",
+          "done": "Cat frontier + free-AI reliability. ~20 PRs merged (#982, #985..#1006). ADR-0008 D1 (ask the MODEL not the provider — BYOK/local keys get the tool loop), D2 (local models ACT), D3 (capability-gate.ts — a capability is a ROW; a denial names WHICH term refused), D5 (chip labels derived from CAT_ACTIONS). ADR-0007 D6 (promotion drafts, never posts). Then the reliability thread: #1000 the free chain's FIRST LINK had never worked (Groq step offered a registry-METERED model, so every free user 402'd on our own paywall and fell through to OpenRouter — 49 of 55 prod messages came from OpenRouter, ONE from Groq); #1003 the health report now runs on a clock (it had TWO callers, both requiring a human to ask); #1004 one catalogue check for the whole chain, via ai-kit; #1005/#1006 independent free vendor buckets, inert until keyed."
+        }
+      }
+    },
+    {
+      "slug": "solon",
+      "name": "solon",
+      "what": "Governance layer: Bitcoin-signed voting, transparent treasury and Ostrom-style rules — humans and agents both first-class voters",
+      "stack": null,
+      "layer": "governance",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://solon.orangecat.ch",
+        "repo": "https://github.com/bitbaum/solon",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": "PR #133 said \"CI and .nvmrc follow the box to Node 24\" but no .nvmrc was ever committed — ci.yml pins node-version 24 while the shared deploy workflow annotates \"no .nvmrc — building on Node 20\" and ships an artifact built on the older major. Commit a root .nvmrc reading 24 so the deployed build matches what CI validated.",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "success",
+          "at": "2026-09-01T04:10:10.797Z"
+        },
+        "lastLog": {
+          "date": "2026-09-01",
+          "done": "Resolved a diverged local main (1 unpushed commit, 20 behind) by re-landing its still-needed content on a branch — renamed the last catomean/maonakamoto references to bitbaum across the /about and /security source links, ecosystem.ts, README, the design-tokens git dependency and the sweep script — and fixed npm run verify, which was failing locally on .claude/worktrees/ and .claude/settings.local.json, files CI never sees; merged as PR #135, Deploy green, health 200 and both live pages now link to github.com/bitbaum/solon."
+        }
+      }
+    },
+    {
+      "slug": "datacat",
+      "name": "datacat",
+      "what": "AI data capture & analysis",
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://datacat.orangecat.ch",
+        "repo": "https://github.com/bitbaum/datacat",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": "Nothing mid-flight. Resume from the founder's answer to blockers/pending/backend-not-deployed.md (1 port endpoints into Next, 2 deploy Express as a second app, 3 mark ingestion+/databases unavailable) and erfassung-greenlight.md; move each to applied/ once answered. Repo healthy at b75e927, verify gates green, preflight clean.",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "error",
+          "at": "2026-09-13T04:01:19.349Z"
+        },
+        "lastLog": {
+          "date": "2026-09-11",
+          "done": "Surfaced the two pending blockers unchanged (rule 0) and repaired local drift only — main was 7 behind origin, preflight --fix brought it to b75e927 and reinstalled backend node_modules for the vitest 5 bump; confirmed the box serves release 20260911-012659-b75e927 (datacat-web-app active; the first Deploy run for that SHA failed at 01:20 UTC, the rerun at 01:25 succeeded) and /, /blog, /ingest/image return 200."
+        }
+      }
+    },
+    {
+      "slug": "evig",
+      "name": "evig",
+      "what": "Admin platform — 30+ sections, 165 tables",
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://evig.orangecat.ch",
+        "repo": "https://github.com/bitbaum/evig",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": "The 448 test failures are pre-existing and unrelated to this fix (TypeError: React.act is not a function, across 32 unrelated suites e.g. StatusBadge, ProtocolFormClient, DecisionListClient — a react-dom/@testing-library-vs-React-19 incompatibility, likely from a recent dependency bump). Last known-good was 7747 pass/0 fail on 2026-07-28. Also note: this box's node_modules was not installed at session start, and its global NODE_ENV=production makes plain `npm ci` silently omit devDependencies — use `npm ci --include=dev` here.",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "partial",
+          "at": "2026-08-29T11:33:40.687Z"
+        },
+        "lastLog": {
+          "date": "2026-08-29",
+          "done": "Fixed visitor-reported bug — mobile-menu \"Experimentelle Site\" banner rendered unconditionally with an empty href even though ORG.websiteLegacy is '' for evig; gated it on ORG.websiteLegacy in src/components/layout/MobileMenu.tsx, verified live in a browser (dev server, 390px, mobile drawer opened, banner/link confirmed gone via screenshot), pushed branch fix/hide-empty-legacy-site-banner, opened PR #406 (https://github.com/bitbaum/evig/pull/406)."
+        }
+      }
+    },
+    {
+      "slug": "petvity",
+      "name": "petvity",
+      "what": null,
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://petvity.orangecat.ch",
+        "repo": "https://github.com/bitbaum/petvity",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-07-02T23:17:33.589Z"
+        },
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "revamp-info",
+      "name": "revamp-info",
+      "what": "Internal fundraising dashboard",
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://revamp-info.orangecat.ch",
+        "repo": "https://github.com/bitbaum/revamp-info",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": "Two loose ends, neither touched (out of scope for this incident): (1) systemd unit appcron-revamp-info-deadline-reminder.service still shows `failed` from the pre-fix 09:00 UTC run — cosmetic only, self-clears at tomorrow's 09:00 UTC timer fire, or clear now with `sudo systemctl reset-failed appcron-revamp-info-deadline-reminder.service` (state-clear only, not a restart). (2) `npm run test` now exits 1 in a fresh checkout even though all 876 tests pass — 7 \"Cannot access '__vite_ssr_import_N__' before initialization\" / EnvironmentTeardownError unhandled rejections from module-load-time circular imports among src/lib/config/foundations/index.ts (runs runQualityGate at import time) → foundation-quality.ts → foundation-helpers.ts → schemas/foundation.ts. Reproduces 100% (also with --no-file-parallelism, ruling out worker contention on this loaded box). Never investigated before because this checkout had no node_modules/.next until this run. Worth a real look next session.",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "partial",
+          "at": "2026-09-03T19:44:34.436Z"
+        },
+        "lastLog": {
+          "date": "2026-09-03",
+          "done": "Diagnosed appcron-revamp-info-deadline-reminder's HTTP 500 — root cause was the missing pg_hba.conf grant for the new `hirnli` DB/`revampit` user (flagged by the prior run). Found the grant already present in /etc/postgresql/17/main/pg_hba.conf (added 2026-09-03 10:56 UTC, after the prior handoff) and confirmed live: replayed the exact cron call (GET 127.0.0.1:4012/api/cron/deadline-reminder with the real CRON_SECRET from /opt/revamp-info/app/.env) and got HTTP 200 with a real DB-backed response. Box-shaped fix was already applied by a human; no repo change was needed or made."
+        }
+      }
+    },
+    {
+      "slug": "substrata",
+      "name": "substrata",
+      "what": null,
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": "2026-08-27",
+      "urls": {
+        "live": "https://substrata.orangecat.ch",
+        "repo": "https://github.com/bitbaum/substrata",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "surf-your-life",
+      "name": "surf-your-life",
+      "what": null,
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://surf-your-life.orangecat.ch",
+        "repo": "https://github.com/bitbaum/surf-your-life",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": "EMPTY — box-shaped blocker needs George on bitbaum: either (A) append OPENAI_API_KEY to /opt/surf-your-life/shared/.env, restart surf-your-life-app.service, and clear the failed cron unit, or (B) disable appcron-surf-your-life-embed-backfill.timer if embeddings aren't wanted yet. Exact copy-paste commands are in ~/.loki/sessions/surf-your-life.blockers/pending/openai-api-key-missing.md.",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-09-13T14:51:52.320Z"
+        },
+        "lastLog": {
+          "date": "2026-09-11",
+          "done": "Diagnosed appcron-surf-your-life-embed-backfill.service's HTTP 503 as the same known, intentional fail-closed behavior (8th+ recurrence) — confirmed origin/main's app/api/cron/embed-backfill/route.ts is unchanged since PR #33 and still returns 503 in production when OPENAI_API_KEY is unset; no repo bug, no code change made. Ran pnpm verify on the current branch (feat/loki-feedback-widget) as a general health check — clean."
+        }
+      }
+    },
+    {
+      "slug": "aoz-housing",
+      "name": "aoz-housing",
+      "what": "Refugee housing placement",
+      "stack": null,
+      "layer": "client",
+      "status": "live",
+      "owner": "AOZ",
+      "since": "2026-08-13",
+      "urls": {
+        "live": "https://aoz.orangecat.ch",
+        "repo": "https://github.com/bitbaum/aoz-housing",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "partial",
+          "at": "2026-08-25T19:51:14.912Z"
+        },
+        "lastLog": {
+          "date": "2026-08-25",
+          "done": "Second consecutive next_best with no human message and nothing in rules 0-8; stopping rather than inventing T2."
+        }
+      }
+    },
+    {
+      "slug": "kivvi",
+      "name": "kivvi",
+      "what": "AI-first ERP for Swiss SMEs",
+      "stack": null,
+      "layer": "client",
+      "status": "live",
+      "owner": "RevampIT",
+      "since": null,
+      "urls": {
+        "live": "https://kivvi.orangecat.ch",
+        "repo": "https://github.com/bitbaum/kivvi",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": "Holding for Mao's scope before any real repo work. status:working intentionally pauses auto-inject so no real task auto-dispatches while he is hands-off. On his go/project-name: claim Loki's enqueued starter task, execute in a git worktree, verify (tsc+lint+tests), echo result with SHA, open PR.\ncommit: none",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-07-02T23:09:27.100Z"
+        },
+        "lastLog": {
+          "date": "2026-07-06",
+          "done": "Stood up the Kivvi↔Loki agent bus (agent-msg CLI + inbox auto-check hook), proved the round-trip over BOTH the file-inbox and the pending_commands queue channel, locked the collaboration protocol, and retired a case-drift session-file duplicate."
+        }
+      }
+    },
+    {
+      "slug": "reparaturbonus-zh",
+      "name": "reparaturbonus-zh",
+      "what": null,
+      "stack": null,
+      "layer": "client",
+      "status": "unverified",
+      "owner": "Stadt Zürich?",
+      "since": null,
+      "urls": {
+        "live": "https://reparaturbonus.orangecat.ch",
+        "repo": "https://github.com/bitbaum/reparaturbonus-zh",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": "PRODUCTION WORKSHOP DIRECTORY IS EMPTY — live https://reparaturbonus.orangecat.ch/api/shops returns [], and it is not the demo fallback (a database error would return the three mock shops; an empty array means the query ran and matched nothing). So the production `shops` table has no rows with isActive=true, /shops shows a resident nothing, and the sitemap correctly lists zero workshop URLs. That is a data/ops problem, not code, and seeding a live database is a founder decision rather than an autopilot one — needs a human to decide whether to seed prod or import the real certified-shop list. Two smaller items, both unactioned and out of this scope: src/app/verify/page.tsx:217 tells shop staff the upload limit is 5MB while the server limit in src/lib/uploads.ts:15 is 10MB; and src/types/shop.ts duplicates CATEGORY_LABELS from src/lib/constants/categories.ts (SSOT violation). Note also there is no /api/health route in this repo, so the deploy health check named in CLAUDE.md cannot run here — liveness was confirmed instead by fetching robots.txt, sitemap.xml and page HTML from production.",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-09-09T05:00:05.561Z"
+        },
+        "lastLog": {
+          "date": "2026-09-01",
+          "done": "Shipped search and social discoverability — app/robots.ts and app/sitemap.ts (public pages plus every active workshop from the database, revalidated hourly), a per-route server layout giving each public page its own title/description/canonical, per-workshop metadata on /shops/[id], noindex on admin/dashboard/auth, and a one-registry SSOT (lib/constants/page-metadata.ts) that both the layouts and the sitemap read, guarded by src/lib/seo.test.ts which reads the real app/ directory so an unregistered page fails the build and the suite. Merged as ea8e3a8 (PR #129), Deploy green, verified live: robots.txt and sitemap.xml serve on reparaturbonus.orangecat.ch, every page renders its own title, canonical and og:image (og:image 200 image/png)."
+        }
+      }
+    },
+    {
+      "slug": "s-ink",
+      "name": "sink",
+      "what": null,
+      "stack": null,
+      "layer": "client",
+      "status": "live",
+      "owner": "S-Ink",
+      "since": null,
+      "urls": {
+        "live": "https://sinktattoo.com",
+        "repo": "https://github.com/bitbaum/sink",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "vitareba",
+      "name": "vitareba",
+      "what": null,
+      "stack": null,
+      "layer": "client",
+      "status": "live",
+      "owner": "clinic",
+      "since": null,
+      "urls": {
+        "live": "https://vitareba.orangecat.ch",
+        "repo": "https://github.com/bitbaum/vitareba",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": "scan for remaining inline styles on dynamic-color elements (verdict tier colors in reports page, SIGNAL_COLORS usage in admin) — possible further SSOT cleanup",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-07-02T22:38:09.194Z"
+        },
+        "lastLog": {
+          "date": "2026-05-08",
+          "done": "refactor(css): booking status badge colors moved fully into CSS — .booking-status-* global utility classes in globals.css, badgeClass field replaces color/bg in BOOKING_STATUS_CONFIG, all 4 inline style={{ color, background }} badge callsites eliminated — e46a28e"
+        }
+      }
+    },
+    {
+      "slug": "camille-boulangerie",
+      "name": "camille-boulangerie",
+      "what": null,
+      "stack": null,
+      "layer": "demo",
+      "status": "demo",
+      "owner": "bitbaum",
+      "since": "2026-08-19",
+      "urls": {
+        "live": "https://camille.orangecat.ch",
+        "repo": "https://github.com/bitbaum/camille-boulangerie",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "sbb-fundbuero",
+      "name": "sbb-lost-found",
+      "what": null,
+      "stack": null,
+      "layer": "demo",
+      "status": "demo",
+      "owner": "-",
+      "since": null,
+      "urls": {
+        "live": "https://sbbfundbuero.orangecat.ch",
+        "repo": "https://github.com/bitbaum/sbb-lost-found",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "error",
+          "at": "2026-09-12T04:01:28.100Z"
+        },
+        "lastLog": {
+          "date": "2026-09-08",
+          "done": "Fixed four live UI elements that rendered nothing, including the Fundservice entry point in the profile — the primary way into this product's whole feature. Tailwind cannot put an alpha channel into a bare var(--token), and every colour in this config is one, so every opacity-modifier utility written against them emitted no rule at all: measured on the deployed site, the Fundservice button's computed backgroundColor was rgba(0, 0, 0, 0) and the production stylesheet contained zero `brand\\/` or `app-success\\/` rules. Also dead: the TripCard priority chip (fill and border) and the tinted circle in the report confirmation. Fixed with derived tokens (--brand-surface, --brand-surface-hover, --brand-edge, --app-success-surface) built from their base colour with color-mix, so a tenant still sets only --brand and the tints follow it. The same change closed a white-label bug: the report modal used raw bg-red-50, so under the neutral blue Nordbahn brand the selected category/location rendered PINK (measured live: blue border rgb(11,79,143) around a rgb(254,242,242) fill) — now the same --brand-surface as every other highlight. Guarded by a new check in contrast.test.ts that rejects the modifier syntax outright; that guard found a fourth instance in LostItemModal I had missed by reading, and I confirmed all four new utilities actually emit by grepping the built stylesheet rather than trusting the green suite. Merged as d63cd5c (#60), CI and Deploy green, verified live after deploy: the CTA and the selected state both render the brand at 10% (color(srgb 0.043 0.310 0.561 / 0.1)), / and /staff serve 200. Separately exercised the full four-step demo flow against production (report -> crew sees it as Neu/Dringend -> crew answers Gefunden with a note -> passenger's record updates live cross-tab, no reload): working, after #58's six dependency bumps and #59's token changes. Corrected my own over-classification from last turn: the \"T1 brand-red 4.29:1 on milk\" finding only affects the sbb build variant, which is NOT deployed — the live site serves data-tenant=\"nordbahn\" (#0b4f8f, 7.68:1 on milk), so it is latent, not a live defect. Two small live findings left unfixed and recorded in the roadmap with reasons: /favicon.ico 404s on every page load (the correct icon is tenant-dependent — a design decision, not a file to guess at), and the deprecated apple-mobile-web-app-capable meta tag."
+        }
+      }
+    },
+    {
+      "slug": "biaslens",
+      "name": "BiasLens",
+      "what": "Media bias analysis engine. Shows evidence before conclusions, separates fact from framing, measures uncertainty, and surfaces missing perspectives — every score explainable and reproducible. The \"Bloomberg Terminal for media analysis.\"",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/biaslens",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "partial",
+          "at": "2026-08-16T15:14:30.343Z"
+        },
+        "lastLog": {
+          "date": "2026-07-17",
+          "done": "Added GET /api/claims/[id]/verify — the DB-backed twin of the POST route that loads a claim's stored Evidence via a new shared Prisma singleton and scores it with the existing pure scorer, realizing the \"scores are functions of stored evidence\" principle; added a vitest `@/*` alias config so route handlers are testable, 3 DB-free route tests, and verified end-to-end against local Postgres (seeded 2-supports/1-contradicts -> supported @ 0.67; missing id -> 404)."
+        }
+      }
+    },
+    {
+      "slug": "bitbaum",
+      "name": "Bitbaum",
+      "what": null,
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/bitbaum",
+        "orangecat": "https://orangecat.ch/projects/7a41a97f-e8d1-4565-a11b-4350ddb3a58b",
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-09-09T08:52:44.900Z"
+        },
+        "lastLog": {
+          "date": "2026-08-15",
+          "done": "Smoke probe task (ignore) acknowledged; working directory is empty and not a git repo, no code changes made."
+        }
+      }
+    },
+    {
+      "slug": "botsmann",
+      "name": "botsmann",
+      "what": "AI specialists platform",
+      "stack": null,
+      "layer": "next",
+      "status": "validating",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://botsmann.orangecat.ch",
+        "repo": "https://github.com/bitbaum/botsmann",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "error",
+          "at": "2026-09-13T19:45:43.191Z"
+        },
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "causius",
+      "name": "Causius",
+      "what": null,
+      "stack": null,
+      "layer": "next",
+      "status": "validating",
+      "owner": "bitbaum",
+      "since": "2026-09-10",
+      "urls": {
+        "live": "https://causius.orangecat.ch",
+        "repo": "https://github.com/bitbaum/causius",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "diplodoctor",
+      "name": "Diplodoctor",
+      "what": "The project creates a health platform that lets users store and manage their own medical records while providing AI‑driven clinical reasoning. An integrated AI companion, Diplodoc, reviews a patient’s history and alerts them when a legal restriction prevents a particular treatment, explaining the relevant law and its implications. By combining telemedicine with medical tourism and being built on the existing Vita clinic portal, the service can be deployed by individual practices to offer transparent, compliant care across borders.",
+      "stack": null,
+      "layer": "next",
+      "status": "prospect",
+      "owner": "bitbaum",
+      "since": "2026-09-10",
+      "urls": {
+        "live": "https://diplodoctor.orangecat.ch",
+        "repo": null,
+        "orangecat": "https://orangecat.ch/projects/9ab54187-755b-4077-910f-fd877709877a",
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "dogfood-bridge-test-2026-09-06b",
+      "name": "Dogfood Bridge Test 2026-09-06b",
+      "what": "A short live retest project for the wizard persistence fix.",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": null,
+        "orangecat": "https://orangecat.ch/projects/7ad598b9-0a24-4e62-8e1b-d3338b90d811",
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "factory-sep11-0040",
+      "name": "Factory",
+      "what": null,
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/factory-sep11-0040",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "factory-sep11-0110",
+      "name": "Factory Two",
+      "what": null,
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/factory-sep11-0110",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "hamstercheek",
+      "name": "HamsterCheek",
+      "what": "HamsterCheek is a weatherproof box and web app for storing valuables outside of homes and banks.",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/hamstercheek",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": "Core CRUD (create/list/view/delete) is now complete; remaining gaps toward \"functional web app\" are edit-a-stash, and the deferred items already called out in README (auth/user scoping, object storage for photos, deployment to a live URL — Health dossier flags \"missing: Live URL\").",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "partial",
+          "at": "2026-08-05T18:07:49.116Z"
+        },
+        "lastLog": {
+          "date": "2026-08-05",
+          "done": "Added the missing delete-a-stash flow (server action removes the DB row + its uploaded photo, wired to a confirm button on the stash detail page); verified against the real Postgres DB end-to-end and confirmed `npm run build` + `next start` serve the page correctly."
+        }
+      }
+    },
+    {
+      "slug": "heidi",
+      "name": "Heidi",
+      "what": "Learn to understand and text in Zurich Swiss German. heidi.orangecat.ch",
+      "stack": null,
+      "layer": "next",
+      "status": "prospect",
+      "owner": "bitbaum",
+      "since": "2026-09-10",
+      "urls": {
+        "live": "https://heidi.orangecat.ch",
+        "repo": "https://github.com/bitbaum/heidi",
+        "orangecat": "https://orangecat.ch/projects/01affb7e-b5f6-45d8-a9a4-20bff670d013",
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "success",
+          "at": "2026-09-12T16:11:17.939Z"
+        },
+        "lastLog": {
+          "date": "2026-09-12",
+          "done": "Fixed the Diktieren button on /de, which stayed on \"Ich höre …\" forever in browsers whose speech recogniser accepts start() but never responds and failed silently on most errors: it now gives up after 4 s (unless a mic prompt is still open), shows a message for every failure, and ignores late events from old sessions; verified with 7 Playwright scenarios plus a negative control against live, and opened PR #15 (fix/dictate-button -> main) with CI green."
+        }
+      }
+    },
+    {
+      "slug": "ivy-portal",
+      "name": "ivy-portal",
+      "what": "Personal AI assistant dashboard — finances, memory, links",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/ivy-portal",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-07-02T23:09:27.162Z"
+        },
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "lifeops",
+      "name": "lifeops",
+      "what": "Personal workloads, repo-shaped for the fleet (scan-metadata, meeting-brief)",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/lifeops",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "one-shot-slop-the-one-shot-slop-machine",
+      "name": "one-shot.slop — The One-Shot Slop Machine",
+      "what": "This project builds an interactive web experience that limits each generation to a single AI prompt. The interface displays deliberately low-quality, almost-good AI output, assigns a Slop Score™, and offers an endless remix feed together with a curated museum of the most interesting results. The design is polished and the content intentionally absurd, aiming to provide a playful environment for users who enjoy experimenting with AI-generated media.",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/one-shot.slop-the-one-shot-slop-machine",
+        "orangecat": "https://orangecat.ch/projects/f4e4f4ea-a6e5-4c0c-9165-9bf5fa453186",
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-09-13T23:31:14.852Z"
+        },
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "osteosynthesis-systems",
+      "name": "osteosynthesis systems ",
+      "what": "This product consists of custom-designed osteosynthesis systems and surgical instruments for orthopedic applications. It includes plates, screws, rods, and related tools used to treat bone fractures. The devices are manufactured to specifications similar to commercial brands and are intended for a specific individual.",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": null,
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "prime-tower",
+      "name": "Prime tower",
+      "what": "Prime tower is a project generated by Loki, a command center for AI agent fleets, using Next.js, Tailwind CSS, and TypeScript.",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/prime-tower",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "error",
+          "at": "2026-09-04T11:54:20.950Z"
+        },
+        "lastLog": {
+          "date": "2026-08-12",
+          "done": "Added the Loki feedback widget to src/app/layout.tsx via next/script (afterInteractive), verified headlessly (no console errors, script tag rendered with correct src + data-fc-project), and opened PR #1 (github.com/maonakamoto/prime-tower/pull/1)."
+        }
+      }
+    },
+    {
+      "slug": "printcraft",
+      "name": "printcraft",
+      "what": "Scene composer for physical art — photos to print",
+      "stack": null,
+      "layer": "next",
+      "status": "prospect",
+      "owner": "-",
+      "since": null,
+      "urls": {
+        "live": "https://printcraft.orangecat.ch",
+        "repo": "https://github.com/bitbaum/printcraft",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-09-13T05:00:07.100Z"
+        },
+        "lastLog": {
+          "date": "2026-09-08",
+          "done": "Nothing shipped — walked Pick, found no pending blocker, no type/lint errors, no uncommitted work, no open T0/T1, and ran a real rule-8 scan (all app/src catch blocks, the upload path, and the export page + CanvasToolbar export handler) that turned up no silent error, unclosed flow or half-wired feature, so the Stop brake fired rather than manufacturing T2 churn."
+        }
+      }
+    },
+    {
+      "slug": "truthseeker",
+      "name": "truthseeker",
+      "what": null,
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/truthseeker",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-09-13T05:00:05.715Z"
+        },
+        "lastLog": {
+          "date": "2026-09-11",
+          "done": "Diagnosed and repaired the state that made the last two runs time out — primary checkout stranded on merged branch ci/pat-rationale with main held by the stale ssrf worktree — by removing six clean merged worktrees, moving the checkout to main (cd3c289, #47), deleting nine merged local branches, and re-running install plus the full verify bundle green (77/77 tests); then re-confirmed live that the Groq key is still 401-rejected and annotated the blocker a fifth time."
+        }
+      }
+    },
+    {
+      "slug": "website-design-development-your-site-live-in-days-hosted-free",
+      "name": "Website design & development — your site live in days, hosted free",
+      "what": "A working website — designed, built, deployed, and live on the internet, usually within days.\n\nPricing: CHF 100/hour. A simple site (up to ~5 pages, your text and images, one round of revisions) typically takes 1-3 hours — CHF 100-300 all in. That is not a discount: AI agents do the typing and an automated pipeline does the shipping, so you pay for judgement and taste, not keystrokes. Larger work — web apps, integrations, payments, ongoing changes — runs at the same rate, quoted before I start.\n\nIncluded: design, responsive build tested on real viewports, accessibility basics, SEO metadata, TLS, and deployment.\n\nHosting is free at yourname.orangecat.ch; move to your own domain whenever you like.\n\nLive work: orangecat.ch · loki.orangecat.ch · sink.orangecat.ch · vitareba.orangecat.ch · petvity.orangecat.ch · evig.orangecat.ch\n\nRemote, based in Zurich. Settled in Bitcoin over Lightning.",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": null,
+        "orangecat": null,
+        "solon": null
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
+      "slug": "wild-spirit",
+      "name": "Annushka Wild Spirit Art",
+      "what": null,
+      "stack": null,
+      "layer": "next",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://annushka.orangecat.ch",
+        "repo": "https://github.com/bitbaum/annushka",
+        "orangecat": null,
+        "solon": null
+      },
+      "next": "PR #1 awaits auto-merge/deploy. After it merges and CI deploys, verify live at https://annushka.orangecat.ch/en/: scroll down should make the header slide out of view (no longer wide/present), scroll up should bring it back instantly; also spot-check the mobile burger menu still opens.",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "success",
+          "at": "2026-09-11T08:09:32.905Z"
+        },
+        "lastLog": {
+          "date": "2026-09-11",
+          "done": "Rephrased visitor feedback (\"header stays clear/wide while scrolling, should minimize or go away\") is the same complaint already fixed by PR #1 (https://github.com/bitbaum/annushka/pull/1, commit 7163b13, branch fix/masthead-hide-on-scroll): masthead now tucks away past its own height on scroll-down and returns instantly on scroll-up. PR is OPEN, checks green (verify: pass), mergeStateStatus CLEAN — no new commit needed this run."
+        }
+      }
+    }
+  ]
+}

@@ -13,5 +13,6 @@ node "$HERE/generate.mjs" --check
 # but this), so the copy lands in /tmp and sudo installs it.
 stamp="$(date -u +%Y%m%d-%H%M%S)"
 scp -q -o BatchMode=yes "$HERE/index.html" "$BOX:/tmp/bitbaum-index.$stamp.html"
-ssh -o BatchMode=yes "$BOX" "sudo cp -a /opt/bitbaum/app/index.html /opt/bitbaum/app/index.html.bak-$stamp && sudo install -m 644 -o root -g root /tmp/bitbaum-index.$stamp.html /opt/bitbaum/app/index.html && rm /tmp/bitbaum-index.$stamp.html"
-curl -fsS -o /dev/null https://bitbaum.orangecat.ch/ && echo "live: https://bitbaum.orangecat.ch/"
+scp -q -o BatchMode=yes "$HERE/map.json" "$BOX:/tmp/bitbaum-map.$stamp.json"
+ssh -o BatchMode=yes "$BOX" "sudo cp -a /opt/bitbaum/app/index.html /opt/bitbaum/app/index.html.bak-$stamp && sudo install -m 644 -o root -g root /tmp/bitbaum-index.$stamp.html /opt/bitbaum/app/index.html && sudo install -m 644 -o root -g root /tmp/bitbaum-map.$stamp.json /opt/bitbaum/app/map.json && rm /tmp/bitbaum-index.$stamp.html /tmp/bitbaum-map.$stamp.json"
+curl -fsS -o /dev/null https://bitbaum.orangecat.ch/ && curl -fsS https://bitbaum.orangecat.ch/map.json | head -c 80 >/dev/null && echo "live: https://bitbaum.orangecat.ch/ (+ map.json)"
