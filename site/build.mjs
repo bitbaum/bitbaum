@@ -109,6 +109,17 @@ export function ventures(map, cfg, origin, packages) {
       since: org?.firstCommit?.date ?? p.since ?? null,
       shot: o.shot !== false && Boolean(url),
       uses: (uses.get(slug) ?? []).sort(),
+      // Where else this project exists. The fleet map has carried these two
+      // since it was published and this generator discarded them, so "which
+      // projects have a profile where" was a question only the raw JSON could
+      // answer. Loki is deliberately not here: every project on the map is a
+      // Loki project by construction (35 of 35) and its project pages need a
+      // session — a column that is always true and never clickable tells a
+      // reader nothing.
+      profiles: {
+        orangecat: p.urls?.orangecat ?? null,
+        solon: p.urls?.solon ?? null,
+      },
     };
   };
   for (const p of map.projects ?? []) {
@@ -478,6 +489,21 @@ ${list.map((p) => pkgCard(p, cfg.packages?.[p.slug], ventureBySlug, alias)).join
   return shell({ title: "Packages — bitbaum", description: cfg.packages_lede ?? "", path: "/packages/", body, nav: "/packages/" });
 }
 
+/**
+ * A venture's profiles on the other two pillars, as anchors.
+ *
+ * Named rather than inlined because the home grid counts them and the venture
+ * page renders them, and those two must not disagree about what "has a
+ * profile" means.
+ */
+export function profileLinks(v) {
+  const p = v.profiles ?? {};
+  return [
+    p.orangecat ? `<a href="${esc(p.orangecat)}">OrangeCat</a>` : null,
+    p.solon ? `<a href="${esc(p.solon)}">Solon</a>` : null,
+  ].filter(Boolean);
+}
+
 export function venturePage(v, all, cfg) {
   const i = all.indexOf(v);
   const prev = all[(i - 1 + all.length) % all.length];
@@ -490,6 +516,11 @@ export function venturePage(v, all, cfg) {
     v.since ? ["Since", monthYear(v.since)] : null,
     v.url ? ["Address", `<a href="${esc(v.url)}">${esc(host(v.url))}</a>`] : null,
     v.repo ? ["Source", `<a href="${esc(v.repo)}">${esc(v.repo.replace("https://github.com/", ""))}</a>`] : null,
+    // Two of the three pillars, from the product's side: where it is funded and
+    // found, and where its rules are decided. Absent ones are simply not listed
+    // — a venture page is not the place to publish a gap; the register is
+    // (fleet: scripts/ci/product-identity-audit.mjs).
+    profileLinks(v).length ? ["Profiles", profileLinks(v).join(", ")] : null,
   ].filter(Boolean);
   // The other direction of "what uses these packages": from a product, to the
   // shared code it is made of.
