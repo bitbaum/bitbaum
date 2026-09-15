@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-15T11:43:37.798Z",
+  "generatedAt": "2026-09-15T13:45:16.689Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 35,
     "live": 15,
     "clients": 5,
-    "inFlight": 0
+    "inFlight": 1
   },
   "projects": [
     {
@@ -301,10 +301,10 @@
       ],
       "next": "e2e ok — no changes\n\nHandoff written to /home/ubuntu/.loki/sessions/loki.md as required. Task fully done.\n\n(Hermes made no file changes.)",
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
           "outcome": "user_abort",
-          "at": "2026-09-15T10:33:39.523Z"
+          "at": "2026-09-15T13:43:17.681Z"
         },
         "lastLog": {
           "date": "2026-09-15",
@@ -973,7 +973,7 @@
     },
     {
       "slug": "aoz-housing",
-      "name": "aoz-housing",
+      "name": "aoz-begleitung",
       "what": "Refugee housing placement",
       "stack": null,
       "layer": "client",
@@ -982,7 +982,7 @@
       "since": "2026-08-13",
       "urls": {
         "live": "https://aoz.orangecat.ch",
-        "repo": "https://github.com/bitbaum/aoz-housing",
+        "repo": "https://github.com/bitbaum/aoz-begleitung",
         "orangecat": null,
         "solon": null
       },
@@ -1610,83 +1610,6 @@
       }
     },
     {
-      "slug": "hamstercheek",
-      "name": "HamsterCheek",
-      "what": "HamsterCheek is a weatherproof box and web app for storing valuables outside of homes and banks.",
-      "stack": null,
-      "layer": "next",
-      "status": "not live",
-      "owner": "bitbaum",
-      "since": null,
-      "urls": {
-        "live": null,
-        "repo": "https://github.com/bitbaum/hamstercheek",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Need for secure, private storage of valuables and documents outside of homes and banks",
-        "solution": "A durable, weatherproof box paired with a web app for storing and retrieving location information",
-        "mission": "Provides a secure way for individuals to store valuables without relying on third-party services.",
-        "vision": "To be a reliable solution for off-site storage and emergency preparedness."
-      },
-      "roadmap": [
-        {
-          "title": "Define the core data model",
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": []
-        },
-        {
-          "title": "Implement map picker and coordinate storage",
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": []
-        },
-        {
-          "title": "Build photo upload and attachment functionality",
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": []
-        },
-        {
-          "title": "Develop user authentication and recovery contact system",
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": []
-        },
-        {
-          "title": "Integrate all features into a functional web app",
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": []
-        }
-      ],
-      "changelog": [
-        {
-          "date": "2026-08-05",
-          "done": "Added the missing delete-a-stash flow (server action removes the DB row + its uploaded photo, wired to a confirm button on the stash detail page); verified against the real Postgres DB end-to-end and confirmed `npm run build` + `next start` serve the page correctly."
-        }
-      ],
-      "next": "Core CRUD (create/list/view/delete) is now complete; remaining gaps toward \"functional web app\" are edit-a-stash, and the deferred items already called out in README (auth/user scoping, object storage for photos, deployment to a live URL — Health dossier flags \"missing: Live URL\").",
-      "now": {
-        "openRuns": 0,
-        "lastRun": {
-          "outcome": "partial",
-          "at": "2026-08-05T18:07:49.116Z"
-        },
-        "lastLog": {
-          "date": "2026-08-05",
-          "done": "Added the missing delete-a-stash flow (server action removes the DB row + its uploaded photo, wired to a confirm button on the stash detail page); verified against the real Postgres DB end-to-end and confirmed `npm run build` + `next start` serve the page correctly."
-        }
-      }
-    },
-    {
       "slug": "ivy-portal",
       "name": "ivy-portal",
       "what": "Personal AI assistant dashboard — finances, memory, links",
@@ -2159,6 +2082,80 @@
         "lastLog": {
           "date": "2026-09-11",
           "done": "Rephrased visitor feedback (\"header stays clear/wide while scrolling, should minimize or go away\") is the same complaint already fixed by PR #1 (https://github.com/bitbaum/annushka/pull/1, commit 7163b13, branch fix/masthead-hide-on-scroll): masthead now tucks away past its own height on scroll-down and returns instantly on scroll-up. PR is OPEN, checks green (verify: pass), mergeStateStatus CLEAN — no new commit needed this run."
+        }
+      }
+    },
+    {
+      "slug": "zeitkastli",
+      "name": "Zeitkastli",
+      "what": "Zeitkastli is a weatherproof time capsule and a web app that remembers where you put it — drop a pin, add a photo and a note, and find it again years later.",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/zeitkastli",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": "People put things away on purpose to be found later — a letter to a child, a keepsake, a class time capsule — and then lose the exact spot. Memory is the part that fails, not the box.",
+        "solution": "A weatherproof capsule plus a web app that records the spot: a map pin, a photo of the place, notes, and the person it is meant for.",
+        "mission": "Make sure something you put away on purpose can still be found by the person it was meant for.",
+        "vision": "The ordinary way to leave something behind for later — and to still be able to find it."
+      },
+      "roadmap": [
+        {
+          "title": "Define the core data model",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Implement map picker and coordinate storage",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Build photo upload and attachment functionality",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Develop user authentication and recovery contact system",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Integrate all features into a functional web app",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-08-05",
+          "done": "Added the missing delete-a-stash flow (server action removes the DB row + its uploaded photo, wired to a confirm button on the stash detail page); verified against the real Postgres DB end-to-end and confirmed `npm run build` + `next start` serve the page correctly."
+        }
+      ],
+      "next": "Core CRUD (create/list/view/delete) is now complete; remaining gaps toward \"functional web app\" are edit-a-stash, and the deferred items already called out in README (auth/user scoping, object storage for photos, deployment to a live URL — Health dossier flags \"missing: Live URL\").",
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": {
+          "date": "2026-08-05",
+          "done": "Added the missing delete-a-stash flow (server action removes the DB row + its uploaded photo, wired to a confirm button on the stash detail page); verified against the real Postgres DB end-to-end and confirmed `npm run build` + `next start` serve the page correctly."
         }
       }
     }
