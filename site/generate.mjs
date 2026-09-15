@@ -46,6 +46,16 @@ const ORIGIN_URL =
   "https://raw.githubusercontent.com/bitbaum/fleet/main/registers/origin.json";
 const ORIGIN_SNAPSHOT = join(here, "origin.snapshot.json");
 
+// Readings: the numbers the whole bet rests on, read nightly by bitbaum/fleet
+// from sources that are not us — stars, forks, npm downloads, paying clients,
+// CHF/month, originator share paid. Near zero today, and shown anyway: a
+// belief with a reading can be wrong in public, which is the only way it
+// gets to be right. Nobody types a reading; zero is a reading.
+const READINGS_URL =
+  process.env.FLEET_READINGS_URL ??
+  "https://raw.githubusercontent.com/bitbaum/fleet/main/registers/readings.json";
+const READINGS_SNAPSHOT = join(here, "readings.snapshot.json");
+
 const GROUPS = [
   ["products", "Products"],
   ["clients", "Clients"],
@@ -112,6 +122,29 @@ function day(iso) {
   if (!iso) return "";
   const d = new Date(iso);
   return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+}
+
+/** "6,812" — thousands separated, no decimals; a reading is a count. */
+function num(n) {
+  return Number(n ?? 0).toLocaleString("en-GB");
+}
+
+/** An inline sparkline over history, or nothing while there is one point. */
+function sparkline(history, key) {
+  const pts = (history ?? []).map((h) => Number(h[key] ?? 0));
+  if (pts.length < 2) return "";
+  const w = 120, h = 28, max = Math.max(...pts, 1);
+  const step = w / (pts.length - 1);
+  const d = pts.map((v, i) => `${(i * step).toFixed(1)},${(h - 2 - (v / max) * (h - 4)).toFixed(1)}`).join(" ");
+  return `<svg class="tile-spark" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true"><polyline points="${d}" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>`;
+}
+
+function tileHtml({ value, label, note, history, key }) {
+  return `        <div class="tile">
+          <span class="tile-value">${esc(value)}</span>
+          <span class="tile-label">${esc(label)}</span>${note ? `
+          <span class="tile-note">${esc(note)}</span>` : ""}${sparkline(history, key)}
+        </div>`;
 }
 
 /** One ledger row: the repo and its three clocks. Missing clocks say so. */
@@ -187,7 +220,7 @@ function pkgHtml(p, editorial) {
       </article>`;
 }
 
-export function build(map, packages, cfg, now = Date.now(), origin = null) {
+export function build(map, packages, cfg, now = Date.now(), origin = null, readings = null) {
   const ov = cfg.overrides ?? {};
   const ventures = [];
   const seen = new Set();
@@ -270,6 +303,30 @@ ${originRows}
     </section>`
     : "";
 
+  const cur = readings?.current;
+  const hist = readings?.history ?? [];
+  const tiles = cur
+    ? [
+        tileHtml({ value: num(cur.stars), label: "GitHub stars", note: "across the org", history: hist, key: "stars" }),
+        tileHtml({ value: num(cur.forks), label: "forks", history: hist, key: "forks" }),
+        tileHtml({ value: num(cur.downloads?.lastMonth), label: "npm downloads / 30 days", note: "shared packages; includes our own CI installs", history: hist, key: "downloads" }),
+        tileHtml({ value: `${num(cur.clients?.paying)} of ${num(cur.clients?.clients)}`, label: "paying clients", note: `${num(cur.clients?.favours)} favours, ${num(cur.clients?.unknown)} unknown, ${num(cur.clients?.products)} own products`, history: hist, key: "payingClients" }),
+        tileHtml({ value: `CHF ${num(cur.clients?.mrrChf)}`, label: "per month", note: "recorded terms, live clients", history: hist, key: "mrrChf" }),
+        tileHtml({ value: `${num(cur.originatorShare?.paid)} ${cur.originatorShare?.currency ?? ""}`.trim(), label: "originator share paid", note: cur.originatorShare?.source ?? "", history: hist, key: "originatorSharePaid" }),
+      ]
+    : [];
+  const readingsSection = cur
+    ? `    <section class="group" id="readings">
+      <div class="sec"><h2>Readings</h2><span class="count">${tiles.length}</span><span class="note">read nightly from sources that are not us &middot; zero is a reading</span></div>
+      <p class="origin-lead">The numbers the bet rests on. Every one is read by <a href="https://github.com/bitbaum/fleet">bitbaum/fleet</a> from a source that is not us${
+        hist[0]?.date ? `, recorded since ${day(hist[0].date)}` : ""
+      }; a row is added only when a number moves. All real, flops included. <a href="${esc(READINGS_URL)}">readings.json</a></p>
+      <div class="tiles">
+${tiles.join("\n")}
+      </div>
+    </section>`
+    : "";
+
   const liveCount = (counts.products ?? 0) + (counts.clients ?? 0) + (counts.demos ?? 0);
   const pkgCount = (packages.packages ?? []).length;
   const inFlight = map.summary?.inFlight ?? 0;
@@ -277,6 +334,7 @@ ${originRows}
     ...GROUPS.filter(([id]) => counts[id] > 0),
     ...(pkgRows ? [["packages", "Packages"]] : []),
     ...(originRows ? [["origin", "Origin"]] : []),
+    ...(readingsSection ? [["readings", "Readings"]] : []),
   ];
   const pillars = (map.pillars ?? [])
     .map((p) => {
@@ -306,6 +364,7 @@ ${navItems.map(([id, t]) => `        <a href="#${id}">${t}</a>`).join("\n")}
 ${sections}
 ${pkgSection}
 ${originSection}
+${readingsSection}
   </main>
   <footer>
     <div class="wrap">
@@ -327,11 +386,12 @@ if (isMain) {
   const map = await fetchOrSnapshot(MAP_URL, SNAPSHOT, "fleet map");
   const packages = await fetchOrSnapshot(PACKAGES_URL, PACKAGES_SNAPSHOT, "package registry");
   const origin = await fetchOrSnapshot(ORIGIN_URL, ORIGIN_SNAPSHOT, "origin register");
+  const readings = await fetchOrSnapshot(READINGS_URL, READINGS_SNAPSHOT, "readings register");
   const cfg = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
   // The page is rendered against a fixed clock in --check so "3 days ago" does
   // not make a fresh generation differ from the committed one by the hour.
   const clock = new Date(map.generatedAt ?? Date.now()).getTime();
-  const html = build(map, packages, cfg, clock, origin);
+  const html = build(map, packages, cfg, clock, origin, readings);
   const target = join(here, "index.html");
   const mapTarget = join(here, "map.json");
   const mapJson = JSON.stringify(map, null, 2) + "\n";

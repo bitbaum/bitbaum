@@ -116,6 +116,14 @@ a.row:hover .arrow { transform: translateX(3px); }
    the header there, and on a phone the cells stack so each needs its name. */
 .ledger-label { display: none; }
 
+/* ── readings: six numbers, big, with what each one is NOT ─────────────── */
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: 0.85rem; margin-top: 1.4rem; }
+.tile { display: flex; flex-direction: column; gap: 0.15rem; background: var(--raised); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem 1rem; font-variant-numeric: tabular-nums; }
+.tile-value { font-family: var(--serif); font-size: clamp(1.9rem, 3.2vw, 2.4rem); line-height: 1.05; letter-spacing: -0.02em; }
+.tile-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+.tile-note { font-size: 0.72rem; color: var(--dim); line-height: 1.4; }
+.tile-spark { margin-top: 0.5rem; color: var(--accent); }
+
 /* ── footer ─────────────────────────────────────────────────────────────── */
 footer { border-top: 1px solid var(--line); margin-top: 1rem; }
 footer .wrap { padding-block: 2.5rem 3.5rem; color: var(--dim); font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
@@ -157,6 +165,7 @@ footer a:hover { color: var(--fg); }
         <a href="#next">Not live</a>
         <a href="#packages">Packages</a>
         <a href="#origin">Origin</a>
+        <a href="#readings">Readings</a>
         <a href="map.json">map.json</a>
       </nav>
     </div>
@@ -263,8 +272,8 @@ footer a:hover { color: var(--fg); }
       </div>
     </section>
     <section class="group" id="origin">
-      <div class="sec"><h2>Origin</h2><span class="count">44</span><span class="note">git dates prove nothing &middot; these clocks are not ours</span></div>
-      <p class="origin-lead">Every repository's HEAD is stamped nightly through <a href="https://opentimestamps.org/">OpenTimestamps</a> and archived by <a href="https://www.softwareheritage.org/">Software Heritage</a>. First anchored in Bitcoin block 966918, 14 Sep 2026. 44 of 44 proven, 19 archived, 3 private repositories stamped but not listed. <a href="https://github.com/bitbaum/fleet/tree/main/proofs/origin">The proofs</a> &middot; <a href="https://raw.githubusercontent.com/bitbaum/fleet/main/registers/origin.json">origin.json</a></p>
+      <div class="sec"><h2>Origin</h2><span class="count">45</span><span class="note">git dates prove nothing &middot; these clocks are not ours</span></div>
+      <p class="origin-lead">Every repository's HEAD is stamped nightly through <a href="https://opentimestamps.org/">OpenTimestamps</a> and archived by <a href="https://www.softwareheritage.org/">Software Heritage</a>. First anchored in Bitcoin block 966918, 14 Sep 2026. 44 of 45 proven, 19 archived, 3 private repositories stamped but not listed. <a href="https://github.com/bitbaum/fleet/tree/main/proofs/origin">The proofs</a> &middot; <a href="https://raw.githubusercontent.com/bitbaum/fleet/main/registers/origin.json">origin.json</a></p>
       <div class="ledger">
         <div class="ledger-head" aria-hidden="true"><span>repository</span><span>first commit</span><span>proven since</span><span>archived</span></div>
         <div class="ledger-row">
@@ -530,6 +539,47 @@ footer a:hover { color: var(--fg); }
           <span class="ledger-cell"><span class="ledger-label">first commit</span>11 Sep 2026</span>
           <span class="ledger-cell"><span class="ledger-label">proven since</span>14 Sep 2026 <span class="ledger-dim">&middot; block 966918</span></span>
           <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+        <div class="ledger-row">
+          <a class="ledger-name" href="https://github.com/bitbaum/.github">.github</a>
+          <span class="ledger-cell"><span class="ledger-label">first commit</span>14 Sep 2026</span>
+          <span class="ledger-cell"><span class="ledger-label">proven since</span><span class="ledger-dim">not yet stamped</span></span>
+          <span class="ledger-cell"><span class="ledger-label">archived</span><span class="ledger-dim">not yet</span></span>
+        </div>
+      </div>
+    </section>
+    <section class="group" id="readings">
+      <div class="sec"><h2>Readings</h2><span class="count">6</span><span class="note">read nightly from sources that are not us &middot; zero is a reading</span></div>
+      <p class="origin-lead">The numbers the bet rests on. Every one is read by <a href="https://github.com/bitbaum/fleet">bitbaum/fleet</a> from a source that is not us, recorded since 15 Sep 2026; a row is added only when a number moves. All real, flops included. <a href="https://raw.githubusercontent.com/bitbaum/fleet/main/registers/readings.json">readings.json</a></p>
+      <div class="tiles">
+        <div class="tile">
+          <span class="tile-value">2</span>
+          <span class="tile-label">GitHub stars</span>
+          <span class="tile-note">across the org</span>
+        </div>
+        <div class="tile">
+          <span class="tile-value">1</span>
+          <span class="tile-label">forks</span>
+        </div>
+        <div class="tile">
+          <span class="tile-value">6,812</span>
+          <span class="tile-label">npm downloads / 30 days</span>
+          <span class="tile-note">shared packages; includes our own CI installs</span>
+        </div>
+        <div class="tile">
+          <span class="tile-value">0 of 4</span>
+          <span class="tile-label">paying clients</span>
+          <span class="tile-note">4 favours, 0 unknown, 7 own products</span>
+        </div>
+        <div class="tile">
+          <span class="tile-value">CHF 0</span>
+          <span class="tile-label">per month</span>
+          <span class="tile-note">recorded terms, live clients</span>
+        </div>
+        <div class="tile">
+          <span class="tile-value">0 BTC</span>
+          <span class="tile-label">originator share paid</span>
+          <span class="tile-note">solon originator_share policy: no ledger yet</span>
         </div>
       </div>
     </section>
