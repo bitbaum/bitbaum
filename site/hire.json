@@ -1,0 +1,67 @@
+{
+  "_comment": "The editorial half of /hire/. The live-work list is NOT here — it is derived from the fleet map like every other list on this site, so a retired host can never be quoted from a hand-typed page (which is exactly what happened to the previous hire one-pager on 2026-09-12: it named a retired host, counted one renamed organisation as two systems, and used two superseded product names). Rates, method, answers and contact are editorial and live here.",
+  "title": "I design systems, ship them, and keep them alive.",
+  "lede": "I take a product from idea to a running, monitored, backed-up production service — and hand over something a normal team can maintain after I leave.",
+  "eyebrow": "Fractional CTO · contract engineering · Zürich",
+  "offers": [
+    {
+      "name": "Fractional CTO",
+      "price": "CHF 2,400",
+      "unit": "per day",
+      "what": "Two to four days a month, minimum three months. I own architecture, the deploy pipeline, the review bar, security posture and the technical side of hiring. For teams that need the decisions made without a CHF 200k salary attached to them."
+    },
+    {
+      "name": "Build sprint",
+      "price": "from CHF 18,000",
+      "unit": "four to six weeks",
+      "what": "Fixed price, fixed scope. A defined product or module delivered running in production, with tests and a pipeline. Change requests get re-quoted rather than quietly absorbed."
+    },
+    {
+      "name": "Rescue",
+      "price": "CHF 6,500",
+      "unit": "two weeks, fixed",
+      "what": "An inherited codebase nobody understands. You get a written assessment, a working local setup, CI that actually runs the tests, and a ranked list of what breaks first — whether or not we work together afterwards."
+    }
+  ],
+  "method": [
+    {
+      "title": "One verify command per repository",
+      "what": "Lint, typecheck, test. CI runs exactly that command, so green on your machine means green on the branch."
+    },
+    {
+      "title": "Everything ships through a branch and a pipeline",
+      "what": "The deliberate step is the pipeline, not a person remembering to click something."
+    },
+    {
+      "title": "Self-hosted by default, on Hetzner and Caddy",
+      "what": "Postgres, systemd, hardware you can point at. No per-seat pricing, no vendor lock-in, no surprise invoice."
+    },
+    {
+      "title": "Handover is designed in from day one",
+      "what": "Standard stack, full data export, documentation written for the engineer who arrives after me."
+    }
+  ],
+  "faq": [
+    {
+      "q": "What happens if you are not available?",
+      "a": "Fair, and it is why handover is in the contract from the start: a standard stack, one command that runs the whole check suite, CI any engineer can read, and complete data export. You are buying a system a normal team can pick up — not my availability. Ask your last agency for a full data export and time how long it takes."
+    },
+    {
+      "q": "How do I know AI-written code is any good?",
+      "a": "You don't — and you wouldn't for hand-written code either. That is what tests and pipelines are for. Nothing reaches a hosted instance without the full suite passing, and I am accountable for the output regardless of what typed it."
+    },
+    {
+      "q": "We need someone on site, full time.",
+      "a": "Then you need an employee, and I will tell you that rather than sell you four days a month that won't fix it. I am happy to help write the role and sit in on the technical interviews instead."
+    },
+    {
+      "q": "Can you do it cheaper?",
+      "a": "Not by lowering the rate — by reducing the scope. Tell me which part can wait, and I'll re-quote the rest honestly."
+    }
+  ],
+  "contact": {
+    "email": "cato@orangecat.ch",
+    "line": "Tell me what you are building and what is currently in the way. If I am not the right person, I will say so in the first reply rather than in the third meeting.",
+    "_note": "The public name is Cato (registers/org.json). Any earlier mao@ address is the same person under a superseded handle and must not appear."
+  }
+}
