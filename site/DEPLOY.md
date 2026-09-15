@@ -30,14 +30,33 @@ What this repository owns is presentation, in `site/overrides.json`:
 
 | key | meaning |
 |---|---|
-| `groups` | the four sections and their one-line ledes: `products`, `pilots`, `concepts`, `next` |
-| `overrides.<slug>.group` | which section a venture belongs to. Chosen by what a visitor can verify, **not** by the register's kind: a `client-app` row is a *pilot* (built for a real organisation, in real use, no commercial terms), never a client |
+| `stages` | the four stages and their one-line definitions: `product`, `pilot`, `concept`, `next`. They are the STAGE facet on the home grid and the legend under it |
+| `tagOrder` | the closed vocabulary for the FIELD facet. A tag not in this list fails the build, because a card nobody can filter to is a card nobody finds |
+| `overrides.<slug>.stage` | which stage a venture is at. Chosen by what a visitor can verify, **not** by the register's kind: a `client-app` row is a *pilot* (built for a real organisation, in real use, no commercial terms), never a client |
+| `overrides.<slug>.tags` | its fields, from `tagOrder` |
 | `overrides.<slug>.what` | the one line. **Required** — a row without one is not shown |
-| `overrides.<slug>.story` | the two sentences on the venture's own page |
-| `overrides.<slug>.name`, `url`, `order`, `pillar`, `for` | display name, URL override, position, the pillar label for the three featured products, who a pilot is for |
+| `overrides.<slug>.story` | the paragraph on the venture's own page |
+| `overrides.<slug>.pillar`, `pillarRole` | for the three stack products: the layer name, and what that layer does for someone joining |
+| `overrides.<slug>.name`, `url`, `order`, `for` | display name, URL override, position, who a pilot is for |
 | `overrides.<slug>.shot: false` | keep a placeholder page's screenshot off the site |
+| `adopterAliases` | repository name → venture slug, for the few packages whose adopter is not named after the venture (the Hirnli app lives in `bitbaum/hirnli`; the register row is `revamp-info`) |
 | `extras` | things the register does not know (no host row): Annushka, Skif |
 | `packages` | one line per package slug over the derived registry |
+
+## Both directions of "what uses what"
+
+The package registry records adopters by repository. The build inverts that, so
+each package card lists the apps that use it (linked to their pages) and each
+venture page lists the packages it is built from (linked to the package). Nobody
+types either list; a package that quietly lost its last adopter shows it.
+
+## The work grid
+
+One grid with two facets rather than four headed sections: stage is a chip row,
+field is a chip row, and the choice lives in the address bar (`#work?stage=pilot&field=health`)
+so a filtered view is a link you can send. Within a facet the chips are OR; across
+facets they are AND; an empty selection means no filter, never "nothing matches".
+Without JavaScript every card is shown, which is the correct fallback for a list.
 
 ## Imagery
 
