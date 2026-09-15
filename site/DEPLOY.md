@@ -1,5 +1,7 @@
 # bitbaum.orangecat.ch
 
+**Why this site exists and who it serves: [PURPOSE.md](PURPOSE.md).** Read it before adding a section.
+
 The studio's front door. A home page, a page per venture, a packages page
 and a studio page — static HTML in `site/dist/`, no framework, no runtime
 fetch. Caddy serves `/opt/bitbaum/app` on the box with clean directory URLs.
@@ -100,6 +102,7 @@ looks like the things it lists. Every rule below the tokens names a role.
 ## Build and publish
 
 ```bash
+node site/og.mjs                # render the share card, site/dist/og/studio.png
 node site/build.mjs             # fetch the sources, write site/dist/
 node site/build.mjs --offline   # build from the snapshots (no network)
 node site/build.mjs --check     # exit 1 if site/dist/ is stale

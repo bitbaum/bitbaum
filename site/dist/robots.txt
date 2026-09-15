@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bitbaum.orangecat.ch/sitemap.xml

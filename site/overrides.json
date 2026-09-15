@@ -32,7 +32,7 @@
     "Knowledge"
   ],
   "_adopterAliases": "The package registry names adopters by REPOSITORY, which is not always the venture's slug (the Hirnli app lives in bitbaum/hirnli while the register row is revamp-info). Map repo -> slug here so 'what uses this package' can link. An adopter with no venture page renders as plain text — which is honest: it is a real adopter the site does not show.",
-  "adopterAliases": {
+  "adopterAliases": { "aoz-begleitung": "aoz-housing",
     "hirnli": "revamp-info",
     "sink": "s-ink"
   },
