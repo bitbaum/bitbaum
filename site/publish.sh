@@ -1,18 +1,35 @@
 #!/usr/bin/env bash
-# Publish site/index.html to the box. This is the whole deploy: the page is
-# static and Caddy serves /opt/bitbaum/app directly (see /etc/caddy/apps.d/bitbaum.caddy).
+# Publish site/dist/ to the box. This is the whole deploy: the site is static
+# and Caddy serves /opt/bitbaum/app directly (see /etc/caddy/apps.d/bitbaum.caddy,
+# file_server with try_files, so /orangecat/ resolves to /orangecat/index.html).
 #
 # The previous state of affairs — the live file edited by hand on the server,
-# with no source in this repository — is what this script exists to end. Run
-# generate.mjs first; publish only what the register produced.
+# with no source in this repository — is what this script exists to end. Build
+# first; publish only what the registers produced, and prove it by the page.
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 BOX="${BOX:-ubuntu@167.233.22.31}"
-node "$HERE/generate.mjs" --check
+node "$HERE/build.mjs" --check
+
 # The web root is root-owned (Caddy's file_server reads it; nothing writes it
-# but this), so the copy lands in /tmp and sudo installs it.
+# but this), so the tree lands in /tmp and sudo swaps it in. The previous tree
+# is kept beside it, once, so a bad publish is one `mv` away from undone.
 stamp="$(date -u +%Y%m%d-%H%M%S)"
-scp -q -o BatchMode=yes "$HERE/index.html" "$BOX:/tmp/bitbaum-index.$stamp.html"
-scp -q -o BatchMode=yes "$HERE/map.json" "$BOX:/tmp/bitbaum-map.$stamp.json"
-ssh -o BatchMode=yes "$BOX" "sudo cp -a /opt/bitbaum/app/index.html /opt/bitbaum/app/index.html.bak-$stamp && sudo install -m 644 -o root -g root /tmp/bitbaum-index.$stamp.html /opt/bitbaum/app/index.html && sudo install -m 644 -o root -g root /tmp/bitbaum-map.$stamp.json /opt/bitbaum/app/map.json && rm /tmp/bitbaum-index.$stamp.html /tmp/bitbaum-map.$stamp.json"
-curl -fsS -o /dev/null https://bitbaum.orangecat.ch/ && curl -fsS https://bitbaum.orangecat.ch/map.json | head -c 80 >/dev/null && echo "live: https://bitbaum.orangecat.ch/ (+ map.json)"
+rsync -az --delete -e "ssh -o BatchMode=yes" "$HERE/dist/" "$BOX:/tmp/bitbaum-dist.$stamp/"
+ssh -o BatchMode=yes "$BOX" "set -e
+  sudo rm -rf /opt/bitbaum/app.prev
+  sudo mv /opt/bitbaum/app /opt/bitbaum/app.prev
+  sudo mv /tmp/bitbaum-dist.$stamp /opt/bitbaum/app
+  sudo chown -R root:root /opt/bitbaum/app
+  sudo find /opt/bitbaum/app -type d -exec chmod 755 {} +
+  sudo find /opt/bitbaum/app -type f -exec chmod 644 {} +"
+
+# A health check proves the process; this proves the pages. Every page the
+# build wrote must answer, and the home page must carry the venture grid.
+fail=0
+for rel in "" packages/ studio/ orangecat/ loki/ solon/; do
+  code=$(curl -s -o /dev/null -w '%{http_code}' "https://bitbaum.orangecat.ch/$rel")
+  [ "$code" = "200" ] || { echo "https://bitbaum.orangecat.ch/$rel -> $code" >&2; fail=1; }
+done
+curl -fsS https://bitbaum.orangecat.ch/ | grep -q 'id="products"' || { echo "home page has no products section" >&2; fail=1; }
+[ "$fail" -eq 0 ] && echo "live: https://bitbaum.orangecat.ch/ ($(find "$HERE/dist" -name index.html | wc -l) pages)" || exit 1

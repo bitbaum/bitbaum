@@ -12,7 +12,7 @@ bitbaum is a solo-founder AI product studio: multiple vertical SaaS products on 
 
 ## What This Repo Is
 
-This repository holds the strategic vision, product briefs and business plans for all bitbaum products — plus `site/`, the generator for bitbaum.orangecat.ch. The site is a VIEW: `site/generate.mjs` renders Loki's public fleet map (https://loki.orangecat.ch/api/fleet/map — every project with purpose, layer, state, doors and last movement) and publishes it next to the page as `map.json`. Never type a venture into the page; describe it in its Loki profile and it appears.
+This repository holds the strategic vision, product briefs and business plans for all bitbaum products — plus `site/`, the generator for bitbaum.orangecat.ch. The site is a VIEW: `site/build.mjs` renders Loki's public fleet map (https://loki.orangecat.ch/api/fleet/map), fleet's package and origin registers, and `site/overrides.json` (group, one line, story per venture) into `site/dist/` — a home page, a page per venture, packages, studio — and publishes the map next to it as `map.json`. Ventures are grouped by what a visitor can verify (products, pilots, concepts, next), never by the register's kind: there are no clients, and the site must not say there are. Never type a venture into the page; describe it in its Loki profile and it appears.
 
 ## Structure
 
