@@ -34,5 +34,10 @@ done
 # Not `curl | grep -q`: grep closes the pipe early, curl exits 23, and under
 # pipefail a healthy page reads as a failure (it did, on the first publish).
 home="$(curl -fsS https://bitbaum.orangecat.ch/)" || { echo "home page unreachable" >&2; fail=1; }
-grep -q 'id="products"' <<<"$home" || { echo "home page has no products section" >&2; fail=1; }
+# Assert on what the page must CONTAIN, by id and by count — a section id
+# that gets renamed should fail loudly here rather than pass by accident.
+grep -q 'id="work-grid"' <<<"$home" || { echo "home page has no work grid" >&2; fail=1; }
+grep -q 'id="join"' <<<"$home" || { echo "home page has no join section" >&2; fail=1; }
+cards=$(grep -o 'class="card[^"]*" href="/' <<<"$home" | wc -l)
+[ "$cards" -ge 20 ] || { echo "home page shows only $cards venture cards" >&2; fail=1; }
 [ "$fail" -eq 0 ] && echo "live: https://bitbaum.orangecat.ch/ ($(find "$HERE/dist" -name index.html | wc -l) pages)" || exit 1
