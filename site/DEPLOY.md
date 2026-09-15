@@ -43,6 +43,9 @@ What this repository owns is presentation, in `site/overrides.json`:
 | `extras` | things the register does not know (no host row): Annushka, Skif |
 | `packages` | one line per package slug over the derived registry |
 
+`site/hire.json` holds the hire page's editorial half: `offers` (name, price,
+unit, what), `method`, `faq` and `contact`.
+
 ## Both directions of "what uses what"
 
 The package registry records adopters by repository. The build inverts that, so
@@ -57,6 +60,23 @@ field is a chip row, and the choice lives in the address bar (`#work?stage=pilot
 so a filtered view is a link you can send. Within a facet the chips are OR; across
 facets they are AND; an empty selection means no filter, never "nothing matches".
 Without JavaScript every card is shown, which is the correct fallback for a list.
+
+## The hire page
+
+`/hire/` is the destination of the primary button on every other page, so it is
+the one page that must not read as a different company. It used to live on
+GitHub Pages in its own design, under a personal name and a superseded GitHub
+handle, with no contact address at all; `bitbaum/hire` now redirects here.
+
+Rates, method, answers and the contact address are editorial, in
+`site/hire.json`. The live-work list on it is **not**: it is the same derived
+list as the home grid, which is the rule that matters — the old hand-typed
+version quoted a host that had been retired for two days, counted one renamed
+organisation as two systems, and used two superseded product names.
+
+The public name is **Cato** and the address is **cato@orangecat.ch**. An
+earlier `mao@` address is the same person under a superseded handle and must
+not appear on any page.
 
 ## Imagery
 

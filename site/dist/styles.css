@@ -164,6 +164,16 @@ a.card:hover { border-color: var(--line-2); transform: translateY(-2px); }
 .uses .chips a:hover { color: var(--fg); border-color: var(--fg-3); background: var(--bg); }
 .uses .chips span { color: var(--fg-3); border-style: dashed; }
 
+/* ─── hire: prices and questions ──────────────────────────────────────── */
+.price { font-family: var(--mono); font-size: 1.45rem; letter-spacing: -0.01em; color: var(--fg); margin: 0.1rem 0 0.35rem; }
+.qa { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.qa details { border-bottom: 1px solid var(--line); }
+.qa summary { display: flex; align-items: baseline; gap: 0.75rem; padding: 1.1rem 0; font-size: 1.05rem; font-weight: 500; cursor: pointer; list-style: none; }
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::before { content: "+"; color: var(--accent); font-family: var(--mono); font-size: 1.1rem; line-height: 1; }
+.qa details[open] summary::before { content: "\2212"; }
+.qa details p { margin: 0 0 1.25rem 1.7rem; max-width: var(--measure-copy); color: var(--fg-2); line-height: 1.65; }
+
 /* ─── packages ────────────────────────────────────────────────────────── */
 .pkg-install { display: block; font-family: var(--mono); font-size: 0.74rem; line-height: 1.5; color: var(--fg); background: var(--bg); border: 1px solid var(--line-2); border-radius: 6px; padding: 0.5rem 0.65rem; overflow-wrap: anywhere; margin-top: 0.5rem; }
 /* margin-top:auto so every card in a row ends its links on the same line. */

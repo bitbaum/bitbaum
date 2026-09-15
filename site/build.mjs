@@ -38,7 +38,7 @@ const SITE = "https://bitbaum.orangecat.ch";
 const GITHUB = "https://github.com/bitbaum";
 const CONTRIBUTING = "https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md";
 const SHARE_POLICY = "https://solon.orangecat.ch/api/orgs/orangecat/policies/originator_share";
-const HIRE = "https://bitbaum.github.io/hire/";
+const HIRE = "/hire/";
 const ARTICLES = "https://orangecat.ch/articles";
 
 async function fetchOrSnapshot([url, file, what]) {
@@ -141,6 +141,7 @@ function shell({ title, description, path, body, nav, script }) {
     ["/packages/", "Packages"],
     ["/studio/", "Studio"],
     ["/#join", "Build with us"],
+    ["/hire/", "Hire"],
   ];
   return `<!doctype html>
 <html lang="en" class="dark">
@@ -562,13 +563,132 @@ export function studioPage(all, packages, origin) {
   return shell({ title: "The studio — bitbaum", description: "Bit for software, Baum for the shape: many branches from one trunk. What has to exist before more than one person can build here.", path: "/studio/", body, nav: "/studio/" });
 }
 
+// ── hire ────────────────────────────────────────────────────────────────────
+//
+// The page the primary button on every other page points at, so it is the one
+// page that must not read as a different company. It lived on GitHub Pages in
+// its own design, under a personal name and a superseded GitHub handle, with
+// no way to make contact — a prospect's only link was a profile page.
+//
+// Rates, method and answers are editorial (site/hire.json). The evidence is
+// NOT: the live-work list is derived from the same register as the rest of the
+// site, which is why the old hand-typed one could quote a host that had been
+// retired for two days.
+export function hirePage(all, cfg, hire, packages, origin) {
+  const live = all.filter((v) => v.status === "live" && v.stage !== "next");
+  const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
+  const pkgCount = (packages.packages ?? []).length;
+  const mail = `mailto:${hire.contact.email}?subject=${encodeURIComponent("Project enquiry")}`;
+  const body = `  <main>
+    <section class="hero">
+      <div class="wrap">
+        <span class="eyebrow">${esc(hire.eyebrow)}</span>
+        <h1 class="display-1">${esc(hire.title)}</h1>
+        <p class="lede">${esc(hire.lede)}</p>
+        <div class="actions">
+          <a class="btn primary" href="${mail}">Start a conversation ${ARROW}</a>
+          <a class="btn secondary" href="#shipped">See what is running</a>
+        </div>
+        <div class="hero-facts">
+          <span><b>${live.length}</b> systems built and running</span>
+          <span><b>${pkgCount}</b> packages published open source</span>
+          <span><b>${proven}</b> repositories with proven origin</span>
+          <span><b>0</b> manual steps between merge and deploy</span>
+        </div>
+        <p class="caption">Every number here is checkable: the systems are listed below with their addresses, the packages are on npm, and the origin proofs are <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">in a public register</a>.</p>
+      </div>
+    </section>
+
+    <section class="section" id="engagements">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Three ways to start</h2>
+          <p class="lede">Rates published rather than quoted, so you can decide whether to have the conversation at all.</p>
+        </div>
+        <div class="grid">
+${hire.offers.map((o) => `          <article class="card text">
+            <div class="card-body">
+              <div class="card-top"><span class="card-name">${esc(o.name)}</span><span class="pill">${esc(o.unit)}</span></div>
+              <span class="price">${esc(o.price)}</span>
+              <span class="card-what">${esc(o.what)}</span>
+              <div class="pkg-links"><a href="${mail}">Ask about this &rarr;</a></div>
+            </div>
+          </article>`).join("\n")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shipped">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="row"><h2 class="display-2">${live.length} systems, live right now</h2><a class="textlink" href="/#work">Everything, filterable &rarr;</a></div>
+          <p class="lede">Not screenshots from finished engagements — running services you can open in a new tab, on infrastructure that is public.</p>
+        </div>
+        <div class="grid four">
+${live.map((v) => card(v)).join("\n")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">How I work</h2>
+          <p class="lede">Four commitments that hold whether the engagement is two weeks or two years.</p>
+        </div>
+        <div class="grid two">
+${hire.method.map((m) => `          <article class="card text">
+            <div class="card-body">
+              <span class="card-name">${esc(m.title)}</span>
+              <span class="card-what">${esc(m.what)}</span>
+            </div>
+          </article>`).join("\n")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="questions">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Questions people actually ask</h2>
+        </div>
+        <div class="qa">
+${hire.faq.map((f) => `          <details>
+            <summary>${esc(f.q)}</summary>
+            <p>${esc(f.a)}</p>
+          </details>`).join("\n")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Tell me what is in the way</h2>
+          <p class="lede">${esc(hire.contact.line)}</p>
+        </div>
+        <div class="actions">
+          <a class="btn primary" href="${mail}">${esc(hire.contact.email)} ${ARROW}</a>
+          <a class="btn secondary" href="${GITHUB}">Read the code first</a>
+        </div>
+      </div>
+    </section>
+  </main>`;
+  return shell({
+    title: "Hire the studio — bitbaum",
+    description: `${hire.eyebrow}. ${hire.lede}`,
+    path: "/hire/", body, nav: "/hire/",
+  });
+}
+
 // ── build ───────────────────────────────────────────────────────────────────
-export function render({ map, packages, origin, cfg }) {
+export function render({ map, packages, origin, cfg, hire }) {
   const all = ventures(map, cfg, origin, packages);
   const files = new Map();
   files.set("index.html", homePage(all, packages, cfg, origin));
   files.set("packages/index.html", packagesPage(packages, cfg, all));
   files.set("studio/index.html", studioPage(all, packages, origin));
+  files.set("hire/index.html", hirePage(all, cfg, hire, packages, origin));
   for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all, cfg));
   files.set("map.json", JSON.stringify(map, null, 2) + "\n");
   return { all, files };
@@ -581,7 +701,8 @@ if (isMain) {
   const packages = await fetchOrSnapshot(SOURCES.packages);
   const origin = await fetchOrSnapshot(SOURCES.origin);
   const cfg = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
-  const { all, files } = render({ map, packages, origin, cfg });
+  const hire = JSON.parse(readFileSync(join(here, "hire.json"), "utf8"));
+  const { all, files } = render({ map, packages, origin, cfg, hire });
 
   // A shot the page references must exist: a broken image on a product page
   // is worse than no product page.
@@ -615,7 +736,7 @@ if (isMain) {
     }
     // Pages for ventures that no longer exist must not linger.
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
-      if (d.isDirectory() && !["shots", "fonts", "packages", "studio"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
+      if (d.isDirectory() && !["shots", "fonts", "packages", "studio", "hire"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
     cpSync(join(here, "styles.css"), join(DIST, "styles.css"));
     cpSync(join(here, "logo-mark.svg"), join(DIST, "logo-mark.svg"));

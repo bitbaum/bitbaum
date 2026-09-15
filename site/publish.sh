@@ -27,7 +27,7 @@ ssh -o BatchMode=yes "$BOX" "set -e
 # A health check proves the process; this proves the pages. Every page the
 # build wrote must answer, and the home page must carry the venture grid.
 fail=0
-for rel in "" packages/ studio/ orangecat/ loki/ solon/; do
+for rel in "" packages/ studio/ hire/ orangecat/ loki/ solon/; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "https://bitbaum.orangecat.ch/$rel")
   [ "$code" = "200" ] || { echo "https://bitbaum.orangecat.ch/$rel -> $code" >&2; fail=1; }
 done
@@ -38,6 +38,10 @@ home="$(curl -fsS https://bitbaum.orangecat.ch/)" || { echo "home page unreachab
 # that gets renamed should fail loudly here rather than pass by accident.
 grep -q 'id="work-grid"' <<<"$home" || { echo "home page has no work grid" >&2; fail=1; }
 grep -q 'id="join"' <<<"$home" || { echo "home page has no join section" >&2; fail=1; }
+# The hire page is the destination of the primary button on every page, and
+# the only one with a contact address on it. Prove both.
+hire="$(curl -fsS https://bitbaum.orangecat.ch/hire/)" || { echo "hire page unreachable" >&2; fail=1; }
+grep -q 'mailto:cato@orangecat.ch' <<<"$hire" || { echo "hire page has no contact address" >&2; fail=1; }
 cards=$(grep -o 'class="card[^"]*" href="/' <<<"$home" | wc -l)
 [ "$cards" -ge 20 ] || { echo "home page shows only $cards venture cards" >&2; fail=1; }
 [ "$fail" -eq 0 ] && echo "live: https://bitbaum.orangecat.ch/ ($(find "$HERE/dist" -name index.html | wc -l) pages)" || exit 1
