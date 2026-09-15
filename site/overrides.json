@@ -1,7 +1,7 @@
 {
   "_comment": "The presentation layer over the fleet register (https://loki.orangecat.ch/api/fleet/map). The register says WHAT EXISTS and WHERE; this file says how bitbaum shows it. Keyed by canonical slug = repository name. A register row without a `what` here is not shown at all. `stage` is one of product | pilot | concept | next, chosen by what a visitor can verify — never by the register's kind: a `client-app` row is a PILOT (built for a real organisation, in real use, no commercial terms), never a client. `tags` are the FIELD facet on the home grid and must come from `tagOrder`. `story` is the venture's own page. `shot: false` keeps a placeholder page's screenshot off the site.",
   "stages": {
-    "product": { "title": "Product", "plural": "Products", "lede": "Live, public, yours to use today." },
+    "product": { "title": "Product", "plural": "Products", "lede": "Running and public — in beta, yours to use today." },
     "pilot": { "title": "Pilot", "plural": "Pilots", "lede": "Built for a real organisation and in real use. No commercial terms — a working answer, offered first." },
     "concept": { "title": "Concept", "plural": "Concepts", "lede": "Built to apply with, before anyone asked. Working demos on public or mock data." },
     "next": { "title": "Next", "plural": "Next", "lede": "Named, not built. Listed so the list is honest." }

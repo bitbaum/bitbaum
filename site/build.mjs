@@ -137,12 +137,19 @@ export function ventures(map, cfg, origin, packages) {
   return out.sort((a, b) => (STAGE_RANK[a.stage] ?? 9) - (STAGE_RANK[b.stage] ?? 9) || a.order - b.order || a.name.localeCompare(b.name));
 }
 
-const STATUS_TEXT = { live: "live", demo: "demo", validating: "validating", prospect: "not built", unverified: "concept", "not live": "not live" };
+// apps.conf `live` means the process is SERVED. It is not a release claim, and
+// rendering it as one is the mistake this table exists to not make: nothing
+// here is finished enough to hand over without a caveat, OrangeCat included,
+// so the public word is beta. "Live" is reserved for something we would be
+// comfortable releasing, and today that is nothing.
+const STATUS_TEXT = { live: "beta", demo: "demo", validating: "validating", prospect: "not built", unverified: "concept", "not live": "not live" };
 function pill(v) {
   if (v.stage === "next") return `<span class="pill">not built</span>`;
   if (v.stage === "concept") return `<span class="pill">concept</span>`;
   const text = STATUS_TEXT[v.status] ?? v.status;
-  return text ? `<span class="pill ${text === "live" ? "live" : ""}">${esc(text)}</span>` : "";
+  // Keyed on the STATUS, not the rendered word — so renaming the word cannot
+  // silently drop the accent that marks a thing you can actually open.
+  return text ? `<span class="pill ${v.status === "live" ? "beta" : ""}">${esc(text)}</span>` : "";
 }
 
 // ── page chrome ─────────────────────────────────────────────────────────────
@@ -342,7 +349,7 @@ export function homePage(all, packages, cfg, origin) {
   const ventureBySlug = new Map(all.map((v) => [v.slug, v]));
   const alias = cfg.adopterAliases ?? {};
   const pillars = all.filter((v) => v.pillar);
-  const live = all.filter((v) => v.status === "live" && v.stage !== "next").length;
+  const running = all.filter((v) => v.status === "live" && v.stage !== "next").length;
   const pkgCount = (packages.packages ?? []).length;
   const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
@@ -352,13 +359,13 @@ export function homePage(all, packages, cfg, origin) {
       <div class="wrap">
         <span class="eyebrow">Zürich &middot; MIT throughout &middot; open to contributors</span>
         <h1 class="display-1">One trunk. Many products.</h1>
-        <p class="lede">bitbaum builds AI-native products on infrastructure that is open by construction — ${pkgCount} shared packages, one server, and a stack for moving value, dispatching work and deciding together. ${live} products run today. Take any of it, or come build here.</p>
+        <p class="lede">bitbaum builds AI-native products on infrastructure that is open by construction — ${pkgCount} shared packages, one server, and a stack for moving value, dispatching work and deciding together. ${running} products run today, all of them in beta. Take any of it, or come build here.</p>
         <div class="actions">
           <a class="btn primary" href="#work">See the work ${ARROW}</a>
           <a class="btn secondary" href="#join">Build with us</a>
         </div>
         <div class="hero-facts">
-          <span><b>${live}</b> live</span>
+          <span><b>${running}</b> in beta</span>
           <span><b>${pkgCount}</b> open-source packages</span>
           <span><b>${proven}</b> repositories with proven origin</span>
           <span><b>1</b> server</span>
@@ -376,7 +383,7 @@ export function homePage(all, packages, cfg, origin) {
 ${pillars.map((v) => `      <a class="card big" href="/${esc(v.slug)}/">
         <div class="shot"><img src="/shots/${esc(v.slug)}.jpg" alt="${esc(v.name)} — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
-          <div class="card-top"><span class="card-name">${esc(v.name)}</span><span class="pill live">${esc(v.pillar)}</span></div>
+          <div class="card-top"><span class="card-name">${esc(v.name)}</span><span class="pill pillar">${esc(v.pillar)}</span></div>
           <span class="card-what">${esc(v.pillarRole ?? v.what)}</span>
         </div>
       </a>`).join("\n")}
@@ -455,7 +462,7 @@ ${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.s
   </main>`;
   return shell({
     title: "bitbaum — one trunk, many products",
-    description: `AI-native products on open infrastructure, built in Zürich. ${live} live products, ${pkgCount} MIT packages, and a stack for moving value, dispatching work and deciding together.`,
+    description: `AI-native products on open infrastructure, built in Zürich. ${running} products in beta, ${pkgCount} MIT packages, and a stack for moving value, dispatching work and deciding together.`,
     path: "/", body, nav: "/", script: FILTER_SCRIPT,
   });
 }
@@ -511,7 +518,7 @@ export function venturePage(v, all, cfg) {
   const stage = cfg.stages?.[v.stage];
   const facts = [
     ["Stage", (stage?.title ?? v.stage) + (v.for ? `, for ${v.for}` : "")],
-    ["Status", v.stage === "next" ? "Named, not built" : v.status === "live" ? "Live" : v.status === "demo" ? "Demo, mock data" : v.status === "validating" ? "Validating" : v.status || "—"],
+    ["Status", v.stage === "next" ? "Named, not built" : v.status === "live" ? "Beta — running, not released" : v.status === "demo" ? "Demo, mock data" : v.status === "validating" ? "Validating" : v.status || "—"],
     v.tags.length ? ["Field", v.tags.map((t) => `<a href="/#work?field=${esc(slugify(t))}">${esc(t)}</a>`).join(", ")] : null,
     v.since ? ["Since", monthYear(v.since)] : null,
     v.url ? ["Address", `<a href="${esc(v.url)}">${esc(host(v.url))}</a>`] : null,
@@ -557,7 +564,7 @@ ${built}
 }
 
 export function studioPage(all, packages, origin) {
-  const live = all.filter((v) => v.status === "live" && v.stage !== "next").length;
+  const running = all.filter((v) => v.status === "live" && v.stage !== "next").length;
   const pkgCount = (packages.packages ?? []).length;
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
   const body = `  <main>
@@ -575,7 +582,7 @@ export function studioPage(all, packages, origin) {
     <section class="section">
       <div class="wrap"><div class="prose">
         <h2>What bitbaum is</h2>
-        <p>A product studio, not a consultancy and not a single-product company. It ships AI-native products for real problems — an economic agent, an operating system for AI fleets, governance you can recount, tools for a non-profit, a clinic, a housing organisation — and each is built from the same shared infrastructure, so the next one is cheaper than the last. ${live} of them run today.</p>
+        <p>A product studio, not a consultancy and not a single-product company. It ships AI-native products for real problems — an economic agent, an operating system for AI fleets, governance you can recount, tools for a non-profit, a clinic, a housing organisation — and each is built from the same shared infrastructure, so the next one is cheaper than the last. ${running} of them run today — in beta, every one.</p>
         <h2>Why the stack is what it is</h2>
         <p>Three of the products are less products for a customer than the conditions for working together. <a href="/orangecat/">OrangeCat</a> is how value reaches whoever did the work, without a bank deciding who qualifies. <a href="/loki/">Loki</a> is how work is dispatched to a fleet of AI agents and people, and verified before it ships. <a href="/solon/">Solon</a> is how rules are decided and recounted, by signature rather than by trust. Building them was the answer to a plain question: what has to exist before more than one person can build here and be treated fairly?</p>
         <h2>How the work gets done</h2>
@@ -606,7 +613,7 @@ export function studioPage(all, packages, origin) {
 // site, which is why the old hand-typed one could quote a host that had been
 // retired for two days.
 export function hirePage(all, cfg, hire, packages, origin) {
-  const live = all.filter((v) => v.status === "live" && v.stage !== "next");
+  const running = all.filter((v) => v.status === "live" && v.stage !== "next");
   const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
   const pkgCount = (packages.packages ?? []).length;
   const mail = `mailto:${hire.contact.email}?subject=${encodeURIComponent("Project enquiry")}`;
@@ -621,7 +628,7 @@ export function hirePage(all, cfg, hire, packages, origin) {
           <a class="btn secondary" href="#shipped">See what is running</a>
         </div>
         <div class="hero-facts">
-          <span><b>${live.length}</b> systems built and running</span>
+          <span><b>${running.length}</b> systems built and running</span>
           <span><b>${pkgCount}</b> packages published open source</span>
           <span><b>${proven}</b> repositories with proven origin</span>
           <span><b>0</b> manual steps between merge and deploy</span>
@@ -652,11 +659,11 @@ ${hire.offers.map((o) => `          <article class="card text">
     <section class="section" id="shipped">
       <div class="wrap">
         <div class="section-head">
-          <div class="row"><h2 class="display-2">${live.length} systems, live right now</h2><a class="textlink" href="/#work">Everything, filterable &rarr;</a></div>
+          <div class="row"><h2 class="display-2">${running.length} systems running right now</h2><a class="textlink" href="/#work">Everything, filterable &rarr;</a></div>
           <p class="lede">Not screenshots from finished engagements — running services you can open in a new tab, on infrastructure that is public.</p>
         </div>
         <div class="grid four">
-${live.map((v) => card(v)).join("\n")}
+${running.map((v) => card(v)).join("\n")}
         </div>
       </div>
     </section>

@@ -135,7 +135,10 @@ a.card:hover { border-color: var(--line-2); transform: translateY(-2px); }
 .card.big .card-what { font-size: 1.02rem; }
 .card.text .card-body { padding-top: 1.25rem; }
 .pill { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-3); border: 1px solid var(--line-2); border-radius: var(--radius-pill); padding: 0.18rem 0.55rem; white-space: nowrap; }
-.pill.live { color: var(--ok); border-color: hsl(145 55% 50% / 0.35); }
+/* The accent that marks a thing you can actually open. Named for what it
+   means, not for a status word: `live` was a release claim nothing here can
+   make, and a CSS class is how a retired word gets typed again. */
+.pill.beta, .pill.pillar { color: var(--ok); border-color: hsl(145 55% 50% / 0.35); }
 
 /* ─── filters: facets as chips, state in the address bar ──────────────── */
 .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 2rem; padding: 1.1rem 0; border-block: 1px solid var(--line); }
