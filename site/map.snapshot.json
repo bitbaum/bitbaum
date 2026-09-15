@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-15T12:30:11.810Z",
+  "generatedAt": "2026-09-15T13:45:16.689Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 35,
     "live": 15,
     "clients": 5,
-    "inFlight": 0
+    "inFlight": 1
   },
   "projects": [
     {
@@ -301,10 +301,10 @@
       ],
       "next": "e2e ok — no changes\n\nHandoff written to /home/ubuntu/.loki/sessions/loki.md as required. Task fully done.\n\n(Hermes made no file changes.)",
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
           "outcome": "user_abort",
-          "at": "2026-09-15T10:33:39.523Z"
+          "at": "2026-09-15T13:43:17.681Z"
         },
         "lastLog": {
           "date": "2026-09-15",
@@ -973,7 +973,7 @@
     },
     {
       "slug": "aoz-housing",
-      "name": "aoz-housing",
+      "name": "aoz-begleitung",
       "what": "Refugee housing placement",
       "stack": null,
       "layer": "client",
@@ -982,7 +982,7 @@
       "since": "2026-08-13",
       "urls": {
         "live": "https://aoz.orangecat.ch",
-        "repo": "https://github.com/bitbaum/aoz-housing",
+        "repo": "https://github.com/bitbaum/aoz-begleitung",
         "orangecat": null,
         "solon": null
       },
