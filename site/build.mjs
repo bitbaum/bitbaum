@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 // bitbaum.orangecat.ch — the studio's front door, generated.
 //
-// What the site is FOR: a visitor who has met Cato, found a repo, or read an
-// article wants to know what this studio is, what it has built, and whether
-// any of it is real. So every page answers with things that can be checked —
-// a live URL, a public repo, a screenshot taken by a machine — and never with
-// a claim. There are no clients on this site because there are none.
+// What the site is FOR: bringing more people into the work. A visitor who has
+// met Cato, found a repo, installed a package or read an article should be
+// able to see what exists, find the part that concerns them, and take a
+// concrete next step — install it, read its source, open a PR, or get paid
+// for what they build here. So every page ends in an action, and every claim
+// is something that can be checked: a live URL, a public repo, a screenshot a
+// machine took, an adopter list derived from real manifests.
 //
 // What it is NOT: a list anyone types. Ventures come from the fleet map
-// (Loki's register: what exists, where it runs, what state it is in) and
-// packages from fleet's derived registry. This repo owns presentation only:
-// overrides.json says the group a venture belongs to, its one line, and the
-// two sentences on its own page.
+// (Loki's register: what exists, where it runs, what state it is in), packages
+// and their adopters from fleet's derived registry, origin dates from the
+// proof register. This repo owns presentation only: overrides.json says the
+// stage a venture is at, its field tags, its one line and its story.
 //
 // Pages: /  /<slug>/  /packages/  /studio/  — static HTML in site/dist/,
 // served by Caddy's file_server with clean directory URLs.
@@ -34,6 +36,8 @@ const SOURCES = {
 };
 const SITE = "https://bitbaum.orangecat.ch";
 const GITHUB = "https://github.com/bitbaum";
+const CONTRIBUTING = "https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md";
+const SHARE_POLICY = "https://solon.orangecat.ch/api/orgs/orangecat/policies/originator_share";
 const HIRE = "https://bitbaum.github.io/hire/";
 const ARTICLES = "https://orangecat.ch/articles";
 
@@ -62,62 +66,81 @@ const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const monthYear = (iso) => (iso ? `${MONTHS[new Date(iso).getUTCMonth()]} ${new Date(iso).getUTCFullYear()}` : "");
 const host = (url) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+const slugify = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const MARK = `<svg viewBox="110 76 180 202" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" d="M 200,120 C 195,93 173,87 152,99 C 128,114 128,126 152,141 C 173,153 195,147 200,120 C 205,93 227,87 248,99 C 272,114 272,126 248,141 C 227,153 205,147 200,120"/><path fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" d="M 200,232 C 195,205 173,199 152,211 C 128,226 128,238 152,253 C 173,265 195,259 200,232 C 205,205 227,199 248,211 C 272,226 272,238 248,253 C 227,265 205,259 200,232"/></svg>`;
 const ARROW = `<span class="arrow" aria-hidden="true">&rarr;</span>`;
+const STAGE_RANK = { product: 0, pilot: 1, concept: 2, next: 3 };
 
-// ── the ventures: register facts + presentation ────────────────────────────
-export function ventures(map, cfg, origin) {
+// ── the ventures: register facts + presentation + what they are built from ──
+export function ventures(map, cfg, origin, packages) {
   const byRepo = new Map((origin?.repos ?? []).map((r) => [r.repo.split("/")[1], r]));
+  const alias = cfg.adopterAliases ?? {};
+  // Invert the registry: which packages does each venture use? The registry
+  // names adopters by repository, so an alias map carries the few that differ.
+  const uses = new Map();
+  for (const p of packages?.packages ?? []) {
+    for (const a of p.adopterNames ?? []) {
+      const slug = alias[a] ?? a;
+      if (!uses.has(slug)) uses.set(slug, []);
+      uses.get(slug).push(p.slug);
+    }
+  }
   const out = [];
   const seen = new Set();
-  for (const p of map.projects ?? []) {
-    const o = cfg.overrides?.[p.slug];
-    if (!o?.what || !o.group) continue;
-    seen.add(p.slug);
+  const build = (o, p = {}) => {
     const repoName = p.urls?.repo ? p.urls.repo.split("/").pop() : null;
     const org = repoName ? byRepo.get(repoName) : null;
-    out.push({
-      slug: p.slug,
-      name: o.name ?? p.name ?? p.slug,
+    const url = o.url ?? p.urls?.live ?? null;
+    const slug = o.slug ?? p.slug;
+    return {
+      slug,
+      name: o.name ?? p.name ?? slug,
       what: o.what,
       story: o.story ?? "",
-      group: o.group,
+      stage: o.stage,
+      tags: o.tags ?? [],
       pillar: o.pillar ?? null,
+      pillarRole: o.pillarRole ?? null,
       for: o.for ?? null,
       order: o.order ?? 99,
-      status: p.status ?? "",
-      url: o.url ?? p.urls?.live ?? null,
-      repo: p.urls?.repo ?? null,
+      status: p.status ?? (url ? "live" : ""),
+      url,
+      repo: p.urls?.repo ?? o.repo ?? null,
       since: org?.firstCommit?.date ?? p.since ?? null,
-      shot: o.shot !== false && Boolean(o.url ?? p.urls?.live),
-    });
+      shot: o.shot !== false && Boolean(url),
+      uses: (uses.get(slug) ?? []).sort(),
+    };
+  };
+  for (const p of map.projects ?? []) {
+    const o = cfg.overrides?.[p.slug];
+    if (!o?.what || !o.stage) continue;
+    seen.add(p.slug);
+    out.push(build({ ...o, slug: p.slug }, p));
   }
   for (const x of cfg.extras ?? []) {
-    if (seen.has(x.slug) || !x.what || !x.group) continue;
-    out.push({ ...x, story: x.story ?? "", pillar: null, for: x.for ?? null, order: x.order ?? 99, status: x.url ? "live" : "", url: x.url ?? null, repo: x.repo ?? null, since: null, shot: x.shot !== false && Boolean(x.url) });
+    if (seen.has(x.slug) || !x.what || !x.stage) continue;
+    out.push(build(x));
   }
-  // Home order is group order, then a venture's own order: the pager on a
-  // venture page walks the same sequence a visitor scrolled.
-  const rank = { products: 0, pilots: 1, concepts: 2, next: 3 };
-  return out.sort((a, b) => (rank[a.group] ?? 9) - (rank[b.group] ?? 9) || a.order - b.order || a.name.localeCompare(b.name));
+  // Stage order, then a venture's own order: the pager on a venture page
+  // walks the same sequence the grid shows.
+  return out.sort((a, b) => (STAGE_RANK[a.stage] ?? 9) - (STAGE_RANK[b.stage] ?? 9) || a.order - b.order || a.name.localeCompare(b.name));
 }
 
-const STATUS_PILL = { live: ["live", "live"], demo: ["demo", ""], validating: ["validating", ""], prospect: ["not built", ""], unverified: ["concept", ""], "not live": ["not live", ""] };
+const STATUS_TEXT = { live: "live", demo: "demo", validating: "validating", prospect: "not built", unverified: "concept", "not live": "not live" };
 function pill(v) {
-  if (v.group === "next") return `<span class="pill">not built</span>`;
-  if (v.group === "concepts") return `<span class="pill">concept</span>`;
-  const [text, cls] = STATUS_PILL[v.status] ?? [v.status || "", ""];
-  return text ? `<span class="pill ${cls}">${esc(text)}</span>` : "";
+  if (v.stage === "next") return `<span class="pill">not built</span>`;
+  if (v.stage === "concept") return `<span class="pill">concept</span>`;
+  const text = STATUS_TEXT[v.status] ?? v.status;
+  return text ? `<span class="pill ${text === "live" ? "live" : ""}">${esc(text)}</span>` : "";
 }
 
 // ── page chrome ─────────────────────────────────────────────────────────────
-function shell({ title, description, path, body, nav }) {
+function shell({ title, description, path, body, nav, script }) {
   const items = [
-    ["/#products", "Products"],
-    ["/#pilots", "Pilots"],
-    ["/#concepts", "Concepts"],
+    ["/#work", "The work"],
     ["/packages/", "Packages"],
     ["/studio/", "Studio"],
+    ["/#join", "Build with us"],
   ];
   return `<!doctype html>
 <html lang="en" class="dark">
@@ -149,28 +172,30 @@ ${items.map(([href, t]) => `        <a href="${href}"${nav === href ? ' aria-cur
 ${body}
   <footer>
     <div class="wrap">
-      <span>bitbaum is Cato, Zürich. Nothing here is registered; an orangecat.ch name is an address on one server.</span>
+      <span>bitbaum is built in Zürich, in the open. Nothing here is registered; an orangecat.ch name is an address on one server.</span>
       <nav aria-label="Elsewhere">
         <a href="${GITHUB}" rel="noopener">GitHub</a>
+        <a href="${CONTRIBUTING}">Contributing</a>
         <a href="${ARTICLES}">Writing</a>
         <a href="${HIRE}">Work with me</a>
         <a href="/map.json">map.json</a>
       </nav>
     </div>
   </footer>
+${script ?? ""}
 </body>
 </html>
 `;
 }
 
 // ── cards ───────────────────────────────────────────────────────────────────
-function card(v, { big = false } = {}) {
+function card(v) {
   const img = v.shot
     ? `        <div class="shot"><img src="/shots/${esc(v.slug)}.jpg" alt="${esc(v.name)} — screenshot" loading="lazy" width="1280" height="800"></div>\n`
     : "";
-  const cls = `card${big ? " big" : ""}${v.shot ? "" : " text"}`;
-  const sub = v.pillar ? `<span class="label">${esc(v.pillar)}</span>` : v.for ? `<span class="label">for ${esc(v.for)}</span>` : "";
-  return `      <a class="${cls}" href="/${esc(v.slug)}/">
+  const sub = v.for ? `<span class="label">for ${esc(v.for)}</span>` : "";
+  const meta = `data-stage="${esc(v.stage)}" data-tags="${esc(v.tags.map(slugify).join(" "))}"`;
+  return `      <a class="card${v.shot ? "" : " text"}" href="/${esc(v.slug)}/" ${meta}>
 ${img}        <div class="card-body">
           <div class="card-top"><span class="card-name">${esc(v.name)}</span>${pill(v)}</div>
           <span class="card-what">${esc(v.what)}</span>${sub ? `\n          ${sub}` : ""}
@@ -178,41 +203,147 @@ ${img}        <div class="card-body">
       </a>`;
 }
 
-function section({ id, title, lede, cards, note }) {
-  return `    <section class="section" id="${id}">
+function pkgCard(p, editorial, ventureBySlug, alias) {
+  const what = editorial?.what ?? p.description ?? "";
+  const npmHref = p.install?.source === "npm" ? `https://www.npmjs.com/package/${p.name}` : null;
+  // Who uses it, by name — the question "what uses this package?" answered on
+  // the page rather than by reading nine manifests. An adopter with no venture
+  // page renders as plain text, which is honest: it is a real adopter the site
+  // does not show.
+  const adopters = (p.adopterNames ?? []).map((a) => {
+    const v = ventureBySlug.get(alias[a] ?? a);
+    return v ? `<a href="/${esc(v.slug)}/">${esc(v.name)}</a>` : `<span>${esc(a)}</span>`;
+  });
+  return `      <article class="card text" id="${esc(p.slug)}">
+        <div class="card-body">
+          <div class="card-top"><span class="card-name">${esc(p.slug)}</span><span class="pill">${p.adopters === 1 ? "1 app" : `${p.adopters} apps`}</span></div>
+          <span class="card-what">${esc(what)}</span>
+          <code class="pkg-install">${esc(p.install?.command ?? "")}</code>
+${adopters.length ? `          <div class="uses"><span class="label">Used by</span><div class="chips">${adopters.join("")}</div></div>\n` : ""}          <div class="pkg-links"><a href="${esc(p.repo)}">source</a>${npmHref ? `<a href="${esc(npmHref)}">npm</a>` : `<span>git tag</span>`}</div>
+        </div>
+      </article>`;
+}
+
+// ── the work: one grid, two facets ──────────────────────────────────────────
+//
+// Four sections by commercial honesty was the right TRUTH and the wrong
+// NAVIGATION: someone looking for health tools had to read all four. So the
+// stage becomes a facet rather than a heading — the honesty survives as a
+// definition under the filter and as a pill on every card — and the field
+// becomes a second facet. Without JavaScript every card is visible, which is
+// the correct fallback for a list.
+function workSection(all, cfg) {
+  const stages = Object.entries(cfg.stages ?? {}).filter(([k]) => all.some((v) => v.stage === k));
+  const tags = (cfg.tagOrder ?? []).filter((t) => all.some((v) => v.tags.includes(t)));
+  const chip = (facet, value, label, n) =>
+    `<button type="button" class="chip" data-facet="${facet}" data-value="${esc(value)}" aria-pressed="false">${esc(label)}<span class="chip-n">${n}</span></button>`;
+  return `    <section class="section" id="work">
       <div class="wrap">
         <div class="section-head">
-          <div class="row"><h2 class="display-2">${esc(title)}</h2>${note ? `<span class="label">${note}</span>` : ""}</div>
-          ${lede ? `<p class="lede">${esc(lede)}</p>` : ""}
+          <div class="row"><h2 class="display-2">The work</h2><span class="label" id="work-count">${all.length} of ${all.length}</span></div>
+          <p class="lede">Everything the studio has built, at the stage it is really at. Pick a stage or a field — the address bar keeps your choice, so a filtered view is a link you can send.</p>
         </div>
-        <div class="grid${cards.length === 2 ? " two" : cards.length >= 8 ? " four" : ""}">
-${cards.join("\n")}
+        <div class="filters">
+          <div class="filter-row"><span class="label">Stage</span><div class="chips">
+${stages.map(([k, s]) => `            ${chip("stage", k, s.plural, all.filter((v) => v.stage === k).length)}`).join("\n")}
+          </div></div>
+          <div class="filter-row"><span class="label">Field</span><div class="chips">
+${tags.map((t) => `            ${chip("tag", slugify(t), t, all.filter((v) => v.tags.includes(t)).length)}`).join("\n")}
+          </div></div>
+          <button type="button" class="clear" id="clear-filters" hidden>Clear ${ARROW}</button>
         </div>
+        <dl class="legend">
+${stages.map(([, s]) => `          <div><dt>${esc(s.plural)}</dt><dd>${esc(s.lede)}</dd></div>`).join("\n")}
+        </dl>
+        <div class="grid" id="work-grid">
+${all.map((v) => card(v)).join("\n")}
+        </div>
+        <p class="empty" id="work-empty" hidden>Nothing at that intersection yet. <button type="button" class="linkish" data-clear>Clear the filter</button> to see everything.</p>
       </div>
     </section>`;
 }
 
+const FILTER_SCRIPT = `  <script>
+  // Facet filtering, progressive: without this file every card is shown.
+  // An empty selection means NO filter (never "nothing matches"), and the
+  // address bar carries the choice so a filtered view can be shared.
+  (function () {
+    var grid = document.getElementById("work-grid");
+    if (!grid) return;
+    var cards = Array.prototype.slice.call(grid.children);
+    var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
+    var countEl = document.getElementById("work-count");
+    var emptyEl = document.getElementById("work-empty");
+    var clearEl = document.getElementById("clear-filters");
+    var state = { stage: new Set(), tag: new Set() };
+
+    function apply(push) {
+      var shown = 0;
+      cards.forEach(function (c) {
+        var stageOk = state.stage.size === 0 || state.stage.has(c.dataset.stage);
+        var cardTags = (c.dataset.tags || "").split(" ").filter(Boolean);
+        var tagOk = state.tag.size === 0 || cardTags.some(function (t) { return state.tag.has(t); });
+        var on = stageOk && tagOk;
+        c.hidden = !on;
+        if (on) shown++;
+      });
+      chips.forEach(function (ch) {
+        ch.setAttribute("aria-pressed", state[ch.dataset.facet].has(ch.dataset.value) ? "true" : "false");
+      });
+      countEl.textContent = shown + " of " + cards.length;
+      emptyEl.hidden = shown !== 0;
+      var any = state.stage.size + state.tag.size > 0;
+      clearEl.hidden = !any;
+      if (push) {
+        var parts = [];
+        if (state.stage.size) parts.push("stage=" + Array.from(state.stage).join(","));
+        if (state.tag.size) parts.push("field=" + Array.from(state.tag).join(","));
+        history.replaceState(null, "", parts.length ? "#work?" + parts.join("&") : location.pathname + "#work");
+      }
+    }
+    function read() {
+      var q = location.hash.indexOf("?");
+      state.stage = new Set(); state.tag = new Set();
+      if (q === -1) return;
+      new URLSearchParams(location.hash.slice(q + 1)).forEach(function (val, key) {
+        var into = key === "stage" ? state.stage : key === "field" ? state.tag : null;
+        if (into) val.split(",").filter(Boolean).forEach(function (v) { into.add(v); });
+      });
+    }
+    chips.forEach(function (ch) {
+      ch.addEventListener("click", function () {
+        var set = state[ch.dataset.facet];
+        if (set.has(ch.dataset.value)) set.delete(ch.dataset.value); else set.add(ch.dataset.value);
+        apply(true);
+      });
+    });
+    function clear() { state.stage.clear(); state.tag.clear(); apply(true); }
+    clearEl.addEventListener("click", clear);
+    Array.prototype.forEach.call(document.querySelectorAll("[data-clear]"), function (b) { b.addEventListener("click", clear); });
+    window.addEventListener("hashchange", function () { read(); apply(false); });
+    read(); apply(false);
+  })();
+  </script>`;
+
 // ── pages ───────────────────────────────────────────────────────────────────
 export function homePage(all, packages, cfg, origin) {
-  const by = (g) => all.filter((v) => v.group === g);
-  const products = by("products");
-  const pillars = products.filter((v) => v.pillar);
-  const rest = products.filter((v) => !v.pillar);
-  const live = all.filter((v) => v.status === "live" && v.group !== "next").length;
+  const ventureBySlug = new Map(all.map((v) => [v.slug, v]));
+  const alias = cfg.adopterAliases ?? {};
+  const pillars = all.filter((v) => v.pillar);
+  const live = all.filter((v) => v.status === "live" && v.stage !== "next").length;
   const pkgCount = (packages.packages ?? []).length;
   const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
-  const G = cfg.groups ?? {};
 
   const body = `  <main>
     <section class="hero">
       <div class="wrap">
-        <span class="eyebrow">One person &middot; Zürich &middot; everything public</span>
+        <span class="eyebrow">Zürich &middot; MIT throughout &middot; open to contributors</span>
         <h1 class="display-1">One trunk. Many products.</h1>
-        <p class="lede">bitbaum is a one-person studio building AI-native products on shared, open-source infrastructure. ${live} of them run today. Every line of code is public, and every product on this page is a screenshot, not a promise.</p>
+        <p class="lede">bitbaum builds AI-native products on infrastructure that is open by construction — ${pkgCount} shared packages, one server, and a stack for moving value, dispatching work and deciding together. ${live} products run today. Take any of it, or come build here.</p>
         <div class="actions">
-          <a class="btn primary" href="#products">See the products ${ARROW}</a>
-          <a class="btn secondary" href="/studio/">How it works</a>
+          <a class="btn primary" href="#work">See the work ${ARROW}</a>
+          <a class="btn secondary" href="#join">Build with us</a>
         </div>
         <div class="hero-facts">
           <span><b>${live}</b> live</span>
@@ -223,33 +354,84 @@ export function homePage(all, packages, cfg, origin) {
       </div>
     </section>
 
-${section({ id: "products", title: G.products?.title ?? "Products", lede: G.products?.lede, cards: pillars.map((v) => card(v, { big: true })) })}
-${rest.length ? `    <section class="section" id="more-products">
-      <div class="wrap">
-        <div class="grid four">
-${rest.map((v) => card(v)).join("\n")}
-        </div>
-      </div>
-    </section>` : ""}
-${section({ id: "pilots", title: G.pilots?.title ?? "Pilots", lede: G.pilots?.lede, cards: by("pilots").map((v) => card(v)) })}
-${section({ id: "concepts", title: G.concepts?.title ?? "Concepts", lede: G.concepts?.lede, cards: by("concepts").map((v) => card(v)) })}
-${section({ id: "next", title: G.next?.title ?? "Next", lede: G.next?.lede, cards: by("next").map((v) => card(v)) })}
-    <section class="section" id="packages">
+    <section class="section" id="stack">
       <div class="wrap">
         <div class="section-head">
-          <div class="row"><h2 class="display-2">Built from ${pkgCount} shared packages</h2><a class="textlink" href="/packages/">All packages &rarr;</a></div>
-          <p class="lede">${esc(cfg.packages_lede ?? "")}</p>
+          <h2 class="display-2">Three layers, so more than one person can build here</h2>
+          <p class="lede">Working together needs more than a repository: a way to be paid, a way to get work done, and a way to decide. Each layer is a product in its own right, and each is what makes the next contributor possible.</p>
         </div>
         <div class="grid">
-${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.slug])).join("\n")}
+${pillars.map((v) => `      <a class="card big" href="/${esc(v.slug)}/">
+        <div class="shot"><img src="/shots/${esc(v.slug)}.jpg" alt="${esc(v.name)} — screenshot" loading="lazy" width="1280" height="800"></div>
+        <div class="card-body">
+          <div class="card-top"><span class="card-name">${esc(v.name)}</span><span class="pill live">${esc(v.pillar)}</span></div>
+          <span class="card-what">${esc(v.pillarRole ?? v.what)}</span>
+        </div>
+      </a>`).join("\n")}
         </div>
       </div>
     </section>
+
+${workSection(all, cfg)}
+
+    <section class="section" id="packages">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="row"><h2 class="display-2">Built from ${pkgCount} shared packages</h2><a class="textlink" href="/packages/">All ${pkgCount}, with who uses them &rarr;</a></div>
+          <p class="lede">${esc(cfg.packages_lede ?? "")}</p>
+        </div>
+        <div class="grid">
+${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.slug], ventureBySlug, alias)).join("\n")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="join">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Build with us</h2>
+          <p class="lede">Anyone can take this work or join it. Four doors, in order of how much they ask of you.</p>
+        </div>
+        <div class="grid four">
+          <article class="card text">
+            <div class="card-body">
+              <div class="card-top"><span class="card-name">Use it</span><span class="pill">MIT</span></div>
+              <span class="card-what">Every package is MIT and installable today. Nothing to ask, nothing to sign.</span>
+              <code class="pkg-install">pnpm add @bitbaum/ai-kit</code>
+              <div class="pkg-links"><a href="/packages/">All packages &rarr;</a></div>
+            </div>
+          </article>
+          <article class="card text">
+            <div class="card-body">
+              <div class="card-top"><span class="card-name">Contribute</span><span class="pill">open PRs</span></div>
+              <span class="card-what">Sign off your commits and open a pull request. A sweep merges anything green, so review is the only queue.</span>
+              <code class="pkg-install">git commit -s</code>
+              <div class="pkg-links"><a href="${CONTRIBUTING}">Contributor terms</a><a href="${GITHUB}">Repositories</a></div>
+            </div>
+          </article>
+          <article class="card text">
+            <div class="card-body">
+              <div class="card-top"><span class="card-name">Be paid for it</span><span class="pill">10%</span></div>
+              <span class="card-what">A governed rule routes a tenth of a product's net revenue to the originators of the code it is built from — by default, split equally, on a public ledger.</span>
+              <div class="pkg-links"><a href="${SHARE_POLICY}">The policy</a><a href="/solon/">How it is governed</a></div>
+            </div>
+          </article>
+          <article class="card text">
+            <div class="card-body">
+              <div class="card-top"><span class="card-name">Hire the studio</span><span class="pill">Zürich</span></div>
+              <span class="card-what">Fractional CTO and contract engineering, with rates and scope published rather than quoted.</span>
+              <div class="pkg-links"><a href="${HIRE}">Rates and scope</a><a href="${ARTICLES}">Writing</a></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="open">
       <div class="wrap">
         <div class="section-head">
           <h2 class="display-2">Open by construction</h2>
-          <p class="lede">Anyone can join the work or take it. Three things make that safe to say.</p>
+          <p class="lede">Three things make "take it, or join it" safe to say out loud.</p>
         </div>
         <div class="facts">
           <div class="fact"><span class="label">Licence</span><span class="display-3">MIT, everywhere</span><p class="copy">Every product and package the studio owns is MIT. What is built for someone else stays theirs.</p></div>
@@ -259,60 +441,64 @@ ${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.s
       </div>
     </section>
   </main>`;
-  return shell({ title: "bitbaum — one trunk, many products", description: `A one-person studio in Zürich building AI-native products on shared open-source infrastructure. ${live} live products, ${pkgCount} open-source packages, everything public.`, path: "/", body, nav: "/" });
+  return shell({
+    title: "bitbaum — one trunk, many products",
+    description: `AI-native products on open infrastructure, built in Zürich. ${live} live products, ${pkgCount} MIT packages, and a stack for moving value, dispatching work and deciding together.`,
+    path: "/", body, nav: "/", script: FILTER_SCRIPT,
+  });
 }
 
-function pkgCard(p, editorial) {
-  const what = editorial?.what ?? p.description ?? "";
-  const uses = p.adopters === 1 ? "used in 1 app" : `used in ${p.adopters} apps`;
-  const npmHref = p.install?.source === "npm" ? `https://www.npmjs.com/package/${p.name}` : null;
-  return `      <article class="card text">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">${esc(p.slug)}</span><span class="pill">${esc(uses)}</span></div>
-          <span class="card-what">${esc(what)}</span>
-          <code class="pkg-install">${esc(p.install?.command ?? "")}</code>
-          <div class="pkg-links"><a href="${esc(p.repo)}">source</a>${npmHref ? `<a href="${esc(npmHref)}">npm</a>` : `<span>git tag</span>`}</div>
-        </div>
-      </article>`;
-}
-
-export function packagesPage(packages, cfg) {
+export function packagesPage(packages, cfg, all) {
+  const ventureBySlug = new Map(all.map((v) => [v.slug, v]));
+  const alias = cfg.adopterAliases ?? {};
   const list = packages.packages ?? [];
+  const totalUses = list.reduce((s, p) => s + (p.adopters ?? 0), 0);
   const body = `  <main>
     <section class="hero">
       <div class="wrap">
-        <span class="eyebrow">${list.length} packages &middot; MIT</span>
+        <span class="eyebrow">${list.length} packages &middot; MIT &middot; ${totalUses} installs across the fleet</span>
         <h1 class="display-1">The trunk.</h1>
         <p class="lede">${esc(cfg.packages_lede ?? "")}</p>
+        <div class="actions">
+          <a class="btn primary" href="${GITHUB}">Read the source ${ARROW}</a>
+          <a class="btn secondary" href="${CONTRIBUTING}">How to contribute</a>
+        </div>
       </div>
     </section>
     <section class="section">
       <div class="wrap">
         <div class="grid">
-${list.map((p) => pkgCard(p, cfg.packages?.[p.slug])).join("\n")}
+${list.map((p) => pkgCard(p, cfg.packages?.[p.slug], ventureBySlug, alias)).join("\n")}
         </div>
+        <p class="caption">Adopter lists are derived from real <code>package.json</code> files across the organisation by <a href="https://github.com/bitbaum/fleet/blob/main/scripts/ci/shared-registry-audit.mjs">fleet's registry audit</a> — nobody types them, and a package that quietly lost its last user would show it here.</p>
       </div>
     </section>
   </main>`;
   return shell({ title: "Packages — bitbaum", description: cfg.packages_lede ?? "", path: "/packages/", body, nav: "/packages/" });
 }
 
-export function venturePage(v, all) {
+export function venturePage(v, all, cfg) {
   const i = all.indexOf(v);
   const prev = all[(i - 1 + all.length) % all.length];
   const next = all[(i + 1) % all.length];
-  const groupTitle = { products: "Product", pilots: "Pilot", concepts: "Concept", next: "Next" }[v.group] ?? "";
+  const stage = cfg.stages?.[v.stage];
   const facts = [
-    ["What", groupTitle + (v.for ? `, for ${v.for}` : "")],
-    ["Status", v.group === "next" ? "Named, not built" : v.status === "live" ? "Live" : v.status === "demo" ? "Demo, mock data" : v.status === "validating" ? "Validating" : v.status || "—"],
+    ["Stage", (stage?.title ?? v.stage) + (v.for ? `, for ${v.for}` : "")],
+    ["Status", v.stage === "next" ? "Named, not built" : v.status === "live" ? "Live" : v.status === "demo" ? "Demo, mock data" : v.status === "validating" ? "Validating" : v.status || "—"],
+    v.tags.length ? ["Field", v.tags.map((t) => `<a href="/#work?field=${esc(slugify(t))}">${esc(t)}</a>`).join(", ")] : null,
     v.since ? ["Since", monthYear(v.since)] : null,
     v.url ? ["Address", `<a href="${esc(v.url)}">${esc(host(v.url))}</a>`] : null,
     v.repo ? ["Source", `<a href="${esc(v.repo)}">${esc(v.repo.replace("https://github.com/", ""))}</a>`] : null,
   ].filter(Boolean);
+  // The other direction of "what uses these packages": from a product, to the
+  // shared code it is made of.
+  const built = v.uses.length
+    ? `        <div class="uses"><span class="label">Built from</span><div class="chips">${v.uses.map((s) => `<a href="/packages/#${esc(s)}">${esc(s)}</a>`).join("")}</div></div>`
+    : "";
   const body = `  <main>
     <section class="venture-hero">
       <div class="wrap">
-        <span class="eyebrow${v.status === "live" ? "" : " quiet"}">${esc(groupTitle)}${v.pillar ? ` &middot; ${esc(v.pillar)}` : ""}${v.for ? ` &middot; for ${esc(v.for)}` : ""}</span>
+        <span class="eyebrow${v.status === "live" ? "" : " quiet"}">${esc(stage?.title ?? v.stage)}${v.pillar ? ` &middot; ${esc(v.pillar)}` : ""}${v.for ? ` &middot; for ${esc(v.for)}` : ""}</span>
         <h1 class="display-1">${esc(v.name)}</h1>
         <p class="lede">${esc(v.what)}</p>
         <div class="actions">
@@ -325,56 +511,65 @@ ${v.shot ? `    <div class="wrap"><div class="venture-shot"><img src="/shots/${e
     <section class="wrap venture-body">
       <div class="prose">
         ${v.story ? `<p>${esc(v.story)}</p>` : ""}
+        ${stage ? `<p class="caption"><strong>${esc(stage.plural)}:</strong> ${esc(stage.lede)}</p>` : ""}
         ${v.shot ? `<p class="caption">The image is a screenshot of ${esc(host(v.url))}, taken by a machine when this site was built. If the product changed, so did the picture.</p>` : ""}
       </div>
       <div class="venture-facts">
 ${facts.map(([k, val]) => `        <div><span class="label">${esc(k)}</span><span>${val}</span></div>`).join("\n")}
+${built}
       </div>
     </section>
-    <div class="wrap"><div class="pager"><a href="/${esc(prev.slug)}/">&larr; ${esc(prev.name)}</a><a href="/#${esc(v.group)}">All ${esc({ products: "products", pilots: "pilots", concepts: "concepts", next: "next" }[v.group] ?? "")}</a><a href="/${esc(next.slug)}/">${esc(next.name)} &rarr;</a></div></div>
+    <div class="wrap"><div class="pager"><a href="/${esc(prev.slug)}/">&larr; ${esc(prev.name)}</a><a href="/#work?stage=${esc(v.stage)}">All ${esc((stage?.plural ?? "").toLowerCase())}</a><a href="/${esc(next.slug)}/">${esc(next.name)} &rarr;</a></div></div>
   </main>`;
   return shell({ title: `${v.name} — ${v.what}`, description: v.story || v.what, path: `/${v.slug}/`, body });
 }
 
 export function studioPage(all, packages, origin) {
-  const live = all.filter((v) => v.status === "live" && v.group !== "next").length;
+  const live = all.filter((v) => v.status === "live" && v.stage !== "next").length;
+  const pkgCount = (packages.packages ?? []).length;
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
   const body = `  <main>
     <section class="hero">
       <div class="wrap">
         <span class="eyebrow">The studio</span>
         <h1 class="display-1">Bit, and Baum.</h1>
-        <p class="lede">Bit for software. Baum, German for tree, for the shape: many branches from one trunk. One person builds it, and the trunk is what makes that possible.</p>
+        <p class="lede">Bit for software. Baum, German for tree, for the shape: many branches from one trunk. The trunk is what lets a small group ship like a large one — and what lets the next person start in the middle rather than at the beginning.</p>
+        <div class="actions">
+          <a class="btn primary" href="/#join">Build with us ${ARROW}</a>
+          <a class="btn secondary" href="/#work">See the work</a>
+        </div>
       </div>
     </section>
     <section class="section">
       <div class="wrap"><div class="prose">
         <h2>What bitbaum is</h2>
-        <p>A product studio, not a consultancy and not a single-product company. It ships AI-native products for real problems — an economic agent, an operating system for AI fleets, governance you can recount, tools for a non-profit, a clinic, a housing organisation — and each one is built from the same shared infrastructure, so the next one is cheaper than the last. ${live} of them run today.</p>
-        <h2>How one person ships this much</h2>
-        <p>The trunk. ${(packages.packages ?? []).length} open-source packages carry the parts every product needs: which AI model to call and what to do when it fails, email, forms filled from prose, rate limits, lists, threads, design tokens, sites as data. On top of that, <a href="/loki/">Loki</a> runs a fleet of AI agents that build, verify and deploy every product here — including Loki. The human's job is judgment: what to build, what is good enough, what is true.</p>
+        <p>A product studio, not a consultancy and not a single-product company. It ships AI-native products for real problems — an economic agent, an operating system for AI fleets, governance you can recount, tools for a non-profit, a clinic, a housing organisation — and each is built from the same shared infrastructure, so the next one is cheaper than the last. ${live} of them run today.</p>
+        <h2>Why the stack is what it is</h2>
+        <p>Three of the products are less products for a customer than the conditions for working together. <a href="/orangecat/">OrangeCat</a> is how value reaches whoever did the work, without a bank deciding who qualifies. <a href="/loki/">Loki</a> is how work is dispatched to a fleet of AI agents and people, and verified before it ships. <a href="/solon/">Solon</a> is how rules are decided and recounted, by signature rather than by trust. Building them was the answer to a plain question: what has to exist before more than one person can build here and be treated fairly?</p>
+        <h2>How the work gets done</h2>
+        <p>The trunk. ${pkgCount} open-source packages carry the parts every product needs: which AI model to call and what to do when it fails, email, forms filled from prose, rate limits, lists, threads, design tokens, sites as data. Loki runs a fleet of AI agents that build, verify and deploy every product here — including Loki. The human job is judgment: what to build, what is good enough, what is true.</p>
         <h2>What is true</h2>
-        <p>Nothing on this site is typed by hand. The list of products comes from the register that provisioning reads; the pictures are screenshots a machine takes on every build; the counts come from GitHub, npm and the register. There are no clients on this site because there are none: the pilots run for real organisations as favours, offered first, and say so.</p>
+        <p>Nothing on this site is typed by hand. The list of products comes from the register that provisioning reads; the pictures are screenshots a machine takes on every build; the adopter lists come from real manifests; the counts come from GitHub, npm and the register. There are no clients on this site because there are none: the pilots run for real organisations as favours, offered first, and say so.</p>
         <h2>Open by construction</h2>
-        <p>Every product and package the studio owns is MIT. Contributor terms live in one place, <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md">bitbaum/.github</a>. Every repository's origin is stamped nightly through OpenTimestamps and archived by Software Heritage${block ? `, anchored in Bitcoin since block ${block}` : ""}, so precedence is arithmetic rather than a claim. And a rule in <a href="/solon/">Solon</a> routes a share of any revenue back to whoever originated the code a product is built from — by default, before there is revenue to route.</p>
+        <p>Every product and package the studio owns is MIT. Contributor terms live in one place, <a href="${CONTRIBUTING}">bitbaum/.github</a>: sign off your commits and a sweep merges anything green. Every repository's origin is stamped nightly through OpenTimestamps and archived by Software Heritage${block ? `, anchored in Bitcoin since block ${block}` : ""}, so precedence is arithmetic rather than a claim. And a <a href="${SHARE_POLICY}">rule in Solon</a> routes a tenth of any revenue back to whoever originated the code a product is built from — by default, before there is revenue to route.</p>
         <h2>Numbers, in the open</h2>
         <p>Stars, forks, downloads, paying clients and what has been paid to originators are read nightly from sources that are not us and published as they are — most of them zero today. <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">The readings</a>, and the <a href="${ARTICLES}">writing</a> that keeps score in public.</p>
-        <h2>Work with me</h2>
+        <h2>Work with the studio</h2>
         <p>Fractional CTO and contract engineering, Zürich. Rates and scope are on the <a href="${HIRE}">hire page</a>. The code is on <a href="${GITHUB}">GitHub</a>.</p>
       </div></div>
     </section>
   </main>`;
-  return shell({ title: "The studio — bitbaum", description: "Bit for software, Baum for the shape: many branches from one trunk. How one person in Zürich ships a fleet of AI-native products.", path: "/studio/", body, nav: "/studio/" });
+  return shell({ title: "The studio — bitbaum", description: "Bit for software, Baum for the shape: many branches from one trunk. What has to exist before more than one person can build here.", path: "/studio/", body, nav: "/studio/" });
 }
 
 // ── build ───────────────────────────────────────────────────────────────────
 export function render({ map, packages, origin, cfg }) {
-  const all = ventures(map, cfg, origin);
+  const all = ventures(map, cfg, origin, packages);
   const files = new Map();
   files.set("index.html", homePage(all, packages, cfg, origin));
-  files.set("packages/index.html", packagesPage(packages, cfg));
+  files.set("packages/index.html", packagesPage(packages, cfg, all));
   files.set("studio/index.html", studioPage(all, packages, origin));
-  for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all));
+  for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all, cfg));
   files.set("map.json", JSON.stringify(map, null, 2) + "\n");
   return { all, files };
 }
@@ -394,6 +589,13 @@ if (isMain) {
     if (v.shot && !existsSync(join(DIST, "shots", `${v.slug}.jpg`))) {
       console.error(`missing shot for ${v.slug} — run: node site/shots.mjs ${v.slug}`);
       process.exit(1);
+    }
+  }
+  // A tag no chip offers is a card nobody can filter to.
+  const known = new Set(cfg.tagOrder ?? []);
+  for (const v of all) {
+    for (const t of v.tags) {
+      if (!known.has(t)) { console.error(`${v.slug}: tag "${t}" is not in tagOrder`); process.exit(1); }
     }
   }
 
@@ -419,5 +621,7 @@ if (isMain) {
     cpSync(join(here, "logo-mark.svg"), join(DIST, "logo-mark.svg"));
     cpSync(join(here, "fonts"), join(DIST, "fonts"), { recursive: true });
     console.log(`wrote site/dist: ${files.size} pages (${all.length} ventures, ${(packages.packages ?? []).length} packages), map ${map.generatedAt ?? "snapshot"}`);
+    const orphans = all.filter((v) => v.uses.length === 0 && v.stage !== "next" && v.stage !== "concept").map((v) => v.slug);
+    if (orphans.length) console.log(`  no shared packages recorded for: ${orphans.join(", ")}`);
   }
 }
