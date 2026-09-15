@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-14T01:46:54.750Z",
+  "generatedAt": "2026-09-15T11:43:37.798Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -20,9 +20,9 @@
   ],
   "summary": {
     "projects": 35,
-    "live": 14,
+    "live": 15,
     "clients": 5,
-    "inFlight": 1
+    "inFlight": 0
   },
   "projects": [
     {
@@ -40,16 +40,275 @@
         "orangecat": "https://orangecat.ch/projects/8130c927-114a-45b7-8cc2-99efd5224025",
         "solon": null
       },
-      "next": "EMPTY — nothing mid-flight in this repo. On the box: run the two ln -sfn commands below then restart the unit.",
-      "now": {
-        "openRuns": 1,
-        "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-09-14T00:27:35.019Z"
+      "identity": {
+        "problem": "Builders need a trustworthy command center for AI agents to manage multiple projects simultaneously",
+        "solution": "Loki provides a multi-user SaaS platform for commanding AI agent fleets across projects, with a focus on control, simplicity, and security",
+        "mission": "Direct the creation of everything you can imagine. Loki is the control plane for the age of autonomous creation: today one person commands a fleet of AI agents building software, tomorrow the same person commands fleets of robots building the physical world. Raw capability is no longer the constraint — human direction is. Every surface exists to raise the number of agents one operator can hold in their head and aim.",
+        "vision": "Leverage shifts from companies to individuals: a single builder, on their own machines and their own models, out-executes a team, and the only remaining bottleneck is their judgment about what to build. Deliberately open- and local-model capable, so creation is never gated behind closed frontier subscriptions. The commercial form — a high-retention SaaS for builders and small teams, with OrangeCat as the economic layer — follows from that goal rather than defining it."
+      },
+      "roadmap": [
+        {
+          "title": "Loki Phase 2 — Adapters",
+          "status": "active",
+          "progress": 0,
+          "targetDate": "2026-07-30",
+          "milestones": [
+            "Gmail adapter",
+            "Calendar adapter",
+            "GitHub adapter",
+            "Bank CSV import"
+          ]
         },
-        "lastLog": {
+        {
+          "title": "Build Ivy into a Life OS",
+          "status": "active",
+          "progress": 30,
+          "targetDate": "2027-06-29",
+          "milestones": [
+            "Knowledge graph operational",
+            "Cockpit dashboard live",
+            "Social graph imported",
+            "Adapters: Gmail, Calendar, GitHub",
+            "Ivy proactive actions",
+            "Multi-user ready"
+          ]
+        },
+        {
+          "title": "Loki Phase 1",
+          "status": "active",
+          "progress": 85,
+          "targetDate": "2026-04-29",
+          "milestones": [
+            "Schema + seed",
+            "App shell + navigation",
+            "Today view",
+            "People view",
+            "Money view",
+            "Goals view",
+            "Projects view",
+            "System + Memory views",
+            "Polish + bug fixes"
+          ]
+        },
+        {
+          "title": "Runner stall: auto-recovery & alerting",
+          "status": "completed",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            "Detect execution-stall (pushes alive, command loop hung)",
+            "Auto-recover: re-dispatch / restart runner on stall",
+            "Alert operator (push / Telegram) when a stall is detected"
+          ]
+        },
+        {
+          "title": "Capture run outcomes (Done/Failed/commit), not just dispatches",
+          "status": "completed",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            "Persist outcome (success/partial/error/hang/abort/timeout)",
+            "Capture resulting commit SHA per run",
+            "Build run summary from the SSOT field array (no dropped fields)",
+            "Surface outcomes in the activity timeline + analytics view"
+          ]
+        },
+        {
+          "title": "Truthful-state chips on project cards",
+          "status": "completed",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            "'no commit' warning when a done run left no git trace",
+            "Stale-running / execution-stall chip",
+            "Surface block-reason / no-op-count as chips"
+          ]
+        },
+        {
+          "title": "Finish zellij -> Loki-owned PTY terminal migration",
+          "status": "completed",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            "Single transport-parameterized xterm view",
+            "node-pty owned-PTY executor in Fleet Runner",
+            "Cut dispatch path from zellij name-puppeting to owned PTY",
+            "Remove zellij dependency from the launch flow"
+          ]
+        },
+        {
+          "title": "Deploy on origin/main + auto-migrate + rollback/alert",
+          "status": "active",
+          "progress": 75,
+          "targetDate": null,
+          "milestones": [
+            "Push-to-deploy on main (pre-push backgrounds the deploy)",
+            "Post-deploy verification (sign-in / health / providers)",
+            "Auto-run drizzle migrate on deploy (ledger-based)",
+            "Auto-rollback + alert on failed verification"
+          ]
+        },
+        {
+          "title": "One context assembler: Global+Project+Session into EVERY dispatch",
+          "status": "active",
+          "progress": 70,
+          "targetDate": null,
+          "milestones": [
+            "Global operating principles injected (Global tier)",
+            "Project brief + active goals injected via getProjectContext",
+            "Session handoff injected on every dispatch path",
+            "Close the /api/inject-core bypass (one assembler, all paths)"
+          ]
+        },
+        {
+          "title": "i18n missing-key tooling + national-locale SLAs",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Tooling / CI check that fails on missing translation keys",
+            "Per-locale completeness report",
+            "Define national-locale SLAs (de-CH first)"
+          ]
+        },
+        {
+          "title": "OC seam: backer live-build peek on OC project pages",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Scoped read-only peek token on FC",
+            "OC project-page embed behind funding check"
+          ]
+        },
+        {
+          "title": "OC seam: wallet context for Loki",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "OC v1 GET /wallets honoring wallet.read bearer",
+            "FC: Economy line in Loki fleet context",
+            "Graceful degradation when unlinked"
+          ]
+        },
+        {
+          "title": "OC seam: genesis flow — one sentence to funded workspace",
+          "status": "active",
+          "progress": 10,
+          "targetDate": null,
+          "milestones": [
+            "Funding events → FC activity (shipped)",
+            "OC Build-CTA carries project payload into FC new-project flow",
+            "Counterpart-missing suggestion rows both sides",
+            "One-conversation genesis orchestration"
+          ]
+        },
+        {
+          "title": "OC seam: verify BTC pass with a real sats purchase",
+          "status": "active",
+          "progress": 90,
+          "targetDate": null,
+          "milestones": [
+            "OC pass products live",
+            "Webhook secret set both ends",
+            "Signed test grant verified e2e",
+            "Real sats purchase confirms plan flip"
+          ]
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-09-15",
+          "done": "Hosted dispatch (Hermes) — # Loki operator dispatch\nEverything in this message is assembled by Lo"
+        },
+        {
+          "date": "2026-09-15",
+          "done": "Hosted dispatch (Hermes) — # Loki operator dispatch\nEverything in this message is assembled by Lo"
+        },
+        {
+          "date": "2026-09-15",
+          "done": "Hosted dispatch (Hermes) FAILED — # Loki operator dispatch\nEverything in this message is assem"
+        },
+        {
+          "date": "2026-09-15",
+          "done": "e2e ok — no changes"
+        },
+        {
           "date": "2026-09-11",
           "done": "Diagnosed sbb-fundbuero-app.service (a separate, non-loki app hosted on the box, port 4016) as a box-side deploy artifact, not a loki repo bug: loki's own register (scripts/hetzner/apps.conf) is already correct — it was renamed to nordbahn-fundbuero and reverted back to sbb-fundbuero same-day in #649 — but the app's most recent release (/opt/sbb-fundbuero/releases/20260911-123358-de3c8d7; the three prior releases are fine) has launch.sh and .env symlinked to the now-nonexistent /opt/nordbahn-fundbuero/shared/*, so the service 203/EXECs in a restart loop. /opt is out of my sandbox by design, so I did not touch it; gave the operator the exact repoint+restart commands instead. No loki repo change was needed or made."
+        },
+        {
+          "date": "2026-09-11",
+          "done": "Diagnosed orangecat-cat-eval.service failure (type 6/8 at 07:18 UTC, manual run right after the 07:08 deploy of OC #967): OC #964 removed the keyword gate on the tool router, so thin inputs (\"we're a bakery\", a bio) reach the router for the first time and nemotron drafts entities instead of asking one question — proven by running the pre-#964 gate over the 8 probes (e/f/g/h newly exposed; both failures among them; the 4 previously-tooled probes all pass); no PASS baseline exists (journal rotated, every earlier night SKIPPED). The fix was already in flight in the authoring OC session (branch cat-router-thin-input, aac32b02, THIN INPUT routing rule + test); sent it the proof and stood down instead of opening a competing PR. Nothing on the box to change; incident-dispatch's per-unit stamp prevents a second agent."
+        },
+        {
+          "date": "2026-09-10",
+          "done": "Diagnosed evig-cron@timecard-reminders failure as a boot race (box up 08:01:48 UTC, Persistent=true fired the missed 08:00 run at 08:01:58, evig-app bound :4004 at 08:02:00 -> curl exit 7 -> set -e -> daily unit failed for 24h; 0 recipients due, so no reminders lost); fixed run-cron.sh to retry only connection-refused, added a 9-assertion regression suite wired into verify as test:ops, opened bitbaum/evig#471."
+        },
+        {
+          "date": "2026-09-10",
+          "done": "(in flight) evig cron boot-race fix — run-cron.sh retries connection-refused; regression suite added; evig `pnpm run verify` running."
+        },
+        {
+          "date": "2026-09-05",
+          "done": "Diagnosed fc-cron@check-runner-stall.service failure as a deploy-restart race (curl exit 7 against 127.0.0.1:4002 during loki-app.service's documented ~13s bound-but-refusing window) — already self-resolved on the box, but fixed the underlying repo-shaped gap by adding connection-refused retry to fc-cron.sh (scripts/install-hetzner-crons.sh) plus a regression test; pushed and opened PR #502 (https://github.com/bitbaum/loki/pull/502)."
+        },
+        {
+          "date": "2026-09-04",
+          "done": "The queued sed/daemon-reload was already obsolete — someone completed the rename to evig-* units, and every evig cron plus the nightly R2 backup has run success on 09-03 and 09-04. What was still missing I did: restored evig-app's lost drop-ins on the box (MemoryMax=1G, MemoryHigh=768M, OnFailure=notify-failure@; orphan revampit-app.service.d removed; daemon-reload, no restart, health 200 throughout), then fixed this repo's box register, which had NOT followed revampit→evig — verify.sh was permanently FAIL checking a systemd unit that no longer exists, and uptime-sweep watched revampit.orangecat.ch, now a Caddy redir block that answers 308 without the app, so it would have reported up through an evig outage. Added the automation: runtime-conformance-audit.sh now flags any enabled *-app.service with no memory cap or no OnFailure (18/19 units had both; evig-app was the lone exception) — proven on the box with a negative control, and live in /opt/loki/app since the deploy. PR #475 merged as 34f6d27e, CI + Deploy green, loki health 200."
+        },
+        {
+          "date": "2026-09-02",
+          "done": "Root-caused the revampit-cron@timecard-reminders 203/EXEC incident to evig PR #430, which renamed the box dir /opt/revampit -> /opt/evig at 07:44 UTC while every revampit-cron@*/revampit-backup unit still ExecStarts a literal /opt/revampit path — so all five crons, the nightly off-box Postgres backup (03:32 UTC) and the transcription unit are dead or dying, not just the one that alerted. Fix belongs to the evig repo, not loki: bitbaum/evig PR #432 (106bc4f4c, merged as 5f2a2e252, CI + Deploy green, evig.orangecat.ch/api/health 200) repoints scripts/ops at /opt/evig, adds the timecard-reminders timer that existed only on the box, documents release-escrow as installed-nowhere, and adds scripts/ci/ops-box-paths.sh to `verify` (lint:ops) so the next box rename fails CI instead of the backups. evig `npm run verify` green (7780 tests). No loki source changed."
+        },
+        {
+          "date": "2026-09-02",
+          "done": "Diagnosed the revampit-cron@timecard-reminders 203/EXEC incident — evig PR #430 renamed the box dir /opt/revampit -> /opt/evig at 07:44 UTC while every revampit-cron@*/revampit-backup unit still ExecStarts a literal /opt/revampit path, so the 08:01 timer was the first casualty and tonight's off-box Postgres backup (03:32 UTC) is next. Fix is in the evig repo, not this one: bitbaum/evig PR #432 (commit 106bc4f4c) repoints scripts/ops at /opt/evig, adds the timecard-reminders timer that only existed on the box, and adds scripts/ci/ops-box-paths.sh to verify so the next rename fails CI instead of the backups. evig `npm run verify` green (7780 tests, build ok)."
+        },
+        {
+          "date": "2026-09-02",
+          "done": "Diagnosing the revampit-cron@timecard-reminders 203/EXEC incident; fix lives in the evig repo (scripts/ops), verify gate running."
+        },
+        {
+          "date": "2026-08-30",
+          "done": "Confirmed this incident is already fixed — fc-cron@frontier-digest.service's 08:02 UTC failure is the same curl-28 timeout diagnosed last session and fixed by PR #446 (commit 0c4e36a), which merged and deployed live at 08:47-08:49 UTC, after the failure. The unit still shows \"failed\" only because it's a oneshot gated by a daily timer (next fire 2026-08-31 08:00 UTC) that hasn't re-run yet — no action taken, no repo changes."
+        },
+        {
+          "date": "2026-08-30",
+          "done": "Diagnosed and fixed fc-cron@frontier-digest.service's curl-28/120s-timeout failure — the cron route awaited the best-effort self-improvement \"proposals\" phase synchronously, and that phase's AI calls retry across a multi-vendor fallback chain that can burn past 120s on a degraded link even though the public digest itself is fast (confirmed empirically: /frontier already showed today's real digest while the unit sat failed). Detached that phase (fire-and-forget + background logging) in src/app/api/crons/frontier-digest/route.ts, committed, pushed, and opened PR #446 (https://github.com/bitbaum/loki/pull/446)."
+        },
+        {
+          "date": "2026-08-29",
+          "done": "Investigated the reported dead \"Fleet control\" nav item (Platform dropdown, first item, href=\"/\" instead of /control). It no longer exists. src/config/auth.ts's PUBLIC_NAV was restructured — the \"Platform\" dropdown (with items \"Fleet control\"/\"Fleet Runner\"/\"Roadmap\") was renamed to \"Product\" and its item list replaced (Mission/Philosophy/Roadmap/Changelog/Docs/Whitepaper/Download/Pricing/Frontier) — no entry named \"Fleet control\" and no entry pointing at href=\"/\" remains anywhere in the config. Confirmed live against production (https://loki.orangecat.ch/) with Playwright: enumerated every link in the desktop dropdown and the mobile drawer — 9 desktop items + 14 mobile rows, all distinct working hrefs (/mission, /philosophy, /roadmap, /releases, /docs, /whitepaper, /download, /pricing, /frontier, /thoughts, /support, external OrangeCat/Solon), none pointing at \"/\" or /control. No code change was needed or made."
+        },
+        {
+          "date": "2026-08-29",
+          "done": "Investigated the reported mobile CTA overflow (\"Get started\" clipped/wrapped at 320px on /changelog → /releases). Reproduced nothing: Playwright at a real 320px viewport against both localhost:4002/releases and the live https://loki.orangecat.ch/changelog shows the CTA at x=143, width=109, right edge=252px (68px of margin, not clipped), rendered as a single line (\"Get started\", 1 client rect, no wrap). The bug was already fixed by commit 736fc78 (PR #393, \"Rebuild the phone experience...\"), which added whitespace-nowrap + !px-4 to .ui-public-primary-action-compact and dropped the BrandMark wordmark below 360px specifically to stop this class of overflow — and that commit is already deployed to production. No code change was needed or made."
+        },
+        {
+          "date": "2026-08-13",
+          "done": "Rebased the stale BTC-pass entitlement e2e test branch onto current main (19 commits behind), verified it passes live against Postgres (signature verify, actor lookup, idempotent grant, plan write, dedupe, expiry sweep), ran full verify suite, and opened PR #246 (https://github.com/maonakamoto/loki/pull/246) — CI green, mergeable, will auto-merge on next sweep."
+        },
+        {
+          "date": "2026-07-31",
+          "done": "Fixed the insufficient-contrast theme from 2 visitor reports on /changelog — bumped .ui-kicker, .ui-public-nav-link, and .ui-public-nav-trigger from text-text-tertiary to text-text-secondary in globals.css (nav-link hover bumped tertiary-pattern's secondary to primary to keep hover distinct). Verified via a local computed-style contrast audit (oklab/lab-aware sRGB readback) against a dev server on port 4010: all 3 selectors went from ~3.19:1 to 6.45:1, above the WCAG AA 4.5:1 floor; confirmed no layout shift via screenshot. Full verify suite (tsc, lint, check:design, test:unit 41/41, test:home 150/150, check:schema) passed on push. Opened PR #132 (fix/public-nav-tertiary-contrast) against main."
+        },
+        {
+          "date": "2026-07-31",
+          "done": "Reviewed the live /changelog page (desktop 1440x900 + mobile 320x800, headless Playwright, screenshots + console/network capture) and filed 3 visitor-feedback reports: mobile CTA overflow, nav-link contrast, kicker-label contrast. No code changed (review-only dispatch)."
+        }
+      ],
+      "next": "e2e ok — no changes\n\nHandoff written to /home/ubuntu/.loki/sessions/loki.md as required. Task fully done.\n\n(Hermes made no file changes.)",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "user_abort",
+          "at": "2026-09-15T10:33:39.523Z"
+        },
+        "lastLog": {
+          "date": "2026-09-15",
+          "done": "Hosted dispatch (Hermes) — # Loki operator dispatch\nEverything in this message is assembled by Lo"
         }
       }
     },
@@ -68,6 +327,104 @@
         "orangecat": "https://orangecat.ch/projects/cb093f00-8745-4579-98df-050ebfb37181",
         "solon": "https://solon.orangecat.ch/orgs/orangecat"
       },
+      "identity": {
+        "problem": "Economic participation is currently limited by gatekeepers, making it difficult for individuals and organizations to participate in the economy without restrictions.",
+        "solution": "OrangeCat provides an AI-native platform for universal economic participation, allowing users to manage their economic activity with full control and autonomy.",
+        "mission": "To enable universal economic participation by removing gatekeepers and allowing pseudonymous participation, with AI agents that can transact on behalf of users.",
+        "vision": "To become a platform where anyone can participate in the economy, regardless of identity or location, with full control over their economic activity."
+      },
+      "roadmap": [
+        {
+          "title": "Launch OrangeCat",
+          "status": "active",
+          "progress": 25,
+          "targetDate": "2026-09-29",
+          "milestones": [
+            "Auth system complete",
+            "Listing flow",
+            "Payment integration",
+            "Public beta"
+          ]
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-09-12",
+          "done": "Cat frontier + free-AI reliability. ~20 PRs merged (#982, #985..#1006). ADR-0008 D1 (ask the MODEL not the provider — BYOK/local keys get the tool loop), D2 (local models ACT), D3 (capability-gate.ts — a capability is a ROW; a denial names WHICH term refused), D5 (chip labels derived from CAT_ACTIONS). ADR-0007 D6 (promotion drafts, never posts). Then the reliability thread: #1000 the free chain's FIRST LINK had never worked (Groq step offered a registry-METERED model, so every free user 402'd on our own paywall and fell through to OpenRouter — 49 of 55 prod messages came from OpenRouter, ONE from Groq); #1003 the health report now runs on a clock (it had TWO callers, both requiring a human to ask); #1004 one catalogue check for the whole chain, via ai-kit; #1005/#1006 independent free vendor buckets, inert until keyed."
+        },
+        {
+          "date": "2026-09-12",
+          "done": "Cat frontier work — 14 PRs merged (#982, #985..#993, #995..#998) + ai-kit 1.4.1 published. ADR-0008 D1 (ask the MODEL not the provider — BYOK/local keys get the tool loop), D2 (local models ACT: local-complete parses+executes via shared runExecActions; browser half is a bounded loop in services/ai/local-turn.ts), D3 (capability-gate.ts — a capability is a ROW of model/entitlement/configured/grant terms; a denial names WHICH term refused), D5 (chip labels DERIVED from CAT_ACTIONS: 62 tool names could reach the chip, 7 had labels). ADR-0007 D6 (promotion drafts, never posts — config/promotion-channels.ts carries per-channel ban rules). Plus: observation cache (a tool-refusing model is asked once, not every turn); confirmed chips stop saying \"waiting\" (pendingActionId plumbed — there was NO correlation key); chips persisted via cat_messages.tool_calls so a reload keeps citations; eval gate honest about skips + a REAL semantic judge."
+        },
+        {
+          "date": "2026-09-12",
+          "done": "Cat frontier work, 10 PRs merged (#982, #985, #986, #987, #988, #989, #990, #991, #992, #993) + ai-kit 1.4.1 published. ADR-0008 D1 (ask the MODEL not the provider — BYOK/local keys now get the tool loop), D2 (local models can ACT: local-complete parses+executes via the shared runExecActions, browser half runs a bounded loop in services/ai/local-turn.ts), D3 (capability-gate.ts — a capability is a ROW with model/entitlement/configured/grant terms, denial names WHICH term refused), D5 (chip labels DERIVED from CAT_ACTIONS — 62 tool names could reach the chip, only 7 had labels). ADR-0007 D6 (promotion drafts, never posts — config/promotion-channels.ts carries the per-channel ban rules). Plus: observation cache so a tool-refusing model is asked once not every turn; confirmed-action chips stop saying \"waiting\" (pendingActionId plumbed as the correlation key — there was NONE before); chips persisted via cat_messages.tool_calls so a reload keeps the citations."
+        },
+        {
+          "date": "2026-08-29",
+          "done": "NOTE — this dispatch was actually for a different project, evig (/home/ubuntu/dev/evig), not orangecat; the operator's exit-contract instruction still named this orangecat.md file verbatim, so following it literally rather than guessing a different path. Investigated (read-only, zero code changes, as explicitly instructed — \"wait for my go-ahead\") evig's plan to add bikes as a fourth Bereich alongside evig computers/technicians/ai. Found and reported: (1) why the marketplace's MissionStrip shows \"~0 kg CO2 vermieden\" next to \"213+ Geräte weitergegeben\" — CO2 is correctly computed only from listings with status='sold', but the only two code paths that ever set that status are an admin manual edit or the Kivvi ERP webhook, which per docs/KIVVI_ERP_ADOPTION.md is still \"Playbook / proposal\" status, not trustworthy yet — so realistically zero listings ever transition to sold, honestly zeroing the CO2 figure; separately, MissionStrip.tsx's `stats.soldDevices || stats.totalDevices` silently substitutes the count of ALL listings ever posted (213+) when soldDevices is 0, making two unrelated numbers look like a matched pair. This is missing data + a masking display bug, not a broken formula or a hardcoded placeholder. (2) Catalogued six separate category-keyed config surfaces that a domain dimension would need to touch (KATEGORIEN tree, category resolution/AI-aliasing, SPEC_TEMPLATES sell-form fields, SPEC_FILTER_CONFIG/SPEC_FILTER_STATE_MAP filter sidebar — found this one is NOT actually schema-generated today, hardcoded to 3 spec dims (RAM/storage/display) via a fixed state+Meilisearch-field map, genuine generalization work needed beyond \"add a schema entry\" — condition-criteria.ts QC gates, and co2-impact.ts factors/weights). listingSpecs (the DB table) is already generic key/value, reusable as-is for bike attributes. (3) Flagged where the operator's plan conflicts with the code: categories.ts's own doc comment explicitly designs for new domains as flat KATEGORIEN entries (the opposite of what's wanted); \"Bereich\" already exists in code as `Division` (divisions.ts, DivisionId='computers'|'technicians'|'ai') but is NOT the same shape as a marketplace \"domain\" (technicians/ai have no marketplace listings) — flagged as an open SSOT question needing the operator's decision before implementing, since conflating or fully separating the two enums both carry drift risk. Proposed a 6-step migration shape (domain column + backfill-safe default, domain-scoped category tree, domain-scoped spec templates, generalized filter-sidebar state, per-(domain,category) CO2 factors with bikes needing its own separately-sourced baseline, seed data last) and stopped, waiting for go-ahead as instructed."
+        },
+        {
+          "date": "2026-08-29",
+          "done": "Handled three visitor-feedback dispatches this run, one per PR. (1) PRIVACY on /messages — the New Message picker's default suggestion list showed accounts like \"georgy.butaev+ocauth1 @georgy.butaev+ocauth1\", real email local-parts published as public handles. An exhaustive code sweep (Explore agent, 51 tool calls) found the two known signup paths already fixed (handle_new_user trigger, ProfileServerService.ensureProfile), but scripts/db/setup-db.ts (hardcodes sign-in as butaeff@gmail.com, upserts username:email.split('@')[0] on every run — almost certainly the actual source of the reported \"+ocauth1/+ocauth2\" test accounts) and scripts/db/reset-user-password.js (upserted the full raw email as username) still minted the same leak independently; both fixed to use neutralUsernameFor's shape. Added isEmailDerivedHandle() (src/config/public-directory.ts, mirrors the SQL side's count_email_derived_usernames() predicate incl. the .invalid system-account exception) and wired it into GET /api/profiles to hide a still-leaking handle from the *default* (no-search) suggestion list — search still finds the person. This is a mitigation, not the actual backfill: renaming already-leaked accounts needs scripts/rename-email-derived-usernames.sql (already correct/safe/idempotent, already .invalid-aware) run against production by someone with DB credentials — this sandbox has none, so that's a follow-up for whoever has box/DB access, not done here. Also fixed the picker row showing name+@username duplicated when a profile has no display name. PR #854. (2) \"Messages stick\" on /dashboard/cat and (3) \"Mic doesnt work\" on /dashboard/cat (svg.lucide-mic element) — both symptoms match commit 07a0dee (2026-08-16, \"composer stops resizing after send/dictation, thread stops fighting scroll\") almost verbatim. Verified that fix is still fully intact: ChatInput's resize-on-value useEffect and useChatMessages' near-bottom-only auto-scroll are both present and correctly wired (.oc-chat-scroll selector matches, messagesEndRef is a descendant). Live-verified with a full Playwright integration repro of the real ModernChatPanel (mocked /api/cat/chat SSE + /api/cat/conversations, no auth needed since this component doesn't require it to render): typed multi-line text (142px) → sent → height correctly reset to 38px; manually scrolled to top of a 1102px-tall thread, sent another message, scrollTop stayed at 0 (did not jump to bottom); clicked the mic button — headless Chromium has no real device, and it correctly showed a toast (\"No microphone available...\") rather than doing nothing. Could not reproduce either reported symptom — no code change made for these two; existing regression test (cat-chat-composer-resize.test.tsx) still passes. All debug scaffolding (temp preview routes, temp routes.ts APP_SURFACES entries, temp window.__debugAuthStore hook) reverted before each commit."
+        },
+        {
+          "date": "2026-08-29",
+          "done": "Fixed visitor-reported bug on /messages — at 320x800 the New Message modal's search-result rows shared screen space with the fixed mobile bottom nav and Ask Cat FAB in the bottom-right corner. Investigation: could NOT reproduce the reported hit-testing failure as a literal z-index bug against current main — built a full integration repro (real MessagePanel/NewConversationModal/MobileBottomNav/GlobalCatLauncher components + real classNames, auth faked via `window.__debugAuthStore` writing directly to the Zustand auth store since this sandbox has no live Supabase credentials, /api/messages/bulk-conversations and /api/profiles mocked) and at every coordinate matching the visitor's exact reported rects, elementFromPoint resolved to the modal's own content (z-modal=55), correctly outranking the nav (inline zIndex:45) and Ask Cat FAB (z-40) — no ancestor of the modal traps it in a lower stacking context. Regardless of the exact original mechanism, the report describes a real structural risk: a centered max-w-md card on a short/narrow viewport leaves the fixed nav/FAB corner sharing screen coordinates with the bottom of the results list, and the Loki feedback-widget FAB (external, not in this repo, always z-index 2147483000) genuinely cannot be beaten by any z-index we set — so that corner is never fully safe while modal content renders there. Fix (src/components/messaging/NewConversationModal.tsx): below md (768px, same breakpoint MessagePanel already uses for its own mobile/desktop split), the modal is now a full-bleed sheet (h-full w-full, no rounding/border/backdrop padding) covering the entire viewport — nothing renders where fixed chrome could intercept a tap; results list fills remaining height (flex-1) and reserves env(safe-area-inset-bottom). md+ unchanged. Verified: before the fix the card ended ~y676 leaving nav (y719-800) and FAB (y664-720) exposed; after, card is exactly {x:0,y:0,w:320,h:800} and every previously-exposed coordinate (old FAB center, old nav center, viewport corner) now resolves to real modal row content. Verified md+ (1024x768) pixel-identical to before: card {x:288,y:113,w:448,h:542}, border-radius:6px, border-width:1px. All debug scaffolding (temp preview route, temp window.__debugAuthStore hook in AuthProvider.tsx, temp routes.ts APP_SURFACES entry) fully reverted before committing — final diff is exactly the one file. tsc clean, eslint clean, full pre-push suite (2638 tests) green."
+        },
+        {
+          "date": "2026-08-29",
+          "done": "Fixed visitor-reported bug on /auth?mode=login&from=%2Fmessages — at 320x800 the \"Sign in with GitHub\" button's bottom-right corner sat under the fixed Loki feedback FAB (#loki-feedback-host, bottom:16 right:16, 48px, max z-index), stealing the tap on the page every logged-out /messages visitor lands on. The widget is an external embed (loki.orangecat.ch/widget.js, loaded once in layout.tsx) — not in this repo, so its own positioning can't be changed or verified from here. Root cause on our side: below ~360px the heading text wraps onto more lines, making the page ~45-70px taller and pushing the OAuth row into the FAB's fixed screen-corner on first paint. Fix: trimmed non-essential vertical rhythm above the OAuth row (heading margin, anonymous-CTA block margin, outer top padding in src/app/auth/page.tsx; OAuth-block top margin in src/app/auth/AuthSocialLogin.tsx), scoped to max-[359px]: only (arbitrary Tailwind variant, no config change) — no touch-target sizes touched, nothing changes at >=360px. Verified with Playwright against the real running page: mocked /api/auth/oauth-providers (empty in this sandbox, no live provider config) to render the Google/GitHub row, reproduced the visitor's exact reported coordinates (x166-288/y701-745, 9px overlap with FAB's y736-784 band) using a same-geometry synthetic FAB overlay (real widget script unreachable here — no network path to loki.orangecat.ch, no LOKI_FEEDBACK_TOKEN). After the fix: button lands at x166-288/y645-689, 47px clear. Re-checked at 320/359/360/375/390/430px — clear everywhere; 360px+ is byte-identical to before (compaction only applies under 360px) and was already clear pre-fix, so no regression on normal phone widths. tsc clean, eslint clean, full pre-push suite (2638 tests) green."
+        },
+        {
+          "date": "2026-08-29",
+          "done": "Fixed visitor-reported misalignment on /profiles/mao between the @username and \"Joined <date>\" badge (elements p.break-all.text-sm \"@mao\" and span.inline-flex.items-center \"Joined Aug 2025\"). Root cause: their shared flex row in src/components/profile/ProfileLayout.tsx used items-center; @username's font grows across breakpoints (text-sm → sm:text-base → md:text-lg) while the Joined badge stays fixed at text-xs, so center-by-box-height visibly dropped the smaller text below the username's baseline. Changed items-center → items-baseline on that row (one line), matching the identical name+meta-text pattern already used in src/components/ui/ProfileCard.tsx. Verified: tsc clean, eslint clean, full pre-push suite (2636 tests) green, and visually confirmed via a temporary local-only preview route rendering the exact before/after JSX in the running dev app, screenshotted at 1280px with Playwright — Joined Aug 2025 now sits on @mao's text baseline instead of hanging below it (preview route deleted before commit, never part of the diff). Could not load the real /profiles/mao page against production data — this sandbox has no reachable Supabase credentials (needed dummy env vars just to get the app to boot for the isolated preview render); unrelated to this change. Along the way, restored node_modules after a prior session's stray `npm install --no-save` pruned devDependencies via `npm ci --include=dev` (this box has NODE_ENV=production, which makes npm default to omit=dev) — no package.json/lockfile changes."
+        },
+        {
+          "date": "2026-08-29",
+          "done": "Fixed visitor-reported bug — \"Fill with AI\" on /dashboard/projects/create (and every other AI-assisted form, since they share generateFormPrefill) surfaced \"AI service temporarily unavailable\" on a single transient 429/5xx from Groq/OpenRouter with no automatic retry, matching the visitor's \"trying again usually works.\" Wired the existing withApiRetry backoff helper (src/utils/retry.ts, already used by two other services) around the upstream fetch in src/lib/ai/form-prefill-service.ts so a transient failure now recovers automatically (up to 3 attempts, 400ms base backoff); non-retryable errors (400/401/403) still fail fast with the same message. Added 2 regression tests in __tests__/unit/lib/ai-assist-any-form.test.ts (recovers from one 503; still fails cleanly after repeated 503s). Verified: tsc clean, eslint clean on changed files, full local test suite + full pre-push hook suite (2634 tests) green. Could not exercise the live browser flow — this sandbox has no reachable Supabase auth/DB, so /api/ai/form-prefill 500s on auth middleware regardless of this fix (confirmed via server log this is an unrelated env limitation, not caused by the change). Also found and fixed a self-inflicted node_modules corruption along the way: a stray `npm install --no-save` combined with this box's NODE_ENV=production (which makes npm default to omit=dev) pruned @types/node and husky; restored via `npm ci --include=dev`, left package.json/package-lock.json untouched."
+        },
+        {
+          "date": "2026-08-24",
+          "done": "Fixed a live production privacy breach — GET /api/wallets?profile_id=<any> served address_or_xpub to anonymous callers through the admin client, and one active wallet held a real 111-char zpub that I read from the live site without logging in (the public profile even rendered it labelled \"Extended Public Key\" with a copy button); a zpub exposes every past and future address of that wallet plus its whole balance history, which negates the per-invoice address derivation (#519) it was supplied for. Non-owner responses now redact extended keys, classified by value rather than the user-set wallet_type label, with plain addresses still passing through; /api/wallets is the only non-owner read path for that column so this closes the class. Proven end to end against the actual leaking wallet (prod returns the zpub, this build returns null) and on a temporary wallet covering both branches (owner keeps the key, anonymous gets null, wallet still listed) which was then deleted. 20 new tests. PR #743, and finding 6 recorded as fixed on audit issue #563."
+        },
+        {
+          "date": "2026-08-24",
+          "done": "Fixed all three reported items on the project profile — (1) \"No recent activity yet\" was not a broken FC→OC link but a dead reader: timeline_events held 17 published Loki updates for that project while the card read project_updates, a table with 0 rows platform-wide and no writer, so every project on the platform read as idle; Recent Activity now reads timeline_events and shows \"via Loki\" with deep links, (2) projects were the only entity type without an owner bar, so a draft could sit unpublished for weeks with nothing saying so — reused PublicEntityOwnerBar and collapsed the duplicated \"public iff active/completed\" rule (which mirrors the projects_public_read RLS policy) into one shared predicate, and (3) added projects.work_status (migration applied to the box first, then wired through the Zod schema, the PUT whitelist, the create payload, the form config, and the About section). Verified in the running app against prod data: owner sees 10 updates on the reported draft (was empty), signed-out sees 11 on an active project, bar reads \"Preview — this project is draft and only visible to you\", work_status round-trips PUT→DB→render and was cleared afterwards, anonymous on the draft still 404s. 15 new tests, mutation-checked. PR #742."
+        },
+        {
+          "date": "2026-08-24",
+          "done": "Traced the visitor's img.rounded-md.object-cover on /profiles/adelina1996gry to ContextSwitcher (the sidebar avatar — /profiles is an APP_SURFACES route, and signed out the page has zero <img> at all), i.e. the same element reported a day earlier on /messages and fixed by #725; verified against live production signed in that it is now a BUTTON and that clicking it takes the sidebar 64px→256px and opens the switcher, with mobile/tablet rendering no sidebar at all — then closed the gap that let the complaint arrive twice by adding the first tests ContextSwitcher has ever had (5, mutation-checked: 3 fail against the pre-#725 file, all pass now), shipped as PR #729 off e4d495fa."
+        },
+        {
+          "date": "2026-08-23",
+          "done": "Visitor feedback fixed and live — the collapsed-sidebar avatar (img.rounded-md.object-cover on /messages) was a dead <div>; it is now a button that expands the sidebar and opens the context switcher, verified in the running dev app (seeded test user, screenshots) and deployed (commit 83c7e567 on main, CD green, https://orangecat.ch/api/health OK)."
+        },
+        {
+          "date": "2026-08-23",
+          "done": "Made the collapsed-sidebar avatar on /messages clickable (it was a plain div) — it now expands the sidebar and opens the context-switcher dropdown; verified live in the dev app as a seeded test user, regression test added, verify green, PR #725 open on the auto-merge chain."
+        },
+        {
+          "date": "2026-08-18",
+          "done": "Audited repo state (tsc/lint/tests all green, 0 TODOs) and confirmed/refuted standing blockers — v1 entity-create RLS bug is already fixed (service-role client in entityPostHandler.ts), PLATFORM_NWC_URI is still unset and remains the single revenue blocker, Nostr publish-on-post is still unwired, ORANGECAT_WEBHOOK_SECRET is still unset, and there's a complete but uncommitted people-first/groundedness Cat feature sitting in the working tree on the wrong branch (chore/agent-core-resync)."
+        },
+        {
+          "date": "2026-08-16",
+          "done": "Fixed visitor-reported /dashboard/cat bugs (submissions 2bd50033, 5dbdb9d7) — found and fixed two real bugs in the chat composer: (1) ChatInput.tsx's textarea auto-grow height was only recalculated inside the DOM onChange handler, so it never reset after a message was sent (value cleared programmatically, no keystroke) and never grew when DictationButton inserted a dictated transcript (also a programmatic onChange call) — this is what read as the composer \"sticking\" and the mic \"doing nothing\"; moved the resize into a useEffect keyed on the value prop so both cases are covered. (2) useChatMessages.ts's auto-scroll effect ran scrollIntoView({behavior:'smooth'}) on every streamed token (a new messages array per chunk), yanking the thread back to the bottom even while a user had scrolled up — now only auto-follows when already near the bottom. Added a regression test (__tests__/unit/components/cat-chat-composer-resize.test.tsx), verified to fail against the pre-fix component and pass after the fix. Verified via tsc, lint, and full unit suite; could not exercise the live authenticated page in this sandbox (no .env.local/DB credentials available here per repo docs). Opened PR #702: https://github.com/maonakamoto/orangecat/pull/702 (auto-merges once CI is green, per repo's no-manual-merge policy)."
+        },
+        {
+          "date": "2026-08-13",
+          "done": "Investigated visitor feedback on https://orangecat.ch/ (scope: page). The report text itself states it is \"an E2E loop test from an anonymous visitor: confirming widget reports reach the Loki inbox after the provider-rot fixes. Safe to archive.\" — i.e. it's a self-declared pipeline smoke-test, not a bug report about the site. Verified there is nothing to fix: working tree was clean at HEAD efa53bd, homepage returns HTTP 200, `tsc --noEmit` is clean, lint has only 3 pre-existing warnings (unrelated hooks), and the unit suite is unchanged from baseline aside from a pre-existing sandbox-env-only failure in eval-cat-retry.test.ts. No code changes made — none were warranted; archiving this feedback item is the correct action."
+        },
+        {
+          "date": "2026-08-13",
+          "done": "Fixed visitor-feedback theme \"Message Sending Issues\" (3 reports) — AiWriterPanel (/articles/new) now has an inline send-arrow button on the prompt input plus a \"Draft added — check the editor below.\" confirmation after send (previously only a detached button below with no confirmation); ChatInput (/dashboard/cat) send button now has a `title` tooltip (\"Send message (Enter)\") matching the existing Clear-chat affordance. Verified type-check/lint/full verify green, plus targeted React Testing Library renders confirming the new button submits and the confirmation appears (live app not exercisable in this sandbox — no Supabase credentials, per repo docs). Opened PR #689: https://github.com/maonakamoto/orangecat/pull/689"
+        },
+        {
+          "date": "2026-07-27",
+          "done": "Hardened maker profiles (public profile page + discover directory) by adding config-driven `current_status` and `help_wanted` fields (migration + Zod + API + editor UI + public display), and opened PR #456."
+        }
+      ],
       "next": "(1) FOUNDER — seven apps on this box share ONE OpenRouter key (fingerprint match on /opt/*/app/.env); OrangeCat's own key is on a DIFFERENT account, while two unused keys named \"OrangeCat Prod 2026-06-10\" / \"OrangeCat Production\" sit on the account at openrouter.ai/workspaces/default/keys. HAZARD: \"OrangeCat Prod 2026-06-10\" is deployed on evig, kivvi and sbb-fundbuero — rotating it by name breaks three client apps, not OrangeCat. (2) CEREBRAS_API_KEY in /opt/orangecat/app/.env activates a third link with no deploy (probed: /v1/models answers 403). (3) ADR-0008 D4 computer use: gate DONE, executor needs a sandboxed browser per user. (4) Migrate OrangeCat onto ai-kit's chain/meter — it hand-rolled parallel copies of both.\ndone-latest: #1006 corrects #1005 — I wrote three vendors FROM MEMORY into the file about model rot; probing found GitHub Models RETIRED (410, github_models_retirement_brownout) and Google's OpenAI-compat /models 404. Only Cerebras answers. REJECTED_VENDORS records why, so nobody re-adds them.\ndone-also: measured, not assumed — Groq's link carries 1 prior exchange on a create-intent turn (6115-tok selected prompt + 1024 reply reserve vs 8000 TPM), 4 on light chat. Prompt weight is DIFFUSE: 17 sections, largest 713 tok, 12 sections to reach 90% — so a \"prompt diet\" is a twelve-section rewrite, not one cut. cat_messages.tool_calls migration applied and PostgREST knows the column (200 vs 400 control).\nci: green through #1005. Every PR mutation-tested; mutation found 3 real defects a green suite hid.",
       "now": {
         "openRuns": 0,
@@ -96,6 +453,35 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Lack of transparency and security in traditional governance and treasury management systems",
+        "solution": "Solon provides a blockchain-based platform for transparent and secure governance and treasury management, using cryptographic methods and Bitcoin-native technology",
+        "mission": "Solon aims to provide verifiable governance, replacing trust with math and enabling transparent decision-making and treasury management.",
+        "vision": "Solon envisions a future where governance is transparent, auditable, and secure, using blockchain technology and cryptographic methods."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-01",
+          "done": "Resolved a diverged local main (1 unpushed commit, 20 behind) by re-landing its still-needed content on a branch — renamed the last catomean/maonakamoto references to bitbaum across the /about and /security source links, ecosystem.ts, README, the design-tokens git dependency and the sweep script — and fixed npm run verify, which was failing locally on .claude/worktrees/ and .claude/settings.local.json, files CI never sees; merged as PR #135, Deploy green, health 200 and both live pages now link to github.com/bitbaum/solon."
+        },
+        {
+          "date": "2026-08-25",
+          "done": "Embedded the Loki feedback widget site-wide in src/app/layout.tsx via next/script (afterInteractive, token as a string literal); merged as PR #114 and verified live on https://solon.orangecat.ch — widget.js 200 and api/widget-boot 200 on /, /features and /security with zero console or page errors."
+        },
+        {
+          "date": "2026-08-03",
+          "done": "Verified the previously-shipped Bitcoin-signed voting flow (commits e4fc20a/38edabe) end-to-end against a real database for the first time — client-side keygen, message signing, server-side signature verification, and DB persistence all confirmed working together. No code defects found, so no code changes were needed or made."
+        },
+        {
+          "date": "2026-08-03",
+          "done": "Wired real client-side Bitcoin message signing into the voting flow — WalletConnector now has a \"Generate Demo Wallet\" button that creates a secp256k1 keypair in-browser (via the existing lib/bitcoin/message.ts helpers), stores the private key in sessionStorage, and VotingInterface signs each vote with voteMessage/signMessage before POSTing so the server's real signature verification can pass. Confirmed the previously-flagged risk (Buffer/base64/bs58check/@noble in a real browser bundle) works correctly via a captured signature that verifies successfully."
+        },
+        {
+          "date": "2026-08-02",
+          "done": "Fixed the dashboard voting flow (rule 8, adjacent broken thing) — wallet-connect never propagated the address (searchParams.pub was read nowhere) and the vote button sent the wrong payload shape (vote_choice/public_key vs the API's choice/address/signature) while always alerting fake success regardless of the real response; now the address flows through, the payload matches the API contract, and the UI shows the server's real success/failure."
+        }
+      ],
       "next": "PR #133 said \"CI and .nvmrc follow the box to Node 24\" but no .nvmrc was ever committed — ci.yml pins node-version 24 while the shared deploy workflow annotates \"no .nvmrc — building on Node 20\" and ships an artifact built on the older major. Commit a root .nvmrc reading 24 so the deployed build matches what CI validated.",
       "now": {
         "openRuns": 0,
@@ -124,6 +510,95 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Data ingestion and analysis are domain-specific and often require custom solutions, leading to inefficiencies and inconsistencies.",
+        "solution": "DataCat provides a domain-agnostic pipeline for data ingestion and analysis, using AI-powered engines and a unified schema.",
+        "mission": "DataCat solves the problem of data ingestion and analysis for various domains by providing a domain-agnostic pipeline.",
+        "vision": "DataCat aims to become a leading platform for data ingestion and analysis, applicable to multiple domains and industries."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-11",
+          "done": "Surfaced the two pending blockers unchanged (rule 0) and repaired local drift only — main was 7 behind origin, preflight --fix brought it to b75e927 and reinstalled backend node_modules for the vitest 5 bump; confirmed the box serves release 20260911-012659-b75e927 (datacat-web-app active; the first Deploy run for that SHA failed at 01:20 UTC, the rerun at 01:25 succeeded) and /, /blog, /ingest/image return 200."
+        },
+        {
+          "date": "2026-09-08",
+          "done": "Measured what is actually dead in production and escalated it instead of starting it — no Express backend is deployed anywhere (Deploy ships datacat-web alone; no api.* host resolves; /api/v1/images, /audio, /websites, /db-ingestion/tables, /databases all 404), which kills all five /ingest/* flows (each compiles `http://localhost:5001` into the shipped bundle because NEXT_PUBLIC_API_URL is unset at build time — confirmed by grepping the deployed chunk app/ingest/image/page-2b52294bc52a6a29.js, so a visitor's browser calls their own machine) plus /databases and /databases/[id]; wrote blockers/pending/backend-not-deployed.md with the receipts and three costed options, since every fix is multi-session and the choice changes what \"correct\" means."
+        },
+        {
+          "date": "2026-09-08",
+          "done": "Fixed `pnpm run verify` — the command this project's definition of done names — which exited non-zero on an unmodified main for two reasons CI structurally cannot see: (1) #254 removed contentlayer and its `.prettierignore` entry, so the generated directory it left behind in every pre-#254 checkout moved into prettier's scope and killed `format:check`, the first gate, on a file nobody wrote (two checkouts here had it, including a live worktree) — preflight grows a fourth check covering all worktrees, proved by recreating the stale state and watching `--fix` clear it; (2) `typecheck` ran tsc against a Prisma client that only `@prisma/client`'s install hook or the later `build` step ever produced, and that hook fires in CI but not here (pnpm gates dependency build scripts), so a clean install left it ungenerated and verify died on TS2305 — `typecheck` now runs `prisma generate` itself. CLAUDE.md's build section, which still described contentlayer and told the reader to run the command that recreates failure (1), is corrected. #259 / ed17d50, CI green."
+        },
+        {
+          "date": "2026-09-07",
+          "done": "Built the `GET /api/v1/submissions/form/[formId]` route the submissions page has always fetched and never had — the page rendered \"Error: Failed to fetch submissions.\" for every form (the Express backend implements it, but Deploy ships datacat-web alone with no BACKEND_URL, so next.config's proxy rewrite is inert); shipped with search + date filtering + paging in a pure, unit-tested filter module, proved the raw-SQL composition against a real Postgres before shipping (throwaway db: owner scoping, LIKE-wildcard escaping so \"50%\" stays literal, date windows, paged count), and fixed three page defects that would have made the endpoint look broken anyway — the filter bar unmounting on every debounce and stealing focus mid-word, an error state that never cleared, and cells indexed by each row's own keys under headers from row 0. #251 / 9e1b42c, CI + Deploy green, live route now answers a structured 401 where it used to 404."
+        },
+        {
+          "date": "2026-09-07",
+          "done": "Fixed a production-only breakage in all four dynamic API route handlers — they read `ctx.params` synchronously, which Next 15+ resolves as a Promise, so every route id was `undefined` in production (dev hides it behind a warning proxy); proved it with a probe route on a local production build (`{\"sync\":null,\"awaited\":\"hello-123\"}`), fixed it behind a typed `getRouteParam()` helper, and closed the class with an eslint `no-restricted-syntax` rule rejecting both the sync cast and the sync read. Shipped as #250 / aeb9f13, CI + Deploy green, site 200, `/api/v1/forms/public/<bogus>` now correctly 404s."
+        },
+        {
+          "date": "2026-09-05",
+          "done": "Repaired entry-time drift left over from the prior session's PR #245: local checkout was still on the merged branch fix/preflight-pnpm-migration (git cherry confirmed 04c30e3's patch already landed upstream as a1f2d2a), switched to main and fast-forwarded 4 commits (#245-#248), then ran `pnpm run preflight --fix` which found and repaired a genuinely stale backend/node_modules (older than backend/pnpm-lock.yaml, predating the ai-kit npm-registry refactor in #248) via a clean reinstall. Verified the resulting state with a full `pnpm run verify` (lint + typecheck + 46 vitest tests + production build, all green) — no code defect found, so no commit was needed this run."
+        },
+        {
+          "date": "2026-09-04",
+          "done": "Synced this checkout's stale main (5 commits + full npm->pnpm migration behind origin) and fixed scripts/dev/preflight.sh, whose dependency-freshness check still watched the now-deleted package-lock.json and had gone silently no-op after #243's pnpm migration, so it reported \"clean\" while node_modules was still pre-migration npm-flat and stale — root-caused with a live repro, fixed to watch pnpm-lock.yaml/.modules.yaml and reinstall via `pnpm install --frozen-lockfile`, verified by re-running preflight and a full `pnpm run verify` (all green). Also hit and worked around the known NODE_ENV=production install gotcha (backend's git-hosted ai-kit dep needs its own devDeps to build) and the known git-remote-redirect issue blocking `gh pr create` (worked around with --repo/--head)."
+        },
+        {
+          "date": "2026-09-03",
+          "done": "Retried after the prior run's timeout; found main already clean/green (no uncommitted work, no stranded branches, no pending blocker file despite the last handoff referencing one — the erfassung-greenlight blocker was never actually filed to ~/.loki/sessions/datacat.blockers/pending/). Ran preflight (fixed stale node_modules in both frontend/backend) and a full verify (clean) before picking work. No open T0. The one open T1/T2 item (erfassung/ fully mocked, needs a founder greenlight before a multi-commit backend-wiring effort) is explicitly not actionable without that decision, so per rule 8 fixed one adjacent broken thing instead, scoped independently of that decision: `frontend/src/app/erfassung/components/ExportStep.tsx`'s \"📥 Datei herunterladen\" button had no `onClick` at all — the one action the flow's own success screen offers did nothing. Wired it to a real client-side download (Blob from the same CSV/JSON/XML content already built for the preview pane), no backend change needed, no scope change to the rest of the still-demo flow. Also noticed (but did not touch, per this box's no-git-config-edits contract) that the git remote has moved a second time since the last recorded note (maonakamoto -> bitbaum) and now actively breaks `gh pr create`'s branch resolution, not just `git push` — logged with a workaround in the roadmap for whoever has write access to fix `origin`."
+        },
+        {
+          "date": "2026-09-02",
+          "done": "Closed the recurring checkout-drift class instead of repairing it a third time by hand — added `npm run preflight` (+ `-- --fix`) which catches the three things `git status` reports as clean while broken (divergence from origin after an explicit fetch, squash-merged worktrees still checked out, node_modules older than its lockfile), documented it in .claude/CLAUDE.md with the three receipts, and shipped it as #237 (CI + Deploy green, site 200); this run itself hit all three symptoms — main was 3 behind, two merged nav worktrees were stranded, and stale node_modules killed verify at \"prettier: not found\"."
+        },
+        {
+          "date": "2026-08-31",
+          "done": "Repaired a second silent local/origin divergence (local main was 2 commits behind origin's #232 node>=20 and #233 prettier formatter, despite a clean `git status`) by fast-forwarding, deleted one more stranded/superseded local branch (chore/finish-bitbaum-rename — content already shipped via #231), and re-verified the repo green; surfaced the still-unanswered erfassung/ greenlight blocker instead of picking a task."
+        },
+        {
+          "date": "2026-08-29",
+          "done": "Repaired a broken local checkout — local main had diverged (1 local commit / 5 behind, ff-only pull failing) and 11 merged branches plus a prunable worktree were stale; reset to origin/main, pruned them, and landed the one real leftover from the diverged commit (two dead catomean/ incident-note paths in scripts/ci/auto-merge-sweep.sh that PR #227 missed) as PR #231, merged 7fc5322 with CI + Deploy green."
+        },
+        {
+          "date": "2026-08-27",
+          "done": "Re-ran the setup checks and fast verify gates at 992542e (tsc clean, lint 0 errors/161 warnings, 43/43 tests); confirmed the previous run's timeout stranded nothing (no unmerged local/remote branch, no open PRs, Auto-merge green on 992542e) and surfaced the still-unanswered erfassung-greenlight blocker instead of picking a task."
+        },
+        {
+          "date": "2026-08-25",
+          "done": "Ran the setup checks and full verify gate (green: lint 0 errors/161 warnings, tsc clean, 43/43 tests, build compiled); confirmed main at 992542e is clean with CI + Deploy + Auto-merge all success, no open PRs, and no new work — so per the loop-protection brake I stopped instead of manufacturing T2 churn on a second consecutive blocker turn."
+        },
+        {
+          "date": "2026-08-25",
+          "done": "Landed the stranded commit left behind by the previous timed-out run — `chore/ignore-agent-worktrees` was pushed with no PR, so it would never have merged; opened PR #225, CI + Snyk green, squash-merged as 992542e, main CI and Deploy both green and the site returns 200."
+        },
+        {
+          "date": "2026-08-23",
+          "done": "This session's setup checks found `npm run verify` couldn't even run: `frontend/node_modules` and `frontend/.next` were partly root-owned from an earlier containerized install (EACCES on install/build), and separately this sandbox's `NODE_ENV=production` (inherited from the process tree/systemd unit, confirmed via `/proc/1/environ`) silently makes `npm ci` omit devDependencies, so eslint/vitest/typescript were never installed at all. Fixed both (chowned node_modules back to ubuntu, deleted the gitignored `.next`, installed with `NODE_ENV=development npm ci` then ran verify with `NODE_ENV` unset to match CI) — full verify gate now passes cleanly end-to-end. Also re-triaged the roadmap's flagged \"37 open Dependabot alerts\" concern: the real Alerts API shows only 2 (1 high — `extract-zip`, no upstream fix exists yet; 1 medium — `@opentelemetry/core`, already tracked), correcting a stale/wrong push-banner number. Re-tested (and re-confirmed, cleanly this time) that overriding `@opentelemetry/core` to the patched version breaks contentlayer's build — reverted, no repo changes needed. Persisted both environment gotchas to memory for future sessions. No repo/code changes were needed — main was already fully green; this was pure local-environment repair plus roadmap/memory hygiene."
+        },
+        {
+          "date": "2026-08-21",
+          "done": "Surfaced the pending founder blocker (rule 0) and picked no task; repo unchanged at 2ad0119, whose full verify gate and deploy went green last turn."
+        },
+        {
+          "date": "2026-08-21",
+          "done": "Shipped two merged+deployed PRs this session — #222 (335828b: js-yaml/nanoid bumps closing Dependabot highs #196/#197/#199 after rebasing onto post-next-16 main, plus .gitignore hardening and removal of the tracked node_modules self-symlink) and #223 (2ad0119: fixed CLAUDE.md's now-wrong \"build under Node 18\" rule to Node 20 and documented that verify includes the vitest gate) — Deploy green and site 200 for both."
+        },
+        {
+          "date": "2026-08-21",
+          "done": "Shipped PR #222 (merged as 335828b, Deploy green, site root 200): rebased the stranded fix/dependabot-frontend-transitives branch onto post-next-16 main, re-derived the in-range transitive bumps (js-yaml 4.2.0→4.3.1 and 3.14.2→3.15.1, nanoid 3.3.17→3.3.18), closing Dependabot highs #196/#197/#199, and landed the .gitignore hardening + removal of the tracked node_modules self-symlink that broke root npm."
+        },
+        {
+          "date": "2026-08-16",
+          "done": "Rule-8 pick: /databases and /databases/[id] never authenticated for any real user — both pages read the Authorization token from `localStorage.getItem('token')`, but nothing in the app ever sets that key (AuthContext threads the real token via React context only), so every request sent literal \"Bearer null\" and got 401'd by the backend auth middleware, silently rendering as \"no databases yet\" (list) or a silent redirect back to /databases (detail). Same root-cause class as the historic AuthContext fix (860a589) that wired useAuth().token through every other authenticated page — these two were missed. Switched both to useAuth().token and added real error/retry states for genuine fetch failures (404 on the detail page still correctly redirects; other failures now show a banner instead of bouncing silently)."
+        },
+        {
+          "date": "2026-08-15",
+          "done": "Rule-8 pick (adjacent broken thing, not T2 busywork): all five ingest source-list pages (/ingest/video, website, image, audio, database) silently swallowed recent-sources fetch failures into console.error and rendered the same \"No X yet\" empty state as a genuinely empty list — a real fetch failure (auth expiry, network blip, backend outage) was indistinguishable from \"you have nothing yet.\" Identical bug class already fixed for SavedFormsLibrary in a7504e3; applied the same fix (throw on !response.ok, error state set in catch, red banner with a \"Try again\" retry button) across all five pages in one commit."
+        }
+      ],
       "next": "Nothing mid-flight. Resume from the founder's answer to blockers/pending/backend-not-deployed.md (1 port endpoints into Next, 2 deploy Express as a second app, 3 mark ingestion+/databases unavailable) and erfassung-greenlight.md; move each to applied/ once answered. Repo healthy at b75e927, verify gates green, preflight clean.",
       "now": {
         "openRuns": 0,
@@ -152,6 +627,39 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Electronic waste and lack of access to technology for those in need.",
+        "solution": "Revamp-IT provides refurbished technology to those in need, while promoting sustainability and digital inclusion.",
+        "mission": "To provide refurbished technology to those in need, while promoting sustainability and digital inclusion.",
+        "vision": "A world where technology is accessible to all, and electronic waste is minimized."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-08-29",
+          "done": "Fixed visitor-reported bug — mobile-menu \"Experimentelle Site\" banner rendered unconditionally with an empty href even though ORG.websiteLegacy is '' for evig; gated it on ORG.websiteLegacy in src/components/layout/MobileMenu.tsx, verified live in a browser (dev server, 390px, mobile drawer opened, banner/link confirmed gone via screenshot), pushed branch fix/hide-empty-legacy-site-banner, opened PR #406 (https://github.com/bitbaum/evig/pull/406)."
+        },
+        {
+          "date": "2026-08-25",
+          "done": "Removed the gray bg-surface-raised slab from the blog newsletter promise strip; PR #378 merged as 1bab57a93, deploy in flight."
+        },
+        {
+          "date": "2026-08-25",
+          "done": "Removed the gray bg-surface-raised slab from the blog newsletter block; PR #378 open, CI running."
+        },
+        {
+          "date": "2026-07-28",
+          "done": "Fixed visitor feedback on vague /ru/about copy. The flagged element (p.mx-auto.text-text-tertiary, the about-page hero subtitle) previously read \"evig — это ответвление швейцарского циклического IT, с одним ясным убеждением: доступ к интеллекту принадлежит всем\" (\"evig is a spin-off of Swiss circular IT, with one clear belief: access to intelligence belongs to everyone\") — an abstract slogan naming neither what evig does nor for whom. Traced messages/ru.json -> about.hero.subtitle through src/app/[locale]/about/content.tsx (t('hero.subtitle') passed into <PageHero subtitle=...>) to src/components/layout/PageHero.tsx:71-80, confirming the p.mx-auto.text-text-tertiary DOM match. Rewrote to \"evig — ответвление швейцарского циклического IT: отобранная техника, ИИ и робототехника по доступным ценам для тех, кому это иначе не по карману\" (curated tech/AI/robotics at affordable prices, for people otherwise priced out) — concreteness matched to the DE/EN about hero framing and to the established RU homepage hero tone (messages/ru.json home.hero.subtitle). Copy-only, single string in messages/ru.json, no code/logic touched. NOTE: this repo now serves the \"evig\" product (2026 spin-off of Revamp-IT, GitHub repo itself renamed to maonakamoto/evig) — revampit.orangecat.ch remains a live alias of the same deployed app pending the Layer-B systemd/deploy-path cutover documented in the host-canonicalization commit; this is a pre-existing, intentional rebrand, not something touched or introduced this session."
+        },
+        {
+          "date": "2026-07-17",
+          "done": "Fixed the @revamp-it.ch staff-registration bypass (commit 1fc8a23 on local main). Root cause was two-part: (1) registerUser() in src/auth.ts wrote is_staff:true to the DB straight from isStaffEmail(email) domain-suffix matching, no human approval; (2) authorize()/jwt() in src/auth.ts, plus middleware/admin.ts, api/time-off/*, api/ai/extract, and api/listings/[id] all OR'd isStaffEmail(session.user.email) into staff-authorization checks on every request, so even an explicitly-revoked is_staff=false account regained admin access on next login purely from its email domain. Fixed by making the DB is_staff column the sole source of truth everywhere (registration now always creates regular customers; staff promotion requires the existing super-admin-gated PATCH /api/admin/users/[id]/permissions route or the HR hire flow) and removing every isStaffEmail() authorization fallback. isStaffEmail() itself is untouched, still used only for cosmetic welcome-email copy selection. Updated one Jest test in listings/[id] that had asserted the vulnerable behavior as correct; added assertions it now returns 403. tsc clean, lint 0 errors (50 pre-existing unrelated warnings), 149/149 tests pass across all directly-touched suites, full suite 7673/7679 pass (6 pre-existing unrelated failures). Verified via memory/scripts/e2e-seed.ts that the e2e admin test accounts are seeded with is_staff/is_super_admin written directly to the DB (not domain-inferred), so this fix does not break e2e login for the seeded staff/admin test users."
+        },
+        {
+          "date": "2026-06-02",
+          "done": "Committed (5a03dba1) and pushed the Monitor-Upcycling enhancements (open questions, source+github, AI brainstorm prompts for public+AI use); synced full content to all 7 locales so page loads+shows rich details everywhere; page.tsx now renders the 3 new sections via shared primitives (no custom per-proj JSX, follows PROJECT_PAGES_GUIDE + design tokens); resolved uncommitted; tsc/lint 0; prod routes healthy; 1 commit. Push confirmed; vercel cli sees recent previews (no explicit Ready in ls head yet); prod curl still pre-deploy (age 0); local clean + HEAD 5a03dba1."
+        }
+      ],
       "next": "The 448 test failures are pre-existing and unrelated to this fix (TypeError: React.act is not a function, across 32 unrelated suites e.g. StatusBadge, ProtocolFormClient, DecisionListClient — a react-dom/@testing-library-vs-React-19 incompatibility, likely from a recent dependency bump). Last known-good was 7747 pass/0 fail on 2026-07-28. Also note: this box's node_modules was not installed at session start, and its global NODE_ENV=production makes plain `npm ci` silently omit devDependencies — use `npm ci --include=dev` here.",
       "now": {
         "openRuns": 0,
@@ -162,6 +670,71 @@
         "lastLog": {
           "date": "2026-08-29",
           "done": "Fixed visitor-reported bug — mobile-menu \"Experimentelle Site\" banner rendered unconditionally with an empty href even though ORG.websiteLegacy is '' for evig; gated it on ORG.websiteLegacy in src/components/layout/MobileMenu.tsx, verified live in a browser (dev server, 390px, mobile drawer opened, banner/link confirmed gone via screenshot), pushed branch fix/hide-empty-legacy-site-banner, opened PR #406 (https://github.com/bitbaum/evig/pull/406)."
+        }
+      }
+    },
+    {
+      "slug": "heidi",
+      "name": "Heidi",
+      "what": "Learn to understand and text in Zurich Swiss German. heidi.orangecat.ch",
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": "2026-09-10",
+      "urls": {
+        "live": "https://heidi.orangecat.ch",
+        "repo": "https://github.com/bitbaum/heidi",
+        "orangecat": "https://orangecat.ch/projects/01affb7e-b5f6-45d8-a9a4-20bff670d013",
+        "solon": null
+      },
+      "identity": {
+        "problem": "An adult who already commands German still cannot understand the Zurich German spoken around them, and the environment withdraws exposure exactly when it detects they need it: the Swiss switch to Hochdeutsch or English the moment they notice you struggling. The learner is denied the input because they are a learner. That trap is the reason a product is justified at all.",
+        "solution": "A source of exposure that does not withdraw. Raw exposure is not input, so the job is calibrated exposure at the learner's frontier, measured per learner and continuously — the thing software can do that a podcast cannot. Real recorded speakers, plus a deterministic variety gate, because a learner buying Zurich German cannot audit whether they were handed Bernese forms.",
+        "mission": "Help an adult who already has German understand the Zurich German actually spoken around them, deal with the messages and speech they meet in real life, and turn those encounters into learning.",
+        "vision": "Progress measured by how much of an unfamiliar Zurich speaker the learner understands — not by how much Heidi they have consumed."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-12",
+          "done": "Fixed the Diktieren button on /de, which stayed on \"Ich höre …\" forever in browsers whose speech recogniser accepts start() but never responds and failed silently on most errors: it now gives up after 4 s (unless a mic prompt is still open), shows a message for every failure, and ignores late events from old sessions; verified with 7 Playwright scenarios plus a negative control against live, and opened PR #15 (fix/dictate-button -> main) with CI green."
+        },
+        {
+          "date": "2026-09-11",
+          "done": "Built /check (textarea + Check button, POST /api/check validated by hand, checkZurichPurity as sole judge, violations highlighted inline with reasons), linked it from the landing header, added it to the sitemap, and widened the test glob; verified 360px and 1280px with Playwright screenshots and curl. PR #4 (feat/check-page -> main), not merged."
+        },
+        {
+          "date": "2026-09-11",
+          "done": "No new work — this dispatch duplicated the prior session's task, which was already merged to main as commit 6ac6eb0 (PR #3: sitemap, robots, OG image, layout metadata); verified main is at 6ac6eb0 with a clean tree."
+        },
+        {
+          "date": "2026-09-11",
+          "done": "Added app/sitemap.ts, app/robots.ts, app/opengraph-image.tsx, and completed layout.tsx metadata (description, openGraph, twitter card) per the fleet distribution standard, sourcing all copy/colors from lib/config; opened PR #3 (feat/seo-distribution -> main)."
+        },
+        {
+          "date": "2026-09-10",
+          "done": "Hosted dispatch (Hermes) FAILED — Repo: https://github.com/bitbaum/heidi (Next.js 16 App Route"
+        },
+        {
+          "date": "2026-09-10",
+          "done": "Hosted dispatch (Hermes) FAILED — Repo: https://github.com/bitbaum/heidi (Next.js 16 App Route"
+        },
+        {
+          "date": "2026-09-10",
+          "done": "Hosted dispatch (Hermes) — Repo: https://github.com/bitbaum/heidi (Next.js 16 App Router, TypeScr"
+        }
+      ],
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-09-14T06:07:44.624Z"
+        },
+        "lastLog": {
+          "date": "2026-09-12",
+          "done": "Fixed the Diktieren button on /de, which stayed on \"Ich höre …\" forever in browsers whose speech recogniser accepts start() but never responds and failed silently on most errors: it now gives up after 4 s (unless a mic prompt is still open), shows a message for every failure, and ignores late events from old sessions; verified with 7 Playwright scenarios plus a negative control against live, and opened PR #15 (fix/dictate-button -> main) with CI green."
         }
       }
     },
@@ -180,6 +753,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Pet owners need a single place to monitor their pet's daily wellness and manage the full care journey",
+        "solution": "Petvity provides a platform for pet owners to manage multi-species pet profiles, track physical and emotional health KPIs, and connect with vets and sitters",
+        "mission": "Petvity gives pet owners a single place to monitor their pet's daily wellness, connect with local vets and sitters, and manage the full care journey.",
+        "vision": "Long-term vision: digital twins (IoT sensors, cameras, emotional state) as part of the same ecosystem as VitaReBa and Surf Your Life."
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -201,10 +782,35 @@
       "since": null,
       "urls": {
         "live": "https://revamp-info.orangecat.ch",
-        "repo": "https://github.com/bitbaum/revamp-info",
+        "repo": "https://github.com/bitbaum/hirnli",
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Foundations receive hundreds of applications, most of which are plain text templates that look the same, making it hard for organizations to stand out",
+        "solution": "Generate professional, visually compelling, and data-rich application documents that demonstrate fit and transparency",
+        "mission": "Revamp-IT's survival depends on foundation grants — this platform exists to find the right foundations, build compelling evidence of fit, and generate professional Gesuche that win funding.",
+        "vision": "To become a standalone SaaS product that helps any purpose-driven organization present themselves compellingly to potential funders and generate professional application documents."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-03",
+          "done": "Diagnosed appcron-revamp-info-deadline-reminder's HTTP 500 — root cause was the missing pg_hba.conf grant for the new `hirnli` DB/`revampit` user (flagged by the prior run). Found the grant already present in /etc/postgresql/17/main/pg_hba.conf (added 2026-09-03 10:56 UTC, after the prior handoff) and confirmed live: replayed the exact cron call (GET 127.0.0.1:4012/api/cron/deadline-reminder with the real CRON_SECRET from /opt/revamp-info/app/.env) and got HTTP 200 with a real DB-backed response. Box-shaped fix was already applied by a human; no repo change was needed or made."
+        },
+        {
+          "date": "2026-09-03",
+          "done": "Diagnosed the appcron-revamp-info-deadline-reminder 500 to root cause — the 2026-09-02 cutover to a dedicated `hirnli` Postgres database created the DB, migrated all data (16,623 foundations), applied migrations 0000-0008 and flipped DATABASE_URL, but never added the pg_hba.conf grant, so every app DB connection falls through to the catch-all reject; filed the exact fix, safety rationale, verification and rollback as a T0 blocker."
+        },
+        {
+          "date": "2026-09-03",
+          "done": "Diagnosed the appcron-revamp-info-deadline-reminder 500 — the Hirnli database cutover on 2026-09-02 created the `hirnli` DB, migrated all data and flipped DATABASE_URL, but never added the pg_hba.conf grant, so every app DB connection has been rejected since 16:45 that day; cause is box-shaped (no repo change), exact fix commands handed over."
+        },
+        {
+          "date": "2026-05-27",
+          "done": "Closed TOCTOU race in PUT /api/gesuch-overrides/[slug] (9b2578c) — added UNIQUE (foundation_id, org_id, variant_key) constraint via migration 0004, swapped SELECT-then-write for atomic INSERT ON CONFLICT DO UPDATE, deleted the unused PATCH handler + deepMerge helper that no client called; verified with 6-way concurrent upsert producing exactly 1 row."
+        }
+      ],
       "next": "Two loose ends, neither touched (out of scope for this incident): (1) systemd unit appcron-revamp-info-deadline-reminder.service still shows `failed` from the pre-fix 09:00 UTC run — cosmetic only, self-clears at tomorrow's 09:00 UTC timer fire, or clear now with `sudo systemctl reset-failed appcron-revamp-info-deadline-reminder.service` (state-clear only, not a restart). (2) `npm run test` now exits 1 in a fresh checkout even though all 876 tests pass — 7 \"Cannot access '__vite_ssr_import_N__' before initialization\" / EnvironmentTeardownError unhandled rejections from module-load-time circular imports among src/lib/config/foundations/index.ts (runs runQualityGate at import time) → foundation-quality.ts → foundation-helpers.ts → schemas/foundation.ts. Reproduces 100% (also with --no-file-parallelism, ruling out worker contention on this loaded box). Never investigated before because this checkout had no node_modules/.next until this run. Worth a real look next session.",
       "now": {
         "openRuns": 0,
@@ -233,6 +839,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -255,6 +869,95 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "People struggling with burnout and Long COVID lack a structured way to track their recovery, and practitioners lack visibility to intervene early.",
+        "solution": "A health portal providing daily check-ins, symptom tracking, and progress analysis, with AI-powered insights for practitioners.",
+        "mission": "To give clients a structured way to track their recovery and practitioners the visibility to intervene early, run evidence-based programs, and analyze progress.",
+        "vision": "To become a comprehensive health portal for burnout/Long-COVID reintegration and longevity, with AI analysis of structured and unstructured data."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-11",
+          "done": "Diagnosed appcron-surf-your-life-embed-backfill.service's HTTP 503 as the same known, intentional fail-closed behavior (8th+ recurrence) — confirmed origin/main's app/api/cron/embed-backfill/route.ts is unchanged since PR #33 and still returns 503 in production when OPENAI_API_KEY is unset; no repo bug, no code change made. Ran pnpm verify on the current branch (feat/loki-feedback-widget) as a general health check — clean."
+        },
+        {
+          "date": "2026-09-11",
+          "done": "Rule 0 — surfaced the pending OPENAI_API_KEY blocker (box re-checked: key absent, unit failed, timer enabled) and retired the deploy-wedge blocker to applied/ because #61 merged and ed98756 is serving."
+        },
+        {
+          "date": "2026-09-11",
+          "done": "Diagnosed the embed-backfill 503 as the known box-shaped blocker (no OPENAI_API_KEY in /opt/surf-your-life/shared/.env; route fails closed by design since #33; timer units are hand-installed on bitbaum, not repo-generated) — no code change, blocker file and memory updated with today's confirmation."
+        },
+        {
+          "date": "2026-09-08",
+          "done": "Fixed the root cause of the two-day deploy wedge that was blocking everything — migration 0023 tried to build partial unique indexes over two pre-existing duplicate booking rows and aborted every deploy, so #57-#60 never shipped; the reconciliation had to go inside 0023 itself (the runner stops at the first failure, so a 0024 would never be reached), keeps the earliest active row per the route's own 409 rule, cancels rather than deletes, and was proven against the production database inside a rolled-back transaction (UPDATE 1, UPDATE 0, both indexes created, ROLLBACK). PR #61 is green and deliberately held. Also corrected two wrong commands in my own blockers (the row to cancel, and a single-quote env parser against a mixed-quoting .env)."
+        },
+        {
+          "date": "2026-09-08",
+          "done": "Diagnosed appcron-surf-your-life-embed-backfill.service's HTTP 503 as the same known, intentional fail-closed behavior (7th+ recurrence) — confirmed origin/main's app/api/cron/embed-backfill/route.ts is unchanged since PR #33 and still returns 503 in production when OPENAI_API_KEY is unset; no repo bug, no code change made."
+        },
+        {
+          "date": "2026-09-07",
+          "done": "Diagnosed the dispatched embed-backfill 503 as the same known box-shaped blocker (OPENAI_API_KEY still absent from /opt/surf-your-life/shared/.env; route fail-closes by design), and found the documented fix command has never been runnable — bitbaum runs sudo-rs, which refuses `sudo -e` on any user-writable path — so I rewrote the blocker with a tested sudo-free command; separately discovered a higher-severity T0: deploy has been wedged since 2026-09-06 because migration 0023 cannot build bookings_one_active_per_user_service_idx over two duplicate April booking rows, so #57 and #58 never shipped. No repo change was warranted — both causes are box-shaped and the code is correct."
+        },
+        {
+          "date": "2026-09-07",
+          "done": "Diagnosed the appcron-surf-your-life-embed-backfill.service failure (503) as the same known, intentional fail-closed behavior — origin/main's route.ts (deployed HEAD, ahead of this stale local checkout) returns 503 by design when OPENAI_API_KEY is absent in production; confirmed the key is genuinely missing from /opt/surf-your-life/shared/.env. No repo bug, no code change made."
+        },
+        {
+          "date": "2026-09-06",
+          "done": "Re-confirmed appcron-surf-your-life-embed-backfill.service's 503 is the same known, intentional fail-closed response (missing OPENAI_API_KEY on the box), not a repo bug. Verified live on 2026-09-06 03:00:02 UTC: unit failed with exit 22, timer still enabled, OPENAI_API_KEY absent from both /opt/surf-your-life/shared/.env and app/.env, journal shows the exact expected \"[embed-backfill] OPENAI_API_KEY is not set\" log line, and the app process itself is healthy (curl to 127.0.0.1:4009 returns 307, service active). Diffed origin/main's route.ts and embeddings.ts against the fail-closed design in PR #33 — unchanged despite the intervening ai-kit/mail-kit refactors (#49, #51, #54). Existing blocker file (openai-api-key-missing.md) already documents both exit options accurately; no repo changes made."
+        },
+        {
+          "date": "2026-09-05",
+          "done": "Re-confirmed appcron-surf-your-life-embed-backfill.service 503 is the same known, intentional fail-closed response (missing OPENAI_API_KEY on the box) — box-shaped, not a repo bug. Verified live: unit still `failed` (03:00:02 UTC today), timer still enabled, `grep -c '^OPENAI_API_KEY=' /opt/surf-your-life/shared/.env` still 0, and direct curl to the app (127.0.0.1:4009) returns a healthy 401 (not a crashed process). origin/main's route.ts (PR #33) unchanged. Pending blocker file openai-api-key-missing.md already documents this with two exit options; no repo changes made."
+        },
+        {
+          "date": "2026-09-04",
+          "done": "Rule 0 — pending blocker openai-api-key-missing.md is still unresolved (box re-verified: no OPENAI_API_KEY, unit failed, timer enabled), so I picked no task and instead corrected the blocker, whose central claim \"no fallback provider exists for embeddings\" is now false: OpenRouter serves embeddings and the box's existing OPENROUTER_API_KEY returned HTTP 200 with exactly 1536 dims on a :free model."
+        },
+        {
+          "date": "2026-09-04",
+          "done": "Confirmed the embed-backfill 503 is the intentional fail-closed branch (curled the route on the box: {\"success\":false,\"error\":\"OPENAI_API_KEY is not set\"}); box .env has GROQ/OPENROUTER/RESEND keys but no OPENAI_API_KEY. Repo code is correct, verify green, no changes made. New finding: OpenRouter now serves embeddings, and the box's existing OPENROUTER_API_KEY returns 1536-dim vectors on a :free model (verified HTTP 200) — a credential-free path exists, but paid OpenRouter models 402 (\"account never purchased credits\")."
+        },
+        {
+          "date": "2026-09-04",
+          "done": "Diagnosing recurring embed-backfill 503 (in progress)."
+        },
+        {
+          "date": "2026-09-04",
+          "done": "Re-confirmed appcron-surf-your-life-embed-backfill.service 503 is the same known, intentional fail-closed response (missing OPENAI_API_KEY on the box) already fixed and merged on origin/main in #33 — box-shaped, not a repo bug. Verified origin/main's route.ts still has the deliberate 503-when-key-missing logic and log line matching this dispatch's journal tail. Ran pnpm verify on the current branch as a sanity check (all green). No repo changes made."
+        },
+        {
+          "date": "2026-09-03",
+          "done": "Backward self-throttle (loop protection) fired instead of Pick — this is the 3rd+ consecutive autopilot cycle re-surfacing the identical openai-api-key-missing.md blocker with no human response between turns (prior cycles: 2026-09-02T03:03, 2026-09-03T13:36, now). Re-catting it again would be a low-value loop burning tokens with zero new information. Confirmed nothing changed (still bd7bc35, clean tree, blocker still pending, pnpm verify still fully green) and stopped without picking a task."
+        },
+        {
+          "date": "2026-09-03",
+          "done": "5th+ dispatch, unchanged root cause — appcron-surf-your-life-embed-backfill.service 503 is still the intentional fail-closed response (PR #33) because OPENAI_API_KEY remains unset on bitbaum. Confirmed route.ts and embeddings.ts have no new commits since I last checked (still bd7bc35, working tree clean), re-ran pnpm verify fully green (lint/tsc/627 tests), and confirmed the blocker file (already corrected for PR #49's ANTHROPIC_API_KEY removal two cycles ago) is still accurate and still pending. No repo changes made."
+        },
+        {
+          "date": "2026-09-03",
+          "done": "Re-confirmed appcron-surf-your-life-embed-backfill.service 503 is the same known, intentional fail-closed response (missing OPENAI_API_KEY on the box) already fixed and merged on origin/main in #33 — box-shaped, not a repo bug. Verified this feat/loki-feedback-widget branch (and local main) is a stale clone diverged from origin/main, but confirmed origin/main's route.ts still has the deliberate 503-when-key-missing logic. No repo changes made."
+        },
+        {
+          "date": "2026-09-02",
+          "done": "Autopilot rule 0 fired — pending blocker openai-api-key-missing.md still exists (OPENAI_API_KEY not set on bitbaum; embeddings inert), so surfaced its current contents to the user again instead of picking a new task; confirmed no repo changes since I last updated the blocker (still at bd7bc35, working tree clean)."
+        },
+        {
+          "date": "2026-09-02",
+          "done": "4th dispatch, same root cause — appcron-surf-your-life-embed-backfill.service 503 is still the intentional fail-closed response (PR #33) because OPENAI_API_KEY remains unset on bitbaum; embeddings (lib/domain/embeddings.ts, OpenAI text-embedding-3-small) are untouched by PR #49 and have no fallback provider, so this is still box-shaped, not repo-shaped. What changed: PR #49 (bd7bc35, merged 2026-09-01) dropped ANTHROPIC_API_KEY entirely — ai-chat now runs on ai-kit's Groq->OpenRouter chain (lib/domain/llm.ts) instead — so I corrected the stale blocker file at ~/.loki/sessions/surf-your-life.blockers/pending/openai-api-key-missing.md, which was still telling George to optionally add ANTHROPIC_API_KEY (a key that code no longer reads). Local .claude/worktrees/nav-contract (source of last run's lint crash) is gone — pnpm verify is fully clean."
+        },
+        {
+          "date": "2026-09-01",
+          "done": "Diagnosed appcron-surf-your-life-embed-backfill.service 503 as the intentional fail-closed response (route.ts on origin/main returns 503 in production when OPENAI_API_KEY is unset, by design, to make the silent-embedding-failure bug visible via paging) — box-shaped, not a repo bug; confirmed via journalctl the log line \"[embed-backfill] OPENAI_API_KEY is not set\" preceded the 503 at 03:00:01 UTC, confirmed the app is otherwise healthy (direct curl to 127.0.0.1:4009 returns 401/307 as expected), and made no repo changes."
+        },
+        {
+          "date": "2026-09-01",
+          "done": "Same incident as the prior two dispatches — appcron-surf-your-life-embed-backfill.service 503 is still the intentional fail-closed response (PR #33) because OPENAI_API_KEY remains unset on bitbaum. Re-verified route.ts is untouched since #33, pulled 3 commits (now at e1bdc4d, incl. the new formatter/prettier commit), confirmed the existing blocker file is still accurate, and did not duplicate it or touch the repo."
+        }
+      ],
       "next": "EMPTY — box-shaped blocker needs George on bitbaum: either (A) append OPENAI_API_KEY to /opt/surf-your-life/shared/.env, restart surf-your-life-app.service, and clear the failed cron unit, or (B) disable appcron-surf-your-life-embed-backfill.timer if embeddings aren't wanted yet. Exact copy-paste commands are in ~/.loki/sessions/surf-your-life.blockers/pending/openai-api-key-missing.md.",
       "now": {
         "openRuns": 0,
@@ -283,6 +986,19 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Frequent conflicts between incompatible roommates, staff time wasted mediating disputes, resident stress, and high turnover in problematic units",
+        "solution": "Compatibility-based matching, capturing preferences, calculating compatibility, recommending placements, and tracking outcomes",
+        "mission": "Reduce housing conflicts and improve wellbeing through compatibility-based placement for vulnerable populations, prioritizing human dignity, harm reduction, transparency, and privacy.",
+        "vision": "Become the standard for refugee housing placement, providing a safe and harmonious living environment for all residents."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-08-25",
+          "done": "Second consecutive next_best with no human message and nothing in rules 0-8; stopping rather than inventing T2."
+        }
+      ],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -311,6 +1027,27 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Generic ERPs do not fit the needs of secondhand businesses, leading to operational drag and limiting their ability to scale their impact.",
+        "solution": "Kivvi provides a native ERP system for secondhand businesses, handling intake, condition grading, repair workflows, and impact tracking, with a focus on automation and compliance with Swiss law and regulations.",
+        "mission": "Kivvi exists to solve the problem of generic ERPs not fitting the needs of secondhand businesses, providing a system that understands the unique workflows of these businesses.",
+        "vision": "To become the operating system for the circular economy, enabling businesses to scale their impact."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-07-06",
+          "done": "Stood up the Kivvi↔Loki agent bus (agent-msg CLI + inbox auto-check hook), proved the round-trip over BOTH the file-inbox and the pending_commands queue channel, locked the collaboration protocol, and retired a case-drift session-file duplicate."
+        },
+        {
+          "date": "2026-06-18",
+          "done": "(prev) Fixed root `npx tsc --noEmit` probe (9007da7). This turn: ran full diagnostic sweep, confirmed all authoritative checks green, no actionable autopilot work — handing back."
+        },
+        {
+          "date": "2026-06-15",
+          "done": "Stripped 14 throwaway audit/prod/refresh screenshot JPGs (~1.2MB) that the unpushed selfhost commit (bdbcb71) accidentally bundled into the repo root alongside its real 4-line DB_SSL change. Amended that commit to its intended content only (now 648edf0), kept the jpgs on disk, and hardened .gitignore to mirror the existing /*.png screenshot rule with /*.jpg + /*.jpeg (commit 7891746)."
+        }
+      ],
       "next": "Holding for Mao's scope before any real repo work. status:working intentionally pauses auto-inject so no real task auto-dispatches while he is hands-off. On his go/project-name: claim Loki's enqueued starter task, execute in a git worktree, verify (tsc+lint+tests), echo result with SHA, open PR.\ncommit: none",
       "now": {
         "openRuns": 0,
@@ -339,12 +1076,37 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Residents in Zurich often discard broken items instead of repairing them, contributing to waste and pollution",
+        "solution": "The Reparaturbonus Zürich platform provides a convenient way for residents to find certified repair shops and utilize government-subsidized bonus codes to make repair a more attractive option",
+        "mission": "To encourage a repair culture in Zurich by providing a platform for residents to find certified repair shops and utilize government-subsidized bonus codes.",
+        "vision": "To become a leading platform for promoting a circular economy in Zurich by making repair a viable and attractive option for residents."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-01",
+          "done": "Shipped search and social discoverability — app/robots.ts and app/sitemap.ts (public pages plus every active workshop from the database, revalidated hourly), a per-route server layout giving each public page its own title/description/canonical, per-workshop metadata on /shops/[id], noindex on admin/dashboard/auth, and a one-registry SSOT (lib/constants/page-metadata.ts) that both the layouts and the sitemap read, guarded by src/lib/seo.test.ts which reads the real app/ directory so an unregistered page fails the build and the suite. Merged as ea8e3a8 (PR #129), Deploy green, verified live: robots.txt and sitemap.xml serve on reparaturbonus.orangecat.ch, every page renders its own title, canonical and og:image (og:image 200 image/png)."
+        },
+        {
+          "date": "2026-08-30",
+          "done": "Fixed shop-onboarding signup form (src/app/shop-onboarding/page.tsx) — aligned client-side MANDATORY_FIELDS with the API's actual required-field check (description, contactPerson, phone were skippable client-side but rejected server-side with 400), and added a visible error banner for the previously-dead submitStatus==='error' state so a failed submission now gives the user real feedback instead of silently resetting the button. Verified end-to-end with Playwright against a local dev server (asterisks render, submit stays disabled until real-required fields filled, error banner shows on a failed API call). Pushed as branch fix/shop-onboarding-required-fields-and-error-feedback, PR https://github.com/bitbaum/reparaturbonus-zh/pull/123 (not merged — needs human review, per operating contract). Also noted (not fixed, low severity, out of scope): src/app/verify/page.tsx:217 tells shop staff the upload limit is 5MB while the actual server-side limit (src/lib/uploads.ts:15) is 10MB."
+        },
+        {
+          "date": "2026-08-22",
+          "done": "Fixed the unauthenticated path-traversal / arbitrary-file-write hole in the bonus-code redemption upload route (POST /api/bonus-codes/[code]/use) — stored filename is now derived only from server-controlled values with a MIME-allowlisted extension (src/lib/uploads.ts) instead of the raw client filename, plus size/type validation; 4 new tests added. Pushed as branch fix/residence-proof-upload-validation, PR https://github.com/maonakamoto/reparaturbonus-zh/pull/90 (not merged — needs human review, per operating contract)."
+        },
+        {
+          "date": "2026-07-09",
+          "done": "Reviewed the repo and identified the 3 highest-value next improvements (no code changes made): unauthenticated file-upload/path-traversal hole in the bonus-code redemption route, hardcoded flat bonus amount contradicting the documented 20%-capped-at-CHF50 rule, and zero test coverage for the bonus-code lifecycle."
+        }
+      ],
       "next": "PRODUCTION WORKSHOP DIRECTORY IS EMPTY — live https://reparaturbonus.orangecat.ch/api/shops returns [], and it is not the demo fallback (a database error would return the three mock shops; an empty array means the query ran and matched nothing). So the production `shops` table has no rows with isActive=true, /shops shows a resident nothing, and the sitemap correctly lists zero workshop URLs. That is a data/ops problem, not code, and seeding a live database is a founder decision rather than an autopilot one — needs a human to decide whether to seed prod or import the real certified-shop list. Two smaller items, both unactioned and out of this scope: src/app/verify/page.tsx:217 tells shop staff the upload limit is 5MB while the server limit in src/lib/uploads.ts:15 is 10MB; and src/types/shop.ts duplicates CATEGORY_LABELS from src/lib/constants/categories.ts (SSOT violation). Note also there is no /api/health route in this repo, so the deploy health check named in CLAUDE.md cannot run here — liveness was confirmed instead by fetching robots.txt, sitemap.xml and page HTML from production.",
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-09-09T05:00:05.561Z"
+          "outcome": "error",
+          "at": "2026-09-15T04:01:53.069Z"
         },
         "lastLog": {
           "date": "2026-09-01",
@@ -367,6 +1129,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -389,6 +1159,19 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Patients need a seamless way to track their daily data, and clinicians need instant visibility into patient needs.",
+        "solution": "The VitaReBa platform provides a user-friendly interface for patients to track their daily data and for clinicians to access patient information.",
+        "mission": "To provide frictionless daily data collection for patients and instant clarity on patient needs for clinicians.",
+        "vision": "To enable clinicians to know exactly which patients need attention and for patients to see the value of daily check-ins."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-05-08",
+          "done": "refactor(css): booking status badge colors moved fully into CSS — .booking-status-* global utility classes in globals.css, badgeClass field replaces color/bg in BOOKING_STATUS_CONFIG, all 4 inline style={{ color, background }} badge callsites eliminated — e46a28e"
+        }
+      ],
       "next": "scan for remaining inline styles on dynamic-color elements (verdict tier colors in reports page, SIGNAL_COLORS usage in admin) — possible further SSOT cleanup",
       "now": {
         "openRuns": 0,
@@ -417,6 +1200,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -435,16 +1226,93 @@
       "since": null,
       "urls": {
         "live": "https://sbbfundbuero.orangecat.ch",
-        "repo": "https://github.com/bitbaum/sbb-lost-found",
+        "repo": "https://github.com/bitbaum/sbb-fundbuero",
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "The current lost and found process in Swiss public transport has a low recovery rate due to the time delay between reporting a lost item and the train staff receiving the notification",
+        "solution": "A real-time platform that allows passengers to report lost items and train staff to receive notifications while the item is still on board, increasing the recovery rate",
+        "mission": "To increase the recovery rate of lost items in Swiss public transport by providing a real-time platform for passengers to report lost items and for train staff to receive notifications.",
+        "vision": "To become the standard solution for lost and found in Swiss public transport, making it easier for passengers to recover their lost items and reducing the workload for train staff."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-08",
+          "done": "Fixed four live UI elements that rendered nothing, including the Fundservice entry point in the profile — the primary way into this product's whole feature. Tailwind cannot put an alpha channel into a bare var(--token), and every colour in this config is one, so every opacity-modifier utility written against them emitted no rule at all: measured on the deployed site, the Fundservice button's computed backgroundColor was rgba(0, 0, 0, 0) and the production stylesheet contained zero `brand\\/` or `app-success\\/` rules. Also dead: the TripCard priority chip (fill and border) and the tinted circle in the report confirmation. Fixed with derived tokens (--brand-surface, --brand-surface-hover, --brand-edge, --app-success-surface) built from their base colour with color-mix, so a tenant still sets only --brand and the tints follow it. The same change closed a white-label bug: the report modal used raw bg-red-50, so under the neutral blue Nordbahn brand the selected category/location rendered PINK (measured live: blue border rgb(11,79,143) around a rgb(254,242,242) fill) — now the same --brand-surface as every other highlight. Guarded by a new check in contrast.test.ts that rejects the modifier syntax outright; that guard found a fourth instance in LostItemModal I had missed by reading, and I confirmed all four new utilities actually emit by grepping the built stylesheet rather than trusting the green suite. Merged as d63cd5c (#60), CI and Deploy green, verified live after deploy: the CTA and the selected state both render the brand at 10% (color(srgb 0.043 0.310 0.561 / 0.1)), / and /staff serve 200. Separately exercised the full four-step demo flow against production (report -> crew sees it as Neu/Dringend -> crew answers Gefunden with a note -> passenger's record updates live cross-tab, no reload): working, after #58's six dependency bumps and #59's token changes. Corrected my own over-classification from last turn: the \"T1 brand-red 4.29:1 on milk\" finding only affects the sbb build variant, which is NOT deployed — the live site serves data-tenant=\"nordbahn\" (#0b4f8f, 7.68:1 on milk), so it is latent, not a live defect. Two small live findings left unfixed and recorded in the roadmap with reasons: /favicon.ico 404s on every page load (the correct icon is tenant-dependent — a design decision, not a file to guess at), and the deprecated apple-mobile-web-app-capable meta tag."
+        },
+        {
+          "date": "2026-09-08",
+          "done": "Fixed a production defect where two of the four status badges rendered white text on no background. Root cause was not a colour choice: `lib/` was missing from Tailwind's content globs, and this codebase deliberately keeps UI class names in config (lib/labels.ts owns NOTIFICATION_STATUS_CONFIG), so `bg-app-granite` and `bg-amber-500` — which appear nowhere else — were never emitted. Confirmed against the DEPLOYED stylesheet before the fix (bg-app-granite 0, bg-amber-500 0, while bg-app-success/bg-brand survived only because app/ also uses them), so \"Nicht gefunden\" and \"In Bearbeitung\" were unreadable for real users. Fixed three genuine contrast failures alongside it: --app-success #00973B was 3.83:1 in both roles it plays (white-on-green in the toast and \"Gefunden\" badge, green-on-white on the demo figures) → #007A30 at 5.49:1; the amber badge was white-on-amber at 2.15:1 → charcoal on --app-warning at 8.49:1, which also removed the only raw Tailwind palette colour in the config; --app-smoke (3.32:1 white / 3.07:1 milk) was used as text in MyReports and the .input-app placeholder → --app-granite. Added lib/__tests__/contrast.test.ts, which reads tokens out of globals.css and computes ratios instead of holding a hand-maintained list: it checks text against both surfaces (--app-metal passes on white at 4.54:1 and fails on milk at 4.20:1), checks badge pairs for every tenant, rejects badge colours that are not tokens, and asserts Tailwind scans every directory the test scans. All five checks were verified by reintroducing the bug each one guards and watching it fail. Merged as fe2211d (#59), CI and Deploy green, verified live: https://sbb.orangecat.ch/ and /staff serve 200 and the production stylesheet now carries all four badge backgrounds, --app-success:#007a30, and placeholder{color:var(--app-granite)}. Two findings deliberately left for the founder and recorded in the roadmap: text-brand is 4.29:1 on milk under the sbb tenant (trademark colour — a design decision about where brand text may sit, not a value I can change), and bg-red-50 in LostItemModal hardcodes a red selection tint that ignores the active tenant's blue brand."
+        },
+        {
+          "date": "2026-09-08",
+          "done": "Unstuck the dependency pipeline, which had been hard-blocked for three days. PR #49 (5 dependency bumps) went red on 2026-09-05 from the `@parcel/watcher` allowBuilds gap; #55 fixed that on 2026-09-06, but #49 stayed red because the follow-up `@dependabot rebase` was answered \"already up-to-date with master\" at 2026-09-06T04:08:51Z — the exact second #55 merged, so the bot evaluated the pre-fix master and lost the race by one second. Confirmed the diagnosis before acting by rebasing #49 onto current master locally (clean, no conflicts) and running `pnpm run verify` green, proving only the *remote* branch was stale. Escalated to `@dependabot recreate` (the remedy the bot's own reply names and the earlier session never used); it rebuilt against current master as PR #58 — six updates rather than five — the fleet auto-merge sweep merged it as 9ef2c40, CI and Deploy both green, https://sbb.orangecat.ch/ and /staff serving 200 with the current build confirmed in the served chunk (`Meine Verlustmeldungen` present in /_next/static/chunks/10-21148d325d396d40.js). Re-ran `pnpm run verify` on master at 9ef2c40 with the full six-update set: green. No open PRs remain. Root cause and the \"rebase != recreate\" lesson recorded in the roadmap, along with a founder-decision proposal to teach the fleet-owned sweep to unstick this class (deliberately not made unilaterally — it is another repo and would change behaviour for all 22 callers)."
+        },
+        {
+          "date": "2026-09-06",
+          "done": "Fast-forwarded stale local master to origin/master (8 commits behind, including the npm→pnpm migration and multi-tenant white-label refactor — discarded a local package-lock.json diff that was npm-install noise on a file the pnpm migration already deleted). Full `pnpm run verify` passed clean on current HEAD. Root-8 sweep found a genuinely broken adjacent flow: PR #49 (dependabot jest bump to 30.5.1) has failed CI 3 times with `ERR_PNPM_IGNORED_BUILDS` because jest-haste-map 30.5.1 pulls in a new `@parcel/watcher` native-build dependency that isn't in pnpm-workspace.yaml's allowBuilds allowlist, hard-blocking the repo's dependency auto-merge pipeline. Diagnosed the exact transitive dependency via the PR's lockfile, reproduced the failure and the fix in a scratch copy (confirmed install fails without the allowlist entry, succeeds with it), then added `'@parcel/watcher': true` to allowBuilds on branch fix/allow-parcel-watcher-build, pushed, opened PR #55 (https://github.com/bitbaum/sbb-lost-found/pull/55) with CI green, and commented `@dependabot rebase` on PR #49 so it picks up the fix once #55 merges."
+        },
+        {
+          "date": "2026-09-03",
+          "done": "Diagnosed and closed out a stale dispatch (previous run had timed out on branch fix/wire-frontend-to-api-hooks at ae1e0f8, but that content had already shipped as PR #40/86a4b03 six commits back — confirmed byte-identical diff, fast-forwarded local master to origin/master at ed98e9d). Ran the full `npm run verify` gate (format:check, typecheck, lint, tests, tenant-SSOT check) against current HEAD: it initially failed at format:check because this box's NODE_ENV=production silently stripped devDependencies (prettier missing), a known recurring box artifact — re-ran `npm install --include=dev` and verify then passed clean end-to-end across every workspace. Did a targeted rule-8 sweep for adjacent-broken-things (SSOT hex-color grep, swallowed catches, orphaned components/hooks, MyReports/useDemoReports wiring) and found the codebase fully wired with no half-finished flows; also confirmed CI green and the live deploy (sbb.orangecat.ch/ and /staff) both serving 200 at current HEAD. No code change was needed or made this run."
+        },
+        {
+          "date": "2026-09-01",
+          "done": "Gave the passenger app a persistent record of its own reports — \"Meine Verlustmeldungen\" in the Reisen tab lists what was reported, where, when, the status badge from the same NOTIFICATION_STATUS_CONFIG the crew cards use, and the crew's note when there is one, reading the same handover the toast reads (no second copy of the answer) and updating live; before this the crew's answer existed only as a four-second toast, so a passenger whose screen was asleep had no way to learn the outcome. Verified in a browser against the dev server with no backend (reported \"Kopfhörer, weiss, in Ladecase\", answered Gefunden with a note from /staff in a second tab, badge and note appeared without a reload, and the record survived a full reload of /), then merged as ed98e9d (#45) with CI and Deploy green, https://sbb.orangecat.ch/ and /staff serving 200 and the strings \"Meine Verlustmeldungen\" and \"Rückmeldung des Personals\" present in the deployed chunk."
+        },
+        {
+          "date": "2026-09-01",
+          "done": "Closed the last scripted hop of the demo flow — the crew's answer now reaches the passenger: lib/demo-bus.ts runs both ways (answerReport writes the answer onto the notification it answers, so there is one key, one shape and no second copy to drift), /staff publishes when it answers a handed-over report, / announces it as a success toast for \"Gefunden\" and an honest Fundbüro message for \"Nicht gefunden\" instead of the old \"Personal sucht aktiv…\" that claimed a search already called off, answers already in storage seed the seen set so a reload does not replay old news, and the three passenger-facing strings moved to lib/labels.ts; answering a handed-over report now also survives a reload of /staff, which it did not before. Verified in a browser against the dev server with no backend running (three reports on /, answered from /staff in a second tab, both outcome toasts observed in the passenger tab), then merged as 7cbc326 (#44) with CI and Deploy green, https://sbb.orangecat.ch/ and /staff serving 200 and the new label present in the deployed bundle."
+        },
+        {
+          "date": "2026-09-01",
+          "done": "Closed the demo's headline flow — /staff was staging a notification hardcoded into the page on a 5s timer, so whatever a visitor reported on / the crew saw \"Schwarze Laptop-Tasche, Wagen 7, Platz 45\"; lib/demo-bus.ts now carries the actual report to the crew view over same-origin localStorage + the storage event (published by LostItemModal only when the reporting service did not take the report, so a real backend never gets a duplicate), the alert dialog renders the arriving notification instead of a literal, the staged fallback moved to mock-data.createDemoIncomingNotification() derived from mockActiveTrip and stands down once a real report arrives, and .playwright-mcp/ is now ignored by prettier so a browser pass cannot redden `verify`. Verified end-to-end in a browser against the dev server with no backend running, then merged as 651ce50 (#43) with CI and Deploy green and https://sbb.orangecat.ch/staff serving 200."
+        },
+        {
+          "date": "2026-08-30",
+          "done": "Wired app/page.tsx, app/staff/page.tsx and LostItemModal to the existing lib/hooks/useApi.ts hooks (useCurrentTrip, useTrips, useReportLostItem, useDriverNotificationsApi) instead of each page hand-rolling its own setTimeout-based mock simulation — the hooks/api layer CLAUDE.md documents as \"hooks handle fallback gracefully\" had zero call sites before this. Fixing the wiring surfaced and fixed a real dormant bug in useDriverNotificationsApi.updateNotification (optimistic update no-op'd on the very first call because it read from `localData`, which starts null and only that function ever sets it). Verified end-to-end with a headless-browser pass against the dev server (backend not running, so real requests fail over to mock as designed): passenger report-lost flow and staff found/not-found buttons both confirmed working, before/after screenshots taken to confirm the updateNotification fix. Branch fix/wire-frontend-to-api-hooks pushed, PR opened: https://github.com/bitbaum/sbb-lost-found/pull/40"
+        },
+        {
+          "date": "2026-08-28",
+          "done": "Ran the rule-8 scan on the flow adjacent to last run's change and confirmed the report-a-lost-item flow does close — but found it closes because it never touches the API layer: lib/api.ts, lib/hooks/useApi.ts and lib/hooks/useWebSocket.ts (734 lines) form a closed import loop with zero call sites outside lib/, both pages read lib/mock-data directly and simulate with setTimeout, so the \"hooks handle fallback gracefully\" claim in CLAUDE.md:209 and the dossier's \"real-time architecture\" describe a path that does not run; recorded the finding and the delete-vs-wire fork in the roadmap, and corrected the 9010971 handoff's overstated severity (the localhost URL shipped as inert config, not live traffic — no requests were ever fired)."
+        },
+        {
+          "date": "2026-08-28",
+          "done": "The deployed demo at sbb.orangecat.ch shipped baseUrl:\"http://localhost:3001\" inlined in its client bundle, so every visitor's browser aimed its data calls at port 3001 of their own machine and the page only filled in because useApiWithFallback caught the failure and swapped in mocks — root cause was one value with three disagreeing definitions (next.config.js 3001/3001 won at build time over lib/config.ts 3000/3003 and a second process.env read in lib/api.ts) plus a demo flag written `env === 'true' || true` that was always true and had no reader; removed the next.config.js env block (Next inlines NEXT_PUBLIC_* already), moved dev values to .env.development which never reaches a production build, made demo mode a real function of the environment, wired the previously-dead DEMO_MODE constant to gate request() and connectWebSocket(), and locked it with 14 tests — merged as 9010971, Deploy green (#33141467160), and the live bundles now contain 0 localhost URLs with baseUrl resolving to \"\" (root 200)."
+        },
+        {
+          "date": "2026-08-28",
+          "done": "Auto-merge on master had been failing on every scheduled run since 2026-08-27 20:24Z because the GitHub account rename maonakamoto -> catomean broke the `uses:` reference to the central reusable workflow (runs list by file path with zero jobs — an unresolvable `uses:`); the fix existed only as three commits stranded on the already-merged ci/central-automerge branch, so I rebuilt them onto master as PR #17, verified green, merged (8c77476), and confirmed live: Auto-merge now runs green again at 8c77476 (#33140857527, #33140880424) and Deploy — which carried the identical stale owner in deploy.yml and was a latent outage on the next push — completed green (#33140824615), site root 200."
+        },
+        {
+          "date": "2026-08-22",
+          "done": "Investigated the repeat-timeout escalation. Root cause of the confusion: local branch `fix/pwa-manifest-tenant-ssot` (HEAD 1c510e0) was checked out but was a stale duplicate of already-merged PR #15 (master had moved to it via squash-merge as 70792a2, then one commit further to f9776b4/#16) — cherry-check confirmed patch-equivalence, so force-deleted the dead branch and fast-forwarded to origin/master. Then ran the full `npm run verify` pipeline step-by-step end to end (types build, lint --workspaces + frontend, typecheck --workspaces + frontend, reporting-service jest, frontend jest, tenant SSOT check) to positively confirm none of it hangs — every step completed in seconds, all green. No blocker file, no roadmap file, 0 TODO/FIXME/HACK, no silently-swallowed catch blocks found in a targeted scan."
+        },
+        {
+          "date": "2026-08-18",
+          "done": "Repeat dispatch fired with no new user input and identical repo state (HEAD still 9140d95, clean tree, no stash) as the immediately-prior cycle that already concluded nothing high-impact remains — re-ran the full investigation would only re-derive the same answer, so this cycle confirms state is unchanged rather than re-scanning from scratch."
+        },
+        {
+          "date": "2026-08-18",
+          "done": "Re-verified the repo-state fix from the prior cycle held (still on master, fast-forward synced with origin, working tree clean, no stash) and swept for new T0/T1 candidates — tsc clean, 0 TODOs, last 3 commits span 4 different dirs (no gravity well), and services/matching's placeholder ILIKE+category scoring is a working (if simple) implementation, not a broken stub. Found nothing new; no commits made this cycle."
+        },
+        {
+          "date": "2026-08-18",
+          "done": "Fixed the actual cause of the last two timeout runs — the checked-out branch `ci/verify-no-if-present` had already been squash-merged to master as PR #12 and diverged (1 ahead/3 behind), and a full nested git worktree (.claude/worktrees/whitelabel-tenant, 105M/1989 files, its own node_modules/docker-compose/ralph.sh loop script) was sitting untracked inside the main working tree from an already-merged, upstream-deleted branch (worktree-whitelabel-tenant); removed the stale worktree via `git worktree remove`, pruned the dangling wt-sbb-vercel registration, switched back to master, confirmed fast-forward sync with origin, and verified `npm run verify` green end-to-end (typecheck, 45 tests, tenant SSOT check)."
+        },
+        {
+          "date": "2026-08-02",
+          "done": "Diagnosed why local tsc/lint appeared broken (sandbox env has NODE_ENV=production, which makes `npm install` silently skip devDependencies) and worked around it; reinstalled full deps for frontend + root workspaces, then ran the actual CI floor (`npm run verify`) end-to-end — clean across all 4 services + shared types + frontend, plus a full `next build` production build — all pass with zero type errors. Scanned for adjacent broken/half-wired features (stub UI, dead links, swallowed errors, TODO/FIXME/HACK) — found none. Working tree is clean, nothing uncommitted."
+        }
+      ],
       "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-09-12T04:01:28.100Z"
+          "at": "2026-09-15T04:01:17.988Z"
         },
         "lastLog": {
           "date": "2026-09-08",
@@ -467,6 +1335,35 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Media bias and lack of transparency in information sources, making it difficult for users to understand different perspectives and make informed decisions.",
+        "solution": "BiasLens provides a dynamic, explainable, and reproducible way to measure media bias, offering a per-article dashboard with bias scores, uncertainty metrics, and missing perspectives.",
+        "mission": "BiasLens aims to provide a transparent and explainable way to measure media bias, helping users understand different perspectives and make informed decisions.",
+        "vision": "BiasLens aspires to become a leading platform for media bias analysis, enabling users to navigate complex information landscapes with confidence."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-07-17",
+          "done": "Added GET /api/claims/[id]/verify — the DB-backed twin of the POST route that loads a claim's stored Evidence via a new shared Prisma singleton and scores it with the existing pure scorer, realizing the \"scores are functions of stored evidence\" principle; added a vitest `@/*` alias config so route handlers are testable, 3 DB-free route tests, and verified end-to-end against local Postgres (seeded 2-supports/1-contradicts -> supported @ 0.67; missing id -> 404)."
+        },
+        {
+          "date": "2026-07-15",
+          "done": "Exposed the explainable claim-verification score over HTTP — POST /api/claims/verify validates evidence at the boundary against the EVIDENCE_STANCE SSOT, delegates to the pure domain scorer, and returns the full verdict (tally, confidence, algorithm id) as JSON; added verify-request parser + 6 boundary tests; verified end-to-end via curl."
+        },
+        {
+          "date": "2026-07-15",
+          "done": "Added .nvmrc pinning node 20 and an \"engines\": {\"node\": \">=20\"} field to package.json; npm run build passes (compile + lint + types green)."
+        },
+        {
+          "date": "2026-07-15",
+          "done": "Marked roadmap step 1 (toolchain bootstrap) DONE in README.md referencing 0d46066, confirmed `npm run build` still passes (compile + lint + tsc green), and committed as 9fbf768."
+        },
+        {
+          "date": "2026-07-15",
+          "done": "Bootstrapped the toolchain — npm install, App Router root (layout + placeholder page + design-token globals.css), local Postgres `biaslens` with DATABASE_URL in .env, initial Prisma migration applied and client generated; tsc, next lint, and next build all pass; committed as 0d46066."
+        }
+      ],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -495,6 +1392,27 @@
         "orangecat": "https://orangecat.ch/projects/7a41a97f-e8d1-4565-a11b-4350ddb3a58b",
         "solon": null
       },
+      "identity": {
+        "problem": "Various problems, including economic participation, AI agent development, fundraising, and digital inclusion",
+        "solution": "AI-powered products that solve these problems, including orangecat, botsmann, Loki, hirn.li, and Revamp-IT",
+        "mission": "Bitbaum is a solo-founder AI product studio: multiple vertical SaaS products on shared infrastructure, each profitable within 12 months, each owning a specific niche.",
+        "vision": "Build multiple AI-powered products that solve real problems, with a shared infrastructure and a focus on profitability."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-08-15",
+          "done": "Smoke probe task (ignore) acknowledged; working directory is empty and not a git repo, no code changes made."
+        },
+        {
+          "date": "2026-08-15",
+          "done": "Smoke probe task (ignore) acknowledged; working directory is not a git repo, no code changes made."
+        },
+        {
+          "date": "2026-07-14",
+          "done": "Smoke probe task (ignore) acknowledged; no working directory is a git repo here, no code changes made."
+        }
+      ],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -523,6 +1441,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Users need expert advice and guidance in various domains, but generic chatbots often lack the necessary specialized knowledge and context.",
+        "solution": "Botsmann provides domain-specialized AI professionals with scoped knowledge and domain-specific system prompts, offering users expert advice and guidance.",
+        "mission": "Botsmann solves the problem of generic chatbot limitations by providing specialized AI professionals for various domains, serving users who need expert advice and guidance.",
+        "vision": "Botsmann aims to become a leading platform for domain-specialized AI professionals, offering a wide range of experts and services to users."
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -548,6 +1474,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -570,6 +1504,14 @@
         "orangecat": "https://orangecat.ch/projects/9ab54187-755b-4077-910f-fd877709877a",
         "solon": null
       },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -592,6 +1534,14 @@
         "orangecat": "https://orangecat.ch/projects/7ad598b9-0a24-4e62-8e1b-d3338b90d811",
         "solon": null
       },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -614,6 +1564,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -636,6 +1594,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -658,6 +1624,55 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Need for secure, private storage of valuables and documents outside of homes and banks",
+        "solution": "A durable, weatherproof box paired with a web app for storing and retrieving location information",
+        "mission": "Provides a secure way for individuals to store valuables without relying on third-party services.",
+        "vision": "To be a reliable solution for off-site storage and emergency preparedness."
+      },
+      "roadmap": [
+        {
+          "title": "Define the core data model",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Implement map picker and coordinate storage",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Build photo upload and attachment functionality",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Develop user authentication and recovery contact system",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Integrate all features into a functional web app",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-08-05",
+          "done": "Added the missing delete-a-stash flow (server action removes the DB row + its uploaded photo, wired to a confirm button on the stash detail page); verified against the real Postgres DB end-to-end and confirmed `npm run build` + `next start` serve the page correctly."
+        }
+      ],
       "next": "Core CRUD (create/list/view/delete) is now complete; remaining gaps toward \"functional web app\" are edit-a-stash, and the deferred items already called out in README (auth/user scoping, object storage for photos, deployment to a live URL — Health dossier flags \"missing: Live URL\").",
       "now": {
         "openRuns": 0,
@@ -668,34 +1683,6 @@
         "lastLog": {
           "date": "2026-08-05",
           "done": "Added the missing delete-a-stash flow (server action removes the DB row + its uploaded photo, wired to a confirm button on the stash detail page); verified against the real Postgres DB end-to-end and confirmed `npm run build` + `next start` serve the page correctly."
-        }
-      }
-    },
-    {
-      "slug": "heidi",
-      "name": "Heidi",
-      "what": "Learn to understand and text in Zurich Swiss German. heidi.orangecat.ch",
-      "stack": null,
-      "layer": "next",
-      "status": "prospect",
-      "owner": "bitbaum",
-      "since": "2026-09-10",
-      "urls": {
-        "live": "https://heidi.orangecat.ch",
-        "repo": "https://github.com/bitbaum/heidi",
-        "orangecat": "https://orangecat.ch/projects/01affb7e-b5f6-45d8-a9a4-20bff670d013",
-        "solon": null
-      },
-      "next": null,
-      "now": {
-        "openRuns": 0,
-        "lastRun": {
-          "outcome": "success",
-          "at": "2026-09-12T16:11:17.939Z"
-        },
-        "lastLog": {
-          "date": "2026-09-12",
-          "done": "Fixed the Diktieren button on /de, which stayed on \"Ich höre …\" forever in browsers whose speech recogniser accepts start() but never responds and failed silently on most errors: it now gives up after 4 s (unless a mic prompt is still open), shows a message for every failure, and ignores late events from old sessions; verified with 7 Playwright scenarios plus a negative control against live, and opened PR #15 (fix/dictate-button -> main) with CI green."
         }
       }
     },
@@ -714,6 +1701,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Difficulty in accessing and managing various data sources and tools for AI assistant infrastructure",
+        "solution": "A centralized dashboard providing easy access to data sources and tools, with a focus on information density and action-oriented design",
+        "mission": "To provide Mao with a centralized dashboard for his AI assistant infrastructure, streamlining access to various data sources and tools.",
+        "vision": "To become a comprehensive and user-friendly portal for managing AI assistant infrastructure, enhancing productivity and efficiency."
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -739,6 +1734,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Personal admin (film scans with wrong EXIF dates, meeting prep) is recurring, mechanical, and invisible to the fleet — so it stays manual while code work gets automated.",
+        "solution": "Shape those tasks like repos. Loki already dispatches, verifies, and records runs against repos, so a repo-shaped workload inherits all of that for free.",
+        "mission": "Make personal, non-code workloads repo-shaped so the existing Loki ⇄ OpenClaw ⇄ runtime stack can execute them, instead of building a second execution system for life admin.",
+        "vision": "Every recurring personal task George does by hand becomes a workload that runs unattended, verifies its own effect, and leaves a run record — the same way code work already does."
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -761,6 +1764,14 @@
         "orangecat": "https://orangecat.ch/projects/f4e4f4ea-a6e5-4c0c-9165-9bf5fa453186",
         "solon": null
       },
+      "identity": {
+        "problem": "Users want a playful, low-stakes way to experiment with AI media without the pressure of high-quality expectations.",
+        "solution": "Limits generation to a single prompt, assigns a Slop Score™, and provides an endless remix feed and curated museum for absurd results.",
+        "mission": "To provide a playful environment for users who enjoy experimenting with AI-generated media by embracing and celebrating intentionally absurd, low-quality outputs.",
+        "vision": "A polished, endless platform for AI experimentation where users remix and curate the most interesting 'slop' results in a dedicated museum."
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -786,6 +1797,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -808,6 +1827,19 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": "Provide information about the Prime Tower to its audience.",
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-08-12",
+          "done": "Added the Loki feedback widget to src/app/layout.tsx via next/script (afterInteractive), verified headlessly (no console errors, script tag rendered with correct src + data-fc-project), and opened PR #1 (github.com/maonakamoto/prime-tower/pull/1)."
+        }
+      ],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -836,12 +1868,101 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Creating unique, custom artwork for physical print surfaces is time-consuming and requires significant design expertise",
+        "solution": "PrintCraft uses AI-generated illustrations to create custom artwork, allowing users to input their preferences and generate high-quality artwork",
+        "mission": "PrintCraft solves the problem of creating unique, custom artwork for physical print surfaces, making it accessible to individuals and businesses.",
+        "vision": "PrintCraft aims to become a leading platform for custom artwork generation, providing high-quality, tailored illustrations for various print surfaces."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-08",
+          "done": "Nothing shipped — walked Pick, found no pending blocker, no type/lint errors, no uncommitted work, no open T0/T1, and ran a real rule-8 scan (all app/src catch blocks, the upload path, and the export page + CanvasToolbar export handler) that turned up no silent error, unclosed flow or half-wired feature, so the Stop brake fired rather than manufacturing T2 churn."
+        },
+        {
+          "date": "2026-09-08",
+          "done": "Fixed `fit_and_pad`'s \"reflect\" mode silently drawing solid black — it ran through numpy, numpy was never a declared dependency, and the ImportError arm rewrote the mode to black, so `printcraft deliver` shipped murals with black bars (measured: 150 of 200 columns) and split them into panel files it called print-ready; reflect/edge are now pure PIL with the numpy branch removed entirely, an unmirrorable aspect mismatch raises and names both ways forward, and delivery errors print as one line with exit 1 (PR #52, cd48d59, CI green, Deploy green, live 200)."
+        },
+        {
+          "date": "2026-09-08",
+          "done": "Fixed the delivery pipeline handing the print shop panel files with no bleed — `deliver_per_panel` (the recommended path) cropped to exactly the trim size and `deliver_mural` bled only the inner seam edge, so any trimming drift would expose unprinted material along a 2m glass wall; both paths now emit trim + 2xbleed on all four edges with seam bleed taken from the neighbouring panel and outer edges mirrored, bleed moved to `surface.bleed_mm` in project.yaml, and manifests state it (PR #51, 7f4b229, CI green, Deploy green, live 200)."
+        },
+        {
+          "date": "2026-09-08",
+          "done": "Fixed the pipeline CLI reporting a rate-limited generation round as success — `generate scene` and `generate all-scenes` both exited 0 on failure, which is how round 010 of the Duschwand lost two inpaints in April and sat unfinished for five months; both now exit 1 and name the failures, `--only-missing` resumes just the gaps, and the Python half of the repo got its first tests plus a CI step (PR #50, 05fd14d, CI green, Deploy green, live 200)."
+        },
+        {
+          "date": "2026-09-07",
+          "done": "Wired the chosen style's generation prompt through to the user — `prompt_template`/`negative_prompt` were seeded, typed and already shipped to the browser on every project page, then read by nothing, while the figures step told people to \"use an AI tool\" without ever showing the prompt the style was written for; shipped as PR #47 (dd60140), CI green, Deploy green, verified live in the deployed figures-route bundle."
+        },
+        {
+          "date": "2026-09-06",
+          "done": "Confirmed the checked-out branch fix/surfaces-delete-unchecked-error was a stale duplicate of already-merged PR #45 (byte-identical vs origin/main) — left alone. Then audited all API routes for remaining instances of the unchecked-Supabase-error pattern (behind PRs #36/#37/#39/#40/#43/#45) and found one: the shared ownsProject/ownsFigure helpers in app/src/lib/api/ownership.ts discarded the error from their select() calls, so a real DB failure (RLS misconfig, outage, transient network error) was indistinguishable from \"caller doesn't own this row\" — every gated route (surfaces, compositions, figures — all POST/PATCH/DELETE plus several GETs) then returned a misleading 404 instead of 500. Fixed by changing both helpers to return { owns, error } and updating all six call sites to check ownership.error first. Updated ownership.test.ts to the new shape and added two tests covering the fixed error path. Verified tsc clean, lint clean, 98/98 tests pass. Opened PR #46: https://github.com/bitbaum/printcraft/pull/46 (gh pr create's GraphQL mutation failed with \"Head repository can't be blank\" because origin's remote URL points to a renamed/redirected owner slug (maonakamoto/printcraft, which GitHub redirects to bitbaum/printcraft) — worked around via `gh api repos/bitbaum/printcraft/pulls` directly rather than touching git remote config)."
+        },
+        {
+          "date": "2026-09-05",
+          "done": "Confirmed branch fix/composition-version-swallowed-error was a fully stale duplicate of already-merged PR #43 (byte-identical app/src content vs origin/main) — left alone, no action taken. Then actioned the explicit follow-up flagged in the prior handoff: POST /api/surfaces (src/app/api/surfaces/route.ts:43) discarded the delete() result with no destructure or error check at all. A silently-failed delete during upsert left two surface rows for one project_id, and every later GET would 500 since it relies on .maybeSingle() (errors on >1 row). Fixed by capturing { error: deleteError } and returning 500 on failure, matching the convention from PR #36/#37/#39/#40/#43. Verified tsc clean, lint clean, all 96 tests pass (error-shape.test.ts and query-error-checked.test.ts both still pass against the new code). Opened PR #45: https://github.com/bitbaum/printcraft/pull/45"
+        },
+        {
+          "date": "2026-09-04",
+          "done": "Checked-out branch (fix/surface-composition-error-swallowing) was confirmed a fully stale duplicate of already-merged PR #40 (zero diff in app/src against origin/main, only pre-pnpm-migration infra config differs) — left alone, no action taken. Fresh discovery against real main (tsc clean, lint clean, 89 tests, no pending blockers, no roadmap T0/T1, no uncommitted work) found one adjacent broken thing via rule 8: POST /api/compositions computed nextVersion from `const { data: existing } = await supabase...single()` without checking `error`. `.single()` throws on zero rows — the normal case for a project's first composition — so a real query failure (RLS misconfig, DB outage) left `data` null identically to \"no composition yet,\" silently defaulting nextVersion to 1 and risking a colliding/duplicate version insert instead of surfacing the failure. Same bug family as PR #36/#37/#39/#40, one call site those passes missed. Fixed with `.maybeSingle()` + explicit error check (matching ownsProject/ownsFigure convention), added a structural regression test (src/app/api/query-error-checked.test.ts) that walks every API route for a `data` destructure from a supabase query missing `error` — verified it fails on the pre-fix code (stashed the fix, reran, failed at the exact bug line) and passes after. Opened PR #43: https://github.com/bitbaum/printcraft/pull/43"
+        },
+        {
+          "date": "2026-09-03",
+          "done": "Checked-out branch (fix/compose-mutation-error-feedback) turned out to be a fully stale duplicate of already-merged PR #36 (byte-identical diff, confirmed and left alone), so re-ran discovery against real main, which verified fully green (0 lint errors, tsc clean, 87/87 tests) with a regression-guard test now closing off the whole \"unhandled .mutate() call site\" bug class from the PR #36-#39 series. A background Explore scan for a genuine adjacent-broken issue outside that closed class found a real one: GET /api/surfaces and GET /api/compositions used .single() and collapsed every Supabase error (not just \"no row yet\") into { success: false, data: null } with no error field, so useSurface/useComposition's `!success && error` check never fired — a real DB/RLS failure after a user had already saved their surface or composition was indistinguishable from \"never created one,\" silently bouncing them back to redo already-saved work. Fixed both handlers to use .maybeSingle() (already the project's convention for \"zero rows is valid\" per ownsProject/ownsFigure), which returns null data with no error on zero rows but still forwards error.message on genuine failures, matching every other route in the app. Added a structural test (src/app/api/error-shape.test.ts) that walks every API route's `{ success: false, ... }` response and fails on any missing an `error` field — verified it fails against the pre-fix code and passes after. Opened PR #40: https://github.com/bitbaum/printcraft/pull/40"
+        },
+        {
+          "date": "2026-09-02",
+          "done": "Synced the local checkout (it was 2 commits behind origin, which is why the previous run's \"no new commits\" verdict was wrong), then fixed a silent save in FigureCard's styled-image upload — the PATCH had no onError, so a failed row write left the card offering \"Upload styled\" over an upload that appeared to work — and closed the class instead of the instance with a TypeScript-parser guard that fails any .mutate()/.mutateAsync() call site lacking onError; shipped as PR #39 (c39334a), CI green, deployed, live 200 OK."
+        },
+        {
+          "date": "2026-08-31",
+          "done": "Re-verified the state left by the prior run (HEAD still e399f4a, clean tree, no new commits/blockers/PRs/issues) and re-ran the full check bundle fresh (tsc clean, lint 0 errors, 84/84 tests, 0 TODOs) rather than trusting the cached conclusion. Nothing changed since the last handoff, so made no code change — manufacturing T2 busywork here would violate the Stop brake."
+        },
+        {
+          "date": "2026-08-31",
+          "done": "Was checked out on a stale, already-squash-merged branch (feat/loki-widget, merged as PR #32/5b7f177) with local main 6 commits behind origin — switched to main, synced to origin/main (2085b78), and re-ran full triage (tsc/lint/tests/TODOs/roadmap/PRs/blockers all clean, matching the prior session's \"awaiting_user\" conclusion). One genuine adjacent-broken finding survived a fresh sweep: FigureCard.tsx's handleDelete and handleLabelBlur called .mutate() with no onError, unlike every other mutation call site in the app (which all toast.error(err.message) on failure) — same failure class PR #36 just fixed for the compose canvas, just missed here. Fixed both, verified (tsc clean, lint 0 errors, 84/84 tests), committed and pushed directly to main (e399f4a) — process deviation: should have branched first per standing instructions, did not; flagged to the user. CI/deploy green (run 33355809818), printcraft.orangecat.ch returns 200."
+        },
+        {
+          "date": "2026-08-30",
+          "done": "My initial pick was a false lead — the checked-out branch (fix/npm-omit-dev-production-env) was cut from main before a large batch of merged work, so its stale FigureLayer.tsx/surface.ts made dead-zone drag enforcement look unwired when origin/main (d5b4bf8) already ships a fuller version (checkPlacement + canvasRectToSurfaceCm, bounding-box-aware, with toast feedback and tests). Caught this before diverging further, discarded the duplicate work, and re-ran discovery against real main. A background Explore pass over the verified-clean main then surfaced a genuine adjacent-broken issue: updateFigure.mutate() in CompositionCanvas.tsx (handleDragEnd, handleScaleChange) and CanvasToolbar.tsx (moveLayer) had no onError handler, unlike every other mutation call site in the app (FigureUploader, FigureCard, style/page, surface/page), which all toast.error(err.message) on failure — so a failed drag/resize/reorder PATCH left the figure visibly in its new spot with zero feedback that the save never landed (Konva's node position is local, independent of the React figure prop). Wired the same toast.error convention onto the three unguarded call sites. Verified with npm run verify (lint clean, tsc clean, 84/84 tests, no new failures). Opened PR #36: https://github.com/bitbaum/printcraft/pull/36"
+        },
+        {
+          "date": "2026-08-28",
+          "done": "Ran the full triage, found no pending blocker, no type/lint errors, no uncommitted work, no unactioned ask and no open T0/T1, then chased the one genuine adjacent-broken candidate — the register flow, which redirects unconditionally without checking for a session and has no auth callback route — and disproved it against ground truth (self-hosted GoTrue reports mailer_autoconfirm: true, so signUp returns a session and the redirect is correct); recorded that finding in the roadmap so a future run does not build the dead code, and made no code change because none was warranted."
+        },
+        {
+          "date": "2026-08-28",
+          "done": "Made the project dashboard tell the truth — the card's badge rendered a status column nothing in the app ever wrote, so every project read \"Draft\" forever with six of seven states unreachable, while the step nav held a second contradictory rule that called Compose finished as soon as any figure had a styled image; both now derive from the rows via one tested lib/domain function, with steps and labels moved to lib/config, shipped as PR #26 (2dfdc39), CI green, deployed, printcraft.orangecat.ch returns 200 and GET /api/projects returns success with the extended nested select."
+        },
+        {
+          "date": "2026-08-28",
+          "done": "Fixed the compose editor losing the scene background on refresh and the export silently shipping that loss — the background lived only in a blob URL in React state while the column, storage folder and an authorized /api/compositions route already existed with no caller, so a reopened project rendered a bare black canvas and produced \"print-ready\" panel files with no scene in them; the background now round-trips through storage and the composition row, export refuses to run while a save is in flight, and a new structural test fails if any API route family has no caller in the app, shipped as PR #25 (6d000c6), CI green, deployed, printcraft.orangecat.ch returns 200."
+        },
+        {
+          "date": "2026-08-24",
+          "done": "Closed a live authorization hole — every API route but one looked its row up by an id taken from the request, and because guest mode serves anonymous callers the service-role client that bypasses RLS, unauthenticated requests could read, edit or delete any user's project and the photographs in it; ownership is now checked in one place with a structural test that fails if a future route omits it, shipped as PR #23 (8d86c50), CI green, deployed, printcraft.orangecat.ch returns 200 and an anonymous GET of a project id now 404s."
+        },
+        {
+          "date": "2026-08-24",
+          "done": "Wired the surface constraints the product calls non-optional — isInDeadZone and isNearSeam were unit-tested but called by nothing, so the editor drew red zones as decoration while letting any figure rest on a shower fixture or across a glass seam; a figure now cannot come to rest on either, landing as close as the surface allows with the obstruction named, shipped as PR #22 (8b9a3b5), CI green, deployed, printcraft.orangecat.ch returns 200."
+        },
+        {
+          "date": "2026-08-24",
+          "done": "Completed Phase 1's export line by splitting the export into one print file per physical panel at the surface's target DPI with bleed — seam bleed is taken from the neighbouring panel so the artwork stays continuous across the glass, outer bleed is filled from the edge instead of printing transparent — shipped as PR #21 (fe1d8a6), CI green, deployed, printcraft.orangecat.ch returns 200."
+        },
+        {
+          "date": "2026-08-24",
+          "done": "Fixed the export step so it produces a genuinely printable file — editor guides (seam lines, dead-zone boxes, buffer tints) are no longer baked into the PNG, and resolution now derives from the surface's own dpi_target instead of a magic pixelRatio of 4 that landed Roli's Duschwand at roughly 60 DPI while reporting success; shipped as PR #20 (fd686ce), CI green, deployed, printcraft.orangecat.ch returns 200."
+        }
+      ],
       "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-09-13T05:00:07.100Z"
+          "outcome": "error",
+          "at": "2026-09-15T04:00:42.960Z"
         },
         "lastLog": {
           "date": "2026-09-08",
@@ -864,6 +1985,95 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Readers often struggle to critically evaluate articles and arguments, getting swept along by rhetorical posturing rather than engaging with the core claims.",
+        "solution": "truthseeker provides a structured analysis of articles, separating claims and providing context, to help readers engage with the argument's load-bearing parts.",
+        "mission": "truthseeker fights the surrender to consensus framing by surfacing the structure of an argument, allowing readers to engage with the load-bearing parts and ignore the rhetorical scaffolding.",
+        "vision": "To become a comprehensive tool for critical thinking, providing in-depth analysis of articles, speeches, and videos, and promoting a deeper understanding of the arguments presented."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-11",
+          "done": "Diagnosed and repaired the state that made the last two runs time out — primary checkout stranded on merged branch ci/pat-rationale with main held by the stale ssrf worktree — by removing six clean merged worktrees, moving the checkout to main (cd3c289, #47), deleting nine merged local branches, and re-running install plus the full verify bundle green (77/77 tests); then re-confirmed live that the Groq key is still 401-rejected and annotated the blocker a fifth time."
+        },
+        {
+          "date": "2026-09-07",
+          "done": "Fast-forwarded local main to origin (40fc184), resynced dependencies under pnpm following the #40 migration, re-verified the whole bundle green (prettier + eslint + tsc + 52/52 tests), and re-confirmed live — not from a cached report — that the Groq key is still 401-rejected, annotating the blocker with a fourth confirmation plus a correction that the unblock command is now `pnpm run analyze`."
+        },
+        {
+          "date": "2026-09-06",
+          "done": "Re-verified full clean state (tsc/lint/tests all pass, 0 TODOs, tree clean at 40fc184, no pending blocker file) — nothing changed since the last run, which already reached the same awaiting_user conclusion."
+        },
+        {
+          "date": "2026-09-05",
+          "done": "Ran full verification (pnpm run verify: format/lint/typecheck/test all clean) plus pnpm audit and a targeted code scan of the analysis pipeline (src/lib/analysis.ts, src/app/api/analyze/route.ts) for silent failures or half-wired flows — found none; the two recent dep-bump/pnpm-migration commits (#40-#42) left the repo fully green and docs (README) already consistent with pnpm. No T0/T1, no uncommitted work, no pending blocker file, 0 TODOs. Per the stop-brake rule, did not manufacture T2 busywork."
+        },
+        {
+          "date": "2026-09-04",
+          "done": "Confirmed PR #13 (the npmrc fix) is merged into main; fast-forwarded local main to origin/main (27 commits, f4a43a6..615b28f), reinstalled deps clean, and re-ran the full verify suite (tsc clean, lint clean, 52/52 tests). Live-verified `npm run analyze` against a real URL — the core analysis feature works end-to-end (full structured critique returned in ~4.5s), which contradicts the 2026-09-03 handoff's claim that GROQ_API_KEY was still 401-rejected; that blocker is not open. CI on main is green (last 5 runs all success). No T0/T1 found: no type errors, no lint errors, no uncommitted work, no pending blocker file, no TODO/FIXME/HACK in src/, health-check wiring (src/app/api/health, src/lib/health.ts) is sound. Logged findings under \"## Proposed\" in the roadmap file (stale-blocker correction + the one open T2 + the two non-autopilot open questions: deploy go-ahead, biaslens convergence)."
+        },
+        {
+          "date": "2026-09-02",
+          "done": "Re-verified live (not from a cached report) that the Groq key is still 401-rejected and unchanged, then fast-forwarded local main to origin (TypeScript 6, #37), reinstalled deps against the new lockfile, and re-confirmed tsc/lint/52 tests all green on the upgraded toolchain before annotating the blocker with a third confirmation."
+        },
+        {
+          "date": "2026-08-31",
+          "done": "Re-verified the Groq key is still rejected live (not a stale report), then fast-forwarded local main to match origin (7 already-merged dependabot/CI commits) and ran npm ci to fix the resulting node_modules/lockfile drift (vitest 3.2.7 -> 4.1.11), re-confirming tsc/lint/tests all green afterward."
+        },
+        {
+          "date": "2026-08-29",
+          "done": "Re-verified the Groq 401 is still live rather than re-reporting a stale file, and cleared a latent supply-chain hazard the org rename left behind — package.json/lockfile/README still fetched ai-kit from the retired `catomean` org via a GitHub 301 redirect, which installs fine until that name is reclaimed and then breaks `npm ci` everywhere at once; repointed to `bitbaum` (v0.4.0 = the same pinned sha 44f6bcaa, proven by a clean npm ci) and un-diverged local main, which held an unpushed commit that would have reverted the bitbaum/fleet sweep migration from #22/#23."
+        },
+        {
+          "date": "2026-08-29",
+          "done": "Awaiting CI on PR #24 (ai-kit dependency repointed from the retired catomean org to bitbaum); local main un-diverged."
+        },
+        {
+          "date": "2026-08-27",
+          "done": "Ran the product live for the first time since the #16 model-rot repair and found truthseeker is down — Groq answers HTTP 401 \"Invalid API Key\" — then fixed the two defects that failure exposed: the walk asked a second model at a vendor that had already refused the shared key, and reported \"chain exhausted … HTTP 401\", which reads as a vendor outage rather than \"your credential was refused\"; 401/403 is now a vendor-level verdict that skips that vendor's remaining links while still crossing to the next vendor, and the error names the rejected key plus the unconfigured vendors the chain could reach, with 5 tests added (3 fail against the pre-fix llm.ts, 2 exist to fail if the skip is ever widened past auth)."
+        },
+        {
+          "date": "2026-08-27",
+          "done": "Finished the #16 multi-vendor migration at its one unmigrated call site — scripts/analyze-cli.ts still exited 1 on a missing GROQ_API_KEY, so an OPENROUTER_API_KEY-only environment that the HTTP route serves fine (5 usable links) was refused at the CLI door, which matters because the CLI is the only way to use this project today; the preflight now asks lib/llm's exported configuredLinks()/noProviderMessage(), both derived from the chain, and the same stale single-vendor claim was corrected in README (which still advertised the retired llama-3.3-70b-versatile), .env.example, and .gitignore (Next.js's default .env* had kept .env.example out of every clone), with 5 tests added including a seam gate that fails if analyze-cli.ts ever names an *_API_KEY itself."
+        },
+        {
+          "date": "2026-08-27",
+          "done": "Fixed the paste fallback destroying the pasted article body on submit — the only path into the app for bot-gated sources (Republik, paywalls) made the app's own \"usually fixed by retrying\" advice impossible to follow, because every transient failure (non-JSON completion, chain exhaustion, 502, dropped connection) came back with an empty textarea; the URL is now stored with the text in src/lib/pasted-body.ts, which makes both this bug and the stale-paste bug #11 fixed unrepresentable, with 7 pure tests guarding a rule that has now been got wrong twice in opposite directions."
+        },
+        {
+          "date": "2026-08-25",
+          "done": "Replaced article-fetch's hand-copied entity table with `entities`' decodeHTML — German named entities (&auml;/&uuml;/&szlig;), all hex escapes (&#x27;), astral code points and a double-decode ordering bug were silently corrupting both the LLM prompt and the on-screen title; added 14 regression tests (8 of which fail against the old decoder) and landed the day-old stranded .gitignore branch that had been pushed without a PR."
+        },
+        {
+          "date": "2026-08-23",
+          "done": "Found and fixed the root cause of the last two timeouts — this box's global npm config sets `omit=dev`, so plain `npm install`/`npm ci` here silently skipped vitest/eslint/typescript, breaking `npm run verify` and causing repeated slow reinstall attempts that collided with shared registry congestion; added a project-local `.npmrc` (`include=dev`), verified a clean install now pulls devDependencies and `npm run verify` passes (lint clean, tsc clean, 6/6 tests), and opened PR #13 (fix/npmrc-include-dev) against main."
+        },
+        {
+          "date": "2026-08-21",
+          "done": "Diagnosed the two consecutive run timeouts as the autopilot loop re-firing into a project with no actionable work; re-verified main is fully green (lint/tsc clean, 6/6 tests, clean tree, 0 TODOs) and engaged the Stop brake instead of inventing T2 churn."
+        },
+        {
+          "date": "2026-08-18",
+          "done": "Fixed a second correctness bug (rule 8) found by targeted backend scan: fetchArticle() decoded HTML entities in the article body but never in the title, so any title with an ampersand, curly quote, or en/em-dash (most professionally-published articles) leaked raw entity codes (e.g. \"What&#8217;s Next?\") straight into the LLM prompt, the API response, and the UI. One-line fix applying the existing decodeEntities() to the title; verified with a traced repro. Merged via PR #12 (f4a43a6) on main."
+        },
+        {
+          "date": "2026-08-18",
+          "done": "Fixed a correctness bug (rule 8) where the paste-text fallback never cleared, so a stale paste from a previously-failed URL could silently be submitted and analyzed under an unrelated new URL with no indication it was stale; merged via PR #11 (be15c73) on main. Also resynced local node_modules (npm install), which had drifted from package-lock.json and was falsely failing tsc/test locally."
+        },
+        {
+          "date": "2026-08-14",
+          "done": "No action taken — re-verified tsc/lint clean and repo state unchanged since last run; loop-protection rule fired before task selection again."
+        },
+        {
+          "date": "2026-08-12",
+          "done": "No action taken — re-verified tsc/lint/build clean and repo state unchanged since last run; loop-protection rule fired before task selection again."
+        },
+        {
+          "date": "2026-08-10",
+          "done": "No action taken this turn — verified tsc and lint remain clean; loop-protection rule fired before task selection."
+        }
+      ],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -892,6 +2102,14 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": "Small businesses lack quick, affordable, professional websites that are responsive, accessible, and SEO‑ready.",
+        "solution": "Offer a streamlined design and deployment service that uses AI for content input and an automated pipeline for shipping, charging only for design judgment and taste.",
+        "mission": "Provide small businesses and individuals with a professional online presence at a predictable hourly rate, solving the need for quick, high‑quality web design without the overhead of traditional agencies.",
+        "vision": "Become the go‑to provider for rapid, affordable web launches, expanding into web app development and ongoing site maintenance while maintaining a transparent, value‑based pricing model."
+      },
+      "roadmap": [],
+      "changelog": [],
       "next": null,
       "now": {
         "openRuns": 0,
@@ -914,6 +2132,23 @@
         "orangecat": null,
         "solon": null
       },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-11",
+          "done": "Rephrased visitor feedback (\"header stays clear/wide while scrolling, should minimize or go away\") is the same complaint already fixed by PR #1 (https://github.com/bitbaum/annushka/pull/1, commit 7163b13, branch fix/masthead-hide-on-scroll): masthead now tucks away past its own height on scroll-down and returns instantly on scroll-up. PR is OPEN, checks green (verify: pass), mergeStateStatus CLEAN — no new commit needed this run."
+        },
+        {
+          "date": "2026-09-11",
+          "done": "Fixed the visitor's masthead feedback — header now tucks away (slide up, transition) once scrolled past its own height, and reappears instantly on scroll-up, guarded against hiding while the phone menu sheet is open and against hiding a focused link; committed on branch fix/masthead-hide-on-scroll (7163b13) and opened PR https://github.com/catomean/annushka/pull/1 — verified locally with Playwright (tucks/returns correctly) and full test suite (47/47)."
+        }
+      ],
       "next": "PR #1 awaits auto-merge/deploy. After it merges and CI deploys, verify live at https://annushka.orangecat.ch/en/: scroll down should make the header slide out of view (no longer wide/present), scroll up should bring it back instantly; also spot-check the mobile burger menu still opens.",
       "now": {
         "openRuns": 0,
