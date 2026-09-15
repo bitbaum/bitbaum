@@ -116,6 +116,14 @@ a.row:hover .arrow { transform: translateX(3px); }
    the header there, and on a phone the cells stack so each needs its name. */
 .ledger-label { display: none; }
 
+/* ── readings: six numbers, big, with what each one is NOT ─────────────── */
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: 0.85rem; margin-top: 1.4rem; }
+.tile { display: flex; flex-direction: column; gap: 0.15rem; background: var(--raised); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.2rem 1rem; font-variant-numeric: tabular-nums; }
+.tile-value { font-family: var(--serif); font-size: clamp(1.9rem, 3.2vw, 2.4rem); line-height: 1.05; letter-spacing: -0.02em; }
+.tile-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+.tile-note { font-size: 0.72rem; color: var(--dim); line-height: 1.4; }
+.tile-spark { margin-top: 0.5rem; color: var(--accent); }
+
 /* ── footer ─────────────────────────────────────────────────────────────── */
 footer { border-top: 1px solid var(--line); margin-top: 1rem; }
 footer .wrap { padding-block: 2.5rem 3.5rem; color: var(--dim); font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }

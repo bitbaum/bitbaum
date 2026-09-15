@@ -32,8 +32,15 @@ OpenTimestamps manifests, GitHub's first-commit dates and Software Heritage's
 archive. Git dates are set by whoever commits; every date in that section is
 from a clock nobody here controls, and the page types none of them.
 
-All three sources snapshot locally (`map.snapshot.json`,
-`packages.snapshot.json`, `origin.snapshot.json`) so `--offline` builds work,
+The readings tiles come from a fourth —
+<https://raw.githubusercontent.com/bitbaum/fleet/main/registers/readings.json>,
+the numbers the bet rests on (stars, forks, npm downloads, paying clients,
+CHF/month, originator share paid), read nightly by fleet from sources that
+are not us. Zero is a reading and is shown.
+
+All four sources snapshot locally (`map.snapshot.json`,
+`packages.snapshot.json`, `origin.snapshot.json`, `readings.snapshot.json`)
+so `--offline` builds work,
 and a missing source throws rather than quietly producing a page with nothing
 on it — that would read exactly like "we have none".
 
