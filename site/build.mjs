@@ -153,7 +153,11 @@ function pill(v) {
 }
 
 // ── page chrome ─────────────────────────────────────────────────────────────
-function shell({ title, description, path, body, nav, script }) {
+function shell({ title, description, path, body, nav, script, image }) {
+  // A link to this site is how almost anyone arrives, so the card a share
+  // renders is part of the page: a venture shows its own screenshot, every
+  // other page the studio card (site/og.mjs).
+  const ogImage = `${SITE}${image ?? "/og/studio.png"}`;
   const items = [
     ["/#work", "The work"],
     ["/packages/", "Packages"],
@@ -173,6 +177,12 @@ function shell({ title, description, path, body, nav, script }) {
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${SITE}${path}">
 <meta property="og:site_name" content="bitbaum">
+<meta property="og:type" content="website">
+<meta property="og:image" content="${ogImage}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(title)}">
+<meta name="twitter:description" content="${esc(description)}">
+<meta name="twitter:image" content="${ogImage}">
 <meta name="theme-color" content="#0a0a0a">
 <link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/styles.css">
@@ -373,6 +383,45 @@ export function homePage(all, packages, cfg, origin) {
       </div>
     </section>
 
+    <section class="section" id="start">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Start where you are</h2>
+          <p class="lede">People arrive here for one of four reasons. Each has its own door, so nobody has to read the whole page to find theirs.</p>
+        </div>
+        <div class="grid four">
+          <a class="card text" href="${HIRE}">
+            <div class="card-body">
+              <div class="card-top"><span class="card-name">You want something built</span></div>
+              <span class="card-what">A product, a pipeline, or a rescue of code nobody understands. Rates and scope are published, not quoted.</span>
+              <div class="pkg-links"><span>Rates and scope &rarr;</span></div>
+            </div>
+          </a>
+          <a class="card text" href="/packages/">
+            <div class="card-body">
+              <div class="card-top"><span class="card-name">You write code</span></div>
+              <span class="card-what">${pkgCount} MIT packages, each showing which products use it — so you can see what it has survived before you install it.</span>
+              <div class="pkg-links"><span>The packages &rarr;</span></div>
+            </div>
+          </a>
+          <a class="card text" href="/#work?stage=pilot,concept">
+            <div class="card-body">
+              <div class="card-top"><span class="card-name">You run a service</span></div>
+              <span class="card-what">Pilots and concepts built for real organisations and public services — what exists, what it runs on, and how to talk about it.</span>
+              <div class="pkg-links"><span>Pilots and concepts &rarr;</span></div>
+            </div>
+          </a>
+          <a class="card text" href="#join">
+            <div class="card-body">
+              <div class="card-top"><span class="card-name">You want to build with us</span></div>
+              <span class="card-what">Use it, contribute to it, or share in it — with exactly what each of those means today, including what it does not.</span>
+              <div class="pkg-links"><span>How to join &rarr;</span></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="stack">
       <div class="wrap">
         <div class="section-head">
@@ -423,15 +472,15 @@ ${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.s
           <article class="card text">
             <div class="card-body">
               <div class="card-top"><span class="card-name">Contribute</span><span class="pill">open PRs</span></div>
-              <span class="card-what">Sign off your commits and open a pull request. A sweep merges anything green, so review is the only queue.</span>
+              <span class="card-what">Sign off your commits and open a pull request. A maintainer reviews every outside pull request; approved and green, it merges on its own.</span>
               <code class="pkg-install">git commit -s</code>
               <div class="pkg-links"><a href="${CONTRIBUTING}">Contributor terms</a><a href="${GITHUB}">Repositories</a></div>
             </div>
           </article>
           <article class="card text">
             <div class="card-body">
-              <div class="card-top"><span class="card-name">Be paid for it</span><span class="pill">10%</span></div>
-              <span class="card-what">A governed rule routes a tenth of a product's net revenue to the originators of the code it is built from — by default, split equally, on a public ledger.</span>
+              <div class="card-top"><span class="card-name">Share in it</span><span class="pill">rule v1</span></div>
+              <span class="card-what">A tenth of a product's net revenue goes, by governed rule, to the originators of the code it uses. Today that means a repository's first author, and there is no revenue yet: nothing has been paid, and contributions earn no share. Changing that is a Solon vote.</span>
               <div class="pkg-links"><a href="${SHARE_POLICY}">The policy</a><a href="/solon/">How it is governed</a></div>
             </div>
           </article>
@@ -511,7 +560,7 @@ export function profileLinks(v) {
   ].filter(Boolean);
 }
 
-export function venturePage(v, all, cfg) {
+export function venturePage(v, all, cfg, contact) {
   const i = all.indexOf(v);
   const prev = all[(i - 1 + all.length) % all.length];
   const next = all[(i + 1) % all.length];
@@ -543,6 +592,7 @@ export function venturePage(v, all, cfg) {
         <div class="actions">
           ${v.url ? `<a class="btn primary" href="${esc(v.url)}">Open ${esc(host(v.url))} ${ARROW}</a>` : ""}
           ${v.repo ? `<a class="btn secondary" href="${esc(v.repo)}">Source</a>` : ""}
+          ${contact ? `<a class="btn secondary" href="mailto:${esc(contact)}?subject=${encodeURIComponent(`About ${v.name}`)}">Ask about ${esc(v.name)}</a>` : ""}
         </div>
       </div>
     </section>
@@ -560,7 +610,7 @@ ${built}
     </section>
     <div class="wrap"><div class="pager"><a href="/${esc(prev.slug)}/">&larr; ${esc(prev.name)}</a><a href="/#work?stage=${esc(v.stage)}">All ${esc((stage?.plural ?? "").toLowerCase())}</a><a href="/${esc(next.slug)}/">${esc(next.name)} &rarr;</a></div></div>
   </main>`;
-  return shell({ title: `${v.name} — ${v.what}`, description: v.story || v.what, path: `/${v.slug}/`, body });
+  return shell({ title: `${v.name} — ${v.what}`, description: v.story || v.what, path: `/${v.slug}/`, body, image: v.shot ? `/shots/${v.slug}.jpg` : undefined });
 }
 
 export function studioPage(all, packages, origin) {
@@ -727,8 +777,13 @@ export function render({ map, packages, origin, cfg, hire }) {
   files.set("packages/index.html", packagesPage(packages, cfg, all));
   files.set("studio/index.html", studioPage(all, packages, origin));
   files.set("hire/index.html", hirePage(all, cfg, hire, packages, origin));
-  for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all, cfg));
+  for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all, cfg, hire?.contact?.email));
   files.set("map.json", JSON.stringify(map, null, 2) + "\n");
+  // Every page the build writes is in the sitemap, because the sitemap is
+  // derived from the same map of files — a page cannot exist and be missing.
+  const pages = [...files.keys()].filter((f) => f.endsWith("index.html")).map((f) => `${SITE}/${f.replace(/index\.html$/, "")}`).sort();
+  files.set("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((u) => `  <url><loc>${u}</loc></url>`).join("\n")}\n</urlset>\n`);
+  files.set("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
   return { all, files };
 }
 
@@ -749,6 +804,12 @@ if (isMain) {
       console.error(`missing shot for ${v.slug} — run: node site/shots.mjs ${v.slug}`);
       process.exit(1);
     }
+  }
+  // The share card every non-venture page points at must exist, for the same
+  // reason a screenshot must: a broken image is worse than none.
+  if (!existsSync(join(DIST, "og", "studio.png"))) {
+    console.error("missing share card dist/og/studio.png — run: node site/og.mjs");
+    process.exit(1);
   }
   // A tag no chip offers is a card nobody can filter to.
   const known = new Set(cfg.tagOrder ?? []);
@@ -774,7 +835,7 @@ if (isMain) {
     }
     // Pages for ventures that no longer exist must not linger.
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
-      if (d.isDirectory() && !["shots", "fonts", "packages", "studio", "hire"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
+      if (d.isDirectory() && !["shots", "fonts", "packages", "studio", "hire", "og"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
     cpSync(join(here, "styles.css"), join(DIST, "styles.css"));
     cpSync(join(here, "logo-mark.svg"), join(DIST, "logo-mark.svg"));
