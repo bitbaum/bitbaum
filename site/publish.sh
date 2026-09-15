@@ -31,5 +31,8 @@ for rel in "" packages/ studio/ orangecat/ loki/ solon/; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "https://bitbaum.orangecat.ch/$rel")
   [ "$code" = "200" ] || { echo "https://bitbaum.orangecat.ch/$rel -> $code" >&2; fail=1; }
 done
-curl -fsS https://bitbaum.orangecat.ch/ | grep -q 'id="products"' || { echo "home page has no products section" >&2; fail=1; }
+# Not `curl | grep -q`: grep closes the pipe early, curl exits 23, and under
+# pipefail a healthy page reads as a failure (it did, on the first publish).
+home="$(curl -fsS https://bitbaum.orangecat.ch/)" || { echo "home page unreachable" >&2; fail=1; }
+grep -q 'id="products"' <<<"$home" || { echo "home page has no products section" >&2; fail=1; }
 [ "$fail" -eq 0 ] && echo "live: https://bitbaum.orangecat.ch/ ($(find "$HERE/dist" -name index.html | wc -l) pages)" || exit 1
