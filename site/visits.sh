@@ -14,7 +14,12 @@
 # A referrer is the number that matters: it is the only evidence that a link
 # somewhere sent a person here, which is the thing the backlinks were for.
 set -euo pipefail
-BOX="${BOX:-ubuntu@167.233.22.31}"
+# Same single source of truth publish.sh uses: loki scripts/hetzner/_box-env.sh,
+# sourced from the loki checkout when present, else BOX or HETZNER_IP.
+_box_env="${DEV_ROOT:-$HOME/dev}/loki/scripts/hetzner/_box-env.sh"
+# shellcheck source=/dev/null
+[ -f "$_box_env" ] && . "$_box_env"
+BOX="${BOX:-${BOX_UBUNTU:-ubuntu@${HETZNER_IP:?set BOX or HETZNER_IP — the box address lives in loki scripts/hetzner/_box-env.sh}}}"
 DAYS="${1:-0}"
 
 ssh -o BatchMode=yes "$BOX" "sudo python3 - $DAYS" <<'PY'
