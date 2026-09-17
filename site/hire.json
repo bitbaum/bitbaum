@@ -1,25 +1,44 @@
 {
-  "_comment": "The editorial half of /hire/. The live-work list is NOT here — it is derived from the fleet map like every other list on this site, so a retired host can never be quoted from a hand-typed page (which is exactly what happened to the previous hire one-pager on 2026-09-12: it named a retired host, counted one renamed organisation as two systems, and used two superseded product names). Rates, method, answers and contact are editorial and live here.",
+  "_comment": "The editorial half of /hire/. The live-work list is NOT here — it is derived from the fleet map like every other list on this site, so a retired host can never be quoted from a hand-typed page (which is exactly what happened to the previous hire one-pager on 2026-09-12: it named a retired host, counted one renamed organisation as two systems, and used two superseded product names). Engagements, method, answers and contact are editorial and live here. PRICES ARE DELIBERATELY ABSENT (2026-09-17): new work is closed, so a published rate would be an offer that cannot be accepted. The SHAPE of each engagement stays, because that is what tells a reader whether the list is worth joining.",
   "title": "I ship systems and keep them running.",
   "lede": "I take a product from idea to a running, monitored, backed-up production service — and hand over something a normal team can maintain after I leave.",
   "eyebrow": "Fractional CTO · contract engineering · Zürich",
+  "availability": {
+    "state": "closed",
+    "line": "New projects are closed right now. The waitlist is how you hear first when that changes, and what is below is what you would be joining for.",
+    "cta": "Join the waitlist"
+  },
+  "waitlist": {
+    "lede": "Send one line about what you are building and roughly when you need it. When capacity opens I write to the list first, in the order people joined.",
+    "promises": [
+      {
+        "title": "One email, from a person",
+        "what": "You hear from me when capacity actually opens, with the scope and the number for your case. Not a newsletter, not a drip sequence."
+      },
+      {
+        "title": "Your address goes nowhere else",
+        "what": "It is stored on our own server in Germany — the same box that runs everything on this site — and used for nothing but the email saying capacity opened. No tracker, no analytics profile, no third party."
+      },
+      {
+        "title": "Leave whenever",
+        "what": "Reply with one word, or write to cato@orangecat.ch, and the row is deleted. There is no account to close, because there was never one to open."
+      }
+    ]
+  },
   "offers": [
     {
       "name": "Fractional CTO",
-      "price": "CHF 2,400",
-      "unit": "per day",
-      "what": "Two to four days a month, minimum three months. I own architecture, the deploy pipeline, the review bar, security posture and the technical side of hiring. For teams that need the decisions made without a CHF 200k salary attached to them."
+      "shape": "Two to four days a month",
+      "what": "Minimum three months. I own architecture, the deploy pipeline, the review bar, security posture and the technical side of hiring. For teams that need the decisions made without a full-time salary attached to them."
     },
     {
       "name": "Build sprint",
-      "price": "from CHF 18,000",
-      "unit": "four to six weeks",
+      "shape": "Four to six weeks",
       "what": "Fixed price, fixed scope. A defined product or module delivered running in production, with tests and a pipeline. Change requests get re-quoted rather than quietly absorbed."
     },
     {
       "name": "Rescue",
-      "price": "CHF 6,500",
-      "unit": "two weeks, fixed",
+      "shape": "Two weeks, fixed",
       "what": "An inherited codebase nobody understands. You get a written assessment, a working local setup, CI that actually runs the tests, and a ranked list of what breaks first — whether or not we work together afterwards."
     }
   ],
@@ -43,6 +62,14 @@
   ],
   "faq": [
     {
+      "q": "What does it cost?",
+      "a": "Rates are not published while new work is closed — a number you cannot act on is noise. When capacity opens you get a written scope and a fixed number for your case before anything starts, and no work begins on a verbal estimate."
+    },
+    {
+      "q": "How long is the wait?",
+      "a": "I do not know, and I would rather say that than invent a date. The list is worked in the order people joined, and the only email it produces is the one saying capacity has opened."
+    },
+    {
       "q": "What happens if you are not available?",
       "a": "Fair, and it is why handover is in the contract from the start: a standard stack, one command that runs the whole check suite, CI any engineer can read, and complete data export. You are buying a system a normal team can pick up — not my availability. Ask your last agency for a full data export and time how long it takes."
     },
@@ -56,7 +83,7 @@
     },
     {
       "q": "Can you do it cheaper?",
-      "a": "Not by lowering the rate — by reducing the scope. Tell me which part can wait, and I'll re-quote the rest honestly."
+      "a": "Not by lowering the rate — by reducing the scope. Tell me which part can wait, and I'll quote the rest honestly."
     }
   ],
   "contact": {
