@@ -214,7 +214,6 @@ a.card:hover { border-color: hsl(0 0% 100% / 0.45); background: hsl(0 0% 100% / 
 .uses .chips span { color: var(--fg-3); border-style: dashed; }
 
 /* ─── hire: prices and questions ──────────────────────────────────────── */
-.price { font-family: var(--mono); font-size: 1.45rem; letter-spacing: -0.01em; color: var(--fg); margin: 0.1rem 0 0.35rem; }
 .qa { display: grid; gap: 0; border-top: 1px solid var(--line); }
 .qa details { border-bottom: 1px solid var(--line); }
 .qa summary { display: flex; align-items: baseline; gap: 0.75rem; padding: 1.1rem 0; font-size: 1.05rem; font-weight: 500; cursor: pointer; list-style: none; }
