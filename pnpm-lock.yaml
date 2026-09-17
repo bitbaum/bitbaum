@@ -1,0 +1,23 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@bitbaum/design-tokens':
+        specifier: 1.1.0
+        version: 1.1.0
+
+packages:
+
+  '@bitbaum/design-tokens@1.1.0':
+    resolution: {integrity: sha512-sDVplKP4jKe0WHCOnW7xk75RC46JsAYqUngcVlctyAs9f1TQqZqbYTfbmyYipYCOaCIHMflnzAneQTbqrQbtBw==}
+    engines: {node: '>=20'}
+
+snapshots:
+
+  '@bitbaum/design-tokens@1.1.0': {}

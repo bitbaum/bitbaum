@@ -22,6 +22,7 @@
 //   node site/build.mjs --offline  build from the committed snapshots
 //   node site/build.mjs --check    exit 1 if site/dist/ is stale
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { MARK_HEADER, MARK_FAVICON } from "./brand-mark.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -67,7 +68,7 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 const monthYear = (iso) => (iso ? `${MONTHS[new Date(iso).getUTCMonth()]} ${new Date(iso).getUTCFullYear()}` : "");
 const host = (url) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 const slugify = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-const MARK = `<svg viewBox="110 76 180 202" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" d="M 200,120 C 195,93 173,87 152,99 C 128,114 128,126 152,141 C 173,153 195,147 200,120 C 205,93 227,87 248,99 C 272,114 272,126 248,141 C 227,153 205,147 200,120"/><path fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" d="M 200,232 C 195,205 173,199 152,211 C 128,226 128,238 152,253 C 173,265 195,259 200,232 C 205,205 227,199 248,211 C 272,226 272,238 248,253 C 227,265 205,259 200,232"/></svg>`;
+const MARK = MARK_HEADER();
 const ARROW = `<span class="arrow" aria-hidden="true">&rarr;</span>`;
 const STAGE_RANK = { product: 0, pilot: 1, concept: 2, next: 3 };
 
@@ -166,7 +167,7 @@ function shell({ title, description, path, body, nav, script, image }) {
     ["/hire/", "Hire"],
   ];
   return `<!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -183,8 +184,25 @@ function shell({ title, description, path, body, nav, script, image }) {
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(description)}">
 <meta name="twitter:image" content="${ogImage}">
-<meta name="theme-color" content="#0a0a0a">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<script>
+  // Runs before the stylesheet paints: a theme applied later is a white flash
+  // on every page load for anyone who chose dark. Three states, and "system"
+  // is a real one — it keeps following the OS after the choice is made.
+  (function () {
+    try {
+      var saved = localStorage.getItem("theme") || "system";
+      var dark = saved === "dark" || (saved === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
+      document.documentElement.classList.toggle("dark", dark);
+      document.documentElement.dataset.theme = saved;
+    } catch (e) {
+      document.documentElement.classList.toggle("dark", matchMedia("(prefers-color-scheme: dark)").matches);
+    }
+  })();
+<\/script>
 <link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -195,22 +213,80 @@ function shell({ title, description, path, body, nav, script, image }) {
 ${items.map(([href, t]) => `        <a href="${href}"${nav === href ? ' aria-current="page"' : ""}>${t}</a>`).join("\n")}
         <a href="${GITHUB}" rel="noopener">GitHub &#8599;</a>
       </nav>
+      <div class="theme" role="group" aria-label="Colour theme">
+        <button type="button" data-set-theme="light" title="Light" aria-label="Light">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
+        </button>
+        <button type="button" data-set-theme="system" title="Match system" aria-label="Match system">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.6" rx="1.6"/><path d="M8.6 20.4h6.8"/></svg>
+        </button>
+        <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
+        </button>
+      </div>
       <a class="btn secondary cta" href="${HIRE}">Start a project ${ARROW}</a>
     </div>
   </header>
 ${body}
   <footer>
     <div class="wrap">
-      <span>bitbaum is built in Zürich, in the open. Nothing here is registered; an orangecat.ch name is an address on one server.</span>
-      <nav aria-label="Elsewhere">
-        <a href="${GITHUB}" rel="noopener">GitHub</a>
-        <a href="${CONTRIBUTING}">Contributing</a>
-        <a href="${ARTICLES}">Writing</a>
-        <a href="${HIRE}">Start a project</a>
-        <a href="/map.json">map.json</a>
-      </nav>
+      <div class="foot-cols">
+        <div class="foot-brand">
+          <a class="mark" href="/">${MARK}bitbaum</a>
+          <p>AI-native products on infrastructure that is open by construction. Built in Zürich.</p>
+        </div>
+        <nav aria-label="The work">
+          <h2 class="label">The work</h2>
+          <a href="/#work">All products</a>
+          <a href="/packages/">Packages</a>
+          <a href="/studio/">The studio</a>
+          <a href="/map.json">map.json</a>
+        </nav>
+        <nav aria-label="Build with us">
+          <h2 class="label">Build with us</h2>
+          <a href="${GITHUB}" rel="noopener">GitHub</a>
+          <a href="${CONTRIBUTING}">Contributing</a>
+          <a href="/#join">How to join</a>
+          <a href="${ARTICLES}">Writing</a>
+        </nav>
+        <nav aria-label="Work together">
+          <h2 class="label">Work together</h2>
+          <a href="${HIRE}">Engagements and rates</a>
+          <a href="${HIRE}#waitlist">Join the waitlist</a>
+        </nav>
+      </div>
+      <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
     </div>
   </footer>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var media = matchMedia("(prefers-color-scheme: dark)");
+      function apply(choice) {
+        var dark = choice === "dark" || (choice === "system" && media.matches);
+        root.classList.toggle("dark", dark);
+        root.dataset.theme = choice;
+        document.querySelectorAll("[data-set-theme]").forEach(function (b) {
+          b.setAttribute("aria-pressed", String(b.dataset.setTheme === choice));
+        });
+      }
+      var saved = "system";
+      try { saved = localStorage.getItem("theme") || "system"; } catch (e) {}
+      apply(saved);
+      document.querySelectorAll("[data-set-theme]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var choice = b.dataset.setTheme;
+          try { localStorage.setItem("theme", choice); } catch (e) {}
+          apply(choice);
+        });
+      });
+      // "System" means system FOREVER, not "system once": follow the OS if it
+      // changes while the page is open.
+      media.addEventListener("change", function () {
+        if ((root.dataset.theme || "system") === "system") apply("system");
+      });
+    })();
+  <\/script>
 ${script ?? ""}
 </body>
 </html>
@@ -999,6 +1075,12 @@ if (isMain) {
       if (!existsSync(p) || readFileSync(p, "utf8") !== html) { console.error(`stale: dist/${rel}`); stale++; }
     }
     if (readFileSync(join(here, "styles.css"), "utf8") !== (existsSync(join(DIST, "styles.css")) ? readFileSync(join(DIST, "styles.css"), "utf8") : "")) { console.error("stale: dist/styles.css"); stale++; }
+    {
+      const src = join(here, "..", "node_modules", "@bitbaum", "design-tokens", "tokens.css");
+      const want = existsSync(src) ? readFileSync(src, "utf8").replace(/url\(\.\/fonts\//g, "url(/fonts/") : "";
+      const have = existsSync(join(DIST, "tokens.css")) ? readFileSync(join(DIST, "tokens.css"), "utf8") : "";
+      if (want !== have) { console.error("stale: dist/tokens.css — the design tokens moved"); stale++; }
+    }
     if (stale) { console.error(`site/dist is behind the sources — run: node site/build.mjs`); process.exit(1); }
     console.log(`site/dist is in sync (${files.size} pages)`);
   } else {
@@ -1011,8 +1093,22 @@ if (isMain) {
       if (d.isDirectory() && !["shots", "fonts", "packages", "studio", "hire", "og"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
     cpSync(join(here, "styles.css"), join(DIST, "styles.css"));
-    cpSync(join(here, "logo-mark.svg"), join(DIST, "logo-mark.svg"));
+    // Same rule, fewer generations — a favicon that cannot drift from the logo.
+    writeFileSync(join(DIST, "logo-mark.svg"), MARK_FAVICON() + "\n");
     cpSync(join(here, "fonts"), join(DIST, "fonts"), { recursive: true });
+    // @bitbaum/design-tokens — the same SSOT OrangeCat, Loki and Solon consume.
+    const tokensDir = join(here, "..", "node_modules", "@bitbaum", "design-tokens");
+    if (!existsSync(join(tokensDir, "tokens.css"))) {
+      console.error("missing @bitbaum/design-tokens — run: pnpm install");
+      process.exit(1);
+    }
+    // The package's tokens.css asks for ./fonts/*; dist serves it from the root,
+    // so the URLs are rewritten once here rather than duplicating the faces.
+    writeFileSync(
+      join(DIST, "tokens.css"),
+      readFileSync(join(tokensDir, "tokens.css"), "utf8").replace(/url\(\.\/fonts\//g, "url(/fonts/"),
+    );
+    cpSync(join(tokensDir, "fonts"), join(DIST, "fonts"), { recursive: true });
     console.log(`wrote site/dist: ${files.size} pages (${all.length} ventures, ${(packages.packages ?? []).length} packages), map ${map.generatedAt ?? "snapshot"}`);
     const orphans = all.filter((v) => v.uses.length === 0 && v.stage !== "next" && v.stage !== "concept").map((v) => v.slug);
     if (orphans.length) console.log(`  no shared packages recorded for: ${orphans.join(", ")}`);
