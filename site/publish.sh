@@ -27,7 +27,7 @@ ssh -o BatchMode=yes "$BOX" "set -e
 # A health check proves the process; this proves the pages. Every page the
 # build wrote must answer, and the home page must carry the venture grid.
 fail=0
-for rel in "" packages/ studio/ hire/ orangecat/ loki/ solon/; do
+for rel in "" packages/ studio/ hire/ orangecat/ loki/ solon/ robots.txt sitemap.xml og/studio.png; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "https://bitbaum.orangecat.ch/$rel")
   [ "$code" = "200" ] || { echo "https://bitbaum.orangecat.ch/$rel -> $code" >&2; fail=1; }
 done
