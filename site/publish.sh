@@ -45,10 +45,16 @@ home="$(curl -fsS https://bitbaum.orangecat.ch/)" || { echo "home page unreachab
 # that gets renamed should fail loudly here rather than pass by accident.
 grep -q 'id="work-grid"' <<<"$home" || { echo "home page has no work grid" >&2; fail=1; }
 grep -q 'id="join"' <<<"$home" || { echo "home page has no join section" >&2; fail=1; }
-# The hire page is the destination of the primary button on every page, and
-# the only one with a contact address on it. Prove both.
+# The hire page is the destination of the primary button on every page, and it
+# carries the only door on the site: a request form that files into Loki. Prove
+# the form is there, that it still has a token to post with, and that no
+# mailbox leaked back onto the page (the form replaced the address on purpose).
 hire="$(curl -fsS https://bitbaum.orangecat.ch/hire/)" || { echo "hire page unreachable" >&2; fail=1; }
-grep -q 'mailto:cato@orangecat.ch' <<<"$hire" || { echo "hire page has no contact address" >&2; fail=1; }
+grep -q 'class="signup js-request"' <<<"$hire" || { echo "hire page has no request form" >&2; fail=1; }
+grep -q 'fcw_' <<<"$hire" || { echo "hire page form has no widget token" >&2; fail=1; }
+# NOT `grep ... && { ... }`: under `set -e` a non-matching grep ends the whole
+# script, so the healthy case would abort the publish it is meant to guard.
+if grep -q 'mailto:' <<<"$hire"; then echo "hire page exposes a mailto again" >&2; fail=1; fi
 cards=$(grep -o 'class="card[^"]*" href="/' <<<"$home" | wc -l)
 [ "$cards" -ge 20 ] || { echo "home page shows only $cards venture cards" >&2; fail=1; }
 [ "$fail" -eq 0 ] && echo "live: https://bitbaum.orangecat.ch/ ($(find "$HERE/dist" -name index.html | wc -l) pages)" || exit 1

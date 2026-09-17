@@ -9,19 +9,19 @@
     "cta": "Join the waitlist"
   },
   "waitlist": {
-    "lede": "Tell us what you are building and roughly when you need it. When a slot opens we write to the list first, in the order it was joined.",
+    "lede": "Tell us what you are building and roughly when you need it. When a slot opens we work the list in the order it was joined — and a request with real detail is the one we can answer properly.",
     "promises": [
       {
-        "title": "One email, when a slot opens",
-        "what": "It carries a scope and a fixed quote for your case, from a person who read what you sent. Not a newsletter, not a drip sequence, nothing in between."
+        "title": "A reply from a person",
+        "what": "The request lands in the same system the work is run from, with everything you wrote attached. The answer comes from someone who read it, not an autoresponder."
       },
       {
-        "title": "Your address goes nowhere else",
-        "what": "It is stored on our own server in Germany — the same infrastructure that runs everything on this site — and used for nothing but that one email. No tracker, no analytics profile, no third party."
+        "title": "It goes to us, nowhere else",
+        "what": "Stored on our own server in Germany — the infrastructure that runs everything on this site. No CRM, no tracker, no analytics profile, no third party."
       },
       {
         "title": "Leave whenever",
-        "what": "Reply with one word, or write to cato@orangecat.ch, and the record is deleted. There is no account to close, because there was never one to open."
+        "what": "Ask through this same form and the record is deleted. There is no account to close, because there was never one to open."
       }
     ]
   },
@@ -95,6 +95,6 @@
   "contact": {
     "email": "cato@orangecat.ch",
     "line": "Tell us what you are building and what is currently in the way. If we are not the right fit, we will say so in the first reply rather than in the third meeting.",
-    "_note": "The public name is Cato (registers/org.json). Any earlier mao@ address is the same person under a superseded handle and must not appear."
+    "_note": "The address is where requests are answered FROM; it is deliberately NOT rendered on the site any more (2026-09-17) — the form is the only door. Kept here so the destination is documented."
   }
 }

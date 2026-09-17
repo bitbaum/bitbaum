@@ -1,0 +1,31 @@
+# Secret scanning for this repository.
+#
+# The default rules are kept in full; exactly one pattern is allowlisted.
+#
+# WHY fcw_ TOKENS ARE NOT SECRETS
+# -------------------------------
+# A `fcw_` token authorizes the request form on this site to SUBMIT to Loki's
+# feedback endpoint. Loki's own schema (src/db/schema/widget-tokens.ts) states
+# the contract:
+#
+#     "The token is public by design (visible in the customer page's source),
+#      so the capability is write-only: a token can create site_feedback rows,
+#      never read anything."
+#
+# It is bound to one project and one origin allowlist, it is rate limited, and
+# it can be paused or rotated from the project page without redeploying this
+# site. It must appear in the served HTML for the form to work at all, and this
+# repository commits its own build output — so the alternative to allowlisting
+# is not "the token stays private", it is "the pre-commit hook cries wolf on
+# every publish", which is how a security gate gets bypassed habitually and
+# then ignored when it finally matters.
+#
+# The pattern is deliberately narrow: the `fcw_` prefix plus exactly 32 hex
+# characters is the only shape Loki mints, so no other credential can hide
+# behind this entry.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Loki feedback-widget tokens — public by design, write-only, origin-bound, revocable"
+regexes = ['''fcw_[0-9a-f]{32}''']

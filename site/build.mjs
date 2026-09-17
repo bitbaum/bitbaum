@@ -597,7 +597,7 @@ export function venturePage(v, all, cfg, contact) {
         <div class="actions">
           ${v.url ? `<a class="btn primary" href="${esc(v.url)}">Open ${esc(host(v.url))} ${ARROW}</a>` : ""}
           ${v.repo ? `<a class="btn secondary" href="${esc(v.repo)}">Source</a>` : ""}
-          ${contact ? `<a class="btn secondary" href="mailto:${esc(contact)}?subject=${encodeURIComponent(`About ${v.name}`)}">Ask about ${esc(v.name)}</a>` : ""}
+          ${contact ? `<a class="btn secondary" href="#ask">Ask about ${esc(v.name)}</a>` : ""}
         </div>
       </div>
     </section>
@@ -613,9 +613,27 @@ ${facts.map(([k, val]) => `        <div><span class="label">${esc(k)}</span><spa
 ${built}
       </div>
     </section>
+${contact ? `    <section class="section" id="ask">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Ask about ${esc(v.name)}</h2>
+          <p class="lede">Whether you are evaluating it, want it for your organisation, or want to know how it was built — this reaches a person, and the reply comes from one.</p>
+        </div>
+${requestForm({
+  id: `ask-${v.slug}`,
+  cta: "Send",
+  fields: [
+    { name: "name", label: "Your name", kind: "text", autocomplete: "name", required: true },
+    { name: "email", label: "Email", kind: "email", autocomplete: "email", required: true },
+    { name: "org", label: "Company or organisation", kind: "text", autocomplete: "organization" },
+    { name: "what", label: `What you want to know about ${esc(v.name)}`, kind: "textarea", required: true },
+  ],
+})}
+      </div>
+    </section>` : ""}
     <div class="wrap"><div class="pager"><a href="/${esc(prev.slug)}/">&larr; ${esc(prev.name)}</a><a href="/#work?stage=${esc(v.stage)}">All ${esc((stage?.plural ?? "").toLowerCase())}</a><a href="/${esc(next.slug)}/">${esc(next.name)} &rarr;</a></div></div>
   </main>`;
-  return shell({ title: `${v.name} — ${v.what}`, description: v.story || v.what, path: `/${v.slug}/`, body, image: v.shot ? `/shots/${v.slug}.jpg` : undefined });
+  return shell({ title: `${v.name} — ${v.what}`, description: v.story || v.what, path: `/${v.slug}/`, body, image: v.shot ? `/shots/${v.slug}.jpg` : undefined, script: contact ? requestScript() : undefined });
 }
 
 export function studioPage(all, packages, origin) {
@@ -667,64 +685,131 @@ export function studioPage(all, packages, origin) {
 // NOT: the live-work list is derived from the same register as the rest of the
 // site, which is why the old hand-typed one could quote a host that had been
 // retired for two days.
-// The list itself is Loki's newsletter table (POST /api/newsletter, source
-// bitbaum-hire), which rate-limits, dedupes and — since bitbaum/loki#759 —
-// announces a new row on Telegram. This page is static, so the request goes
-// cross-origin from the visitor's browser; if it fails for any reason the
-// mailto below it still works, and the copy says so rather than pretending.
-const WAITLIST_ENDPOINT = "https://loki.orangecat.ch/api/newsletter";
+// Requests go to Loki's feedback inbox — the one inbound surface in the fleet
+// that is cross-origin safe, rate-limited, deduped, notified AND triaged in a
+// real UI (/feedback: implement, watch, resolve, archive). The newsletter table
+// this used to post to has no read query and no screen anywhere, so a request
+// there was a Telegram ping and a row nobody could ever look at again.
+//
+// The token is public ON PURPOSE — widget_tokens' own schema says so: it is
+// write-only, bound to one project and one origin, and can be paused or rotated
+// from the project page without touching this site.
+const REQUEST_ENDPOINT = "https://loki.orangecat.ch/api/feedback";
+const REQUEST_TOKEN = "fcw_a182d39f6ef4ec8d616ef58e4ca5a693";
 
-function waitlistScript(email) {
+/** A field. `kind` is text | email | textarea | select. */
+const field = (f) => {
+  const id = `f-${f.form}-${f.name}`;
+  const label = `<label for="${id}">${esc(f.label)}${f.required ? "" : ` <span class="opt">optional</span>`}</label>`;
+  const req = f.required ? " required" : "";
+  if (f.kind === "textarea")
+    return `<p class="field wide">${label}<textarea id="${id}" name="${esc(f.name)}" rows="4" placeholder="${esc(f.placeholder ?? "")}"${req}></textarea></p>`;
+  if (f.kind === "select")
+    return `<p class="field">${label}<select id="${id}" name="${esc(f.name)}"${req}>${f.options
+      .map((o) => `<option value="${esc(o)}">${esc(o)}</option>`)
+      .join("")}</select></p>`;
+  return `<p class="field"><label for="${id}">${esc(f.label)}${f.required ? "" : ` <span class="opt">optional</span>`}</label><input id="${id}" type="${f.kind}" name="${esc(f.name)}" autocomplete="${esc(f.autocomplete ?? "on")}" placeholder="${esc(f.placeholder ?? "")}"${req}></p>`;
+};
+
+/** The intake form. Every door on this site is one of these. */
+function requestForm({ id, fields, cta, note }) {
+  return `        <form class="signup js-request" id="form-${esc(id)}" data-form="${esc(id)}" novalidate>
+${fields.map((f) => `          ${field({ ...f, form: id })}`).join("\n")}
+          <!-- A field no human sees: anything in it came from a bot, which is
+               answered exactly as a person is and stored nowhere. -->
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="field wide submit"><button class="btn primary" type="submit">${esc(cta)} ${ARROW}</button></p>
+        </form>
+        <p class="form-status" role="status"></p>
+${note ? `        <p class="caption">${note}</p>` : ""}`;
+}
+
+function requestScript() {
   return `  <script>
     (function () {
-      var form = document.getElementById("waitlist-form");
-      var status = document.getElementById("wl-status");
-      if (!form || !status) return;
-      var button = form.querySelector("button");
-      var DONE = "You are on the list. We write when a slot opens \\u2014 nothing else goes out.";
-      function say(text, bad) {
-        status.textContent = text;
-        status.className = bad ? "form-status bad" : "form-status";
-      }
-      var interest = document.getElementById("wl-interest");
-      var interestNote = document.getElementById("wl-interest-note");
-      // Which of the three a reader wanted is the whole reason to show rates
-      // beside a closed door — it turns the list into a demand signal.
-      Array.prototype.forEach.call(document.querySelectorAll("[data-interest]"), function (link) {
-        link.addEventListener("click", function () {
-          interest.value = link.getAttribute("data-interest") || "";
-          interestNote.textContent = "Joining for: " + (link.getAttribute("data-interest-name") || "");
-          interestNote.hidden = false;
-        });
-      });
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-        var address = (form.email.value || "").trim();
-        if (address.indexOf("@") < 1 || address.indexOf(".") < 0) {
-          say("Enter an email address we can reply to.", true);
-          form.email.focus();
-          return;
+      var ENDPOINT = ${JSON.stringify(REQUEST_ENDPOINT)};
+      var TOKEN = ${JSON.stringify(REQUEST_TOKEN)};
+      var DONE = "Request sent. You will hear back from a person \\u2014 nothing automated goes out.";
+      var forms = document.querySelectorAll("form.js-request");
+      if (!forms.length) return;
+
+      Array.prototype.forEach.call(forms, function (form) {
+        var status = form.parentNode.querySelector(".form-status");
+        var button = form.querySelector("button[type=submit]");
+        var get = function (n) { return form.querySelector("[name=" + n + "]"); };
+        var val = function (n) { var el = get(n); return el ? (el.value || "").trim() : ""; };
+        function say(text, bad) {
+          if (!status) return;
+          status.textContent = text;
+          status.className = bad ? "form-status bad" : "form-status";
         }
-        if (form.company.value) { form.hidden = true; say(DONE); return; }
-        button.disabled = true;
-        say("Sending\\u2026");
-        fetch(${JSON.stringify(WAITLIST_ENDPOINT)}, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: address, source: interest.value ? "bitbaum-hire-" + interest.value : "bitbaum-hire" })
-        })
-          .then(function (res) {
-            if (res.status === 429) throw new Error("rate");
-            if (!res.ok) throw new Error("http");
-            return res.json();
-          })
-          .then(function () { form.hidden = true; say(DONE); })
-          .catch(function (err) {
-            button.disabled = false;
-            say(err && err.message === "rate"
-              ? "That is a lot of tries at once \\u2014 give it a minute."
-              : "That did not go through. Email ${email} and we will add you by hand.", true);
+
+        // Which engagement a reader came for: set by the rate cards, and by a
+        // deep link so a shared URL keeps the context.
+        var pick = get("engagement");
+        if (pick) {
+          var want = (location.hash.split("for=")[1] || "").replace(/[^a-z-]/gi, "");
+          Array.prototype.forEach.call(document.querySelectorAll("[data-engagement]"), function (link) {
+            link.addEventListener("click", function () {
+              pick.value = link.getAttribute("data-engagement");
+            });
           });
+          if (want) {
+            Array.prototype.forEach.call(pick.options, function (o) {
+              if (o.value.toLowerCase().replace(/[^a-z]+/g, "-") === want) pick.value = o.value;
+            });
+          }
+        }
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          var email = val("email"), what = val("what"), who = val("name");
+          if (email.indexOf("@") < 1 || email.indexOf(".") < 0) {
+            say("Enter an email address we can reply to.", true);
+            get("email").focus();
+            return;
+          }
+          if (what.length < 12) {
+            say("Tell us in a line or two what you are building.", true);
+            get("what").focus();
+            return;
+          }
+          if (val("website")) { form.hidden = true; say(DONE); return; }
+
+          var lines = [];
+          if (val("engagement")) lines.push("Engagement: " + val("engagement"));
+          if (val("timeline")) lines.push("Timeline: " + val("timeline"));
+          if (lines.length) lines.push("");
+          lines.push(what);
+          var contact = (who || "(no name)") + " <" + email + ">" + (val("org") ? ", " + val("org") : "");
+
+          button.disabled = true;
+          say("Sending\\u2026");
+          fetch(ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              token: TOKEN,
+              suggestion: lines.join("\\n"),
+              contact: contact,
+              page: location.pathname,
+              url: location.href,
+              pageTitle: document.title
+            })
+          })
+            .then(function (res) {
+              if (res.status === 429) throw new Error("rate");
+              if (!res.ok) throw new Error("http");
+              return res.json();
+            })
+            .then(function () { form.hidden = true; say(DONE); })
+            .catch(function (err) {
+              button.disabled = false;
+              say(err && err.message === "rate"
+                ? "That is a lot of requests at once \\u2014 give it a minute."
+                : "That did not send. Try again in a moment, or reach us through GitHub.", true);
+            });
+        });
       });
     })();
   <\/script>`;
@@ -737,12 +822,6 @@ export function hirePage(all, cfg, hire, packages, origin) {
   const running = all.filter((v) => v.status === "live" && v.stage !== "next");
   const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
   const pkgCount = (packages.packages ?? []).length;
-  // A static site cannot hold a list, and a form that posts nowhere would be a
-  // lie. One mailbox IS the list — the page says so, and says how to leave it.
-  const join = (topic) =>
-    `mailto:${hire.contact.email}?subject=${encodeURIComponent(topic ? `Waitlist — ${topic}` : "Waitlist")}` +
-    `&body=${encodeURIComponent("What I'm building:\n\n\nRoughly when I need it:\n\n")}`;
-  const mail = join();
   const body = `  <main>
     <section class="hero compact">
       <div class="wrap">
@@ -776,7 +855,7 @@ ${hire.offers.map((o) => `          <article class="card text">
               <div class="card-top"><span class="card-name">${esc(o.name)}</span><span class="pill">${esc(o.shape)}</span></div>
               <span class="price">${esc(o.price)}${o.unit ? `<span class="price-unit">${esc(o.unit)}</span>` : ""}</span>
               <span class="card-what">${esc(o.what)}</span>
-              <div class="pkg-links"><a href="#waitlist" data-interest="${esc(slug(o.name))}" data-interest-name="${esc(o.name)}">Join for this &rarr;</a></div>
+              <div class="pkg-links"><a href="#waitlist" data-engagement="${esc(o.name)}">Request this &rarr;</a></div>
             </div>
           </article>`).join("\n")}
         </div>
@@ -840,25 +919,26 @@ ${hire.waitlist.promises.map((w) => `          <article class="card text">
             </div>
           </article>`).join("\n")}
         </div>
-        <form class="signup" id="waitlist-form" novalidate>
-          <label class="sr-only" for="wl-email">Your email address</label>
-          <input id="wl-email" name="email" type="email" autocomplete="email" placeholder="you@yourcompany.ch" required>
-          <!-- A field no human sees. Anything in it came from a bot, which is
-               told the same thing as everyone else and stored nowhere. -->
-          <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <input type="hidden" name="interest" id="wl-interest" value="">
-          <button class="btn primary" type="submit">${esc(hire.availability.cta)} ${ARROW}</button>
-        </form>
-        <p class="form-status" id="wl-interest-note" hidden></p>
-        <p class="form-status" id="wl-status" role="status"></p>
-        <p class="caption">${esc(hire.contact.line)} You can skip the form and <a href="${mail}">write to ${esc(hire.contact.email)}</a> instead — same list, same inbox.</p>
+${requestForm({
+  id: "waitlist",
+  cta: hire.availability.cta,
+  note: esc(hire.contact.line),
+  fields: [
+    { name: "name", label: "Your name", kind: "text", autocomplete: "name", required: true },
+    { name: "email", label: "Email", kind: "email", autocomplete: "email", placeholder: "you@yourcompany.ch", required: true },
+    { name: "org", label: "Company or organisation", kind: "text", autocomplete: "organization" },
+    { name: "engagement", label: "Which engagement", kind: "select", options: ["Not sure yet", ...hire.offers.map((o) => o.name)] },
+    { name: "timeline", label: "When you need it", kind: "select", options: ["Not urgent", "This quarter", "Next quarter", "As soon as there is capacity"] },
+    { name: "what", label: "What you are building, and what is in the way", kind: "textarea", placeholder: "A sentence or two is plenty.", required: true },
+  ],
+})}
       </div>
     </section>
   </main>`;
   return shell({
     title: "Hire the studio — bitbaum",
     description: `${hire.eyebrow}. ${hire.lede}`,
-    path: "/hire/", body, nav: "/hire/", script: waitlistScript(hire.contact.email),
+    path: "/hire/", body, nav: "/hire/", script: requestScript(),
   });
 }
 
