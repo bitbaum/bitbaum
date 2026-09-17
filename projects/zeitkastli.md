@@ -1,8 +1,10 @@
 # Zeitkastli — a time capsule you can find again
 
-**Status:** Building (milestone 1 shipped; public repo, no deployed site yet)
+**Status:** Building (milestones 1–3 shipped in PR #1; public repo, no deployed site yet)
 **Tagline:** Put something somewhere. Find it again.
-**URL:** none yet (zeitkastli.com and zeitkast.com identified as available, not registered)
+**URL:** none — and **no domain is to be registered yet** (George, 2026-09-17).
+zeitkastli.com and zeitkast.com were checked and are free; nothing was bought,
+no registrar account exists. Registering is his call, not an agent's.
 **Codebase:** `bitbaum/zeitkastli` (PUBLIC) · box workspace `/home/ubuntu/dev/zeitkastli`
 
 > Renamed from **HamsterCheek** on 2026-09-15. The old framing — "storing
@@ -55,7 +57,8 @@ it worth buying. No processor, no pricing page, no tier defined.
 **What exists today:** the repo is public; nothing else is. No deployed site, no
 domain, no OG image, no sitemap, no RSS, no newsletter, no social presence.
 
-**Fleet standard pending, in dependency order:** public deploy + domain → OG
+**Fleet standard pending, in dependency order** (blocked at step one until a
+domain is registered, which is on hold): public deploy + domain → OG
 card → sitemap/robots → one founding post explaining the premise → newsletter
 capture → social queue (drafts only, nothing auto-posts).
 
