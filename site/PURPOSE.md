@@ -35,7 +35,7 @@ So the first job is **arrival**, and layout is second. See "How people arrive".
 
 | # | Reader | What they need to decide | Where they land | Their door |
 |---|---|---|---|---|
-| 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this person real, senior, and honest about price? | `/hire/`, with venture pages as evidence | `cato@orangecat.ch` |
+| 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this person real, senior, and worth waiting for? | `/hire/`, with venture pages as evidence | the waitlist form (or `cato@orangecat.ch`) |
 | 2 | **A developer who already uses a package** | Is this maintained, and what else is here? | `/packages/`, reached from a package README | install, source |
 | 3 | **An organisation receiving an application** — a public service, a non-profit, AOZ, SBB, Stadt Zürich | What exists, how real is it, can I reply? | one venture page, sent as a direct link | "Ask about …" on that page |
 | 4 | **A builder who might join** | Can I contribute, and what do I get, exactly? | `/#join` | contributor terms, a pull request |
@@ -60,7 +60,13 @@ for a list of gaps (the fleet registers publish those, not this page).
   machine took, and a way to reply.
 - **`/packages/`** — every package with the products that use it, so a
   developer can judge what it has survived.
-- **`/hire/`** — rates, method, answers, and an address that receives mail.
+- **`/hire/`** — the shape of the work, the method, the answers, and one door:
+  a waitlist. **No prices while new work is closed** (2026-09-17) — a published
+  rate is an offer, and an offer nobody can accept is noise; the number arrives
+  with the reply, on a written scope. The form posts to Loki's
+  `POST /api/newsletter` (`source: bitbaum-hire`), which rate-limits, dedupes
+  and announces each new row, so a signup reaches a person rather than a table.
+  If the request fails the page names the mailbox and the `mailto` still works.
 - **`/studio/`** — the thesis and the rules, for the reader who wants the why.
 
 ## How people arrive — the part that actually matters
@@ -82,6 +88,9 @@ A page nobody reaches helps nobody. In leverage order:
 - **"Client."** There are none. `client-app` in the hosting register is a
   provisioning fact; publicly those are *pilots* and *concepts*.
 - **"Live" or "released."** Everything is in beta. Running is not released.
+- **A price, while new work is closed.** A published rate is an offer; quoting
+  terms nobody can accept today is the same kind of untruth as a fake client.
+  Restore rates to `site/hire.json` only when Cato says capacity is open.
 - **"One-person studio"**, or any solo framing. The point of the stack is that
   more than one person can build here.
 - **More than the rules deliver.** The originator share (Solon, v1) pays
