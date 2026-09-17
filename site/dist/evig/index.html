@@ -44,7 +44,7 @@
         <div class="actions">
           <a class="btn primary" href="https://evig.orangecat.ch">Open evig.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></a>
           <a class="btn secondary" href="https://github.com/bitbaum/evig">Source</a>
-          <a class="btn secondary" href="mailto:cato@orangecat.ch?subject=About%20evig">Ask about evig</a>
+          <a class="btn secondary" href="#ask">Ask about evig</a>
         </div>
       </div>
     </section>
@@ -65,6 +65,26 @@
         <div class="uses"><span class="label">Built from</span><div class="chips"><a href="/packages/#ai-forms">ai-forms</a><a href="/packages/#ai-kit">ai-kit</a><a href="/packages/#bip-kit">bip-kit</a><a href="/packages/#limitkit">limitkit</a><a href="/packages/#mail-kit">mail-kit</a></div></div>
       </div>
     </section>
+    <section class="section" id="ask">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Ask about evig</h2>
+          <p class="lede">Whether you are evaluating it, want it for your organisation, or want to know how it was built — this reaches a person, and the reply comes from one.</p>
+        </div>
+        <form class="signup js-request" id="form-ask-evig" data-form="ask-evig" novalidate>
+          <p class="field"><label for="f-ask-evig-name">Your name</label><input id="f-ask-evig-name" type="text" name="name" autocomplete="name" placeholder="" required></p>
+          <p class="field"><label for="f-ask-evig-email">Email</label><input id="f-ask-evig-email" type="email" name="email" autocomplete="email" placeholder="" required></p>
+          <p class="field"><label for="f-ask-evig-org">Company or organisation <span class="opt">optional</span></label><input id="f-ask-evig-org" type="text" name="org" autocomplete="organization" placeholder=""></p>
+          <p class="field wide"><label for="f-ask-evig-what">What you want to know about evig</label><textarea id="f-ask-evig-what" name="what" rows="4" placeholder="" required></textarea></p>
+          <!-- A field no human sees: anything in it came from a bot, which is
+               answered exactly as a person is and stored nowhere. -->
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="field wide submit"><button class="btn primary" type="submit">Send <span class="arrow" aria-hidden="true">&rarr;</span></button></p>
+        </form>
+        <p class="form-status" role="status"></p>
+
+      </div>
+    </section>
     <div class="wrap"><div class="pager"><a href="/revamp-info/">&larr; Hirnli</a><a href="/#work?stage=product">All products</a><a href="/datacat/">DataCat &rarr;</a></div></div>
   </main>
   <footer>
@@ -79,6 +99,93 @@
       </nav>
     </div>
   </footer>
+  <script>
+    (function () {
+      var ENDPOINT = "https://loki.orangecat.ch/api/feedback";
+      var TOKEN = "fcw_a182d39f6ef4ec8d616ef58e4ca5a693";
+      var DONE = "Request sent. You will hear back from a person \u2014 nothing automated goes out.";
+      var forms = document.querySelectorAll("form.js-request");
+      if (!forms.length) return;
 
+      Array.prototype.forEach.call(forms, function (form) {
+        var status = form.parentNode.querySelector(".form-status");
+        var button = form.querySelector("button[type=submit]");
+        var get = function (n) { return form.querySelector("[name=" + n + "]"); };
+        var val = function (n) { var el = get(n); return el ? (el.value || "").trim() : ""; };
+        function say(text, bad) {
+          if (!status) return;
+          status.textContent = text;
+          status.className = bad ? "form-status bad" : "form-status";
+        }
+
+        // Which engagement a reader came for: set by the rate cards, and by a
+        // deep link so a shared URL keeps the context.
+        var pick = get("engagement");
+        if (pick) {
+          var want = (location.hash.split("for=")[1] || "").replace(/[^a-z-]/gi, "");
+          Array.prototype.forEach.call(document.querySelectorAll("[data-engagement]"), function (link) {
+            link.addEventListener("click", function () {
+              pick.value = link.getAttribute("data-engagement");
+            });
+          });
+          if (want) {
+            Array.prototype.forEach.call(pick.options, function (o) {
+              if (o.value.toLowerCase().replace(/[^a-z]+/g, "-") === want) pick.value = o.value;
+            });
+          }
+        }
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          var email = val("email"), what = val("what"), who = val("name");
+          if (email.indexOf("@") < 1 || email.indexOf(".") < 0) {
+            say("Enter an email address we can reply to.", true);
+            get("email").focus();
+            return;
+          }
+          if (what.length < 12) {
+            say("Tell us in a line or two what you are building.", true);
+            get("what").focus();
+            return;
+          }
+          if (val("website")) { form.hidden = true; say(DONE); return; }
+
+          var lines = [];
+          if (val("engagement")) lines.push("Engagement: " + val("engagement"));
+          if (val("timeline")) lines.push("Timeline: " + val("timeline"));
+          if (lines.length) lines.push("");
+          lines.push(what);
+          var contact = (who || "(no name)") + " <" + email + ">" + (val("org") ? ", " + val("org") : "");
+
+          button.disabled = true;
+          say("Sending\u2026");
+          fetch(ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              token: TOKEN,
+              suggestion: lines.join("\n"),
+              contact: contact,
+              page: location.pathname,
+              url: location.href,
+              pageTitle: document.title
+            })
+          })
+            .then(function (res) {
+              if (res.status === 429) throw new Error("rate");
+              if (!res.ok) throw new Error("http");
+              return res.json();
+            })
+            .then(function () { form.hidden = true; say(DONE); })
+            .catch(function (err) {
+              button.disabled = false;
+              say(err && err.message === "rate"
+                ? "That is a lot of requests at once \u2014 give it a minute."
+                : "That did not send. Try again in a moment, or reach us through GitHub.", true);
+            });
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

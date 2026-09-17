@@ -68,7 +68,7 @@
               <div class="card-top"><span class="card-name">Fractional CTO</span><span class="pill">Two to four days a month</span></div>
               <span class="price">CHF 2,400<span class="price-unit">per day</span></span>
               <span class="card-what">Minimum three months. We own architecture, the deploy pipeline, the review bar, security posture and the technical side of hiring — for teams that need those decisions made without a full-time salary attached to them.</span>
-              <div class="pkg-links"><a href="#waitlist" data-interest="fractional-cto" data-interest-name="Fractional CTO">Join for this &rarr;</a></div>
+              <div class="pkg-links"><a href="#waitlist" data-engagement="Fractional CTO">Request this &rarr;</a></div>
             </div>
           </article>
           <article class="card text">
@@ -76,7 +76,7 @@
               <div class="card-top"><span class="card-name">Build sprint</span><span class="pill">Four to six weeks</span></div>
               <span class="price">from CHF 18,000</span>
               <span class="card-what">Fixed price, fixed scope. A defined product or module delivered running in production, with tests and a pipeline. Change requests are re-quoted rather than quietly absorbed.</span>
-              <div class="pkg-links"><a href="#waitlist" data-interest="build-sprint" data-interest-name="Build sprint">Join for this &rarr;</a></div>
+              <div class="pkg-links"><a href="#waitlist" data-engagement="Build sprint">Request this &rarr;</a></div>
             </div>
           </article>
           <article class="card text">
@@ -84,7 +84,7 @@
               <div class="card-top"><span class="card-name">Rescue</span><span class="pill">Two weeks, fixed</span></div>
               <span class="price">CHF 6,500</span>
               <span class="card-what">An inherited codebase nobody understands. You get a written assessment, a working local setup, CI that actually runs the tests, and a ranked list of what breaks first — whether or not we work together afterwards.</span>
-              <div class="pkg-links"><a href="#waitlist" data-interest="rescue" data-interest-name="Rescue">Join for this &rarr;</a></div>
+              <div class="pkg-links"><a href="#waitlist" data-engagement="Rescue">Request this &rarr;</a></div>
             </div>
           </article>
         </div>
@@ -285,40 +285,42 @@
       <div class="wrap">
         <div class="section-head">
           <h2 class="display-2">Join the waitlist</h2>
-          <p class="lede">Tell us what you are building and roughly when you need it. When a slot opens we write to the list first, in the order it was joined.</p>
+          <p class="lede">Tell us what you are building and roughly when you need it. When a slot opens we work the list in the order it was joined — and a request with real detail is the one we can answer properly.</p>
         </div>
         <div class="grid">
           <article class="card text">
             <div class="card-body">
-              <span class="card-name">One email, when a slot opens</span>
-              <span class="card-what">It carries a scope and a fixed quote for your case, from a person who read what you sent. Not a newsletter, not a drip sequence, nothing in between.</span>
+              <span class="card-name">A reply from a person</span>
+              <span class="card-what">The request lands in the same system the work is run from, with everything you wrote attached. The answer comes from someone who read it, not an autoresponder.</span>
             </div>
           </article>
           <article class="card text">
             <div class="card-body">
-              <span class="card-name">Your address goes nowhere else</span>
-              <span class="card-what">It is stored on our own server in Germany — the same infrastructure that runs everything on this site — and used for nothing but that one email. No tracker, no analytics profile, no third party.</span>
+              <span class="card-name">It goes to us, nowhere else</span>
+              <span class="card-what">Stored on our own server in Germany — the infrastructure that runs everything on this site. No CRM, no tracker, no analytics profile, no third party.</span>
             </div>
           </article>
           <article class="card text">
             <div class="card-body">
               <span class="card-name">Leave whenever</span>
-              <span class="card-what">Reply with one word, or write to cato@orangecat.ch, and the record is deleted. There is no account to close, because there was never one to open.</span>
+              <span class="card-what">Ask through this same form and the record is deleted. There is no account to close, because there was never one to open.</span>
             </div>
           </article>
         </div>
-        <form class="signup" id="waitlist-form" novalidate>
-          <label class="sr-only" for="wl-email">Your email address</label>
-          <input id="wl-email" name="email" type="email" autocomplete="email" placeholder="you@yourcompany.ch" required>
-          <!-- A field no human sees. Anything in it came from a bot, which is
-               told the same thing as everyone else and stored nowhere. -->
-          <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <input type="hidden" name="interest" id="wl-interest" value="">
-          <button class="btn primary" type="submit">Join the waitlist <span class="arrow" aria-hidden="true">&rarr;</span></button>
+        <form class="signup js-request" id="form-waitlist" data-form="waitlist" novalidate>
+          <p class="field"><label for="f-waitlist-name">Your name</label><input id="f-waitlist-name" type="text" name="name" autocomplete="name" placeholder="" required></p>
+          <p class="field"><label for="f-waitlist-email">Email</label><input id="f-waitlist-email" type="email" name="email" autocomplete="email" placeholder="you@yourcompany.ch" required></p>
+          <p class="field"><label for="f-waitlist-org">Company or organisation <span class="opt">optional</span></label><input id="f-waitlist-org" type="text" name="org" autocomplete="organization" placeholder=""></p>
+          <p class="field"><label for="f-waitlist-engagement">Which engagement <span class="opt">optional</span></label><select id="f-waitlist-engagement" name="engagement"><option value="Not sure yet">Not sure yet</option><option value="Fractional CTO">Fractional CTO</option><option value="Build sprint">Build sprint</option><option value="Rescue">Rescue</option></select></p>
+          <p class="field"><label for="f-waitlist-timeline">When you need it <span class="opt">optional</span></label><select id="f-waitlist-timeline" name="timeline"><option value="Not urgent">Not urgent</option><option value="This quarter">This quarter</option><option value="Next quarter">Next quarter</option><option value="As soon as there is capacity">As soon as there is capacity</option></select></p>
+          <p class="field wide"><label for="f-waitlist-what">What you are building, and what is in the way</label><textarea id="f-waitlist-what" name="what" rows="4" placeholder="A sentence or two is plenty." required></textarea></p>
+          <!-- A field no human sees: anything in it came from a bot, which is
+               answered exactly as a person is and stored nowhere. -->
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p class="field wide submit"><button class="btn primary" type="submit">Join the waitlist <span class="arrow" aria-hidden="true">&rarr;</span></button></p>
         </form>
-        <p class="form-status" id="wl-interest-note" hidden></p>
-        <p class="form-status" id="wl-status" role="status"></p>
-        <p class="caption">Tell us what you are building and what is currently in the way. If we are not the right fit, we will say so in the first reply rather than in the third meeting. You can skip the form and <a href="mailto:cato@orangecat.ch?subject=Waitlist&body=What%20I'm%20building%3A%0A%0A%0ARoughly%20when%20I%20need%20it%3A%0A%0A">write to cato@orangecat.ch</a> instead — same list, same inbox.</p>
+        <p class="form-status" role="status"></p>
+        <p class="caption">Tell us what you are building and what is currently in the way. If we are not the right fit, we will say so in the first reply rather than in the third meeting.</p>
       </div>
     </section>
   </main>
@@ -336,54 +338,89 @@
   </footer>
   <script>
     (function () {
-      var form = document.getElementById("waitlist-form");
-      var status = document.getElementById("wl-status");
-      if (!form || !status) return;
-      var button = form.querySelector("button");
-      var DONE = "You are on the list. We write when a slot opens \u2014 nothing else goes out.";
-      function say(text, bad) {
-        status.textContent = text;
-        status.className = bad ? "form-status bad" : "form-status";
-      }
-      var interest = document.getElementById("wl-interest");
-      var interestNote = document.getElementById("wl-interest-note");
-      // Which of the three a reader wanted is the whole reason to show rates
-      // beside a closed door — it turns the list into a demand signal.
-      Array.prototype.forEach.call(document.querySelectorAll("[data-interest]"), function (link) {
-        link.addEventListener("click", function () {
-          interest.value = link.getAttribute("data-interest") || "";
-          interestNote.textContent = "Joining for: " + (link.getAttribute("data-interest-name") || "");
-          interestNote.hidden = false;
-        });
-      });
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-        var address = (form.email.value || "").trim();
-        if (address.indexOf("@") < 1 || address.indexOf(".") < 0) {
-          say("Enter an email address we can reply to.", true);
-          form.email.focus();
-          return;
+      var ENDPOINT = "https://loki.orangecat.ch/api/feedback";
+      var TOKEN = "fcw_a182d39f6ef4ec8d616ef58e4ca5a693";
+      var DONE = "Request sent. You will hear back from a person \u2014 nothing automated goes out.";
+      var forms = document.querySelectorAll("form.js-request");
+      if (!forms.length) return;
+
+      Array.prototype.forEach.call(forms, function (form) {
+        var status = form.parentNode.querySelector(".form-status");
+        var button = form.querySelector("button[type=submit]");
+        var get = function (n) { return form.querySelector("[name=" + n + "]"); };
+        var val = function (n) { var el = get(n); return el ? (el.value || "").trim() : ""; };
+        function say(text, bad) {
+          if (!status) return;
+          status.textContent = text;
+          status.className = bad ? "form-status bad" : "form-status";
         }
-        if (form.company.value) { form.hidden = true; say(DONE); return; }
-        button.disabled = true;
-        say("Sending\u2026");
-        fetch("https://loki.orangecat.ch/api/newsletter", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: address, source: interest.value ? "bitbaum-hire-" + interest.value : "bitbaum-hire" })
-        })
-          .then(function (res) {
-            if (res.status === 429) throw new Error("rate");
-            if (!res.ok) throw new Error("http");
-            return res.json();
-          })
-          .then(function () { form.hidden = true; say(DONE); })
-          .catch(function (err) {
-            button.disabled = false;
-            say(err && err.message === "rate"
-              ? "That is a lot of tries at once \u2014 give it a minute."
-              : "That did not go through. Email cato@orangecat.ch and we will add you by hand.", true);
+
+        // Which engagement a reader came for: set by the rate cards, and by a
+        // deep link so a shared URL keeps the context.
+        var pick = get("engagement");
+        if (pick) {
+          var want = (location.hash.split("for=")[1] || "").replace(/[^a-z-]/gi, "");
+          Array.prototype.forEach.call(document.querySelectorAll("[data-engagement]"), function (link) {
+            link.addEventListener("click", function () {
+              pick.value = link.getAttribute("data-engagement");
+            });
           });
+          if (want) {
+            Array.prototype.forEach.call(pick.options, function (o) {
+              if (o.value.toLowerCase().replace(/[^a-z]+/g, "-") === want) pick.value = o.value;
+            });
+          }
+        }
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          var email = val("email"), what = val("what"), who = val("name");
+          if (email.indexOf("@") < 1 || email.indexOf(".") < 0) {
+            say("Enter an email address we can reply to.", true);
+            get("email").focus();
+            return;
+          }
+          if (what.length < 12) {
+            say("Tell us in a line or two what you are building.", true);
+            get("what").focus();
+            return;
+          }
+          if (val("website")) { form.hidden = true; say(DONE); return; }
+
+          var lines = [];
+          if (val("engagement")) lines.push("Engagement: " + val("engagement"));
+          if (val("timeline")) lines.push("Timeline: " + val("timeline"));
+          if (lines.length) lines.push("");
+          lines.push(what);
+          var contact = (who || "(no name)") + " <" + email + ">" + (val("org") ? ", " + val("org") : "");
+
+          button.disabled = true;
+          say("Sending\u2026");
+          fetch(ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              token: TOKEN,
+              suggestion: lines.join("\n"),
+              contact: contact,
+              page: location.pathname,
+              url: location.href,
+              pageTitle: document.title
+            })
+          })
+            .then(function (res) {
+              if (res.status === 429) throw new Error("rate");
+              if (!res.ok) throw new Error("http");
+              return res.json();
+            })
+            .then(function () { form.hidden = true; say(DONE); })
+            .catch(function (err) {
+              button.disabled = false;
+              say(err && err.message === "rate"
+                ? "That is a lot of requests at once \u2014 give it a minute."
+                : "That did not send. Try again in a moment, or reach us through GitHub.", true);
+            });
+        });
       });
     })();
   </script>
