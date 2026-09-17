@@ -398,8 +398,8 @@ ${mosaic.map((v) => `        <img src="/shots/${esc(v.slug)}.jpg" alt="" width="
           <a class="card text" href="${HIRE}">
             <div class="card-body">
               <div class="card-top"><span class="card-name">You want something built</span></div>
-              <span class="card-what">A product, a pipeline, or a rescue of code nobody understands. Rates and scope are published, not quoted.</span>
-              <div class="pkg-links"><span>Rates and scope &rarr;</span></div>
+              <span class="card-what">A product, a pipeline, or a rescue of code nobody understands. New work is closed at the moment, so the waitlist is the way in.</span>
+              <div class="pkg-links"><span>Join the waitlist &rarr;</span></div>
             </div>
           </a>
           <a class="card text" href="/packages/">
@@ -492,8 +492,8 @@ ${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.s
           <article class="card text">
             <div class="card-body">
               <div class="card-top"><span class="card-name">Hire the studio</span><span class="pill">Zürich</span></div>
-              <span class="card-what">Fractional CTO and contract engineering, with rates and scope published rather than quoted.</span>
-              <div class="pkg-links"><a href="${HIRE}">Rates and scope</a><a href="${ARTICLES}">Writing</a></div>
+              <span class="card-what">Fractional CTO and contract engineering. New work is closed at the moment; the waitlist hears first when it opens.</span>
+              <div class="pkg-links"><a href="${HIRE}">The waitlist</a><a href="${ARTICLES}">Writing</a></div>
             </div>
           </article>
         </div>
@@ -649,7 +649,7 @@ export function studioPage(all, packages, origin) {
         <h2>Numbers, in the open</h2>
         <p>Stars, forks, downloads, paying clients and what has been paid to originators are read nightly from sources that are not us and published as they are — most of them zero today. <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">The readings</a>, and the <a href="${ARTICLES}">writing</a> that keeps score in public.</p>
         <h2>Work with the studio</h2>
-        <p>Fractional CTO and contract engineering, Zürich. Rates and scope are on the <a href="${HIRE}">hire page</a>. The code is on <a href="${GITHUB}">GitHub</a>.</p>
+        <p>Fractional CTO and contract engineering, Zürich. What the work looks like, and the waitlist, are on the <a href="${HIRE}">hire page</a>. The code is on <a href="${GITHUB}">GitHub</a>.</p>
       </div></div>
     </section>
   </main>`;
@@ -667,11 +667,68 @@ export function studioPage(all, packages, origin) {
 // NOT: the live-work list is derived from the same register as the rest of the
 // site, which is why the old hand-typed one could quote a host that had been
 // retired for two days.
+// The list itself is Loki's newsletter table (POST /api/newsletter, source
+// bitbaum-hire), which rate-limits, dedupes and — since bitbaum/loki#759 —
+// announces a new row on Telegram. This page is static, so the request goes
+// cross-origin from the visitor's browser; if it fails for any reason the
+// mailto below it still works, and the copy says so rather than pretending.
+const WAITLIST_ENDPOINT = "https://loki.orangecat.ch/api/newsletter";
+
+function waitlistScript(email) {
+  return `  <script>
+    (function () {
+      var form = document.getElementById("waitlist-form");
+      var status = document.getElementById("wl-status");
+      if (!form || !status) return;
+      var button = form.querySelector("button");
+      var DONE = "You are on the list. I write to it when capacity opens \\u2014 nothing else goes out.";
+      function say(text, bad) {
+        status.textContent = text;
+        status.className = bad ? "form-status bad" : "form-status";
+      }
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var address = (form.email.value || "").trim();
+        if (address.indexOf("@") < 1 || address.indexOf(".") < 0) {
+          say("Enter an email address I can reply to.", true);
+          form.email.focus();
+          return;
+        }
+        if (form.company.value) { form.hidden = true; say(DONE); return; }
+        button.disabled = true;
+        say("Sending\\u2026");
+        fetch(${JSON.stringify(WAITLIST_ENDPOINT)}, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: address, source: "bitbaum-hire" })
+        })
+          .then(function (res) {
+            if (res.status === 429) throw new Error("rate");
+            if (!res.ok) throw new Error("http");
+            return res.json();
+          })
+          .then(function () { form.hidden = true; say(DONE); })
+          .catch(function (err) {
+            button.disabled = false;
+            say(err && err.message === "rate"
+              ? "That is a lot of tries at once \\u2014 give it a minute."
+              : "That did not go through. Email ${email} and you are on the list just the same.", true);
+          });
+      });
+    })();
+  <\/script>`;
+}
+
 export function hirePage(all, cfg, hire, packages, origin) {
   const running = all.filter((v) => v.status === "live" && v.stage !== "next");
   const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
   const pkgCount = (packages.packages ?? []).length;
-  const mail = `mailto:${hire.contact.email}?subject=${encodeURIComponent("Project enquiry")}`;
+  // A static site cannot hold a list, and a form that posts nowhere would be a
+  // lie. One mailbox IS the list — the page says so, and says how to leave it.
+  const join = (topic) =>
+    `mailto:${hire.contact.email}?subject=${encodeURIComponent(topic ? `Waitlist — ${topic}` : "Waitlist")}` +
+    `&body=${encodeURIComponent("What I'm building:\n\n\nRoughly when I need it:\n\n")}`;
+  const mail = join();
   const body = `  <main>
     <section class="hero compact">
       <div class="wrap">
@@ -679,9 +736,10 @@ export function hirePage(all, cfg, hire, packages, origin) {
         <h1 class="display-1">${esc(hire.title)}</h1>
         <p class="lede">${esc(hire.lede)}</p>
         <div class="actions">
-          <a class="btn primary" href="${mail}">Start a conversation ${ARROW}</a>
+          <a class="btn primary" href="#waitlist">${esc(hire.availability.cta)} ${ARROW}</a>
           <a class="btn secondary" href="#shipped">See what is running</a>
         </div>
+        <p class="notice">${esc(hire.availability.line)}</p>
         <div class="hero-facts">
           <span><b>${running.length}</b> systems built and running</span>
           <span><b>${pkgCount}</b> packages published open source</span>
@@ -695,16 +753,15 @@ export function hirePage(all, cfg, hire, packages, origin) {
     <section class="section" id="engagements">
       <div class="wrap">
         <div class="section-head">
-          <h2 class="display-2">Three ways to start</h2>
-          <p class="lede">Rates published rather than quoted, so you can decide whether to have the conversation at all.</p>
+          <h2 class="display-2">Three shapes of engagement</h2>
+          <p class="lede">What the work looks like, so you can tell whether the list is worth joining. Rates are not published while it is closed — you get a scope and a fixed number with the reply.</p>
         </div>
         <div class="grid">
 ${hire.offers.map((o) => `          <article class="card text">
             <div class="card-body">
-              <div class="card-top"><span class="card-name">${esc(o.name)}</span><span class="pill">${esc(o.unit)}</span></div>
-              <span class="price">${esc(o.price)}</span>
+              <div class="card-top"><span class="card-name">${esc(o.name)}</span><span class="pill">${esc(o.shape)}</span></div>
               <span class="card-what">${esc(o.what)}</span>
-              <div class="pkg-links"><a href="${mail}">Ask about this &rarr;</a></div>
+              <div class="pkg-links"><a href="${join(o.name)}">Join for this &rarr;</a></div>
             </div>
           </article>`).join("\n")}
         </div>
@@ -754,23 +811,37 @@ ${hire.faq.map((f) => `          <details>
       </div>
     </section>
 
-    <section class="section" id="contact">
+    <section class="section" id="waitlist">
       <div class="wrap">
         <div class="section-head">
-          <h2 class="display-2">Tell me what is in the way</h2>
-          <p class="lede">${esc(hire.contact.line)}</p>
+          <h2 class="display-2">${esc(hire.availability.cta)}</h2>
+          <p class="lede">${esc(hire.waitlist.lede)}</p>
         </div>
-        <div class="actions">
-          <a class="btn primary" href="${mail}">${esc(hire.contact.email)} ${ARROW}</a>
-          <a class="btn secondary" href="${GITHUB}">Read the code first</a>
+        <div class="grid">
+${hire.waitlist.promises.map((w) => `          <article class="card text">
+            <div class="card-body">
+              <span class="card-name">${esc(w.title)}</span>
+              <span class="card-what">${esc(w.what)}</span>
+            </div>
+          </article>`).join("\n")}
         </div>
+        <form class="signup" id="waitlist-form" novalidate>
+          <label class="sr-only" for="wl-email">Your email address</label>
+          <input id="wl-email" name="email" type="email" autocomplete="email" placeholder="you@yourcompany.ch" required>
+          <!-- A field no human sees. Anything in it came from a bot, which is
+               told the same thing as everyone else and stored nowhere. -->
+          <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn primary" type="submit">${esc(hire.availability.cta)} ${ARROW}</button>
+        </form>
+        <p class="form-status" id="wl-status" role="status"></p>
+        <p class="caption">${esc(hire.contact.line)} You can skip the form and <a href="${mail}">write to ${esc(hire.contact.email)}</a> instead — same list, same person.</p>
       </div>
     </section>
   </main>`;
   return shell({
     title: "Hire the studio — bitbaum",
     description: `${hire.eyebrow}. ${hire.lede}`,
-    path: "/hire/", body, nav: "/hire/",
+    path: "/hire/", body, nav: "/hire/", script: waitlistScript(hire.contact.email),
   });
 }
 
