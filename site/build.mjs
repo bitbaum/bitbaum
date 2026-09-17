@@ -195,7 +195,7 @@ function shell({ title, description, path, body, nav, script, image }) {
 ${items.map(([href, t]) => `        <a href="${href}"${nav === href ? ' aria-current="page"' : ""}>${t}</a>`).join("\n")}
         <a href="${GITHUB}" rel="noopener">GitHub &#8599;</a>
       </nav>
-      <a class="btn secondary cta" href="${HIRE}">Work with me ${ARROW}</a>
+      <a class="btn secondary cta" href="${HIRE}">Start a project ${ARROW}</a>
     </div>
   </header>
 ${body}
@@ -206,7 +206,7 @@ ${body}
         <a href="${GITHUB}" rel="noopener">GitHub</a>
         <a href="${CONTRIBUTING}">Contributing</a>
         <a href="${ARTICLES}">Writing</a>
-        <a href="${HIRE}">Work with me</a>
+        <a href="${HIRE}">Start a project</a>
         <a href="/map.json">map.json</a>
       </nav>
     </div>
@@ -363,9 +363,14 @@ export function homePage(all, packages, cfg, origin) {
   const pkgCount = (packages.packages ?? []).length;
   const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
+  // The hero's bed is the work itself, in the order the grid below shows it.
+  const mosaic = all.filter((v) => v.shot && v.status === "live").slice(0, 8);
 
   const body = `  <main>
-    <section class="hero">
+    <section class="hero hero-cinema">
+      <div class="hero-bed" aria-hidden="true">
+${mosaic.map((v) => `        <img src="/shots/${esc(v.slug)}.jpg" alt="" width="1280" height="800">`).join("\n")}
+      </div>
       <div class="wrap">
         <span class="eyebrow">Zürich &middot; MIT throughout &middot; open to contributors</span>
         <h1 class="display-1">One trunk. Many products.</h1>
@@ -374,11 +379,11 @@ export function homePage(all, packages, cfg, origin) {
           <a class="btn primary" href="#work">See the work ${ARROW}</a>
           <a class="btn secondary" href="#join">Build with us</a>
         </div>
-        <div class="hero-facts">
-          <span><b>${running}</b> in beta</span>
-          <span><b>${pkgCount}</b> open-source packages</span>
-          <span><b>${proven}</b> repositories with proven origin</span>
-          <span><b>1</b> server</span>
+        <div class="specs">
+          <div class="spec"><span class="spec-value">${running}</span><span class="spec-label">Products in beta</span></div>
+          <div class="spec"><span class="spec-value">${pkgCount}</span><span class="spec-label">Open-source packages</span></div>
+          <div class="spec"><span class="spec-value">${proven}</span><span class="spec-label">Repos with proven origin</span></div>
+          <div class="spec"><span class="spec-value">1</span><span class="spec-label">Server</span></div>
         </div>
       </div>
     </section>
@@ -425,7 +430,7 @@ export function homePage(all, packages, cfg, origin) {
     <section class="section" id="stack">
       <div class="wrap">
         <div class="section-head">
-          <h2 class="display-2">Three layers, so more than one person can build here</h2>
+          <h2 class="display-2">Three layers, so others can build here</h2>
           <p class="lede">Working together needs more than a repository: a way to be paid, a way to get work done, and a way to decide. Each layer is a product in its own right, and each is what makes the next contributor possible.</p>
         </div>
         <div class="grid">
@@ -522,7 +527,7 @@ export function packagesPage(packages, cfg, all) {
   const list = packages.packages ?? [];
   const totalUses = list.reduce((s, p) => s + (p.adopters ?? 0), 0);
   const body = `  <main>
-    <section class="hero">
+    <section class="hero compact">
       <div class="wrap">
         <span class="eyebrow">${list.length} packages &middot; MIT &middot; ${totalUses} installs across the fleet</span>
         <h1 class="display-1">The trunk.</h1>
@@ -618,7 +623,7 @@ export function studioPage(all, packages, origin) {
   const pkgCount = (packages.packages ?? []).length;
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
   const body = `  <main>
-    <section class="hero">
+    <section class="hero compact">
       <div class="wrap">
         <span class="eyebrow">The studio</span>
         <h1 class="display-1">Bit, and Baum.</h1>
@@ -668,7 +673,7 @@ export function hirePage(all, cfg, hire, packages, origin) {
   const pkgCount = (packages.packages ?? []).length;
   const mail = `mailto:${hire.contact.email}?subject=${encodeURIComponent("Project enquiry")}`;
   const body = `  <main>
-    <section class="hero">
+    <section class="hero compact">
       <div class="wrap">
         <span class="eyebrow">${esc(hire.eyebrow)}</span>
         <h1 class="display-1">${esc(hire.title)}</h1>
