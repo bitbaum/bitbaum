@@ -1,43 +1,49 @@
 {
-  "_comment": "The editorial half of /hire/. The live-work list is NOT here — it is derived from the fleet map like every other list on this site, so a retired host can never be quoted from a hand-typed page (which is exactly what happened to the previous hire one-pager on 2026-09-12: it named a retired host, counted one renamed organisation as two systems, and used two superseded product names). Engagements, method, answers and contact are editorial and live here. PRICES ARE DELIBERATELY ABSENT (2026-09-17): new work is closed, so a published rate would be an offer that cannot be accepted. The SHAPE of each engagement stays, because that is what tells a reader whether the list is worth joining.",
-  "title": "I ship systems and keep them running.",
-  "lede": "I take a product from idea to a running, monitored, backed-up production service — and hand over something a normal team can maintain after I leave.",
+  "_comment": "The editorial half of /hire/. The live-work list is NOT here — it is derived from the fleet map like every other list on this site, so a retired host can never be quoted from a hand-typed page (which is exactly what happened to the previous hire one-pager on 2026-09-12: it named a retired host, counted one renamed organisation as two systems, and used two superseded product names). Engagements, method, answers and contact are editorial and live here. TWO RULES FOR THIS FILE (2026-09-17): rates are PUBLISHED — the real number, so a reader can qualify themselves before writing — and the voice is the company's, never an individual's. No 'I', no 'my', and nothing that frames this as small; the reader is deciding whether to trust a supplier with a production system. Capacity is stated honestly at the top: while it is closed, the page sells the waitlist, not a start date.",
+  "title": "We ship systems, and keep them running.",
+  "lede": "bitbaum takes a product from idea to a running, monitored, backed-up production service — and hands over something a normal team can maintain afterwards.",
   "eyebrow": "Fractional CTO · contract engineering · Zürich",
   "availability": {
     "state": "closed",
-    "line": "New projects are closed right now. The waitlist is how you hear first when that changes, and what is below is what you would be joining for.",
+    "line": "At capacity: no new engagements are starting right now. The rates below are current, and the waitlist is how you hear first when a slot opens.",
     "cta": "Join the waitlist"
   },
   "waitlist": {
-    "lede": "Send one line about what you are building and roughly when you need it. When capacity opens I write to the list first, in the order people joined.",
+    "lede": "Tell us what you are building and roughly when you need it. When a slot opens we write to the list first, in the order it was joined.",
     "promises": [
       {
-        "title": "One email, from a person",
-        "what": "You hear from me when capacity actually opens, with the scope and the number for your case. Not a newsletter, not a drip sequence."
+        "title": "One email, when a slot opens",
+        "what": "It carries a scope and a fixed quote for your case, from a person who read what you sent. Not a newsletter, not a drip sequence, nothing in between."
       },
       {
         "title": "Your address goes nowhere else",
-        "what": "It is stored on our own server in Germany — the same box that runs everything on this site — and used for nothing but the email saying capacity opened. No tracker, no analytics profile, no third party."
+        "what": "It is stored on our own server in Germany — the same infrastructure that runs everything on this site — and used for nothing but that one email. No tracker, no analytics profile, no third party."
       },
       {
         "title": "Leave whenever",
-        "what": "Reply with one word, or write to cato@orangecat.ch, and the row is deleted. There is no account to close, because there was never one to open."
+        "what": "Reply with one word, or write to cato@orangecat.ch, and the record is deleted. There is no account to close, because there was never one to open."
       }
     ]
   },
   "offers": [
     {
       "name": "Fractional CTO",
+      "price": "CHF 2,400",
+      "unit": "per day",
       "shape": "Two to four days a month",
-      "what": "Minimum three months. I own architecture, the deploy pipeline, the review bar, security posture and the technical side of hiring. For teams that need the decisions made without a full-time salary attached to them."
+      "what": "Minimum three months. We own architecture, the deploy pipeline, the review bar, security posture and the technical side of hiring — for teams that need those decisions made without a full-time salary attached to them."
     },
     {
       "name": "Build sprint",
+      "price": "from CHF 18,000",
+      "unit": "",
       "shape": "Four to six weeks",
-      "what": "Fixed price, fixed scope. A defined product or module delivered running in production, with tests and a pipeline. Change requests get re-quoted rather than quietly absorbed."
+      "what": "Fixed price, fixed scope. A defined product or module delivered running in production, with tests and a pipeline. Change requests are re-quoted rather than quietly absorbed."
     },
     {
       "name": "Rescue",
+      "price": "CHF 6,500",
+      "unit": "",
       "shape": "Two weeks, fixed",
       "what": "An inherited codebase nobody understands. You get a written assessment, a working local setup, CI that actually runs the tests, and a ranked list of what breaks first — whether or not we work together afterwards."
     }
@@ -57,38 +63,38 @@
     },
     {
       "title": "Handover is designed in from day one",
-      "what": "Standard stack, full data export, documentation written for the engineer who arrives after me."
+      "what": "Standard stack, full data export, documentation written for the engineer who arrives afterwards."
     }
   ],
   "faq": [
     {
-      "q": "What does it cost?",
-      "a": "Rates are not published while new work is closed — a number you cannot act on is noise. When capacity opens you get a written scope and a fixed number for your case before anything starts, and no work begins on a verbal estimate."
+      "q": "Are these the real prices?",
+      "a": "Yes. They are published so you can decide whether to have the conversation at all, rather than sit through a discovery call to learn a number. Fixed-scope work is quoted as a fixed price in writing before anything starts; day-rate work is invoiced monthly. No work begins on a verbal estimate."
     },
     {
       "q": "How long is the wait?",
-      "a": "I do not know, and I would rather say that than invent a date. The list is worked in the order people joined, and the only email it produces is the one saying capacity has opened."
+      "a": "We do not know, and would rather say that than invent a date. The list is worked in the order it was joined, and the only email it produces is the one saying a slot has opened. Joining costs nothing and commits you to nothing."
     },
     {
-      "q": "What happens if you are not available?",
-      "a": "Fair, and it is why handover is in the contract from the start: a standard stack, one command that runs the whole check suite, CI any engineer can read, and complete data export. You are buying a system a normal team can pick up — not my availability. Ask your last agency for a full data export and time how long it takes."
+      "q": "What happens if you become unavailable?",
+      "a": "Handover is in the contract from the start: a standard stack, one command that runs the whole check suite, CI any engineer can read, and complete data export. You are buying a system a normal team can pick up — not anyone's availability. Ask your last supplier for a full data export and time how long it takes."
     },
     {
-      "q": "How do I know AI-written code is any good?",
-      "a": "You don't — and you wouldn't for hand-written code either. That is what tests and pipelines are for. Nothing reaches a hosted instance without the full suite passing, and I am accountable for the output regardless of what typed it."
+      "q": "How do we know AI-written code is any good?",
+      "a": "You don't — and you wouldn't for hand-written code either. That is what tests and pipelines are for. Nothing reaches a hosted instance without the full suite passing, and we are accountable for the output regardless of what typed it."
     },
     {
       "q": "We need someone on site, full time.",
-      "a": "Then you need an employee, and I will tell you that rather than sell you four days a month that won't fix it. I am happy to help write the role and sit in on the technical interviews instead."
+      "a": "Then you need an employee, and we will say so rather than sell you four days a month that will not fix it. We are happy to help write the role and sit in on the technical interviews instead."
     },
     {
       "q": "Can you do it cheaper?",
-      "a": "Not by lowering the rate — by reducing the scope. Tell me which part can wait, and I'll quote the rest honestly."
+      "a": "Not by lowering the rate — by reducing the scope. Tell us which part can wait, and we will quote the rest honestly."
     }
   ],
   "contact": {
     "email": "cato@orangecat.ch",
-    "line": "Tell me what you are building and what is currently in the way. If I am not the right person, I will say so in the first reply rather than in the third meeting.",
+    "line": "Tell us what you are building and what is currently in the way. If we are not the right fit, we will say so in the first reply rather than in the third meeting.",
     "_note": "The public name is Cato (registers/org.json). Any earlier mao@ address is the same person under a superseded handle and must not appear."
   }
 }
