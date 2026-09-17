@@ -72,7 +72,8 @@ A page nobody reaches helps nobody. In leverage order:
    pointing at the four doors.
 3. **The personal GitHub profile** — README and website field land on the site.
 4. **Every package README** links back ("part of bitbaum"), routing the one
-   audience that already exists. Per-repository change, one line each.
+   audience that already exists. *Done, 2026-09-17* — all nine, each linking
+   the studio and `/packages/#<slug>`, which lists the apps that use it.
 5. **Applications link a venture page**, not the home page.
 6. **OrangeCat articles** link the venture or package they are about.
 
@@ -93,8 +94,9 @@ A page nobody reaches helps nobody. In leverage order:
 
 Read weekly, once they can be read:
 
-- visits with an external referrer, and from where (needs the site's access log
-  kept longer than a day — open);
+- visits with an external referrer, and from where: `bash site/visits.sh [days]`
+  reads this host's own log (90 days retained) and prints referrers, paths and
+  agents. A referrer is the only evidence a link sent someone here;
 - enquiries to `cato@orangecat.ch` that name a page;
 - package-README referrals (referrer `npmjs.com` or `github.com`);
 - stars and downloads in `fleet/registers/readings.json`.
@@ -107,4 +109,7 @@ Read weekly, once they can be read:
    the strongest differentiator on record and appears nowhere on the site.
    Publish only in wording Cato has confirmed.
 3. **The named legal party** in Loki's licence, terms and privacy policy.
-4. **Measurement** — a separate, longer-kept access log for this host.
+
+Measurement is no longer one of these: this host writes its own access log
+(`/etc/caddy/apps.d/bitbaum.caddy`, 5mb rolls, 20 kept, 90 days) and
+`site/visits.sh` reads it.
