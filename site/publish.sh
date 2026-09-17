@@ -8,7 +8,14 @@
 # first; publish only what the registers produced, and prove it by the page.
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-BOX="${BOX:-ubuntu@167.233.22.31}"
+# The box address has ONE home: loki scripts/hetzner/_box-env.sh. This repo has
+# no copy of it, and this script is run by hand (see DEPLOY.md), so source it
+# from the loki checkout when that exists and otherwise require the value —
+# rather than keeping a fourteenth copy of the number here.
+_box_env="${DEV_ROOT:-$HOME/dev}/loki/scripts/hetzner/_box-env.sh"
+# shellcheck source=/dev/null
+[ -f "$_box_env" ] && . "$_box_env"
+BOX="${BOX:-${BOX_UBUNTU:-ubuntu@${HETZNER_IP:?set BOX or HETZNER_IP — the box address lives in loki scripts/hetzner/_box-env.sh}}}"
 node "$HERE/build.mjs" --check
 
 # The web root is root-owned (Caddy's file_server reads it; nothing writes it
