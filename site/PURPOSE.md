@@ -35,7 +35,7 @@ So the first job is **arrival**, and layout is second. See "How people arrive".
 
 | # | Reader | What they need to decide | Where they land | Their door |
 |---|---|---|---|---|
-| 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this person real, senior, and worth waiting for? | `/hire/`, with venture pages as evidence | the waitlist form (or `cato@orangecat.ch`) |
+| 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this supplier real and senior, what does it cost, and is it worth waiting for? | `/hire/`, with venture pages as evidence | the waitlist form (or `cato@orangecat.ch`) |
 | 2 | **A developer who already uses a package** | Is this maintained, and what else is here? | `/packages/`, reached from a package README | install, source |
 | 3 | **An organisation receiving an application** — a public service, a non-profit, AOZ, SBB, Stadt Zürich | What exists, how real is it, can I reply? | one venture page, sent as a direct link | "Ask about …" on that page |
 | 4 | **A builder who might join** | Can I contribute, and what do I get, exactly? | `/#join` | contributor terms, a pull request |
@@ -60,13 +60,20 @@ for a list of gaps (the fleet registers publish those, not this page).
   machine took, and a way to reply.
 - **`/packages/`** — every package with the products that use it, so a
   developer can judge what it has survived.
-- **`/hire/`** — the shape of the work, the method, the answers, and one door:
-  a waitlist. **No prices while new work is closed** (2026-09-17) — a published
-  rate is an offer, and an offer nobody can accept is noise; the number arrives
-  with the reply, on a written scope. The form posts to Loki's
-  `POST /api/newsletter` (`source: bitbaum-hire`), which rate-limits, dedupes
-  and announces each new row, so a signup reaches a person rather than a table.
-  If the request fails the page names the mailbox and the `mailto` still works.
+- **`/hire/`** — published rates, the method, the answers, and one door: a
+  waitlist. **Rates are public and capacity is stated** (2026-09-17): the real
+  number lets a reader qualify themselves before writing, and the notice under
+  the headline says no engagement is starting right now, so the page sells a
+  place in the queue rather than a start date. That also makes the list a
+  demand signal — who wants what, at these prices, is worth knowing before
+  capacity opens. Written in the company's voice, never one person's. The form
+  posts to Loki's `POST /api/newsletter` (`source: bitbaum-hire`), which
+  rate-limits, dedupes and announces each new row, so a signup reaches a person
+  rather than a table. If the request fails the page names the mailbox and the
+  `mailto` still works. **`node site/check-hire.mjs <base-url>` pins all of
+  this in a real browser** — rates present, no first-person voice, honeypot
+  silent, engagement carried into the signup, and a door left open when the
+  endpoint is down. Run it against the live URL after publishing.
 - **`/studio/`** — the thesis and the rules, for the reader who wants the why.
 
 ## How people arrive — the part that actually matters
@@ -88,9 +95,15 @@ A page nobody reaches helps nobody. In leverage order:
 - **"Client."** There are none. `client-app` in the hosting register is a
   provisioning fact; publicly those are *pilots* and *concepts*.
 - **"Live" or "released."** Everything is in beta. Running is not released.
-- **A price, while new work is closed.** A published rate is an offer; quoting
-  terms nobody can accept today is the same kind of untruth as a fake client.
-  Restore rates to `site/hire.json` only when Cato says capacity is open.
+- **A start date, or any implication of capacity there isn't.** Rates ARE
+  published — that is what lets a reader qualify themselves — but while
+  `availability.state` is `closed`, every door leads to the waitlist and the
+  page says so before the numbers. Publishing a rate is honest; implying
+  someone can start next week is not.
+- **"I", "my", or anything that frames this as one person's desk** on `/hire/`.
+  A reader deciding whether to trust a supplier with a production system is
+  reading a company, and the register-derived evidence on that page is the
+  company's. (The visitor's own draft email is the one place "I" is right.)
 - **"One-person studio"**, or any solo framing. The point of the stack is that
   more than one person can build here.
 - **More than the rules deliver.** The originator share (Solon, v1) pays
@@ -106,6 +119,11 @@ Read weekly, once they can be read:
 - visits with an external referrer, and from where: `bash site/visits.sh [days]`
   reads this host's own log (90 days retained) and prints referrers, paths and
   agents. A referrer is the only evidence a link sent someone here;
+- **waitlist signups, and which engagement they name** — the point of showing
+  rates beside a closed door is that joining is a costly-enough signal to be
+  worth counting: `select count(*), source from newsletter_subscribers where
+  source like 'bitbaum-%' group by source` on the box, and the subject line of
+  a `Waitlist — <engagement>` mail says which of the three a reader wanted;
 - enquiries to `cato@orangecat.ch` that name a page;
 - package-README referrals (referrer `npmjs.com` or `github.com`);
 - stars and downloads in `fleet/registers/readings.json`.

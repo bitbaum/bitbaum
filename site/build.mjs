@@ -398,8 +398,8 @@ ${mosaic.map((v) => `        <img src="/shots/${esc(v.slug)}.jpg" alt="" width="
           <a class="card text" href="${HIRE}">
             <div class="card-body">
               <div class="card-top"><span class="card-name">You want something built</span></div>
-              <span class="card-what">A product, a pipeline, or a rescue of code nobody understands. New work is closed at the moment, so the waitlist is the way in.</span>
-              <div class="pkg-links"><span>Join the waitlist &rarr;</span></div>
+              <span class="card-what">A product, a pipeline, or a rescue of code nobody understands. Rates are published; new engagements are closed, so the waitlist is the way in.</span>
+              <div class="pkg-links"><span>Rates and waitlist &rarr;</span></div>
             </div>
           </a>
           <a class="card text" href="/packages/">
@@ -492,8 +492,8 @@ ${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.s
           <article class="card text">
             <div class="card-body">
               <div class="card-top"><span class="card-name">Hire the studio</span><span class="pill">Zürich</span></div>
-              <span class="card-what">Fractional CTO and contract engineering. New work is closed at the moment; the waitlist hears first when it opens.</span>
-              <div class="pkg-links"><a href="${HIRE}">The waitlist</a><a href="${ARTICLES}">Writing</a></div>
+              <span class="card-what">Fractional CTO and contract engineering, with rates published rather than quoted. At capacity — the waitlist hears first when a slot opens.</span>
+              <div class="pkg-links"><a href="${HIRE}">Rates and waitlist</a><a href="${ARTICLES}">Writing</a></div>
             </div>
           </article>
         </div>
@@ -649,7 +649,7 @@ export function studioPage(all, packages, origin) {
         <h2>Numbers, in the open</h2>
         <p>Stars, forks, downloads, paying clients and what has been paid to originators are read nightly from sources that are not us and published as they are — most of them zero today. <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">The readings</a>, and the <a href="${ARTICLES}">writing</a> that keeps score in public.</p>
         <h2>Work with the studio</h2>
-        <p>Fractional CTO and contract engineering, Zürich. What the work looks like, and the waitlist, are on the <a href="${HIRE}">hire page</a>. The code is on <a href="${GITHUB}">GitHub</a>.</p>
+        <p>Fractional CTO and contract engineering, Zürich. Rates, scope and the waitlist are on the <a href="${HIRE}">hire page</a>. The code is on <a href="${GITHUB}">GitHub</a>.</p>
       </div></div>
     </section>
   </main>`;
@@ -681,16 +681,27 @@ function waitlistScript(email) {
       var status = document.getElementById("wl-status");
       if (!form || !status) return;
       var button = form.querySelector("button");
-      var DONE = "You are on the list. I write to it when capacity opens \\u2014 nothing else goes out.";
+      var DONE = "You are on the list. We write when a slot opens \\u2014 nothing else goes out.";
       function say(text, bad) {
         status.textContent = text;
         status.className = bad ? "form-status bad" : "form-status";
       }
+      var interest = document.getElementById("wl-interest");
+      var interestNote = document.getElementById("wl-interest-note");
+      // Which of the three a reader wanted is the whole reason to show rates
+      // beside a closed door — it turns the list into a demand signal.
+      Array.prototype.forEach.call(document.querySelectorAll("[data-interest]"), function (link) {
+        link.addEventListener("click", function () {
+          interest.value = link.getAttribute("data-interest") || "";
+          interestNote.textContent = "Joining for: " + (link.getAttribute("data-interest-name") || "");
+          interestNote.hidden = false;
+        });
+      });
       form.addEventListener("submit", function (event) {
         event.preventDefault();
         var address = (form.email.value || "").trim();
         if (address.indexOf("@") < 1 || address.indexOf(".") < 0) {
-          say("Enter an email address I can reply to.", true);
+          say("Enter an email address we can reply to.", true);
           form.email.focus();
           return;
         }
@@ -700,7 +711,7 @@ function waitlistScript(email) {
         fetch(${JSON.stringify(WAITLIST_ENDPOINT)}, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: address, source: "bitbaum-hire" })
+          body: JSON.stringify({ email: address, source: interest.value ? "bitbaum-hire-" + interest.value : "bitbaum-hire" })
         })
           .then(function (res) {
             if (res.status === 429) throw new Error("rate");
@@ -712,12 +723,15 @@ function waitlistScript(email) {
             button.disabled = false;
             say(err && err.message === "rate"
               ? "That is a lot of tries at once \\u2014 give it a minute."
-              : "That did not go through. Email ${email} and you are on the list just the same.", true);
+              : "That did not go through. Email ${email} and we will add you by hand.", true);
           });
       });
     })();
   <\/script>`;
 }
+
+const slug = (name) =>
+  String(name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 export function hirePage(all, cfg, hire, packages, origin) {
   const running = all.filter((v) => v.status === "live" && v.stage !== "next");
@@ -753,15 +767,16 @@ export function hirePage(all, cfg, hire, packages, origin) {
     <section class="section" id="engagements">
       <div class="wrap">
         <div class="section-head">
-          <h2 class="display-2">Three shapes of engagement</h2>
-          <p class="lede">What the work looks like, so you can tell whether the list is worth joining. Rates are not published while it is closed — you get a scope and a fixed number with the reply.</p>
+          <h2 class="display-2">Engagements and rates</h2>
+          <p class="lede">Published rather than quoted on request, so you can qualify yourself before writing a single email. Fixed-scope work is confirmed in writing before it starts.</p>
         </div>
         <div class="grid">
 ${hire.offers.map((o) => `          <article class="card text">
             <div class="card-body">
               <div class="card-top"><span class="card-name">${esc(o.name)}</span><span class="pill">${esc(o.shape)}</span></div>
+              <span class="price">${esc(o.price)}${o.unit ? `<span class="price-unit">${esc(o.unit)}</span>` : ""}</span>
               <span class="card-what">${esc(o.what)}</span>
-              <div class="pkg-links"><a href="${join(o.name)}">Join for this &rarr;</a></div>
+              <div class="pkg-links"><a href="#waitlist" data-interest="${esc(slug(o.name))}" data-interest-name="${esc(o.name)}">Join for this &rarr;</a></div>
             </div>
           </article>`).join("\n")}
         </div>
@@ -783,7 +798,7 @@ ${running.map((v) => card(v)).join("\n")}
     <section class="section" id="how">
       <div class="wrap">
         <div class="section-head">
-          <h2 class="display-2">How I work</h2>
+          <h2 class="display-2">How we work</h2>
           <p class="lede">Four commitments that hold whether the engagement is two weeks or two years.</p>
         </div>
         <div class="grid two">
@@ -831,10 +846,12 @@ ${hire.waitlist.promises.map((w) => `          <article class="card text">
           <!-- A field no human sees. Anything in it came from a bot, which is
                told the same thing as everyone else and stored nowhere. -->
           <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="interest" id="wl-interest" value="">
           <button class="btn primary" type="submit">${esc(hire.availability.cta)} ${ARROW}</button>
         </form>
+        <p class="form-status" id="wl-interest-note" hidden></p>
         <p class="form-status" id="wl-status" role="status"></p>
-        <p class="caption">${esc(hire.contact.line)} You can skip the form and <a href="${mail}">write to ${esc(hire.contact.email)}</a> instead — same list, same person.</p>
+        <p class="caption">${esc(hire.contact.line)} You can skip the form and <a href="${mail}">write to ${esc(hire.contact.email)}</a> instead — same list, same inbox.</p>
       </div>
     </section>
   </main>`;
