@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T17:08:09.629Z",
+  "generatedAt": "2026-09-18T16:25:47.718Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 36,
     "live": 15,
     "clients": 5,
-    "inFlight": 2
+    "inFlight": 0
   },
   "projects": [
     {
@@ -219,6 +219,42 @@
       ],
       "changelog": [
         {
+          "date": "2026-09-18",
+          "done": "Hosted dispatch (Hermes) FAILED — # Loki operator dispatch\nEverything in this message is assem"
+        },
+        {
+          "date": "2026-09-18",
+          "done": "e2e ok — no changes"
+        },
+        {
+          "date": "2026-09-18",
+          "done": "Made the fix ledger apply to REPORTING the same run-ownership rule it already applied to merging, so a pull request the run never opened can no longer render \"Live · confirm\" on a report nobody acted on — merged as 98e775a8, Deploy green, box serving it."
+        },
+        {
+          "date": "2026-09-18",
+          "done": "Made the fix ledger apply to REPORTING the same run-ownership rule it already applied to merging, so a pull request the run never opened can no longer render \"Live · confirm\"."
+        },
+        {
+          "date": "2026-09-18",
+          "done": "Rescued an abandoned FeedbackReportText extraction from the shared checkout, folded it onto PR #783 in place of that PR's inline clamp and three new CSS classes, and shipped it — merged as 9f678bc1, Deploy green, box serving it."
+        },
+        {
+          "date": "2026-09-18",
+          "done": "Folded the stranded FeedbackReportText extraction out of the shared checkout onto PR #783, replacing its inline clamp and three new CSS classes."
+        },
+        {
+          "date": "2026-09-18",
+          "done": "Hosted dispatch (Hermes) — # Loki operator dispatch\nEverything in this message is assembled by Lo"
+        },
+        {
+          "date": "2026-09-17",
+          "done": "Hosted dispatch (Hermes) — # Loki operator dispatch\nEverything in this message is assembled by Lo"
+        },
+        {
+          "date": "2026-09-17",
+          "done": "e2e ok — no changes"
+        },
+        {
           "date": "2026-09-17",
           "done": "Verified current main (5f4797e) is clean and green and found no rule 0-8 work — builderOffline now has exactly one definition (run-context.ts) and every deriveFeedbackWork caller hydrates or passes null, so this session's two shipped fixes are complete and consistent."
         },
@@ -261,54 +297,18 @@
         {
           "date": "2026-09-17",
           "done": "Fixed a half-wiring from b71941be — the operator's provider ranking now governs Control's capacity banner and the headless /api/beacon reroute, which were both still walking the hardcoded fleet order; PR #760 open."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "One-tap provider switch is LIVE — PR #757 went CI-green (54m11s), auto-merged as b71941be, main CI went green, Deploy succeeded, and https://loki.orangecat.ch/api/health now reports commit b71941be (it was serving 6ed5d6ed before)."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "PR #757 went CI-green (54m11s) and auto-merged to main as b71941be — the one-tap provider switch is merged."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Confirmed PR #757 is open and non-draft at 575cde51; its CI run 35192736855 is still in_progress at 42min, which is within this repo's normal range (recent successful runs took 51 and 52min)."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "e2e ok — no changes"
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Shipped one-tap provider switch as PR #757 — shared ranked chooser (operator's order, filtered to installed + not-recently-rate-limited) is now the primary control on Needs-you feedback rows, the Control inbox and the Terminal rail, and the switch persists as the project's agentPref."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Built one-tap provider switch — shared ranked chooser (preferred order, filtered to installed + not-recently-rate-limited) on the Needs-you feedback row, Control inbox and Terminal rail; the switch persists as the project's agentPref."
-        },
-        {
-          "date": "2026-09-16",
-          "done": "Status check only — Loki inject received; no files edited."
-        },
-        {
-          "date": "2026-09-16",
-          "done": "Opened PR #746 — Terminal PTY/Loki ~60/40 split with Ask vs Inject, quota alternatives, and the same run id as Feedback Watch."
-        },
-        {
-          "date": "2026-09-16",
-          "done": "Hosted dispatch (Hermes) FAILED — # Loki operator dispatch\nEverything in this message is assem"
         }
       ],
-      "next": "EMPTY",
+      "next": "Command failed: git -C /tmp/fc-hermes-2yJBwW push origin HEAD:refs/heads/hermes/loki-operator-dispatch-everythin-mu70f59e\nremote: Permission to bitbaum/loki.git denied to catomean.\nfatal: unable to access 'https://github.com/bitbaum/loki/': The requested URL returned error: 403",
       "now": {
-        "openRuns": 2,
+        "openRuns": 0,
         "lastRun": {
           "outcome": "partial",
-          "at": "2026-09-17T15:49:03.800Z"
+          "at": "2026-09-18T14:27:27.653Z"
         },
         "lastLog": {
-          "date": "2026-09-17",
-          "done": "Verified current main (5f4797e) is clean and green and found no rule 0-8 work — builderOffline now has exactly one definition (run-context.ts) and every deriveFeedbackWork caller hydrates or passes null, so this session's two shipped fixes are complete and consistent."
+          "date": "2026-09-18",
+          "done": "Hosted dispatch (Hermes) FAILED — # Loki operator dispatch\nEverything in this message is assem"
         }
       }
     },
@@ -1039,6 +1039,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-09-18",
+          "done": "Autopilot review found no high-impact work — origin/main (e943567) passes `pnpm verify` (prettier clean, eslint 0 problems, tsc clean, 651/651 tests), CI on main is green, prod (/de, /en, /robots.txt, /sitemap.xml, /api/health) returns 200, prior session-next (lockfile) already resolved by the committed pnpm-lock.yaml, and the local feedback-widget branch is already on main; stopped per the Stop brake (awaiting_user — no high-impact work remains; project healthy, only T2 dep-bump churn left: Dependabot PR #71 is red on 3 new react-hooks/purity lint errors)."
+        },
+        {
           "date": "2026-09-11",
           "done": "Diagnosed appcron-surf-your-life-embed-backfill.service's HTTP 503 as the same known, intentional fail-closed behavior (8th+ recurrence) — confirmed origin/main's app/api/cron/embed-backfill/route.ts is unchanged since PR #33 and still returns 503 in production when OPENAI_API_KEY is unset; no repo bug, no code change made. Ran pnpm verify on the current branch (feat/loki-feedback-widget) as a general health check — clean."
         },
@@ -1113,22 +1117,18 @@
         {
           "date": "2026-09-01",
           "done": "Diagnosed appcron-surf-your-life-embed-backfill.service 503 as the intentional fail-closed response (route.ts on origin/main returns 503 in production when OPENAI_API_KEY is unset, by design, to make the silent-embedding-failure bug visible via paging) — box-shaped, not a repo bug; confirmed via journalctl the log line \"[embed-backfill] OPENAI_API_KEY is not set\" preceded the 503 at 03:00:01 UTC, confirmed the app is otherwise healthy (direct curl to 127.0.0.1:4009 returns 401/307 as expected), and made no repo changes."
-        },
-        {
-          "date": "2026-09-01",
-          "done": "Same incident as the prior two dispatches — appcron-surf-your-life-embed-backfill.service 503 is still the intentional fail-closed response (PR #33) because OPENAI_API_KEY remains unset on bitbaum. Re-verified route.ts is untouched since #33, pulled 3 commits (now at e1bdc4d, incl. the new formatter/prettier commit), confirmed the existing blocker file is still accurate, and did not duplicate it or touch the repo."
         }
       ],
-      "next": "EMPTY — box-shaped blocker needs George on bitbaum: either (A) append OPENAI_API_KEY to /opt/surf-your-life/shared/.env, restart surf-your-life-app.service, and clear the failed cron unit, or (B) disable appcron-surf-your-life-embed-backfill.timer if embeddings aren't wanted yet. Exact copy-paste commands are in ~/.loki/sessions/surf-your-life.blockers/pending/openai-api-key-missing.md.",
+      "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-09-17T05:00:02.360Z"
+          "outcome": "partial",
+          "at": "2026-09-18T04:02:35.709Z"
         },
         "lastLog": {
-          "date": "2026-09-11",
-          "done": "Diagnosed appcron-surf-your-life-embed-backfill.service's HTTP 503 as the same known, intentional fail-closed behavior (8th+ recurrence) — confirmed origin/main's app/api/cron/embed-backfill/route.ts is unchanged since PR #33 and still returns 503 in production when OPENAI_API_KEY is unset; no repo bug, no code change made. Ran pnpm verify on the current branch (feat/loki-feedback-widget) as a general health check — clean."
+          "date": "2026-09-18",
+          "done": "Autopilot review found no high-impact work — origin/main (e943567) passes `pnpm verify` (prettier clean, eslint 0 problems, tsc clean, 651/651 tests), CI on main is green, prod (/de, /en, /robots.txt, /sitemap.xml, /api/health) returns 200, prior session-next (lockfile) already resolved by the committed pnpm-lock.yaml, and the local feedback-widget branch is already on main; stopped per the Stop brake (awaiting_user — no high-impact work remains; project healthy, only T2 dep-bump churn left: Dependabot PR #71 is red on 3 new react-hooks/purity lint errors)."
         }
       }
     },
@@ -1494,6 +1494,10 @@
       "roadmap": [],
       "changelog": [
         {
+          "date": "2026-09-18",
+          "done": "Closed four stale TODO.md launch/security items that the #63 rebuild and #82 had already fixed, updated the matching AGENTS.md sections, and recorded (with live evidence) that the demo's hand-loaded timetable ran out; PR #86 has CI green."
+        },
+        {
           "date": "2026-09-08",
           "done": "Fixed four live UI elements that rendered nothing, including the Fundservice entry point in the profile — the primary way into this product's whole feature. Tailwind cannot put an alpha channel into a bare var(--token), and every colour in this config is one, so every opacity-modifier utility written against them emitted no rule at all: measured on the deployed site, the Fundservice button's computed backgroundColor was rgba(0, 0, 0, 0) and the production stylesheet contained zero `brand\\/` or `app-success\\/` rules. Also dead: the TripCard priority chip (fill and border) and the tinted circle in the report confirmation. Fixed with derived tokens (--brand-surface, --brand-surface-hover, --brand-edge, --app-success-surface) built from their base colour with color-mix, so a tenant still sets only --brand and the tints follow it. The same change closed a white-label bug: the report modal used raw bg-red-50, so under the neutral blue Nordbahn brand the selected category/location rendered PINK (measured live: blue border rgb(11,79,143) around a rgb(254,242,242) fill) — now the same --brand-surface as every other highlight. Guarded by a new check in contrast.test.ts that rejects the modifier syntax outright; that guard found a fourth instance in LostItemModal I had missed by reading, and I confirmed all four new utilities actually emit by grepping the built stylesheet rather than trusting the green suite. Merged as d63cd5c (#60), CI and Deploy green, verified live after deploy: the CTA and the selected state both render the brand at 10% (color(srgb 0.043 0.310 0.561 / 0.1)), / and /staff serve 200. Separately exercised the full four-step demo flow against production (report -> crew sees it as Neu/Dringend -> crew answers Gefunden with a note -> passenger's record updates live cross-tab, no reload): working, after #58's six dependency bumps and #59's token changes. Corrected my own over-classification from last turn: the \"T1 brand-red 4.29:1 on milk\" finding only affects the sbb build variant, which is NOT deployed — the live site serves data-tenant=\"nordbahn\" (#0b4f8f, 7.68:1 on milk), so it is latent, not a live defect. Two small live findings left unfixed and recorded in the roadmap with reasons: /favicon.ico 404s on every page load (the correct icon is tenant-dependent — a design decision, not a file to guess at), and the deprecated apple-mobile-web-app-capable meta tag."
         },
@@ -1566,12 +1570,12 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-09-17T04:01:52.099Z"
+          "outcome": "partial",
+          "at": "2026-09-18T04:05:38.557Z"
         },
         "lastLog": {
-          "date": "2026-09-08",
-          "done": "Fixed four live UI elements that rendered nothing, including the Fundservice entry point in the profile — the primary way into this product's whole feature. Tailwind cannot put an alpha channel into a bare var(--token), and every colour in this config is one, so every opacity-modifier utility written against them emitted no rule at all: measured on the deployed site, the Fundservice button's computed backgroundColor was rgba(0, 0, 0, 0) and the production stylesheet contained zero `brand\\/` or `app-success\\/` rules. Also dead: the TripCard priority chip (fill and border) and the tinted circle in the report confirmation. Fixed with derived tokens (--brand-surface, --brand-surface-hover, --brand-edge, --app-success-surface) built from their base colour with color-mix, so a tenant still sets only --brand and the tints follow it. The same change closed a white-label bug: the report modal used raw bg-red-50, so under the neutral blue Nordbahn brand the selected category/location rendered PINK (measured live: blue border rgb(11,79,143) around a rgb(254,242,242) fill) — now the same --brand-surface as every other highlight. Guarded by a new check in contrast.test.ts that rejects the modifier syntax outright; that guard found a fourth instance in LostItemModal I had missed by reading, and I confirmed all four new utilities actually emit by grepping the built stylesheet rather than trusting the green suite. Merged as d63cd5c (#60), CI and Deploy green, verified live after deploy: the CTA and the selected state both render the brand at 10% (color(srgb 0.043 0.310 0.561 / 0.1)), / and /staff serve 200. Separately exercised the full four-step demo flow against production (report -> crew sees it as Neu/Dringend -> crew answers Gefunden with a note -> passenger's record updates live cross-tab, no reload): working, after #58's six dependency bumps and #59's token changes. Corrected my own over-classification from last turn: the \"T1 brand-red 4.29:1 on milk\" finding only affects the sbb build variant, which is NOT deployed — the live site serves data-tenant=\"nordbahn\" (#0b4f8f, 7.68:1 on milk), so it is latent, not a live defect. Two small live findings left unfixed and recorded in the roadmap with reasons: /favicon.ico 404s on every page load (the correct icon is tenant-dependent — a design decision, not a file to guess at), and the deprecated apple-mobile-web-app-capable meta tag."
+          "date": "2026-09-18",
+          "done": "Closed four stale TODO.md launch/security items that the #63 rebuild and #82 had already fixed, updated the matching AGENTS.md sections, and recorded (with live evidence) that the demo's hand-loaded timetable ran out; PR #86 has CI green."
         }
       }
     },
@@ -2177,6 +2181,10 @@
       "roadmap": [],
       "changelog": [
         {
+          "date": "2026-09-18",
+          "done": "No code change: on origin/main (bf26dbd) no blocker, no type/lint errors, no uncommitted work and no open T0/T1; the one red signal, the Deploy failure on bf26dbd, is only the ci-gate refusing a cancelled CI run on a .mailmap-only commit, and production is still on e841650, so the Stop brake fired."
+        },
+        {
           "date": "2026-09-08",
           "done": "Nothing shipped — walked Pick, found no pending blocker, no type/lint errors, no uncommitted work, no open T0/T1, and ran a real rule-8 scan (all app/src catch blocks, the upload path, and the export page + CanvasToolbar export handler) that turned up no silent error, unclosed flow or half-wired feature, so the Stop brake fired rather than manufacturing T2 churn."
         },
@@ -2251,22 +2259,18 @@
         {
           "date": "2026-08-24",
           "done": "Completed Phase 1's export line by splitting the export into one print file per physical panel at the surface's target DPI with bleed — seam bleed is taken from the neighbouring panel so the artwork stays continuous across the glass, outer bleed is filled from the edge instead of printing transparent — shipped as PR #21 (fe1d8a6), CI green, deployed, printcraft.orangecat.ch returns 200."
-        },
-        {
-          "date": "2026-08-24",
-          "done": "Fixed the export step so it produces a genuinely printable file — editor guides (seam lines, dead-zone boxes, buffer tints) are no longer baked into the PNG, and resolution now derives from the surface's own dpi_target instead of a magic pixelRatio of 4 that landed Roli's Duschwand at roughly 60 DPI while reporting success; shipped as PR #20 (fd686ce), CI green, deployed, printcraft.orangecat.ch returns 200."
         }
       ],
       "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-09-17T05:00:02.979Z"
+          "outcome": "partial",
+          "at": "2026-09-18T04:02:26.062Z"
         },
         "lastLog": {
-          "date": "2026-09-08",
-          "done": "Nothing shipped — walked Pick, found no pending blocker, no type/lint errors, no uncommitted work, no open T0/T1, and ran a real rule-8 scan (all app/src catch blocks, the upload path, and the export page + CanvasToolbar export handler) that turned up no silent error, unclosed flow or half-wired feature, so the Stop brake fired rather than manufacturing T2 churn."
+          "date": "2026-09-18",
+          "done": "No code change: on origin/main (bf26dbd) no blocker, no type/lint errors, no uncommitted work and no open T0/T1; the one red signal, the Deploy failure on bf26dbd, is only the ci-gate refusing a cancelled CI run on a .mailmap-only commit, and production is still on e841650, so the Stop brake fired."
         }
       }
     },
