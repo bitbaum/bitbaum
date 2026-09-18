@@ -46,9 +46,31 @@ if (!all.trim()) {
 }
 
 // ── 1. Licences: ask the repos ──────────────────────────────────────────────
-const repos = JSON.parse(gh(["repo", "list", "bitbaum", "--limit", "80", "--json", "name,isArchived"]))
-  .filter((r) => !r.isArchived)
+//
+// "Everything we publish is MIT" is a claim about what the STUDIO publishes,
+// so the set has to be the same one a reader would check: public, not a fork,
+// and not somebody else's code. Client repositories are deliberately
+// unlicensed — a licence is a grant by the copyright holder and for client
+// work that is the client (see fleet: registers + apps.conf `owner`) — so
+// counting them as counter-examples would forbid a sentence that is true.
+const CLIENT_REPOS = new Set([
+  "aoz-begleitung",
+  "reparaturbonus-zh",
+  "s-ink",
+  "vitareba",
+  "printcraft",
+  "annushka",
+]);
+
+const listed = JSON.parse(
+  gh(["repo", "list", "bitbaum", "--limit", "80", "--json", "name,isArchived,isFork,visibility"]),
+).filter((r) => !r.isArchived);
+
+const repos = listed
+  .filter((r) => !r.isFork && r.visibility === "PUBLIC" && !CLIENT_REPOS.has(r.name))
   .map((r) => r.name);
+const exempt = listed.filter((r) => !repos.includes(r.name)).map((r) => r.name);
+if (exempt.length) console.log(`   (not the studio's to license, skipped: ${exempt.join(", ")})`);
 
 const licenceOf = (name) => {
   try {
@@ -61,16 +83,18 @@ const licenceOf = (name) => {
 const licences = Object.fromEntries(repos.map((r) => [r, licenceOf(r)]));
 const notMit = Object.entries(licences).filter(([, l]) => l !== "MIT");
 const mitCount = repos.length - notMit.length;
-console.log(`   (${mitCount} of ${repos.length} repos MIT; not MIT: ${notMit.map(([n]) => n).join(", ") || "none"})`);
+console.log(`   (${mitCount} of ${repos.length} published repos MIT; not MIT: ${notMit.map(([n]) => n).join(", ") || "none"})`);
 
 // The absolute claim is the dangerous one — it is only sayable if it is true.
 const absolute = /MIT,? (everywhere|throughout)|every product and package[^.]*is MIT/i;
 const absoluteClaim = absolute.test(all.replace(/<[^>]+>/g, " "));
 say(
   !absoluteClaim || notMit.length === 0,
-  absoluteClaim
-    ? `the site claims MIT everywhere while ${notMit.length} repo(s) are not MIT`
-    : "the site makes no blanket MIT claim it cannot keep",
+  absoluteClaim && notMit.length
+    ? `the site claims MIT everywhere while ${notMit.length} repo(s) are not: ${notMit.map(([n]) => n).join(", ")}`
+    : absoluteClaim
+      ? `the blanket MIT claim holds — all ${repos.length} published repos are MIT`
+      : "the site makes no blanket MIT claim it cannot keep",
 );
 
 // What it DOES claim — that the shared packages are MIT — must hold.
