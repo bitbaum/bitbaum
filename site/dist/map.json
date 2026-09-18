@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-15T13:45:16.689Z",
+  "generatedAt": "2026-09-17T17:08:09.629Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -19,10 +19,10 @@
     }
   ],
   "summary": {
-    "projects": 35,
+    "projects": 36,
     "live": 15,
     "clients": 5,
-    "inFlight": 1
+    "inFlight": 2
   },
   "projects": [
     {
@@ -48,6 +48,23 @@
       },
       "roadmap": [
         {
+          "title": "Loki Phase 1",
+          "status": "active",
+          "progress": 85,
+          "targetDate": "2026-04-29",
+          "milestones": [
+            "Schema + seed",
+            "App shell + navigation",
+            "Today view",
+            "People view",
+            "Money view",
+            "Goals view",
+            "Projects view",
+            "System + Memory views",
+            "Polish + bug fixes"
+          ]
+        },
+        {
           "title": "Loki Phase 2 — Adapters",
           "status": "active",
           "progress": 0,
@@ -71,23 +88,6 @@
             "Adapters: Gmail, Calendar, GitHub",
             "Ivy proactive actions",
             "Multi-user ready"
-          ]
-        },
-        {
-          "title": "Loki Phase 1",
-          "status": "active",
-          "progress": 85,
-          "targetDate": "2026-04-29",
-          "milestones": [
-            "Schema + seed",
-            "App shell + navigation",
-            "Today view",
-            "People view",
-            "Money view",
-            "Goals view",
-            "Projects view",
-            "System + Memory views",
-            "Polish + bug fixes"
           ]
         },
         {
@@ -172,16 +172,6 @@
           ]
         },
         {
-          "title": "OC seam: backer live-build peek on OC project pages",
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            "Scoped read-only peek token on FC",
-            "OC project-page embed behind funding check"
-          ]
-        },
-        {
           "title": "OC seam: wallet context for Loki",
           "status": "active",
           "progress": 0,
@@ -190,6 +180,18 @@
             "OC v1 GET /wallets honoring wallet.read bearer",
             "FC: Economy line in Loki fleet context",
             "Graceful degradation when unlinked"
+          ]
+        },
+        {
+          "title": "OC seam: verify BTC pass with a real sats purchase",
+          "status": "active",
+          "progress": 90,
+          "targetDate": null,
+          "milestones": [
+            "OC pass products live",
+            "Webhook secret set both ends",
+            "Signed test grant verified e2e",
+            "Real sats purchase confirms plan flip"
           ]
         },
         {
@@ -205,110 +207,108 @@
           ]
         },
         {
-          "title": "OC seam: verify BTC pass with a real sats purchase",
+          "title": "OC seam: backer live-build peek on OC project pages",
           "status": "active",
-          "progress": 90,
+          "progress": 0,
           "targetDate": null,
           "milestones": [
-            "OC pass products live",
-            "Webhook secret set both ends",
-            "Signed test grant verified e2e",
-            "Real sats purchase confirms plan flip"
+            "Scoped read-only peek token on FC",
+            "OC project-page embed behind funding check"
           ]
         }
       ],
       "changelog": [
         {
-          "date": "2026-09-15",
-          "done": "Hosted dispatch (Hermes) — # Loki operator dispatch\nEverything in this message is assembled by Lo"
+          "date": "2026-09-17",
+          "done": "Verified current main (5f4797e) is clean and green and found no rule 0-8 work — builderOffline now has exactly one definition (run-context.ts) and every deriveFeedbackWork caller hydrates or passes null, so this session's two shipped fixes are complete and consistent."
         },
         {
-          "date": "2026-09-15",
-          "done": "Hosted dispatch (Hermes) — # Loki operator dispatch\nEverything in this message is assembled by Lo"
+          "date": "2026-09-17",
+          "done": "Shipped one builder-offline answer for Watch, Terminal and Implement's duplicate-guard (PR #773, merged 4c3237c) and confirmed LIVE — /api/health reports commit 4c3237c, loki-app active, run-context.ts present in /opt/loki/app/src, all four changed routes answer 401/405 not 500."
         },
         {
-          "date": "2026-09-15",
-          "done": "Hosted dispatch (Hermes) FAILED — # Loki operator dispatch\nEverything in this message is assem"
+          "date": "2026-09-17",
+          "done": "One builder-offline answer for Watch, Terminal and Implement's duplicate-guard merged to main as 4c3237c (PR #773)."
         },
         {
-          "date": "2026-09-15",
+          "date": "2026-09-17",
           "done": "e2e ok — no changes"
         },
         {
-          "date": "2026-09-11",
-          "done": "Diagnosed sbb-fundbuero-app.service (a separate, non-loki app hosted on the box, port 4016) as a box-side deploy artifact, not a loki repo bug: loki's own register (scripts/hetzner/apps.conf) is already correct — it was renamed to nordbahn-fundbuero and reverted back to sbb-fundbuero same-day in #649 — but the app's most recent release (/opt/sbb-fundbuero/releases/20260911-123358-de3c8d7; the three prior releases are fine) has launch.sh and .env symlinked to the now-nonexistent /opt/nordbahn-fundbuero/shared/*, so the service 203/EXECs in a restart loop. /opt is out of my sandbox by design, so I did not touch it; gave the operator the exact repoint+restart commands instead. No loki repo change was needed or made."
+          "date": "2026-09-17",
+          "done": "Gave Watch, Terminal and Implement's duplicate-guard the same builder-offline answer as the inbox — the guard was refusing the retry the row asked for; extracted to src/lib/feedback/run-context.ts with tests. PR #773 open at 6b953ca1."
         },
         {
-          "date": "2026-09-11",
-          "done": "Diagnosed orangecat-cat-eval.service failure (type 6/8 at 07:18 UTC, manual run right after the 07:08 deploy of OC #967): OC #964 removed the keyword gate on the tool router, so thin inputs (\"we're a bakery\", a bio) reach the router for the first time and nemotron drafts entities instead of asking one question — proven by running the pre-#964 gate over the 8 probes (e/f/g/h newly exposed; both failures among them; the 4 previously-tooled probes all pass); no PASS baseline exists (journal rotated, every earlier night SKIPPED). The fix was already in flight in the authoring OC session (branch cat-router-thin-input, aac32b02, THIN INPUT routing rule + test); sent it the proof and stood down instead of opening a competing PR. Nothing on the box to change; incident-dispatch's per-unit stamp prevents a second agent."
+          "date": "2026-09-17",
+          "done": "Shipped builder-offline honesty after delivery — merged as c1165182 (PR #769) and confirmed LIVE on bitbaum (/api/health reports commit c1165182, loki-app active, both changed files present in /opt/loki/app/src, feedback routes 401 not 500)."
         },
         {
-          "date": "2026-09-10",
-          "done": "Diagnosed evig-cron@timecard-reminders failure as a boot race (box up 08:01:48 UTC, Persistent=true fired the missed 08:00 run at 08:01:58, evig-app bound :4004 at 08:02:00 -> curl exit 7 -> set -e -> daily unit failed for 24h; 0 recipients due, so no reminders lost); fixed run-cron.sh to retry only connection-refused, added a 9-assertion regression suite wired into verify as test:ops, opened bitbaum/evig#471."
+          "date": "2026-09-17",
+          "done": "Builder-offline honesty after delivery merged to main as c1165182 (PR #769)."
         },
         {
-          "date": "2026-09-10",
-          "done": "(in flight) evig cron boot-race fix — run-cron.sh retries connection-refused; regression suite added; evig `pnpm run verify` running."
+          "date": "2026-09-17",
+          "done": "Made the feedback row honest when a builder goes offline after the runner claimed the command — the offline phase guard was keyed on !deliveredAt (unreachable, since the runner acks within ~8s) and builderChannel evaporated with the open pending row, so a local run read healthy whenever the cloud box was up; PR #769 open at 1cb4f137."
         },
         {
-          "date": "2026-09-05",
-          "done": "Diagnosed fc-cron@check-runner-stall.service failure as a deploy-restart race (curl exit 7 against 127.0.0.1:4002 during loki-app.service's documented ~13s bound-but-refusing window) — already self-resolved on the box, but fixed the underlying repo-shaped gap by adding connection-refused retry to fc-cron.sh (scripts/install-hetzner-crons.sh) plus a regression test; pushed and opened PR #502 (https://github.com/bitbaum/loki/pull/502)."
+          "date": "2026-09-17",
+          "done": "Committed 1cb4f137 — builder-offline truth after delivery; preserved stranded uncommitted work as wip/builder-channel-honesty-snapshot (404f801e, pushed)."
         },
         {
-          "date": "2026-09-04",
-          "done": "The queued sed/daemon-reload was already obsolete — someone completed the rename to evig-* units, and every evig cron plus the nightly R2 backup has run success on 09-03 and 09-04. What was still missing I did: restored evig-app's lost drop-ins on the box (MemoryMax=1G, MemoryHigh=768M, OnFailure=notify-failure@; orphan revampit-app.service.d removed; daemon-reload, no restart, health 200 throughout), then fixed this repo's box register, which had NOT followed revampit→evig — verify.sh was permanently FAIL checking a systemd unit that no longer exists, and uptime-sweep watched revampit.orangecat.ch, now a Caddy redir block that answers 308 without the app, so it would have reported up through an evig outage. Added the automation: runtime-conformance-audit.sh now flags any enabled *-app.service with no memory cap or no OnFailure (18/19 units had both; evig-app was the lone exception) — proven on the box with a negative control, and live in /opt/loki/app since the deploy. PR #475 merged as 34f6d27e, CI + Deploy green, loki health 200."
+          "date": "2026-09-17",
+          "done": "e2e ok — no changes"
         },
         {
-          "date": "2026-09-02",
-          "done": "Root-caused the revampit-cron@timecard-reminders 203/EXEC incident to evig PR #430, which renamed the box dir /opt/revampit -> /opt/evig at 07:44 UTC while every revampit-cron@*/revampit-backup unit still ExecStarts a literal /opt/revampit path — so all five crons, the nightly off-box Postgres backup (03:32 UTC) and the transcription unit are dead or dying, not just the one that alerted. Fix belongs to the evig repo, not loki: bitbaum/evig PR #432 (106bc4f4c, merged as 5f2a2e252, CI + Deploy green, evig.orangecat.ch/api/health 200) repoints scripts/ops at /opt/evig, adds the timecard-reminders timer that existed only on the box, documents release-escrow as installed-nowhere, and adds scripts/ci/ops-box-paths.sh to `verify` (lint:ops) so the next box rename fails CI instead of the backups. evig `npm run verify` green (7780 tests). No loki source changed."
+          "date": "2026-09-17",
+          "done": "Fixed a half-wiring from b71941be — the operator's provider ranking now governs Control's capacity banner and the headless /api/beacon reroute, which were both still walking the hardcoded fleet order; PR #760 open."
         },
         {
-          "date": "2026-09-02",
-          "done": "Diagnosed the revampit-cron@timecard-reminders 203/EXEC incident — evig PR #430 renamed the box dir /opt/revampit -> /opt/evig at 07:44 UTC while every revampit-cron@*/revampit-backup unit still ExecStarts a literal /opt/revampit path, so the 08:01 timer was the first casualty and tonight's off-box Postgres backup (03:32 UTC) is next. Fix is in the evig repo, not this one: bitbaum/evig PR #432 (commit 106bc4f4c) repoints scripts/ops at /opt/evig, adds the timecard-reminders timer that only existed on the box, and adds scripts/ci/ops-box-paths.sh to verify so the next rename fails CI instead of the backups. evig `npm run verify` green (7780 tests, build ok)."
+          "date": "2026-09-17",
+          "done": "One-tap provider switch is LIVE — PR #757 went CI-green (54m11s), auto-merged as b71941be, main CI went green, Deploy succeeded, and https://loki.orangecat.ch/api/health now reports commit b71941be (it was serving 6ed5d6ed before)."
         },
         {
-          "date": "2026-09-02",
-          "done": "Diagnosing the revampit-cron@timecard-reminders 203/EXEC incident; fix lives in the evig repo (scripts/ops), verify gate running."
+          "date": "2026-09-17",
+          "done": "PR #757 went CI-green (54m11s) and auto-merged to main as b71941be — the one-tap provider switch is merged."
         },
         {
-          "date": "2026-08-30",
-          "done": "Confirmed this incident is already fixed — fc-cron@frontier-digest.service's 08:02 UTC failure is the same curl-28 timeout diagnosed last session and fixed by PR #446 (commit 0c4e36a), which merged and deployed live at 08:47-08:49 UTC, after the failure. The unit still shows \"failed\" only because it's a oneshot gated by a daily timer (next fire 2026-08-31 08:00 UTC) that hasn't re-run yet — no action taken, no repo changes."
+          "date": "2026-09-17",
+          "done": "Confirmed PR #757 is open and non-draft at 575cde51; its CI run 35192736855 is still in_progress at 42min, which is within this repo's normal range (recent successful runs took 51 and 52min)."
         },
         {
-          "date": "2026-08-30",
-          "done": "Diagnosed and fixed fc-cron@frontier-digest.service's curl-28/120s-timeout failure — the cron route awaited the best-effort self-improvement \"proposals\" phase synchronously, and that phase's AI calls retry across a multi-vendor fallback chain that can burn past 120s on a degraded link even though the public digest itself is fast (confirmed empirically: /frontier already showed today's real digest while the unit sat failed). Detached that phase (fire-and-forget + background logging) in src/app/api/crons/frontier-digest/route.ts, committed, pushed, and opened PR #446 (https://github.com/bitbaum/loki/pull/446)."
+          "date": "2026-09-17",
+          "done": "e2e ok — no changes"
         },
         {
-          "date": "2026-08-29",
-          "done": "Investigated the reported dead \"Fleet control\" nav item (Platform dropdown, first item, href=\"/\" instead of /control). It no longer exists. src/config/auth.ts's PUBLIC_NAV was restructured — the \"Platform\" dropdown (with items \"Fleet control\"/\"Fleet Runner\"/\"Roadmap\") was renamed to \"Product\" and its item list replaced (Mission/Philosophy/Roadmap/Changelog/Docs/Whitepaper/Download/Pricing/Frontier) — no entry named \"Fleet control\" and no entry pointing at href=\"/\" remains anywhere in the config. Confirmed live against production (https://loki.orangecat.ch/) with Playwright: enumerated every link in the desktop dropdown and the mobile drawer — 9 desktop items + 14 mobile rows, all distinct working hrefs (/mission, /philosophy, /roadmap, /releases, /docs, /whitepaper, /download, /pricing, /frontier, /thoughts, /support, external OrangeCat/Solon), none pointing at \"/\" or /control. No code change was needed or made."
+          "date": "2026-09-17",
+          "done": "Shipped one-tap provider switch as PR #757 — shared ranked chooser (operator's order, filtered to installed + not-recently-rate-limited) is now the primary control on Needs-you feedback rows, the Control inbox and the Terminal rail, and the switch persists as the project's agentPref."
         },
         {
-          "date": "2026-08-29",
-          "done": "Investigated the reported mobile CTA overflow (\"Get started\" clipped/wrapped at 320px on /changelog → /releases). Reproduced nothing: Playwright at a real 320px viewport against both localhost:4002/releases and the live https://loki.orangecat.ch/changelog shows the CTA at x=143, width=109, right edge=252px (68px of margin, not clipped), rendered as a single line (\"Get started\", 1 client rect, no wrap). The bug was already fixed by commit 736fc78 (PR #393, \"Rebuild the phone experience...\"), which added whitespace-nowrap + !px-4 to .ui-public-primary-action-compact and dropped the BrandMark wordmark below 360px specifically to stop this class of overflow — and that commit is already deployed to production. No code change was needed or made."
+          "date": "2026-09-17",
+          "done": "Built one-tap provider switch — shared ranked chooser (preferred order, filtered to installed + not-recently-rate-limited) on the Needs-you feedback row, Control inbox and Terminal rail; the switch persists as the project's agentPref."
         },
         {
-          "date": "2026-08-13",
-          "done": "Rebased the stale BTC-pass entitlement e2e test branch onto current main (19 commits behind), verified it passes live against Postgres (signature verify, actor lookup, idempotent grant, plan write, dedupe, expiry sweep), ran full verify suite, and opened PR #246 (https://github.com/maonakamoto/loki/pull/246) — CI green, mergeable, will auto-merge on next sweep."
+          "date": "2026-09-16",
+          "done": "Status check only — Loki inject received; no files edited."
         },
         {
-          "date": "2026-07-31",
-          "done": "Fixed the insufficient-contrast theme from 2 visitor reports on /changelog — bumped .ui-kicker, .ui-public-nav-link, and .ui-public-nav-trigger from text-text-tertiary to text-text-secondary in globals.css (nav-link hover bumped tertiary-pattern's secondary to primary to keep hover distinct). Verified via a local computed-style contrast audit (oklab/lab-aware sRGB readback) against a dev server on port 4010: all 3 selectors went from ~3.19:1 to 6.45:1, above the WCAG AA 4.5:1 floor; confirmed no layout shift via screenshot. Full verify suite (tsc, lint, check:design, test:unit 41/41, test:home 150/150, check:schema) passed on push. Opened PR #132 (fix/public-nav-tertiary-contrast) against main."
+          "date": "2026-09-16",
+          "done": "Opened PR #746 — Terminal PTY/Loki ~60/40 split with Ask vs Inject, quota alternatives, and the same run id as Feedback Watch."
         },
         {
-          "date": "2026-07-31",
-          "done": "Reviewed the live /changelog page (desktop 1440x900 + mobile 320x800, headless Playwright, screenshots + console/network capture) and filed 3 visitor-feedback reports: mobile CTA overflow, nav-link contrast, kicker-label contrast. No code changed (review-only dispatch)."
+          "date": "2026-09-16",
+          "done": "Hosted dispatch (Hermes) FAILED — # Loki operator dispatch\nEverything in this message is assem"
         }
       ],
-      "next": "e2e ok — no changes\n\nHandoff written to /home/ubuntu/.loki/sessions/loki.md as required. Task fully done.\n\n(Hermes made no file changes.)",
+      "next": "EMPTY",
       "now": {
-        "openRuns": 1,
+        "openRuns": 2,
         "lastRun": {
-          "outcome": "user_abort",
-          "at": "2026-09-15T13:43:17.681Z"
+          "outcome": "partial",
+          "at": "2026-09-17T15:49:03.800Z"
         },
         "lastLog": {
-          "date": "2026-09-15",
-          "done": "Hosted dispatch (Hermes) — # Loki operator dispatch\nEverything in this message is assembled by Lo"
+          "date": "2026-09-17",
+          "done": "Verified current main (5f4797e) is clean and green and found no rule 0-8 work — builderOffline now has exactly one definition (run-context.ts) and every deriveFeedbackWork caller hydrates or passes null, so this session's two shipped fixes are complete and consistent."
         }
       }
     },
@@ -459,7 +459,20 @@
         "mission": "Solon aims to provide verifiable governance, replacing trust with math and enabling transparent decision-making and treasury management.",
         "vision": "Solon envisions a future where governance is transparent, auditable, and secure, using blockchain technology and cryptographic methods."
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Make governance development independently inspectable",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Publish public roadmap and changelog without authentication",
+            "Link signed-decision and source-code evidence from the development profile",
+            "Verify public development pages on mobile and desktop",
+            "Source: https://github.com/bitbaum/solon/blob/b67dfa6d4583427d25849ee40a93402c7e404420/README.md"
+          ]
+        }
+      ],
       "changelog": [
         {
           "date": "2026-09-01",
@@ -516,7 +529,20 @@
         "mission": "DataCat solves the problem of data ingestion and analysis for various domains by providing a domain-agnostic pipeline.",
         "vision": "DataCat aims to become a leading platform for data ingestion and analysis, applicable to multiple domains and industries."
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Consolidate the ingestion API behind one typed contract",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Reconcile the Express and Next.js endpoint inventory",
+            "Choose one deployed handler for each capture, analysis and delivery operation",
+            "Verify the browser-to-worker ingestion path and failure reporting",
+            "Source: https://github.com/bitbaum/datacat/blob/634ea86168f221761ae2899ec46f1419be655e65/README.md"
+          ]
+        }
+      ],
       "changelog": [
         {
           "date": "2026-09-11",
@@ -633,7 +659,31 @@
         "mission": "To provide refurbished technology to those in need, while promoting sustainability and digital inclusion.",
         "vision": "A world where technology is accessible to all, and electronic waste is minimized."
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Match build recommendations to actual inventory",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Verify which listing subcategories reach the storefront",
+            "Use available inventory for component matches; keep unavailable products explicit",
+            "Retain evidence for price, stock and condition claims",
+            "Source: https://github.com/bitbaum/evig/blob/e2c67d8aa5ca90ea9a636f27396a27bde17d0a5c/docs/ROADMAP.md"
+          ]
+        },
+        {
+          "title": "Finish approval-hub discovery",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Review per-type destinations and permission boundaries",
+            "Add useful filter chips without creating a second approval-count engine",
+            "Source: https://github.com/bitbaum/evig/blob/e2c67d8aa5ca90ea9a636f27396a27bde17d0a5c/docs/ROADMAP.md"
+          ]
+        }
+      ],
       "changelog": [
         {
           "date": "2026-08-29",
@@ -694,7 +744,31 @@
         "mission": "Help an adult who already has German understand the Zurich German actually spoken around them, deal with the messages and speech they meet in real life, and turn those encounters into learning.",
         "vision": "Progress measured by how much of an unfamiliar Zurich speaker the learner understands — not by how much Heidi they have consumed."
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Build a consent-aware learner model",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Capture what the learner did not understand with an explicit purpose",
+            "Keep product-use consent separate from research-corpus contribution",
+            "Use the resulting evidence to choose useful review material",
+            "Source: https://github.com/bitbaum/heidi/blob/e75493f917f88a19bd9c61882fbe6a8b9965a4b0/HEIDI.md"
+          ]
+        },
+        {
+          "title": "Develop the listening lab from real recordings",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Obtain recordings and permission to use them",
+            "Build cue-assisted listening exercises with a different-speaker evaluation",
+            "Source: https://github.com/bitbaum/heidi/blob/e75493f917f88a19bd9c61882fbe6a8b9965a4b0/HEIDI.md"
+          ]
+        }
+      ],
       "changelog": [
         {
           "date": "2026-09-12",
@@ -741,7 +815,7 @@
     {
       "slug": "petvity",
       "name": "petvity",
-      "what": null,
+      "what": "A pet-care platform for owner-managed pet profiles, care records, provider discovery, marketplace listings and adoption workflows.",
       "stack": null,
       "layer": "product",
       "status": "live",
@@ -759,16 +833,37 @@
         "mission": "Petvity gives pet owners a single place to monitor their pet's daily wellness, connect with local vets and sitters, and manage the full care journey.",
         "vision": "Long-term vision: digital twins (IoT sensors, cameras, emotional state) as part of the same ecosystem as VitaReBa and Surf Your Life."
       },
-      "roadmap": [],
-      "changelog": [],
-      "next": null,
+      "roadmap": [
+        {
+          "title": "Make pet-care development and verification public",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Publish canonical roadmap and factual changelog",
+            "Link profile, directory and marketplace implementation evidence",
+            "Verify public development routes separately from private owner records",
+            "Source: https://github.com/bitbaum/petvity/blob/18776a42518ea430cb4aeb5f89a9b4a319dd18a5/README.md"
+          ]
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-09-15",
+          "done": "Unified repeated forms and directory handlers, adopted the shared rate limiter, and removed lint warnings. This is a repository change record; it does not assert that every pet-care workflow has been verified in production.\nSource: https://github.com/bitbaum/petvity/commit/18776a42518ea430cb4aeb5f89a9b4a319dd18a5"
+        }
+      ],
+      "next": "Follow the canonical roadmap for planned work.",
       "now": {
         "openRuns": 0,
         "lastRun": {
           "outcome": "timeout",
           "at": "2026-07-02T23:17:33.589Z"
         },
-        "lastLog": null
+        "lastLog": {
+          "date": "2026-09-15",
+          "done": "Unified repeated forms and directory handlers, adopted the shared rate limiter, and removed lint warnings. This is a repository change record; it does not assert that every pet-care workflow has been verified in production.\nSource: https://github.com/bitbaum/petvity/commit/18776a42518ea430cb4aeb5f89a9b4a319dd18a5"
+        }
       }
     },
     {
@@ -792,7 +887,20 @@
         "mission": "Revamp-IT's survival depends on foundation grants — this platform exists to find the right foundations, build compelling evidence of fit, and generate professional Gesuche that win funding.",
         "vision": "To become a standalone SaaS product that helps any purpose-driven organization present themselves compellingly to potential funders and generate professional application documents."
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Finish database-backed tenant resolution",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Replace remaining static organisation-profile imports with request-scoped tenant data",
+            "Make adding an organisation require database rows rather than application changes",
+            "Verify cross-organisation isolation and branding",
+            "Source: https://github.com/bitbaum/hirnli/blob/3fc983555c2f59c099790562eecb03e6d4f728cb/docs/HIRNLI-REPLATFORM-PLAN.md"
+          ]
+        }
+      ],
       "changelog": [
         {
           "date": "2026-09-03",
@@ -827,8 +935,8 @@
     {
       "slug": "substrata",
       "name": "substrata",
-      "what": null,
-      "stack": null,
+      "what": "Open research on the physical bottlenecks of technological progress: materials, compute, energy, science, policy, capital and talent, with checkable evidence and public contributions.",
+      "stack": "Next.js 16, React 19, TypeScript, PostgreSQL 17, OrangeCat OIDC, @bitbaum/ai-kit, bip-kit and sitekit. Versioned research corpus; derived search, atlas and exports.",
       "layer": "product",
       "status": "live",
       "owner": "bitbaum",
@@ -836,28 +944,68 @@
       "urls": {
         "live": "https://substrata.orangecat.ch",
         "repo": "https://github.com/bitbaum/substrata",
-        "orangecat": null,
+        "orangecat": "https://orangecat.ch/projects/6759d848-c438-462c-9058-b8848986b35f",
         "solon": null
       },
       "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
-        "vision": null
+        "problem": "Critical technology chains are difficult to understand and verify. Sources, companies, bottlenecks and analyst judgements are scattered, and practitioners lack a simple way to correct the record.",
+        "solution": "An open research map joining bottlenecks, producers, science, policy, capital and talent, with evidence links, visual exploration, searchable explanations and a dedicated content contribution inbox.",
+        "mission": "Make the physical constraints on technological progress understandable, checkable and open to correction by people who know the work.",
+        "vision": "A collaborative research service where anyone can follow a technology chain, inspect the evidence behind a claim, personalise their learning and contribute expertise that improves a shared public map."
       },
-      "roadmap": [],
-      "changelog": [],
-      "next": null,
+      "roadmap": [
+        {
+          "title": "Keep development and public profiles current",
+          "status": "completed",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Make Substrata a useful research companion",
+          "status": "completed",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Enrich company, science and talent research",
+          "status": "active",
+          "progress": 50,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Explore technology chains with checkable visuals",
+          "status": "completed",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": []
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-09-16",
+          "done": "Released the Substrata research-service beta: source-linked chain atlas and SVG figures, unified search, richer company and talent context, reproducible JSON/CSV exports, cited AI explanations, a private contribution inbox, OrangeCat sign-in and saved interests. Public journal, vision, roadmap and changelog render the canonical development context. Read the development article: https://substrata.orangecat.ch/notes/building-a-checkable-research-service"
+        }
+      ],
+      "next": "Expand primary-source coverage and dated company evidence; evaluate assistant answers against evidence boundaries and improve contribution review workflows.",
       "now": {
         "openRuns": 0,
-        "lastRun": null,
-        "lastLog": null
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-09-17T04:35:03.168Z"
+        },
+        "lastLog": {
+          "date": "2026-09-16",
+          "done": "Released the Substrata research-service beta: source-linked chain atlas and SVG figures, unified search, richer company and talent context, reproducible JSON/CSV exports, cited AI explanations, a private contribution inbox, OrangeCat sign-in and saved interests. Public journal, vision, roadmap and changelog render the canonical development context. Read the development article: https://substrata.orangecat.ch/notes/building-a-checkable-research-service"
+        }
       }
     },
     {
       "slug": "surf-your-life",
       "name": "surf-your-life",
-      "what": null,
+      "what": "A clinic portal for burnout and Long COVID recovery, with daily check-ins, symptom tracking and practitioner visibility.",
       "stack": null,
       "layer": "product",
       "status": "live",
@@ -875,7 +1023,20 @@
         "mission": "To give clients a structured way to track their recovery and practitioners the visibility to intervene early, run evidence-based programs, and analyze progress.",
         "vision": "To become a comprehensive health portal for burnout/Long-COVID reintegration and longevity, with AI analysis of structured and unstructured data."
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Publish a checkable clinic-portal development record",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Expose public roadmap and changelog without opening patient routes",
+            "Separate delivered portal changes from unverified clinical outcome claims",
+            "Verify public pages and private-route boundaries",
+            "Source: https://github.com/bitbaum/surf-your-life/blob/759ab6fe838d0fecf478414fdc60bc2842f27f1e/README.md"
+          ]
+        }
+      ],
       "changelog": [
         {
           "date": "2026-09-11",
@@ -963,7 +1124,7 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "timeout",
-          "at": "2026-09-13T14:51:52.320Z"
+          "at": "2026-09-17T05:00:02.360Z"
         },
         "lastLog": {
           "date": "2026-09-11",
@@ -992,7 +1153,32 @@
         "mission": "Reduce housing conflicts and improve wellbeing through compatibility-based placement for vulnerable populations, prioritizing human dignity, harm reduction, transparency, and privacy.",
         "vision": "Become the standard for refugee housing placement, providing a safe and harmonious living environment for all residents."
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Evaluate the AOZ pilot against observed outcomes",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Collect an agreed baseline before comparing incidents, relocations and mediation effort",
+            "Link observed conflict outcomes to explainable matching factors when sufficient data exist",
+            "Track rule-acknowledgement coverage on the staff dashboard",
+            "Source: https://github.com/bitbaum/aoz-begleitung/blob/209c4d19cee1ddd1cab78cf991d7c50c69a3664c/docs/ROADMAP.md"
+          ]
+        },
+        {
+          "title": "Support multiple organisations through configuration",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Move organisation rules, branding and factor weights to organisation-owned records",
+            "Represent the property, unit, room and spot hierarchy",
+            "Verify tenant isolation before self-service onboarding",
+            "Source: https://github.com/bitbaum/aoz-begleitung/blob/209c4d19cee1ddd1cab78cf991d7c50c69a3664c/docs/ROADMAP.md"
+          ]
+        }
+      ],
       "changelog": [
         {
           "date": "2026-08-25",
@@ -1033,7 +1219,43 @@
         "mission": "Kivvi exists to solve the problem of generic ERPs not fitting the needs of secondhand businesses, providing a system that understands the unique workflows of these businesses.",
         "vision": "To become the operating system for the circular economy, enabling businesses to scale their impact."
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Build mobile intake and stock management",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Support tablet intake and barcode scanning",
+            "Define offline storage and conflict resolution for stock changes",
+            "Validate synchronisation before relying on offline transactions",
+            "Source: https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
+          ]
+        },
+        {
+          "title": "Connect inventory to webshop publication",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Choose and document the first supported shop connector",
+            "Preserve per-item availability and condition when publishing",
+            "Verify retries and duplicate-publication handling",
+            "Source: https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
+          ]
+        },
+        {
+          "title": "Develop the circular-economy talent marketplace",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Let people discover participating circular businesses",
+            "Provide a clear application path without requiring an organisation account",
+            "Source: https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
+          ]
+        }
+      ],
       "changelog": [
         {
           "date": "2026-07-06",
@@ -1125,7 +1347,7 @@
       "since": null,
       "urls": {
         "live": "https://sinktattoo.com",
-        "repo": "https://github.com/bitbaum/sink",
+        "repo": "https://github.com/bitbaum/s-ink",
         "orangecat": null,
         "solon": null
       },
@@ -1135,19 +1357,39 @@
         "mission": null,
         "vision": null
       },
-      "roadmap": [],
-      "changelog": [],
-      "next": null,
+      "roadmap": [
+        {
+          "title": "Complete artist-confirmed contact context",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Obtain the artist’s confirmed social handles before publishing links",
+            "Add a location only after the artist confirms what should be public",
+            "Source: https://github.com/bitbaum/s-ink/blob/b02e1a6beb734c6992e7238e87d97891975995b5/README.md"
+          ]
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-08-07",
+          "done": "Added an on-site enquiry form so visitors can send tattoo ideas and reference photos without opening a mail client.\nSource: https://github.com/bitbaum/s-ink/commit/fbea2a15aec5a286b4529cb3baed172a8bf62fdb"
+        }
+      ],
+      "next": "Follow the canonical roadmap for planned work.",
       "now": {
         "openRuns": 0,
         "lastRun": null,
-        "lastLog": null
+        "lastLog": {
+          "date": "2026-08-07",
+          "done": "Added an on-site enquiry form so visitors can send tattoo ideas and reference photos without opening a mail client.\nSource: https://github.com/bitbaum/s-ink/commit/fbea2a15aec5a286b4529cb3baed172a8bf62fdb"
+        }
       }
     },
     {
       "slug": "vitareba",
       "name": "vitareba",
-      "what": null,
+      "what": "Patient and practitioner tools for Vita’s metabolic psychiatry and systemic longevity clinic in Zürich.",
       "stack": null,
       "layer": "client",
       "status": "live",
@@ -1165,7 +1407,20 @@
         "mission": "To provide frictionless daily data collection for patients and instant clarity on patient needs for clinicians.",
         "vision": "To enable clinicians to know exactly which patients need attention and for patients to see the value of daily check-ins."
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Make clinic-portal engineering progress inspectable",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Publish public development records independently of patient authentication",
+            "Link implementation evidence for practitioner and patient workflows",
+            "Verify mobile readability and private-document access boundaries",
+            "Source: https://github.com/bitbaum/vitareba/blob/f1c60c61e8cf6c501758897a60d563390ad3b718/README.md"
+          ]
+        }
+      ],
       "changelog": [
         {
           "date": "2026-05-08",
@@ -1312,7 +1567,7 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-09-15T04:01:17.988Z"
+          "at": "2026-09-17T04:01:52.099Z"
         },
         "lastLog": {
           "date": "2026-09-08",
@@ -1417,8 +1672,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-09-09T08:52:44.900Z"
+          "outcome": "error",
+          "at": "2026-09-16T10:30:22.552Z"
         },
         "lastLog": {
           "date": "2026-08-15",
@@ -1447,16 +1702,37 @@
         "mission": "Botsmann solves the problem of generic chatbot limitations by providing specialized AI professionals for various domains, serving users who need expert advice and guidance.",
         "vision": "Botsmann aims to become a leading platform for domain-specialized AI professionals, offering a wide range of experts and services to users."
       },
-      "roadmap": [],
-      "changelog": [],
-      "next": null,
+      "roadmap": [
+        {
+          "title": "Publish verifiable progress for AI specialists",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Expose public roadmap and factual changelog",
+            "Link evidence for provider routing, knowledge retrieval and privacy boundaries",
+            "Keep planned specialist capabilities distinct from implemented ones",
+            "Source: https://github.com/bitbaum/botsmann/blob/376b94f89d234579244be48650e5301b570a0a73/README.md"
+          ]
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-09-15",
+          "done": "Consolidated rate limiting, authentication layout and bot creation flow so shared behaviour has one implementation.\nSource: https://github.com/bitbaum/botsmann/commit/376b94f89d234579244be48650e5301b570a0a73"
+        }
+      ],
+      "next": "Follow the canonical roadmap for planned work.",
       "now": {
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
           "at": "2026-09-13T19:45:43.191Z"
         },
-        "lastLog": null
+        "lastLog": {
+          "date": "2026-09-15",
+          "done": "Consolidated rate limiting, authentication layout and bot creation flow so shared behaviour has one implementation.\nSource: https://github.com/bitbaum/botsmann/commit/376b94f89d234579244be48650e5301b570a0a73"
+        }
       }
     },
     {
@@ -1480,13 +1756,34 @@
         "mission": null,
         "vision": null
       },
-      "roadmap": [],
-      "changelog": [],
-      "next": null,
+      "roadmap": [
+        {
+          "title": "Define the first law-oriented product workflow",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Decide the intended reader and concrete problem",
+            "Specify evidence and review requirements before presenting legal answers",
+            "Replace the scaffold with one bounded, testable user journey",
+            "Source: https://github.com/bitbaum/causius/blob/3cb5e80e897c389bc220b36e238a2a7f4e9e190c/app/page.tsx"
+          ]
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-09-10",
+          "done": "Replaced the developer placeholder with an explicit day-zero page and a path to define the first product workflow. Causius remains a scaffold, not a delivered legal service.\nSource: https://github.com/bitbaum/causius/commit/e9a1823a23d3cf8087a280a6ac7a2cdbf39df7fe"
+        }
+      ],
+      "next": "Follow the canonical roadmap for planned work.",
       "now": {
         "openRuns": 0,
         "lastRun": null,
-        "lastLog": null
+        "lastLog": {
+          "date": "2026-09-10",
+          "done": "Replaced the developer placeholder with an explicit day-zero page and a path to define the first product workflow. Causius remains a scaffold, not a delivered legal service.\nSource: https://github.com/bitbaum/causius/commit/e9a1823a23d3cf8087a280a6ac7a2cdbf39df7fe"
+        }
       }
     },
     {
@@ -1706,6 +2003,86 @@
       }
     },
     {
+      "slug": "open-accounting",
+      "name": "Open Accounting",
+      "what": "Finance is part of building in public, the same way engineering is.\n\nA Bitcoin wallet on OrangeCat is non-custodial — the platform watches an address or an extended public key and never holds a key. This project makes such a wallet able to account for itself in public, for owners who choose it: what it holds, what moved, and the owner's own explanation of each transaction. Open accounting is opt-in per wallet, because a wallet is labelled by need and publishing that is the owner's decision, not a side effect of a feature.\n\nOn top of it goes a transparency score computed from what the platform can observe — whether a wallet publishes its ledger, how much of it is explained — never from claims. An earlier score existed and was deleted in May 2026 because it scored booleans the caller passed in; that is the mistake being corrected.",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": null,
+        "orangecat": "https://orangecat.ch/projects/8e5f1f4a-7d7b-4436-b8b1-a5542a41fc11",
+        "solon": null
+      },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [
+        {
+          "title": "On-chain numbers that are true",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Open accounting, opt-in per wallet",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "The owner's note on each transaction",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "A transparency score computed from observed facts",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Roadmap and changelog that keep themselves current",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "Smart contracts, later",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        },
+        {
+          "title": "A wallet has its own page",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": []
+        }
+      ],
+      "changelog": [],
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
       "slug": "osteosynthesis-systems",
       "name": "osteosynthesis systems ",
       "what": "This product consists of custom-designed osteosynthesis systems and surgical instruments for orthopedic applications. It includes plates, screws, rods, and related tools used to treat bone fractures. The devices are manufactured to specifications similar to commercial brands and are intended for a specific individual.",
@@ -1884,8 +2261,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-09-15T04:00:42.960Z"
+          "outcome": "timeout",
+          "at": "2026-09-17T05:00:02.979Z"
         },
         "lastLog": {
           "date": "2026-09-08",
@@ -2061,7 +2438,20 @@
         "mission": null,
         "vision": null
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Replace placeholder artwork context with artist-confirmed material",
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            "Reshoot artwork where clutter or shadow obscures the piece",
+            "Obtain titles from the artist; publish dimensions or prices only when supplied",
+            "Have French, Italian and Ukrainian copy reviewed by native readers",
+            "Source: https://github.com/bitbaum/annushka/blob/f469f0593b0992ca81ffd0c3cfc6b1c80029886f/README.md"
+          ]
+        }
+      ],
       "changelog": [
         {
           "date": "2026-09-11",
@@ -2109,27 +2499,27 @@
       "roadmap": [
         {
           "title": "Define the core data model",
-          "status": "active",
-          "progress": 0,
+          "status": "completed",
+          "progress": 100,
           "targetDate": null,
           "milestones": []
         },
         {
           "title": "Implement map picker and coordinate storage",
-          "status": "active",
-          "progress": 0,
+          "status": "completed",
+          "progress": 100,
           "targetDate": null,
           "milestones": []
         },
         {
           "title": "Build photo upload and attachment functionality",
-          "status": "active",
-          "progress": 0,
+          "status": "completed",
+          "progress": 100,
           "targetDate": null,
           "milestones": []
         },
         {
-          "title": "Develop user authentication and recovery contact system",
+          "title": "Auth, an open-on date, and the person each capsule is meant for",
           "status": "active",
           "progress": 0,
           "targetDate": null,
@@ -2145,17 +2535,21 @@
       ],
       "changelog": [
         {
+          "date": "2026-09-15",
+          "done": "Renamed HamsterCheek to Zeitkastli and reframed the product as a time capsule. The old framing (storing valuables outside homes and banks, stashes, off the grid, hide it anywhere) read as asset concealment in a public repo. Renamed the GitHub repo and rewrote its description, renamed stashes to capsules across schema, routes, types and copy (drizzle 0001 renames the table rather than rewriting history), and rewrote the bitbaum brief, the fleet origin register and the public loki test fixtures."
+        },
+        {
           "date": "2026-08-05",
-          "done": "Added the missing delete-a-stash flow (server action removes the DB row + its uploaded photo, wired to a confirm button on the stash detail page); verified against the real Postgres DB end-to-end and confirmed `npm run build` + `next start` serve the page correctly."
+          "done": "Added the missing delete-a-capsule flow (server action removes the DB row + its uploaded photo, wired to a confirm button on the capsule detail page); verified against the real Postgres DB end-to-end and confirmed `npm run build` + `next start` serve the page correctly."
         }
       ],
-      "next": "Core CRUD (create/list/view/delete) is now complete; remaining gaps toward \"functional web app\" are edit-a-stash, and the deferred items already called out in README (auth/user scoping, object storage for photos, deployment to a live URL — Health dossier flags \"missing: Live URL\").",
+      "next": "Milestones 1-3 are shipped. Next is milestone 4: auth so capsules belong to the account that made them, plus an open-on date per capsule and a named recipient. Note the vocabulary: a record is a CAPSULE, never a stash, and this is a memory aid, not private storage - coordinates are stored in plain text.",
       "now": {
         "openRuns": 0,
         "lastRun": null,
         "lastLog": {
-          "date": "2026-08-05",
-          "done": "Added the missing delete-a-stash flow (server action removes the DB row + its uploaded photo, wired to a confirm button on the stash detail page); verified against the real Postgres DB end-to-end and confirmed `npm run build` + `next start` serve the page correctly."
+          "date": "2026-09-15",
+          "done": "Renamed HamsterCheek to Zeitkastli and reframed the product as a time capsule. The old framing (storing valuables outside homes and banks, stashes, off the grid, hide it anywhere) read as asset concealment in a public repo. Renamed the GitHub repo and rewrote its description, renamed stashes to capsules across schema, routes, types and copy (drizzle 0001 renames the table rather than rewriting history), and rewrote the bitbaum brief, the fleet origin register and the public loki test fixtures."
         }
       }
     }
