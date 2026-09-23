@@ -55,6 +55,14 @@ grep -q 'fcw_' <<<"$hire" || { echo "hire page form has no widget token" >&2; fa
 # NOT `grep ... && { ... }`: under `set -e` a non-matching grep ends the whole
 # script, so the healthy case would abort the publish it is meant to guard.
 if grep -q 'mailto:' <<<"$hire"; then echo "hire page exposes a mailto again" >&2; fail=1; fi
+packages="$(curl -fsS https://bitbaum.orangecat.ch/packages/)" || { echo "packages page unreachable" >&2; fail=1; }
+while IFS=' ' read -r slug version; do
+  [ -n "$slug" ] || continue
+  if ! grep -Fq "aria-label=\"Latest npm version $version\"" <<<"$packages"; then
+    echo "packages page is missing $slug npm version $version" >&2
+    fail=1
+  fi
+done < <(node -e 'for (const p of require("./site/packages.snapshot.json").packages) if (p.install?.source === "npm" && p.version) console.log(`${p.slug}\t${p.version}`)')
 cards=$(grep -o 'class="card[^"]*" href="/' <<<"$home" | wc -l)
 [ "$cards" -ge 20 ] || { echo "home page shows only $cards venture cards" >&2; fail=1; }
 [ "$fail" -eq 0 ] && echo "live: https://bitbaum.orangecat.ch/ ($(find "$HERE/dist" -name index.html | wc -l) pages)" || exit 1
