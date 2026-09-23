@@ -11,6 +11,9 @@ importers:
       '@bitbaum/design-tokens':
         specifier: 1.1.0
         version: 1.1.0
+      listkit:
+        specifier: github:bitbaum/listkit#v0.1.0
+        version: https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525
 
 packages:
 
@@ -18,6 +21,13 @@ packages:
     resolution: {integrity: sha512-sDVplKP4jKe0WHCOnW7xk75RC46JsAYqUngcVlctyAs9f1TQqZqbYTfbmyYipYCOaCIHMflnzAneQTbqrQbtBw==}
     engines: {node: '>=20'}
 
+  listkit@https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525:
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525}
+    version: 0.1.0
+    engines: {node: '>=20'}
+
 snapshots:
 
   '@bitbaum/design-tokens@1.1.0': {}
+
+  listkit@https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525: {}

@@ -169,7 +169,7 @@
           <div class="row"><h2 class="display-2">The work</h2><span class="label" id="work-count">23 of 23</span></div>
           <p class="lede">Everything the studio has built, at the stage it is really at. Pick a stage or a field — the address bar keeps your choice, so a filtered view is a link you can send.</p>
         </div>
-        <div class="filters">
+        <div class="filters" id="work-filters" hidden>
           <div class="filter-row"><span class="label">Stage</span><div class="chips">
             <button type="button" class="chip" data-facet="stage" data-value="product" aria-pressed="false">Products<span class="chip-n">11</span></button>
             <button type="button" class="chip" data-facet="stage" data-value="pilot" aria-pressed="false">Pilots<span class="chip-n">5</span></button>
@@ -177,14 +177,16 @@
             <button type="button" class="chip" data-facet="stage" data-value="next" aria-pressed="false">Next<span class="chip-n">3</span></button>
           </div></div>
           <div class="filter-row"><span class="label">Field</span><div class="chips">
-            <button type="button" class="chip" data-facet="tag" data-value="infrastructure" aria-pressed="false">Infrastructure<span class="chip-n">3</span></button>
-            <button type="button" class="chip" data-facet="tag" data-value="ai-agents" aria-pressed="false">AI agents<span class="chip-n">6</span></button>
-            <button type="button" class="chip" data-facet="tag" data-value="health" aria-pressed="false">Health<span class="chip-n">4</span></button>
-            <button type="button" class="chip" data-facet="tag" data-value="public-sector" aria-pressed="false">Public sector<span class="chip-n">3</span></button>
-            <button type="button" class="chip" data-facet="tag" data-value="circular-economy" aria-pressed="false">Circular economy<span class="chip-n">3</span></button>
-            <button type="button" class="chip" data-facet="tag" data-value="local-business" aria-pressed="false">Local business<span class="chip-n">4</span></button>
-            <button type="button" class="chip" data-facet="tag" data-value="knowledge" aria-pressed="false">Knowledge<span class="chip-n">6</span></button>
+            <button type="button" class="chip" data-facet="field" data-value="infrastructure" aria-pressed="false">Infrastructure<span class="chip-n">3</span></button>
+            <button type="button" class="chip" data-facet="field" data-value="ai-agents" aria-pressed="false">AI agents<span class="chip-n">6</span></button>
+            <button type="button" class="chip" data-facet="field" data-value="health" aria-pressed="false">Health<span class="chip-n">4</span></button>
+            <button type="button" class="chip" data-facet="field" data-value="public-sector" aria-pressed="false">Public sector<span class="chip-n">3</span></button>
+            <button type="button" class="chip" data-facet="field" data-value="circular-economy" aria-pressed="false">Circular economy<span class="chip-n">3</span></button>
+            <button type="button" class="chip" data-facet="field" data-value="local-business" aria-pressed="false">Local business<span class="chip-n">4</span></button>
+            <button type="button" class="chip" data-facet="field" data-value="knowledge" aria-pressed="false">Knowledge<span class="chip-n">6</span></button>
           </div></div>
+          <label class="filter-search">Search work<input id="work-search" type="search" placeholder="Product, purpose, or address" autocomplete="off"></label>
+          <label class="filter-sort">Sort by<select id="work-sort"><option value="studio">Studio order</option><option value="name">Name</option><option value="newest">Newest</option></select></label>
           <button type="button" class="clear" id="clear-filters" hidden>Clear <span class="arrow" aria-hidden="true">&rarr;</span></button>
         </div>
         <dl class="legend">
@@ -194,84 +196,84 @@
           <div><dt>Next</dt><dd>Named, not built. Listed so the list is honest.</dd></div>
         </dl>
         <div class="grid" id="work-grid">
-      <a class="card" href="/orangecat/" data-stage="product" data-tags="infrastructure ai-agents">
+      <a class="card" href="/orangecat/" data-stage="product" data-tags="infrastructure ai-agents" data-name="OrangeCat" data-host="orangecat.ch" data-since="2025-04-02T14:37:17Z">
         <div class="shot"><img src="/shots/orangecat.jpg" alt="OrangeCat — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">OrangeCat</span><span class="pill beta">beta</span></div>
           <span class="card-what">Your AI economic agent</span>
         </div>
       </a>
-      <a class="card" href="/loki/" data-stage="product" data-tags="infrastructure ai-agents">
+      <a class="card" href="/loki/" data-stage="product" data-tags="infrastructure ai-agents" data-name="Loki" data-host="loki.orangecat.ch" data-since="2026-04-04T20:47:22Z">
         <div class="shot"><img src="/shots/loki.jpg" alt="Loki — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Loki</span><span class="pill beta">beta</span></div>
           <span class="card-what">Run your fleet. From anywhere.</span>
         </div>
       </a>
-      <a class="card" href="/heidi/" data-stage="product" data-tags="knowledge ai-agents">
+      <a class="card" href="/heidi/" data-stage="product" data-tags="knowledge ai-agents" data-name="Heidi" data-host="heidi.orangecat.ch" data-since="2026-09-10T18:45:39Z">
         <div class="shot"><img src="/shots/heidi.jpg" alt="Heidi — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Heidi</span><span class="pill beta">beta</span></div>
           <span class="card-what">Zürich German, for learners</span>
         </div>
       </a>
-      <a class="card" href="/solon/" data-stage="product" data-tags="infrastructure">
+      <a class="card" href="/solon/" data-stage="product" data-tags="infrastructure" data-name="Solon" data-host="solon.orangecat.ch" data-since="2025-08-26T09:12:28Z">
         <div class="shot"><img src="/shots/solon.jpg" alt="Solon — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Solon</span><span class="pill beta">beta</span></div>
           <span class="card-what">Governance you can recount</span>
         </div>
       </a>
-      <a class="card" href="/revamp-info/" data-stage="product" data-tags="ai-agents knowledge">
+      <a class="card" href="/revamp-info/" data-stage="product" data-tags="ai-agents knowledge" data-name="Hirnli" data-host="hirnli.orangecat.ch" data-since="2026-02-05T14:57:32Z">
         <div class="shot"><img src="/shots/revamp-info.jpg" alt="Hirnli — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Hirnli</span><span class="pill beta">beta</span></div>
           <span class="card-what">Fundraising intelligence</span>
         </div>
       </a>
-      <a class="card" href="/evig/" data-stage="product" data-tags="circular-economy">
+      <a class="card" href="/evig/" data-stage="product" data-tags="circular-economy" data-name="evig" data-host="evig.orangecat.ch" data-since="2025-04-08T09:38:59Z">
         <div class="shot"><img src="/shots/evig.jpg" alt="evig — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">evig</span><span class="pill beta">beta</span></div>
           <span class="card-what">Access to intelligence, affordable for everyone</span>
         </div>
       </a>
-      <a class="card" href="/datacat/" data-stage="product" data-tags="ai-agents knowledge">
+      <a class="card" href="/datacat/" data-stage="product" data-tags="ai-agents knowledge" data-name="DataCat" data-host="datacat.orangecat.ch" data-since="2025-07-07T10:25:10Z">
         <div class="shot"><img src="/shots/datacat.jpg" alt="DataCat — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">DataCat</span><span class="pill beta">beta</span></div>
           <span class="card-what">Records in, records out</span>
         </div>
       </a>
-      <a class="card" href="/petvity/" data-stage="product" data-tags="health">
+      <a class="card" href="/petvity/" data-stage="product" data-tags="health" data-name="Petvity" data-host="petvity.orangecat.ch" data-since="2026-04-20T16:44:06Z">
         <div class="shot"><img src="/shots/petvity.jpg" alt="Petvity — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Petvity</span><span class="pill beta">beta</span></div>
           <span class="card-what">Your pet has a signal. Now you can read it.</span>
         </div>
       </a>
-      <a class="card" href="/substrata/" data-stage="product" data-tags="knowledge">
+      <a class="card" href="/substrata/" data-stage="product" data-tags="knowledge" data-name="Substrata" data-host="substrata.orangecat.ch" data-since="2026-08-27T12:41:04Z">
         <div class="shot"><img src="/shots/substrata.jpg" alt="Substrata — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Substrata</span><span class="pill beta">beta</span></div>
           <span class="card-what">What moved among the constraints on technological progress</span>
         </div>
       </a>
-      <a class="card" href="/surf-your-life/" data-stage="product" data-tags="health">
+      <a class="card" href="/surf-your-life/" data-stage="product" data-tags="health" data-name="Surf Your Life" data-host="surf-your-life.orangecat.ch" data-since="2026-04-10T15:11:11Z">
         <div class="shot"><img src="/shots/surf-your-life.jpg" alt="Surf Your Life — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Surf Your Life</span><span class="pill beta">beta</span></div>
           <span class="card-what">Burnout and long COVID, treated at the biology</span>
         </div>
       </a>
-      <a class="card" href="/botsmann/" data-stage="product" data-tags="ai-agents knowledge">
+      <a class="card" href="/botsmann/" data-stage="product" data-tags="ai-agents knowledge" data-name="Botsmann" data-host="botsmann.orangecat.ch" data-since="2024-10-14T10:37:44Z">
         <div class="shot"><img src="/shots/botsmann.jpg" alt="Botsmann — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Botsmann</span><span class="pill ">validating</span></div>
           <span class="card-what">Private AI professionals</span>
         </div>
       </a>
-      <a class="card" href="/aoz-housing/" data-stage="pilot" data-tags="public-sector">
+      <a class="card" href="/aoz-housing/" data-stage="pilot" data-tags="public-sector" data-name="AOZ Begleitung" data-host="aoz.orangecat.ch" data-since="2026-01-22T22:25:09Z">
         <div class="shot"><img src="/shots/aoz-housing.jpg" alt="AOZ Begleitung — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">AOZ Begleitung</span><span class="pill beta">beta</span></div>
@@ -279,7 +281,7 @@
           <span class="label">for AOZ, Zürich</span>
         </div>
       </a>
-      <a class="card" href="/kivvi/" data-stage="pilot" data-tags="circular-economy">
+      <a class="card" href="/kivvi/" data-stage="pilot" data-tags="circular-economy" data-name="kivvi" data-host="kivvi.orangecat.ch" data-since="2026-02-11T16:22:46Z">
         <div class="shot"><img src="/shots/kivvi.jpg" alt="kivvi — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">kivvi</span><span class="pill beta">beta</span></div>
@@ -287,7 +289,7 @@
           <span class="label">for Revamp-IT</span>
         </div>
       </a>
-      <a class="card" href="/vitareba/" data-stage="pilot" data-tags="health">
+      <a class="card" href="/vitareba/" data-stage="pilot" data-tags="health" data-name="Vita" data-host="vitareba.orangecat.ch" data-since="2026-04-13T09:14:43Z">
         <div class="shot"><img src="/shots/vitareba.jpg" alt="Vita — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Vita</span><span class="pill beta">beta</span></div>
@@ -295,7 +297,7 @@
           <span class="label">for one clinic, Zürich</span>
         </div>
       </a>
-      <a class="card" href="/s-ink/" data-stage="pilot" data-tags="local-business">
+      <a class="card" href="/s-ink/" data-stage="pilot" data-tags="local-business" data-name="S.Ink" data-host="sinktattoo.com" data-since="2026-08-06T10:58:15Z">
         <div class="shot"><img src="/shots/s-ink.jpg" alt="S.Ink — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">S.Ink</span><span class="pill beta">beta</span></div>
@@ -303,7 +305,7 @@
           <span class="label">for S.Ink, Zürich</span>
         </div>
       </a>
-      <a class="card" href="/wild-spirit/" data-stage="pilot" data-tags="local-business">
+      <a class="card" href="/wild-spirit/" data-stage="pilot" data-tags="local-business" data-name="Annushka" data-host="annushka.orangecat.ch" data-since="">
         <div class="shot"><img src="/shots/wild-spirit.jpg" alt="Annushka — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Annushka</span><span class="pill beta">beta</span></div>
@@ -311,47 +313,47 @@
           <span class="label">for Annushka, Zürich</span>
         </div>
       </a>
-      <a class="card" href="/sbb-fundbuero/" data-stage="concept" data-tags="public-sector">
+      <a class="card" href="/sbb-fundbuero/" data-stage="concept" data-tags="public-sector" data-name="Nordbahn Fundbüro" data-host="sbbfundbuero.orangecat.ch" data-since="2026-01-23T15:13:32Z">
         <div class="shot"><img src="/shots/sbb-fundbuero.jpg" alt="Nordbahn Fundbüro — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Nordbahn Fundbüro</span><span class="pill">concept</span></div>
           <span class="card-what">Lost on the train, while you are still on it</span>
         </div>
       </a>
-      <a class="card" href="/reparaturbonus-zh/" data-stage="concept" data-tags="public-sector circular-economy">
+      <a class="card" href="/reparaturbonus-zh/" data-stage="concept" data-tags="public-sector circular-economy" data-name="Reparaturbonus" data-host="reparaturbonus.orangecat.ch" data-since="2025-06-18T12:02:31Z">
         <div class="shot"><img src="/shots/reparaturbonus-zh.jpg" alt="Reparaturbonus — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Reparaturbonus</span><span class="pill">concept</span></div>
           <span class="card-what">Repair instead of replace — the City of Zürich's bonus, as it should work</span>
         </div>
       </a>
-      <a class="card" href="/printcraft/" data-stage="concept" data-tags="local-business">
+      <a class="card" href="/printcraft/" data-stage="concept" data-tags="local-business" data-name="PrintCraft" data-host="printcraft.orangecat.ch" data-since="2026-03-26T17:51:29Z">
         <div class="shot"><img src="/shots/printcraft.jpg" alt="PrintCraft — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">PrintCraft</span><span class="pill">concept</span></div>
           <span class="card-what">Bring people together. In art.</span>
         </div>
       </a>
-      <a class="card" href="/camille-boulangerie/" data-stage="concept" data-tags="local-business">
+      <a class="card" href="/camille-boulangerie/" data-stage="concept" data-tags="local-business" data-name="Camille" data-host="camille.orangecat.ch" data-since="2026-08-27T13:10:03Z">
         <div class="shot"><img src="/shots/camille-boulangerie.jpg" alt="Camille — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">Camille</span><span class="pill">concept</span></div>
           <span class="card-what">A bakery's site, generated</span>
         </div>
       </a>
-      <a class="card text" href="/diplodoctor/" data-stage="next" data-tags="health">
+      <a class="card text" href="/diplodoctor/" data-stage="next" data-tags="health" data-name="Diplodoctor" data-host="diplodoctor.orangecat.ch" data-since="2026-09-10">
         <div class="card-body">
           <div class="card-top"><span class="card-name">Diplodoctor</span><span class="pill">not built</span></div>
           <span class="card-what">A health platform</span>
         </div>
       </a>
-      <a class="card text" href="/causius/" data-stage="next" data-tags="knowledge">
+      <a class="card text" href="/causius/" data-stage="next" data-tags="knowledge" data-name="Causius" data-host="causius.orangecat.ch" data-since="2026-09-10T20:48:08Z">
         <div class="card-body">
           <div class="card-top"><span class="card-name">Causius</span><span class="pill">not built</span></div>
           <span class="card-what">Law, the same shape as Diplodoctor</span>
         </div>
       </a>
-      <a class="card text" href="/skif/" data-stage="next" data-tags="">
+      <a class="card text" href="/skif/" data-stage="next" data-tags="" data-name="Skif" data-host="" data-since="">
         <div class="card-body">
           <div class="card-top"><span class="card-name">Skif</span><span class="pill">not built</span></div>
           <span class="card-what">Named. Not written down.</span>
@@ -369,10 +371,10 @@
           <p class="lede">The shared code every product is built from. Each one exists because a second app was about to write the same thing. Open a package to read why it exists, how it works, and where it sits in the studio.</p>
         </div>
         <div class="grid">
-      <article class="card text pkg-card" id="ai-kit">
+      <article class="card text pkg-card" id="ai-kit" data-package="ai-kit" data-group="think" data-adoption="adopted">
         <div class="card-body">
           <a class="pkg-cover" href="/packages/ai-kit/">
-            <span class="card-top"><span class="card-name">ai-kit</span><span class="pkg-badges"><span class="pill pkg-version" aria-label="Latest npm version 1.11.0">npm&nbsp;v1.11.0</span><span class="pill">14 apps</span></span></span>
+            <span class="card-top"><span class="card-name">ai-kit</span><span class="pkg-badges"><span class="pill pkg-category">Think</span><span class="pill pkg-version" aria-label="Latest npm version 1.11.0">npm&nbsp;v1.11.0</span><span class="pill">14 apps</span></span></span>
             <span class="card-what">Which model to call, whether the vendor still serves it, and what to do when every one of them fails.</span>
           </a>
           <code class="pkg-install">pnpm add @bitbaum/ai-kit</code>
@@ -380,10 +382,10 @@
           <div class="pkg-links"><a class="pkg-open" href="/packages/ai-kit/" aria-label="Open the ai-kit developer profile">Developer profile <span aria-hidden="true">→</span></a><a href="https://github.com/bitbaum/ai-kit">source</a><a href="https://www.npmjs.com/package/@bitbaum/ai-kit">npm</a></div>
         </div>
       </article>
-      <article class="card text pkg-card" id="mail-kit">
+      <article class="card text pkg-card" id="mail-kit" data-package="mail-kit" data-group="reach" data-adoption="adopted">
         <div class="card-body">
           <a class="pkg-cover" href="/packages/mail-kit/">
-            <span class="card-top"><span class="card-name">mail-kit</span><span class="pkg-badges"><span class="pill pkg-version" aria-label="Latest npm version 0.1.1">npm&nbsp;v0.1.1</span><span class="pill">11 apps</span></span></span>
+            <span class="card-top"><span class="card-name">mail-kit</span><span class="pkg-badges"><span class="pill pkg-category">Reach someone</span><span class="pill pkg-version" aria-label="Latest npm version 0.1.1">npm&nbsp;v0.1.1</span><span class="pill">11 apps</span></span></span>
             <span class="card-what">One email layer for every app. Never throws — it returns whether the mail was sent.</span>
           </a>
           <code class="pkg-install">pnpm add @bitbaum/mail-kit</code>
@@ -391,10 +393,10 @@
           <div class="pkg-links"><a class="pkg-open" href="/packages/mail-kit/" aria-label="Open the mail-kit developer profile">Developer profile <span aria-hidden="true">→</span></a><a href="https://github.com/bitbaum/mail-kit">source</a><a href="https://www.npmjs.com/package/@bitbaum/mail-kit">npm</a></div>
         </div>
       </article>
-      <article class="card text pkg-card" id="bip-kit">
+      <article class="card text pkg-card" id="bip-kit" data-package="bip-kit" data-group="show" data-adoption="adopted">
         <div class="card-body">
           <a class="pkg-cover" href="/packages/bip-kit/">
-            <span class="card-top"><span class="card-name">bip-kit</span><span class="pkg-badges"><span class="pill pkg-version" aria-label="Latest npm version 0.3.1">npm&nbsp;v0.3.1</span><span class="pill">9 apps</span></span></span>
+            <span class="card-top"><span class="card-name">bip-kit</span><span class="pkg-badges"><span class="pill pkg-category">Show the work</span><span class="pill pkg-version" aria-label="Latest npm version 0.3.1">npm&nbsp;v0.3.1</span><span class="pill">9 apps</span></span></span>
             <span class="card-what">Blog, roadmap and changelog from repo-authored markdown. Typed blocks, your design tokens on top.</span>
           </a>
           <code class="pkg-install">pnpm add bip-kit</code>
@@ -520,66 +522,6 @@
       });
     })();
   </script>
-  <script>
-  // Facet filtering, progressive: without this file every card is shown.
-  // An empty selection means NO filter (never "nothing matches"), and the
-  // address bar carries the choice so a filtered view can be shared.
-  (function () {
-    var grid = document.getElementById("work-grid");
-    if (!grid) return;
-    var cards = Array.prototype.slice.call(grid.children);
-    var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
-    var countEl = document.getElementById("work-count");
-    var emptyEl = document.getElementById("work-empty");
-    var clearEl = document.getElementById("clear-filters");
-    var state = { stage: new Set(), tag: new Set() };
-
-    function apply(push) {
-      var shown = 0;
-      cards.forEach(function (c) {
-        var stageOk = state.stage.size === 0 || state.stage.has(c.dataset.stage);
-        var cardTags = (c.dataset.tags || "").split(" ").filter(Boolean);
-        var tagOk = state.tag.size === 0 || cardTags.some(function (t) { return state.tag.has(t); });
-        var on = stageOk && tagOk;
-        c.hidden = !on;
-        if (on) shown++;
-      });
-      chips.forEach(function (ch) {
-        ch.setAttribute("aria-pressed", state[ch.dataset.facet].has(ch.dataset.value) ? "true" : "false");
-      });
-      countEl.textContent = shown + " of " + cards.length;
-      emptyEl.hidden = shown !== 0;
-      var any = state.stage.size + state.tag.size > 0;
-      clearEl.hidden = !any;
-      if (push) {
-        var parts = [];
-        if (state.stage.size) parts.push("stage=" + Array.from(state.stage).join(","));
-        if (state.tag.size) parts.push("field=" + Array.from(state.tag).join(","));
-        history.replaceState(null, "", parts.length ? "#work?" + parts.join("&") : location.pathname + "#work");
-      }
-    }
-    function read() {
-      var q = location.hash.indexOf("?");
-      state.stage = new Set(); state.tag = new Set();
-      if (q === -1) return;
-      new URLSearchParams(location.hash.slice(q + 1)).forEach(function (val, key) {
-        var into = key === "stage" ? state.stage : key === "field" ? state.tag : null;
-        if (into) val.split(",").filter(Boolean).forEach(function (v) { into.add(v); });
-      });
-    }
-    chips.forEach(function (ch) {
-      ch.addEventListener("click", function () {
-        var set = state[ch.dataset.facet];
-        if (set.has(ch.dataset.value)) set.delete(ch.dataset.value); else set.add(ch.dataset.value);
-        apply(true);
-      });
-    });
-    function clear() { state.stage.clear(); state.tag.clear(); apply(true); }
-    clearEl.addEventListener("click", clear);
-    Array.prototype.forEach.call(document.querySelectorAll("[data-clear]"), function (b) { b.addEventListener("click", clear); });
-    window.addEventListener("hashchange", function () { read(); apply(false); });
-    read(); apply(false);
-  })();
-  </script>
+  <script type="module" src="/work-filter.mjs"></script>
 </body>
 </html>

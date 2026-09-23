@@ -28,7 +28,8 @@ export function createPackagePages({ esc, shell }) {
     return `<span class="pill pkg-version" aria-label="Latest npm version ${esc(p.version)}">npm&nbsp;v${esc(p.version)}</span>`;
   }
 
-  function pkgCard(p, editorial, ventureBySlug, alias) {
+  function pkgCard(p, editorial, ventureBySlug, alias, group) {
+    const category = group ?? { id: p.group ?? "other", title: "Shared" };
     const what = editorial?.what ?? p.description ?? "";
     const npmHref = p.install?.source === "npm" ? `https://www.npmjs.com/package/${p.name}` : null;
     const adopters = pkgAdopters(p, ventureBySlug, alias);
@@ -36,10 +37,10 @@ export function createPackagePages({ esc, shell }) {
     if (p.repo) links.push(`<a href="${esc(p.repo)}">source</a>`);
     if (npmHref) links.push(`<a href="${esc(npmHref)}">npm</a>`);
     else if (p.install?.source === "git") links.push(`<span>git tag</span>`);
-    return `      <article class="card text pkg-card" id="${esc(p.slug)}">
+    return `      <article class="card text pkg-card" id="${esc(p.slug)}" data-package="${esc(p.slug)}" data-group="${esc(category.id)}" data-adoption="${(p.adopters ?? 0) > 0 ? "adopted" : "new"}">
         <div class="card-body">
           <a class="pkg-cover" href="/packages/${esc(p.slug)}/">
-            <span class="card-top"><span class="card-name">${esc(p.slug)}</span><span class="pkg-badges">${pkgVersion(p)}${pkgPill(p)}</span></span>
+            <span class="card-top"><span class="card-name">${esc(p.slug)}</span><span class="pkg-badges"><span class="pill pkg-category">${esc(category.title)}</span>${pkgVersion(p)}${pkgPill(p)}</span></span>
             <span class="card-what">${esc(what)}</span>
           </a>
           ${p.install?.command ? `<code class="pkg-install">${esc(p.install.command)}</code>` : ""}
@@ -78,7 +79,8 @@ ${adopters.length ? `          <div class="uses"><span class="label">Used by</sp
     const totalUses = registry.reduce((s, p) => s + (p.adopters ?? 0), 0);
     const sections = packageSections(list, cfg);
     const paykit = registry.find((p) => p.slug === "paykit");
-    const jump = sections.map((g) => `<a href="#${esc(g.id)}">${esc(g.title)}</a>`).join("");
+    const groupOptions = sections.map((g) => `<option value="${esc(g.id)}" data-description="${esc(g.lede ?? "")}">${esc(g.title)}</option>`).join("");
+    const cards = sections.flatMap((g) => g.items.map((p) => pkgCard(p, cfg.packages?.[p.slug] ?? p, ventureBySlug, alias, g))).join("\n");
     const body = `  <main>
     <section class="hero compact">
       <div class="wrap">
@@ -89,30 +91,29 @@ ${adopters.length ? `          <div class="uses"><span class="label">Used by</sp
           <div><span class="label">PAYMENTS · PAYKIT · NPM V${esc(paykit.version ?? "?")} · ${paykit.adopters ?? 0} APPS</span><p>${esc(cfg.packages?.paykit?.what ?? paykit.description ?? "")}</p></div>
           <a class="btn secondary" href="/packages/paykit/">Explore paykit <span aria-hidden="true">→</span></a>
         </aside>` : ""}
-        <nav class="pkg-jump" aria-label="Package groups">${jump}</nav>
+        <div class="pkg-controls" id="package-controls" hidden>
+          <label>Find a package<input id="package-search" type="search" name="q" placeholder="Search packages, features, or adopters" autocomplete="off"></label>
+          <label>Category<select id="package-group"><option value="" data-description="Browse shared tools by the jobs they do across the studio.">All categories</option>${groupOptions}</select></label>
+          <label>Adoption<select id="package-adoption"><option value="">Any adoption</option><option value="adopted">Used by an app</option><option value="new">No app uses it yet</option></select></label>
+          <label>Sort by<select id="package-sort"><option value="featured">Studio order</option><option value="name">Name</option><option value="adopters">Most used</option></select></label>
+          <button type="button" class="clear" id="package-clear" hidden>Clear filters</button>
+          <p class="pkg-guidance" id="package-guidance">Browse shared tools by the jobs they do across the studio.</p>
+          <p class="pkg-result" id="package-result" role="status" aria-live="polite"></p>
+        </div>
       </div>
     </section>
-${sections
-  .map(
-    (g) => `    <section class="section" id="${esc(g.id)}">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="display-2">${esc(g.title)}</h2>
-          ${g.lede ? `<p class="lede">${esc(g.lede)}</p>` : ""}
-        </div>
-        <div class="grid">
-${g.items.map((p) => pkgCard(p, cfg.packages?.[p.slug] ?? p, ventureBySlug, alias)).join("\n")}
-        </div>
+    <section class="section" aria-label="Shared packages">
+      <div class="wrap"><div class="grid pkg-grid" id="package-grid">${cards}</div>
+        <p class="empty" id="package-empty" hidden>No packages match those choices. <button type="button" class="linkish" data-package-clear>Clear filters</button> to see everything.</p>
       </div>
-    </section>`,
-  )
-  .join("\n")}
+    </section>
     <section class="section">
       <div class="wrap">
         <p class="caption">The name of a package opens its page. Adopter counts come from real <code>package.json</code> files, read by <a href="https://github.com/bitbaum/fleet/blob/main/scripts/ci/shared-registry-audit.mjs">fleet's registry audit</a>. Nobody types them. Packages with no adopters are listed openly; counts change when package manifests adopt them.</p>
       </div>
     </section>
-  </main>`;
+  </main>
+  <script type="module" src="/packages-filter.mjs"></script>`;
     return shell({ title: "Packages — bitbaum", description: cfg.packages_lede ?? "", path: "/packages/", body, nav: "/packages/" });
   }
 

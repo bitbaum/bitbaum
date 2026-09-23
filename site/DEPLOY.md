@@ -4,7 +4,10 @@
 
 The studio's front door. A home page, a page per venture, a packages page
 and a studio page — static HTML in `site/dist/`, no framework, no runtime
-fetch. Caddy serves `/opt/bitbaum/app` on the box with clean directory URLs.
+fetch. The package catalogue's optional browser enhancement uses `listkit`
+for search, category/adoption facets, sorting, and shareable URL state; its
+cards remain present without JavaScript. Caddy serves `/opt/bitbaum/app` on
+the box with clean directory URLs.
 
 ## What the site is for
 
@@ -58,10 +61,12 @@ types either list; a package that quietly lost its last adopter shows it.
 ## The work grid
 
 One grid with two facets rather than four headed sections: stage is a chip row,
-field is a chip row, and the choice lives in the address bar (`#work?stage=pilot&field=health`)
-so a filtered view is a link you can send. Within a facet the chips are OR; across
-facets they are AND; an empty selection means no filter, never "nothing matches".
-Without JavaScript every card is shown, which is the correct fallback for a list.
+field is a chip row, and the choice lives in the address bar
+(`#work?stage=pilot&field=health`) so a filtered view is a link you can send.
+Listkit owns the facet matching, search, sort, and URL codec used by this grid
+and the package catalogue. Within a facet the chips are OR; across facets they
+are AND; an empty selection means no filter, never "nothing matches". Without
+JavaScript every card is shown, which is the correct fallback for a list.
 
 ## The hire page
 
@@ -110,5 +115,5 @@ site/publish.sh                 # --check, rsync dist to the box, prove every pa
 ```
 
 `site/dist/` is committed so a diff shows what changed on the site between
-two builds, and so `--check` can fail when the sources moved and the site did
-not.
+two builds, including the pinned listkit browser modules, and so `--check`
+can fail when the sources moved and the site did not.

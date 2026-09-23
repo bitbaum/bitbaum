@@ -295,13 +295,13 @@ ${script ?? ""}
 }
 
 // ── cards ───────────────────────────────────────────────────────────────────
-function card(v) {
+function card(v, filterable = false) {
   const img = v.shot
     ? `        <div class="shot"><img src="/shots/${esc(v.slug)}.jpg" alt="${esc(v.name)} — screenshot" loading="lazy" width="1280" height="800"></div>\n`
     : "";
   const sub = v.for ? `<span class="label">for ${esc(v.for)}</span>` : "";
-  const meta = `data-stage="${esc(v.stage)}" data-tags="${esc(v.tags.map(slugify).join(" "))}"`;
-  return `      <a class="card${v.shot ? "" : " text"}" href="/${esc(v.slug)}/" ${meta}>
+  const meta = filterable ? `data-stage="${esc(v.stage)}" data-tags="${esc(v.tags.map(slugify).join(" "))}" data-name="${esc(v.name)}" data-host="${esc(host(v.url ?? ""))}" data-since="${esc(v.since ?? "")}"` : "";
+  return `      <a class="card${v.shot ? "" : " text"}" href="/${esc(v.slug)}/"${meta ? ` ${meta}` : ""}>
 ${img}        <div class="card-body">
           <div class="card-top"><span class="card-name">${esc(v.name)}</span>${pill(v)}</div>
           <span class="card-what">${esc(v.what)}</span>${sub ? `\n          ${sub}` : ""}
@@ -330,87 +330,29 @@ function workSection(all, cfg) {
           <div class="row"><h2 class="display-2">The work</h2><span class="label" id="work-count">${all.length} of ${all.length}</span></div>
           <p class="lede">Everything the studio has built, at the stage it is really at. Pick a stage or a field — the address bar keeps your choice, so a filtered view is a link you can send.</p>
         </div>
-        <div class="filters">
+        <div class="filters" id="work-filters" hidden>
           <div class="filter-row"><span class="label">Stage</span><div class="chips">
 ${stages.map(([k, s]) => `            ${chip("stage", k, s.plural, all.filter((v) => v.stage === k).length)}`).join("\n")}
           </div></div>
           <div class="filter-row"><span class="label">Field</span><div class="chips">
-${tags.map((t) => `            ${chip("tag", slugify(t), t, all.filter((v) => v.tags.includes(t)).length)}`).join("\n")}
+${tags.map((t) => `            ${chip("field", slugify(t), t, all.filter((v) => v.tags.includes(t)).length)}`).join("\n")}
           </div></div>
+          <label class="filter-search">Search work<input id="work-search" type="search" placeholder="Product, purpose, or address" autocomplete="off"></label>
+          <label class="filter-sort">Sort by<select id="work-sort"><option value="studio">Studio order</option><option value="name">Name</option><option value="newest">Newest</option></select></label>
           <button type="button" class="clear" id="clear-filters" hidden>Clear ${ARROW}</button>
         </div>
         <dl class="legend">
 ${stages.map(([, s]) => `          <div><dt>${esc(s.plural)}</dt><dd>${esc(s.lede)}</dd></div>`).join("\n")}
         </dl>
         <div class="grid" id="work-grid">
-${all.map((v) => card(v)).join("\n")}
+${all.map((v) => card(v, true)).join("\n")}
         </div>
         <p class="empty" id="work-empty" hidden>Nothing at that intersection yet. <button type="button" class="linkish" data-clear>Clear the filter</button> to see everything.</p>
       </div>
     </section>`;
 }
 
-const FILTER_SCRIPT = `  <script>
-  // Facet filtering, progressive: without this file every card is shown.
-  // An empty selection means NO filter (never "nothing matches"), and the
-  // address bar carries the choice so a filtered view can be shared.
-  (function () {
-    var grid = document.getElementById("work-grid");
-    if (!grid) return;
-    var cards = Array.prototype.slice.call(grid.children);
-    var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
-    var countEl = document.getElementById("work-count");
-    var emptyEl = document.getElementById("work-empty");
-    var clearEl = document.getElementById("clear-filters");
-    var state = { stage: new Set(), tag: new Set() };
-
-    function apply(push) {
-      var shown = 0;
-      cards.forEach(function (c) {
-        var stageOk = state.stage.size === 0 || state.stage.has(c.dataset.stage);
-        var cardTags = (c.dataset.tags || "").split(" ").filter(Boolean);
-        var tagOk = state.tag.size === 0 || cardTags.some(function (t) { return state.tag.has(t); });
-        var on = stageOk && tagOk;
-        c.hidden = !on;
-        if (on) shown++;
-      });
-      chips.forEach(function (ch) {
-        ch.setAttribute("aria-pressed", state[ch.dataset.facet].has(ch.dataset.value) ? "true" : "false");
-      });
-      countEl.textContent = shown + " of " + cards.length;
-      emptyEl.hidden = shown !== 0;
-      var any = state.stage.size + state.tag.size > 0;
-      clearEl.hidden = !any;
-      if (push) {
-        var parts = [];
-        if (state.stage.size) parts.push("stage=" + Array.from(state.stage).join(","));
-        if (state.tag.size) parts.push("field=" + Array.from(state.tag).join(","));
-        history.replaceState(null, "", parts.length ? "#work?" + parts.join("&") : location.pathname + "#work");
-      }
-    }
-    function read() {
-      var q = location.hash.indexOf("?");
-      state.stage = new Set(); state.tag = new Set();
-      if (q === -1) return;
-      new URLSearchParams(location.hash.slice(q + 1)).forEach(function (val, key) {
-        var into = key === "stage" ? state.stage : key === "field" ? state.tag : null;
-        if (into) val.split(",").filter(Boolean).forEach(function (v) { into.add(v); });
-      });
-    }
-    chips.forEach(function (ch) {
-      ch.addEventListener("click", function () {
-        var set = state[ch.dataset.facet];
-        if (set.has(ch.dataset.value)) set.delete(ch.dataset.value); else set.add(ch.dataset.value);
-        apply(true);
-      });
-    });
-    function clear() { state.stage.clear(); state.tag.clear(); apply(true); }
-    clearEl.addEventListener("click", clear);
-    Array.prototype.forEach.call(document.querySelectorAll("[data-clear]"), function (b) { b.addEventListener("click", clear); });
-    window.addEventListener("hashchange", function () { read(); apply(false); });
-    read(); apply(false);
-  })();
-  </script>`;
+const FILTER_SCRIPT = `  <script type="module" src="/work-filter.mjs"></script>`;
 
 // ── pages ───────────────────────────────────────────────────────────────────
 export function homePage(all, packages, cfg, origin) {
@@ -512,7 +454,7 @@ ${workSection(all, cfg)}
           <p class="lede">${esc(cfg.packages_lede ?? "")}</p>
         </div>
         <div class="grid">
-${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.slug], ventureBySlug, alias)).join("\n")}
+${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.slug], ventureBySlug, alias, cfg.packageGroups?.find((g) => g.id === cfg.packages?.[p.slug]?.group))).join("\n")}
         </div>
       </div>
     </section>
@@ -979,6 +921,14 @@ export function render({ map, packages, origin, cfg, hire }) {
   const files = new Map();
   files.set("index.html", homePage(all, packages, cfg, origin));
   files.set("packages/index.html", packagesPage(packages, cfg, all));
+  files.set("packages-filter.mjs", readFileSync(join(here, "packages-filter.mjs"), "utf8"));
+  files.set("work-filter.mjs", readFileSync(join(here, "work-filter.mjs"), "utf8"));
+  const listkitDist = join(here, "..", "node_modules", "listkit", "dist");
+  if (!existsSync(join(listkitDist, "index.js"))) throw new Error("missing listkit browser modules — run: pnpm install");
+  files.set("vendor/listkit/LICENSE", readFileSync(join(here, "..", "node_modules", "listkit", "LICENSE"), "utf8"));
+  for (const name of readdirSync(listkitDist).filter((name) => name.endsWith(".js"))) {
+    files.set(`vendor/listkit/${name}`, readFileSync(join(listkitDist, name), "utf8"));
+  }
   const shown = shownPackages(packages, cfg);
   for (const p of shown) files.set(`packages/${p.slug}/index.html`, packagePage(p, cfg, all, shown));
   files.set("studio/index.html", studioPage(all, packages, origin));
@@ -1002,6 +952,7 @@ if (isMain) {
   const cfg = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
   const hire = JSON.parse(readFileSync(join(here, "hire.json"), "utf8"));
   const { all, files } = render({ map, packages, origin, cfg, hire });
+  const pageCount = [...files.keys()].filter((file) => file.endsWith("index.html")).length;
 
   // A shot the page references must exist: a broken image on a product page
   // is worse than no product page.
@@ -1039,7 +990,7 @@ if (isMain) {
       if (want !== have) { console.error("stale: dist/tokens.css — the design tokens moved"); stale++; }
     }
     if (stale) { console.error(`site/dist is behind the sources — run: node site/build.mjs`); process.exit(1); }
-    console.log(`site/dist is in sync (${files.size} pages)`);
+    console.log(`site/dist is in sync (${pageCount} pages, ${files.size} generated files)`);
   } else {
     for (const [rel, html] of files) {
       mkdirSync(dirname(join(DIST, rel)), { recursive: true });
@@ -1047,7 +998,7 @@ if (isMain) {
     }
     // Pages for ventures that no longer exist must not linger.
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
-      if (d.isDirectory() && !["shots", "fonts", "packages", "studio", "hire", "og"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
+      if (d.isDirectory() && !["shots", "fonts", "packages", "studio", "hire", "og", "vendor"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
     cpSync(join(here, "styles.css"), join(DIST, "styles.css"));
     // Same rule, fewer generations — a favicon that cannot drift from the logo.
@@ -1066,7 +1017,7 @@ if (isMain) {
       readFileSync(join(tokensDir, "tokens.css"), "utf8").replace(/url\(\.\/fonts\//g, "url(/fonts/"),
     );
     cpSync(join(tokensDir, "fonts"), join(DIST, "fonts"), { recursive: true });
-    console.log(`wrote site/dist: ${files.size} pages (${all.length} ventures, ${(packages.packages ?? []).length} packages), map ${map.generatedAt ?? "snapshot"}`);
+    console.log(`wrote site/dist: ${pageCount} pages (${all.length} ventures, ${(packages.packages ?? []).length} packages), map ${map.generatedAt ?? "snapshot"}`);
     const orphans = all.filter((v) => v.uses.length === 0 && v.stage !== "next" && v.stage !== "concept").map((v) => v.slug);
     if (orphans.length) console.log(`  no shared packages recorded for: ${orphans.join(", ")}`);
   }

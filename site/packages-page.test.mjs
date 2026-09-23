@@ -23,6 +23,14 @@ test("package cards show published npm versions and adopter counts", () => {
   assert.match(html, /class="pill">0 apps<\/span>/);
   assert.match(html, /Explore paykit/);
   assert.match(html, /Developer profile/);
+  assert.match(html, /id="package-search"/);
+  assert.match(html, /id="package-group"/);
+  assert.match(html, /id="package-adoption"/);
+  assert.match(html, /id="package-sort"/);
+  assert.match(html, /data-description="Tools for model work\."/);
+  assert.match(html, /data-adoption="new"/);
+  assert.match(html, /data-adoption="adopted"/);
+  assert.match(html, /src="\/packages-filter\.mjs"/);
 });
 
 test("package detail links to canonical docs and version history and tells the truth about adoption", () => {
