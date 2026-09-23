@@ -10,6 +10,8 @@ on:
       - 'pnpm-lock.yaml'
       - 'pnpm-workspace.yaml'
   workflow_dispatch:
+  repository_dispatch:
+    types: [package-registry-updated]
 
 concurrency:
   group: bitbaum-site-main

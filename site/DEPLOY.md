@@ -122,5 +122,6 @@ two builds, including the pinned listkit browser modules, and so `--check`
 can fail when the sources moved and the site did not. Main-branch changes to
 the site or its workflow run tests, rebuild from current Loki/Fleet sources,
 commit updated snapshots and generated pages, then publish to Hetzner and
-verify the public routes. Run `Deploy Bitbaum site` manually from Actions to
-retry a failed publish; the normal `push` path is automatic.
+verify the public routes. Fleet dispatches a refresh when its derived package
+registry changes. Run `Deploy Bitbaum site` manually from Actions to retry a
+failed publish; ordinary site changes also publish on `push`.
