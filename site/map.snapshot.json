@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T16:25:47.718Z",
+  "generatedAt": "2026-09-23T13:28:37.612Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -9,8 +9,8 @@
     },
     {
       "slug": "loki",
-      "layer": "capability",
-      "role": "Get work built: a captain over a fleet of agents, with verification and approval built in."
+      "layer": "execution",
+      "role": "Get the work done: a captain over a fleet of agents, with verification and approval built in — and the people, commitments and spending the work runs on."
     },
     {
       "slug": "solon",
@@ -30,7 +30,7 @@
       "name": "loki",
       "what": "Capability layer: a captain over a fleet of AI agents that builds and ships projects, with verification and approval built in — improve it by typing into it",
       "stack": "Next.js 16 App Router · TypeScript strict · Tailwind 4 + ui-* design system (globals.css SSOT) · Drizzle ORM + PostgreSQL 17 (self-hosted Hetzner) · box-runner + Fleet Runner desktop (Electron, node-pty) · pgvector fleet-knowledge RAG (fastembed 384-dim) · Auth.js (GitHub/Google/X/email + OrangeCat OIDC)",
-      "layer": "capability",
+      "layer": "execution",
       "status": "live",
       "owner": "bitbaum",
       "since": null,
@@ -53,16 +53,44 @@
           "progress": 85,
           "targetDate": "2026-04-29",
           "milestones": [
-            "Schema + seed",
-            "App shell + navigation",
-            "Today view",
-            "People view",
-            "Money view",
-            "Goals view",
-            "Projects view",
-            "System + Memory views",
-            "Polish + bug fixes"
-          ]
+            {
+              "title": "Schema + seed",
+              "done": true
+            },
+            {
+              "title": "App shell + navigation",
+              "done": true
+            },
+            {
+              "title": "Today view",
+              "done": true
+            },
+            {
+              "title": "People view",
+              "done": true
+            },
+            {
+              "title": "Money view",
+              "done": true
+            },
+            {
+              "title": "Goals view",
+              "done": true
+            },
+            {
+              "title": "Projects view",
+              "done": true
+            },
+            {
+              "title": "System + Memory views",
+              "done": true
+            },
+            {
+              "title": "Polish + bug fixes",
+              "done": false
+            }
+          ],
+          "source": null
         },
         {
           "title": "Loki Phase 2 — Adapters",
@@ -70,11 +98,24 @@
           "progress": 0,
           "targetDate": "2026-07-30",
           "milestones": [
-            "Gmail adapter",
-            "Calendar adapter",
-            "GitHub adapter",
-            "Bank CSV import"
-          ]
+            {
+              "title": "Gmail adapter",
+              "done": false
+            },
+            {
+              "title": "Calendar adapter",
+              "done": false
+            },
+            {
+              "title": "GitHub adapter",
+              "done": false
+            },
+            {
+              "title": "Bank CSV import",
+              "done": false
+            }
+          ],
+          "source": null
         },
         {
           "title": "Build Ivy into a Life OS",
@@ -82,13 +123,32 @@
           "progress": 30,
           "targetDate": "2027-06-29",
           "milestones": [
-            "Knowledge graph operational",
-            "Cockpit dashboard live",
-            "Social graph imported",
-            "Adapters: Gmail, Calendar, GitHub",
-            "Ivy proactive actions",
-            "Multi-user ready"
-          ]
+            {
+              "title": "Knowledge graph operational",
+              "done": true
+            },
+            {
+              "title": "Cockpit dashboard live",
+              "done": true
+            },
+            {
+              "title": "Social graph imported",
+              "done": true
+            },
+            {
+              "title": "Adapters: Gmail, Calendar, GitHub",
+              "done": false
+            },
+            {
+              "title": "Ivy proactive actions",
+              "done": false
+            },
+            {
+              "title": "Multi-user ready",
+              "done": false
+            }
+          ],
+          "source": null
         },
         {
           "title": "Runner stall: auto-recovery & alerting",
@@ -96,10 +156,20 @@
           "progress": 100,
           "targetDate": null,
           "milestones": [
-            "Detect execution-stall (pushes alive, command loop hung)",
-            "Auto-recover: re-dispatch / restart runner on stall",
-            "Alert operator (push / Telegram) when a stall is detected"
-          ]
+            {
+              "title": "Detect execution-stall (pushes alive, command loop hung)",
+              "done": true
+            },
+            {
+              "title": "Auto-recover: re-dispatch / restart runner on stall",
+              "done": true
+            },
+            {
+              "title": "Alert operator (push / Telegram) when a stall is detected",
+              "done": true
+            }
+          ],
+          "source": null
         },
         {
           "title": "Capture run outcomes (Done/Failed/commit), not just dispatches",
@@ -107,11 +177,24 @@
           "progress": 100,
           "targetDate": null,
           "milestones": [
-            "Persist outcome (success/partial/error/hang/abort/timeout)",
-            "Capture resulting commit SHA per run",
-            "Build run summary from the SSOT field array (no dropped fields)",
-            "Surface outcomes in the activity timeline + analytics view"
-          ]
+            {
+              "title": "Persist outcome (success/partial/error/hang/abort/timeout)",
+              "done": true
+            },
+            {
+              "title": "Capture resulting commit SHA per run",
+              "done": true
+            },
+            {
+              "title": "Build run summary from the SSOT field array (no dropped fields)",
+              "done": true
+            },
+            {
+              "title": "Surface outcomes in the activity timeline + analytics view",
+              "done": false
+            }
+          ],
+          "source": null
         },
         {
           "title": "Truthful-state chips on project cards",
@@ -119,10 +202,20 @@
           "progress": 100,
           "targetDate": null,
           "milestones": [
-            "'no commit' warning when a done run left no git trace",
-            "Stale-running / execution-stall chip",
-            "Surface block-reason / no-op-count as chips"
-          ]
+            {
+              "title": "'no commit' warning when a done run left no git trace",
+              "done": true
+            },
+            {
+              "title": "Stale-running / execution-stall chip",
+              "done": true
+            },
+            {
+              "title": "Surface block-reason / no-op-count as chips",
+              "done": false
+            }
+          ],
+          "source": null
         },
         {
           "title": "Finish zellij -> Loki-owned PTY terminal migration",
@@ -130,11 +223,24 @@
           "progress": 100,
           "targetDate": null,
           "milestones": [
-            "Single transport-parameterized xterm view",
-            "node-pty owned-PTY executor in Fleet Runner",
-            "Cut dispatch path from zellij name-puppeting to owned PTY",
-            "Remove zellij dependency from the launch flow"
-          ]
+            {
+              "title": "Single transport-parameterized xterm view",
+              "done": true
+            },
+            {
+              "title": "node-pty owned-PTY executor in Fleet Runner",
+              "done": false
+            },
+            {
+              "title": "Cut dispatch path from zellij name-puppeting to owned PTY",
+              "done": false
+            },
+            {
+              "title": "Remove zellij dependency from the launch flow",
+              "done": false
+            }
+          ],
+          "source": null
         },
         {
           "title": "Deploy on origin/main + auto-migrate + rollback/alert",
@@ -142,11 +248,24 @@
           "progress": 75,
           "targetDate": null,
           "milestones": [
-            "Push-to-deploy on main (pre-push backgrounds the deploy)",
-            "Post-deploy verification (sign-in / health / providers)",
-            "Auto-run drizzle migrate on deploy (ledger-based)",
-            "Auto-rollback + alert on failed verification"
-          ]
+            {
+              "title": "Push-to-deploy on main (pre-push backgrounds the deploy)",
+              "done": true
+            },
+            {
+              "title": "Post-deploy verification (sign-in / health / providers)",
+              "done": true
+            },
+            {
+              "title": "Auto-run drizzle migrate on deploy (ledger-based)",
+              "done": false
+            },
+            {
+              "title": "Auto-rollback + alert on failed verification",
+              "done": true
+            }
+          ],
+          "source": null
         },
         {
           "title": "One context assembler: Global+Project+Session into EVERY dispatch",
@@ -154,11 +273,24 @@
           "progress": 70,
           "targetDate": null,
           "milestones": [
-            "Global operating principles injected (Global tier)",
-            "Project brief + active goals injected via getProjectContext",
-            "Session handoff injected on every dispatch path",
-            "Close the /api/inject-core bypass (one assembler, all paths)"
-          ]
+            {
+              "title": "Global operating principles injected (Global tier)",
+              "done": true
+            },
+            {
+              "title": "Project brief + active goals injected via getProjectContext",
+              "done": true
+            },
+            {
+              "title": "Session handoff injected on every dispatch path",
+              "done": true
+            },
+            {
+              "title": "Close the /api/inject-core bypass (one assembler, all paths)",
+              "done": false
+            }
+          ],
+          "source": null
         },
         {
           "title": "i18n missing-key tooling + national-locale SLAs",
@@ -166,10 +298,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Tooling / CI check that fails on missing translation keys",
-            "Per-locale completeness report",
-            "Define national-locale SLAs (de-CH first)"
-          ]
+            {
+              "title": "Tooling / CI check that fails on missing translation keys",
+              "done": false
+            },
+            {
+              "title": "Per-locale completeness report",
+              "done": false
+            },
+            {
+              "title": "Define national-locale SLAs (de-CH first)",
+              "done": false
+            }
+          ],
+          "source": null
         },
         {
           "title": "OC seam: wallet context for Loki",
@@ -177,10 +319,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "OC v1 GET /wallets honoring wallet.read bearer",
-            "FC: Economy line in Loki fleet context",
-            "Graceful degradation when unlinked"
-          ]
+            {
+              "title": "OC v1 GET /wallets honoring wallet.read bearer",
+              "done": false
+            },
+            {
+              "title": "FC: Economy line in Loki fleet context",
+              "done": false
+            },
+            {
+              "title": "Graceful degradation when unlinked",
+              "done": false
+            }
+          ],
+          "source": null
         },
         {
           "title": "OC seam: verify BTC pass with a real sats purchase",
@@ -188,11 +340,24 @@
           "progress": 90,
           "targetDate": null,
           "milestones": [
-            "OC pass products live",
-            "Webhook secret set both ends",
-            "Signed test grant verified e2e",
-            "Real sats purchase confirms plan flip"
-          ]
+            {
+              "title": "OC pass products live",
+              "done": true
+            },
+            {
+              "title": "Webhook secret set both ends",
+              "done": true
+            },
+            {
+              "title": "Signed test grant verified e2e",
+              "done": true
+            },
+            {
+              "title": "Real sats purchase confirms plan flip",
+              "done": false
+            }
+          ],
+          "source": null
         },
         {
           "title": "OC seam: genesis flow — one sentence to funded workspace",
@@ -200,11 +365,24 @@
           "progress": 10,
           "targetDate": null,
           "milestones": [
-            "Funding events → FC activity (shipped)",
-            "OC Build-CTA carries project payload into FC new-project flow",
-            "Counterpart-missing suggestion rows both sides",
-            "One-conversation genesis orchestration"
-          ]
+            {
+              "title": "Funding events → FC activity (shipped)",
+              "done": true
+            },
+            {
+              "title": "OC Build-CTA carries project payload into FC new-project flow",
+              "done": false
+            },
+            {
+              "title": "Counterpart-missing suggestion rows both sides",
+              "done": false
+            },
+            {
+              "title": "One-conversation genesis orchestration",
+              "done": false
+            }
+          ],
+          "source": null
         },
         {
           "title": "OC seam: backer live-build peek on OC project pages",
@@ -212,15 +390,90 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Scoped read-only peek token on FC",
-            "OC project-page embed behind funding check"
-          ]
+            {
+              "title": "Scoped read-only peek token on FC",
+              "done": false
+            },
+            {
+              "title": "OC project-page embed behind funding check",
+              "done": false
+            }
+          ],
+          "source": null
         }
       ],
       "changelog": [
         {
-          "date": "2026-09-18",
-          "done": "Hosted dispatch (Hermes) FAILED — # Loki operator dispatch\nEverything in this message is assem"
+          "date": "2026-09-22",
+          "done": "REPLAN — capacity is the blocker; filed pending human blocker for provider switch; refused T2 churn."
+        },
+        {
+          "date": "2026-09-22",
+          "done": "e2e ok — no changes"
+        },
+        {
+          "date": "2026-09-22",
+          "done": "Escalation is capacity not code; second next_best with empty rules 0–8 — Stop, no T2 churn."
+        },
+        {
+          "date": "2026-09-22",
+          "done": "Autopilot Stop — rules 0–8 empty after #820 shipped; refused to invent T2 churn."
+        },
+        {
+          "date": "2026-09-21",
+          "done": "e2e ok — no changes"
+        },
+        {
+          "date": "2026-09-21",
+          "done": "Found and fixed the reason the fleet could stop executing silently — `closeRunUndelivered` was the ONLY failing-close path that never called `advanceEscalation` (the funnel and reaper both do), so a dispatch dying before reaching an agent could never build a streak and never reached the `human` rung that raises an alert; its `notifyRunClosed` self-gates on `payload.notifyOnClose`, which automation never carries, so those closes told nobody. Prod evidence: 6 dispatches failed across 4 projects (loki, kivvi, solon, reparaturbonus-zh) in 12h on an exhausted Claude quota while the newest alert was 6 days old. Shipped as PR #820 (ed27d519) with scripts/test/undelivered-close-escalates.ts, revert-verified."
+        },
+        {
+          "date": "2026-09-21",
+          "done": "Closed the open end-to-end proof of 1f7966ef with production evidence — 41 of 41 reaped partials BEFORE the deploy had a NULL summary, and the first one after (2026-09-20 21:19) carries the full handoff (tsc/lint/tests/done/next/commit) — then ran a second rule-8 search that found nothing T0/T1 and recorded its two T2 findings in ~/.loki/sessions/loki.roadmap.md instead of acting on them."
+        },
+        {
+          "date": "2026-09-21",
+          "done": "e2e ok — no changes"
+        },
+        {
+          "date": "2026-09-20",
+          "done": "Verified last run's shipped fix is live and correct (health commit 1f7966ef, module on the box, call site wired), synced the checkout off the merged branch onto main, and ran the rule-8 search for another adjacent broken thing — which found none that is real: the one candidate (`requiresVerification` declared on all 12 intents and read by nothing) is provably latent, because `hard_stop` and `continue` have ZERO runs in prod history, so nothing is broken and no user is blocked."
+        },
+        {
+          "date": "2026-09-20",
+          "done": "A run the reaper stamps `partial` — on proof the agent HAD saved a handoff — now carries that handoff onto the run instead of recording a verdict with a NULL summary (8 of the last 12 closed loki runs were empty this way, ~every 6h for 3 days). PR #816 merged as 1f7966ef and is LIVE: /api/health commit == 1f7966ef, loki-app active, src/lib/orchestration/reap-handoff.ts present on the box and the reaper call site wired."
+        },
+        {
+          "date": "2026-09-20",
+          "done": "A run the reaper stamps `partial` — on proof the agent HAD saved a handoff — now carries that handoff onto the run instead of recording a verdict with a NULL summary (8 of the last 12 closed loki runs were empty this way, ~every 6h for 3 days); shipped as PR #816 (c5218a70), pure mapper in summary.ts + scripts/test/reap-handoff.ts."
+        },
+        {
+          "date": "2026-09-20",
+          "done": "A run the reaper stamps `partial` — on proof the agent HAD saved a handoff — now carries that handoff onto the run instead of recording a verdict with a NULL summary (8 of the last 12 closed loki runs were empty this way, ~every 6h for 3 days); shipped as PR #816 (c5218a70) with a pure mapper in summary.ts and scripts/test/reap-handoff.ts."
+        },
+        {
+          "date": "2026-09-20",
+          "done": "e2e ok — no changes"
+        },
+        {
+          "date": "2026-09-20",
+          "done": "Two of #584's bullets. (1) LIVE as 451ac5de (PR #800): expired dates no longer reach dispatches as \"near-term commitments\" — confirmed by a later dispatch's own preamble rendering \"was due 2026-07-03 (OVERDUE)\" and \"(PAST, not met)\", correctly reordered nearest-first. (2) Committed ed5505b9: the hosted runner wrote the run's output — on failure the raw stderr — into the dev-log `next`, which the dossier re-serves to every later dispatch as the project's next step, and stamped health \"good\" on FAILED runs; `done` was the first 100 chars of the dispatch envelope. Now built in src/lib/hosted-run-log.ts from the outcome, with extractOperatorTask recovering the real ask."
+        },
+        {
+          "date": "2026-09-20",
+          "done": "Shipped and verified live the first bullet of #584 (PR #800, merged as 451ac5de): expired dates no longer reach every dispatch as \"near-term commitments\" — overdue rows render \"was due <date> (OVERDUE)\" and missed goal targets \"(PAST, not met)\"; listUpcomingCommitments now orders by distance from today instead of due_date ASC (ascending over an unfloored set let the two most-expired rows take the whole LIMIT 8, crowding out anything genuinely due); isOverdue added to lib/dates.ts comparing printed dates so the label cannot contradict the date beside it; lib/agent/brief.ts states its real SQL predicate and labels its own overdue rows. Prod /api/health serves 451ac5de and the deployed bundle carries the new strings with zero occurrences of \"near-term commitments\"."
+        },
+        {
+          "date": "2026-09-20",
+          "done": "Landed PR #800 (first bullet of #584) — expired dates no longer reach every dispatch as \"near-term commitments\"; CI green, squash-merged to main as 451ac5de."
+        },
+        {
+          "date": "2026-09-20",
+          "done": "Shipped PR #800 for the first bullet of #584 — expired dates reaching every dispatch as \"near-term commitments\"; committed bfd8b6e5, pre-push verify green, PR open and non-draft."
+        },
+        {
+          "date": "2026-09-20",
+          "done": "Fixed the first bullet of #584 — expired dates reaching every dispatch as \"near-term commitments\" (PR #800): overdue rows now render \"was due <date> (OVERDUE)\" / \"target <date> (PAST, not met)\", listUpcomingCommitments orders by distance from today instead of due_date ASC (ascending over an unfloored set let the two most-expired rows take the whole LIMIT 8), isOverdue added to lib/dates.ts comparing printed dates so the word cannot disagree with the date beside it, and lib/agent/brief.ts now states its real predicate and labels its own overdue rows."
         },
         {
           "date": "2026-09-18",
@@ -229,86 +482,18 @@
         {
           "date": "2026-09-18",
           "done": "Made the fix ledger apply to REPORTING the same run-ownership rule it already applied to merging, so a pull request the run never opened can no longer render \"Live · confirm\" on a report nobody acted on — merged as 98e775a8, Deploy green, box serving it."
-        },
-        {
-          "date": "2026-09-18",
-          "done": "Made the fix ledger apply to REPORTING the same run-ownership rule it already applied to merging, so a pull request the run never opened can no longer render \"Live · confirm\"."
-        },
-        {
-          "date": "2026-09-18",
-          "done": "Rescued an abandoned FeedbackReportText extraction from the shared checkout, folded it onto PR #783 in place of that PR's inline clamp and three new CSS classes, and shipped it — merged as 9f678bc1, Deploy green, box serving it."
-        },
-        {
-          "date": "2026-09-18",
-          "done": "Folded the stranded FeedbackReportText extraction out of the shared checkout onto PR #783, replacing its inline clamp and three new CSS classes."
-        },
-        {
-          "date": "2026-09-18",
-          "done": "Hosted dispatch (Hermes) — # Loki operator dispatch\nEverything in this message is assembled by Lo"
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Hosted dispatch (Hermes) — # Loki operator dispatch\nEverything in this message is assembled by Lo"
-        },
-        {
-          "date": "2026-09-17",
-          "done": "e2e ok — no changes"
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Verified current main (5f4797e) is clean and green and found no rule 0-8 work — builderOffline now has exactly one definition (run-context.ts) and every deriveFeedbackWork caller hydrates or passes null, so this session's two shipped fixes are complete and consistent."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Shipped one builder-offline answer for Watch, Terminal and Implement's duplicate-guard (PR #773, merged 4c3237c) and confirmed LIVE — /api/health reports commit 4c3237c, loki-app active, run-context.ts present in /opt/loki/app/src, all four changed routes answer 401/405 not 500."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "One builder-offline answer for Watch, Terminal and Implement's duplicate-guard merged to main as 4c3237c (PR #773)."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "e2e ok — no changes"
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Gave Watch, Terminal and Implement's duplicate-guard the same builder-offline answer as the inbox — the guard was refusing the retry the row asked for; extracted to src/lib/feedback/run-context.ts with tests. PR #773 open at 6b953ca1."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Shipped builder-offline honesty after delivery — merged as c1165182 (PR #769) and confirmed LIVE on bitbaum (/api/health reports commit c1165182, loki-app active, both changed files present in /opt/loki/app/src, feedback routes 401 not 500)."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Builder-offline honesty after delivery merged to main as c1165182 (PR #769)."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Made the feedback row honest when a builder goes offline after the runner claimed the command — the offline phase guard was keyed on !deliveredAt (unreachable, since the runner acks within ~8s) and builderChannel evaporated with the open pending row, so a local run read healthy whenever the cloud box was up; PR #769 open at 1cb4f137."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Committed 1cb4f137 — builder-offline truth after delivery; preserved stranded uncommitted work as wip/builder-channel-honesty-snapshot (404f801e, pushed)."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "e2e ok — no changes"
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Fixed a half-wiring from b71941be — the operator's provider ranking now governs Control's capacity banner and the headless /api/beacon reroute, which were both still walking the hardcoded fleet order; PR #760 open."
         }
       ],
-      "next": "Command failed: git -C /tmp/fc-hermes-2yJBwW push origin HEAD:refs/heads/hermes/loki-operator-dispatch-everythin-mu70f59e\nremote: Permission to bitbaum/loki.git denied to catomean.\nfatal: unable to access 'https://github.com/bitbaum/loki/': The requested URL returned error: 403",
+      "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-09-18T14:27:27.653Z"
+          "outcome": "error",
+          "at": "2026-09-22T19:43:35.930Z"
         },
         "lastLog": {
-          "date": "2026-09-18",
-          "done": "Hosted dispatch (Hermes) FAILED — # Loki operator dispatch\nEverything in this message is assem"
+          "date": "2026-09-22",
+          "done": "REPLAN — capacity is the blocker; filed pending human blocker for provider switch; refused T2 churn."
         }
       }
     },
@@ -340,11 +525,24 @@
           "progress": 25,
           "targetDate": "2026-09-29",
           "milestones": [
-            "Auth system complete",
-            "Listing flow",
-            "Payment integration",
-            "Public beta"
-          ]
+            {
+              "title": "Auth system complete",
+              "done": true
+            },
+            {
+              "title": "Listing flow",
+              "done": false
+            },
+            {
+              "title": "Payment integration",
+              "done": false
+            },
+            {
+              "title": "Public beta",
+              "done": false
+            }
+          ],
+          "source": null
         }
       ],
       "changelog": [
@@ -466,14 +664,27 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Publish public roadmap and changelog without authentication",
-            "Link signed-decision and source-code evidence from the development profile",
-            "Verify public development pages on mobile and desktop",
-            "Source: https://github.com/bitbaum/solon/blob/b67dfa6d4583427d25849ee40a93402c7e404420/README.md"
-          ]
+            {
+              "title": "Publish public roadmap and changelog without authentication",
+              "done": false
+            },
+            {
+              "title": "Link signed-decision and source-code evidence from the development profile",
+              "done": false
+            },
+            {
+              "title": "Verify public development pages on mobile and desktop",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/b67dfa6d4583427d25849ee40a93402c7e404420/README.md"
         }
       ],
       "changelog": [
+        {
+          "date": "2026-09-21",
+          "done": "Committed a root .nvmrc reading 24 and pointed both CI jobs at it via node-version-file, so verify, integration and the shared deploy now resolve the same Node major from one declaration — merged as PR #174, CI green, Deploy green, deploy log confirms \"Node version from .nvmrc: 24\", solon.orangecat.ch 200."
+        },
         {
           "date": "2026-09-01",
           "done": "Resolved a diverged local main (1 unpushed commit, 20 behind) by re-landing its still-needed content on a branch — renamed the last catomean/maonakamoto references to bitbaum across the /about and /security source links, ecosystem.ts, README, the design-tokens git dependency and the sweep script — and fixed npm run verify, which was failing locally on .claude/worktrees/ and .claude/settings.local.json, files CI never sees; merged as PR #135, Deploy green, health 200 and both live pages now link to github.com/bitbaum/solon."
@@ -495,16 +706,16 @@
           "done": "Fixed the dashboard voting flow (rule 8, adjacent broken thing) — wallet-connect never propagated the address (searchParams.pub was read nowhere) and the vote button sent the wrong payload shape (vote_choice/public_key vs the API's choice/address/signature) while always alerting fake success regardless of the real response; now the address flows through, the payload matches the API contract, and the UI shows the server's real success/failure."
         }
       ],
-      "next": "PR #133 said \"CI and .nvmrc follow the box to Node 24\" but no .nvmrc was ever committed — ci.yml pins node-version 24 while the shared deploy workflow annotates \"no .nvmrc — building on Node 20\" and ships an artifact built on the older major. Commit a root .nvmrc reading 24 so the deployed build matches what CI validated.",
+      "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-09-01T04:10:10.797Z"
+          "outcome": "error",
+          "at": "2026-09-23T04:01:53.191Z"
         },
         "lastLog": {
-          "date": "2026-09-01",
-          "done": "Resolved a diverged local main (1 unpushed commit, 20 behind) by re-landing its still-needed content on a branch — renamed the last catomean/maonakamoto references to bitbaum across the /about and /security source links, ecosystem.ts, README, the design-tokens git dependency and the sweep script — and fixed npm run verify, which was failing locally on .claude/worktrees/ and .claude/settings.local.json, files CI never sees; merged as PR #135, Deploy green, health 200 and both live pages now link to github.com/bitbaum/solon."
+          "date": "2026-09-21",
+          "done": "Committed a root .nvmrc reading 24 and pointed both CI jobs at it via node-version-file, so verify, integration and the shared deploy now resolve the same Node major from one declaration — merged as PR #174, CI green, Deploy green, deploy log confirms \"Node version from .nvmrc: 24\", solon.orangecat.ch 200."
         }
       }
     },
@@ -536,11 +747,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Reconcile the Express and Next.js endpoint inventory",
-            "Choose one deployed handler for each capture, analysis and delivery operation",
-            "Verify the browser-to-worker ingestion path and failure reporting",
-            "Source: https://github.com/bitbaum/datacat/blob/634ea86168f221761ae2899ec46f1419be655e65/README.md"
-          ]
+            {
+              "title": "Reconcile the Express and Next.js endpoint inventory",
+              "done": false
+            },
+            {
+              "title": "Choose one deployed handler for each capture, analysis and delivery operation",
+              "done": false
+            },
+            {
+              "title": "Verify the browser-to-worker ingestion path and failure reporting",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/datacat/blob/634ea86168f221761ae2899ec46f1419be655e65/README.md"
         }
       ],
       "changelog": [
@@ -666,11 +886,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Verify which listing subcategories reach the storefront",
-            "Use available inventory for component matches; keep unavailable products explicit",
-            "Retain evidence for price, stock and condition claims",
-            "Source: https://github.com/bitbaum/evig/blob/e2c67d8aa5ca90ea9a636f27396a27bde17d0a5c/docs/ROADMAP.md"
-          ]
+            {
+              "title": "Verify which listing subcategories reach the storefront",
+              "done": false
+            },
+            {
+              "title": "Use available inventory for component matches; keep unavailable products explicit",
+              "done": false
+            },
+            {
+              "title": "Retain evidence for price, stock and condition claims",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/evig/blob/e2c67d8aa5ca90ea9a636f27396a27bde17d0a5c/docs/ROADMAP.md"
         },
         {
           "title": "Finish approval-hub discovery",
@@ -678,10 +907,16 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Review per-type destinations and permission boundaries",
-            "Add useful filter chips without creating a second approval-count engine",
-            "Source: https://github.com/bitbaum/evig/blob/e2c67d8aa5ca90ea9a636f27396a27bde17d0a5c/docs/ROADMAP.md"
-          ]
+            {
+              "title": "Review per-type destinations and permission boundaries",
+              "done": false
+            },
+            {
+              "title": "Add useful filter chips without creating a second approval-count engine",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/evig/blob/e2c67d8aa5ca90ea9a636f27396a27bde17d0a5c/docs/ROADMAP.md"
         }
       ],
       "changelog": [
@@ -751,11 +986,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Capture what the learner did not understand with an explicit purpose",
-            "Keep product-use consent separate from research-corpus contribution",
-            "Use the resulting evidence to choose useful review material",
-            "Source: https://github.com/bitbaum/heidi/blob/e75493f917f88a19bd9c61882fbe6a8b9965a4b0/HEIDI.md"
-          ]
+            {
+              "title": "Capture what the learner did not understand with an explicit purpose",
+              "done": false
+            },
+            {
+              "title": "Keep product-use consent separate from research-corpus contribution",
+              "done": false
+            },
+            {
+              "title": "Use the resulting evidence to choose useful review material",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/heidi/blob/e75493f917f88a19bd9c61882fbe6a8b9965a4b0/HEIDI.md"
         },
         {
           "title": "Develop the listening lab from real recordings",
@@ -763,10 +1007,16 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Obtain recordings and permission to use them",
-            "Build cue-assisted listening exercises with a different-speaker evaluation",
-            "Source: https://github.com/bitbaum/heidi/blob/e75493f917f88a19bd9c61882fbe6a8b9965a4b0/HEIDI.md"
-          ]
+            {
+              "title": "Obtain recordings and permission to use them",
+              "done": false
+            },
+            {
+              "title": "Build cue-assisted listening exercises with a different-speaker evaluation",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/heidi/blob/e75493f917f88a19bd9c61882fbe6a8b9965a4b0/HEIDI.md"
         }
       ],
       "changelog": [
@@ -785,18 +1035,6 @@
         {
           "date": "2026-09-11",
           "done": "Added app/sitemap.ts, app/robots.ts, app/opengraph-image.tsx, and completed layout.tsx metadata (description, openGraph, twitter card) per the fleet distribution standard, sourcing all copy/colors from lib/config; opened PR #3 (feat/seo-distribution -> main)."
-        },
-        {
-          "date": "2026-09-10",
-          "done": "Hosted dispatch (Hermes) FAILED — Repo: https://github.com/bitbaum/heidi (Next.js 16 App Route"
-        },
-        {
-          "date": "2026-09-10",
-          "done": "Hosted dispatch (Hermes) FAILED — Repo: https://github.com/bitbaum/heidi (Next.js 16 App Route"
-        },
-        {
-          "date": "2026-09-10",
-          "done": "Hosted dispatch (Hermes) — Repo: https://github.com/bitbaum/heidi (Next.js 16 App Router, TypeScr"
         }
       ],
       "next": null,
@@ -840,11 +1078,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Publish canonical roadmap and factual changelog",
-            "Link profile, directory and marketplace implementation evidence",
-            "Verify public development routes separately from private owner records",
-            "Source: https://github.com/bitbaum/petvity/blob/18776a42518ea430cb4aeb5f89a9b4a319dd18a5/README.md"
-          ]
+            {
+              "title": "Publish canonical roadmap and factual changelog",
+              "done": false
+            },
+            {
+              "title": "Link profile, directory and marketplace implementation evidence",
+              "done": false
+            },
+            {
+              "title": "Verify public development routes separately from private owner records",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/petvity/blob/18776a42518ea430cb4aeb5f89a9b4a319dd18a5/README.md"
         }
       ],
       "changelog": [
@@ -894,11 +1141,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Replace remaining static organisation-profile imports with request-scoped tenant data",
-            "Make adding an organisation require database rows rather than application changes",
-            "Verify cross-organisation isolation and branding",
-            "Source: https://github.com/bitbaum/hirnli/blob/3fc983555c2f59c099790562eecb03e6d4f728cb/docs/HIRNLI-REPLATFORM-PLAN.md"
-          ]
+            {
+              "title": "Replace remaining static organisation-profile imports with request-scoped tenant data",
+              "done": false
+            },
+            {
+              "title": "Make adding an organisation require database rows rather than application changes",
+              "done": false
+            },
+            {
+              "title": "Verify cross-organisation isolation and branding",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/hirnli/blob/3fc983555c2f59c099790562eecb03e6d4f728cb/docs/HIRNLI-REPLATFORM-PLAN.md"
         }
       ],
       "changelog": [
@@ -959,28 +1215,32 @@
           "status": "completed",
           "progress": 100,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "Make Substrata a useful research companion",
           "status": "completed",
           "progress": 100,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "Enrich company, science and talent research",
           "status": "active",
           "progress": 50,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "Explore technology chains with checkable visuals",
           "status": "completed",
           "progress": 100,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         }
       ],
       "changelog": [
@@ -1030,14 +1290,35 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Expose public roadmap and changelog without opening patient routes",
-            "Separate delivered portal changes from unverified clinical outcome claims",
-            "Verify public pages and private-route boundaries",
-            "Source: https://github.com/bitbaum/surf-your-life/blob/759ab6fe838d0fecf478414fdc60bc2842f27f1e/README.md"
-          ]
+            {
+              "title": "Expose public roadmap and changelog without opening patient routes",
+              "done": false
+            },
+            {
+              "title": "Separate delivered portal changes from unverified clinical outcome claims",
+              "done": false
+            },
+            {
+              "title": "Verify public pages and private-route boundaries",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/surf-your-life/blob/759ab6fe838d0fecf478414fdc60bc2842f27f1e/README.md"
         }
       ],
       "changelog": [
+        {
+          "date": "2026-09-22",
+          "done": "Unblocked the dependency-update lane — the three react-hooks/purity errors failing Dependabot #73 are fixed by routing render-time cutoffs through one `msAgo()` helper in lib/utils, verified green on both the current plugin (7.0.1) and the bumped one (7.1.1); merged as efa1c12, Deploy green, prod 200."
+        },
+        {
+          "date": "2026-09-20",
+          "done": "Nothing — third consecutive autopilot run with no human message and no change in the repo (origin/main still e943567), so loop protection fired and no task was picked."
+        },
+        {
+          "date": "2026-09-19",
+          "done": "Autopilot review, second run in a row with no human message, found nothing high-impact and stopped (Stop brake + no-op loop protection): origin/main e943567 is unchanged since the last handoff; `pnpm verify` passes on it (eslint 0 warnings, tsc clean, 25 files / 651 tests passed); main CI is green; prod /de, /en and /api/health return 200."
+        },
         {
           "date": "2026-09-18",
           "done": "Autopilot review found no high-impact work — origin/main (e943567) passes `pnpm verify` (prettier clean, eslint 0 problems, tsc clean, 651/651 tests), CI on main is green, prod (/de, /en, /robots.txt, /sitemap.xml, /api/health) returns 200, prior session-next (lockfile) already resolved by the committed pnpm-lock.yaml, and the local feedback-widget branch is already on main; stopped per the Stop brake (awaiting_user — no high-impact work remains; project healthy, only T2 dep-bump churn left: Dependabot PR #71 is red on 3 new react-hooks/purity lint errors)."
@@ -1105,30 +1386,18 @@
         {
           "date": "2026-09-03",
           "done": "Re-confirmed appcron-surf-your-life-embed-backfill.service 503 is the same known, intentional fail-closed response (missing OPENAI_API_KEY on the box) already fixed and merged on origin/main in #33 — box-shaped, not a repo bug. Verified this feat/loki-feedback-widget branch (and local main) is a stale clone diverged from origin/main, but confirmed origin/main's route.ts still has the deliberate 503-when-key-missing logic. No repo changes made."
-        },
-        {
-          "date": "2026-09-02",
-          "done": "Autopilot rule 0 fired — pending blocker openai-api-key-missing.md still exists (OPENAI_API_KEY not set on bitbaum; embeddings inert), so surfaced its current contents to the user again instead of picking a new task; confirmed no repo changes since I last updated the blocker (still at bd7bc35, working tree clean)."
-        },
-        {
-          "date": "2026-09-02",
-          "done": "4th dispatch, same root cause — appcron-surf-your-life-embed-backfill.service 503 is still the intentional fail-closed response (PR #33) because OPENAI_API_KEY remains unset on bitbaum; embeddings (lib/domain/embeddings.ts, OpenAI text-embedding-3-small) are untouched by PR #49 and have no fallback provider, so this is still box-shaped, not repo-shaped. What changed: PR #49 (bd7bc35, merged 2026-09-01) dropped ANTHROPIC_API_KEY entirely — ai-chat now runs on ai-kit's Groq->OpenRouter chain (lib/domain/llm.ts) instead — so I corrected the stale blocker file at ~/.loki/sessions/surf-your-life.blockers/pending/openai-api-key-missing.md, which was still telling George to optionally add ANTHROPIC_API_KEY (a key that code no longer reads). Local .claude/worktrees/nav-contract (source of last run's lint crash) is gone — pnpm verify is fully clean."
-        },
-        {
-          "date": "2026-09-01",
-          "done": "Diagnosed appcron-surf-your-life-embed-backfill.service 503 as the intentional fail-closed response (route.ts on origin/main returns 503 in production when OPENAI_API_KEY is unset, by design, to make the silent-embedding-failure bug visible via paging) — box-shaped, not a repo bug; confirmed via journalctl the log line \"[embed-backfill] OPENAI_API_KEY is not set\" preceded the 503 at 03:00:01 UTC, confirmed the app is otherwise healthy (direct curl to 127.0.0.1:4009 returns 401/307 as expected), and made no repo changes."
         }
       ],
-      "next": null,
+      "next": "Dependabot #73 (21 minor/patch updates) has not picked up the `@dependabot rebase` comment yet — head is still 8ab240b with the stale red run; once it rebases onto efa1c12 its CI should pass. #63 (vitest) is red for an unrelated reason: transitive electron-to-chromium@1.5.434 is inside the 24h minimumReleaseAge window, so it clears itself on a later rebase.",
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-09-18T04:02:35.709Z"
+          "outcome": "error",
+          "at": "2026-09-23T04:00:41.210Z"
         },
         "lastLog": {
-          "date": "2026-09-18",
-          "done": "Autopilot review found no high-impact work — origin/main (e943567) passes `pnpm verify` (prettier clean, eslint 0 problems, tsc clean, 651/651 tests), CI on main is green, prod (/de, /en, /robots.txt, /sitemap.xml, /api/health) returns 200, prior session-next (lockfile) already resolved by the committed pnpm-lock.yaml, and the local feedback-widget branch is already on main; stopped per the Stop brake (awaiting_user — no high-impact work remains; project healthy, only T2 dep-bump churn left: Dependabot PR #71 is red on 3 new react-hooks/purity lint errors)."
+          "date": "2026-09-22",
+          "done": "Unblocked the dependency-update lane — the three react-hooks/purity errors failing Dependabot #73 are fixed by routing render-time cutoffs through one `msAgo()` helper in lib/utils, verified green on both the current plugin (7.0.1) and the bumped one (7.1.1); merged as efa1c12, Deploy green, prod 200."
         }
       }
     },
@@ -1160,11 +1429,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Collect an agreed baseline before comparing incidents, relocations and mediation effort",
-            "Link observed conflict outcomes to explainable matching factors when sufficient data exist",
-            "Track rule-acknowledgement coverage on the staff dashboard",
-            "Source: https://github.com/bitbaum/aoz-begleitung/blob/209c4d19cee1ddd1cab78cf991d7c50c69a3664c/docs/ROADMAP.md"
-          ]
+            {
+              "title": "Collect an agreed baseline before comparing incidents, relocations and mediation effort",
+              "done": false
+            },
+            {
+              "title": "Link observed conflict outcomes to explainable matching factors when sufficient data exist",
+              "done": false
+            },
+            {
+              "title": "Track rule-acknowledgement coverage on the staff dashboard",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/aoz-begleitung/blob/209c4d19cee1ddd1cab78cf991d7c50c69a3664c/docs/ROADMAP.md"
         },
         {
           "title": "Support multiple organisations through configuration",
@@ -1172,11 +1450,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Move organisation rules, branding and factor weights to organisation-owned records",
-            "Represent the property, unit, room and spot hierarchy",
-            "Verify tenant isolation before self-service onboarding",
-            "Source: https://github.com/bitbaum/aoz-begleitung/blob/209c4d19cee1ddd1cab78cf991d7c50c69a3664c/docs/ROADMAP.md"
-          ]
+            {
+              "title": "Move organisation rules, branding and factor weights to organisation-owned records",
+              "done": false
+            },
+            {
+              "title": "Represent the property, unit, room and spot hierarchy",
+              "done": false
+            },
+            {
+              "title": "Verify tenant isolation before self-service onboarding",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/aoz-begleitung/blob/209c4d19cee1ddd1cab78cf991d7c50c69a3664c/docs/ROADMAP.md"
         }
       ],
       "changelog": [
@@ -1226,11 +1513,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Support tablet intake and barcode scanning",
-            "Define offline storage and conflict resolution for stock changes",
-            "Validate synchronisation before relying on offline transactions",
-            "Source: https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
-          ]
+            {
+              "title": "Support tablet intake and barcode scanning",
+              "done": false
+            },
+            {
+              "title": "Define offline storage and conflict resolution for stock changes",
+              "done": false
+            },
+            {
+              "title": "Validate synchronisation before relying on offline transactions",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
         },
         {
           "title": "Connect inventory to webshop publication",
@@ -1238,11 +1534,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Choose and document the first supported shop connector",
-            "Preserve per-item availability and condition when publishing",
-            "Verify retries and duplicate-publication handling",
-            "Source: https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
-          ]
+            {
+              "title": "Choose and document the first supported shop connector",
+              "done": false
+            },
+            {
+              "title": "Preserve per-item availability and condition when publishing",
+              "done": false
+            },
+            {
+              "title": "Verify retries and duplicate-publication handling",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
         },
         {
           "title": "Develop the circular-economy talent marketplace",
@@ -1250,13 +1555,27 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Let people discover participating circular businesses",
-            "Provide a clear application path without requiring an organisation account",
-            "Source: https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
-          ]
+            {
+              "title": "Let people discover participating circular businesses",
+              "done": false
+            },
+            {
+              "title": "Provide a clear application path without requiring an organisation account",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
         }
       ],
       "changelog": [
+        {
+          "date": "2026-09-21",
+          "done": "Fixed a lost-update race that could leave a paying Cloud subscriber on the free plan (Stripe webhooks now merge company settings via Postgres `jsonb ||` instead of read-modify-write), documented the three previously-undocumented Stripe env vars, and repaired the pre-commit hook that ENOENT'd on every apps/web change — PR #109 merged, CI green, Deploy green for cdb78d2."
+        },
+        {
+          "date": "2026-09-21",
+          "done": "Fixed a lost-update race that could leave a paying Cloud subscriber on the free plan (Stripe webhooks now merge company settings via Postgres `jsonb ||` instead of read-modify-write), documented the three previously-undocumented Stripe env vars, and repaired the pre-commit hook that ENOENT'd on every apps/web change."
+        },
         {
           "date": "2026-07-06",
           "done": "Stood up the Kivvi↔Loki agent bus (agent-msg CLI + inbox auto-check hook), proved the round-trip over BOTH the file-inbox and the pending_commands queue channel, locked the collaboration protocol, and retired a case-drift session-file duplicate."
@@ -1270,16 +1589,16 @@
           "done": "Stripped 14 throwaway audit/prod/refresh screenshot JPGs (~1.2MB) that the unpushed selfhost commit (bdbcb71) accidentally bundled into the repo root alongside its real 4-line DB_SSL change. Amended that commit to its intended content only (now 648edf0), kept the jpgs on disk, and hardened .gitignore to mirror the existing /*.png screenshot rule with /*.jpg + /*.jpeg (commit 7891746)."
         }
       ],
-      "next": "Holding for Mao's scope before any real repo work. status:working intentionally pauses auto-inject so no real task auto-dispatches while he is hands-off. On his go/project-name: claim Loki's enqueued starter task, execute in a git worktree, verify (tsc+lint+tests), echo result with SHA, open PR.\ncommit: none",
+      "next": "Putting the CHF 49/mo price live in Stripe and setting STRIPE_PRICE_ID/STRIPE_SECRET_KEY/STRIPE_WEBHOOK_SECRET on the box is the owner's step (dashboard access needed); the code path behind it is now correct and the vars are documented in .env.example.",
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-07-02T23:09:27.100Z"
+          "outcome": "error",
+          "at": "2026-09-21T04:01:12.805Z"
         },
         "lastLog": {
-          "date": "2026-07-06",
-          "done": "Stood up the Kivvi↔Loki agent bus (agent-msg CLI + inbox auto-check hook), proved the round-trip over BOTH the file-inbox and the pending_commands queue channel, locked the collaboration protocol, and retired a case-drift session-file duplicate."
+          "date": "2026-09-21",
+          "done": "Fixed a lost-update race that could leave a paying Cloud subscriber on the free plan (Stripe webhooks now merge company settings via Postgres `jsonb ||` instead of read-modify-write), documented the three previously-undocumented Stripe env vars, and repaired the pre-commit hook that ENOENT'd on every apps/web change — PR #109 merged, CI green, Deploy green for cdb78d2."
         }
       }
     },
@@ -1307,6 +1626,10 @@
       "roadmap": [],
       "changelog": [
         {
+          "date": "2026-09-21",
+          "done": "Cleared the run blocker (a leftover pre-Drizzle src/generated/prisma/ tree that made `pnpm run verify` fail on prettier locally while CI stayed green — the likely cause of the last two timeouts), then made src/lib/uploads.ts the single source for the residence-proof upload contract so /verify no longer tells shop staff \"MAX. 5MB\" while the route accepts 10 MB, with the page's hint, `accept`, the route's rejection messages and a new client-side pre-check all derived from it; merged as 60a6920 (PR #154), Deploy green, verified live on reparaturbonus.orangecat.ch."
+        },
+        {
           "date": "2026-09-01",
           "done": "Shipped search and social discoverability — app/robots.ts and app/sitemap.ts (public pages plus every active workshop from the database, revalidated hourly), a per-route server layout giving each public page its own title/description/canonical, per-workshop metadata on /shops/[id], noindex on admin/dashboard/auth, and a one-registry SSOT (lib/constants/page-metadata.ts) that both the layouts and the sitemap read, guarded by src/lib/seo.test.ts which reads the real app/ directory so an unregistered page fails the build and the suite. Merged as ea8e3a8 (PR #129), Deploy green, verified live: robots.txt and sitemap.xml serve on reparaturbonus.orangecat.ch, every page renders its own title, canonical and og:image (og:image 200 image/png)."
         },
@@ -1323,16 +1646,16 @@
           "done": "Reviewed the repo and identified the 3 highest-value next improvements (no code changes made): unauthenticated file-upload/path-traversal hole in the bonus-code redemption route, hardcoded flat bonus amount contradicting the documented 20%-capped-at-CHF50 rule, and zero test coverage for the bonus-code lifecycle."
         }
       ],
-      "next": "PRODUCTION WORKSHOP DIRECTORY IS EMPTY — live https://reparaturbonus.orangecat.ch/api/shops returns [], and it is not the demo fallback (a database error would return the three mock shops; an empty array means the query ran and matched nothing). So the production `shops` table has no rows with isActive=true, /shops shows a resident nothing, and the sitemap correctly lists zero workshop URLs. That is a data/ops problem, not code, and seeding a live database is a founder decision rather than an autopilot one — needs a human to decide whether to seed prod or import the real certified-shop list. Two smaller items, both unactioned and out of this scope: src/app/verify/page.tsx:217 tells shop staff the upload limit is 5MB while the server limit in src/lib/uploads.ts:15 is 10MB; and src/types/shop.ts duplicates CATEGORY_LABELS from src/lib/constants/categories.ts (SSOT violation). Note also there is no /api/health route in this repo, so the deploy health check named in CLAUDE.md cannot run here — liveness was confirmed instead by fetching robots.txt, sitemap.xml and page HTML from production.",
+      "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-09-15T04:01:53.069Z"
+          "at": "2026-09-23T04:01:17.202Z"
         },
         "lastLog": {
-          "date": "2026-09-01",
-          "done": "Shipped search and social discoverability — app/robots.ts and app/sitemap.ts (public pages plus every active workshop from the database, revalidated hourly), a per-route server layout giving each public page its own title/description/canonical, per-workshop metadata on /shops/[id], noindex on admin/dashboard/auth, and a one-registry SSOT (lib/constants/page-metadata.ts) that both the layouts and the sitemap read, guarded by src/lib/seo.test.ts which reads the real app/ directory so an unregistered page fails the build and the suite. Merged as ea8e3a8 (PR #129), Deploy green, verified live: robots.txt and sitemap.xml serve on reparaturbonus.orangecat.ch, every page renders its own title, canonical and og:image (og:image 200 image/png)."
+          "date": "2026-09-21",
+          "done": "Cleared the run blocker (a leftover pre-Drizzle src/generated/prisma/ tree that made `pnpm run verify` fail on prettier locally while CI stayed green — the likely cause of the last two timeouts), then made src/lib/uploads.ts the single source for the residence-proof upload contract so /verify no longer tells shop staff \"MAX. 5MB\" while the route accepts 10 MB, with the page's hint, `accept`, the route's rejection messages and a new client-side pre-check all derived from it; merged as 60a6920 (PR #154), Deploy green, verified live on reparaturbonus.orangecat.ch."
         }
       }
     },
@@ -1364,10 +1687,16 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Obtain the artist’s confirmed social handles before publishing links",
-            "Add a location only after the artist confirms what should be public",
-            "Source: https://github.com/bitbaum/s-ink/blob/b02e1a6beb734c6992e7238e87d97891975995b5/README.md"
-          ]
+            {
+              "title": "Obtain the artist’s confirmed social handles before publishing links",
+              "done": false
+            },
+            {
+              "title": "Add a location only after the artist confirms what should be public",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/s-ink/blob/b02e1a6beb734c6992e7238e87d97891975995b5/README.md"
         }
       ],
       "changelog": [
@@ -1414,11 +1743,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Publish public development records independently of patient authentication",
-            "Link implementation evidence for practitioner and patient workflows",
-            "Verify mobile readability and private-document access boundaries",
-            "Source: https://github.com/bitbaum/vitareba/blob/f1c60c61e8cf6c501758897a60d563390ad3b718/README.md"
-          ]
+            {
+              "title": "Publish public development records independently of patient authentication",
+              "done": false
+            },
+            {
+              "title": "Link implementation evidence for practitioner and patient workflows",
+              "done": false
+            },
+            {
+              "title": "Verify mobile readability and private-document access boundaries",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/vitareba/blob/f1c60c61e8cf6c501758897a60d563390ad3b718/README.md"
         }
       ],
       "changelog": [
@@ -1494,6 +1832,18 @@
       "roadmap": [],
       "changelog": [
         {
+          "date": "2026-09-22",
+          "done": "Re-confirmed the pending blocker is still live today (2026-09-22) and stopped without picking a task, per Pick rule 0 and the backward brake; no code change."
+        },
+        {
+          "date": "2026-09-20",
+          "done": "Re-verified the pending blocker still reproduces on the live site today and stopped the autopilot loop rather than manufacture work; no code change."
+        },
+        {
+          "date": "2026-09-19",
+          "done": "Rule 0 fired — surfaced the pending blocker (live demo timetable expired, needs a human-run prod GTFS import) and picked no task; confirmed PR #86 merged and the tree matches origin/master."
+        },
+        {
           "date": "2026-09-18",
           "done": "Closed four stale TODO.md launch/security items that the #63 rebuild and #82 had already fixed, updated the matching AGENTS.md sections, and recorded (with live evidence) that the demo's hand-loaded timetable ran out; PR #86 has CI green."
         },
@@ -1560,22 +1910,18 @@
         {
           "date": "2026-08-18",
           "done": "Fixed the actual cause of the last two timeout runs — the checked-out branch `ci/verify-no-if-present` had already been squash-merged to master as PR #12 and diverged (1 ahead/3 behind), and a full nested git worktree (.claude/worktrees/whitelabel-tenant, 105M/1989 files, its own node_modules/docker-compose/ralph.sh loop script) was sitting untracked inside the main working tree from an already-merged, upstream-deleted branch (worktree-whitelabel-tenant); removed the stale worktree via `git worktree remove`, pruned the dangling wt-sbb-vercel registration, switched back to master, confirmed fast-forward sync with origin, and verified `npm run verify` green end-to-end (typecheck, 45 tests, tenant SSOT check)."
-        },
-        {
-          "date": "2026-08-02",
-          "done": "Diagnosed why local tsc/lint appeared broken (sandbox env has NODE_ENV=production, which makes `npm install` silently skip devDependencies) and worked around it; reinstalled full deps for frontend + root workspaces, then ran the actual CI floor (`npm run verify`) end-to-end — clean across all 4 services + shared types + frontend, plus a full `next build` production build — all pass with zero type errors. Scanned for adjacent broken/half-wired features (stub UI, dead links, swallowed errors, TODO/FIXME/HACK) — found none. Working tree is clean, nothing uncommitted."
         }
       ],
       "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-09-18T04:05:38.557Z"
+          "outcome": "error",
+          "at": "2026-09-22T20:32:58.347Z"
         },
         "lastLog": {
-          "date": "2026-09-18",
-          "done": "Closed four stale TODO.md launch/security items that the #63 rebuild and #82 had already fixed, updated the matching AGENTS.md sections, and recorded (with live evidence) that the demo's hand-loaded timetable ran out; PR #86 has CI green."
+          "date": "2026-09-22",
+          "done": "Re-confirmed the pending blocker is still live today (2026-09-22) and stopped without picking a task, per Pick rule 0 and the backward brake; no code change."
         }
       }
     },
@@ -1713,11 +2059,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Expose public roadmap and factual changelog",
-            "Link evidence for provider routing, knowledge retrieval and privacy boundaries",
-            "Keep planned specialist capabilities distinct from implemented ones",
-            "Source: https://github.com/bitbaum/botsmann/blob/376b94f89d234579244be48650e5301b570a0a73/README.md"
-          ]
+            {
+              "title": "Expose public roadmap and factual changelog",
+              "done": false
+            },
+            {
+              "title": "Link evidence for provider routing, knowledge retrieval and privacy boundaries",
+              "done": false
+            },
+            {
+              "title": "Keep planned specialist capabilities distinct from implemented ones",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/botsmann/blob/376b94f89d234579244be48650e5301b570a0a73/README.md"
         }
       ],
       "changelog": [
@@ -1767,11 +2122,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Decide the intended reader and concrete problem",
-            "Specify evidence and review requirements before presenting legal answers",
-            "Replace the scaffold with one bounded, testable user journey",
-            "Source: https://github.com/bitbaum/causius/blob/3cb5e80e897c389bc220b36e238a2a7f4e9e190c/app/page.tsx"
-          ]
+            {
+              "title": "Decide the intended reader and concrete problem",
+              "done": false
+            },
+            {
+              "title": "Specify evidence and review requirements before presenting legal answers",
+              "done": false
+            },
+            {
+              "title": "Replace the scaffold with one bounded, testable user journey",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/3cb5e80e897c389bc220b36e238a2a7f4e9e190c/app/page.tsx"
         }
       ],
       "changelog": [
@@ -1954,7 +2318,7 @@
       "since": null,
       "urls": {
         "live": null,
-        "repo": "https://github.com/bitbaum/lifeops",
+        "repo": null,
         "orangecat": null,
         "solon": null
       },
@@ -2033,49 +2397,56 @@
           "status": "active",
           "progress": 0,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "Open accounting, opt-in per wallet",
           "status": "active",
           "progress": 0,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "The owner's note on each transaction",
           "status": "active",
           "progress": 0,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "A transparency score computed from observed facts",
           "status": "active",
           "progress": 0,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "Roadmap and changelog that keep themselves current",
           "status": "active",
           "progress": 0,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "Smart contracts, later",
           "status": "active",
           "progress": 0,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "A wallet has its own page",
           "status": "active",
           "progress": 0,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         }
       ],
       "changelog": [],
@@ -2127,7 +2498,7 @@
       "since": null,
       "urls": {
         "live": null,
-        "repo": "https://github.com/bitbaum/prime-tower",
+        "repo": null,
         "orangecat": null,
         "solon": null
       },
@@ -2180,6 +2551,18 @@
       },
       "roadmap": [],
       "changelog": [
+        {
+          "date": "2026-09-22",
+          "done": "Diagnosed the previous run's timeout as a run-duration overrun rather than a project failure, re-ran the full verify gate today for first-hand evidence (lint/tsc/tests all green on bf26dbd), swept for an adjacent broken thing and found none above the bar for an unattended commit; recorded the three candidates found under \"## Proposed\" in printcraft.roadmap.md instead of manufacturing a commit."
+        },
+        {
+          "date": "2026-09-20",
+          "done": "No code change and no task picked: loop protection fired on the third consecutive no-op run against an unchanged origin/main (bf26dbd), with no pending blocker and no human message between turns."
+        },
+        {
+          "date": "2026-09-19",
+          "done": "No code change: re-ran verify on origin/main (bf26dbd), which is unchanged since the last run, and found no blocker, no type or lint errors, no uncommitted work and no open T0 or T1, so the Stop brake fired again (second no-op in a row)."
+        },
         {
           "date": "2026-09-18",
           "done": "No code change: on origin/main (bf26dbd) no blocker, no type/lint errors, no uncommitted work and no open T0/T1; the one red signal, the Deploy failure on bf26dbd, is only the ci-gate refusing a cancelled CI run on a .mailmap-only commit, and production is still on e841650, so the Stop brake fired."
@@ -2247,30 +2630,18 @@
         {
           "date": "2026-08-28",
           "done": "Fixed the compose editor losing the scene background on refresh and the export silently shipping that loss — the background lived only in a blob URL in React state while the column, storage folder and an authorized /api/compositions route already existed with no caller, so a reopened project rendered a bare black canvas and produced \"print-ready\" panel files with no scene in them; the background now round-trips through storage and the composition row, export refuses to run while a save is in flight, and a new structural test fails if any API route family has no caller in the app, shipped as PR #25 (6d000c6), CI green, deployed, printcraft.orangecat.ch returns 200."
-        },
-        {
-          "date": "2026-08-24",
-          "done": "Closed a live authorization hole — every API route but one looked its row up by an id taken from the request, and because guest mode serves anonymous callers the service-role client that bypasses RLS, unauthenticated requests could read, edit or delete any user's project and the photographs in it; ownership is now checked in one place with a structural test that fails if a future route omits it, shipped as PR #23 (8d86c50), CI green, deployed, printcraft.orangecat.ch returns 200 and an anonymous GET of a project id now 404s."
-        },
-        {
-          "date": "2026-08-24",
-          "done": "Wired the surface constraints the product calls non-optional — isInDeadZone and isNearSeam were unit-tested but called by nothing, so the editor drew red zones as decoration while letting any figure rest on a shower fixture or across a glass seam; a figure now cannot come to rest on either, landing as close as the surface allows with the obstruction named, shipped as PR #22 (8b9a3b5), CI green, deployed, printcraft.orangecat.ch returns 200."
-        },
-        {
-          "date": "2026-08-24",
-          "done": "Completed Phase 1's export line by splitting the export into one print file per physical panel at the surface's target DPI with bleed — seam bleed is taken from the neighbouring panel so the artwork stays continuous across the glass, outer bleed is filled from the edge instead of printing transparent — shipped as PR #21 (fe1d8a6), CI green, deployed, printcraft.orangecat.ch returns 200."
         }
       ],
       "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-09-18T04:02:26.062Z"
+          "outcome": "error",
+          "at": "2026-09-22T04:00:50.519Z"
         },
         "lastLog": {
-          "date": "2026-09-18",
-          "done": "No code change: on origin/main (bf26dbd) no blocker, no type/lint errors, no uncommitted work and no open T0/T1; the one red signal, the Deploy failure on bf26dbd, is only the ci-gate refusing a cancelled CI run on a .mailmap-only commit, and production is still on e841650, so the Stop brake fired."
+          "date": "2026-09-22",
+          "done": "Diagnosed the previous run's timeout as a run-duration overrun rather than a project failure, re-ran the full verify gate today for first-hand evidence (lint/tsc/tests all green on bf26dbd), swept for an adjacent broken thing and found none above the bar for an unattended commit; recorded the three candidates found under \"## Proposed\" in printcraft.roadmap.md instead of manufacturing a commit."
         }
       }
     },
@@ -2449,11 +2820,20 @@
           "progress": 0,
           "targetDate": null,
           "milestones": [
-            "Reshoot artwork where clutter or shadow obscures the piece",
-            "Obtain titles from the artist; publish dimensions or prices only when supplied",
-            "Have French, Italian and Ukrainian copy reviewed by native readers",
-            "Source: https://github.com/bitbaum/annushka/blob/f469f0593b0992ca81ffd0c3cfc6b1c80029886f/README.md"
-          ]
+            {
+              "title": "Reshoot artwork where clutter or shadow obscures the piece",
+              "done": false
+            },
+            {
+              "title": "Obtain titles from the artist; publish dimensions or prices only when supplied",
+              "done": false
+            },
+            {
+              "title": "Have French, Italian and Ukrainian copy reviewed by native readers",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/annushka/blob/f469f0593b0992ca81ffd0c3cfc6b1c80029886f/README.md"
         }
       ],
       "changelog": [
@@ -2506,35 +2886,40 @@
           "status": "completed",
           "progress": 100,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "Implement map picker and coordinate storage",
           "status": "completed",
           "progress": 100,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "Build photo upload and attachment functionality",
           "status": "completed",
           "progress": 100,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "Auth, an open-on date, and the person each capsule is meant for",
           "status": "active",
           "progress": 0,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         },
         {
           "title": "Integrate all features into a functional web app",
           "status": "active",
           "progress": 0,
           "targetDate": null,
-          "milestones": []
+          "milestones": [],
+          "source": null
         }
       ],
       "changelog": [
