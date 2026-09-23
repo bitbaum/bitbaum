@@ -8,9 +8,10 @@
 
 export function createPackagePages({ esc, shell }) {
   function pkgAdopters(p, ventureBySlug, alias) {
-    // An adopter with no venture page renders as plain text: it is a real
-    // adopter the site does not show.
+    // Link known studio-level adopters to the studio front door. A different
+    // adopter with no venture page stays plain text: it is real, but not shown.
     return (p.adopterNames ?? []).map((a) => {
+      if (a === "bitbaum") return `<a href="/">bitbaum</a>`;
       const v = ventureBySlug.get(alias[a] ?? a);
       return v ? `<a href="/${esc(v.slug)}/">${esc(v.name)}</a>` : `<span>${esc(a)}</span>`;
     });

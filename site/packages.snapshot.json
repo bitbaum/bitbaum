@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-23T20:30:05.185Z",
+  "generatedAt": "2026-09-23T22:05:47.691Z",
   "packages": [
     {
       "slug": "ai-kit",
@@ -64,12 +64,13 @@
         "source": "npm",
         "command": "pnpm add bip-kit"
       },
-      "adopters": 9,
+      "adopters": 10,
       "adopterNames": [
         "aoz-begleitung",
         "botsmann",
         "datacat",
         "evig",
+        "heidi",
         "kivvi",
         "loki",
         "orangecat",
@@ -120,6 +121,24 @@
       ]
     },
     {
+      "slug": "listkit",
+      "name": "listkit",
+      "repo": "https://github.com/bitbaum/listkit",
+      "description": "A list as a query: a closed set of facet kinds, a URL codec that copies rather than rebuilds, a comparator that puts missing values last, and page arithmetic that cannot produce a negative offset. No markup, no React, no HTTP client.",
+      "version": "0.1.0",
+      "install": {
+        "source": "git",
+        "command": "pnpm add github:bitbaum/listkit#v0.1.0"
+      },
+      "adopters": 4,
+      "adopterNames": [
+        "bitbaum",
+        "hirnli",
+        "loki",
+        "substrata"
+      ]
+    },
+    {
       "slug": "threadkit",
       "name": "threadkit",
       "repo": "https://github.com/bitbaum/threadkit",
@@ -152,23 +171,6 @@
         "bitbaum",
         "loki",
         "solon"
-      ]
-    },
-    {
-      "slug": "listkit",
-      "name": "listkit",
-      "repo": "https://github.com/bitbaum/listkit",
-      "description": "A list as a query: a closed set of facet kinds, a URL codec that copies rather than rebuilds, a comparator that puts missing values last, and page arithmetic that cannot produce a negative offset. No markup, no React, no HTTP client.",
-      "version": "0.1.0",
-      "install": {
-        "source": "git",
-        "command": "pnpm add github:bitbaum/listkit#v0.1.0"
-      },
-      "adopters": 3,
-      "adopterNames": [
-        "hirnli",
-        "loki",
-        "substrata"
       ]
     },
     {
