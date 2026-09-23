@@ -1,0 +1,64 @@
+name: Deploy Bitbaum site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/deploy-site.yml'
+      - 'site/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+  workflow_dispatch:
+
+concurrency:
+  group: bitbaum-site-main
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - name: Build from current fleet sources
+        run: node site/build.mjs --require-fresh
+      - run: node site/build.mjs --check
+      - name: Commit refreshed source snapshots and generated site
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add site/*.snapshot.json site/dist
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore(site): refresh published registry snapshots'
+            git push origin HEAD:main
+          fi
+      - name: Configure SSH
+        env:
+          HETZNER_SSH_PRIVATE_KEY: ${{ secrets.HETZNER_SSH_PRIVATE_KEY }}
+          HETZNER_IP: ${{ vars.HETZNER_IP }}
+        run: |
+          test -n "$HETZNER_SSH_PRIVATE_KEY"
+          test -n "$HETZNER_IP"
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$HETZNER_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "$HETZNER_IP" >> ~/.ssh/known_hosts
+      - name: Publish and verify public pages
+        env:
+          BOX: ubuntu@${{ vars.HETZNER_IP }}
+        run: bash site/publish.sh
