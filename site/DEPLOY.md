@@ -28,8 +28,10 @@ snapshotted beside this file so `--offline` builds work:
 | <https://raw.githubusercontent.com/bitbaum/fleet/main/registers/packages.json> | which shared packages exist, latest published npm versions, adopter counts, install lines | `packages.snapshot.json` |
 | <https://raw.githubusercontent.com/bitbaum/fleet/main/registers/origin.json> | each repo's first commit and proven origin ("since", "anchored in block N") | `origin.snapshot.json` |
 
-A missing source throws rather than quietly producing a page with nothing on
-it — that would read exactly like "we have none".
+The automated publisher requires all three sources to respond successfully;
+it will not publish from an old snapshot when a source is unavailable. Local
+offline builds may use the committed snapshots, so a developer can still work
+without network access.
 
 What this repository owns is presentation, in `site/overrides.json`:
 
@@ -109,6 +111,7 @@ looks like the things it lists. Every rule below the tokens names a role.
 ```bash
 node site/og.mjs                # render the share card, site/dist/og/studio.png
 node site/build.mjs             # fetch the sources, write site/dist/
+node site/build.mjs --require-fresh # fail rather than fall back to snapshots
 node site/build.mjs --offline   # build from the snapshots (no network)
 node site/build.mjs --check     # exit 1 if site/dist/ is stale
 site/publish.sh                 # --check, rsync dist to the box, prove every page answers
@@ -116,4 +119,8 @@ site/publish.sh                 # --check, rsync dist to the box, prove every pa
 
 `site/dist/` is committed so a diff shows what changed on the site between
 two builds, including the pinned listkit browser modules, and so `--check`
-can fail when the sources moved and the site did not.
+can fail when the sources moved and the site did not. Main-branch changes to
+the site or its workflow run tests, rebuild from current Loki/Fleet sources,
+commit updated snapshots and generated pages, then publish to Hetzner and
+verify the public routes. Run `Deploy Bitbaum site` manually from Actions to
+retry a failed publish; the normal `push` path is automatic.
