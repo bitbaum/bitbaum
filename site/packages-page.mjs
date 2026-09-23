@@ -32,7 +32,7 @@ export function createPackagePages({ esc, shell }) {
     const what = editorial?.what ?? p.description ?? "";
     const npmHref = p.install?.source === "npm" ? `https://www.npmjs.com/package/${p.name}` : null;
     const adopters = pkgAdopters(p, ventureBySlug, alias);
-    const links = [`<a href="/packages/${esc(p.slug)}/">Why it exists</a>`];
+    const links = [`<a class="pkg-open" href="/packages/${esc(p.slug)}/" aria-label="Open the ${esc(p.slug)} developer profile">Developer profile <span aria-hidden="true">→</span></a>`];
     if (p.repo) links.push(`<a href="${esc(p.repo)}">source</a>`);
     if (npmHref) links.push(`<a href="${esc(npmHref)}">npm</a>`);
     else if (p.install?.source === "git") links.push(`<span>git tag</span>`);
@@ -77,6 +77,7 @@ ${adopters.length ? `          <div class="uses"><span class="label">Used by</sp
     const list = shownPackages(packages, cfg);
     const totalUses = registry.reduce((s, p) => s + (p.adopters ?? 0), 0);
     const sections = packageSections(list, cfg);
+    const paykit = registry.find((p) => p.slug === "paykit");
     const jump = sections.map((g) => `<a href="#${esc(g.id)}">${esc(g.title)}</a>`).join("");
     const body = `  <main>
     <section class="hero compact">
@@ -84,6 +85,10 @@ ${adopters.length ? `          <div class="uses"><span class="label">Used by</sp
         <span class="eyebrow">${registry.length} you can install &middot; MIT &middot; ${totalUses} uses across the fleet</span>
         <h1 class="display-1">The trunk.</h1>
         <p class="lede">${esc(cfg.packages_lede ?? "")}</p>
+        ${paykit ? `<aside class="pkg-feature" aria-label="Paykit package">
+          <div><span class="label">PAYMENTS · PAYKIT · NPM V${esc(paykit.version ?? "?")} · ${paykit.adopters ?? 0} APPS</span><p>${esc(cfg.packages?.paykit?.what ?? paykit.description ?? "")}</p></div>
+          <a class="btn secondary" href="/packages/paykit/">Explore paykit <span aria-hidden="true">→</span></a>
+        </aside>` : ""}
         <nav class="pkg-jump" aria-label="Package groups">${jump}</nav>
       </div>
     </section>
@@ -120,6 +125,9 @@ ${g.items.map((p) => pkgCard(p, cfg.packages?.[p.slug] ?? p, ventureBySlug, alia
     const prev = list[(i - 1 + list.length) % list.length];
     const next = list[(i + 1) % list.length];
     const npmHref = p.install?.source === "npm" ? `https://www.npmjs.com/package/${p.name}` : null;
+    const repoHref = p.repo?.replace(/\/$/, "");
+    const readmeHref = repoHref ? `${repoHref}#readme` : null;
+    const versionsHref = npmHref ? `${npmHref}?activeTab=versions` : repoHref ? `${repoHref}/tags` : null;
     const what = editorial.what ?? p.description ?? "";
     const why = editorial.why ?? "";
     const how = editorial.how ?? "";
@@ -131,7 +139,7 @@ ${g.items.map((p) => pkgCard(p, cfg.packages?.[p.slug] ?? p, ventureBySlug, alia
       p.repo
         ? ["Source", `<a href="${esc(p.repo)}">${esc(String(p.repo).replace("https://github.com/", ""))}</a>`]
         : ["Source", `<a href="/orangecat/">Inside OrangeCat</a>`],
-      adopters.length ? ["Used by", `${p.adopters} ${p.adopters === 1 ? "app" : "apps"}`] : null,
+      adopters.length ? ["Used by", `${p.adopters} ${p.adopters === 1 ? "app" : "apps"}`] : ["Fleet adoption", "0 apps currently list this package as a dependency"],
     ].filter(Boolean);
     const body = `  <main>
     <section class="venture-hero">
@@ -141,8 +149,9 @@ ${g.items.map((p) => pkgCard(p, cfg.packages?.[p.slug] ?? p, ventureBySlug, alia
         <p class="lede">${esc(what)}</p>
         <div class="actions">
           ${npmHref ? `<a class="btn primary" href="${esc(npmHref)}">npm</a>` : `<a class="btn primary" href="/orangecat/">See it in OrangeCat</a>`}
+          ${readmeHref ? `<a class="btn secondary" href="${esc(readmeHref)}">README &amp; API</a>` : ""}
+          ${versionsHref ? `<a class="btn secondary" href="${esc(versionsHref)}">Version history</a>` : ""}
           ${p.repo ? `<a class="btn secondary" href="${esc(p.repo)}">Source</a>` : ""}
-          <a class="btn secondary" href="/packages/">All packages</a>
         </div>
       </div>
     </section>
