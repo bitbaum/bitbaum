@@ -19,6 +19,7 @@
 // served by Caddy's file_server with clean directory URLs.
 //
 //   node site/build.mjs            fetch the sources, write site/dist/
+//   node site/build.mjs --require-fresh  fail if any source must fall back to a snapshot
 //   node site/build.mjs --offline  build from the committed snapshots
 //   node site/build.mjs --check    exit 1 if site/dist/ is stale
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
@@ -53,8 +54,10 @@ async function fetchOrSnapshot([url, file, what]) {
         writeFileSync(snapshot, JSON.stringify(json, null, 2) + "\n");
         return json;
       }
+      if (args.has("--require-fresh")) throw new Error(`${what} answered ${res.status}; --require-fresh forbids publishing from a snapshot`);
       console.error(`${what} answered ${res.status}; using snapshot`);
     } catch (e) {
+      if (args.has("--require-fresh")) throw new Error(`${what} could not be fetched; --require-fresh forbids publishing from a snapshot: ${e?.message ?? e}`);
       console.error(`${what} unreachable (${e?.message ?? e}); using snapshot`);
     }
   }
