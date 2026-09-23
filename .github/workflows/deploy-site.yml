@@ -26,12 +26,15 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: main
-      - uses: pnpm/setup@v3
+      - uses: pnpm/action-setup@v6
         with:
           version: 11
-          runtime: node@22
           cache: true
-          require-lockfile: true
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - name: Build from current fleet sources
         run: node site/build.mjs --require-fresh
