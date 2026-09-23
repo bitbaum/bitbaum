@@ -31,10 +31,17 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const DIST = join(here, "dist");
 const args = new Set(process.argv.slice(2));
+const packagesSha = process.env.FLEET_PACKAGES_SHA;
+if (packagesSha && !/^[a-f0-9]{40}$/i.test(packagesSha)) {
+  throw new Error("FLEET_PACKAGES_SHA must be a full 40-character Git commit SHA");
+}
+const packagesUrl = process.env.FLEET_PACKAGES_URL ?? (packagesSha
+  ? `https://raw.githubusercontent.com/bitbaum/fleet/${packagesSha}/registers/packages.json`
+  : "https://raw.githubusercontent.com/bitbaum/fleet/main/registers/packages.json");
 
 const SOURCES = {
   map: [process.env.FLEET_MAP_URL ?? "https://loki.orangecat.ch/api/fleet/map", "map.snapshot.json", "fleet map"],
-  packages: [process.env.FLEET_PACKAGES_URL ?? "https://raw.githubusercontent.com/bitbaum/fleet/main/registers/packages.json", "packages.snapshot.json", "package registry"],
+  packages: [packagesUrl, "packages.snapshot.json", "package registry"],
   origin: [process.env.FLEET_ORIGIN_URL ?? "https://raw.githubusercontent.com/bitbaum/fleet/main/registers/origin.json", "origin.snapshot.json", "origin register"],
 };
 const SITE = "https://bitbaum.orangecat.ch";
