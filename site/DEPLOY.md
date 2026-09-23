@@ -22,7 +22,7 @@ snapshotted beside this file so `--offline` builds work:
 | source | what it decides | snapshot |
 |---|---|---|
 | <https://loki.orangecat.ch/api/fleet/map> | which ventures exist, where they run, what state they are in | `map.snapshot.json` |
-| <https://raw.githubusercontent.com/bitbaum/fleet/main/registers/packages.json> | which shared packages exist, adopter counts, install lines | `packages.snapshot.json` |
+| <https://raw.githubusercontent.com/bitbaum/fleet/main/registers/packages.json> | which shared packages exist, latest published npm versions, adopter counts, install lines | `packages.snapshot.json` |
 | <https://raw.githubusercontent.com/bitbaum/fleet/main/registers/origin.json> | each repo's first commit and proven origin ("since", "anchored in block N") | `origin.snapshot.json` |
 
 A missing source throws rather than quietly producing a page with nothing on

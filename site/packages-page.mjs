@@ -19,8 +19,13 @@ export function createPackagePages({ esc, shell }) {
   function pkgPill(p) {
     if (p.status === "next") return `<span class="pill">not on npm yet</span>`;
     const n = p.adopters ?? 0;
-    if (n === 0) return `<span class="pill">on npm</span>`;
+    if (n === 0) return `<span class="pill">0 apps</span>`;
     return `<span class="pill">${n === 1 ? "1 app" : `${n} apps`}</span>`;
+  }
+
+  function pkgVersion(p) {
+    if (p.install?.source !== "npm" || !p.version) return "";
+    return `<span class="pill pkg-version" aria-label="Latest npm version ${esc(p.version)}">npm&nbsp;v${esc(p.version)}</span>`;
   }
 
   function pkgCard(p, editorial, ventureBySlug, alias) {
@@ -34,7 +39,7 @@ export function createPackagePages({ esc, shell }) {
     return `      <article class="card text pkg-card" id="${esc(p.slug)}">
         <div class="card-body">
           <a class="pkg-cover" href="/packages/${esc(p.slug)}/">
-            <span class="card-top"><span class="card-name">${esc(p.slug)}</span>${pkgPill(p)}</span>
+            <span class="card-top"><span class="card-name">${esc(p.slug)}</span><span class="pkg-badges">${pkgVersion(p)}${pkgPill(p)}</span></span>
             <span class="card-what">${esc(what)}</span>
           </a>
           ${p.install?.command ? `<code class="pkg-install">${esc(p.install.command)}</code>` : ""}
@@ -99,7 +104,7 @@ ${g.items.map((p) => pkgCard(p, cfg.packages?.[p.slug] ?? p, ventureBySlug, alia
   .join("\n")}
     <section class="section">
       <div class="wrap">
-        <p class="caption">The name of a package opens its page. Adopter counts come from real <code>package.json</code> files, read by <a href="https://github.com/bitbaum/fleet/blob/main/scripts/ci/shared-registry-audit.mjs">fleet's registry audit</a>. Nobody types them. paykit is on npm; the register has not counted an adopter yet.</p>
+        <p class="caption">The name of a package opens its page. Adopter counts come from real <code>package.json</code> files, read by <a href="https://github.com/bitbaum/fleet/blob/main/scripts/ci/shared-registry-audit.mjs">fleet's registry audit</a>. Nobody types them. Packages with no adopters are listed openly; counts change when package manifests adopt them.</p>
       </div>
     </section>
   </main>`;
@@ -121,6 +126,7 @@ ${g.items.map((p) => pkgCard(p, cfg.packages?.[p.slug] ?? p, ventureBySlug, alia
     const fits = editorial.fits ?? "";
     const facts = [
       ["Licence", p.status === "next" ? "MIT, when it is published" : "MIT"],
+      p.install?.source === "npm" && p.version ? ["Latest npm version", `v${esc(p.version)}`] : null,
       p.install?.command ? ["Install", `<code>${esc(p.install.command)}</code>`] : ["Install", "Not on npm yet"],
       p.repo
         ? ["Source", `<a href="${esc(p.repo)}">${esc(String(p.repo).replace("https://github.com/", ""))}</a>`]
