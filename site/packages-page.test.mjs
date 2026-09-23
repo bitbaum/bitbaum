@@ -21,10 +21,16 @@ test("package cards show published npm versions and adopter counts", () => {
   assert.match(html, /Latest npm version 1\.11\.0">npm&nbsp;v1\.11\.0/);
   assert.match(html, /Latest npm version 0\.1\.0">npm&nbsp;v0\.1\.0/);
   assert.match(html, /class="pill">0 apps<\/span>/);
+  assert.match(html, /Explore paykit/);
+  assert.match(html, /Developer profile/);
 });
 
-test("package detail identifies its latest npm version", () => {
+test("package detail links to canonical docs and version history and tells the truth about adoption", () => {
   const html = packagePage(packages[1], config, [], packages);
   assert.match(html, /Latest npm version/);
   assert.match(html, /v0\.1\.0/);
+  assert.match(html, /README &amp; API/);
+  assert.match(html, /https:\/\/github\.com\/bitbaum\/paykit#readme/);
+  assert.match(html, /activeTab=versions/);
+  assert.match(html, /0 apps currently list this package as a dependency/);
 });
