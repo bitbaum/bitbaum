@@ -332,7 +332,7 @@
       "install": { "source": "npm", "command": "pnpm add @bitbaum/paykit" },
       "what": "Let a website get paid. Bitcoin today. The website does not hold the money.",
       "why": "A shop, a clinic, or a fundraiser should be able to take a payment without building a wallet. OrangeCat already does this: you paste where the money should land, and the pay link sends it there. paykit is that same thing, so the next website does not rebuild it.",
-      "how": "Someone pastes what their Bitcoin app shows under Receive — a Lightning address or an ordinary Bitcoin address. The package tells which it is. For those, it can ask for a payment and show a code. A Twint code, or another currency, can be shown the same way later: the visitor pays in their own app. The website does not store keys and does not keep a balance. Install it with pnpm add @bitbaum/paykit. OrangeCat does the same thing today.",
+      "how": "Someone pastes what their Bitcoin app shows under Receive — a Lightning address or an ordinary Bitcoin address. The package says which one it is. It does not check the checksum, and it does not ask for the payment or draw the code: the website does that. A Twint code, or another currency, can be shown the same way later. The visitor pays in their own app. The website does not store keys and does not keep a balance. Install it with pnpm add @bitbaum/paykit. OrangeCat does the same thing today.",
       "fits": "OrangeCat is where people get paid. Loki is where the work happens. Solon is where the rules are decided. paykit is the getting-paid part, on its own, for a website that does not need the rest of OrangeCat."
     }
   ],
@@ -384,7 +384,7 @@
       "what": "One tokens.css behind the products, so a retheme is an edit to one file.",
       "why": "Color, type and radius were being copied into each app and then drifting. A retheme meant a hunt. Dark mode meant a second hunt.",
       "how": "Primitives, then semantic names, as CSS custom properties. Tailwind points at the variables and holds no literal color of its own. A product themes by overriding the variables, not by forking the components.",
-      "fits": "It is why the studio can look like one studio. OrangeCat, Loki and Solon share it. A package that renders UI, including paykit when it renders, is expected to use these tokens rather than invent a palette."
+      "fits": "It is why the studio can look like one studio. OrangeCat, Loki and Solon share it. A package that draws a page is expected to use these tokens rather than invent a palette."
     },
     "listkit": {
       "group": "show",
@@ -404,7 +404,7 @@
       "group": "value",
       "what": "Let a website get paid. Bitcoin today. The website does not hold the money.",
       "why": "A shop, a clinic, or a fundraiser should be able to take a payment without building a wallet. OrangeCat already does this: you paste where the money should land, and the pay link sends it there. paykit is that same thing, so the next website does not rebuild it.",
-      "how": "Someone pastes what their Bitcoin app shows under Receive — a Lightning address or an ordinary Bitcoin address. The package tells which it is. For those, it can ask for a payment and show a code. A Twint code, or another currency, can be shown the same way later: the visitor pays in their own app. The website does not store keys and does not keep a balance. Install it with pnpm add @bitbaum/paykit. OrangeCat does the same thing today.",
+      "how": "Someone pastes what their Bitcoin app shows under Receive — a Lightning address or an ordinary Bitcoin address. The package says which one it is. It does not check the checksum, and it does not ask for the payment or draw the code: the website does that. A Twint code, or another currency, can be shown the same way later. The visitor pays in their own app. The website does not store keys and does not keep a balance. Install it with pnpm add @bitbaum/paykit. OrangeCat does the same thing today.",
       "fits": "OrangeCat is where people get paid. Loki is where the work happens. Solon is where the rules are decided. paykit is the getting-paid part, on its own, for a website that does not need the rest of OrangeCat."
     }
   }
