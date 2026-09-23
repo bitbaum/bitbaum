@@ -7,7 +7,7 @@ const { packagesPage, packagePage } = createPackagePages({
   shell: ({ body }) => body,
 });
 const packages = [
-  { slug: "ai-kit", name: "@bitbaum/ai-kit", version: "1.11.0", install: { source: "npm", command: "pnpm add @bitbaum/ai-kit" }, adopters: 14, adopterNames: [], repo: "https://github.com/bitbaum/ai-kit" },
+  { slug: "ai-kit", name: "@bitbaum/ai-kit", version: "1.11.0", install: { source: "npm", command: "pnpm add @bitbaum/ai-kit" }, adopters: 14, adopterNames: ["bitbaum"], repo: "https://github.com/bitbaum/ai-kit" },
   { slug: "paykit", name: "@bitbaum/paykit", version: "0.1.0", install: { source: "npm", command: "pnpm add @bitbaum/paykit" }, adopters: 0, adopterNames: [], repo: "https://github.com/bitbaum/paykit" },
 ];
 const config = {
@@ -31,6 +31,7 @@ test("package cards show published npm versions and adopter counts", () => {
   assert.match(html, /data-adoption="new"/);
   assert.match(html, /data-adoption="adopted"/);
   assert.match(html, /src="\/packages-filter\.mjs"/);
+  assert.match(html, /<a href="\/">bitbaum<\/a>/);
 });
 
 test("package detail links to canonical docs and version history and tells the truth about adoption", () => {
