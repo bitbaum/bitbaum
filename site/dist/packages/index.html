@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Packages — bitbaum</title>
-<meta name="description" content="The trunk every product above grows from. Nine packages, MIT, on npm or GitHub — and each one lists exactly which apps use it, so you can see what a change would touch before you make it.">
+<meta name="description" content="The shared code every product is built from. Each one exists because a second app was about to write the same thing. Open a package to read why it exists, how it works, and where it sits in the studio.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/packages/">
 <meta property="og:title" content="Packages — bitbaum">
-<meta property="og:description" content="The trunk every product above grows from. Nine packages, MIT, on npm or GitHub — and each one lists exactly which apps use it, so you can see what a change would touch before you make it.">
+<meta property="og:description" content="The shared code every product is built from. Each one exists because a second app was about to write the same thing. Open a package to read why it exists, how it works, and where it sits in the studio.">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/packages/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Packages — bitbaum">
-<meta name="twitter:description" content="The trunk every product above grows from. Nine packages, MIT, on npm or GitHub — and each one lists exactly which apps use it, so you can see what a change would touch before you make it.">
+<meta name="twitter:description" content="The shared code every product is built from. Each one exists because a second app was about to write the same thing. Open a package to read why it exists, how it works, and where it sits in the studio.">
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -66,101 +66,154 @@
   <main>
     <section class="hero compact">
       <div class="wrap">
-        <span class="eyebrow">9 packages &middot; MIT &middot; 58 installs across the fleet</span>
+        <span class="eyebrow">9 you can install &middot; MIT &middot; 60 uses across the fleet</span>
         <h1 class="display-1">The trunk.</h1>
-        <p class="lede">The trunk every product above grows from. Nine packages, MIT, on npm or GitHub — and each one lists exactly which apps use it, so you can see what a change would touch before you make it.</p>
-        <div class="actions">
-          <a class="btn primary" href="https://github.com/bitbaum">Read the source <span class="arrow" aria-hidden="true">&rarr;</span></a>
-          <a class="btn secondary" href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md">How to contribute</a>
+        <p class="lede">The shared code every product is built from. Each one exists because a second app was about to write the same thing. Open a package to read why it exists, how it works, and where it sits in the studio.</p>
+        <nav class="pkg-jump" aria-label="Package groups"><a href="#think">Think</a><a href="#reach">Reach someone</a><a href="#show">Show the work</a><a href="#hold">Stay up</a><a href="#value">Move value</a></nav>
+      </div>
+    </section>
+    <section class="section" id="think">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Think</h2>
+          <p class="lede">Call a model, and turn a sentence into a form that is already filled in.</p>
+        </div>
+        <div class="grid">
+      <article class="card text" id="ai-kit">
+        <div class="card-body">
+          <div class="card-top"><a class="card-name" href="/packages/ai-kit/">ai-kit</a><span class="pill">14 apps</span></div>
+          <span class="card-what">Which model to call, whether the vendor still serves it, and what to do when every one of them fails.</span>
+          <code class="pkg-install">pnpm add @bitbaum/ai-kit</code>
+          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/aoz-housing/">AOZ Begleitung</a><a href="/botsmann/">Botsmann</a><a href="/datacat/">DataCat</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/revamp-info/">Hirnli</a><a href="/kivvi/">kivvi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/sbb-fundbuero/">Nordbahn Fundbüro</a><a href="/substrata/">Substrata</a><a href="/surf-your-life/">Surf Your Life</a><span>truthseeker</span><a href="/vitareba/">Vita</a></div></div>
+          <div class="pkg-links"><a href="/packages/ai-kit/">Why it exists</a><a href="https://github.com/bitbaum/ai-kit">source</a><a href="https://www.npmjs.com/package/@bitbaum/ai-kit">npm</a></div>
+        </div>
+      </article>
+      <article class="card text" id="ai-forms">
+        <div class="card-body">
+          <div class="card-top"><a class="card-name" href="/packages/ai-forms/">ai-forms</a><span class="pill">6 apps</span></div>
+          <span class="card-what">Fill a form from prose, then refine it in conversation. Headless, so every app keeps its own look.</span>
+          <code class="pkg-install">pnpm add ai-forms</code>
+          <div class="uses"><span class="label">Used by</span><div class="chips"><span>ai-kit</span><a href="/aoz-housing/">AOZ Begleitung</a><a href="/evig/">evig</a><a href="/kivvi/">kivvi</a><a href="/loki/">Loki</a><a href="/surf-your-life/">Surf Your Life</a></div></div>
+          <div class="pkg-links"><a href="/packages/ai-forms/">Why it exists</a><a href="https://github.com/bitbaum/ai-forms">source</a><a href="https://www.npmjs.com/package/ai-forms">npm</a></div>
+        </div>
+      </article>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="reach">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Reach someone</h2>
+          <p class="lede">Mail and conversation, so a product can talk to a person or an agent under the same rules.</p>
+        </div>
+        <div class="grid">
+      <article class="card text" id="mail-kit">
+        <div class="card-body">
+          <div class="card-top"><a class="card-name" href="/packages/mail-kit/">mail-kit</a><span class="pill">11 apps</span></div>
+          <span class="card-what">One email layer for every app. Never throws — it returns whether the mail was sent.</span>
+          <code class="pkg-install">pnpm add @bitbaum/mail-kit</code>
+          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/aoz-housing/">AOZ Begleitung</a><a href="/botsmann/">Botsmann</a><a href="/evig/">evig</a><a href="/revamp-info/">Hirnli</a><a href="/kivvi/">kivvi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/s-ink/">S.Ink</a><a href="/surf-your-life/">Surf Your Life</a><a href="/vitareba/">Vita</a></div></div>
+          <div class="pkg-links"><a href="/packages/mail-kit/">Why it exists</a><a href="https://github.com/bitbaum/mail-kit">source</a><a href="https://www.npmjs.com/package/@bitbaum/mail-kit">npm</a></div>
+        </div>
+      </article>
+      <article class="card text" id="threadkit">
+        <div class="card-body">
+          <div class="card-top"><a class="card-name" href="/packages/threadkit/">threadkit</a><span class="pill">4 apps</span></div>
+          <span class="card-what">Message threads where permission is participation — not a role column. An AI obeys the same rules as a person.</span>
+          <code class="pkg-install">pnpm add threadkit</code>
+          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/heidi/">Heidi</a><a href="/orangecat/">OrangeCat</a><a href="/substrata/">Substrata</a><a href="/vitareba/">Vita</a></div></div>
+          <div class="pkg-links"><a href="/packages/threadkit/">Why it exists</a><a href="https://github.com/bitbaum/threadkit">source</a><a href="https://www.npmjs.com/package/threadkit">npm</a></div>
+        </div>
+      </article>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="show">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Show the work</h2>
+          <p class="lede">Pages, lists, type, and writing that lives in the repository instead of a CMS.</p>
+        </div>
+        <div class="grid">
+      <article class="card text" id="bip-kit">
+        <div class="card-body">
+          <div class="card-top"><a class="card-name" href="/packages/bip-kit/">bip-kit</a><span class="pill">9 apps</span></div>
+          <span class="card-what">Blog, roadmap and changelog from repo-authored markdown. Typed blocks, your design tokens on top.</span>
+          <code class="pkg-install">pnpm add bip-kit</code>
+          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/aoz-housing/">AOZ Begleitung</a><a href="/botsmann/">Botsmann</a><a href="/datacat/">DataCat</a><a href="/evig/">evig</a><a href="/kivvi/">kivvi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/substrata/">Substrata</a></div></div>
+          <div class="pkg-links"><a href="/packages/bip-kit/">Why it exists</a><a href="https://github.com/bitbaum/bip-kit">source</a><a href="https://www.npmjs.com/package/bip-kit">npm</a></div>
+        </div>
+      </article>
+      <article class="card text" id="design-tokens">
+        <div class="card-body">
+          <div class="card-top"><a class="card-name" href="/packages/design-tokens/">design-tokens</a><span class="pill">3 apps</span></div>
+          <span class="card-what">One tokens.css behind the products, so a retheme is an edit to one file.</span>
+          <code class="pkg-install">pnpm add @bitbaum/design-tokens</code>
+          <div class="uses"><span class="label">Used by</span><div class="chips"><span>bitbaum</span><a href="/loki/">Loki</a><a href="/solon/">Solon</a></div></div>
+          <div class="pkg-links"><a href="/packages/design-tokens/">Why it exists</a><a href="https://github.com/bitbaum/design-tokens">source</a><a href="https://www.npmjs.com/package/@bitbaum/design-tokens">npm</a></div>
+        </div>
+      </article>
+      <article class="card text" id="listkit">
+        <div class="card-body">
+          <div class="card-top"><a class="card-name" href="/packages/listkit/">listkit</a><span class="pill">3 apps</span></div>
+          <span class="card-what">A list as a query: facets, a URL you can share, sorting that puts missing values last. No markup.</span>
+          <code class="pkg-install">pnpm add github:bitbaum/listkit#v0.1.0</code>
+          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/revamp-info/">Hirnli</a><a href="/loki/">Loki</a><a href="/substrata/">Substrata</a></div></div>
+          <div class="pkg-links"><a href="/packages/listkit/">Why it exists</a><a href="https://github.com/bitbaum/listkit">source</a><span>git tag</span></div>
+        </div>
+      </article>
+      <article class="card text" id="sitekit">
+        <div class="card-body">
+          <div class="card-top"><a class="card-name" href="/packages/sitekit/">sitekit</a><span class="pill">2 apps</span></div>
+          <span class="card-what">A website as data — a closed set of section shapes, validated, with per-field provenance.</span>
+          <code class="pkg-install">pnpm add @bitbaum/sitekit</code>
+          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/camille-boulangerie/">Camille</a><a href="/substrata/">Substrata</a></div></div>
+          <div class="pkg-links"><a href="/packages/sitekit/">Why it exists</a><a href="https://github.com/bitbaum/sitekit">source</a><a href="https://www.npmjs.com/package/@bitbaum/sitekit">npm</a></div>
+        </div>
+      </article>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="hold">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Stay up</h2>
+          <p class="lede">The quiet parts that keep a public endpoint from falling over.</p>
+        </div>
+        <div class="grid">
+      <article class="card text" id="limitkit">
+        <div class="card-body">
+          <div class="card-top"><a class="card-name" href="/packages/limitkit/">limitkit</a><span class="pill">8 apps</span></div>
+          <span class="card-what">Rate limiting as a decision, not middleware. Bounded memory by construction, standard headers.</span>
+          <code class="pkg-install">pnpm add limitkit</code>
+          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/botsmann/">Botsmann</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/surf-your-life/">Surf Your Life</a><span>truthseeker</span></div></div>
+          <div class="pkg-links"><a href="/packages/limitkit/">Why it exists</a><a href="https://github.com/bitbaum/limitkit">source</a><a href="https://www.npmjs.com/package/limitkit">npm</a></div>
+        </div>
+      </article>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="value">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">Move value</h2>
+          <p class="lede">Get paid in whatever the other person already treats as money. The site shows where it goes. It does not hold it.</p>
+        </div>
+        <div class="grid">
+      <article class="card text" id="paykit">
+        <div class="card-body">
+          <div class="card-top"><a class="card-name" href="/packages/paykit/">paykit</a><span class="pill">not on npm yet</span></div>
+          <span class="card-what">A destination someone can pay, in Bitcoin or whatever else they already use. The site never holds the money.</span>
+          
+          <div class="pkg-links"><a href="/packages/paykit/">Why it exists</a></div>
+        </div>
+      </article>
         </div>
       </div>
     </section>
     <section class="section">
       <div class="wrap">
-        <div class="grid">
-      <article class="card text" id="ai-kit">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">ai-kit</span><span class="pill">14 apps</span></div>
-          <span class="card-what">Which model to call, whether the vendor still serves it, and what to do when every one of them fails.</span>
-          <code class="pkg-install">pnpm add @bitbaum/ai-kit</code>
-          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/aoz-housing/">AOZ Begleitung</a><a href="/botsmann/">Botsmann</a><a href="/datacat/">DataCat</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/revamp-info/">Hirnli</a><a href="/kivvi/">kivvi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/sbb-fundbuero/">Nordbahn Fundbüro</a><a href="/substrata/">Substrata</a><a href="/surf-your-life/">Surf Your Life</a><span>truthseeker</span><a href="/vitareba/">Vita</a></div></div>
-          <div class="pkg-links"><a href="https://github.com/bitbaum/ai-kit">source</a><a href="https://www.npmjs.com/package/@bitbaum/ai-kit">npm</a></div>
-        </div>
-      </article>
-      <article class="card text" id="mail-kit">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">mail-kit</span><span class="pill">11 apps</span></div>
-          <span class="card-what">One email layer for every app. Never throws — it returns whether the mail was sent.</span>
-          <code class="pkg-install">pnpm add @bitbaum/mail-kit</code>
-          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/aoz-housing/">AOZ Begleitung</a><a href="/botsmann/">Botsmann</a><a href="/evig/">evig</a><a href="/revamp-info/">Hirnli</a><a href="/kivvi/">kivvi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/s-ink/">S.Ink</a><a href="/surf-your-life/">Surf Your Life</a><a href="/vitareba/">Vita</a></div></div>
-          <div class="pkg-links"><a href="https://github.com/bitbaum/mail-kit">source</a><a href="https://www.npmjs.com/package/@bitbaum/mail-kit">npm</a></div>
-        </div>
-      </article>
-      <article class="card text" id="bip-kit">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">bip-kit</span><span class="pill">9 apps</span></div>
-          <span class="card-what">Blog, roadmap and changelog from repo-authored markdown. Typed blocks, your design tokens on top.</span>
-          <code class="pkg-install">pnpm add bip-kit</code>
-          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/aoz-housing/">AOZ Begleitung</a><a href="/botsmann/">Botsmann</a><a href="/datacat/">DataCat</a><a href="/evig/">evig</a><a href="/kivvi/">kivvi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/substrata/">Substrata</a></div></div>
-          <div class="pkg-links"><a href="https://github.com/bitbaum/bip-kit">source</a><a href="https://www.npmjs.com/package/bip-kit">npm</a></div>
-        </div>
-      </article>
-      <article class="card text" id="limitkit">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">limitkit</span><span class="pill">8 apps</span></div>
-          <span class="card-what">Rate limiting as a decision, not middleware. Bounded memory by construction, standard headers.</span>
-          <code class="pkg-install">pnpm add limitkit</code>
-          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/botsmann/">Botsmann</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/surf-your-life/">Surf Your Life</a><span>truthseeker</span></div></div>
-          <div class="pkg-links"><a href="https://github.com/bitbaum/limitkit">source</a><a href="https://www.npmjs.com/package/limitkit">npm</a></div>
-        </div>
-      </article>
-      <article class="card text" id="ai-forms">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">ai-forms</span><span class="pill">6 apps</span></div>
-          <span class="card-what">Fill a form from prose, then refine it in conversation. Headless, so every app keeps its own look.</span>
-          <code class="pkg-install">pnpm add ai-forms</code>
-          <div class="uses"><span class="label">Used by</span><div class="chips"><span>ai-kit</span><a href="/aoz-housing/">AOZ Begleitung</a><a href="/evig/">evig</a><a href="/kivvi/">kivvi</a><a href="/loki/">Loki</a><a href="/surf-your-life/">Surf Your Life</a></div></div>
-          <div class="pkg-links"><a href="https://github.com/bitbaum/ai-forms">source</a><a href="https://www.npmjs.com/package/ai-forms">npm</a></div>
-        </div>
-      </article>
-      <article class="card text" id="listkit">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">listkit</span><span class="pill">3 apps</span></div>
-          <span class="card-what">A list as a query: facets, a URL you can share, sorting that puts missing values last. No markup.</span>
-          <code class="pkg-install">pnpm add github:bitbaum/listkit#v0.1.0</code>
-          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/revamp-info/">Hirnli</a><a href="/loki/">Loki</a><a href="/substrata/">Substrata</a></div></div>
-          <div class="pkg-links"><a href="https://github.com/bitbaum/listkit">source</a><span>git tag</span></div>
-        </div>
-      </article>
-      <article class="card text" id="threadkit">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">threadkit</span><span class="pill">3 apps</span></div>
-          <span class="card-what">Message threads where permission is participation — not a role column. An AI obeys the same rules as a person.</span>
-          <code class="pkg-install">pnpm add threadkit</code>
-          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/heidi/">Heidi</a><a href="/orangecat/">OrangeCat</a><a href="/vitareba/">Vita</a></div></div>
-          <div class="pkg-links"><a href="https://github.com/bitbaum/threadkit">source</a><a href="https://www.npmjs.com/package/threadkit">npm</a></div>
-        </div>
-      </article>
-      <article class="card text" id="design-tokens">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">design-tokens</span><span class="pill">2 apps</span></div>
-          <span class="card-what">One tokens.css behind three products, so a retheme is an edit to one file.</span>
-          <code class="pkg-install">pnpm add @bitbaum/design-tokens</code>
-          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/loki/">Loki</a><a href="/solon/">Solon</a></div></div>
-          <div class="pkg-links"><a href="https://github.com/bitbaum/design-tokens">source</a><a href="https://www.npmjs.com/package/@bitbaum/design-tokens">npm</a></div>
-        </div>
-      </article>
-      <article class="card text" id="sitekit">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">sitekit</span><span class="pill">2 apps</span></div>
-          <span class="card-what">A website as data — a closed set of section shapes, validated, with per-field provenance.</span>
-          <code class="pkg-install">pnpm add @bitbaum/sitekit</code>
-          <div class="uses"><span class="label">Used by</span><div class="chips"><a href="/camille-boulangerie/">Camille</a><a href="/substrata/">Substrata</a></div></div>
-          <div class="pkg-links"><a href="https://github.com/bitbaum/sitekit">source</a><a href="https://www.npmjs.com/package/@bitbaum/sitekit">npm</a></div>
-        </div>
-      </article>
-        </div>
-        <p class="caption">Adopter lists are derived from real <code>package.json</code> files across the organisation by <a href="https://github.com/bitbaum/fleet/blob/main/scripts/ci/shared-registry-audit.mjs">fleet's registry audit</a> — nobody types them, and a package that quietly lost its last user would show it here.</p>
+        <p class="caption">Adopter counts come from real <code>package.json</code> files, read by <a href="https://github.com/bitbaum/fleet/blob/main/scripts/ci/shared-registry-audit.mjs">fleet's registry audit</a>. Nobody types them. paykit is listed because the contract is decided; it is not an install, and it is not counted above.</p>
       </div>
     </section>
   </main>

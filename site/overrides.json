@@ -295,34 +295,116 @@
       "story": "Named, not built."
     }
   ],
-  "packages_lede": "The trunk every product above grows from. Nine packages, MIT, on npm or GitHub — and each one lists exactly which apps use it, so you can see what a change would touch before you make it.",
+  "packages_lede": "The shared code every product is built from. Each one exists because a second app was about to write the same thing. Open a package to read why it exists, how it works, and where it sits in the studio.",
+  "packageGroups": [
+    {
+      "id": "think",
+      "title": "Think",
+      "lede": "Call a model, and turn a sentence into a form that is already filled in."
+    },
+    {
+      "id": "reach",
+      "title": "Reach someone",
+      "lede": "Mail and conversation, so a product can talk to a person or an agent under the same rules."
+    },
+    {
+      "id": "show",
+      "title": "Show the work",
+      "lede": "Pages, lists, type, and writing that lives in the repository instead of a CMS."
+    },
+    {
+      "id": "hold",
+      "title": "Stay up",
+      "lede": "The quiet parts that keep a public endpoint from falling over."
+    },
+    {
+      "id": "value",
+      "title": "Move value",
+      "lede": "Get paid in whatever the other person already treats as money. The site shows where it goes. It does not hold it."
+    }
+  ],
+  "upcomingPackages": [
+    {
+      "slug": "paykit",
+      "name": "paykit",
+      "status": "next",
+      "group": "value",
+      "what": "A destination someone can pay, in Bitcoin or whatever else they already use. The site never holds the money.",
+      "why": "Every product that wants to get paid is one step from inventing a wallet, a balance, and a support desk. OrangeCat already refused that. A pay link is a pointer: the money lands in the recipient's own app. paykit is that decision, written so the next site does not have to rediscover it.",
+      "how": "A headless core classifies whatever someone pastes — a Lightning address, a Bitcoin address, later a Twint code or a Monero address — and says which kind it is. A settled rail can ask for a fresh payment request and notice when it is paid. A shown rail only displays the code; their app does the rest. An optional set of components renders the link, the in-person code, and a code for one amount. The host supplies two functions: make a request, and say whether it was paid. OrangeCat is the first host. Nothing in the package stores a key or a balance.",
+      "fits": "OrangeCat is how value reaches people without a bank deciding who qualifies. paykit is that sentence without the rest of OrangeCat, so a shop, a clinic, or a stranger's site can be paid the same way. It is the piece the studio was missing between the work (Loki), the rules (Solon), and the money. It is not on npm yet: the behavior ships inside OrangeCat, and the package is the extraction."
+    }
+  ],
   "packages": {
     "ai-kit": {
-      "what": "Which model to call, whether the vendor still serves it, and what to do when every one of them fails."
-    },
-    "mail-kit": {
-      "what": "One email layer for every app. Never throws — it returns whether the mail was sent."
-    },
-    "bip-kit": {
-      "what": "Blog, roadmap and changelog from repo-authored markdown. Typed blocks, your design tokens on top."
+      "group": "think",
+      "what": "Which model to call, whether the vendor still serves it, and what to do when every one of them fails.",
+      "why": "Fourteen apps needed a model. The first copy picked one vendor and broke when that vendor had a bad day. The second copy would have done it again. ai-kit is the last copy: one chain, one way to tell a rate limit from an outage, one shared daily pool.",
+      "how": "You name the job, not the vendor. The kit walks a fallback chain, classifies a 429 into the three kinds that are not the same failure, and rations a shared daily allowance so one app cannot empty the free tiers for the others. When every vendor fails, it says so instead of inventing an answer.",
+      "fits": "The Cat, the intake forms, the research tools and the agents in Loki all think through this. A product that calls a model and does not use it is writing the second copy."
     },
     "ai-forms": {
-      "what": "Fill a form from prose, then refine it in conversation. Headless, so every app keeps its own look."
+      "group": "think",
+      "what": "Fill a form from prose, then refine it in conversation. Headless, so every app keeps its own look.",
+      "why": "People do not want to meet a form. They want to say what they need. Each product was about to build its own 'paste a paragraph, get fields' box, with its own prompt and its own way of being wrong.",
+      "how": "A headless core turns prose into the fields a schema already allows, then lets the person correct them in conversation. A React hook and a route factory are optional. The form on the page stays the product's own.",
+      "fits": "It is how a sentence becomes a listing, an application, or an intake, on top of ai-kit. The studio's bet is that the interface to an economic life is closer to speech than to a spreadsheet."
+    },
+    "mail-kit": {
+      "group": "reach",
+      "what": "One email layer for every app. Never throws — it returns whether the mail was sent.",
+      "why": "Email is where products quietly grow a second, private implementation: a different sender, a swallowed error, a test message that reaches a real person. Eleven apps had started.",
+      "how": "Resend, over raw fetch, with no other dependencies. The call returns a result that says whether the mail went, rather than throwing and hoping a catch exists. Sandbox and placeholder addresses are refused, and the shared sender is one convention.",
+      "fits": "Hire, notifications, and anything that has to reach a person outside the product. It is the boring half of 'reach someone'. threadkit is the half that stays inside."
     },
     "threadkit": {
-      "what": "Message threads where permission is participation — not a role column. An AI obeys the same rules as a person."
+      "group": "reach",
+      "what": "Message threads where permission is participation — not a role column. An AI obeys the same rules as a person.",
+      "why": "A chat that special-cases the assistant becomes a second permissions system. The assistant sees things the person cannot, or the person sees the assistant's notes. Both are bugs.",
+      "how": "A thread is a set of participants. Unread is per person. An AI can be a participant, and it sees exactly what its participation allows, which is the same rule as everyone else. No markup, no transport: the app keeps those.",
+      "fits": "OrangeCat, Heidi and Vita already share a conversation this way. It is how a person and an agent inhabit one room, which is the shape Loki dispatches and OrangeCat will live in."
     },
-    "limitkit": {
-      "what": "Rate limiting as a decision, not middleware. Bounded memory by construction, standard headers."
-    },
-    "listkit": {
-      "what": "A list as a query: facets, a URL you can share, sorting that puts missing values last. No markup."
+    "bip-kit": {
+      "group": "show",
+      "what": "Blog, roadmap and changelog from repo-authored markdown. Typed blocks, your design tokens on top.",
+      "why": "Writing that lives in a CMS drifts from the product. Writing that is a pile of regexes drifts from itself. The studio writes in the repository, reviewed like code, and needed one dialect.",
+      "how": "Markdown in, typed blocks out: headings, figures, a table of contents, reading time. A reference React renderer is optional. Bring your own tokens; the kit does not own your look. A chart fence that is malformed fails at build time rather than on the reader's screen.",
+      "fits": "It is how the studio builds in public. OrangeCat's articles, Evig, Botsmann, DataCat and the others render through it, so a claim on a page and a claim in a commit are the same text."
     },
     "sitekit": {
-      "what": "A website as data — a closed set of section shapes, validated, with per-field provenance."
+      "group": "show",
+      "what": "A website as data — a closed set of section shapes, validated, with per-field provenance.",
+      "why": "A generated site that cannot say where each sentence came from will eventually say something nobody wrote. The second generator was about to ship that.",
+      "how": "Sections are a closed union, checked before render. One set of React renderers draws them. Every field can carry where it came from, so a page can show that a line was supplied rather than invented.",
+      "fits": "Loki can stand up a site because the site is data. sitekit is that data. design-tokens is what it looks like. bip-kit is the long writing inside it."
     },
     "design-tokens": {
-      "what": "One tokens.css behind three products, so a retheme is an edit to one file."
+      "group": "show",
+      "what": "One tokens.css behind the products, so a retheme is an edit to one file.",
+      "why": "Color, type and radius were being copied into each app and then drifting. A retheme meant a hunt. Dark mode meant a second hunt.",
+      "how": "Primitives, then semantic names, as CSS custom properties. Tailwind points at the variables and holds no literal color of its own. A product themes by overriding the variables, not by forking the components.",
+      "fits": "It is why the studio can look like one studio. OrangeCat, Loki and Solon share it. A package that renders UI, including paykit when it renders, is expected to use these tokens rather than invent a palette."
+    },
+    "listkit": {
+      "group": "show",
+      "what": "A list as a query: facets, a URL you can share, sorting that puts missing values last. No markup.",
+      "why": "Directories — foundations, products, people — kept reinventing filters, and each one encoded the filter in a slightly different URL, so a view could not be sent to someone else.",
+      "how": "A closed set of facet kinds, a URL codec that copies the query instead of rebuilding it, a comparator that sorts missing values last, and page math that cannot produce a negative offset. No React and no HTTP client.",
+      "fits": "Hirnli's foundation lists and Loki's project lists are the same idea. A list you can link is part of how the studio's work stays checkable."
+    },
+    "limitkit": {
+      "group": "hold",
+      "what": "Rate limiting as a decision, not middleware. Bounded memory by construction, standard headers.",
+      "why": "Public routes were growing one-off counters that forgot to bound themselves, and that told the client nothing when they said no. The failure mode is a process that remembers every IP forever.",
+      "how": "Fixed and sliding windows over a store you pass in, with a bounded in-memory store as the default. The decision is separate from the framework. The response carries the standard rate-limit headers, and the client IP is read in one place.",
+      "fits": "It is what lets a small studio leave a door open — hire, pay links, public APIs — without one caller becoming the outage. Eight apps already depend on that being true."
+    },
+    "paykit": {
+      "group": "value",
+      "what": "A destination someone can pay, in Bitcoin or whatever else they already use. The site never holds the money.",
+      "why": "Every product that wants to get paid is one step from inventing a wallet, a balance, and a support desk. OrangeCat already refused that. A pay link is a pointer: the money lands in the recipient's own app. paykit is that decision, written so the next site does not have to rediscover it.",
+      "how": "A headless core classifies whatever someone pastes — a Lightning address, a Bitcoin address, later a Twint code or a Monero address — and says which kind it is. A settled rail can ask for a fresh payment request and notice when it is paid. A shown rail only displays the code; their app does the rest. An optional set of components renders the link, the in-person code, and a code for one amount. The host supplies two functions: make a request, and say whether it was paid. OrangeCat is the first host. Nothing in the package stores a key or a balance.",
+      "fits": "OrangeCat is how value reaches people without a bank deciding who qualifies. paykit is that sentence without the rest of OrangeCat, so a shop, a clinic, or a stranger's site can be paid the same way. It sits between the work (Loki), the rules (Solon), and the money. It is not on npm yet: the behavior ships inside OrangeCat, and the package is the extraction."
     }
   }
 }

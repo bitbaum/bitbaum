@@ -239,6 +239,8 @@ a.card:hover { border-color: var(--fg-3); background: hsl(var(--text-primary) / 
 .card-body { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.1rem 1.25rem 1.2rem; flex: 1; }
 .card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
 .card-name { font-weight: 600; font-size: 1.15rem; letter-spacing: -0.015em; }
+a.card-name { color: inherit; text-decoration: none; }
+a.card-name:hover { color: var(--accent); }
 .card-what { color: var(--fg-2); font-size: 0.95rem; line-height: 1.5; }
 .card-story { color: var(--fg-3); font-size: 0.875rem; line-height: 1.5; margin-top: 0.25rem; }
 .card.big .card-name { font-size: 1.5rem; letter-spacing: -0.02em; }
@@ -291,6 +293,9 @@ a.card:hover { border-color: var(--fg-3); background: hsl(var(--text-primary) / 
 /* margin-top:auto so every card in a row ends its links on the same line. */
 .pkg-links { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--fg-3); margin-top: auto; padding-top: 0.6rem; }
 .pkg-links a:hover { color: var(--fg); }
+.pkg-jump { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin-top: 1.25rem; font-size: 0.95rem; }
+.pkg-jump a { color: var(--fg-2); border-bottom: 1px solid var(--line-2); }
+.pkg-jump a:hover { color: var(--fg); }
 
 /* ─── facts strip (open by construction) ──────────────────────────────── */
 .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
