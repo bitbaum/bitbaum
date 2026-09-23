@@ -361,6 +361,17 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .spec + .spec { border-left: 0; padding-left: 0; }
 }
 @media (max-width: 640px) {
+  /* The bar is one row on a desk. On a phone the same row left the menu a
+     hundred pixels wide, so "Packages" rendered as "PAC". Wrap it: mark and
+     theme on the first line, every destination on the next. */
+  :root { --nav-h: 9.5rem; }
+  .top { height: auto; }
+  .top .wrap { height: auto; flex-wrap: wrap; row-gap: 0.15rem; padding-block: 0.65rem; }
+  .theme { margin-left: auto; }
+  .top nav { order: 3; flex: 1 0 100%; margin-left: 0; overflow: visible; flex-wrap: wrap; row-gap: 0.1rem; column-gap: 0.85rem; }
+  .top nav a { padding: 0.4rem 0; }
+  .pager { flex-wrap: wrap; }
+  .pager a { min-height: 44px; display: inline-flex; align-items: center; }
   .signup { grid-template-columns: 1fr; }
   .hero-cinema { min-height: 74vh; }
   .btn { padding: 0 1.15rem; font-size: 0.72rem; }
