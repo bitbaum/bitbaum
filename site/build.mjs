@@ -23,6 +23,7 @@
 //   node site/build.mjs --check    exit 1 if site/dist/ is stale
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { MARK_HEADER, MARK_FAVICON } from "./brand-mark.mjs";
+import { createPackagePages } from "./packages-page.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -308,58 +309,7 @@ ${img}        <div class="card-body">
       </a>`;
 }
 
-function pkgAdopters(p, ventureBySlug, alias) {
-  // An adopter with no venture page renders as plain text, which is honest:
-  // it is a real adopter the site does not show.
-  return (p.adopterNames ?? []).map((a) => {
-    const v = ventureBySlug.get(alias[a] ?? a);
-    return v ? `<a href="/${esc(v.slug)}/">${esc(v.name)}</a>` : `<span>${esc(a)}</span>`;
-  });
-}
-
-function pkgPill(p) {
-  if (p.status === "next") return `<span class="pill">not on npm yet</span>`;
-  const n = p.adopters ?? 0;
-  return `<span class="pill">${n === 1 ? "1 app" : `${n} apps`}</span>`;
-}
-
-function pkgCard(p, editorial, ventureBySlug, alias) {
-  const what = editorial?.what ?? p.description ?? "";
-  const npmHref = p.install?.source === "npm" ? `https://www.npmjs.com/package/${p.name}` : null;
-  const adopters = pkgAdopters(p, ventureBySlug, alias);
-  const links = [`<a href="/packages/${esc(p.slug)}/">Why it exists</a>`];
-  if (p.repo) links.push(`<a href="${esc(p.repo)}">source</a>`);
-  if (npmHref) links.push(`<a href="${esc(npmHref)}">npm</a>`);
-  else if (p.install?.source === "git") links.push(`<span>git tag</span>`);
-  return `      <article class="card text" id="${esc(p.slug)}">
-        <div class="card-body">
-          <div class="card-top"><a class="card-name" href="/packages/${esc(p.slug)}/">${esc(p.slug)}</a>${pkgPill(p)}</div>
-          <span class="card-what">${esc(what)}</span>
-          ${p.install?.command ? `<code class="pkg-install">${esc(p.install.command)}</code>` : ""}
-${adopters.length ? `          <div class="uses"><span class="label">Used by</span><div class="chips">${adopters.join("")}</div></div>\n` : ""}          <div class="pkg-links">${links.join("")}</div>
-        </div>
-      </article>`;
-}
-
-/** Registry packages plus any the site names before they exist on npm. */
-function shownPackages(packages, cfg) {
-  return [...(packages.packages ?? []), ...(cfg.upcomingPackages ?? [])];
-}
-
-function packageSections(list, cfg) {
-  const groups = cfg.packageGroups ?? [];
-  const used = new Set();
-  const sections = groups
-    .map((g) => {
-      const items = list.filter((p) => cfg.packages?.[p.slug]?.group === g.id || p.group === g.id);
-      items.forEach((p) => used.add(p.slug));
-      return { ...g, items };
-    })
-    .filter((g) => g.items.length);
-  const rest = list.filter((p) => !used.has(p.slug));
-  if (rest.length) sections.push({ id: "other", title: "Also", lede: "Shared code that does not sit in a group yet.", items: rest });
-  return sections;
-}
+const { pkgCard, packagesPage, packagePage, shownPackages } = createPackagePages({ esc, shell });
 
 // ── the work: one grid, two facets ──────────────────────────────────────────
 //
@@ -629,103 +579,6 @@ ${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.s
   });
 }
 
-export function packagesPage(packages, cfg, all) {
-  const ventureBySlug = new Map(all.map((v) => [v.slug, v]));
-  const alias = cfg.adopterAliases ?? {};
-  const registry = packages.packages ?? [];
-  const list = shownPackages(packages, cfg);
-  const totalUses = registry.reduce((s, p) => s + (p.adopters ?? 0), 0);
-  const sections = packageSections(list, cfg);
-  const jump = sections
-    .map((g) => `<a href="#${esc(g.id)}">${esc(g.title)}</a>`)
-    .join("");
-  const body = `  <main>
-    <section class="hero compact">
-      <div class="wrap">
-        <span class="eyebrow">${registry.length} you can install &middot; MIT &middot; ${totalUses} uses across the fleet</span>
-        <h1 class="display-1">The trunk.</h1>
-        <p class="lede">${esc(cfg.packages_lede ?? "")}</p>
-        <nav class="pkg-jump" aria-label="Package groups">${jump}</nav>
-      </div>
-    </section>
-${sections
-  .map(
-    (g) => `    <section class="section" id="${esc(g.id)}">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="display-2">${esc(g.title)}</h2>
-          ${g.lede ? `<p class="lede">${esc(g.lede)}</p>` : ""}
-        </div>
-        <div class="grid">
-${g.items.map((p) => pkgCard(p, cfg.packages?.[p.slug] ?? p, ventureBySlug, alias)).join("\n")}
-        </div>
-      </div>
-    </section>`,
-  )
-  .join("\n")}
-    <section class="section">
-      <div class="wrap">
-        <p class="caption">Adopter counts come from real <code>package.json</code> files, read by <a href="https://github.com/bitbaum/fleet/blob/main/scripts/ci/shared-registry-audit.mjs">fleet's registry audit</a>. Nobody types them. paykit is listed because the contract is decided; it is not an install, and it is not counted above.</p>
-      </div>
-    </section>
-  </main>`;
-  return shell({ title: "Packages — bitbaum", description: cfg.packages_lede ?? "", path: "/packages/", body, nav: "/packages/" });
-}
-
-export function packagePage(p, cfg, all, list) {
-  const editorial = cfg.packages?.[p.slug] ?? p;
-  const ventureBySlug = new Map(all.map((v) => [v.slug, v]));
-  const alias = cfg.adopterAliases ?? {};
-  const adopters = pkgAdopters(p, ventureBySlug, alias);
-  const i = list.findIndex((x) => x.slug === p.slug);
-  const prev = list[(i - 1 + list.length) % list.length];
-  const next = list[(i + 1) % list.length];
-  const npmHref = p.install?.source === "npm" ? `https://www.npmjs.com/package/${p.name}` : null;
-  const what = editorial.what ?? p.description ?? "";
-  const why = editorial.why ?? "";
-  const how = editorial.how ?? "";
-  const fits = editorial.fits ?? "";
-  const facts = [
-    ["Licence", p.status === "next" ? "MIT, when it is published" : "MIT"],
-    p.install?.command ? ["Install", `<code>${esc(p.install.command)}</code>`] : ["Install", "Not on npm yet"],
-    p.repo ? ["Source", `<a href="${esc(p.repo)}">${esc(String(p.repo).replace("https://github.com/", ""))}</a>`] : ["Source", `<a href="/orangecat/">Inside OrangeCat</a>`],
-    adopters.length ? ["Used by", `${p.adopters} ${p.adopters === 1 ? "app" : "apps"}`] : null,
-  ].filter(Boolean);
-  const body = `  <main>
-    <section class="venture-hero">
-      <div class="wrap">
-        <span class="eyebrow${p.status === "next" ? " quiet" : ""}">${p.status === "next" ? "Next &middot; not on npm yet" : "Package &middot; MIT"}</span>
-        <h1 class="display-1">${esc(p.slug)}</h1>
-        <p class="lede">${esc(what)}</p>
-        <div class="actions">
-          ${npmHref ? `<a class="btn primary" href="${esc(npmHref)}">npm ${ARROW}</a>` : `<a class="btn primary" href="/orangecat/">See it in OrangeCat ${ARROW}</a>`}
-          ${p.repo ? `<a class="btn secondary" href="${esc(p.repo)}">Source</a>` : ""}
-          <a class="btn secondary" href="/packages/">All packages</a>
-        </div>
-      </div>
-    </section>
-    <section class="wrap venture-body">
-      <div class="prose">
-        ${why ? `<h2>Why it exists</h2><p>${esc(why)}</p>` : ""}
-        ${how ? `<h2>How it works</h2><p>${esc(how)}</p>` : ""}
-        ${fits ? `<h2>Where it fits</h2><p>${esc(fits)}</p>` : ""}
-      </div>
-      <div class="venture-facts">
-${facts.map(([k, val]) => `        <div><span class="label">${esc(k)}</span><span>${val}</span></div>`).join("\n")}
-${adopters.length ? `        <div class="uses"><span class="label">Used by</span><div class="chips">${adopters.join("")}</div></div>` : ""}
-      </div>
-    </section>
-    <div class="wrap"><div class="pager"><a href="/packages/${esc(prev.slug)}/">&larr; ${esc(prev.slug)}</a><a href="/packages/">All packages</a><a href="/packages/${esc(next.slug)}/">${esc(next.slug)} &rarr;</a></div></div>
-  </main>`;
-  return shell({
-    title: `${p.slug} — bitbaum`,
-    description: what,
-    path: `/packages/${p.slug}/`,
-    body,
-    nav: "/packages/",
-  });
-}
-
 /**
  * A venture's profiles on the other two pillars, as anchors.
  *
@@ -835,7 +688,7 @@ export function studioPage(all, packages, origin) {
         <h2>Why the stack is what it is</h2>
         <p>Three of the products are less products for a customer than the conditions for working together. <a href="/orangecat/">OrangeCat</a> is how value reaches whoever did the work, without a bank deciding who qualifies. <a href="/loki/">Loki</a> is how work is dispatched to a fleet of AI agents and people, and verified before it ships. <a href="/solon/">Solon</a> is how rules are decided and recounted, by signature rather than by trust. Building them was the answer to a plain question: what has to exist before more than one person can build here and be treated fairly?</p>
         <h2>How the work gets done</h2>
-        <p>The trunk. ${pkgCount} open-source packages carry the parts every product needs: which AI model to call and what to do when it fails, email, forms filled from prose, rate limits, lists, threads, design tokens, sites as data. Getting paid is the next one — <a href="/packages/paykit/">paykit</a> — lifted out of <a href="/orangecat/">OrangeCat</a> so a site can take a destination and never hold the money. It is named here and not on npm yet. Loki runs a fleet of AI agents that build, verify and deploy every product here — including Loki. The human job is judgment: what to build, what is good enough, what is true.</p>
+        <p>The trunk. ${pkgCount} open-source packages carry the parts every product needs: which AI model to call and what to do when it fails, email, forms filled from prose, rate limits, lists, threads, design tokens, sites as data. Getting paid is the next package, <a href="/packages/paykit/">paykit</a>: a website shows where the money should go and does not hold it. It is not on npm yet; <a href="/orangecat/">OrangeCat</a> does this today. Loki runs a fleet of AI agents that build, verify and deploy every product here — including Loki. The human job is judgment: what to build, what is good enough, what is true.</p>
         <h2>What is true</h2>
         <p>Nothing on this site is typed by hand. The list of products comes from the register that provisioning reads; the pictures are screenshots a machine takes on every build; the adopter lists come from real manifests; the counts come from GitHub, npm and the register. There are no clients on this site because there are none: the pilots run for real organisations as favours, offered first, and say so.</p>
         <h2>Open by construction</h2>

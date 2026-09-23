@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>paykit — bitbaum</title>
-<meta name="description" content="A destination someone can pay, in Bitcoin or whatever else they already use. The site never holds the money.">
+<meta name="description" content="Let a website get paid. Bitcoin today. The website does not hold the money.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/packages/paykit/">
 <meta property="og:title" content="paykit — bitbaum">
-<meta property="og:description" content="A destination someone can pay, in Bitcoin or whatever else they already use. The site never holds the money.">
+<meta property="og:description" content="Let a website get paid. Bitcoin today. The website does not hold the money.">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/packages/paykit/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="paykit — bitbaum">
-<meta name="twitter:description" content="A destination someone can pay, in Bitcoin or whatever else they already use. The site never holds the money.">
+<meta name="twitter:description" content="Let a website get paid. Bitcoin today. The website does not hold the money.">
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -68,9 +68,9 @@
       <div class="wrap">
         <span class="eyebrow quiet">Next &middot; not on npm yet</span>
         <h1 class="display-1">paykit</h1>
-        <p class="lede">A destination someone can pay, in Bitcoin or whatever else they already use. The site never holds the money.</p>
+        <p class="lede">Let a website get paid. Bitcoin today. The website does not hold the money.</p>
         <div class="actions">
-          <a class="btn primary" href="/orangecat/">See it in OrangeCat <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          <a class="btn primary" href="/orangecat/">See it in OrangeCat</a>
           
           <a class="btn secondary" href="/packages/">All packages</a>
         </div>
@@ -78,9 +78,9 @@
     </section>
     <section class="wrap venture-body">
       <div class="prose">
-        <h2>Why it exists</h2><p>Every product that wants to get paid is one step from inventing a wallet, a balance, and a support desk. OrangeCat already refused that. A pay link is a pointer: the money lands in the recipient's own app. paykit is that decision, written so the next site does not have to rediscover it.</p>
-        <h2>How it works</h2><p>A headless core classifies whatever someone pastes — a Lightning address, a Bitcoin address, later a Twint code or a Monero address — and says which kind it is. A settled rail can ask for a fresh payment request and notice when it is paid. A shown rail only displays the code; their app does the rest. An optional set of components renders the link, the in-person code, and a code for one amount. The host supplies two functions: make a request, and say whether it was paid. OrangeCat is the first host. Nothing in the package stores a key or a balance.</p>
-        <h2>Where it fits</h2><p>OrangeCat is how value reaches people without a bank deciding who qualifies. paykit is that sentence without the rest of OrangeCat, so a shop, a clinic, or a stranger's site can be paid the same way. It sits between the work (Loki), the rules (Solon), and the money. It is not on npm yet: the behavior ships inside OrangeCat, and the package is the extraction.</p>
+        <h2>Why it exists</h2><p>A shop, a clinic, or a fundraiser should be able to take a payment without building a wallet. OrangeCat already does this: you paste where the money should land, and the pay link sends it there. paykit is that same thing, so the next website does not rebuild it.</p>
+        <h2>How it works</h2><p>Someone pastes what their Bitcoin app shows under Receive — a Lightning address or an ordinary Bitcoin address. The package tells which it is. For those, it can ask for a payment and show a code. A Twint code, or another currency, can be shown the same way later: the visitor pays in their own app. The website does not store keys and does not keep a balance. OrangeCat does this today. The package is not on npm yet.</p>
+        <h2>Where it fits</h2><p>OrangeCat is where people get paid. Loki is where the work happens. Solon is where the rules are decided. paykit is the getting-paid part, on its own, for a website that does not need the rest of OrangeCat.</p>
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT, when it is published</span></div>
