@@ -23,17 +23,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/setup@v3
         with:
-          version: 10
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+          version: 11
+          runtime: node@22
+          cache: true
+          require-lockfile: true
       - run: pnpm test
       - name: Build from current fleet sources
         run: node site/build.mjs --require-fresh
