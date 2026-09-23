@@ -2,7 +2,7 @@
   "name": "@bitbaum/site",
   "private": true,
   "version": "0.0.0",
-  "description": "The studio site. A generator and a stylesheet — the only dependency is the design SSOT the products already use.",
+  "description": "The studio site. A static generator and stylesheet using shared design tokens and listkit query rules.",
   "type": "module",
   "scripts": {
     "build": "node site/build.mjs",
@@ -11,6 +11,7 @@
     "publish:site": "bash site/publish.sh"
   },
   "dependencies": {
-    "@bitbaum/design-tokens": "1.1.0"
+    "@bitbaum/design-tokens": "1.1.0",
+    "listkit": "github:bitbaum/listkit#v0.1.0"
   }
 }

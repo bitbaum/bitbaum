@@ -55,7 +55,7 @@ grep -q 'fcw_' <<<"$hire" || { echo "hire page form has no widget token" >&2; fa
 # NOT `grep ... && { ... }`: under `set -e` a non-matching grep ends the whole
 # script, so the healthy case would abort the publish it is meant to guard.
 if grep -q 'mailto:' <<<"$hire"; then echo "hire page exposes a mailto again" >&2; fail=1; fi
-packages="$(curl -fsS https://bitbaum.orangecat.ch/packages/)" || { echo "packages page unreachable" >&2; fail=1; }
+packages="$(curl -fsS "https://bitbaum.orangecat.ch/packages/?publish=$stamp")" || { echo "packages page unreachable" >&2; fail=1; }
 while IFS=$'\t' read -r slug version; do
   [ -n "$slug" ] || continue
   if ! grep -Fq "aria-label=\"Latest npm version $version\"" <<<"$packages"; then
@@ -63,6 +63,16 @@ while IFS=$'\t' read -r slug version; do
     fail=1
   fi
 done < <(node -e 'for (const p of require("./site/packages.snapshot.json").packages) if (p.install?.source === "npm" && p.version) console.log(`${p.slug}\t${p.version}`)')
+expected_packages=$(node -e 'const c=require("./site/overrides.json"); console.log(require("./site/packages.snapshot.json").packages.length + (c.upcomingPackages ?? []).length)')
+actual_packages=$(grep -o 'data-package="[^"]*"' <<<"$packages" | wc -l | tr -d ' ')
+[ "$actual_packages" = "$expected_packages" ] || { echo "packages page has $actual_packages cards; expected $expected_packages" >&2; fail=1; }
+grep -q 'aria-label="Paykit package"' <<<"$packages" || { echo "packages page does not feature paykit" >&2; fail=1; }
+for rel in packages-filter.mjs work-filter.mjs vendor/listkit/index.js vendor/listkit/LICENSE; do
+  code=$(curl -s -o /dev/null -w '%{http_code}' "https://bitbaum.orangecat.ch/$rel?publish=$stamp")
+  [ "$code" = "200" ] || { echo "https://bitbaum.orangecat.ch/$rel -> $code" >&2; fail=1; }
+done
+package_headers=$(curl -sSI "https://bitbaum.orangecat.ch/packages/?publish=$stamp")
+grep -qi '^cache-control:.*max-age=0.*must-revalidate' <<<"$package_headers" || { echo "packages page must revalidate so browsers do not retain stale package counts" >&2; fail=1; }
 cards=$(grep -o 'class="card[^"]*" href="/' <<<"$home" | wc -l)
 [ "$cards" -ge 20 ] || { echo "home page shows only $cards venture cards" >&2; fail=1; }
 [ "$fail" -eq 0 ] && echo "live: https://bitbaum.orangecat.ch/ ($(find "$HERE/dist" -name index.html | wc -l) pages)" || exit 1

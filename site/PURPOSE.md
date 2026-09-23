@@ -58,8 +58,11 @@ for a list of gaps (the fleet registers publish those, not this page).
 - **Venture pages** — must stand alone, because reader 3 arrives on one with no
   other context: the problem, what exists, the honest stage, a screenshot a
   machine took, and a way to reply.
-- **`/packages/`** — every package with the products that use it, so a
-  developer can judge what it has survived.
+- **`/packages/`** — every package with its adopters and a direct profile, so a
+  developer can search by capability, filter by category or adoption, compare
+  usage, follow the package's canonical README and release history, and judge
+  what it has survived. The package/adopter facts stay derived from Fleet's
+  manifests; the shared listkit package owns the query and URL-state rules.
 - **`/hire/`** — published rates, the method, the answers, and one door: a
   waitlist. **Rates are public and capacity is stated** (2026-09-17): the real
   number lets a reader qualify themselves before writing, and the notice under
