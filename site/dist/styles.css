@@ -366,14 +366,20 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   /* The bar is one row on a desk. On a phone the same row left the menu a
      hundred pixels wide, so "Packages" rendered as "PAC". Wrap it: mark and
      theme on the first line, every destination on the next. */
-  :root { --nav-h: 9.5rem; }
+  :root { --nav-h: 10.5rem; }
   .top { height: auto; }
   .top .wrap { height: auto; flex-wrap: wrap; row-gap: 0.15rem; padding-block: 0.65rem; }
   .theme { margin-left: auto; }
+  .theme button { width: 44px; height: 44px; }
+  .mark { min-height: 44px; }
   .top nav { order: 3; flex: 1 0 100%; margin-left: 0; overflow: visible; flex-wrap: wrap; row-gap: 0.1rem; column-gap: 0.85rem; }
   .top nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0.35rem 0; }
   .pager { flex-wrap: wrap; }
   .pager a { min-height: 44px; display: inline-flex; align-items: center; }
+  .pkg-links { align-items: center; gap: 0.9rem; }
+  .pkg-links a, .pkg-links span, footer nav a, .venture-facts a { display: inline-flex; align-items: center; min-height: 44px; }
+  footer nav { gap: 0.1rem; }
+  .uses .chips a { display: inline-flex; align-items: center; min-height: 32px; }
   .signup { grid-template-columns: 1fr; }
   .hero-cinema { min-height: 74vh; }
   .btn { padding: 0 1.15rem; font-size: 0.72rem; }
