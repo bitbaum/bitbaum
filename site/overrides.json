@@ -32,7 +32,8 @@
     "Knowledge"
   ],
   "_adopterAliases": "The package registry names adopters by REPOSITORY, which is not always the venture's slug (the Hirnli app lives in bitbaum/hirnli while the register row is revamp-info). Map repo -> slug here so 'what uses this package' can link. An adopter with no venture page renders as plain text — which is honest: it is a real adopter the site does not show.",
-  "adopterAliases": { "aoz-begleitung": "aoz-housing",
+  "adopterAliases": {
+    "aoz-begleitung": "aoz-housing",
     "hirnli": "revamp-info",
     "sink": "s-ink"
   },
@@ -321,19 +322,6 @@
       "id": "value",
       "title": "Get paid",
       "lede": "A website can take a payment. The money goes to the person being paid, not into an account the website holds."
-    }
-  ],
-  "upcomingPackages": [
-    {
-      "slug": "paykit",
-      "name": "@bitbaum/paykit",
-      "group": "value",
-      "repo": "https://github.com/bitbaum/paykit",
-      "install": { "source": "npm", "command": "pnpm add @bitbaum/paykit" },
-      "what": "Let a website get paid. Bitcoin today. The website does not hold the money.",
-      "why": "A shop, a clinic, or a fundraiser should be able to take a payment without building a wallet. OrangeCat already does this: you paste where the money should land, and the pay link sends it there. paykit is that same thing, so the next website does not rebuild it.",
-      "how": "Someone pastes what their Bitcoin app shows under Receive — a Lightning address or an ordinary Bitcoin address. The package says which one it is. It does not check the checksum, and it does not ask for the payment or draw the code: the website does that. A Twint code, or another currency, can be shown the same way later. The visitor pays in their own app. The website does not store keys and does not keep a balance. Install it with pnpm add @bitbaum/paykit. OrangeCat does the same thing today.",
-      "fits": "OrangeCat is where people get paid. Loki is where the work happens. Solon is where the rules are decided. paykit is the getting-paid part, on its own, for a website that does not need the rest of OrangeCat."
     }
   ],
   "packages": {

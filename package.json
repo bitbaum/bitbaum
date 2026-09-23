@@ -7,6 +7,7 @@
   "scripts": {
     "build": "node site/build.mjs",
     "check": "node site/build.mjs --check",
+    "test": "node --test site/*.test.mjs",
     "publish:site": "bash site/publish.sh"
   },
   "dependencies": {
