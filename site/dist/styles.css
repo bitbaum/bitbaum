@@ -293,7 +293,12 @@ a.card-name:hover { color: var(--accent); }
 /* margin-top:auto so every card in a row ends its links on the same line. */
 .pkg-links { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--fg-3); margin-top: auto; padding-top: 0.6rem; }
 .pkg-links a:hover { color: var(--fg); }
-.pkg-jump { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin-top: 1.25rem; font-size: 0.95rem; }
+.pkg-card { position: relative; }
+.pkg-cover { display: grid; gap: 0.35rem; color: inherit; text-decoration: none; }
+.pkg-cover::after { content: ""; position: absolute; inset: 0; }
+.pkg-card .pkg-install, .pkg-card .uses, .pkg-card .pkg-links { position: relative; z-index: 1; }
+.pkg-jump { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; margin-top: 1.25rem; font-size: 0.95rem; }
+.pkg-jump a { min-height: 44px; display: inline-flex; align-items: center; }
 .pkg-jump a { color: var(--fg-2); border-bottom: 1px solid var(--line-2); }
 .pkg-jump a:hover { color: var(--fg); }
 
