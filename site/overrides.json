@@ -319,8 +319,8 @@
     },
     {
       "id": "value",
-      "title": "Move value",
-      "lede": "Get paid in whatever the other person already treats as money. The site shows where it goes. It does not hold it."
+      "title": "Get paid",
+      "lede": "A website can take a payment. The money goes to the person being paid, not into an account the website holds."
     }
   ],
   "upcomingPackages": [
@@ -329,10 +329,10 @@
       "name": "paykit",
       "status": "next",
       "group": "value",
-      "what": "A destination someone can pay, in Bitcoin or whatever else they already use. The site never holds the money.",
-      "why": "Every product that wants to get paid is one step from inventing a wallet, a balance, and a support desk. OrangeCat already refused that. A pay link is a pointer: the money lands in the recipient's own app. paykit is that decision, written so the next site does not have to rediscover it.",
-      "how": "A headless core classifies whatever someone pastes — a Lightning address, a Bitcoin address, later a Twint code or a Monero address — and says which kind it is. A settled rail can ask for a fresh payment request and notice when it is paid. A shown rail only displays the code; their app does the rest. An optional set of components renders the link, the in-person code, and a code for one amount. The host supplies two functions: make a request, and say whether it was paid. OrangeCat is the first host. Nothing in the package stores a key or a balance.",
-      "fits": "OrangeCat is how value reaches people without a bank deciding who qualifies. paykit is that sentence without the rest of OrangeCat, so a shop, a clinic, or a stranger's site can be paid the same way. It is the piece the studio was missing between the work (Loki), the rules (Solon), and the money. It is not on npm yet: the behavior ships inside OrangeCat, and the package is the extraction."
+      "what": "Let a website get paid. Bitcoin today. The website does not hold the money.",
+      "why": "A shop, a clinic, or a fundraiser should be able to take a payment without building a wallet. OrangeCat already does this: you paste where the money should land, and the pay link sends it there. paykit is that same thing, so the next website does not rebuild it.",
+      "how": "Someone pastes what their Bitcoin app shows under Receive — a Lightning address or an ordinary Bitcoin address. The package tells which it is. For those, it can ask for a payment and show a code. A Twint code, or another currency, can be shown the same way later: the visitor pays in their own app. The website does not store keys and does not keep a balance. OrangeCat does this today. The package is not on npm yet.",
+      "fits": "OrangeCat is where people get paid. Loki is where the work happens. Solon is where the rules are decided. paykit is the getting-paid part, on its own, for a website that does not need the rest of OrangeCat."
     }
   ],
   "packages": {
@@ -401,10 +401,10 @@
     },
     "paykit": {
       "group": "value",
-      "what": "A destination someone can pay, in Bitcoin or whatever else they already use. The site never holds the money.",
-      "why": "Every product that wants to get paid is one step from inventing a wallet, a balance, and a support desk. OrangeCat already refused that. A pay link is a pointer: the money lands in the recipient's own app. paykit is that decision, written so the next site does not have to rediscover it.",
-      "how": "A headless core classifies whatever someone pastes — a Lightning address, a Bitcoin address, later a Twint code or a Monero address — and says which kind it is. A settled rail can ask for a fresh payment request and notice when it is paid. A shown rail only displays the code; their app does the rest. An optional set of components renders the link, the in-person code, and a code for one amount. The host supplies two functions: make a request, and say whether it was paid. OrangeCat is the first host. Nothing in the package stores a key or a balance.",
-      "fits": "OrangeCat is how value reaches people without a bank deciding who qualifies. paykit is that sentence without the rest of OrangeCat, so a shop, a clinic, or a stranger's site can be paid the same way. It sits between the work (Loki), the rules (Solon), and the money. It is not on npm yet: the behavior ships inside OrangeCat, and the package is the extraction."
+      "what": "Let a website get paid. Bitcoin today. The website does not hold the money.",
+      "why": "A shop, a clinic, or a fundraiser should be able to take a payment without building a wallet. OrangeCat already does this: you paste where the money should land, and the pay link sends it there. paykit is that same thing, so the next website does not rebuild it.",
+      "how": "Someone pastes what their Bitcoin app shows under Receive — a Lightning address or an ordinary Bitcoin address. The package tells which it is. For those, it can ask for a payment and show a code. A Twint code, or another currency, can be shown the same way later: the visitor pays in their own app. The website does not store keys and does not keep a balance. OrangeCat does this today. The package is not on npm yet.",
+      "fits": "OrangeCat is where people get paid. Loki is where the work happens. Solon is where the rules are decided. paykit is the getting-paid part, on its own, for a website that does not need the rest of OrangeCat."
     }
   }
 }
