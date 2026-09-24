@@ -1,5 +1,5 @@
-// The homepage Ask box hands the question to Loki's widget in Chat mode, where
-// the Cat and Loki answer from the public fleet map. The widget boots
+// The homepage Ask box hands the question to Loki's widget in Chat mode — a
+// chat the Cat and Loki both live in, answering from the public fleet map. The widget boots
 // asynchronously and can decline to render at all (a paused token, Loki
 // unreachable), so `window.Loki` decides: ready with `ask` → hand it over;
 // otherwise say so on the spot and offer the catalogue. A sentence typed as a

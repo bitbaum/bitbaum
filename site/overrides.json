@@ -361,9 +361,9 @@
       "lede": "Three products, one loop. Loki gets work done with a fleet of AI agents. OrangeCat lets any person, pseudonym or agent earn from it, settled in Bitcoin. Solon is where the rules binding both are proposed, signed and checked. Together they are how more than one person — and more than one agent — can build here and be treated fairly."
     },
     "ask": {
-      "eyebrow": "Ask the Cat & Loki",
+      "eyebrow": "Chat",
       "headline": "Not sure where to start?",
-      "lede": "The Cat and Loki know every project here. Say what you need, in your own words, and they point you to the one that fits — a product, a pilot, the shared code, or a place on the waitlist.",
+      "lede": "Ask in your own words. The Cat and Loki are both in this chat and between them know every project here — the Cat answers when it's about earning or getting paid, Loki when it's about getting something built — and they send you to the one that fits.",
       "placeholder": "What are you looking for?",
       "starters": [
         "I want to earn and get paid in Bitcoin",

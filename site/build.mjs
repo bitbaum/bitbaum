@@ -446,7 +446,7 @@ ${s.does.map((d) => `              <li>${esc(d)}</li>`).join("\n")}
           <p class="lede">${esc(ask.lede)}</p>
         </div>
         <form class="ask-form" id="ask-form" action="/work/" method="get">
-          <label class="sr-only" for="ask-q">Ask about any project</label>
+          <label class="sr-only" for="ask-q">Ask the chat about any project</label>
           <div class="ask-row">
             <input id="ask-q" type="text" maxlength="1000" autocomplete="off" placeholder="${esc(ask.placeholder ?? "")}">
             <button class="btn primary" type="submit">Ask ${ARROW}</button>
