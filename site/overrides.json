@@ -296,7 +296,11 @@
       "story": "Named, not built."
     }
   ],
-  "packages_lede": "The shared code every product is built from. Each one exists because a second app was about to write the same thing. Open a package to read why it exists, how it works, and where it sits in the studio.",
+  "packages_lede": "Shared tools for different product needs. Each package page explains what it does, how it works, where to get it, and which apps list it as a dependency. Some are new and have no adopters yet.",
+  "homePackageGroups": [
+    { "title": "Used across the fleet", "packages": ["ai-kit", "mail-kit", "bip-kit"] },
+    { "title": "More shared tools", "packages": ["limitkit", "ai-forms", "listkit"] }
+  ],
   "packageGroups": [
     {
       "id": "think",
@@ -328,7 +332,7 @@
     "ai-kit": {
       "group": "think",
       "what": "Which model to call, whether the vendor still serves it, and what to do when every one of them fails.",
-      "why": "Fourteen apps needed a model. The first copy picked one vendor and broke when that vendor had a bad day. The second copy would have done it again. ai-kit is the last copy: one chain, one way to tell a rate limit from an outage, one shared daily pool.",
+      "why": "{{adopters_word}} apps needed a model. The first copy picked one vendor and broke when that vendor had a bad day. The second copy would have done it again. ai-kit is the last copy: one chain, one way to tell a rate limit from an outage, one shared daily pool.",
       "how": "You name the job, not the vendor. The kit walks a fallback chain, classifies a 429 into the three kinds that are not the same failure, and rations a shared daily allowance so one app cannot empty the free tiers for the others. When every vendor fails, it says so instead of inventing an answer.",
       "fits": "The Cat, the intake forms, the research tools and the agents in Loki all think through this. A product that calls a model and does not use it is writing the second copy."
     },
@@ -342,7 +346,7 @@
     "mail-kit": {
       "group": "reach",
       "what": "One email layer for every app. Never throws — it returns whether the mail was sent.",
-      "why": "Email is where products quietly grow a second, private implementation: a different sender, a swallowed error, a test message that reaches a real person. Eleven apps had started.",
+      "why": "Email is where products quietly grow a second, private implementation: a different sender, a swallowed error, a test message that reaches a real person. {{adopters_word}} apps had started.",
       "how": "Resend, over raw fetch, with no other dependencies. The call returns a result that says whether the mail went, rather than throwing and hoping a catch exists. Sandbox and placeholder addresses are refused, and the shared sender is one convention.",
       "fits": "Hire, notifications, and anything that has to reach a person outside the product. It is the boring half of 'reach someone'. threadkit is the half that stays inside."
     },
@@ -386,7 +390,7 @@
       "what": "Rate limiting as a decision, not middleware. Bounded memory by construction, standard headers.",
       "why": "Public routes were growing one-off counters that forgot to bound themselves, and that told the client nothing when they said no. The failure mode is a process that remembers every IP forever.",
       "how": "Fixed and sliding windows over a store you pass in, with a bounded in-memory store as the default. The decision is separate from the framework. The response carries the standard rate-limit headers, and the client IP is read in one place.",
-      "fits": "It is what lets a small studio leave a door open — hire, pay links, public APIs — without one caller becoming the outage. Eight apps already depend on that being true."
+      "fits": "It is what lets a small studio leave a door open — hire, pay links, public APIs — without one caller becoming the outage. {{adopters_word}} apps already depend on that being true."
     },
     "paykit": {
       "group": "value",

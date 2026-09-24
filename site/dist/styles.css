@@ -63,28 +63,12 @@
   --scrim-3: hsl(var(--surface-base) / 0.96);
 }
 
-/* Dark is a class, exactly as the package intends, so light / dark / system
-   is a class on <html> and never a second stylesheet. */
+/* Dark roles come from @bitbaum/design-tokens (.dark). Site-only cinema scrims. */
 .dark {
-  /* Override the package's ROLES, not this file's aliases: anything else that
-     reads --surface-base (the sticky header, the scrims) then agrees instead of
-     sitting a shade apart. */
-  --surface-base: 0 0% 0%;
-  --surface-raised: 0 0% 5%;
-  --surface-overlay: 0 0% 9%;
-  --text-primary: 0 0% 92%;
-  --text-secondary: 0 0% 65%;
-  --text-tertiary: 0 0% 48%;
-  --text-inverted: 0 0% 4%;
-  --border-subtle: 0 0% 15%;
-  --border-default: 0 0% 26%;
-  --accent: hsl(0 0% 96%);
-  --accent-hover: hsl(0 0% 100%);
-  --on-accent: hsl(0 0% 4%);
   --bed-opacity: 0.26;
-  --scrim-1: hsl(0 0% 0% / 0.86);
-  --scrim-2: hsl(0 0% 0% / 0.72);
-  --scrim-3: hsl(0 0% 0% / 0.96);
+  --scrim-1: hsl(var(--surface-base) / 0.86);
+  --scrim-2: hsl(var(--surface-base) / 0.72);
+  --scrim-3: hsl(var(--surface-base) / 0.96);
 }
 
 /* ─── base ────────────────────────────────────────────────────────────── */
@@ -149,7 +133,7 @@ img { max-width: 100%; display: block; }
 /* Three states, one row of hairline squares — the same geometry as the rest
    of the chrome, so the switcher reads as part of the page and not a widget. */
 .theme { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 3px; margin-left: 0.75rem; flex: none; }
-.theme button { display: grid; place-items: center; width: 28px; height: 26px; padding: 0; border: 0; border-radius: 2px; background: transparent; color: var(--fg-3); cursor: pointer; transition: color 120ms ease, background 120ms ease; }
+.theme button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 2px; background: transparent; color: var(--fg-3); cursor: pointer; transition: color 120ms ease, background 120ms ease; }
 .theme button:hover { color: var(--fg); }
 .theme button[aria-pressed="true"] { color: var(--fg); background: var(--bg-overlay); }
 .theme svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
@@ -162,6 +146,8 @@ img { max-width: 100%; display: block; }
 .hero .actions { margin-top: 0.75rem; }
 .hero-facts { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: 0.875rem; color: var(--fg-3); }
 .hero-facts b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.hero-facts a { color: inherit; }
+.hero-facts a:hover { color: var(--fg); }
 
 /* ─── cinematic hero ───────────────────────────────────────────────────── */
 /* The headline says "many products". The bed behind it IS them — every tile a
@@ -203,10 +189,19 @@ img { max-width: 100%; display: block; }
 .signup input, .signup select, .signup textarea { font: inherit; font-size: 0.95rem; color: var(--fg); background: var(--bg-raised); border: 1px solid var(--line-2); border-radius: 3px; padding: 0.65rem 0.8rem; min-height: 46px; width: 100%; }
 .signup textarea { min-height: 116px; resize: vertical; line-height: 1.5; }
 .signup input::placeholder, .signup textarea::placeholder { color: var(--fg-3); }
-.signup input:focus-visible, .signup select:focus-visible, .signup textarea:focus-visible { outline: none; border-color: var(--accent); }
+.signup input:focus-visible, .signup select:focus-visible, .signup textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
 .field.submit { margin-top: 0.3rem; }
 .field.submit .btn { width: fit-content; }
-.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+.skip { position: absolute; left: var(--gutter); top: 0.5rem; z-index: 20; padding: 0.55rem 0.9rem; background: var(--accent); color: var(--on-accent); border-radius: 3px; font-size: 0.8rem; font-weight: 600; transform: translateY(-200%); }
+.skip:focus { transform: translateY(0); }
+a.spec { color: inherit; transition: color 120ms ease; }
+a.spec:hover .spec-value { color: var(--accent); }
+.method { display: grid; gap: 0.45rem; padding: 0.25rem 0 1.25rem; border-bottom: 1px solid var(--line); }
+.method .card-name { font-size: 1.05rem; font-weight: 600; }
+.method .card-what { color: var(--fg-2); line-height: 1.55; }
+button.pkg-install { display: block; width: 100%; text-align: left; cursor: pointer; font: inherit; }
+button.pkg-install.copied { border-color: var(--ok, hsl(145 55% 40%)); }
 .form-status { margin: 0.9rem 0 0; font-size: 0.95rem; color: var(--fg-2); min-height: 1.4em; }
 .form-status.bad { color: hsl(var(--status-negative)); }
 
@@ -298,25 +293,9 @@ a.card-name:hover { color: var(--accent); }
 /* margin-top:auto so every card in a row ends its links on the same line. */
 .pkg-links { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--fg-3); margin-top: auto; padding-top: 0.6rem; }
 .pkg-links a:hover { color: var(--fg); }
-.pkg-card { position: relative; }
-.pkg-card:hover { border-color: var(--line-2); }
-.pkg-card:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }
-.pkg-cover { display: grid; gap: 0.35rem; color: inherit; text-decoration: none; }
-.pkg-badges { display: inline-flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 0.35rem; }
+.pkg-card .pkg-badges { display: inline-flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 0.35rem; }
 .pkg-version { color: var(--fg-2); font-variant-numeric: tabular-nums; }
 .pkg-category { color: var(--fg-3); }
-.pkg-cover::after { content: ""; position: absolute; inset: 0; }
-.pkg-card .pkg-install, .pkg-card .uses, .pkg-card .pkg-links { position: relative; z-index: 1; }
-/* Keep the adopter chips as their own links while the unused space around
-   them remains part of the card's developer-profile link. */
-.pkg-card .uses { pointer-events: none; }
-.pkg-card .uses .chips a { pointer-events: auto; }
-.pkg-links .pkg-open { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 2.75rem; color: var(--fg); font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; }
-.pkg-feature { display: flex; align-items: center; justify-content: space-between; gap: 1rem; grid-column: 1 / -1; padding: 1rem; border: 1px solid var(--line-2); background: var(--bg-raised); }
-.pkg-feature .label { display: block; }
-.pkg-feature p { max-width: 56ch; margin: 0.45rem 0 0; color: var(--fg-2); }
-.pkg-feature .btn { flex: none; }
-.pkg-feature .btn span { margin-left: 0.35rem; }
 .pkg-controls { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(14rem, 2fr) repeat(3, minmax(9rem, 1fr)); align-items: end; gap: 0.85rem; margin-top: 1.5rem; padding: 1rem; border: 1px solid var(--line); background: var(--bg-raised); }
 .pkg-controls[hidden], .pkg-card[hidden], .pkg-empty[hidden] { display: none !important; }
 .pkg-controls label { display: grid; gap: 0.4rem; color: var(--fg-2); font-size: 0.76rem; }
@@ -395,7 +374,6 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .top { height: auto; }
   .top .wrap { height: auto; flex-wrap: wrap; row-gap: 0.15rem; padding-block: 0.65rem; }
   .theme { margin-left: auto; }
-  .theme button { width: 44px; height: 44px; }
   .mark { min-height: 44px; }
   .top nav { order: 3; flex: 1 0 100%; margin-left: 0; overflow: visible; flex-wrap: wrap; row-gap: 0.1rem; column-gap: 0.85rem; }
   .top nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0.35rem 0; }
@@ -403,12 +381,10 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .pager a { min-height: 44px; display: inline-flex; align-items: center; }
   .pkg-links { align-items: center; gap: 0.9rem; }
   .pkg-links a, .pkg-links span, footer nav a, .venture-facts a { display: inline-flex; align-items: center; min-height: 44px; }
-  .pkg-feature { align-items: flex-start; flex-direction: column; }
-  .pkg-feature .btn { width: 100%; justify-content: center; min-height: 44px; }
   .pkg-controls { grid-template-columns: 1fr; }
   .pkg-guidance, .pkg-result { grid-column: 1; }
   footer nav { gap: 0.1rem; }
-  .uses .chips a { display: inline-flex; align-items: center; min-height: 32px; }
+  .uses .chips a, .uses .chips span, .chip { display: inline-flex; align-items: center; min-height: 44px; }
   .signup { grid-template-columns: 1fr; }
   .hero-cinema { min-height: 74vh; }
   .btn { padding: 0 1.15rem; font-size: 0.72rem; }

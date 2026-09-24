@@ -12,8 +12,12 @@ importers:
         specifier: 1.1.0
         version: 1.1.0
       listkit:
-        specifier: github:bitbaum/listkit#v0.1.0
+        specifier: github:bitbaum/listkit#69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525
         version: https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525
+    devDependencies:
+      playwright:
+        specifier: 1.63.0
+        version: 1.63.0
 
 packages:
 
@@ -26,8 +30,24 @@ packages:
     version: 0.1.0
     engines: {node: '>=20'}
 
+  playwright-core@1.63.0:
+    resolution: {integrity: sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==}
+    engines: {node: '>=20'}
+    hasBin: true
+
+  playwright@1.63.0:
+    resolution: {integrity: sha512-+7ziBLidS4NaNCdt57SUDT+wYmmd5fmiQejUic/kb+YsYSCPyOOE9sebzMjNmQrsnNpDJqd4WHvV/8lfKfUDUg==}
+    engines: {node: '>=20'}
+    hasBin: true
+
 snapshots:
 
   '@bitbaum/design-tokens@1.1.0': {}
 
   listkit@https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525: {}
+
+  playwright-core@1.63.0: {}
+
+  playwright@1.63.0:
+    dependencies:
+      playwright-core: 1.63.0

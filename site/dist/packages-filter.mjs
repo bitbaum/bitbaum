@@ -9,7 +9,7 @@ if (grid && controls) {
     group: card.dataset.group,
     adoption: card.dataset.adoption,
     rank,
-    adopters: Number(card.querySelector(".uses .label")?.nextElementSibling?.querySelectorAll("a, span").length ?? 0),
+    adopters: Number(card.dataset.adopters ?? 0),
     text: card.innerText,
     card,
   }));

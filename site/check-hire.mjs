@@ -85,7 +85,7 @@ say(posts === 0, "and too little detail is refused too");
 say((await page.textContent("#form-waitlist ~ .form-status")).length > 0, "both say why");
 
 // honeypot: a bot is answered exactly as a person is, and nothing is sent
-await page.$eval("#form-waitlist .hp", (el) => (el.value = "Acme"));
+await page.$eval('#form-waitlist [name="website"]', (el) => (el.value = "Acme"));
 await fill("#f-waitlist-what", "We have an inherited Rails app nobody understands.");
 await page.click("#form-waitlist button[type=submit]");
 await page.waitForTimeout(250);
