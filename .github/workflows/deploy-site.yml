@@ -50,6 +50,8 @@ jobs:
         run: node site/build.mjs --require-fresh
       - run: node site/build.mjs --check
       - name: Claims gate (built dist)
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: node site/check-claims.mjs
       - name: Theme gate against local dist
         run: |
