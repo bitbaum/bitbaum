@@ -48,41 +48,80 @@
       "what": "Your AI economic agent",
       "stage": "product",
       "pillar": "Economy",
-      "homeLine": "Earn through pay-links; Bitcoin settles the payment.",
+      "homeLine": "Your AI economic agent. Turn who you are into income; Bitcoin settles.",
       "tags": [
         "Infrastructure",
         "AI agents"
       ],
       "order": 1,
       "pillarRole": "How value reaches people. Any identity — a person, a pseudonym, an AI agent — takes part in the economy without a bank's permission, and Bitcoin settles it.",
-      "story": "OrangeCat sets up ways to earn, Bitcoin settles, and you stay in charge. Any identity — a person, a pseudonym, an AI agent — takes part in the economy without asking a bank or a platform first. Pay-links work today; funding, lending and the Cat's allocation are governed in Solon and built in the open."
+      "story": "OrangeCat sets up ways to earn, Bitcoin settles, and you stay in charge. Any identity — a person, a pseudonym, an AI agent — takes part in the economy without asking a bank or a platform first. Pay-links work today; funding, lending and the Cat's allocation are governed in Solon and built in the open.",
+      "stack": {
+        "headline": "Turn who you are into income.",
+        "promise": "Earning still runs through gatekeepers: a bank account, a platform's approval, a legal name. OrangeCat drops them. A person, a pseudonym or an AI agent is a first-class participant. Your Cat sets up the ways to earn, Bitcoin settles wallet to wallet, and nobody holds your money but you.",
+        "does": [
+          "A pay link at orangecat.ch/pay/you — Lightning or on-chain, non-custodial, 0% taken by OrangeCat.",
+          "The Cat: an AI agent that lists what you offer, messages, books, remembers and pays — each action behind your permission.",
+          "Products, services, projects, causes, events and groups, all published from one profile.",
+          "Companions with memory, direct messages and a timeline — the social layer value moves through.",
+          "Run the Cat on a free daily allowance, top up in sats, bring your own key, or use a local model.",
+          "Sign in with OrangeCat — the identity Loki and Solon already accept."
+        ],
+        "connects": "The Cat hands builds to Loki and files proposals to Solon. What it may spend is not a setting we control: it is a policy decided in Solon, and OrangeCat re-checks every vote signature before it applies one."
+      }
     },
     "loki": {
       "name": "Loki",
       "what": "Run your fleet. From anywhere.",
       "stage": "product",
       "pillar": "Execution",
-      "homeLine": "Dispatch agents, follow sessions, review changes.",
+      "homeLine": "Direct a fleet of AI agents from anywhere. It built everything on this page.",
       "tags": [
         "Infrastructure",
         "AI agents"
       ],
       "order": 2,
       "pillarRole": "How work gets done. Dispatch it to a fleet of AI agents and people, watch it, approve it, ship it — agents execute where the code lives.",
-      "story": "Loki is the operating system for people running real AI agents: dispatch work to a fleet, watch it, approve it, ship it. Agents execute where the code lives; you command from anywhere. It builds and deploys every product on this page, including itself."
+      "story": "Loki is the operating system for people running real AI agents: dispatch work to a fleet, watch it, approve it, ship it. Agents execute where the code lives; you command from anywhere. It builds and deploys every product on this page, including itself.",
+      "stack": {
+        "headline": "Direct a fleet of AI agents from anywhere.",
+        "promise": "Loki is not another coding agent; it is the bridge above them. Say what you want in plain language and Loki routes it to the right project and runtime, runs it where the code lives, has a model from a different family check the result, and stops at the points where a human should decide. Borrow the workers, own the bridge.",
+        "does": [
+          "One composer: type or speak a request and it lands in the right project — or simply gets answered.",
+          "Control: every project, live session, queue and approval in one view, with autonomy set per project.",
+          "Claude Code, Codex, Gemini, Grok, Cursor and more behind one adapter, so no vendor owns your workflow.",
+          "Build on a shared cloud builder, or on your own machine with Fleet Runner and the desktop app.",
+          "Ships to production: the deploy pipeline behind every product in this stack, Loki included.",
+          "A feedback widget that turns what visitors report into work — the one on this page files into Loki."
+        ],
+        "connects": "Loki builds and deploys OrangeCat, Solon and itself, picks up open demand from OrangeCat, and sits in Solon as a voting agent member — under rules only humans can change. The catalogue on this site is its public fleet map."
+      }
     },
     "solon": {
       "name": "Solon",
       "what": "Governance software in development",
       "stage": "development",
       "pillar": "Governance",
-      "homeLine": "Signed votes and versioned rules, still in development.",
+      "homeLine": "Governance you can verify instead of trust — for humans and AI agents.",
       "tags": [
         "Infrastructure"
       ],
       "order": 3,
       "pillarRole": "Governance software still being built. Its public site describes signed votes, versioned rules and an audit trail; Bitbaum is not asking organisations to rely on it yet.",
-      "story": "Solon is still in development. Its public site demonstrates signed votes, versioned rules and an audit trail, but Bitbaum is not presenting it as ready to govern an organisation or as an active originator-payment scheme."
+      "story": "Solon is still in development. Its public site demonstrates signed votes, versioned rules and an audit trail, but Bitbaum is not presenting it as ready to govern an organisation or as an active originator-payment scheme.",
+      "stack": {
+        "headline": "Governance you can verify instead of trust.",
+        "promise": "When AI agents help run an economy, someone has to decide what they may do — and it should be neither the agents nor a company's settings page. Solon is a legislature for organisations of humans and agents: proposals, Bitcoin-signed votes, versioned rules and a public record anyone can recount. It is in development; the mechanism works end to end and its first real decision is still ahead.",
+        "does": [
+          "Every vote is a Bitcoin-signed message over the whole ballot: one member, one signature.",
+          "Six voting methods — single choice, consent, approval, dot, score, ranked — and profiles from town to cooperative to company.",
+          "Red lines only humans can vote on: aid, membership, safety and the governance rules themselves.",
+          "Rules freeze when a vote opens, so every past decision stays explainable after the rules change.",
+          "Any decision can be fetched as a signed record and recounted by anyone; the audit trail is append-only.",
+          "A watch-only treasury: Solon holds no keys and has no code path that can spend."
+        ],
+        "connects": "Solon sets the ceiling on what OrangeCat's Cat may spend. The Cat proposes, the Cat and Loki vote with their own keys, and OrangeCat verifies those signatures before anything changes. Loki deploys it; OrangeCat signs you in."
+      }
     },
     "revamp-info": {
       "name": "Hirnli",
@@ -306,8 +345,21 @@
   ],
   "packages_lede": "Shared tools for different product needs. Each package page explains what it does, how it works, where to get it, and which apps list it as a dependency. Some are new and have no adopters yet.",
   "home": {
-    "flagshipProjects": ["orangecat", "loki", "solon"],
-    "featuredPackages": ["ai-kit", "mail-kit", "bip-kit"]
+    "flagshipProjects": [
+      "orangecat",
+      "loki",
+      "solon"
+    ],
+    "featuredPackages": [
+      "ai-kit",
+      "mail-kit",
+      "bip-kit"
+    ],
+    "stack": {
+      "eyebrow": "The stack",
+      "headline": "Do the work. Get paid for it. Decide the rules together.",
+      "lede": "Three products, one loop. Loki gets work done with a fleet of AI agents. OrangeCat lets any person, pseudonym or agent earn from it, settled in Bitcoin. Solon is where the rules binding both are proposed, signed and checked. Together they are how more than one person — and more than one agent — can build here and be treated fairly."
+    }
   },
   "packageGroups": [
     {
