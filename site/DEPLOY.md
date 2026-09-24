@@ -144,6 +144,13 @@ exact Fleet commit that produced the new register. Run `Deploy Bitbaum site`
 manually from Actions to retry a failed publish; ordinary site changes also
 publish on `push`.
 
+### Observed deployment follow-up
+
+The 2026-09-24 publish completed successfully in 1m34s. GitHub emitted a
+non-blocking runtime notice that `actions/cache@v4` declares Node 20 and is
+being forced onto Node 24. This did not fail or materially delay that run;
+update the action when the workflow dependencies are next reviewed.
+
 ### Caddy headers (owned on the box)
 
 `/etc/caddy/apps.d/bitbaum.caddy` should keep at least:

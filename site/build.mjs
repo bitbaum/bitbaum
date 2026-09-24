@@ -82,7 +82,6 @@ const host = (url) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 const slugify = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const MARK = MARK_HEADER();
 const ARROW = `<span class="arrow" aria-hidden="true">&rarr;</span>`;
-const STAGE_RANK = { product: 0, pilot: 1, development: 2, concept: 3, next: 4 };
 const LOKI_FEEDBACK = JSON.parse(readFileSync(join(here, "loki-feedback.json"), "utf8"));
 if (!/^https:\/\//.test(LOKI_FEEDBACK.origin) || !/^fcw_[a-f0-9]{32}$/.test(LOKI_FEEDBACK.token)) {
   throw new Error("site/loki-feedback.json must contain an HTTPS Loki origin and public widget token");
@@ -149,9 +148,10 @@ export function ventures(map, cfg, origin, packages) {
     if (seen.has(x.slug) || !x.what || !x.stage) continue;
     out.push(build(x));
   }
-  // Stage order, then a venture's own order: the pager on a venture page
-  // walks the same sequence the grid shows.
-  return out.sort((a, b) => (STAGE_RANK[a.stage] ?? 9) - (STAGE_RANK[b.stage] ?? 9) || a.order - b.order || a.name.localeCompare(b.name));
+  // The stage order is owned by overrides.json alongside its labels, filters
+  // and definitions. The pager follows the same sequence as the work grid.
+  const stageRank = new Map(Object.keys(cfg.stages ?? {}).map((stage, index) => [stage, index]));
+  return out.sort((a, b) => (stageRank.get(a.stage) ?? Number.MAX_SAFE_INTEGER) - (stageRank.get(b.stage) ?? Number.MAX_SAFE_INTEGER) || a.order - b.order || a.name.localeCompare(b.name));
 }
 
 // apps.conf `live` means the process is SERVED. It is not a release claim, and
