@@ -48,6 +48,7 @@
       "what": "Your AI economic agent",
       "stage": "product",
       "pillar": "Economy",
+      "homeLine": "Earn through pay-links; Bitcoin settles the payment.",
       "tags": [
         "Infrastructure",
         "AI agents"
@@ -61,6 +62,7 @@
       "what": "Run your fleet. From anywhere.",
       "stage": "product",
       "pillar": "Execution",
+      "homeLine": "Dispatch agents, follow sessions, review changes.",
       "tags": [
         "Infrastructure",
         "AI agents"
@@ -74,6 +76,7 @@
       "what": "Governance software in development",
       "stage": "development",
       "pillar": "Governance",
+      "homeLine": "Signed votes and versioned rules, still in development.",
       "tags": [
         "Infrastructure"
       ],
@@ -303,7 +306,7 @@
   ],
   "packages_lede": "Shared tools for different product needs. Each package page explains what it does, how it works, where to get it, and which apps list it as a dependency. Some are new and have no adopters yet.",
   "home": {
-    "flagshipProjects": ["orangecat", "loki"],
+    "flagshipProjects": ["orangecat", "loki", "solon"],
     "featuredPackages": ["ai-kit", "mail-kit", "bip-kit"]
   },
   "packageGroups": [

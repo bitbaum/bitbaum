@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const config = JSON.parse(readFileSync(join(here, "loki-feedback.json"), "utf8"));
+const editorial = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
 const base = (process.argv[2] ?? "https://bitbaum.orangecat.ch").replace(/\/$/, "");
 const say = (ok, message) => console.log(`${ok ? "PASS" : "FAIL"} ${message}`);
 const browser = await chromium.launch({ headless: true });
@@ -23,6 +24,17 @@ try {
   const markup = html.includes(snippet) && html.includes(`data-fc-project="${config.token}"`);
   say(markup, "home page includes the configured Loki widget and project token");
   failed ||= !markup;
+  const stack = await page.locator(".home-stack-item").evaluateAll((items) => items.map((item) => item.getAttribute("data-stack-project")));
+  const stackMatches = JSON.stringify(stack) === JSON.stringify(editorial.home.flagshipProjects) && stack.includes("solon");
+  say(stackMatches, "homepage shows its configured stack, including Solon");
+  failed ||= !stackMatches;
+  const routes = await page.locator(".home-intro .actions a").evaluateAll((links) => links.map((link) => link.getAttribute("href")));
+  const clearRoutes = routes.some((href) => href?.startsWith("https://loki.orangecat.ch")) && routes.includes("/hire/#waitlist");
+  say(clearRoutes, "hero offers Loki for immediate use and the capacity-aware studio waitlist");
+  failed ||= !clearRoutes;
+  const responsive = await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth);
+  say(responsive, "homepage fits the mobile viewport without horizontal scrolling");
+  failed ||= !responsive;
   await page.waitForSelector("#loki-feedback-host", { state: "attached", timeout: 15_000 });
   const launcher = page.locator("#loki-feedback-host button[aria-label='Give feedback']");
   const mounted = await launcher.count() === 1 && await page.evaluate(() => window.Loki?.ready === true);

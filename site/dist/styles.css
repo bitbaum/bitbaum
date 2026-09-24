@@ -149,6 +149,41 @@ img { max-width: 100%; display: block; }
 .hero-facts a { color: inherit; }
 .hero-facts a:hover { color: var(--fg); }
 
+/* ─── homepage: the studio, its stack, and two clear doors ───────────── */
+.home-hero { padding-block: clamp(3rem, 7vw, 6.5rem); }
+.home-hero .wrap { grid-template-columns: minmax(0, 0.9fr) minmax(25rem, 1.1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+.home-intro { display: grid; align-content: center; justify-items: start; gap: 1.2rem; min-width: 0; }
+.home-intro .display-1 { max-width: 12ch; font-size: clamp(3rem, 5vw, 4.5rem); line-height: 0.98; text-transform: none; letter-spacing: -0.055em; }
+.home-lede { max-width: 34ch; margin: 0; font-size: clamp(1.1rem, 1.6vw, 1.35rem); line-height: 1.45; color: var(--fg-2); text-wrap: pretty; }
+.home-intro .actions { margin-top: 0.35rem; }
+.home-capacity { margin: 0; color: var(--fg-3); font-size: 0.85rem; }
+.home-stack { min-width: 0; padding: clamp(0.8rem, 2vw, 1.4rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raised); }
+.home-stack-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0 0.25rem 0.75rem; color: var(--fg-3); font-size: 0.78rem; }
+.home-stack-heading .label { color: var(--fg-2); }
+.home-stack-item { display: grid; grid-template-columns: minmax(5rem, 7.5rem) minmax(0, 1fr) auto; align-items: center; gap: clamp(0.75rem, 1.5vw, 1.2rem); min-width: 0; padding: 0.8rem 0.25rem; border-top: 1px solid var(--line); }
+.home-stack-item:hover .home-stack-name { text-decoration: underline; text-underline-offset: 0.18em; }
+.home-stack-shot { display: block; overflow: hidden; aspect-ratio: 16 / 10; border: 1px solid var(--line-2); background: var(--bg-overlay); }
+.home-stack-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.home-stack-copy { display: grid; gap: 0.2rem; min-width: 0; }
+.home-stack-top { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem 0.7rem; }
+.home-stack-layer { font-family: var(--mono); font-size: 0.66rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-3); }
+.home-stack-name { font-weight: 600; font-size: 1.15rem; }
+.home-stack-line { color: var(--fg-2); font-size: 0.85rem; line-height: 1.4; }
+.home-stack-arrow { color: var(--fg-3); font-size: 1.1rem; }
+.home-section-head { display: flex; justify-content: space-between; align-items: end; gap: 1rem 2rem; }
+.home-section-head > div { display: grid; gap: 0.4rem; }
+.home-page .display-2 { text-transform: none; letter-spacing: -0.04em; }
+.home-section-head .textlink { flex: none; margin-bottom: 0.3rem; }
+.home-section-note { margin: 0.7rem 0 1.4rem; max-width: 52ch; color: var(--fg-3); font-size: 0.92rem; }
+.home-package-grid .pkg-card .card-name { white-space: nowrap; flex: none; font-size: 1rem; }
+.home-package-grid .pkg-badges { gap: 0.2rem; }
+.home-package-grid .pkg-category { display: none; }
+.home-package-grid .pill { padding-inline: 0.35rem; font-size: 0.6rem; }
+.home-page .stage-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.1rem; }
+.home-page .stage-link { align-items: center; gap: 0.5rem; min-height: 44px; padding: 0.55rem 0.8rem; border-radius: var(--radius-pill); }
+.home-page .stage-count { font-size: 0.9rem; }
+.home-page .section { padding-block: clamp(2.5rem, 5vw, 4.5rem); }
+
 /* ─── cinematic hero ───────────────────────────────────────────────────── */
 /* The headline says "many products". The bed behind it IS them — every tile a
    screenshot of something running, so the picture cannot outrun the claim. */
@@ -356,6 +391,7 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .grid, .grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .facts { grid-template-columns: 1fr; }
   .venture-body { grid-template-columns: 1fr; }
+  .home-hero .wrap { grid-template-columns: minmax(0, 0.8fr) minmax(22rem, 1.2fr); gap: 1.5rem; }
 }
 @media (max-width: 900px) {
   .pkg-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -369,6 +405,20 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .hero.compact .eyebrow, .hero.compact .display-1, .hero.compact .lede,
   .hero.compact .actions, .hero.compact .hero-facts, .hero.compact .specs { grid-column: 1; grid-row: auto; }
   .spec + .spec { border-left: 0; padding-left: 0; }
+  .home-hero { padding-block: 2.2rem; }
+  .home-hero .wrap { grid-template-columns: 1fr; gap: 1.5rem; }
+  .home-intro { gap: 0.85rem; }
+  .home-intro .display-1 { max-width: 15ch; font-size: clamp(2.65rem, 10vw, 3.5rem); }
+  .home-lede { max-width: 38ch; }
+  .home-stack { padding: 0.65rem; }
+  .home-stack-item { grid-template-columns: 5rem minmax(0, 1fr) auto; gap: 0.7rem; padding-block: 0.65rem; }
+  .home-stack-name { font-size: 1.05rem; }
+  .home-stack-line { font-size: 0.79rem; }
+  .home-section-head { align-items: flex-start; flex-wrap: wrap; }
+  .home-page .section { padding-block: 2rem; }
+  .home-section-note { margin-bottom: 1rem; }
+  .home-page .stage-links { gap: 0.35rem; }
+  .home-page .stage-link { min-height: 40px; padding: 0.35rem 0.65rem; font-size: 0.78rem; }
 }
 @media (max-width: 640px) {
   /* The bar is one row on a desk. On a phone the same row left the menu a
