@@ -33,9 +33,10 @@ async function pageText(path) {
 }
 
 const home = await pageText("/");
+const work = await pageText("/work/");
 const studio = await pageText("/studio/");
 const packagesHtml = await pageText("/packages/");
-const all = home + studio + packagesHtml;
+const all = home + work + studio + packagesHtml;
 if (!all.trim()) {
   console.error("no pages to check — build first, or pass a base URL");
   process.exit(2);
@@ -111,13 +112,21 @@ say(
 
 const packages = JSON.parse(readFileSync(join(here, "packages.snapshot.json"), "utf8")).packages ?? [];
 const editorial = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
-const featured = editorial.homePackageGroups?.flatMap((g) => g.packages ?? []) ?? [];
+const featured = editorial.home?.featuredPackages ?? [];
 const featuredRendered = [...home.matchAll(/data-package="([a-z0-9-]+)"/g)].map((m) => m[1]);
 say(
-  featured.length === 6 && new Set(featured).size === 6 && featured.every((slug) => packages.some((p) => p.slug === slug)) &&
+  featured.length > 0 && new Set(featured).size === featured.length && featured.every((slug) => packages.some((p) => p.slug === slug)) &&
     JSON.stringify(featuredRendered) === JSON.stringify(featured),
-  `homepage shows exactly its six distinct curated packages (${featured.join(", ")})`,
+  `homepage shows exactly its configured distinct featured packages (${featured.join(", ")})`,
 );
+say(!home.includes('id="work-grid"') && work.includes('id="work-grid"'), "full work catalogue is on /work/, not duplicated on the homepage");
+say(home.includes("/widget.js") && work.includes("/widget.js") && studio.includes("/widget.js"), "Loki feedback widget is included by the shared page chrome");
+const widget = JSON.parse(readFileSync(join(here, "loki-feedback.json"), "utf8"));
+say(home.includes(`${widget.origin}/widget.js`) && home.includes(`data-fc-project="${widget.token}"`), "homepage widget points at the configured Loki project");
+const plainAll = all.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+say(!/\b(?:10%|10 percent|a tenth)\b[^.]{0,180}(?:revenue|originator|product)/i.test(plainAll), "no unsupported revenue-share promise is published");
+const workPlain = work.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+say(/Solon/.test(workPlain) && /in development/.test(workPlain) && /Causius/.test(workPlain) && /Skif/.test(workPlain), "development and not-built projects are present in the staged catalogue");
 say(!/Built from \d+ shared packages|every product is built from/i.test(home), "homepage does not imply every product uses every package");
 const pkgRepos = packages.map((p) => String(p.repo ?? "").split("/").pop()).filter(Boolean);
 const pkgNotMit = pkgRepos.filter((r) => licences[r] && licences[r] !== "MIT");
@@ -138,7 +147,7 @@ const shown = all.match(/block (\d{6,})/);
 say(!shown || Number(shown[1]) === earliest, `the block on the page is the register's earliest (${shown?.[1] ?? "not shown"} vs ${earliest})`);
 say((originSnap.repos ?? []).every((r) => r.provenSince), `every repo in the origin register is stamped (${blocks.length})`);
 say(
-  home.includes(`${originSnap.repos.length} repositories`) && home.includes(`${swhCount} have a Software Heritage snapshot`),
+  studio.includes(`${originSnap.repos.length} repositories`) && studio.includes(`${swhCount} have a Software Heritage snapshot`),
   `origin copy matches the register (${originSnap.repos.length} tracked, ${swhCount} archived in Software Heritage)`,
 );
 
@@ -154,11 +163,10 @@ if (paid === undefined) {
   say(paid > 0 || !claimsPaid, `nothing is described as paid to originators while the ledger is empty (paid=${paid})`);
   const current = readings.current;
   say(
-    home.includes(`${current.date} reading`) && home.includes(`${current.downloads.lastMonth.toLocaleString("en-US")} package downloads`) &&
-      home.includes(`CHF ${Number(current.clients?.mrrChf ?? 0).toLocaleString("en-US")} monthly client revenue`) &&
-      home.includes(`${current.originatorShare.paid} ${current.originatorShare.currency} paid to originators`) &&
-      home.includes("including our own CI installs"),
-    `homepage readings match Fleet's dated register (${current.date}) and disclose CI downloads`,
+      studio.includes(`${current.date} readings`) && studio.includes(`${current.downloads.lastMonth.toLocaleString("en-US")} package downloads`) &&
+      studio.includes(`CHF ${Number(current.clients?.mrrChf ?? 0).toLocaleString("en-US")} monthly client revenue`) &&
+      studio.includes("including our own CI installs"),
+    `studio readings match Fleet's dated register (${current.date}) and disclose CI downloads`,
   );
 }
 

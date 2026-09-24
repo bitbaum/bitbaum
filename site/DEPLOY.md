@@ -2,8 +2,8 @@
 
 **Why this site exists and who it serves: [PURPOSE.md](PURPOSE.md).** Read it before adding a section.
 
-The studio's front door. A home page, a page per venture, a packages page
-and a studio page — static HTML in `site/dist/`, no framework, no runtime
+The studio's front door. A focused home page, a filterable work catalogue, a
+page per venture, a packages page and a studio page — static HTML in `site/dist/`, no framework, no runtime
 fetch. The package catalogue's optional browser enhancement uses `listkit`
 for search, category/adoption facets, sorting, and shareable URL state; its
 cards remain present without JavaScript. Caddy serves `/opt/bitbaum/app` on
@@ -34,16 +34,21 @@ it will not publish from an old snapshot when a source is unavailable. Local
 offline builds may use the committed snapshots, so a developer can still work
 without network access.
 
-The home page features six packages selected in `homePackageGroups`; its build
-fails if a listed package disappears from the registry. The remaining packages
-stay available from `/packages/`. Readings are dated, and the page explicitly
-notes that package download totals include the studio's own CI installs.
+The home page features the two flagship projects and the three packages named
+in `home.featuredPackages`. Its build fails if a selected item disappears from
+the source registers. `/work/` contains the full staged project catalogue and
+`/packages/` contains every registered package. The Loki feedback widget is
+configured by `site/loki-feedback.json` and included by the shared page shell;
+its token is public and write-only. Dated readings appear only where useful,
+link to their source, and disclose that package downloads include CI installs.
 
 What this repository owns is presentation, in `site/overrides.json`:
 
 | key | meaning |
 |---|---|
-| `stages` | the four stages and their one-line definitions: `product`, `pilot`, `concept`, `next`. They are the STAGE facet on the home grid and the legend under it |
+| `stages` | readiness stages and their one-line definitions: `product`, `pilot`, `development`, `concept`, `next`. They drive the filter and legend on `/work/` and counts on the home page |
+| `home.flagshipProjects` | the intentionally small project showcase on the home page |
+| `home.featuredPackages` | the intentionally small package showcase on the home page |
 | `tagOrder` | the closed vocabulary for the FIELD facet. A tag not in this list fails the build, because a card nobody can filter to is a card nobody finds |
 | `overrides.<slug>.stage` | which stage a venture is at. Chosen by what a visitor can verify, **not** by the register's kind: a `client-app` row is a *pilot* (built for a real organisation, in real use, no commercial terms), never a client |
 | `overrides.<slug>.tags` | its fields, from `tagOrder` |
@@ -53,7 +58,7 @@ What this repository owns is presentation, in `site/overrides.json`:
 | `overrides.<slug>.name`, `url`, `order`, `for` | display name, URL override, position, who a pilot is for |
 | `overrides.<slug>.shot: false` | keep a placeholder page's screenshot off the site |
 | `adopterAliases` | repository name → venture slug, for the few packages whose adopter is not named after the venture (the Hirnli app lives in `bitbaum/hirnli`; the register row is `revamp-info`) |
-| `extras` | things the register does not know (no host row): Annushka, Skif |
+| `extras` | projects not represented by a row in the fleet map |
 | `packages` | one line per package slug over the derived registry |
 
 `site/hire.json` holds the hire page's editorial half: `offers` (name, price,
@@ -66,9 +71,9 @@ each package card lists the apps that use it (linked to their pages) and each
 venture page lists the packages it is built from (linked to the package). Nobody
 types either list; a package that quietly lost its last adopter shows it.
 
-## The work grid
+## The work catalogue
 
-One grid with two facets rather than four headed sections: stage is a chip row,
+`/work/` has one grid with two facets rather than four headed sections: stage is a chip row,
 field is a chip row, and the choice lives in the address bar
 (`#work?stage=pilot&field=health`) so a filtered view is a link you can send.
 Listkit owns the facet matching, search, sort, and URL codec used by this grid
@@ -85,7 +90,7 @@ handle, with no contact address at all; `bitbaum/hire` now redirects here.
 
 Rates, method, answers and the contact address are editorial, in
 `site/hire.json`. The live-work list on it is **not**: it is the same derived
-list as the home grid, which is the rule that matters — the old hand-typed
+list as `/work/`, which is the rule that matters — the old hand-typed
 version quoted a host that had been retired for two days, counted one renamed
 organisation as two systems, and used two superseded product names.
 

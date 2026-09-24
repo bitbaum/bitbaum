@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The studio — bitbaum</title>
-<meta name="description" content="Bit for software, Baum for the shape: many branches from one trunk. What has to exist before more than one person can build here.">
+<meta name="description" content="What Bitbaum builds, how its projects differ in readiness, and where the public numbers come from.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/studio/">
 <meta property="og:title" content="The studio — bitbaum">
-<meta property="og:description" content="Bit for software, Baum for the shape: many branches from one trunk. What has to exist before more than one person can build here.">
+<meta property="og:description" content="What Bitbaum builds, how its projects differ in readiness, and where the public numbers come from.">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/studio/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The studio — bitbaum">
-<meta name="twitter:description" content="Bit for software, Baum for the shape: many branches from one trunk. What has to exist before more than one person can build here.">
+<meta name="twitter:description" content="What Bitbaum builds, how its projects differ in readiness, and where the public numbers come from.">
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -42,7 +42,7 @@
     <div class="wrap">
       <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
       <nav aria-label="Site">
-        <a href="/#work">The work</a>
+        <a href="/work/">The work</a>
         <a href="/packages/">Packages</a>
         <a href="/studio/" aria-current="page">Studio</a>
         <a href="/#join">Build with us</a>
@@ -71,26 +71,24 @@
         <p class="lede">Bit for software. Baum, German for tree, for the shape: many branches from one trunk. The trunk is what lets a small group ship like a large one — and what lets the next person start in the middle rather than at the beginning.</p>
         <div class="actions">
           <a class="btn primary" href="/#join">Build with us <span class="arrow" aria-hidden="true">&rarr;</span></a>
-          <a class="btn secondary" href="/#work">See the work</a>
+          <a class="btn secondary" href="/work/">See the work</a>
         </div>
       </div>
     </section>
     <section class="section">
       <div class="wrap"><div class="prose">
         <h2>What bitbaum is</h2>
-        <p>A product studio, not a consultancy and not a single-product company. It ships AI-native products for real problems — an economic agent, an operating system for AI fleets, governance you can recount, tools for a non-profit, a clinic, a housing organisation — and each is built from the same shared infrastructure, so the next one is cheaper than the last. 15 of them run today — in beta, every one.</p>
+        <p>Bitbaum is a product studio building AI-native software. OrangeCat and Loki are public beta products. Other projects are labelled on the <a href="/work/">work catalogue</a> by what can be verified: pilot, in development, concept, or not built.</p>
         <h2>Why the stack is what it is</h2>
-        <p>Three of the products are less products for a customer than the conditions for working together. <a href="/orangecat/">OrangeCat</a> is how value reaches whoever did the work, without a bank deciding who qualifies. <a href="/loki/">Loki</a> is how work is dispatched to a fleet of AI agents and people, and verified before it ships. <a href="/solon/">Solon</a> is how rules are decided and recounted, by signature rather than by trust. Building them was the answer to a plain question: what has to exist before more than one person can build here and be treated fairly?</p>
+        <p><a href="/orangecat/">OrangeCat</a> is the economic product, with payment links and Bitcoin settlement. <a href="/loki/">Loki</a> is the engineering control plane for dispatching work to agents, following sessions and reviewing changes. <a href="/solon/">Solon is still in development</a>; it is not presented as ready for an organisation to depend on.</p>
         <h2>How the work gets done</h2>
-        <p>The trunk. 10 open-source packages carry the parts every product needs: which AI model to call and what to do when it fails, email, forms filled from prose, rate limits, lists, threads, design tokens, sites as data. Getting paid is <a href="/packages/paykit/">@bitbaum/paykit</a>: a website shows where the money should go and does not hold it. <a href="/orangecat/">OrangeCat</a> does the same thing. Loki runs a fleet of AI agents that build, verify and deploy every product here — including Loki. The human job is judgment: what to build, what is good enough, what is true.</p>
+        <p>The studio publishes 10 MIT-licensed packages for specific jobs: model routing, email, content, forms, rate limits, lists, threads and more. They are not all used by every product. Each <a href="/packages/">package profile</a> links to its source, current version and apps that list it as a dependency. Agents can do implementation work in Loki; people set the goals, review changes and remain responsible for what ships.</p>
         <h2>What is true</h2>
-        <p>Product lists, screenshots, adopter counts and origin stamps come from public registers and machine shots — not from someone typing a catalogue. Editorial lines (stage, one-liners, hire rates) live in this repository on purpose. There are no clients on this site because there are none: the pilots run for real organisations as favours, offered first, and say so.</p>
+        <p>The project list and package adopters come from public registers; stage descriptions and short summaries are editorial and are kept here for review. The work catalogue distinguishes projects built for real organisations from demos and things that are not built.</p>
         <h2>Open by construction</h2>
-        <p>The shared packages the studio publishes are MIT, and so are the three products the stack is built on — after OrangeCat and Loki were relicensed to MIT on 2026-09-18. Work built for someone else stays theirs. Contributor terms live in one place, <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md">bitbaum/.github</a>: sign off your commits and a sweep merges anything green. The <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a> records repository provenance: 45 repositories are tracked and 42 have a Software Heritage snapshot; the earliest recorded OpenTimestamps proof is anchored at Bitcoin block 966918.</p>
-        <h2>What originators are owed, and what is actually paid</h2>
-        <p>A <a href="https://solon.orangecat.ch/api/orgs/orangecat/policies/originator_share">versioned rule in Solon</a> says a tenth of a product’s net revenue belongs to the originators of the code it is built from, split equally, with who-originated-what read from the origin register rather than typed into the policy. The rule computes that split deterministically today. <strong>Nothing has been paid, and nothing can be yet:</strong> there is no revenue, no payout ledger, and the economic layer that moves money does not read the rule. It is a commitment made before it costs anything — which is the only time a commitment like that is cheap to make, and the reason it is written down where it can be checked.</p>
+        <p>The shared packages are MIT-licensed. Work built for someone else stays theirs. Contributor terms live in <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md">bitbaum/.github</a>. The <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a> tracks <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">45 repositories</a>, of which <a href="https://archive.softwareheritage.org/">42 have a Software Heritage snapshot</a>; the <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">earliest recorded proof is anchored at Bitcoin block 966918</a>.</p>
         <h2>Numbers, in the open</h2>
-        <p>The 2026-09-23 fleet reading reports 2 GitHub stars, 11,138 package downloads over 30 days (including our own CI installs), CHF 0 in monthly client revenue, and 0 BTC paid to originators. Read the <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">register</a> and the <a href="https://orangecat.ch/articles">writing</a> that keeps score in public.</p>
+        <p>Fleet's <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">2026-09-23 readings</a> report <a href="https://github.com/bitbaum">2 GitHub stars</a> and <a href="https://www.npmjs.com/org/bitbaum">11,138 package downloads over 30 days</a> (including our own CI installs). The same dated register reports <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">CHF 0 monthly client revenue</a>. These are readings, not forecasts; the source and date are linked.</p>
         <h2>Work with the studio</h2>
         <p>Fractional CTO and contract engineering, Zürich. Rates, scope and the waitlist are on the <a href="/hire/">hire page</a>. The code is on <a href="https://github.com/bitbaum">GitHub</a>.</p>
       </div></div>
@@ -105,7 +103,7 @@
         </div>
         <nav aria-label="The work">
           <h2 class="label">The work</h2>
-          <a href="/#work">All products</a>
+          <a href="/work/">All work and stages</a>
           <a href="/packages/">Packages</a>
           <a href="/studio/">The studio</a>
           <a href="/map.json">map.json</a>
@@ -128,5 +126,6 @@
   </footer>
   <script type="module" src="/theme.mjs"></script>
 
+  <script src="https://loki.orangecat.ch/widget.js" data-fc-project="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" async></script>
 </body>
 </html>

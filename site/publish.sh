@@ -28,14 +28,24 @@ ssh -o BatchMode=yes "$BOX" "set -e
   sudo find /opt/bitbaum/app -type f -exec chmod 644 {} +"
 
 fail=0
-for rel in "" packages/ packages/paykit/ studio/ hire/ orangecat/ loki/ solon/ robots.txt sitemap.xml map.json og/studio.png theme.mjs request.mjs; do
+for rel in "" work/ packages/ packages/paykit/ studio/ hire/ orangecat/ loki/ solon/ robots.txt sitemap.xml map.json og/studio.png theme.mjs request.mjs; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_ORIGIN/$rel")
   [ "$code" = "200" ] || { echo "$SITE_ORIGIN/$rel -> $code" >&2; fail=1; }
 done
+node "$HERE/check-widget.mjs" "$SITE_ORIGIN" || fail=1
 home="$(curl -fsS "$SITE_ORIGIN/")" || { echo "home page unreachable" >&2; fail=1; }
-grep -q 'id="work-grid"' <<<"$home" || { echo "home page has no work grid" >&2; fail=1; }
+work="$(curl -fsS "$SITE_ORIGIN/work/?publish=$stamp")" || { echo "work page unreachable" >&2; fail=1; }
+grep -q 'id="work-grid"' <<<"$work" || { echo "work page has no project grid" >&2; fail=1; }
+if grep -q 'id="work-grid"' <<<"$home"; then echo "home page still duplicates the full project catalogue" >&2; fail=1; fi
+expected_featured=$(node -e 'console.log(require("./site/overrides.json").home.featuredPackages.length)')
+featured=$(grep -o 'data-package="[^"]*"' <<<"$home" | wc -l | tr -d ' ')
+[ "$featured" = "$expected_featured" ] || { echo "home page has $featured featured packages; expected $expected_featured from config" >&2; fail=1; }
 grep -q 'id="join"' <<<"$home" || { echo "home page has no join section" >&2; fail=1; }
 grep -q 'Skip to content' <<<"$home" || { echo "home page has no skip link" >&2; fail=1; }
+widget_src=$(node -e 'const c=require("./site/loki-feedback.json"); console.log(`${c.origin}/widget.js`)')
+grep -Fq "$widget_src" <<<"$home" || { echo "home page does not load the Loki widget" >&2; fail=1; }
+widget_code=$(curl -s -o /dev/null -w '%{http_code}' "$widget_src")
+[ "$widget_code" = "200" ] || { echo "Loki widget script -> $widget_code" >&2; fail=1; }
 hire="$(curl -fsS "$SITE_ORIGIN/hire/")" || { echo "hire page unreachable" >&2; fail=1; }
 grep -q 'class="signup js-request"' <<<"$hire" || { echo "hire page has no request form" >&2; fail=1; }
 grep -q 'request.mjs' <<<"$hire" || { echo "hire page does not load request.mjs" >&2; fail=1; }
@@ -68,6 +78,4 @@ if grep -q '"changelog"' <<<"$map_json"; then echo "published map.json still con
 if grep -qi 'solo-founder' <<<"$map_json"; then echo "published map.json still says solo-founder" >&2; fail=1; fi
 robots="$(curl -fsS "$SITE_ORIGIN/robots.txt")" || { echo "robots.txt unreachable" >&2; fail=1; }
 grep -q 'Disallow: /map.json' <<<"$robots" || { echo "robots.txt must Disallow /map.json" >&2; fail=1; }
-cards=$(grep -o 'class="card[^"]*" href="/' <<<"$home" | wc -l)
-[ "$cards" -ge 20 ] || { echo "home page shows only $cards venture cards" >&2; fail=1; }
 [ "$fail" -eq 0 ] && echo "live: $SITE_ORIGIN/ ($(find "$HERE/dist" -name index.html | wc -l) pages)" || exit 1

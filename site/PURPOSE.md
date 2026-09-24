@@ -8,7 +8,10 @@ application, or join — can decide in two minutes and take the next step.
 Read this before adding a section. A new thing being true is not a reason to
 put it on the site; serving one of the readers below is.
 
-## Who it serves today — measured, 2026-09-15
+## Historical arrival audit — 2026-09-15
+
+This is a dated baseline, not a current audience report. Re-run `site/visits.sh`
+before using it to make present-day decisions.
 
 Almost nobody, and the reason is structural, not visual.
 
@@ -38,7 +41,7 @@ So the first job is **arrival**, and layout is second. See "How people arrive".
 | 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this supplier real and senior, what does it cost, and is it worth waiting for? | `/hire/`, with venture pages as evidence | the waitlist form |
 | 2 | **A developer who already uses a package** | Is this maintained, and what else is here? | `/packages/`, reached from a package README | install, source |
 | 3 | **An organisation receiving an application** — a public service, a non-profit, AOZ, SBB, Stadt Zürich | What exists, how real is it, can I reply? | one venture page, sent as a direct link | "Ask about …" on that page |
-| 4 | **A builder who might join** | Can I contribute, and what do I get, exactly? | `/#join` | contributor terms, a pull request |
+| 4 | **A builder who might contribute** | What can I contribute, and how are outside changes reviewed? | `/#join` | contributor terms, a pull request |
 | 5 | **An agent** | What exists, where, in what state? | `/map.json` (redacted catalogue — no ops changelog) | — |
 
 Reader 1 is first because it is the only near-term path to revenue. Reader 4 is
@@ -53,8 +56,12 @@ for a list of gaps (the fleet registers publish those, not this page).
 
 ## What each page is for
 
-- **`/`** — who we are in one line, then *Start where you are*: four doors, one
-  per reader, before any catalogue. The work grid, packages and joining follow.
+- **`/`** — a short introduction, the current waitlist route, Loki as the
+  self-serve option for urgent agent-assisted work, the OrangeCat/Loki flagship
+  products, three selected packages, and stage counts linking to `/work/`.
+  The complete work catalogue and package list have their own pages.
+- **`/work/`** — all projects that have an editorial profile, filtered by
+  readiness stage and field. “Not built” is a real stage, not a roadmap promise.
 - **Venture pages** — must stand alone, because reader 3 arrives on one with no
   other context: the problem, what exists, the honest stage, a screenshot a
   machine took, and a way to reply.
@@ -86,11 +93,10 @@ A page nobody reaches helps nobody. In leverage order:
 
 1. **Shared links render properly** — share image and title on every page. *Done.*
 2. **The GitHub organisation page** — website field and a profile README
-   pointing at the four doors.
+  pointing at the studio, work catalogue and packages.
 3. **The personal GitHub profile** — README and website field land on the site.
-4. **Every package README** links back ("part of bitbaum"), routing the one
-   audience that already exists. *Done, 2026-09-17* — all nine, each linking
-   the studio and `/packages/#<slug>`, which lists the apps that use it.
+4. **Every package README** links back ("part of bitbaum"), routing package
+  developers to the studio and the corresponding `/packages/#<slug>` profile.
 5. **Applications link a venture page**, not the home page.
 6. **OrangeCat articles** link the venture or package they are about.
 
@@ -98,7 +104,8 @@ A page nobody reaches helps nobody. In leverage order:
 
 - **"Client."** There are none. `client-app` in the hosting register is a
   provisioning fact; publicly those are *pilots* and *concepts*.
-- **"Live" or "released."** Everything is in beta. Running is not released.
+- **"Live" or "released" as a maturity claim.** Public services are labelled
+  beta; pilots, development, concepts, and not-built work keep their own stage.
 - **A start date, or any implication of capacity there isn't.** Rates ARE
   published — that is what lets a reader qualify themselves — but while
   `availability.state` is `closed`, every door leads to the waitlist and the
@@ -110,9 +117,9 @@ A page nobody reaches helps nobody. In leverage order:
   company's. (The visitor's own draft email is the one place "I" is right.)
 - **"One-person studio"**, or any solo framing. The point of the stack is that
   more than one person can build here.
-- **More than the rules deliver.** The originator share (Solon, v1) pays
-  whoever *first authored a repository*, there is no revenue, and a
-  contribution to an existing repository earns no share. Say exactly that.
+- **A payment or revenue-share promise.** No active originator-payment scheme
+  is being offered. Do not imply that contributors are owed a percentage or
+  that a policy vote already exists.
 - **Anything hand-typed that a register already knows.** Counts, names and
   hosts are derived; a static image carries no numbers.
 
@@ -132,12 +139,10 @@ Read weekly, once they can be read:
 
 ## Open decisions — Cato's, not the site's
 
-1. **Credit contributors in the originator share** (a Solon v2 proposal) —
-   until then, joining is licensing and review, not income.
-2. **The credibility spine on `/hire/`** — the finance-to-engineering path is
+1. **The credibility spine on `/hire/`** — the finance-to-engineering path is
    the strongest differentiator on record and appears nowhere on the site.
    Publish only in wording Cato has confirmed.
-3. **The named legal party** in Loki's licence, terms and privacy policy.
+2. **The named legal party** in Loki's licence, terms and privacy policy.
 
 Measurement is no longer one of these: this host writes its own access log
 (`/etc/caddy/apps.d/bitbaum.caddy`, 5mb rolls, 20 kept, 90 days) and

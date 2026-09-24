@@ -1,15 +1,20 @@
 {
-  "_comment": "The presentation layer over the fleet register (https://loki.orangecat.ch/api/fleet/map). The register says WHAT EXISTS and WHERE; this file says how bitbaum shows it. Keyed by canonical slug = repository name. A register row without a `what` here is not shown at all. `stage` is one of product | pilot | concept | next, chosen by what a visitor can verify — never by the register's kind: a `client-app` row is a PILOT (built for a real organisation, in real use, no commercial terms), never a client. `tags` are the FIELD facet on the home grid and must come from `tagOrder`. `story` is the venture's own page. `shot: false` keeps a placeholder page's screenshot off the site.",
+  "_comment": "The presentation layer over the fleet register (https://loki.orangecat.ch/api/fleet/map). The register says WHAT EXISTS and WHERE; this file says how bitbaum shows it. Keyed by canonical slug = repository name. A register row without a `what` here is not shown at all. Stages are readiness judgments, not host status: product | pilot | development | concept | next. `tags` are the FIELD facet and must come from `tagOrder`. `story` is the venture's own page. `shot: false` keeps a placeholder page's screenshot off the site.",
   "stages": {
     "product": {
       "title": "Product",
       "plural": "Products",
-      "lede": "Running and public — in beta, yours to use today."
+      "lede": "Public beta services. Check each product page for its current scope and access."
     },
     "pilot": {
       "title": "Pilot",
       "plural": "Pilots",
       "lede": "Built for a real organisation and in real use. No commercial terms — a working answer, offered first."
+    },
+    "development": {
+      "title": "In development",
+      "plural": "In development",
+      "lede": "A public surface exists, but the system is still being built and is not ready to rely on."
     },
     "concept": {
       "title": "Concept",
@@ -17,8 +22,8 @@
       "lede": "Built to apply with, before anyone asked. Working demos on public or mock data."
     },
     "next": {
-      "title": "Next",
-      "plural": "Next",
+      "title": "Not built",
+      "plural": "Not built",
       "lede": "Named, not built. Listed so the list is honest."
     }
   },
@@ -66,15 +71,15 @@
     },
     "solon": {
       "name": "Solon",
-      "what": "Governance you can recount",
-      "stage": "product",
+      "what": "Governance software in development",
+      "stage": "development",
       "pillar": "Governance",
       "tags": [
         "Infrastructure"
       ],
       "order": 3,
-      "pillarRole": "How decisions get made together. Bitcoin-signed votes and versioned policies, so nobody has to trust the count — including the rule that pays originators.",
-      "story": "Proposals, Bitcoin-signed votes, versioned policies and an append-only audit trail. Nobody has to trust Solon's count: every decision is a signed record anyone can re-tally. It governs OrangeCat's spending ceiling and the rule that routes a share of revenue back to whoever originated the code."
+      "pillarRole": "Governance software still being built. Its public site describes signed votes, versioned rules and an audit trail; Bitbaum is not asking organisations to rely on it yet.",
+      "story": "Solon is still in development. Its public site demonstrates signed votes, versioned rules and an audit trail, but Bitbaum is not presenting it as ready to govern an organisation or as an active originator-payment scheme."
     },
     "revamp-info": {
       "name": "Hirnli",
@@ -297,10 +302,10 @@
     }
   ],
   "packages_lede": "Shared tools for different product needs. Each package page explains what it does, how it works, where to get it, and which apps list it as a dependency. Some are new and have no adopters yet.",
-  "homePackageGroups": [
-    { "title": "Used across the fleet", "packages": ["ai-kit", "mail-kit", "bip-kit"] },
-    { "title": "More shared tools", "packages": ["limitkit", "ai-forms", "listkit"] }
-  ],
+  "home": {
+    "flagshipProjects": ["orangecat", "loki"],
+    "featuredPackages": ["ai-kit", "mail-kit", "bip-kit"]
+  },
   "packageGroups": [
     {
       "id": "think",

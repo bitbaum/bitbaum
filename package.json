@@ -11,7 +11,8 @@
     "publish:site": "bash site/publish.sh",
     "check:claims": "node site/check-claims.mjs",
     "check:hire": "node site/check-hire.mjs",
-    "check:theme": "node site/check-theme.mjs"
+    "check:theme": "node site/check-theme.mjs",
+    "check:widget": "node site/check-widget.mjs"
   },
   "dependencies": {
     "@bitbaum/design-tokens": "1.1.0",

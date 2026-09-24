@@ -267,6 +267,10 @@ a.card-name:hover { color: var(--accent); }
 .legend div { display: grid; gap: 0.15rem; }
 .legend dt { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-2); }
 .legend dd { margin: 0; font-size: 0.82rem; line-height: 1.5; color: var(--fg-3); }
+.stage-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: 0.65rem; margin-top: 1.25rem; }
+.stage-link { display: flex; align-items: baseline; gap: 0.65rem; min-width: 0; padding: 0.9rem 1rem; color: var(--fg-2); border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raised); }
+.stage-link:hover { color: var(--fg); border-color: var(--fg-3); }
+.stage-count { color: var(--fg); font-family: var(--mono); font-size: 1.1rem; font-variant-numeric: tabular-nums; }
 #work-grid { margin-top: 1.6rem; }
 .empty { margin: 1.5rem 0 0; color: var(--fg-2); }
 

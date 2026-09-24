@@ -1,5 +1,6 @@
-const ENDPOINT = "https://loki.orangecat.ch/api/feedback";
-const TOKEN = "fcw_a182d39f6ef4ec8d616ef58e4ca5a693";
+const config = document.querySelector('script[src="/request.mjs"]');
+const ENDPOINT = config?.dataset.endpoint;
+const TOKEN = config?.dataset.token;
 const DONE = "Request sent. You will hear back from a person — nothing automated goes out.";
 
 const forms = document.querySelectorAll("form.js-request");
