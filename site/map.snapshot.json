@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-24T18:47:35.339Z",
+  "generatedAt": "2026-09-24T21:11:14.552Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -19,10 +19,10 @@
     }
   ],
   "summary": {
-    "projects": 36,
+    "projects": 37,
     "live": 15,
     "clients": 5,
-    "inFlight": 0
+    "inFlight": 1
   },
   "projects": [
     {
@@ -404,6 +404,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-09-24",
+          "done": "Rule 0 — surfaced pending provider-capacity blocker; did not pick a task (clean tree, tsc/lint green, only T2s in roadmap)."
+        },
+        {
           "date": "2026-09-22",
           "done": "REPLAN — capacity is the blocker; filed pending human blocker for provider switch; refused T2 churn."
         },
@@ -478,22 +482,18 @@
         {
           "date": "2026-09-18",
           "done": "e2e ok — no changes"
-        },
-        {
-          "date": "2026-09-18",
-          "done": "Made the fix ledger apply to REPORTING the same run-ownership rule it already applied to merging, so a pull request the run never opened can no longer render \"Live · confirm\" on a report nobody acted on — merged as 98e775a8, Deploy green, box serving it."
         }
       ],
       "next": null,
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
           "outcome": "partial",
-          "at": "2026-09-24T14:40:26.158Z"
+          "at": "2026-09-24T19:44:12.489Z"
         },
         "lastLog": {
           "date": "2026-09-24",
-          "done": "Hosted dispatch (Hermes) — no file changes — [loki-e2e] Health probe of the dispatch loop. Do NOT change any file, do NOT co…"
+          "done": "Rule 0 — surfaced pending provider-capacity blocker; did not pick a task (clean tree, tsc/lint green, only T2s in roadmap)."
         }
       }
     },
@@ -2110,8 +2110,8 @@
         "solon": null
       },
       "identity": {
-        "problem": null,
-        "solution": null,
+        "problem": "Legal marketplaces rot the same way: clients want cheaper and faster, platforms attract hungry lawyers rather than the good ones, quality and trust fall, and AI on top just industrialises mediocre memos. Meanwhile Swiss SME employment and contract matters are frequent, document-heavy and repeat, yet each reaches a lawyer as an unstructured pile the lawyer bills hours to untangle.",
+        "solution": "Causius prepares the mandate. A licensed lawyer owns it. Intake turns a messy SME employment or contract matter into a structured file: timeline, clause map, missing documents, first draft and a risk list with citations to Fedlex and case law. A curated bench of named lawyers accepts, edits and bills it. A factory for prepared files, not a lawyer directory or a substitute counsel; it never says 'you should sue'.",
         "mission": null,
         "vision": null
       },
@@ -2157,7 +2157,7 @@
     {
       "slug": "diplodoctor",
       "name": "Diplodoctor",
-      "what": "The project creates a health platform that lets users store and manage their own medical records while providing AI‑driven clinical reasoning. An integrated AI companion, Diplodoc, reviews a patient’s history and alerts them when a legal restriction prevents a particular treatment, explaining the relevant law and its implications. By combining telemedicine with medical tourism and being built on the existing Vita clinic portal, the service can be deployed by individual practices to offer transparent, compliant care across borders.",
+      "what": "The project creates a health platform that lets users store and manage their own medical records while providing AI‑driven clinical reasoning. An integrated AI companion, Diplodoc, reviews a patient’s history and alerts them when a legal restriction prevents a particular treatment, explaining the relevant law and its implications. By combining telemedicine with medical tourism and being built on the existing Vita clinic portal, the service can be deployed by individual practices to offer transparent, compliant care across borders.\n\nFrom the owner:\n\nWhat does this actually do for them?\nA health platform: home diagnostics, a 24/7 AI doctor that introduces itself as Diplodoc, and a doctor-in-the-loop marketplace so a licensed clinician stands behind the AI. Vitareba, a Zürich clinic, is the credibility engine and first reference customer; Diplodoctor is the platform, in its own entity.",
       "stack": null,
       "layer": "next",
       "status": "prospect",
@@ -2171,7 +2171,7 @@
       },
       "identity": {
         "problem": null,
-        "solution": null,
+        "solution": "A health platform: home diagnostics, a 24/7 AI doctor that introduces itself as Diplodoc, and a doctor-in-the-loop marketplace so a licensed clinician stands behind the AI. Vitareba, a Zürich clinic, is the credibility engine and first reference customer; Diplodoctor is the platform, in its own entity.",
         "mission": null,
         "vision": null
       },
@@ -2642,6 +2642,47 @@
         "lastLog": {
           "date": "2026-09-24",
           "done": "Confirmed the escalation's last failure was a dispatch-side usage-limit error rather than a project blocker, re-ran the full verify gate on bf26dbd (format, lint, tsc, 101/101 tests all green), and found nothing in Pick rules 0–8, so handed back instead of inventing T2 work."
+        }
+      }
+    },
+    {
+      "slug": "skif",
+      "name": "Skif",
+      "what": "Holistic safety for people and the places they live, Zürich first, without trading away privacy or freedom.\n\nFrom the owner:\n\nWho is this for, and who pays for it?\nYear one pays per booking: people in Zürich who want a calm, qualified person with them (a night out, getting home after unwanted attention, a high-exposure person such as a crypto founder, a family), and venues like nightclubs wanting staff who de-escalate. Later: households, buildings, workplaces and neighbourhood associations paying for assessments and interventions. Users: the protected person or place, the Protectors, and Operations.\n\nWhat do they do today instead, and what is bad about it?\nSecurity firms sell equipment, not outcomes: cloud cameras, CCTV, alarm subscriptions, now facial recognition, on the assumption that more surveillance means more safety. The data leaves the home, sits with a vendor and can be shared without the person deciding. Human protection is bouncers picked for size, or close protection that is costly, opaque and not bookable. Nobody measures whether it worked, and nobody says 'you don't need to buy anything'.\n\nWhat does this actually do for them?\nThe person first states what they value and their limits: a Safety Preference Profile with hard constraints (no facial recognition, no interior cameras, no cloud video, no automatic police sharing). Each recommendation is the most proportionate effective intervention within those limits, trade-offs shown, never one opaque score; 'buy nothing' is valid. Protectors are chosen for judgment and calm, not intimidation, and matching explains why. Everyone sees only what the job needs.\n\nAnything the build must use, or must avoid?\nFleet stack: Next.js App Router, strict TypeScript, Tailwind, zod, Drizzle + pg on the bitbaum box's Postgres, Vitest, pnpm. Sign-in is OrangeCat OIDC only, no users table (id_token.sub is identity). Modular monolith. Avoid: Supabase, microservices, an LLM as the matching/dispatch algorithm (it must be deterministic and explainable), trackers on sensitive pages, location or incident data outside our own DB. Payments: manual PAYMENT_PENDING behind an abstraction, never faked.\n\nWhat has to be true for the first version to be worth shipping?\nEnd to end with persisted data: customer signs in, sets privacy preferences, requests a service (e.g. Night Out); Ops sees approved Protectors ranked with reasons and assigns one; the Protector accepts, starts and completes; the customer rates respect, discretion and feeling of safety (not stars); the Protector files a report or incident; Ops sees the lifecycle. Plus a Safety Assessment saving a Safety Plan that respects hard constraints and can say 'nothing to buy'.",
+      "stack": null,
+      "layer": "next",
+      "status": "prospect",
+      "owner": "bitbaum",
+      "since": "2026-09-24",
+      "urls": {
+        "live": "https://skif.orangecat.ch",
+        "repo": "https://github.com/bitbaum/skif",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": "Security firms sell equipment, not outcomes: cloud cameras, CCTV, alarm subscriptions, now facial recognition, on the assumption that more surveillance means more safety. The data leaves the home, sits with a vendor and can be shared without the person deciding. Human protection is bouncers picked for size, or close protection that is costly, opaque and not bookable. Nobody measures whether it worked, and nobody says 'you don't need to buy anything'.",
+        "solution": "The person first states what they value and their limits: a Safety Preference Profile with hard constraints (no facial recognition, no interior cameras, no cloud video, no automatic police sharing). Each recommendation is the most proportionate effective intervention within those limits, trade-offs shown, never one opaque score; 'buy nothing' is valid. Protectors are chosen for judgment and calm, not intimidation, and matching explains why. Everyone sees only what the job needs.",
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-24",
+          "done": "Shipped Skif v1 (PR #2, squash-merged as e402384): OIDC sign-in with no users table, safety preferences, booking, ops ranking with reasons and assignment, protector accept/start/complete with reports and incidents, respect/discretion/safety rating, ops lifecycle view and a Safety Plan that can say \"nothing to buy\". Verified by pnpm verify, a PGlite lifecycle test and a local Playwright run."
+        }
+      ],
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "partial",
+          "at": "2026-09-24T20:41:19.778Z"
+        },
+        "lastLog": {
+          "date": "2026-09-24",
+          "done": "Shipped Skif v1 (PR #2, squash-merged as e402384): OIDC sign-in with no users table, safety preferences, booking, ops ranking with reasons and assignment, protector accept/start/complete with reports and incidents, respect/discretion/safety rating, ops lifecycle view and a Safety Plan that can say \"nothing to buy\". Verified by pnpm verify, a PGlite lifecycle test and a local Playwright run."
         }
       }
     },
