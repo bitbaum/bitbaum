@@ -151,7 +151,15 @@ const earliest = Math.min(...blocks);
 const swhCount = (originSnap.repos ?? []).filter((r) => r.swh?.snapshot).length;
 const shown = all.match(/block (\d{6,})/);
 say(!shown || Number(shown[1]) === earliest, `the block on the page is the register's earliest (${shown?.[1] ?? "not shown"} vs ${earliest})`);
-say((originSnap.repos ?? []).every((r) => r.provenSince), `every repo in the origin register is stamped (${blocks.length})`);
+// A repository's first stamp waits on the calendar for Bitcoin confirmation,
+// so a repo created yesterday is honestly stamped-but-pending (stamped set,
+// provenSince null) until the next nightly proof. Requiring provenSince failed
+// every deploy for a day per new repo; an UNSTAMPED repo is the real lie.
+const pendingStamps = (originSnap.repos ?? []).filter((r) => !r.provenSince && r.stamped).length;
+say(
+  (originSnap.repos ?? []).every((r) => r.provenSince || r.stamped),
+  `every repo in the origin register is stamped (${blocks.length} anchored, ${pendingStamps} awaiting Bitcoin confirmation)`,
+);
 say(
   studio.includes(`${originSnap.repos.length} repositories`) && studio.includes(`${swhCount} have a Software Heritage snapshot`),
   `origin copy matches the register (${originSnap.repos.length} tracked, ${swhCount} archived in Software Heritage)`,
