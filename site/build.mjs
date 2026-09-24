@@ -118,6 +118,7 @@ export function ventures(map, cfg, origin, packages) {
       tags: o.tags ?? [],
       pillar: o.pillar ?? null,
       pillarRole: o.pillarRole ?? null,
+      stack: o.stack ?? null,
       for: o.for ?? null,
       order: o.order ?? 99,
       status: p.status ?? (url ? "live" : ""),
@@ -385,7 +386,7 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
   )).join("\n");
   const stackCards = flagships.map((v) => {
     if (!v.pillar || !v.homeLine) throw new Error(`home flagship ${v.slug} needs a pillar and concise homeLine`);
-    return `        <a class="home-stack-item" href="/${esc(v.slug)}/" data-stack-project="${esc(v.slug)}">
+    return `        <a class="home-stack-item" href="#stack-${esc(v.slug)}" data-stack-project="${esc(v.slug)}">
           ${v.shot ? `<span class="home-stack-shot"><img src="/shots/${esc(v.slug)}.jpg" alt="" loading="lazy" width="1280" height="800"></span>` : ""}
           <span class="home-stack-copy">
             <span class="home-stack-top"><span class="home-stack-layer">${esc(v.pillar)}</span>${pill(v)}</span>
@@ -395,6 +396,34 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
           <span class="home-stack-arrow" aria-hidden="true">&rarr;</span>
         </a>`;
   }).join("\n");
+  // The hero card names each layer; this section says what it is FOR. One line
+  // each was accurate and undersold all three — a visitor could not tell that
+  // Loki builds every product here, or what OrangeCat changes for a person.
+  // The copy is editorial (overrides.json `stack`) and required, not defaulted:
+  // a flagship with nothing to say fails the build instead of rendering an
+  // empty panel.
+  const stackLayers = flagships.map((v, i) => {
+    const s = v.stack;
+    if (!s?.headline || !s.promise || !s.connects || !(s.does?.length >= 3)) {
+      throw new Error(`home flagship ${v.slug} needs stack.headline, promise, connects and at least three stack.does lines`);
+    }
+    const open = v.url ? `<a class="btn primary" href="${esc(v.url)}">Open ${esc(host(v.url))} ${ARROW}</a>` : "";
+    return `        <article class="stack-layer${i % 2 ? " flip" : ""}" id="stack-${esc(v.slug)}">
+          <div class="stack-layer-copy">
+            <div class="stack-layer-top"><span class="stack-layer-n">0${i + 1}</span><span class="home-stack-layer">${esc(v.pillar)}</span>${pill(v)}</div>
+            <h3 class="stack-layer-name">${esc(v.name)}</h3>
+            <p class="stack-layer-headline">${esc(s.headline)}</p>
+            <p class="stack-layer-promise">${esc(s.promise)}</p>
+            <ul class="stack-layer-does">
+${s.does.map((d) => `              <li>${esc(d)}</li>`).join("\n")}
+            </ul>
+            <p class="stack-layer-connects"><span class="label">In the stack</span> ${esc(s.connects)}</p>
+            <div class="actions">${open}<a class="btn secondary" href="/${esc(v.slug)}/">About ${esc(v.name)}</a></div>
+          </div>
+          ${v.shot ? `<a class="stack-layer-shot" href="/${esc(v.slug)}/" tabindex="-1" aria-hidden="true"><img src="/shots/${esc(v.slug)}.jpg" alt="" loading="lazy" width="1280" height="800"></a>` : ""}
+        </article>`;
+  }).join("\n");
+  const stackIntro = home.stack ?? {};
   const body = `  <main id="main" class="home-page">
     <section class="hero home-hero">
       <div class="wrap">
@@ -412,6 +441,16 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
           <div class="home-stack-heading"><span class="label">The stack</span><span>${flagships.length} connected layers</span></div>
 ${stackCards}
         </aside>
+      </div>
+    </section>
+
+    <section class="section stack-section" id="the-stack">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="stack-head"><span class="eyebrow">${esc(stackIntro.eyebrow ?? "The stack")}</span><h2 class="display-2">${esc(stackIntro.headline ?? "")}</h2></div>
+          ${stackIntro.lede ? `<p class="lede">${esc(stackIntro.lede)}</p>` : ""}
+        </div>
+${stackLayers}
       </div>
     </section>
 
