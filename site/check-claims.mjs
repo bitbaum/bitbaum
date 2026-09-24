@@ -113,11 +113,17 @@ say(
 const packages = JSON.parse(readFileSync(join(here, "packages.snapshot.json"), "utf8")).packages ?? [];
 const editorial = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
 const featured = editorial.home?.featuredPackages ?? [];
+const flagships = editorial.home?.flagshipProjects ?? [];
+const stackRendered = [...home.matchAll(/data-stack-project="([a-z0-9-]+)"/g)].map((m) => m[1]);
 const featuredRendered = [...home.matchAll(/data-package="([a-z0-9-]+)"/g)].map((m) => m[1]);
 say(
   featured.length > 0 && new Set(featured).size === featured.length && featured.every((slug) => packages.some((p) => p.slug === slug)) &&
     JSON.stringify(featuredRendered) === JSON.stringify(featured),
   `homepage shows exactly its configured distinct featured packages (${featured.join(", ")})`,
+);
+say(
+  flagships.includes("solon") && JSON.stringify(stackRendered) === JSON.stringify(flagships),
+  `homepage presents its configured stack, including Solon (${flagships.join(", ")})`,
 );
 say(!home.includes('id="work-grid"') && work.includes('id="work-grid"'), "full work catalogue is on /work/, not duplicated on the homepage");
 say(home.includes("/widget.js") && work.includes("/widget.js") && studio.includes("/widget.js"), "Loki feedback widget is included by the shared page chrome");

@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>bitbaum — build with agents, keep people in control</title>
-<meta name="description" content="Bitbaum builds AI-native products with autonomous engineering systems. Use Loki to start agent work in your project, or join the studio waitlist for human-led delivery.">
+<title>bitbaum — one trunk, many products</title>
+<meta name="description" content="An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/">
-<meta property="og:title" content="bitbaum — build with agents, keep people in control">
-<meta property="og:description" content="Bitbaum builds AI-native products with autonomous engineering systems. Use Loki to start agent work in your project, or join the studio waitlist for human-led delivery.">
+<meta property="og:title" content="bitbaum — one trunk, many products">
+<meta property="og:description" content="An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="bitbaum — build with agents, keep people in control">
-<meta name="twitter:description" content="Bitbaum builds AI-native products with autonomous engineering systems. Use Loki to start agent work in your project, or join the studio waitlist for human-led delivery.">
+<meta name="twitter:title" content="bitbaum — one trunk, many products">
+<meta name="twitter:description" content="An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.">
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -60,55 +60,63 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
         </button>
       </div>
-      <a class="btn secondary cta" href="/hire/">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="btn secondary cta" href="/hire/#waitlist">Join the waitlist <span class="arrow" aria-hidden="true">&rarr;</span></a>
     </div>
   </header>
-  <main id="main">
-    <section class="hero">
+  <main id="main" class="home-page">
+    <section class="hero home-hero">
       <div class="wrap">
-        <span class="eyebrow">AI-native product studio &middot; Zürich</span>
-        <h1 class="display-1">Build with agents. Keep people in control.</h1>
-        <p class="lede">Bitbaum builds its own products with autonomous engineering systems. Studio engagements are currently at capacity. If your project cannot wait, start with Loki: dispatch agents against a connected codebase, follow their sessions, and review the changes. For human-led delivery, join the waitlist.</p>
-        <div class="actions">
-          <a class="btn primary" href="/hire/#waitlist">Join the waitlist <span class="arrow" aria-hidden="true">&rarr;</span></a>
-          <a class="btn secondary" href="https://loki.orangecat.ch/">Build with Loki <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <div class="home-intro">
+          <span class="eyebrow">AI-native product studio &middot; Zürich</span>
+          <h1 class="display-1">One trunk. Many products.</h1>
+          <p class="home-lede">Tools for agent-led work, economic participation and shared governance.</p>
+          <div class="actions" id="join">
+            <a class="btn primary" href="https://loki.orangecat.ch/">Start with Loki <span class="arrow" aria-hidden="true">&rarr;</span></a>
+            <a class="btn secondary" href="/hire/#waitlist">Join the waitlist <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          </div>
+          <p class="home-capacity">Studio engagements are at capacity.</p>
         </div>
-        <p class="notice">At capacity: no new engagements are starting right now. The rates below are current, and the waitlist is how you hear first when a slot opens. <a href="/hire/">Rates and details</a>.</p>
-      </div>
-    </section>
-
-    <section class="section" id="systems">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="display-2">The systems we build with</h2>
-          <p class="lede">Loki coordinates engineering work across agents and projects. OrangeCat is the economic layer for identities, services and Bitcoin payments. Both are public beta products; neither is a promise of unsupervised delivery.</p>
-        </div>
-        <div class="grid two"><a class="card big flagship" href="/orangecat/">
-        <div class="shot"><img src="/shots/orangecat.jpg" alt="OrangeCat — screenshot" loading="lazy" width="1280" height="800"></div>
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">OrangeCat</span><span class="pill beta">beta</span></div>
-          <span class="card-what">How value reaches people. Any identity — a person, a pseudonym, an AI agent — takes part in the economy without a bank's permission, and Bitcoin settles it.</span>
-          <div class="pkg-links"><span>Explore OrangeCat &rarr;</span></div>
-        </div>
-      </a>
-<a class="card big flagship" href="/loki/">
-        <div class="shot"><img src="/shots/loki.jpg" alt="Loki — screenshot" loading="lazy" width="1280" height="800"></div>
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">Loki</span><span class="pill beta">beta</span></div>
-          <span class="card-what">How work gets done. Dispatch it to a fleet of AI agents and people, watch it, approve it, ship it — agents execute where the code lives.</span>
-          <div class="pkg-links"><span>Explore Loki &rarr;</span></div>
-        </div>
-      </a></div>
+        <aside class="home-stack" id="stack" aria-label="The Bitbaum stack">
+          <div class="home-stack-heading"><span class="label">The stack</span><span>3 connected layers</span></div>
+        <a class="home-stack-item" href="/orangecat/" data-stack-project="orangecat">
+          <span class="home-stack-shot"><img src="/shots/orangecat.jpg" alt="" loading="lazy" width="1280" height="800"></span>
+          <span class="home-stack-copy">
+            <span class="home-stack-top"><span class="home-stack-layer">Economy</span><span class="pill beta">beta</span></span>
+            <span class="home-stack-name">OrangeCat</span>
+            <span class="home-stack-line">Earn through pay-links; Bitcoin settles the payment.</span>
+          </span>
+          <span class="home-stack-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a class="home-stack-item" href="/loki/" data-stack-project="loki">
+          <span class="home-stack-shot"><img src="/shots/loki.jpg" alt="" loading="lazy" width="1280" height="800"></span>
+          <span class="home-stack-copy">
+            <span class="home-stack-top"><span class="home-stack-layer">Execution</span><span class="pill beta">beta</span></span>
+            <span class="home-stack-name">Loki</span>
+            <span class="home-stack-line">Dispatch agents, follow sessions, review changes.</span>
+          </span>
+          <span class="home-stack-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a class="home-stack-item" href="/solon/" data-stack-project="solon">
+          <span class="home-stack-shot"><img src="/shots/solon.jpg" alt="" loading="lazy" width="1280" height="800"></span>
+          <span class="home-stack-copy">
+            <span class="home-stack-top"><span class="home-stack-layer">Governance</span><span class="pill">in development</span></span>
+            <span class="home-stack-name">Solon</span>
+            <span class="home-stack-line">Signed votes and versioned rules, still in development.</span>
+          </span>
+          <span class="home-stack-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        </aside>
       </div>
     </section>
 
     <section class="section" id="packages">
       <div class="wrap">
-        <div class="section-head">
-          <div class="row"><h2 class="display-2">Shared packages</h2><a class="textlink" href="/packages/">Explore all 10 packages &rarr;</a></div>
-          <p class="lede">A small selection from the shared codebase. Each profile links to its source, current version and apps that list it as a dependency.</p>
+        <div class="home-section-head">
+          <div><span class="eyebrow quiet">Shared code</span><h2 class="display-2">Packages</h2></div>
+          <a class="textlink" href="/packages/">Explore all 10 packages <span class="arrow" aria-hidden="true">&rarr;</span></a>
         </div>
-        <div class="grid">      <a class="card text pkg-card" id="ai-kit" href="/packages/ai-kit/" data-package="ai-kit" data-group="think" data-adoption="adopted" data-adopters="14">
+        <p class="home-section-note">Small tools for common jobs; each profile shows its source, version and verified adopters.</p>
+        <div class="grid home-package-grid">      <a class="card text pkg-card" id="ai-kit" href="/packages/ai-kit/" data-package="ai-kit" data-group="think" data-adoption="adopted" data-adopters="14">
         <div class="card-body">
           <div class="card-top"><span class="card-name">ai-kit</span><span class="pkg-badges"><span class="pill pkg-category">Think</span><span class="pill pkg-version" aria-label="Latest npm version 1.11.0">npm&nbsp;v1.11.0</span><span class="pill" aria-label="14 apps use this package">14 apps</span></span></div>
           <span class="card-what">Which model to call, whether the vendor still serves it, and what to do when every one of them fails.</span>
@@ -131,30 +139,16 @@
 
     <section class="section" id="work-preview">
       <div class="wrap">
-        <div class="section-head">
-          <h2 class="display-2">More work, clearly staged</h2>
-          <p class="lede">The full catalogue separates running beta products, pilots, work in development, concepts and projects that are not built. Filter by stage and field, then check each project's page.</p>
+        <div class="home-section-head">
+          <div><span class="eyebrow quiet">Beyond the stack</span><h2 class="display-2">Other work</h2></div>
+          <a class="textlink" href="/work/">Browse all 23 projects <span class="arrow" aria-hidden="true">&rarr;</span></a>
         </div>
+        <p class="home-section-note">Each project is labelled by its actual stage. Select a stage to explore.</p>
         <div class="stage-links"><a class="stage-link" href="/work/#work?stage=product"><span class="stage-count">10</span><span>Products</span></a>
 <a class="stage-link" href="/work/#work?stage=pilot"><span class="stage-count">5</span><span>Pilots</span></a>
 <a class="stage-link" href="/work/#work?stage=development"><span class="stage-count">1</span><span>In development</span></a>
 <a class="stage-link" href="/work/#work?stage=concept"><span class="stage-count">4</span><span>Concepts</span></a>
 <a class="stage-link" href="/work/#work?stage=next"><span class="stage-count">3</span><span>Not built</span></a></div>
-        <p class="caption"><a class="textlink" href="/work/">Browse all work and filter by stage &rarr;</a></p>
-      </div>
-    </section>
-
-    <section class="section" id="join">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="display-2">Choose a next step</h2>
-          <p class="lede">Use the tools, contribute to them, or ask the studio to take on work when capacity opens.</p>
-        </div>
-        <div class="grid three">
-          <a class="card text" href="/packages/"><div class="card-body"><span class="card-name">Use the packages</span><span class="card-what">MIT-licensed code with source, versions and observed adopters on each profile.</span><div class="pkg-links"><span>Browse packages &rarr;</span></div></div></a>
-          <a class="card text" href="https://loki.orangecat.ch/"><div class="card-body"><span class="card-name">Start in Loki</span><span class="card-what">Connect a project, dispatch agent work and stay in the review loop. Your code remains in your project environment.</span><div class="pkg-links"><span>Open Loki &rarr;</span></div></div></a>
-          <a class="card text" href="/hire/#waitlist"><div class="card-body"><span class="card-name">Work with Bitbaum</span><span class="card-what">Engagements are at capacity. See the published rates and join the waitlist for human-led work.</span><div class="pkg-links"><span>Rates and waitlist &rarr;</span></div></div></a>
-        </div>
       </div>
     </section>
   </main>

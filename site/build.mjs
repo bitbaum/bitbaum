@@ -112,6 +112,7 @@ export function ventures(map, cfg, origin, packages) {
       slug,
       name: o.name ?? p.name ?? slug,
       what: o.what,
+      homeLine: o.homeLine ?? null,
       story: o.story ?? "",
       stage: o.stage,
       tags: o.tags ?? [],
@@ -249,7 +250,7 @@ ${items.map(([href, t]) => `        <a href="${href}"${nav === href ? ' aria-cur
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
         </button>
       </div>
-      <a class="btn secondary cta" href="${HIRE}">Start a project ${ARROW}</a>
+      <a class="btn secondary cta" href="${HIRE}#waitlist">Join the waitlist ${ARROW}</a>
     </div>
   </header>
 ${body}
@@ -382,76 +383,63 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
     alias,
     cfg.packageGroups?.find((g) => g.id === cfg.packages?.[p.slug]?.group),
   )).join("\n");
-  const cards = flagships.map((v) => `<a class="card big flagship" href="/${esc(v.slug)}/">
-        ${v.shot ? `<div class="shot"><img src="/shots/${esc(v.slug)}.jpg" alt="${esc(v.name)} — screenshot" loading="lazy" width="1280" height="800"></div>` : ""}
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">${esc(v.name)}</span>${pill(v)}</div>
-          <span class="card-what">${esc(v.pillarRole ?? v.what)}</span>
-          <div class="pkg-links"><span>Explore ${esc(v.name)} &rarr;</span></div>
-        </div>
-      </a>`).join("\n");
-  const body = `  <main id="main">
-    <section class="hero">
+  const stackCards = flagships.map((v) => {
+    if (!v.pillar || !v.homeLine) throw new Error(`home flagship ${v.slug} needs a pillar and concise homeLine`);
+    return `        <a class="home-stack-item" href="/${esc(v.slug)}/" data-stack-project="${esc(v.slug)}">
+          ${v.shot ? `<span class="home-stack-shot"><img src="/shots/${esc(v.slug)}.jpg" alt="" loading="lazy" width="1280" height="800"></span>` : ""}
+          <span class="home-stack-copy">
+            <span class="home-stack-top"><span class="home-stack-layer">${esc(v.pillar)}</span>${pill(v)}</span>
+            <span class="home-stack-name">${esc(v.name)}</span>
+            <span class="home-stack-line">${esc(v.homeLine)}</span>
+          </span>
+          <span class="home-stack-arrow" aria-hidden="true">&rarr;</span>
+        </a>`;
+  }).join("\n");
+  const body = `  <main id="main" class="home-page">
+    <section class="hero home-hero">
       <div class="wrap">
-        <span class="eyebrow">AI-native product studio &middot; Zürich</span>
-        <h1 class="display-1">Build with agents. Keep people in control.</h1>
-        <p class="lede">Bitbaum builds its own products with autonomous engineering systems. Studio engagements are currently at capacity. If your project cannot wait, start with Loki: dispatch agents against a connected codebase, follow their sessions, and review the changes. For human-led delivery, join the waitlist.</p>
-        <div class="actions">
-          <a class="btn primary" href="${HIRE}#waitlist">Join the waitlist ${ARROW}</a>
-          <a class="btn secondary" href="https://loki.orangecat.ch/">Build with Loki ${ARROW}</a>
+        <div class="home-intro">
+          <span class="eyebrow">AI-native product studio &middot; Zürich</span>
+          <h1 class="display-1">One trunk. Many products.</h1>
+          <p class="home-lede">Tools for agent-led work, economic participation and shared governance.</p>
+          <div class="actions" id="join">
+            <a class="btn primary" href="https://loki.orangecat.ch/">Start with Loki ${ARROW}</a>
+            <a class="btn secondary" href="${HIRE}#waitlist">Join the waitlist ${ARROW}</a>
+          </div>
+          <p class="home-capacity">${esc(hire?.availability?.shortLine ?? hire?.availability?.line ?? "Studio availability is listed on the hire page.")}</p>
         </div>
-        <p class="notice">${esc(hire?.availability?.line ?? "New studio engagements are not starting right now. Check the hire page for current availability.")} <a href="${HIRE}">Rates and details</a>.</p>
-      </div>
-    </section>
-
-    <section class="section" id="systems">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="display-2">The systems we build with</h2>
-          <p class="lede">Loki coordinates engineering work across agents and projects. OrangeCat is the economic layer for identities, services and Bitcoin payments. Both are public beta products; neither is a promise of unsupervised delivery.</p>
-        </div>
-        <div class="grid two">${cards}</div>
+        <aside class="home-stack" id="stack" aria-label="The Bitbaum stack">
+          <div class="home-stack-heading"><span class="label">The stack</span><span>${flagships.length} connected layers</span></div>
+${stackCards}
+        </aside>
       </div>
     </section>
 
     <section class="section" id="packages">
       <div class="wrap">
-        <div class="section-head">
-          <div class="row"><h2 class="display-2">Shared packages</h2><a class="textlink" href="/packages/">Explore all ${pkgCount} packages &rarr;</a></div>
-          <p class="lede">A small selection from the shared codebase. Each profile links to its source, current version and apps that list it as a dependency.</p>
+        <div class="home-section-head">
+          <div><span class="eyebrow quiet">Shared code</span><h2 class="display-2">Packages</h2></div>
+          <a class="textlink" href="/packages/">Explore all ${pkgCount} packages ${ARROW}</a>
         </div>
-        <div class="grid">${pkgCards}</div>
+        <p class="home-section-note">Small tools for common jobs; each profile shows its source, version and verified adopters.</p>
+        <div class="grid home-package-grid">${pkgCards}</div>
       </div>
     </section>
 
     <section class="section" id="work-preview">
       <div class="wrap">
-        <div class="section-head">
-          <h2 class="display-2">More work, clearly staged</h2>
-          <p class="lede">The full catalogue separates running beta products, pilots, work in development, concepts and projects that are not built. Filter by stage and field, then check each project's page.</p>
+        <div class="home-section-head">
+          <div><span class="eyebrow quiet">Beyond the stack</span><h2 class="display-2">Other work</h2></div>
+          <a class="textlink" href="/work/">Browse all ${all.length} projects ${ARROW}</a>
         </div>
+        <p class="home-section-note">Each project is labelled by its actual stage. Select a stage to explore.</p>
         <div class="stage-links">${stageLinks}</div>
-        <p class="caption"><a class="textlink" href="/work/">Browse all work and filter by stage &rarr;</a></p>
-      </div>
-    </section>
-
-    <section class="section" id="join">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="display-2">Choose a next step</h2>
-          <p class="lede">Use the tools, contribute to them, or ask the studio to take on work when capacity opens.</p>
-        </div>
-        <div class="grid three">
-          <a class="card text" href="/packages/"><div class="card-body"><span class="card-name">Use the packages</span><span class="card-what">MIT-licensed code with source, versions and observed adopters on each profile.</span><div class="pkg-links"><span>Browse packages &rarr;</span></div></div></a>
-          <a class="card text" href="https://loki.orangecat.ch/"><div class="card-body"><span class="card-name">Start in Loki</span><span class="card-what">Connect a project, dispatch agent work and stay in the review loop. Your code remains in your project environment.</span><div class="pkg-links"><span>Open Loki &rarr;</span></div></div></a>
-          <a class="card text" href="${HIRE}#waitlist"><div class="card-body"><span class="card-name">Work with Bitbaum</span><span class="card-what">Engagements are at capacity. See the published rates and join the waitlist for human-led work.</span><div class="pkg-links"><span>Rates and waitlist &rarr;</span></div></div></a>
-        </div>
       </div>
     </section>
   </main>`;
   return shell({
-    title: "bitbaum — build with agents, keep people in control",
-    description: "Bitbaum builds AI-native products with autonomous engineering systems. Use Loki to start agent work in your project, or join the studio waitlist for human-led delivery.",
+    title: "bitbaum — one trunk, many products",
+    description: "An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.",
     path: "/", body, nav: "/",
   });
 }
