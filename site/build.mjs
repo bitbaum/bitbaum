@@ -86,6 +86,11 @@ const LOKI_FEEDBACK = JSON.parse(readFileSync(join(here, "loki-feedback.json"), 
 if (!/^https:\/\//.test(LOKI_FEEDBACK.origin) || !/^fcw_[a-f0-9]{32}$/.test(LOKI_FEEDBACK.token)) {
   throw new Error("site/loki-feedback.json must contain an HTTPS Loki origin and public widget token");
 }
+// Which widget modes this site asks for. Chat is opt-in per embed (Loki's
+// widget/surface-modes.ts) and it is the one the homepage's Ask box opens.
+if (!/^(report|chat|watch)(,(report|chat|watch))*$/.test(LOKI_FEEDBACK.modes ?? "")) {
+  throw new Error("site/loki-feedback.json must list the widget modes, e.g. \"chat,report\"");
+}
 
 // ── the ventures: register facts + presentation + what they are built from ──
 export function ventures(map, cfg, origin, packages) {
@@ -287,7 +292,7 @@ ${body}
   </footer>
   <script type="module" src="/theme.mjs"><\/script>
 ${script ?? ""}
-  <script src="${esc(LOKI_FEEDBACK.origin)}/widget.js" data-fc-project="${esc(LOKI_FEEDBACK.token)}" async><\/script>
+  <script src="${esc(LOKI_FEEDBACK.origin)}/widget.js" data-fc-project="${esc(LOKI_FEEDBACK.token)}" data-fc-modes="${esc(LOKI_FEEDBACK.modes)}" async><\/script>
 </body>
 </html>
 `;
@@ -352,6 +357,7 @@ ${all.map((v) => card(v, true)).join("\n")}
 }
 
 const FILTER_SCRIPT = `  <script type="module" src="/work-filter.mjs"></script>`;
+const ASK_SCRIPT = `  <script type="module" src="/ask.mjs"></script>`;
 
 // ── pages ───────────────────────────────────────────────────────────────────
 export function homePage(all, packages, cfg, origin, readings, hire) {
@@ -424,6 +430,35 @@ ${s.does.map((d) => `              <li>${esc(d)}</li>`).join("\n")}
         </article>`;
   }).join("\n");
   const stackIntro = home.stack ?? {};
+  // The front desk. The question is answered by Loki's widget in Chat mode
+  // (the Cat and Loki, from the public fleet map) — this page only hands it
+  // over (site/ask.mjs). When the widget cannot answer, the box says so and
+  // offers the catalogue; without JavaScript the form opens the catalogue.
+  const ask = home.ask;
+  if (!ask?.headline || !ask.lede || !(ask.starters?.length >= 2)) {
+    throw new Error("home.ask needs a headline, a lede and at least two starters");
+  }
+  const askSection = `    <section class="section ask-section" id="ask">
+      <div class="wrap ask">
+        <div class="ask-copy">
+          <span class="eyebrow">${esc(ask.eyebrow ?? "Ask")}</span>
+          <h2 class="display-2">${esc(ask.headline)}</h2>
+          <p class="lede">${esc(ask.lede)}</p>
+        </div>
+        <form class="ask-form" id="ask-form" action="/work/" method="get">
+          <label class="sr-only" for="ask-q">Ask about any project</label>
+          <div class="ask-row">
+            <input id="ask-q" type="text" maxlength="1000" autocomplete="off" placeholder="${esc(ask.placeholder ?? "")}">
+            <button class="btn primary" type="submit">Ask ${ARROW}</button>
+          </div>
+          <div class="ask-starters">
+${ask.starters.map((q) => `            <button type="button" class="ask-starter" data-q="${esc(q)}">${esc(q)}</button>`).join("\n")}
+          </div>
+          <p class="ask-status" id="ask-status" role="status" hidden>The assistant isn't reachable right now. <a class="textlink" href="/work/">Browse every project ${ARROW}</a> or <a class="textlink" href="${HIRE}#waitlist">join the waitlist</a>.</p>
+          <p class="ask-note">Answered by AI from the public project catalogue — it can be wrong, and the links it gives are the catalogue's own.</p>
+        </form>
+      </div>
+    </section>`;
   const body = `  <main id="main" class="home-page">
     <section class="hero home-hero">
       <div class="wrap">
@@ -443,6 +478,8 @@ ${stackCards}
         </aside>
       </div>
     </section>
+
+${askSection}
 
     <section class="section stack-section" id="the-stack">
       <div class="wrap">
@@ -479,7 +516,7 @@ ${stackLayers}
   return shell({
     title: "bitbaum — one trunk, many products",
     description: "An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.",
-    path: "/", body, nav: "/",
+    path: "/", body, nav: "/", script: ASK_SCRIPT,
   });
 }
 
@@ -803,6 +840,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("packages/index.html", packagesPage(packages, cfg, all));
   files.set("packages-filter.mjs", readFileSync(join(here, "packages-filter.mjs"), "utf8"));
   files.set("work-filter.mjs", readFileSync(join(here, "work-filter.mjs"), "utf8"));
+  files.set("ask.mjs", readFileSync(join(here, "ask.mjs"), "utf8"));
   const listkitDist = join(here, "..", "node_modules", "listkit", "dist");
   if (!existsSync(join(listkitDist, "index.js"))) throw new Error("missing listkit browser modules — run: pnpm install");
   files.set("vendor/listkit/LICENSE", readFileSync(join(here, "..", "node_modules", "listkit", "LICENSE"), "utf8"));
