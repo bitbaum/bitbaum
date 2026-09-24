@@ -4,8 +4,8 @@
 // What the site is FOR: bringing more people into the work. A visitor who has
 // met Cato, found a repo, installed a package or read an article should be
 // able to see what exists, find the part that concerns them, and take a
-// concrete next step — install it, read its source, open a PR, or get paid
-// for what they build here. So every page ends in an action, and every claim
+// concrete next step — install it, read its source, open a PR, or join the
+// studio waitlist. So every page ends in an action, and every claim
 // is something that can be checked: a live URL, a public repo, a screenshot a
 // machine took, an adopter list derived from real manifests.
 //
@@ -15,7 +15,7 @@
 // proof register. This repo owns presentation only: overrides.json says the
 // stage a venture is at, its field tags, its one line and its story.
 //
-// Pages: /  /<slug>/  /packages/  /studio/  — static HTML in site/dist/,
+// Pages: /  /work/  /<slug>/  /packages/  /studio/  — static HTML in site/dist/,
 // served by Caddy's file_server with clean directory URLs.
 //
 //   node site/build.mjs            fetch the sources, write site/dist/
@@ -49,7 +49,6 @@ const SOURCES = {
 const SITE = "https://bitbaum.orangecat.ch";
 const GITHUB = "https://github.com/bitbaum";
 const CONTRIBUTING = "https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md";
-const SHARE_POLICY = "https://solon.orangecat.ch/api/orgs/orangecat/policies/originator_share";
 const HIRE = "/hire/";
 const ARTICLES = "https://orangecat.ch/articles";
 
@@ -83,7 +82,11 @@ const host = (url) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 const slugify = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const MARK = MARK_HEADER();
 const ARROW = `<span class="arrow" aria-hidden="true">&rarr;</span>`;
-const STAGE_RANK = { product: 0, pilot: 1, concept: 2, next: 3 };
+const STAGE_RANK = { product: 0, pilot: 1, development: 2, concept: 3, next: 4 };
+const LOKI_FEEDBACK = JSON.parse(readFileSync(join(here, "loki-feedback.json"), "utf8"));
+if (!/^https:\/\//.test(LOKI_FEEDBACK.origin) || !/^fcw_[a-f0-9]{32}$/.test(LOKI_FEEDBACK.token)) {
+  throw new Error("site/loki-feedback.json must contain an HTTPS Loki origin and public widget token");
+}
 
 // ── the ventures: register facts + presentation + what they are built from ──
 export function ventures(map, cfg, origin, packages) {
@@ -160,6 +163,7 @@ const STATUS_TEXT = { live: "beta", demo: "demo", validating: "validating", pros
 function pill(v) {
   if (v.stage === "next") return `<span class="pill">not built</span>`;
   if (v.stage === "concept") return `<span class="pill">concept</span>`;
+  if (v.stage === "development") return `<span class="pill">in development</span>`;
   const text = STATUS_TEXT[v.status] ?? v.status;
   // Keyed on the STATUS, not the rendered word — so renaming the word cannot
   // silently drop the accent that marks a thing you can actually open.
@@ -173,7 +177,7 @@ function shell({ title, description, path, body, nav, script, image }) {
   // other page the studio card (site/og.mjs).
   const ogImage = `${SITE}${image ?? "/og/studio.png"}`;
   const items = [
-    ["/#work", "The work"],
+    ["/work/", "The work"],
     ["/packages/", "Packages"],
     ["/studio/", "Studio"],
     ["/#join", "Build with us"],
@@ -258,7 +262,7 @@ ${body}
         </div>
         <nav aria-label="The work">
           <h2 class="label">The work</h2>
-          <a href="/#work">All products</a>
+          <a href="/work/">All work and stages</a>
           <a href="/packages/">Packages</a>
           <a href="/studio/">The studio</a>
           <a href="/map.json">map.json</a>
@@ -281,6 +285,7 @@ ${body}
   </footer>
   <script type="module" src="/theme.mjs"><\/script>
 ${script ?? ""}
+  <script src="${esc(LOKI_FEEDBACK.origin)}/widget.js" data-fc-project="${esc(LOKI_FEEDBACK.token)}" async><\/script>
 </body>
 </html>
 `;
@@ -347,185 +352,130 @@ ${all.map((v) => card(v, true)).join("\n")}
 const FILTER_SCRIPT = `  <script type="module" src="/work-filter.mjs"></script>`;
 
 // ── pages ───────────────────────────────────────────────────────────────────
-export function homePage(all, packages, cfg, origin, readings) {
+export function homePage(all, packages, cfg, origin, readings, hire) {
   const ventureBySlug = new Map(all.map((v) => [v.slug, v]));
   const alias = cfg.adopterAliases ?? {};
-  const pillars = all.filter((v) => v.pillar);
-  const running = all.filter((v) => v.status === "live" && v.stage !== "next").length;
-  const pkgCount = (packages.packages ?? []).length;
-  const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
-  const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
-  const reading = readings?.current;
-  if (!reading?.date || !Number.isFinite(reading?.downloads?.lastMonth) || !Number.isFinite(reading?.originatorShare?.paid)) {
-    throw new Error("fleet readings must include current date, package downloads, and originator payments");
-  }
   const packageBySlug = new Map((packages.packages ?? []).map((p) => [p.slug, p]));
-  const homeGroups = cfg.homePackageGroups ?? [];
-  const homeSlugs = homeGroups.flatMap((g) => g.packages ?? []);
-  if (homeSlugs.length !== 6 || new Set(homeSlugs).size !== 6 || homeSlugs.some((slug) => !packageBySlug.has(slug))) {
-    throw new Error("homePackageGroups must name exactly six distinct registered packages");
+  const pkgCount = (packages.packages ?? []).length;
+  const home = cfg.home ?? {};
+  const flagshipSlugs = home.flagshipProjects ?? [];
+  const packageSlugs = home.featuredPackages ?? [];
+  const unique = (items) => items.length > 0 && new Set(items).size === items.length;
+  if (!unique(flagshipSlugs) || flagshipSlugs.some((slug) => !ventureBySlug.has(slug))) {
+    throw new Error("home.flagshipProjects must name distinct projects in the fleet map");
   }
-  // The hero's bed is the work itself, in the order the grid below shows it.
-  const mosaic = all.filter((v) => v.shot && v.status === "live").slice(0, 8);
-
-  const body = `  <main id="main">
-    <section class="hero hero-cinema">
-      <div class="hero-bed" aria-hidden="true">
-${mosaic.map((v) => `        <img src="/shots/${esc(v.slug)}.jpg" alt="" width="1280" height="800">`).join("\n")}
-      </div>
-      <div class="wrap">
-        <span class="eyebrow">Zürich &middot; MIT packages &middot; open to contributors</span>
-        <h1 class="display-1">One trunk. Many products.</h1>
-        <p class="lede">bitbaum builds AI-native products on infrastructure that is open by construction — ${pkgCount} shared packages, one server, and a stack for moving value, dispatching work and deciding together. ${running} products run today, all of them in beta. Take any of it, or come build here.</p>
-        <div class="actions">
-          <a class="btn primary" href="#work">See the work ${ARROW}</a>
-          <a class="btn secondary" href="#join">Build with us</a>
-        </div>
-        <div class="specs">
-          <a class="spec" href="#work"><span class="spec-value">${running}</span><span class="spec-label">Products in beta</span></a>
-          <a class="spec" href="/packages/"><span class="spec-value">${pkgCount}</span><span class="spec-label">Open-source packages</span></a>
-          <a class="spec" href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json"><span class="spec-value">${proven}</span><span class="spec-label">Repos with proven origin</span></a>
-          <div class="spec"><span class="spec-value">1</span><span class="spec-label">Server</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="start">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="display-2">Start where you are</h2>
-          <p class="lede">People arrive here for one of four reasons. Each has its own door, so nobody has to read the whole page to find theirs.</p>
-        </div>
-        <div class="grid four">
-          <a class="card text" href="${HIRE}">
-            <div class="card-body">
-              <div class="card-top"><span class="card-name">You want something built</span></div>
-              <span class="card-what">A product, a pipeline, or a rescue of code nobody understands. Rates are published; new engagements are closed, so the waitlist is the way in.</span>
-              <div class="pkg-links"><span>Rates and waitlist &rarr;</span></div>
-            </div>
-          </a>
-          <a class="card text" href="/packages/">
-            <div class="card-body">
-              <div class="card-top"><span class="card-name">You write code</span></div>
-              <span class="card-what">${pkgCount} MIT packages, each showing which products use it — so you can see what it has survived before you install it.</span>
-              <div class="pkg-links"><span>The packages &rarr;</span></div>
-            </div>
-          </a>
-          <a class="card text" href="/#work?stage=pilot,concept">
-            <div class="card-body">
-              <div class="card-top"><span class="card-name">You run a service</span></div>
-              <span class="card-what">Pilots and concepts built for real organisations and public services — what exists, what it runs on, and how to talk about it.</span>
-              <div class="pkg-links"><span>Pilots and concepts &rarr;</span></div>
-            </div>
-          </a>
-          <a class="card text" href="#join">
-            <div class="card-body">
-              <div class="card-top"><span class="card-name">You want to build with us</span></div>
-              <span class="card-what">Use it, contribute to it, or share in it — with exactly what each of those means today, including what it does not.</span>
-              <div class="pkg-links"><span>How to join &rarr;</span></div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="stack">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="display-2">Three layers, so others can build here</h2>
-          <p class="lede">Working together needs more than a repository: a way to be paid, a way to get work done, and a way to decide. Each layer is a product in its own right, and each is what makes the next contributor possible.</p>
-        </div>
-        <div class="grid">
-${pillars.map((v) => `      <a class="card big" href="/${esc(v.slug)}/">
-        <div class="shot"><img src="/shots/${esc(v.slug)}.jpg" alt="${esc(v.name)} — screenshot" loading="lazy" width="1280" height="800"></div>
+  if (!unique(packageSlugs) || packageSlugs.some((slug) => !packageBySlug.has(slug))) {
+    throw new Error("home.featuredPackages must name distinct packages in Fleet's package registry");
+  }
+  const flagships = flagshipSlugs.map((slug) => ventureBySlug.get(slug));
+  const featuredPackages = packageSlugs.map((slug) => packageBySlug.get(slug));
+  const stageLinks = Object.entries(cfg.stages ?? {})
+    .filter(([stage]) => all.some((v) => v.stage === stage))
+    .map(([stage, definition]) => {
+      const count = all.filter((v) => v.stage === stage).length;
+      return `<a class="stage-link" href="/work/#work?stage=${encodeURIComponent(stage)}"><span class="stage-count">${count}</span><span>${esc(definition.plural)}</span></a>`;
+    }).join("\n");
+  const pkgCards = featuredPackages.map((p) => pkgCard(
+    p,
+    cfg.packages?.[p.slug],
+    ventureBySlug,
+    alias,
+    cfg.packageGroups?.find((g) => g.id === cfg.packages?.[p.slug]?.group),
+  )).join("\n");
+  const cards = flagships.map((v) => `<a class="card big flagship" href="/${esc(v.slug)}/">
+        ${v.shot ? `<div class="shot"><img src="/shots/${esc(v.slug)}.jpg" alt="${esc(v.name)} — screenshot" loading="lazy" width="1280" height="800"></div>` : ""}
         <div class="card-body">
-          <div class="card-top"><span class="card-name">${esc(v.name)}</span><span class="pill pillar">${esc(v.pillar)}</span></div>
+          <div class="card-top"><span class="card-name">${esc(v.name)}</span>${pill(v)}</div>
           <span class="card-what">${esc(v.pillarRole ?? v.what)}</span>
+          <div class="pkg-links"><span>Explore ${esc(v.name)} &rarr;</span></div>
         </div>
-      </a>`).join("\n")}
+      </a>`).join("\n");
+  const body = `  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <span class="eyebrow">AI-native product studio &middot; Zürich</span>
+        <h1 class="display-1">Build with agents. Keep people in control.</h1>
+        <p class="lede">Bitbaum builds its own products with autonomous engineering systems. Studio engagements are currently at capacity. If your project cannot wait, start with Loki: dispatch agents against a connected codebase, follow their sessions, and review the changes. For human-led delivery, join the waitlist.</p>
+        <div class="actions">
+          <a class="btn primary" href="${HIRE}#waitlist">Join the waitlist ${ARROW}</a>
+          <a class="btn secondary" href="https://loki.orangecat.ch/">Build with Loki ${ARROW}</a>
         </div>
+        <p class="notice">${esc(hire?.availability?.line ?? "New studio engagements are not starting right now. Check the hire page for current availability.")} <a href="${HIRE}">Rates and details</a>.</p>
       </div>
     </section>
 
-${workSection(all, cfg)}
+    <section class="section" id="systems">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">The systems we build with</h2>
+          <p class="lede">Loki coordinates engineering work across agents and projects. OrangeCat is the economic layer for identities, services and Bitcoin payments. Both are public beta products; neither is a promise of unsupervised delivery.</p>
+        </div>
+        <div class="grid two">${cards}</div>
+      </div>
+    </section>
 
     <section class="section" id="packages">
       <div class="wrap">
         <div class="section-head">
-          <div class="row"><h2 class="display-2">Shared packages for different jobs</h2><a class="textlink" href="/packages/">Explore all ${pkgCount} packages &rarr;</a></div>
-          <p class="lede">A few tools used across the studio, alongside newer packages worth knowing about. Each package page shows its source, install path, and verified adopters.</p>
+          <div class="row"><h2 class="display-2">Shared packages</h2><a class="textlink" href="/packages/">Explore all ${pkgCount} packages &rarr;</a></div>
+          <p class="lede">A small selection from the shared codebase. Each profile links to its source, current version and apps that list it as a dependency.</p>
         </div>
-${homeGroups.map((group) => `<div class="home-package-group"><h3 class="display-3">${esc(group.title)}</h3><div class="grid">\n${group.packages.map((slug) => { const p = packageBySlug.get(slug); return pkgCard(p, cfg.packages?.[slug], ventureBySlug, alias, cfg.packageGroups?.find((g) => g.id === cfg.packages?.[slug]?.group)); }).join("\n")}\n</div></div>`).join("\n")}
-        <p class="caption"><a href="/packages/">Browse, filter, and compare the full catalogue</a>. Adoption is read from package manifests; the packages are useful independently of whether a Bitbaum app uses them.</p>
+        <div class="grid">${pkgCards}</div>
+      </div>
+    </section>
+
+    <section class="section" id="work-preview">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="display-2">More work, clearly staged</h2>
+          <p class="lede">The full catalogue separates running beta products, pilots, work in development, concepts and projects that are not built. Filter by stage and field, then check each project's page.</p>
+        </div>
+        <div class="stage-links">${stageLinks}</div>
+        <p class="caption"><a class="textlink" href="/work/">Browse all work and filter by stage &rarr;</a></p>
       </div>
     </section>
 
     <section class="section" id="join">
       <div class="wrap">
         <div class="section-head">
-          <h2 class="display-2">Build with us</h2>
-          <p class="lede">Anyone can take this work or join it. Four doors, in order of how much they ask of you.</p>
+          <h2 class="display-2">Choose a next step</h2>
+          <p class="lede">Use the tools, contribute to them, or ask the studio to take on work when capacity opens.</p>
         </div>
-        <div class="grid four">
-          <article class="card text">
-            <div class="card-body">
-              <div class="card-top"><span class="card-name">Use it</span><span class="pill">MIT</span></div>
-              <span class="card-what">All ${pkgCount} packages are MIT-licensed. Install any of them and keep its licence notice.</span>
-              <code class="pkg-install">pnpm add @bitbaum/ai-kit</code>
-              <div class="pkg-links"><a href="/packages/">All packages &rarr;</a></div>
-            </div>
-          </article>
-          <article class="card text">
-            <div class="card-body">
-              <div class="card-top"><span class="card-name">Contribute</span><span class="pill">open PRs</span></div>
-              <span class="card-what">Sign off your commits and open a pull request. A maintainer reviews every outside pull request; approved and green, it merges on its own.</span>
-              <code class="pkg-install">git commit -s</code>
-              <div class="pkg-links"><a href="${CONTRIBUTING}">Contributor terms</a><a href="${GITHUB}">Repositories</a></div>
-            </div>
-          </article>
-          <article class="card text">
-            <div class="card-body">
-              <div class="card-top"><span class="card-name">Share in it</span><span class="pill">rule v1</span></div>
-              <span class="card-what">A tenth of a product's net revenue goes, by governed rule, to the originators of the code it uses. Today that means a repository's first author, and there is no revenue yet: nothing has been paid, and contributions earn no share. Changing that is a Solon vote.</span>
-              <div class="pkg-links"><a href="${SHARE_POLICY}">The policy</a><a href="/solon/">How it is governed</a></div>
-            </div>
-          </article>
-          <article class="card text">
-            <div class="card-body">
-              <div class="card-top"><span class="card-name">Hire the studio</span><span class="pill">Zürich</span></div>
-              <span class="card-what">Fractional CTO and contract engineering, with rates published rather than quoted. At capacity — the waitlist hears first when a slot opens.</span>
-              <div class="pkg-links"><a href="${HIRE}">Rates and waitlist</a><a href="${ARTICLES}">Writing</a></div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="open">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="display-2">Open by construction</h2>
-          <p class="lede">Three things make "take it, or join it" safe to say out loud.</p>
-        </div>
-        <div class="facts">
-          <div class="fact"><span class="label">Licence</span><span class="display-3">MIT packages</span><p class="copy">The ${pkgCount} shared packages and the three stack products (<a href="/orangecat/">OrangeCat</a>, <a href="/loki/">Loki</a>, <a href="/solon/">Solon</a>) are MIT — OrangeCat and Loki were relicensed back on 2026-09-18 after a brief All-Rights-Reserved notice. Work built for someone else stays theirs.</p></div>
-          <div class="fact"><span class="label">Origin</span><span class="display-3">A public register</span><p class="copy">The origin register tracks ${origin?.repos?.length ?? 0} repositories; ${origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0} have a Software Heritage snapshot. OpenTimestamps proofs anchor over time${block ? `, with the earliest recorded proof at Bitcoin block ${block}` : ""}. A stamped commit records provenance; Git dates alone do not. <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">Check the register</a>.</p></div>
-          <div class="fact"><span class="label">Numbers</span><span class="display-3">${esc(reading.date)} reading</span><p class="copy">The register reports ${reading.stars} GitHub stars and ${reading.downloads.lastMonth.toLocaleString("en-US")} package downloads over 30 days (including our own CI installs). It records CHF ${Number(reading.clients?.mrrChf ?? 0).toLocaleString("en-US")} monthly client revenue and ${reading.originatorShare.paid} ${esc(reading.originatorShare.currency)} paid to originators. <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">See the source data</a>.</p></div>
+        <div class="grid three">
+          <a class="card text" href="/packages/"><div class="card-body"><span class="card-name">Use the packages</span><span class="card-what">MIT-licensed code with source, versions and observed adopters on each profile.</span><div class="pkg-links"><span>Browse packages &rarr;</span></div></div></a>
+          <a class="card text" href="https://loki.orangecat.ch/"><div class="card-body"><span class="card-name">Start in Loki</span><span class="card-what">Connect a project, dispatch agent work and stay in the review loop. Your code remains in your project environment.</span><div class="pkg-links"><span>Open Loki &rarr;</span></div></div></a>
+          <a class="card text" href="${HIRE}#waitlist"><div class="card-body"><span class="card-name">Work with Bitbaum</span><span class="card-what">Engagements are at capacity. See the published rates and join the waitlist for human-led work.</span><div class="pkg-links"><span>Rates and waitlist &rarr;</span></div></div></a>
         </div>
       </div>
     </section>
   </main>`;
   return shell({
-    title: "bitbaum — one trunk, many products",
-    description: `AI-native products on open infrastructure, built in Zürich. ${running} products in beta, ${pkgCount} MIT packages, and a stack for moving value, dispatching work and deciding together.`,
-    path: "/", body, nav: "/", script: FILTER_SCRIPT,
+    title: "bitbaum — build with agents, keep people in control",
+    description: "Bitbaum builds AI-native products with autonomous engineering systems. Use Loki to start agent work in your project, or join the studio waitlist for human-led delivery.",
+    path: "/", body, nav: "/",
+  });
+}
+
+export function workPage(all, cfg) {
+  const body = `  <main id="main">
+    <section class="hero compact"><div class="wrap">
+      <span class="eyebrow">Projects and pilots</span>
+      <h1 class="display-1">The work, at its actual stage.</h1>
+      <p class="lede">Running services, real pilots, work in development, concepts, and named projects that are not built are labelled separately. Filter by stage and field; every count and result comes from this catalogue.</p>
+    </div></section>
+${workSection(all, cfg)}
+  </main>`;
+  return shell({
+    title: "The work — bitbaum",
+    description: "Browse Bitbaum projects by readiness stage and field, from running beta products to concepts and projects not yet built.",
+    path: "/work/", body, nav: "/work/", script: FILTER_SCRIPT,
   });
 }
 
 /**
  * A venture's profiles on the other two pillars, as anchors.
  *
- * Named rather than inlined because the home grid counts them and the venture
+ * Named rather than inlined because the flagship list counts them and the venture
  * page renders them, and those two must not disagree about what "has a
  * profile" means.
  */
@@ -545,7 +495,7 @@ export function venturePage(v, all, cfg, contact) {
   const facts = [
     ["Stage", (stage?.title ?? v.stage) + (v.for ? `, for ${v.for}` : "")],
     ["Status", v.stage === "next" ? "Named, not built" : v.status === "live" ? "Beta — running, not released" : v.status === "demo" ? "Demo, mock data" : v.status === "validating" ? "Validating" : v.status || "—"],
-    v.tags.length ? ["Field", v.tags.map((t) => `<a href="/#work?field=${esc(slugify(t))}">${esc(t)}</a>`).join(", ")] : null,
+    v.tags.length ? ["Field", v.tags.map((t) => `<a href="/work/#work?field=${esc(slugify(t))}">${esc(t)}</a>`).join(", ")] : null,
     v.since ? ["Since", monthYear(v.since)] : null,
     v.url ? ["Address", `<a href="${esc(v.url)}">${esc(host(v.url))}</a>`] : null,
     v.repo ? ["Source", `<a href="${esc(v.repo)}">${esc(v.repo.replace("https://github.com/", ""))}</a>`] : null,
@@ -603,13 +553,12 @@ ${requestForm({
 })}
       </div>
     </section>` : ""}
-    <div class="wrap"><div class="pager"><a href="/${esc(prev.slug)}/">&larr; ${esc(prev.name)}</a><a href="/#work?stage=${esc(v.stage)}">All ${esc((stage?.plural ?? "").toLowerCase())}</a><a href="/${esc(next.slug)}/">${esc(next.name)} &rarr;</a></div></div>
+    <div class="wrap"><div class="pager"><a href="/${esc(prev.slug)}/">&larr; ${esc(prev.name)}</a><a href="/work/#work?stage=${encodeURIComponent(v.stage)}">All ${esc((stage?.plural ?? "").toLowerCase())}</a><a href="/${esc(next.slug)}/">${esc(next.name)} &rarr;</a></div></div>
   </main>`;
   return shell({ title: `${v.name} — ${v.what}`, description: v.story || v.what, path: `/${v.slug}/`, body, image: v.shot ? `/shots/${v.slug}.jpg` : undefined, script: contact ? requestScript() : undefined });
 }
 
 export function studioPage(all, packages, origin, readings) {
-  const running = all.filter((v) => v.status === "live" && v.stage !== "next").length;
   const pkgCount = (packages.packages ?? []).length;
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
   const reading = readings?.current;
@@ -621,32 +570,30 @@ export function studioPage(all, packages, origin, readings) {
         <p class="lede">Bit for software. Baum, German for tree, for the shape: many branches from one trunk. The trunk is what lets a small group ship like a large one — and what lets the next person start in the middle rather than at the beginning.</p>
         <div class="actions">
           <a class="btn primary" href="/#join">Build with us ${ARROW}</a>
-          <a class="btn secondary" href="/#work">See the work</a>
+          <a class="btn secondary" href="/work/">See the work</a>
         </div>
       </div>
     </section>
     <section class="section">
       <div class="wrap"><div class="prose">
         <h2>What bitbaum is</h2>
-        <p>A product studio, not a consultancy and not a single-product company. It ships AI-native products for real problems — an economic agent, an operating system for AI fleets, governance you can recount, tools for a non-profit, a clinic, a housing organisation — and each is built from the same shared infrastructure, so the next one is cheaper than the last. ${running} of them run today — in beta, every one.</p>
+        <p>Bitbaum is a product studio building AI-native software. OrangeCat and Loki are public beta products. Other projects are labelled on the <a href="/work/">work catalogue</a> by what can be verified: pilot, in development, concept, or not built.</p>
         <h2>Why the stack is what it is</h2>
-        <p>Three of the products are less products for a customer than the conditions for working together. <a href="/orangecat/">OrangeCat</a> is how value reaches whoever did the work, without a bank deciding who qualifies. <a href="/loki/">Loki</a> is how work is dispatched to a fleet of AI agents and people, and verified before it ships. <a href="/solon/">Solon</a> is how rules are decided and recounted, by signature rather than by trust. Building them was the answer to a plain question: what has to exist before more than one person can build here and be treated fairly?</p>
+        <p><a href="/orangecat/">OrangeCat</a> is the economic product, with payment links and Bitcoin settlement. <a href="/loki/">Loki</a> is the engineering control plane for dispatching work to agents, following sessions and reviewing changes. <a href="/solon/">Solon is still in development</a>; it is not presented as ready for an organisation to depend on.</p>
         <h2>How the work gets done</h2>
-        <p>The trunk. ${pkgCount} open-source packages carry the parts every product needs: which AI model to call and what to do when it fails, email, forms filled from prose, rate limits, lists, threads, design tokens, sites as data. Getting paid is <a href="/packages/paykit/">@bitbaum/paykit</a>: a website shows where the money should go and does not hold it. <a href="/orangecat/">OrangeCat</a> does the same thing. Loki runs a fleet of AI agents that build, verify and deploy every product here — including Loki. The human job is judgment: what to build, what is good enough, what is true.</p>
+        <p>The studio publishes ${pkgCount} MIT-licensed packages for specific jobs: model routing, email, content, forms, rate limits, lists, threads and more. They are not all used by every product. Each <a href="/packages/">package profile</a> links to its source, current version and apps that list it as a dependency. Agents can do implementation work in Loki; people set the goals, review changes and remain responsible for what ships.</p>
         <h2>What is true</h2>
-        <p>Product lists, screenshots, adopter counts and origin stamps come from public registers and machine shots — not from someone typing a catalogue. Editorial lines (stage, one-liners, hire rates) live in this repository on purpose. There are no clients on this site because there are none: the pilots run for real organisations as favours, offered first, and say so.</p>
+        <p>The project list and package adopters come from public registers; stage descriptions and short summaries are editorial and are kept here for review. The work catalogue distinguishes projects built for real organisations from demos and things that are not built.</p>
         <h2>Open by construction</h2>
-        <p>The shared packages the studio publishes are MIT, and so are the three products the stack is built on — after OrangeCat and Loki were relicensed to MIT on 2026-09-18. Work built for someone else stays theirs. Contributor terms live in one place, <a href="${CONTRIBUTING}">bitbaum/.github</a>: sign off your commits and a sweep merges anything green. The <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a> records repository provenance: ${origin?.repos?.length ?? 0} repositories are tracked and ${origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0} have a Software Heritage snapshot${block ? `; the earliest recorded OpenTimestamps proof is anchored at Bitcoin block ${block}` : ""}.</p>
-        <h2>What originators are owed, and what is actually paid</h2>
-        <p>A <a href="${SHARE_POLICY}">versioned rule in Solon</a> says a tenth of a product\u2019s net revenue belongs to the originators of the code it is built from, split equally, with who-originated-what read from the origin register rather than typed into the policy. The rule computes that split deterministically today. <strong>Nothing has been paid, and nothing can be yet:</strong> there is no revenue, no payout ledger, and the economic layer that moves money does not read the rule. It is a commitment made before it costs anything — which is the only time a commitment like that is cheap to make, and the reason it is written down where it can be checked.</p>
+        <p>The shared packages are MIT-licensed. Work built for someone else stays theirs. Contributor terms live in <a href="${CONTRIBUTING}">bitbaum/.github</a>. The <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a> tracks <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">${origin?.repos?.length ?? 0} repositories</a>, of which <a href="https://archive.softwareheritage.org/">${origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0} have a Software Heritage snapshot</a>${block ? `; the <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">earliest recorded proof is anchored at Bitcoin block ${block}</a>` : ""}.</p>
         <h2>Numbers, in the open</h2>
-        <p>The ${esc(reading?.date ?? "latest")} fleet reading reports ${Number(reading?.stars ?? 0)} GitHub stars, ${Number(reading?.downloads?.lastMonth ?? 0).toLocaleString("en-US")} package downloads over 30 days (including our own CI installs), CHF ${Number(reading?.clients?.mrrChf ?? 0).toLocaleString("en-US")} in monthly client revenue, and ${Number(reading?.originatorShare?.paid ?? 0)} ${esc(reading?.originatorShare?.currency ?? "BTC")} paid to originators. Read the <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">register</a> and the <a href="${ARTICLES}">writing</a> that keeps score in public.</p>
+        <p>Fleet's <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">${esc(reading?.date ?? "latest")} readings</a> report <a href="https://github.com/bitbaum">${Number(reading?.stars ?? 0)} GitHub stars</a> and <a href="https://www.npmjs.com/org/bitbaum">${Number(reading?.downloads?.lastMonth ?? 0).toLocaleString("en-US")} package downloads over 30 days</a> (including our own CI installs). The same dated register reports <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">CHF ${Number(reading?.clients?.mrrChf ?? 0).toLocaleString("en-US")} monthly client revenue</a>. These are readings, not forecasts; the source and date are linked.</p>
         <h2>Work with the studio</h2>
         <p>Fractional CTO and contract engineering, Zürich. Rates, scope and the waitlist are on the <a href="${HIRE}">hire page</a>. The code is on <a href="${GITHUB}">GitHub</a>.</p>
       </div></div>
     </section>
   </main>`;
-  return shell({ title: "The studio — bitbaum", description: "Bit for software, Baum for the shape: many branches from one trunk. What has to exist before more than one person can build here.", path: "/studio/", body, nav: "/studio/" });
+  return shell({ title: "The studio — bitbaum", description: "What Bitbaum builds, how its projects differ in readiness, and where the public numbers come from.", path: "/studio/", body, nav: "/studio/" });
 }
 
 // ── hire ────────────────────────────────────────────────────────────────────
@@ -693,7 +640,7 @@ ${note ? `        <p class="caption">${note}</p>` : ""}`;
 }
 
 function requestScript() {
-  return `  <script type="module" src="/request.mjs"><\/script>`;
+  return `  <script type="module" src="/request.mjs" data-endpoint="${esc(LOKI_FEEDBACK.origin)}/api/feedback" data-token="${esc(LOKI_FEEDBACK.token)}"><\/script>`;
 }
 
 const slug = (name) =>
@@ -745,7 +692,7 @@ ${hire.offers.map((o) => `          <a class="card text" href="#waitlist" data-e
     <section class="section" id="shipped">
       <div class="wrap">
         <div class="section-head">
-          <div class="row"><h2 class="display-2">${running.length} systems running right now</h2><a class="textlink" href="/#work">Everything, filterable &rarr;</a></div>
+          <div class="row"><h2 class="display-2">${running.length} systems running right now</h2><a class="textlink" href="/work/">Everything, filterable &rarr;</a></div>
           <p class="lede">Not screenshots from finished engagements — running services you can open in a new tab, on infrastructure that is public.</p>
         </div>
         <div class="grid four">
@@ -824,7 +771,8 @@ ${requestForm({
 export function render({ map, packages, origin, readings, cfg, hire }) {
   const all = ventures(map, cfg, origin, packages);
   const files = new Map();
-  files.set("index.html", homePage(all, packages, cfg, origin, readings));
+  files.set("index.html", homePage(all, packages, cfg, origin, readings, hire));
+  files.set("work/index.html", workPage(all, cfg));
   files.set("packages/index.html", packagesPage(packages, cfg, all));
   files.set("packages-filter.mjs", readFileSync(join(here, "packages-filter.mjs"), "utf8"));
   files.set("work-filter.mjs", readFileSync(join(here, "work-filter.mjs"), "utf8"));
@@ -906,7 +854,7 @@ if (isMain) {
     }
     // Pages for ventures that no longer exist must not linger.
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
-      if (d.isDirectory() && !["shots", "fonts", "packages", "studio", "hire", "og", "vendor"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
+      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "studio", "hire", "og", "vendor"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
     cpSync(join(here, "styles.css"), join(DIST, "styles.css"));
     // Same rule, fewer generations — a favicon that cannot drift from the logo.
