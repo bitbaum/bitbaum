@@ -18,10 +18,9 @@
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/shots/solon.jpg">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"bitbaum","url":"https://bitbaum.orangecat.ch","address":{"@type":"PostalAddress","addressLocality":"Zürich","addressCountry":"CH"},"sameAs":["https://github.com/bitbaum"]}</script>
 <script>
-  // Runs before the stylesheet paints: a theme applied later is a white flash
-  // on every page load for anyone who chose dark. Three states, and "system"
-  // is a real one — it keeps following the OS after the choice is made.
+  // Tiny FOUC guard only — theme UI lives in /theme.mjs.
   (function () {
     try {
       var saved = localStorage.getItem("theme") || "system";
@@ -38,6 +37,7 @@
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <header class="top">
     <div class="wrap">
       <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
@@ -63,7 +63,7 @@
       <a class="btn secondary cta" href="/hire/">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
     </div>
   </header>
-  <main>
+  <main id="main">
     <section class="venture-hero">
       <div class="wrap">
         <span class="eyebrow">Product &middot; Governance</span>
@@ -99,14 +99,14 @@
           <h2 class="display-2">Ask about Solon</h2>
           <p class="lede">Whether you are evaluating it, want it for your organisation, or want to know how it was built — this reaches a person, and the reply comes from one.</p>
         </div>
-        <form class="signup js-request" id="form-ask-solon" data-form="ask-solon" novalidate>
+        <form class="signup js-request" id="form-ask-solon" data-form="ask-solon" data-endpoint="https://loki.orangecat.ch/api/feedback" novalidate>
           <p class="field"><label for="f-ask-solon-name">Your name</label><input id="f-ask-solon-name" type="text" name="name" autocomplete="name" placeholder="" required></p>
           <p class="field"><label for="f-ask-solon-email">Email</label><input id="f-ask-solon-email" type="email" name="email" autocomplete="email" placeholder="" required></p>
           <p class="field"><label for="f-ask-solon-org">Company or organisation <span class="opt">optional</span></label><input id="f-ask-solon-org" type="text" name="org" autocomplete="organization" placeholder=""></p>
           <p class="field wide"><label for="f-ask-solon-what">What you want to know about Solon</label><textarea id="f-ask-solon-what" name="what" rows="4" placeholder="" required></textarea></p>
-          <!-- A field no human sees: anything in it came from a bot, which is
-               answered exactly as a person is and stored nowhere. -->
-          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="hp" aria-hidden="true">
+            <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+          </div>
           <p class="field wide submit"><button class="btn primary" type="submit">Send <span class="arrow" aria-hidden="true">&rarr;</span></button></p>
         </form>
         <p class="form-status" role="status"></p>
@@ -145,122 +145,7 @@
       <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
     </div>
   </footer>
-  <script>
-    (function () {
-      var root = document.documentElement;
-      var media = matchMedia("(prefers-color-scheme: dark)");
-      function apply(choice) {
-        var dark = choice === "dark" || (choice === "system" && media.matches);
-        root.classList.toggle("dark", dark);
-        root.dataset.theme = choice;
-        document.querySelectorAll("[data-set-theme]").forEach(function (b) {
-          b.setAttribute("aria-pressed", String(b.dataset.setTheme === choice));
-        });
-      }
-      var saved = "system";
-      try { saved = localStorage.getItem("theme") || "system"; } catch (e) {}
-      apply(saved);
-      document.querySelectorAll("[data-set-theme]").forEach(function (b) {
-        b.addEventListener("click", function () {
-          var choice = b.dataset.setTheme;
-          try { localStorage.setItem("theme", choice); } catch (e) {}
-          apply(choice);
-        });
-      });
-      // "System" means system FOREVER, not "system once": follow the OS if it
-      // changes while the page is open.
-      media.addEventListener("change", function () {
-        if ((root.dataset.theme || "system") === "system") apply("system");
-      });
-    })();
-  </script>
-  <script>
-    (function () {
-      var ENDPOINT = "https://loki.orangecat.ch/api/feedback";
-      var TOKEN = "fcw_a182d39f6ef4ec8d616ef58e4ca5a693";
-      var DONE = "Request sent. You will hear back from a person \u2014 nothing automated goes out.";
-      var forms = document.querySelectorAll("form.js-request");
-      if (!forms.length) return;
-
-      Array.prototype.forEach.call(forms, function (form) {
-        var status = form.parentNode.querySelector(".form-status");
-        var button = form.querySelector("button[type=submit]");
-        var get = function (n) { return form.querySelector("[name=" + n + "]"); };
-        var val = function (n) { var el = get(n); return el ? (el.value || "").trim() : ""; };
-        function say(text, bad) {
-          if (!status) return;
-          status.textContent = text;
-          status.className = bad ? "form-status bad" : "form-status";
-        }
-
-        // Which engagement a reader came for: set by the rate cards, and by a
-        // deep link so a shared URL keeps the context.
-        var pick = get("engagement");
-        if (pick) {
-          var want = (location.hash.split("for=")[1] || "").replace(/[^a-z-]/gi, "");
-          Array.prototype.forEach.call(document.querySelectorAll("[data-engagement]"), function (link) {
-            link.addEventListener("click", function () {
-              pick.value = link.getAttribute("data-engagement");
-            });
-          });
-          if (want) {
-            Array.prototype.forEach.call(pick.options, function (o) {
-              if (o.value.toLowerCase().replace(/[^a-z]+/g, "-") === want) pick.value = o.value;
-            });
-          }
-        }
-
-        form.addEventListener("submit", function (event) {
-          event.preventDefault();
-          var email = val("email"), what = val("what"), who = val("name");
-          if (email.indexOf("@") < 1 || email.indexOf(".") < 0) {
-            say("Enter an email address we can reply to.", true);
-            get("email").focus();
-            return;
-          }
-          if (what.length < 12) {
-            say("Tell us in a line or two what you are building.", true);
-            get("what").focus();
-            return;
-          }
-          if (val("website")) { form.hidden = true; say(DONE); return; }
-
-          var lines = [];
-          if (val("engagement")) lines.push("Engagement: " + val("engagement"));
-          if (val("timeline")) lines.push("Timeline: " + val("timeline"));
-          if (lines.length) lines.push("");
-          lines.push(what);
-          var contact = (who || "(no name)") + " <" + email + ">" + (val("org") ? ", " + val("org") : "");
-
-          button.disabled = true;
-          say("Sending\u2026");
-          fetch(ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              token: TOKEN,
-              suggestion: lines.join("\n"),
-              contact: contact,
-              page: location.pathname,
-              url: location.href,
-              pageTitle: document.title
-            })
-          })
-            .then(function (res) {
-              if (res.status === 429) throw new Error("rate");
-              if (!res.ok) throw new Error("http");
-              return res.json();
-            })
-            .then(function () { form.hidden = true; say(DONE); })
-            .catch(function (err) {
-              button.disabled = false;
-              say(err && err.message === "rate"
-                ? "That is a lot of requests at once \u2014 give it a minute."
-                : "That did not send. Try again in a moment, or reach us through GitHub.", true);
-            });
-        });
-      });
-    })();
-  </script>
+  <script type="module" src="/theme.mjs"></script>
+  <script type="module" src="/request.mjs"></script>
 </body>
 </html>

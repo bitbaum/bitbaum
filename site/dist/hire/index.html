@@ -18,10 +18,9 @@
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"bitbaum","url":"https://bitbaum.orangecat.ch","address":{"@type":"PostalAddress","addressLocality":"Zürich","addressCountry":"CH"},"sameAs":["https://github.com/bitbaum"]}</script>
 <script>
-  // Runs before the stylesheet paints: a theme applied later is a white flash
-  // on every page load for anyone who chose dark. Three states, and "system"
-  // is a real one — it keeps following the OS after the choice is made.
+  // Tiny FOUC guard only — theme UI lives in /theme.mjs.
   (function () {
     try {
       var saved = localStorage.getItem("theme") || "system";
@@ -38,6 +37,7 @@
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <header class="top">
     <div class="wrap">
       <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
@@ -63,7 +63,7 @@
       <a class="btn secondary cta" href="/hire/">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
     </div>
   </header>
-  <main>
+  <main id="main">
     <section class="hero compact">
       <div class="wrap">
         <span class="eyebrow">Fractional CTO · contract engineering · Zürich</span>
@@ -75,10 +75,9 @@
         </div>
         <p class="notice">At capacity: no new engagements are starting right now. The rates below are current, and the waitlist is how you hear first when a slot opens.</p>
         <div class="hero-facts">
-          <span><b>15</b> systems built and running</span>
-          <span><b>10</b> packages published open source</span>
-          <span><b>45</b> repositories with proven origin</span>
-          <span><b>0</b> manual steps between merge and deploy</span>
+          <a href="#shipped"><b>15</b> systems built and running</a>
+          <a href="/packages/"><b>10</b> packages published open source</a>
+          <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json"><b>45</b> repositories with proven origin</a>
         </div>
         <p class="caption">Every number here is checkable: the systems are listed below with their addresses, the packages are on npm, and the origin proofs are <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">in a public register</a>.</p>
       </div>
@@ -91,30 +90,30 @@
           <p class="lede">Published rather than quoted on request, so you can qualify yourself before writing a single email. Fixed-scope work is confirmed in writing before it starts.</p>
         </div>
         <div class="grid">
-          <article class="card text">
+          <a class="card text" href="#waitlist" data-engagement="Fractional CTO">
             <div class="card-body">
               <div class="card-top"><span class="card-name">Fractional CTO</span><span class="pill">Two to four days a month</span></div>
               <span class="price">CHF 2,400<span class="price-unit">per day</span></span>
               <span class="card-what">Minimum three months. We own architecture, the deploy pipeline, the review bar, security posture and the technical side of hiring — for teams that need those decisions made without a full-time salary attached to them.</span>
-              <div class="pkg-links"><a href="#waitlist" data-engagement="Fractional CTO">Request this &rarr;</a></div>
+              <div class="pkg-links"><span>Request this &rarr;</span></div>
             </div>
-          </article>
-          <article class="card text">
+          </a>
+          <a class="card text" href="#waitlist" data-engagement="Build sprint">
             <div class="card-body">
               <div class="card-top"><span class="card-name">Build sprint</span><span class="pill">Four to six weeks</span></div>
               <span class="price">from CHF 18,000</span>
               <span class="card-what">Fixed price, fixed scope. A defined product or module delivered running in production, with tests and a pipeline. Change requests are re-quoted rather than quietly absorbed.</span>
-              <div class="pkg-links"><a href="#waitlist" data-engagement="Build sprint">Request this &rarr;</a></div>
+              <div class="pkg-links"><span>Request this &rarr;</span></div>
             </div>
-          </article>
-          <article class="card text">
+          </a>
+          <a class="card text" href="#waitlist" data-engagement="Rescue">
             <div class="card-body">
               <div class="card-top"><span class="card-name">Rescue</span><span class="pill">Two weeks, fixed</span></div>
               <span class="price">CHF 6,500</span>
               <span class="card-what">An inherited codebase nobody understands. You get a written assessment, a working local setup, CI that actually runs the tests, and a ranked list of what breaks first — whether or not we work together afterwards.</span>
-              <div class="pkg-links"><a href="#waitlist" data-engagement="Rescue">Request this &rarr;</a></div>
+              <div class="pkg-links"><span>Request this &rarr;</span></div>
             </div>
-          </article>
+          </a>
         </div>
       </div>
     </section>
@@ -247,30 +246,22 @@
           <p class="lede">Four commitments that hold whether the engagement is two weeks or two years.</p>
         </div>
         <div class="grid two">
-          <article class="card text">
-            <div class="card-body">
+          <div class="method">
               <span class="card-name">One verify command per repository</span>
               <span class="card-what">Lint, typecheck, test. CI runs exactly that command, so green on your machine means green on the branch.</span>
-            </div>
-          </article>
-          <article class="card text">
-            <div class="card-body">
+          </div>
+          <div class="method">
               <span class="card-name">Everything ships through a branch and a pipeline</span>
               <span class="card-what">The deliberate step is the pipeline, not a person remembering to click something.</span>
-            </div>
-          </article>
-          <article class="card text">
-            <div class="card-body">
+          </div>
+          <div class="method">
               <span class="card-name">Self-hosted by default, on Hetzner and Caddy</span>
               <span class="card-what">Postgres, systemd, hardware you can point at. No per-seat pricing, no vendor lock-in, no surprise invoice.</span>
-            </div>
-          </article>
-          <article class="card text">
-            <div class="card-body">
+          </div>
+          <div class="method">
               <span class="card-name">Handover is designed in from day one</span>
               <span class="card-what">Standard stack, full data export, documentation written for the engineer who arrives afterwards.</span>
-            </div>
-          </article>
+          </div>
         </div>
       </div>
     </section>
@@ -335,16 +326,16 @@
             </div>
           </article>
         </div>
-        <form class="signup js-request" id="form-waitlist" data-form="waitlist" novalidate>
+        <form class="signup js-request" id="form-waitlist" data-form="waitlist" data-endpoint="https://loki.orangecat.ch/api/feedback" novalidate>
           <p class="field"><label for="f-waitlist-name">Your name</label><input id="f-waitlist-name" type="text" name="name" autocomplete="name" placeholder="" required></p>
           <p class="field"><label for="f-waitlist-email">Email</label><input id="f-waitlist-email" type="email" name="email" autocomplete="email" placeholder="you@yourcompany.ch" required></p>
           <p class="field"><label for="f-waitlist-org">Company or organisation <span class="opt">optional</span></label><input id="f-waitlist-org" type="text" name="org" autocomplete="organization" placeholder=""></p>
           <p class="field"><label for="f-waitlist-engagement">Which engagement <span class="opt">optional</span></label><select id="f-waitlist-engagement" name="engagement"><option value="Not sure yet">Not sure yet</option><option value="Fractional CTO">Fractional CTO</option><option value="Build sprint">Build sprint</option><option value="Rescue">Rescue</option></select></p>
           <p class="field"><label for="f-waitlist-timeline">When you need it <span class="opt">optional</span></label><select id="f-waitlist-timeline" name="timeline"><option value="Not urgent">Not urgent</option><option value="This quarter">This quarter</option><option value="Next quarter">Next quarter</option><option value="As soon as there is capacity">As soon as there is capacity</option></select></p>
           <p class="field wide"><label for="f-waitlist-what">What you are building, and what is in the way</label><textarea id="f-waitlist-what" name="what" rows="4" placeholder="A sentence or two is plenty." required></textarea></p>
-          <!-- A field no human sees: anything in it came from a bot, which is
-               answered exactly as a person is and stored nowhere. -->
-          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="hp" aria-hidden="true">
+            <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+          </div>
           <p class="field wide submit"><button class="btn primary" type="submit">Join the waitlist <span class="arrow" aria-hidden="true">&rarr;</span></button></p>
         </form>
         <p class="form-status" role="status"></p>
@@ -382,122 +373,7 @@
       <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
     </div>
   </footer>
-  <script>
-    (function () {
-      var root = document.documentElement;
-      var media = matchMedia("(prefers-color-scheme: dark)");
-      function apply(choice) {
-        var dark = choice === "dark" || (choice === "system" && media.matches);
-        root.classList.toggle("dark", dark);
-        root.dataset.theme = choice;
-        document.querySelectorAll("[data-set-theme]").forEach(function (b) {
-          b.setAttribute("aria-pressed", String(b.dataset.setTheme === choice));
-        });
-      }
-      var saved = "system";
-      try { saved = localStorage.getItem("theme") || "system"; } catch (e) {}
-      apply(saved);
-      document.querySelectorAll("[data-set-theme]").forEach(function (b) {
-        b.addEventListener("click", function () {
-          var choice = b.dataset.setTheme;
-          try { localStorage.setItem("theme", choice); } catch (e) {}
-          apply(choice);
-        });
-      });
-      // "System" means system FOREVER, not "system once": follow the OS if it
-      // changes while the page is open.
-      media.addEventListener("change", function () {
-        if ((root.dataset.theme || "system") === "system") apply("system");
-      });
-    })();
-  </script>
-  <script>
-    (function () {
-      var ENDPOINT = "https://loki.orangecat.ch/api/feedback";
-      var TOKEN = "fcw_a182d39f6ef4ec8d616ef58e4ca5a693";
-      var DONE = "Request sent. You will hear back from a person \u2014 nothing automated goes out.";
-      var forms = document.querySelectorAll("form.js-request");
-      if (!forms.length) return;
-
-      Array.prototype.forEach.call(forms, function (form) {
-        var status = form.parentNode.querySelector(".form-status");
-        var button = form.querySelector("button[type=submit]");
-        var get = function (n) { return form.querySelector("[name=" + n + "]"); };
-        var val = function (n) { var el = get(n); return el ? (el.value || "").trim() : ""; };
-        function say(text, bad) {
-          if (!status) return;
-          status.textContent = text;
-          status.className = bad ? "form-status bad" : "form-status";
-        }
-
-        // Which engagement a reader came for: set by the rate cards, and by a
-        // deep link so a shared URL keeps the context.
-        var pick = get("engagement");
-        if (pick) {
-          var want = (location.hash.split("for=")[1] || "").replace(/[^a-z-]/gi, "");
-          Array.prototype.forEach.call(document.querySelectorAll("[data-engagement]"), function (link) {
-            link.addEventListener("click", function () {
-              pick.value = link.getAttribute("data-engagement");
-            });
-          });
-          if (want) {
-            Array.prototype.forEach.call(pick.options, function (o) {
-              if (o.value.toLowerCase().replace(/[^a-z]+/g, "-") === want) pick.value = o.value;
-            });
-          }
-        }
-
-        form.addEventListener("submit", function (event) {
-          event.preventDefault();
-          var email = val("email"), what = val("what"), who = val("name");
-          if (email.indexOf("@") < 1 || email.indexOf(".") < 0) {
-            say("Enter an email address we can reply to.", true);
-            get("email").focus();
-            return;
-          }
-          if (what.length < 12) {
-            say("Tell us in a line or two what you are building.", true);
-            get("what").focus();
-            return;
-          }
-          if (val("website")) { form.hidden = true; say(DONE); return; }
-
-          var lines = [];
-          if (val("engagement")) lines.push("Engagement: " + val("engagement"));
-          if (val("timeline")) lines.push("Timeline: " + val("timeline"));
-          if (lines.length) lines.push("");
-          lines.push(what);
-          var contact = (who || "(no name)") + " <" + email + ">" + (val("org") ? ", " + val("org") : "");
-
-          button.disabled = true;
-          say("Sending\u2026");
-          fetch(ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              token: TOKEN,
-              suggestion: lines.join("\n"),
-              contact: contact,
-              page: location.pathname,
-              url: location.href,
-              pageTitle: document.title
-            })
-          })
-            .then(function (res) {
-              if (res.status === 429) throw new Error("rate");
-              if (!res.ok) throw new Error("http");
-              return res.json();
-            })
-            .then(function () { form.hidden = true; say(DONE); })
-            .catch(function (err) {
-              button.disabled = false;
-              say(err && err.message === "rate"
-                ? "That is a lot of requests at once \u2014 give it a minute."
-                : "That did not send. Try again in a moment, or reach us through GitHub.", true);
-            });
-        });
-      });
-    })();
-  </script>
+  <script type="module" src="/theme.mjs"></script>
+  <script type="module" src="/request.mjs"></script>
 </body>
 </html>

@@ -2,11 +2,11 @@
 
 **Public site:** [bitbaum.orangecat.ch](https://bitbaum.orangecat.ch) · **Ventures list:** derived from the [fleet register](https://loki.orangecat.ch/fleet); presentation in `site/overrides.json`
 
-**Status:** Early Stage — orangecat live · hirn.li launching Q2 2026 · Loki public and live at [loki.orangecat.ch](https://loki.orangecat.ch) (pre-1.0)
-**Type:** Organization / Umbrella
-**Inspired By:** ByteDance (multiple products, shared infrastructure)
+**Status:** Shipping — orangecat, Loki, Solon and fleet apps live on Hetzner · hire waitlist open on [bitbaum.orangecat.ch/hire/](https://bitbaum.orangecat.ch/hire/)
+**Type:** Product studio (shared open infrastructure)
+**Site SSOT:** `site/PURPOSE.md` and `site/DEPLOY.md` — do not invent claims here that the site cannot prove.
 
-> This README contains strategic planning and internal documentation. For the public-facing site, see `site/` directory. Registration lives in Solon; none of this is registered yet.
+> This README contains strategic planning and internal documentation. For the public-facing site, see `site/`. Registration lives in Solon; none of this is registered yet.
 
 ---
 

@@ -25,6 +25,7 @@
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { MARK_HEADER, MARK_FAVICON } from "./brand-mark.mjs";
 import { createPackagePages } from "./packages-page.mjs";
+import { publicMap } from "./public-map.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -43,6 +44,7 @@ const SOURCES = {
   map: [process.env.FLEET_MAP_URL ?? "https://loki.orangecat.ch/api/fleet/map", "map.snapshot.json", "fleet map"],
   packages: [packagesUrl, "packages.snapshot.json", "package registry"],
   origin: [process.env.FLEET_ORIGIN_URL ?? "https://raw.githubusercontent.com/bitbaum/fleet/main/registers/origin.json", "origin.snapshot.json", "origin register"],
+  readings: [process.env.FLEET_READINGS_URL ?? "https://raw.githubusercontent.com/bitbaum/fleet/main/registers/readings.json", "readings.snapshot.json", "fleet readings"],
 };
 const SITE = "https://bitbaum.orangecat.ch";
 const GITHUB = "https://github.com/bitbaum";
@@ -177,6 +179,14 @@ function shell({ title, description, path, body, nav, script, image }) {
     ["/#join", "Build with us"],
     ["/hire/", "Hire"],
   ];
+  const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "bitbaum",
+    url: SITE,
+    address: { "@type": "PostalAddress", addressLocality: "Zürich", addressCountry: "CH" },
+    sameAs: [GITHUB],
+  });
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -197,10 +207,9 @@ function shell({ title, description, path, body, nav, script, image }) {
 <meta name="twitter:image" content="${ogImage}">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<script type="application/ld+json">${jsonLd}<\/script>
 <script>
-  // Runs before the stylesheet paints: a theme applied later is a white flash
-  // on every page load for anyone who chose dark. Three states, and "system"
-  // is a real one — it keeps following the OS after the choice is made.
+  // Tiny FOUC guard only — theme UI lives in /theme.mjs.
   (function () {
     try {
       var saved = localStorage.getItem("theme") || "system";
@@ -217,6 +226,7 @@ function shell({ title, description, path, body, nav, script, image }) {
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <header class="top">
     <div class="wrap">
       <a class="mark" href="/">${MARK}bitbaum</a>
@@ -269,35 +279,7 @@ ${body}
       <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
     </div>
   </footer>
-  <script>
-    (function () {
-      var root = document.documentElement;
-      var media = matchMedia("(prefers-color-scheme: dark)");
-      function apply(choice) {
-        var dark = choice === "dark" || (choice === "system" && media.matches);
-        root.classList.toggle("dark", dark);
-        root.dataset.theme = choice;
-        document.querySelectorAll("[data-set-theme]").forEach(function (b) {
-          b.setAttribute("aria-pressed", String(b.dataset.setTheme === choice));
-        });
-      }
-      var saved = "system";
-      try { saved = localStorage.getItem("theme") || "system"; } catch (e) {}
-      apply(saved);
-      document.querySelectorAll("[data-set-theme]").forEach(function (b) {
-        b.addEventListener("click", function () {
-          var choice = b.dataset.setTheme;
-          try { localStorage.setItem("theme", choice); } catch (e) {}
-          apply(choice);
-        });
-      });
-      // "System" means system FOREVER, not "system once": follow the OS if it
-      // changes while the page is open.
-      media.addEventListener("change", function () {
-        if ((root.dataset.theme || "system") === "system") apply("system");
-      });
-    })();
-  <\/script>
+  <script type="module" src="/theme.mjs"><\/script>
 ${script ?? ""}
 </body>
 </html>
@@ -365,7 +347,7 @@ ${all.map((v) => card(v, true)).join("\n")}
 const FILTER_SCRIPT = `  <script type="module" src="/work-filter.mjs"></script>`;
 
 // ── pages ───────────────────────────────────────────────────────────────────
-export function homePage(all, packages, cfg, origin) {
+export function homePage(all, packages, cfg, origin, readings) {
   const ventureBySlug = new Map(all.map((v) => [v.slug, v]));
   const alias = cfg.adopterAliases ?? {};
   const pillars = all.filter((v) => v.pillar);
@@ -373,16 +355,26 @@ export function homePage(all, packages, cfg, origin) {
   const pkgCount = (packages.packages ?? []).length;
   const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
+  const reading = readings?.current;
+  if (!reading?.date || !Number.isFinite(reading?.downloads?.lastMonth) || !Number.isFinite(reading?.originatorShare?.paid)) {
+    throw new Error("fleet readings must include current date, package downloads, and originator payments");
+  }
+  const packageBySlug = new Map((packages.packages ?? []).map((p) => [p.slug, p]));
+  const homeGroups = cfg.homePackageGroups ?? [];
+  const homeSlugs = homeGroups.flatMap((g) => g.packages ?? []);
+  if (homeSlugs.length !== 6 || new Set(homeSlugs).size !== 6 || homeSlugs.some((slug) => !packageBySlug.has(slug))) {
+    throw new Error("homePackageGroups must name exactly six distinct registered packages");
+  }
   // The hero's bed is the work itself, in the order the grid below shows it.
   const mosaic = all.filter((v) => v.shot && v.status === "live").slice(0, 8);
 
-  const body = `  <main>
+  const body = `  <main id="main">
     <section class="hero hero-cinema">
       <div class="hero-bed" aria-hidden="true">
 ${mosaic.map((v) => `        <img src="/shots/${esc(v.slug)}.jpg" alt="" width="1280" height="800">`).join("\n")}
       </div>
       <div class="wrap">
-        <span class="eyebrow">Zürich &middot; MIT throughout &middot; open to contributors</span>
+        <span class="eyebrow">Zürich &middot; MIT packages &middot; open to contributors</span>
         <h1 class="display-1">One trunk. Many products.</h1>
         <p class="lede">bitbaum builds AI-native products on infrastructure that is open by construction — ${pkgCount} shared packages, one server, and a stack for moving value, dispatching work and deciding together. ${running} products run today, all of them in beta. Take any of it, or come build here.</p>
         <div class="actions">
@@ -390,9 +382,9 @@ ${mosaic.map((v) => `        <img src="/shots/${esc(v.slug)}.jpg" alt="" width="
           <a class="btn secondary" href="#join">Build with us</a>
         </div>
         <div class="specs">
-          <div class="spec"><span class="spec-value">${running}</span><span class="spec-label">Products in beta</span></div>
-          <div class="spec"><span class="spec-value">${pkgCount}</span><span class="spec-label">Open-source packages</span></div>
-          <div class="spec"><span class="spec-value">${proven}</span><span class="spec-label">Repos with proven origin</span></div>
+          <a class="spec" href="#work"><span class="spec-value">${running}</span><span class="spec-label">Products in beta</span></a>
+          <a class="spec" href="/packages/"><span class="spec-value">${pkgCount}</span><span class="spec-label">Open-source packages</span></a>
+          <a class="spec" href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json"><span class="spec-value">${proven}</span><span class="spec-label">Repos with proven origin</span></a>
           <div class="spec"><span class="spec-value">1</span><span class="spec-label">Server</span></div>
         </div>
       </div>
@@ -460,12 +452,11 @@ ${workSection(all, cfg)}
     <section class="section" id="packages">
       <div class="wrap">
         <div class="section-head">
-          <div class="row"><h2 class="display-2">Built from ${pkgCount} shared packages</h2><a class="textlink" href="/packages/">All ${pkgCount}, with who uses them &rarr;</a></div>
-          <p class="lede">${esc(cfg.packages_lede ?? "")}</p>
+          <div class="row"><h2 class="display-2">Shared packages for different jobs</h2><a class="textlink" href="/packages/">Explore all ${pkgCount} packages &rarr;</a></div>
+          <p class="lede">A few tools used across the studio, alongside newer packages worth knowing about. Each package page shows its source, install path, and verified adopters.</p>
         </div>
-        <div class="grid">
-${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.slug], ventureBySlug, alias, cfg.packageGroups?.find((g) => g.id === cfg.packages?.[p.slug]?.group))).join("\n")}
-        </div>
+${homeGroups.map((group) => `<div class="home-package-group"><h3 class="display-3">${esc(group.title)}</h3><div class="grid">\n${group.packages.map((slug) => { const p = packageBySlug.get(slug); return pkgCard(p, cfg.packages?.[slug], ventureBySlug, alias, cfg.packageGroups?.find((g) => g.id === cfg.packages?.[slug]?.group)); }).join("\n")}\n</div></div>`).join("\n")}
+        <p class="caption"><a href="/packages/">Browse, filter, and compare the full catalogue</a>. Adoption is read from package manifests; the packages are useful independently of whether a Bitbaum app uses them.</p>
       </div>
     </section>
 
@@ -479,7 +470,7 @@ ${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.s
           <article class="card text">
             <div class="card-body">
               <div class="card-top"><span class="card-name">Use it</span><span class="pill">MIT</span></div>
-              <span class="card-what">Every package is MIT and installable today. Nothing to ask, nothing to sign.</span>
+              <span class="card-what">All ${pkgCount} packages are MIT-licensed. Install any of them and keep its licence notice.</span>
               <code class="pkg-install">pnpm add @bitbaum/ai-kit</code>
               <div class="pkg-links"><a href="/packages/">All packages &rarr;</a></div>
             </div>
@@ -517,9 +508,9 @@ ${(packages.packages ?? []).slice(0, 3).map((p) => pkgCard(p, cfg.packages?.[p.s
           <p class="lede">Three things make "take it, or join it" safe to say out loud.</p>
         </div>
         <div class="facts">
-          <div class="fact"><span class="label">Licence</span><span class="display-3">MIT, everywhere</span><p class="copy">Every product and package the studio publishes is MIT \u2014 the ${pkgCount} shared packages, the infrastructure, and <a href="/orangecat/">OrangeCat</a> and <a href="/loki/">Loki</a> too, relicensed back on 2026-09-18. Work built for someone else stays theirs.</p></div>
-          <div class="fact"><span class="label">Origin</span><span class="display-3">Proven nightly</span><p class="copy">Every repository's HEAD is stamped through OpenTimestamps and archived by Software Heritage${block ? `, anchored in Bitcoin since block ${block}` : ""}. Git dates prove nothing; a block does. <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">The register</a>.</p></div>
-          <div class="fact"><span class="label">Numbers</span><span class="display-3">Read, not written</span><p class="copy">Stars and downloads are read nightly from GitHub and npm \u2014 sources that are not us. Revenue and anything paid to originators are ours to report, and both are zero. <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">The readings</a>.</p></div>
+          <div class="fact"><span class="label">Licence</span><span class="display-3">MIT packages</span><p class="copy">The ${pkgCount} shared packages and the three stack products (<a href="/orangecat/">OrangeCat</a>, <a href="/loki/">Loki</a>, <a href="/solon/">Solon</a>) are MIT — OrangeCat and Loki were relicensed back on 2026-09-18 after a brief All-Rights-Reserved notice. Work built for someone else stays theirs.</p></div>
+          <div class="fact"><span class="label">Origin</span><span class="display-3">A public register</span><p class="copy">The origin register tracks ${origin?.repos?.length ?? 0} repositories; ${origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0} have a Software Heritage snapshot. OpenTimestamps proofs anchor over time${block ? `, with the earliest recorded proof at Bitcoin block ${block}` : ""}. A stamped commit records provenance; Git dates alone do not. <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">Check the register</a>.</p></div>
+          <div class="fact"><span class="label">Numbers</span><span class="display-3">${esc(reading.date)} reading</span><p class="copy">The register reports ${reading.stars} GitHub stars and ${reading.downloads.lastMonth.toLocaleString("en-US")} package downloads over 30 days (including our own CI installs). It records CHF ${Number(reading.clients?.mrrChf ?? 0).toLocaleString("en-US")} monthly client revenue and ${reading.originatorShare.paid} ${esc(reading.originatorShare.currency)} paid to originators. <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">See the source data</a>.</p></div>
         </div>
       </div>
     </section>
@@ -569,7 +560,7 @@ export function venturePage(v, all, cfg, contact) {
   const built = v.uses.length
     ? `        <div class="uses"><span class="label">Built from</span><div class="chips">${v.uses.map((s) => `<a href="/packages/${esc(s)}/">${esc(s)}</a>`).join("")}</div></div>`
     : "";
-  const body = `  <main>
+  const body = `  <main id="main">
     <section class="venture-hero">
       <div class="wrap">
         <span class="eyebrow${v.status === "live" ? "" : " quiet"}">${esc(stage?.title ?? v.stage)}${v.pillar ? ` &middot; ${esc(v.pillar)}` : ""}${v.for ? ` &middot; for ${esc(v.for)}` : ""}</span>
@@ -617,11 +608,12 @@ ${requestForm({
   return shell({ title: `${v.name} — ${v.what}`, description: v.story || v.what, path: `/${v.slug}/`, body, image: v.shot ? `/shots/${v.slug}.jpg` : undefined, script: contact ? requestScript() : undefined });
 }
 
-export function studioPage(all, packages, origin) {
+export function studioPage(all, packages, origin, readings) {
   const running = all.filter((v) => v.status === "live" && v.stage !== "next").length;
   const pkgCount = (packages.packages ?? []).length;
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
-  const body = `  <main>
+  const reading = readings?.current;
+  const body = `  <main id="main">
     <section class="hero compact">
       <div class="wrap">
         <span class="eyebrow">The studio</span>
@@ -642,13 +634,13 @@ export function studioPage(all, packages, origin) {
         <h2>How the work gets done</h2>
         <p>The trunk. ${pkgCount} open-source packages carry the parts every product needs: which AI model to call and what to do when it fails, email, forms filled from prose, rate limits, lists, threads, design tokens, sites as data. Getting paid is <a href="/packages/paykit/">@bitbaum/paykit</a>: a website shows where the money should go and does not hold it. <a href="/orangecat/">OrangeCat</a> does the same thing. Loki runs a fleet of AI agents that build, verify and deploy every product here — including Loki. The human job is judgment: what to build, what is good enough, what is true.</p>
         <h2>What is true</h2>
-        <p>Nothing on this site is typed by hand. The list of products comes from the register that provisioning reads; the pictures are screenshots a machine takes on every build; the adopter lists come from real manifests; the counts come from GitHub, npm and the register. There are no clients on this site because there are none: the pilots run for real organisations as favours, offered first, and say so.</p>
+        <p>Product lists, screenshots, adopter counts and origin stamps come from public registers and machine shots — not from someone typing a catalogue. Editorial lines (stage, one-liners, hire rates) live in this repository on purpose. There are no clients on this site because there are none: the pilots run for real organisations as favours, offered first, and say so.</p>
         <h2>Open by construction</h2>
-        <p>Every product and package the studio publishes is MIT: the ${pkgCount} shared packages, the infrastructure, and the three products the rest is built on. <a href="/orangecat/">OrangeCat</a> and <a href="/loki/">Loki</a> spent three months under an All-Rights-Reserved notice written for a company that was never incorporated; they were relicensed back to MIT on 2026-09-18, and the page said so while it was true. Work built for someone else stays theirs. Contributor terms live in one place, <a href="${CONTRIBUTING}">bitbaum/.github</a>: sign off your commits and a sweep merges anything green. Every repository\u2019s origin is stamped nightly through OpenTimestamps and archived by Software Heritage${block ? `, anchored in Bitcoin since block ${block}` : ""}, so precedence is arithmetic rather than a claim.</p>
+        <p>The shared packages the studio publishes are MIT, and so are the three products the stack is built on — after OrangeCat and Loki were relicensed to MIT on 2026-09-18. Work built for someone else stays theirs. Contributor terms live in one place, <a href="${CONTRIBUTING}">bitbaum/.github</a>: sign off your commits and a sweep merges anything green. The <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a> records repository provenance: ${origin?.repos?.length ?? 0} repositories are tracked and ${origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0} have a Software Heritage snapshot${block ? `; the earliest recorded OpenTimestamps proof is anchored at Bitcoin block ${block}` : ""}.</p>
         <h2>What originators are owed, and what is actually paid</h2>
         <p>A <a href="${SHARE_POLICY}">versioned rule in Solon</a> says a tenth of a product\u2019s net revenue belongs to the originators of the code it is built from, split equally, with who-originated-what read from the origin register rather than typed into the policy. The rule computes that split deterministically today. <strong>Nothing has been paid, and nothing can be yet:</strong> there is no revenue, no payout ledger, and the economic layer that moves money does not read the rule. It is a commitment made before it costs anything — which is the only time a commitment like that is cheap to make, and the reason it is written down where it can be checked.</p>
         <h2>Numbers, in the open</h2>
-        <p>Stars, forks, downloads, paying clients and what has been paid to originators are read nightly from sources that are not us and published as they are — most of them zero today. <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">The readings</a>, and the <a href="${ARTICLES}">writing</a> that keeps score in public.</p>
+        <p>The ${esc(reading?.date ?? "latest")} fleet reading reports ${Number(reading?.stars ?? 0)} GitHub stars, ${Number(reading?.downloads?.lastMonth ?? 0).toLocaleString("en-US")} package downloads over 30 days (including our own CI installs), CHF ${Number(reading?.clients?.mrrChf ?? 0).toLocaleString("en-US")} in monthly client revenue, and ${Number(reading?.originatorShare?.paid ?? 0)} ${esc(reading?.originatorShare?.currency ?? "BTC")} paid to originators. Read the <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">register</a> and the <a href="${ARTICLES}">writing</a> that keeps score in public.</p>
         <h2>Work with the studio</h2>
         <p>Fractional CTO and contract engineering, Zürich. Rates, scope and the waitlist are on the <a href="${HIRE}">hire page</a>. The code is on <a href="${GITHUB}">GitHub</a>.</p>
       </div></div>
@@ -670,15 +662,8 @@ export function studioPage(all, packages, origin) {
 // retired for two days.
 // Requests go to Loki's feedback inbox — the one inbound surface in the fleet
 // that is cross-origin safe, rate-limited, deduped, notified AND triaged in a
-// real UI (/feedback: implement, watch, resolve, archive). The newsletter table
-// this used to post to has no read query and no screen anywhere, so a request
-// there was a Telegram ping and a row nobody could ever look at again.
-//
-// The token is public ON PURPOSE — widget_tokens' own schema says so: it is
-// write-only, bound to one project and one origin, and can be paused or rotated
-// from the project page without touching this site.
+// real UI (/feedback). The token is public ON PURPOSE (widget_tokens schema).
 const REQUEST_ENDPOINT = "https://loki.orangecat.ch/api/feedback";
-const REQUEST_TOKEN = "fcw_a182d39f6ef4ec8d616ef58e4ca5a693";
 
 /** A field. `kind` is text | email | textarea | select. */
 const field = (f) => {
@@ -696,11 +681,11 @@ const field = (f) => {
 
 /** The intake form. Every door on this site is one of these. */
 function requestForm({ id, fields, cta, note }) {
-  return `        <form class="signup js-request" id="form-${esc(id)}" data-form="${esc(id)}" novalidate>
+  return `        <form class="signup js-request" id="form-${esc(id)}" data-form="${esc(id)}" data-endpoint="${esc(REQUEST_ENDPOINT)}" novalidate>
 ${fields.map((f) => `          ${field({ ...f, form: id })}`).join("\n")}
-          <!-- A field no human sees: anything in it came from a bot, which is
-               answered exactly as a person is and stored nowhere. -->
-          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="hp" aria-hidden="true">
+            <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+          </div>
           <p class="field wide submit"><button class="btn primary" type="submit">${esc(cta)} ${ARROW}</button></p>
         </form>
         <p class="form-status" role="status"></p>
@@ -708,94 +693,7 @@ ${note ? `        <p class="caption">${note}</p>` : ""}`;
 }
 
 function requestScript() {
-  return `  <script>
-    (function () {
-      var ENDPOINT = ${JSON.stringify(REQUEST_ENDPOINT)};
-      var TOKEN = ${JSON.stringify(REQUEST_TOKEN)};
-      var DONE = "Request sent. You will hear back from a person \\u2014 nothing automated goes out.";
-      var forms = document.querySelectorAll("form.js-request");
-      if (!forms.length) return;
-
-      Array.prototype.forEach.call(forms, function (form) {
-        var status = form.parentNode.querySelector(".form-status");
-        var button = form.querySelector("button[type=submit]");
-        var get = function (n) { return form.querySelector("[name=" + n + "]"); };
-        var val = function (n) { var el = get(n); return el ? (el.value || "").trim() : ""; };
-        function say(text, bad) {
-          if (!status) return;
-          status.textContent = text;
-          status.className = bad ? "form-status bad" : "form-status";
-        }
-
-        // Which engagement a reader came for: set by the rate cards, and by a
-        // deep link so a shared URL keeps the context.
-        var pick = get("engagement");
-        if (pick) {
-          var want = (location.hash.split("for=")[1] || "").replace(/[^a-z-]/gi, "");
-          Array.prototype.forEach.call(document.querySelectorAll("[data-engagement]"), function (link) {
-            link.addEventListener("click", function () {
-              pick.value = link.getAttribute("data-engagement");
-            });
-          });
-          if (want) {
-            Array.prototype.forEach.call(pick.options, function (o) {
-              if (o.value.toLowerCase().replace(/[^a-z]+/g, "-") === want) pick.value = o.value;
-            });
-          }
-        }
-
-        form.addEventListener("submit", function (event) {
-          event.preventDefault();
-          var email = val("email"), what = val("what"), who = val("name");
-          if (email.indexOf("@") < 1 || email.indexOf(".") < 0) {
-            say("Enter an email address we can reply to.", true);
-            get("email").focus();
-            return;
-          }
-          if (what.length < 12) {
-            say("Tell us in a line or two what you are building.", true);
-            get("what").focus();
-            return;
-          }
-          if (val("website")) { form.hidden = true; say(DONE); return; }
-
-          var lines = [];
-          if (val("engagement")) lines.push("Engagement: " + val("engagement"));
-          if (val("timeline")) lines.push("Timeline: " + val("timeline"));
-          if (lines.length) lines.push("");
-          lines.push(what);
-          var contact = (who || "(no name)") + " <" + email + ">" + (val("org") ? ", " + val("org") : "");
-
-          button.disabled = true;
-          say("Sending\\u2026");
-          fetch(ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              token: TOKEN,
-              suggestion: lines.join("\\n"),
-              contact: contact,
-              page: location.pathname,
-              url: location.href,
-              pageTitle: document.title
-            })
-          })
-            .then(function (res) {
-              if (res.status === 429) throw new Error("rate");
-              if (!res.ok) throw new Error("http");
-              return res.json();
-            })
-            .then(function () { form.hidden = true; say(DONE); })
-            .catch(function (err) {
-              button.disabled = false;
-              say(err && err.message === "rate"
-                ? "That is a lot of requests at once \\u2014 give it a minute."
-                : "That did not send. Try again in a moment, or reach us through GitHub.", true);
-            });
-        });
-      });
-    })();
-  <\/script>`;
+  return `  <script type="module" src="/request.mjs"><\/script>`;
 }
 
 const slug = (name) =>
@@ -805,7 +703,7 @@ export function hirePage(all, cfg, hire, packages, origin) {
   const running = all.filter((v) => v.status === "live" && v.stage !== "next");
   const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
   const pkgCount = (packages.packages ?? []).length;
-  const body = `  <main>
+  const body = `  <main id="main">
     <section class="hero compact">
       <div class="wrap">
         <span class="eyebrow">${esc(hire.eyebrow)}</span>
@@ -817,10 +715,9 @@ export function hirePage(all, cfg, hire, packages, origin) {
         </div>
         <p class="notice">${esc(hire.availability.line)}</p>
         <div class="hero-facts">
-          <span><b>${running.length}</b> systems built and running</span>
-          <span><b>${pkgCount}</b> packages published open source</span>
-          <span><b>${proven}</b> repositories with proven origin</span>
-          <span><b>0</b> manual steps between merge and deploy</span>
+          <a href="#shipped"><b>${running.length}</b> systems built and running</a>
+          <a href="/packages/"><b>${pkgCount}</b> packages published open source</a>
+          <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json"><b>${proven}</b> repositories with proven origin</a>
         </div>
         <p class="caption">Every number here is checkable: the systems are listed below with their addresses, the packages are on npm, and the origin proofs are <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">in a public register</a>.</p>
       </div>
@@ -833,14 +730,14 @@ export function hirePage(all, cfg, hire, packages, origin) {
           <p class="lede">Published rather than quoted on request, so you can qualify yourself before writing a single email. Fixed-scope work is confirmed in writing before it starts.</p>
         </div>
         <div class="grid">
-${hire.offers.map((o) => `          <article class="card text">
+${hire.offers.map((o) => `          <a class="card text" href="#waitlist" data-engagement="${esc(o.name)}">
             <div class="card-body">
               <div class="card-top"><span class="card-name">${esc(o.name)}</span><span class="pill">${esc(o.shape)}</span></div>
               <span class="price">${esc(o.price)}${o.unit ? `<span class="price-unit">${esc(o.unit)}</span>` : ""}</span>
               <span class="card-what">${esc(o.what)}</span>
-              <div class="pkg-links"><a href="#waitlist" data-engagement="${esc(o.name)}">Request this &rarr;</a></div>
+              <div class="pkg-links"><span>Request this &rarr;</span></div>
             </div>
-          </article>`).join("\n")}
+          </a>`).join("\n")}
         </div>
       </div>
     </section>
@@ -864,12 +761,10 @@ ${running.map((v) => card(v)).join("\n")}
           <p class="lede">Four commitments that hold whether the engagement is two weeks or two years.</p>
         </div>
         <div class="grid two">
-${hire.method.map((m) => `          <article class="card text">
-            <div class="card-body">
+${hire.method.map((m) => `          <div class="method">
               <span class="card-name">${esc(m.title)}</span>
               <span class="card-what">${esc(m.what)}</span>
-            </div>
-          </article>`).join("\n")}
+          </div>`).join("\n")}
         </div>
       </div>
     </section>
@@ -926,10 +821,10 @@ ${requestForm({
 }
 
 // ── build ───────────────────────────────────────────────────────────────────
-export function render({ map, packages, origin, cfg, hire }) {
+export function render({ map, packages, origin, readings, cfg, hire }) {
   const all = ventures(map, cfg, origin, packages);
   const files = new Map();
-  files.set("index.html", homePage(all, packages, cfg, origin));
+  files.set("index.html", homePage(all, packages, cfg, origin, readings));
   files.set("packages/index.html", packagesPage(packages, cfg, all));
   files.set("packages-filter.mjs", readFileSync(join(here, "packages-filter.mjs"), "utf8"));
   files.set("work-filter.mjs", readFileSync(join(here, "work-filter.mjs"), "utf8"));
@@ -941,15 +836,17 @@ export function render({ map, packages, origin, cfg, hire }) {
   }
   const shown = shownPackages(packages, cfg);
   for (const p of shown) files.set(`packages/${p.slug}/index.html`, packagePage(p, cfg, all, shown));
-  files.set("studio/index.html", studioPage(all, packages, origin));
+  files.set("studio/index.html", studioPage(all, packages, origin, readings));
   files.set("hire/index.html", hirePage(all, cfg, hire, packages, origin));
   for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all, cfg, hire?.contact?.email));
-  files.set("map.json", JSON.stringify(map, null, 2) + "\n");
+  files.set("map.json", JSON.stringify(publicMap(map), null, 2) + "\n");
   // Every page the build writes is in the sitemap, because the sitemap is
   // derived from the same map of files — a page cannot exist and be missing.
   const pages = [...files.keys()].filter((f) => f.endsWith("index.html")).map((f) => `${SITE}/${f.replace(/index\.html$/, "")}`).sort();
   files.set("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((u) => `  <url><loc>${u}</loc></url>`).join("\n")}\n</urlset>\n`);
-  files.set("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
+  files.set("robots.txt", `User-agent: *\nAllow: /\nDisallow: /map.json\n\nSitemap: ${SITE}/sitemap.xml\n`);
+  files.set("theme.mjs", readFileSync(join(here, "theme.mjs"), "utf8"));
+  files.set("request.mjs", readFileSync(join(here, "request.mjs"), "utf8"));
   return { all, files };
 }
 
@@ -959,9 +856,10 @@ if (isMain) {
   const map = await fetchOrSnapshot(SOURCES.map);
   const packages = await fetchOrSnapshot(SOURCES.packages);
   const origin = await fetchOrSnapshot(SOURCES.origin);
+  const readings = await fetchOrSnapshot(SOURCES.readings);
   const cfg = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
   const hire = JSON.parse(readFileSync(join(here, "hire.json"), "utf8"));
-  const { all, files } = render({ map, packages, origin, cfg, hire });
+  const { all, files } = render({ map, packages, origin, readings, cfg, hire });
   const pageCount = [...files.keys()].filter((file) => file.endsWith("index.html")).length;
 
   // A shot the page references must exist: a broken image on a product page

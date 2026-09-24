@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /map.json
 
 Sitemap: https://bitbaum.orangecat.ch/sitemap.xml

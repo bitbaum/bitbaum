@@ -3,18 +3,14 @@
 //   node site/check-claims.mjs                      (checks the built dist/)
 //   node site/check-claims.mjs https://bitbaum.orangecat.ch
 //
-// This exists because a claim that was true when it was written went false
-// quietly: the site said "MIT, everywhere" while OrangeCat and Loki carried a
-// PROPRIETARY licence granting no rights at all — two of the three products it
-// invites people to take or join. Nobody lied; the world moved and the prose
-// did not. Prose cannot be trusted to notice, so this asks the sources.
-//
 // Needs `gh` and network. It is a truth gate, not a unit test: run it before
 // publishing, and whenever the claims change.
 import { execFileSync } from "node:child_process";
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { homedir } from "node:os";
+import { uniqueAdopterCount } from "./packages-page.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2];
@@ -27,7 +23,6 @@ const say = (ok, m) => {
 
 const gh = (args) => execFileSync("gh", args, { encoding: "utf8", maxBuffer: 8 << 20 });
 
-/** The pages, either from the build output or from the live site. */
 async function pageText(path) {
   if (base) {
     const res = await fetch(base + path);
@@ -39,21 +34,38 @@ async function pageText(path) {
 
 const home = await pageText("/");
 const studio = await pageText("/studio/");
-const all = home + studio;
+const packagesHtml = await pageText("/packages/");
+const all = home + studio + packagesHtml;
 if (!all.trim()) {
   console.error("no pages to check — build first, or pass a base URL");
   process.exit(2);
 }
 
-// ── 1. Licences: ask the repos ──────────────────────────────────────────────
-//
-// "Everything we publish is MIT" is a claim about what the STUDIO publishes,
-// so the set has to be the same one a reader would check: public, not a fork,
-// and not somebody else's code. Client repositories are deliberately
-// unlicensed — a licence is a grant by the copyright holder and for client
-// work that is the client (see fleet: registers + apps.conf `owner`) — so
-// counting them as counter-examples would forbid a sentence that is true.
-const CLIENT_REPOS = new Set([
+/** Client-owned repos: owner ≠ bitbaum and kind starts with client- in apps.conf. */
+function clientReposFromAppsConf() {
+  const roots = [process.env.DEV_ROOT, join(homedir(), "dev")].filter(Boolean);
+  const paths = roots.flatMap((r) => [
+    join(r, "fleetcrown/scripts/hetzner/apps.conf"),
+    join(r, "loki/scripts/hetzner/apps.conf"),
+  ]);
+  const file = paths.find((p) => existsSync(p));
+  if (!file) return null;
+  const out = new Set();
+  for (const line of readFileSync(file, "utf8").split("\n")) {
+    if (!line || line.startsWith("#")) continue;
+    const cols = line.split("|");
+    if (cols.length < 8) continue;
+    const [name, , , repoPath, , , owner, kind] = cols;
+    if (!kind?.startsWith("client")) continue;
+    // Client-shaped rows are never the studio's to license, even when owner is still "-".
+    out.add(name);
+    const dir = String(repoPath ?? "").split("/").pop();
+    if (dir && dir !== ".") out.add(dir);
+  }
+  return out;
+}
+
+const CLIENT_REPOS = clientReposFromAppsConf() ?? new Set([
   "aoz-begleitung",
   "reparaturbonus-zh",
   "s-ink",
@@ -61,6 +73,7 @@ const CLIENT_REPOS = new Set([
   "printcraft",
   "annushka",
 ]);
+if (clientReposFromAppsConf()) console.log(`   (client repos from apps.conf: ${[...CLIENT_REPOS].sort().join(", ")})`);
 
 const listed = JSON.parse(
   gh(["repo", "list", "bitbaum", "--limit", "80", "--json", "name,isArchived,isFork,visibility"]),
@@ -76,7 +89,7 @@ const licenceOf = (name) => {
   try {
     return JSON.parse(gh(["api", `repos/bitbaum/${name}/license`, "--jq", "{spdx: .license.spdx_id}"])).spdx ?? "NONE";
   } catch {
-    return "NONE"; // no licence file at all
+    return "NONE";
   }
 };
 
@@ -85,7 +98,6 @@ const notMit = Object.entries(licences).filter(([, l]) => l !== "MIT");
 const mitCount = repos.length - notMit.length;
 console.log(`   (${mitCount} of ${repos.length} published repos MIT; not MIT: ${notMit.map(([n]) => n).join(", ") || "none"})`);
 
-// The absolute claim is the dangerous one — it is only sayable if it is true.
 const absolute = /MIT,? (everywhere|throughout)|every product and package[^.]*is MIT/i;
 const absoluteClaim = absolute.test(all.replace(/<[^>]+>/g, " "));
 say(
@@ -97,13 +109,20 @@ say(
       : "the site makes no blanket MIT claim it cannot keep",
 );
 
-// What it DOES claim — that the shared packages are MIT — must hold.
 const packages = JSON.parse(readFileSync(join(here, "packages.snapshot.json"), "utf8")).packages ?? [];
+const editorial = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
+const featured = editorial.homePackageGroups?.flatMap((g) => g.packages ?? []) ?? [];
+const featuredRendered = [...home.matchAll(/data-package="([a-z0-9-]+)"/g)].map((m) => m[1]);
+say(
+  featured.length === 6 && new Set(featured).size === 6 && featured.every((slug) => packages.some((p) => p.slug === slug)) &&
+    JSON.stringify(featuredRendered) === JSON.stringify(featured),
+  `homepage shows exactly its six distinct curated packages (${featured.join(", ")})`,
+);
+say(!/Built from \d+ shared packages|every product is built from/i.test(home), "homepage does not imply every product uses every package");
 const pkgRepos = packages.map((p) => String(p.repo ?? "").split("/").pop()).filter(Boolean);
 const pkgNotMit = pkgRepos.filter((r) => licences[r] && licences[r] !== "MIT");
 say(pkgNotMit.length === 0, `every shared package is MIT (${pkgRepos.length} checked${pkgNotMit.length ? ": " + pkgNotMit.join(", ") : ""})`);
 
-// If a product is not openly licensed, the page must say so by name.
 for (const [name] of notMit.filter(([n]) => ["loki", "orangecat"].includes(n))) {
   const mentioned = new RegExp(`${name}[^<]{0,120}(not openly licensed|public to read|grants no rights)`, "i").test(
     all.replace(/<[^>]+>/g, " ").replace(/\s+/g, " "),
@@ -111,25 +130,59 @@ for (const [name] of notMit.filter(([n]) => ["loki", "orangecat"].includes(n))) 
   say(mentioned, `${name} is not MIT, and the site says so rather than implying otherwise`);
 }
 
-// ── 2. Origin: the block on the page must be the block in the register ──────
 const originSnap = JSON.parse(readFileSync(join(here, "origin.snapshot.json"), "utf8"));
 const blocks = (originSnap.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean);
 const earliest = Math.min(...blocks);
+const swhCount = (originSnap.repos ?? []).filter((r) => r.swh?.snapshot).length;
 const shown = all.match(/block (\d{6,})/);
 say(!shown || Number(shown[1]) === earliest, `the block on the page is the register's earliest (${shown?.[1] ?? "not shown"} vs ${earliest})`);
 say((originSnap.repos ?? []).every((r) => r.provenSince), `every repo in the origin register is stamped (${blocks.length})`);
+say(
+  home.includes(`${originSnap.repos.length} repositories`) && home.includes(`${swhCount} have a Software Heritage snapshot`),
+  `origin copy matches the register (${originSnap.repos.length} tracked, ${swhCount} archived in Software Heritage)`,
+);
 
-// ── 3. Money: nothing may be claimed as paid while the ledger is empty ──────
 const readings = existsSync(join(here, "readings.snapshot.json"))
   ? JSON.parse(readFileSync(join(here, "readings.snapshot.json"), "utf8"))
   : null;
 const paid = readings?.current?.originatorShare?.paid;
 if (paid === undefined) {
-  console.log("   (no readings snapshot beside the site — skipping the payout claim)");
+  say(false, "readings snapshot exists for the numbers shown on the homepage");
 } else {
   const text = all.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
   const claimsPaid = /(has been|have been) paid (back )?to originators/i.test(text) && !/nothing has been paid/i.test(text);
   say(paid > 0 || !claimsPaid, `nothing is described as paid to originators while the ledger is empty (paid=${paid})`);
+  const current = readings.current;
+  say(
+    home.includes(`${current.date} reading`) && home.includes(`${current.downloads.lastMonth.toLocaleString("en-US")} package downloads`) &&
+      home.includes(`CHF ${Number(current.clients?.mrrChf ?? 0).toLocaleString("en-US")} monthly client revenue`) &&
+      home.includes(`${current.originatorShare.paid} ${current.originatorShare.currency} paid to originators`) &&
+      home.includes("including our own CI installs"),
+    `homepage readings match Fleet's dated register (${current.date}) and disclose CI downloads`,
+  );
+}
+
+const plain = all.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+say(!/Nothing on this site is typed by hand/i.test(plain), "studio does not claim nothing is typed by hand");
+say(!/\b0\b[^.]*manual steps between merge and deploy/i.test(plain), "hire does not claim 0 manual deploy steps");
+say(!/\bsolo-founder\b/i.test(plain), "pages do not use solo-founder framing");
+
+const unique = uniqueAdopterCount(packages);
+const eyebrow = packagesHtml.match(/(\d+) distinct adopters in the fleet/);
+say(
+  eyebrow && Number(eyebrow[1]) === unique,
+  `packages eyebrow unique adopters match the registry (${eyebrow?.[1] ?? "missing"} vs ${unique})`,
+);
+say(!/uses across the fleet/i.test(packagesHtml), "packages page does not sum dependency edges as 'uses'");
+say(!/\{\{adopters(_word)?\}\}/.test(all), "no unexpanded {{adopters}} placeholders remain");
+
+const mapPath = base ? null : join(here, "dist", "map.json");
+if (mapPath && existsSync(mapPath)) {
+  const map = JSON.parse(readFileSync(mapPath, "utf8"));
+  const sample = map.projects?.[0] ?? {};
+  say(!("changelog" in sample) && !("next" in sample) && !("now" in sample), "published map.json has no changelog/next/now");
+  const bitbaum = (map.projects ?? []).find((p) => p.slug === "bitbaum");
+  say(!bitbaum || !/solo-founder/i.test(bitbaum.identity?.mission ?? ""), "published map.json rewrites bitbaum solo-founder mission");
 }
 
 console.log(fail ? `\n${fail} FAILED — a claim on the site is not true` : "\nevery checked claim matches its source");

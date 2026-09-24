@@ -23,7 +23,7 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
         with:
@@ -37,12 +37,27 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Cache Playwright Chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package.json') }}
+      - run: pnpm exec playwright install chromium --with-deps
       - run: pnpm test
       - name: Build from current fleet sources
         env:
           FLEET_PACKAGES_SHA: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.packages_sha || '' }}
         run: node site/build.mjs --require-fresh
       - run: node site/build.mjs --check
+      - name: Claims gate (built dist)
+        run: node site/check-claims.mjs
+      - name: Theme gate against local dist
+        run: |
+          python3 -m http.server 8731 --directory site/dist &
+          echo $! > /tmp/bitbaum-http.pid
+          sleep 1
+          node site/check-theme.mjs http://127.0.0.1:8731
+          kill "$(cat /tmp/bitbaum-http.pid)" || true
       - name: Commit refreshed source snapshots and generated site
         run: |
           git config user.name 'github-actions[bot]'
@@ -67,3 +82,5 @@ jobs:
         env:
           BOX: ubuntu@${{ vars.HETZNER_IP }}
         run: bash site/publish.sh
+      - name: Hire form gate (live)
+        run: node site/check-hire.mjs https://bitbaum.orangecat.ch

@@ -19,7 +19,7 @@ clients on this site because there are none. The pilots say so.
 
 ## Where the content comes from
 
-Nobody types the list. Three sources, all fetched at build time and
+Nobody types the list. Four sources, all fetched at build time and
 snapshotted beside this file so `--offline` builds work:
 
 | source | what it decides | snapshot |
@@ -27,11 +27,17 @@ snapshotted beside this file so `--offline` builds work:
 | <https://loki.orangecat.ch/api/fleet/map> | which ventures exist, where they run, what state they are in | `map.snapshot.json` |
 | <https://raw.githubusercontent.com/bitbaum/fleet/main/registers/packages.json> | which shared packages exist, latest published npm versions, adopter counts, install lines | `packages.snapshot.json` |
 | <https://raw.githubusercontent.com/bitbaum/fleet/main/registers/origin.json> | each repo's first commit and proven origin ("since", "anchored in block N") | `origin.snapshot.json` |
+| <https://raw.githubusercontent.com/bitbaum/fleet/main/registers/readings.json> | dated GitHub/npm and client-revenue/originator-payment readings | `readings.snapshot.json` |
 
-The automated publisher requires all three sources to respond successfully;
+The automated publisher requires all four sources to respond successfully;
 it will not publish from an old snapshot when a source is unavailable. Local
 offline builds may use the committed snapshots, so a developer can still work
 without network access.
+
+The home page features six packages selected in `homePackageGroups`; its build
+fails if a listed package disappears from the registry. The remaining packages
+stay available from `/packages/`. Readings are dated, and the page explicitly
+notes that package download totals include the studio's own CI installs.
 
 What this repository owns is presentation, in `site/overrides.json`:
 
@@ -114,15 +120,40 @@ node site/build.mjs             # fetch the sources, write site/dist/
 node site/build.mjs --require-fresh # fail rather than fall back to snapshots
 node site/build.mjs --offline   # build from the snapshots (no network)
 node site/build.mjs --check     # exit 1 if site/dist/ is stale
+node site/check-claims.mjs      # truth gate against dist/ (or pass a live URL)
+node site/check-theme.mjs http://127.0.0.1:8731   # after serving dist/
+node site/check-hire.mjs https://bitbaum.orangecat.ch
 site/publish.sh                 # --check, rsync dist to the box, prove every page answers
 ```
+
+**Build ≠ live.** `site/dist/` is a local (and git) artifact. The public site is `/opt/bitbaum/app` on the Hetzner box. A new page appears on bitbaum.orangecat.ch only after `site/publish.sh` (or the Deploy workflow) rsyncs successfully. Cache-Control is already `max-age=0, must-revalidate`; stale public HTML almost always means publish never ran.
 
 `site/dist/` is committed so a diff shows what changed on the site between
 two builds, including the pinned listkit browser modules, and so `--check`
 can fail when the sources moved and the site did not. Main-branch changes to
-the site or its workflow run tests, rebuild from current Loki/Fleet sources,
-commit updated snapshots and generated pages, then publish to Hetzner and
-verify the public routes. Fleet dispatches a refresh when its derived package
-registry changes, pinned to the exact Fleet commit that produced the new
-register. Run `Deploy Bitbaum site` manually from Actions to retry a failed
-publish; ordinary site changes also publish on `push`.
+the site or its workflow run tests, claims/theme gates, rebuild from current
+Loki/Fleet sources, commit updated snapshots and generated pages, then publish
+to Hetzner, verify the public routes, and run the hire form gate. Fleet
+dispatches a refresh when its derived package registry changes, pinned to the
+exact Fleet commit that produced the new register. Run `Deploy Bitbaum site`
+manually from Actions to retry a failed publish; ordinary site changes also
+publish on `push`.
+
+### Caddy headers (owned on the box)
+
+`/etc/caddy/apps.d/bitbaum.caddy` should keep at least:
+
+- `Cache-Control: public, max-age=0, must-revalidate`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `X-Content-Type-Options: nosniff`
+
+`publish.sh` asserts those on `/packages/`. A Content-Security-Policy that
+blocks inline scripts is a follow-on once the remaining FOUC theme boot is
+hashed or moved; interactive modules already live at `/theme.mjs` and
+`/request.mjs`.
+
+---
+
+created_date: 2026-06-01
+last_modified_date: 2026-09-24
+last_modified_summary: Card SSOT and honest claims; redacted map.json; build≠publish; CI truth gates; Caddy header smoke checks.

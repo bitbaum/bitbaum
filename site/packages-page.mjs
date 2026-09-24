@@ -4,12 +4,54 @@
  *
  * The registry says which packages exist and who installs them. This file
  * only turns that, plus the editorial in overrides.json, into HTML.
+ *
+ * Catalogue tiles are whole-card links (same contract as venture cards).
+ * Install, source, npm and adopter chips live on the detail page.
  */
+
+const ADOPTER_WORDS = {
+  0: "Zero",
+  1: "One",
+  2: "Two",
+  3: "Three",
+  4: "Four",
+  5: "Five",
+  6: "Six",
+  7: "Seven",
+  8: "Eight",
+  9: "Nine",
+  10: "Ten",
+  11: "Eleven",
+  12: "Twelve",
+  13: "Thirteen",
+  14: "Fourteen",
+  15: "Fifteen",
+  16: "Sixteen",
+  17: "Seventeen",
+  18: "Eighteen",
+  19: "Nineteen",
+  20: "Twenty",
+};
+
+/** Expand {{adopters}} / {{adopters_word}} from the live register count. */
+export function fillEditorial(text, adopters) {
+  const n = adopters ?? 0;
+  const word = ADOPTER_WORDS[n] ?? String(n);
+  return String(text ?? "")
+    .replaceAll("{{adopters}}", String(n))
+    .replaceAll("{{adopters_word}}", word);
+}
+
+export function uniqueAdopterCount(packages) {
+  const names = new Set();
+  for (const p of packages ?? []) {
+    for (const a of p.adopterNames ?? []) names.add(a);
+  }
+  return names.size;
+}
 
 export function createPackagePages({ esc, shell }) {
   function pkgAdopters(p, ventureBySlug, alias) {
-    // Link known studio-level adopters to the studio front door. A different
-    // adopter with no venture page stays plain text: it is real, but not shown.
     return (p.adopterNames ?? []).map((a) => {
       if (a === "bitbaum") return `<a href="/">bitbaum</a>`;
       const v = ventureBySlug.get(alias[a] ?? a);
@@ -20,37 +62,41 @@ export function createPackagePages({ esc, shell }) {
   function pkgPill(p) {
     if (p.status === "next") return `<span class="pill">not on npm yet</span>`;
     const n = p.adopters ?? 0;
-    if (n === 0) return `<span class="pill">0 apps</span>`;
-    return `<span class="pill">${n === 1 ? "1 app" : `${n} apps`}</span>`;
+    const label = n === 0 ? "0 apps" : n === 1 ? "1 app" : `${n} apps`;
+    return `<span class="pill" aria-label="${esc(label)} use this package">${esc(label)}</span>`;
   }
 
   function pkgVersion(p) {
-    if (p.install?.source !== "npm" || !p.version) return "";
-    return `<span class="pill pkg-version" aria-label="Latest npm version ${esc(p.version)}">npm&nbsp;v${esc(p.version)}</span>`;
+    if (!p.version) return "";
+    const source = p.install?.source === "git" ? "git" : "npm";
+    return `<span class="pill pkg-version" aria-label="Latest ${source} version ${esc(p.version)}">${esc(source)}&nbsp;v${esc(p.version)}</span>`;
   }
 
-  function pkgCard(p, editorial, ventureBySlug, alias, group) {
+  function editorialFor(p, cfg) {
+    const raw = cfg.packages?.[p.slug] ?? {};
+    const n = p.adopters ?? 0;
+    return {
+      ...raw,
+      what: fillEditorial(raw.what ?? p.description ?? "", n),
+      why: fillEditorial(raw.why ?? "", n),
+      how: fillEditorial(raw.how ?? "", n),
+      fits: fillEditorial(raw.fits ?? "", n),
+    };
+  }
+
+  /** Whole-card link — one destination, same hit model as venture cards. */
+  function pkgCard(p, editorial, _ventureBySlug, _alias, group) {
     const category = group ?? { id: p.group ?? "other", title: "Shared" };
     const what = editorial?.what ?? p.description ?? "";
-    const npmHref = p.install?.source === "npm" ? `https://www.npmjs.com/package/${p.name}` : null;
-    const adopters = pkgAdopters(p, ventureBySlug, alias);
-    const links = [`<a class="pkg-open" href="/packages/${esc(p.slug)}/" aria-label="Open the ${esc(p.slug)} developer profile">Developer profile <span aria-hidden="true">→</span></a>`];
-    if (p.repo) links.push(`<a href="${esc(p.repo)}">source</a>`);
-    if (npmHref) links.push(`<a href="${esc(npmHref)}">npm</a>`);
-    else if (p.install?.source === "git") links.push(`<span>git tag</span>`);
-    return `      <article class="card text pkg-card" id="${esc(p.slug)}" data-package="${esc(p.slug)}" data-group="${esc(category.id)}" data-adoption="${(p.adopters ?? 0) > 0 ? "adopted" : "new"}">
+    const n = p.adopters ?? 0;
+    return `      <a class="card text pkg-card" id="${esc(p.slug)}" href="/packages/${esc(p.slug)}/" data-package="${esc(p.slug)}" data-group="${esc(category.id)}" data-adoption="${n > 0 ? "adopted" : "new"}" data-adopters="${n}">
         <div class="card-body">
-          <a class="pkg-cover" href="/packages/${esc(p.slug)}/">
-            <span class="card-top"><span class="card-name">${esc(p.slug)}</span><span class="pkg-badges"><span class="pill pkg-category">${esc(category.title)}</span>${pkgVersion(p)}${pkgPill(p)}</span></span>
-            <span class="card-what">${esc(what)}</span>
-          </a>
-          ${p.install?.command ? `<code class="pkg-install">${esc(p.install.command)}</code>` : ""}
-${adopters.length ? `          <div class="uses"><span class="label">Used by</span><div class="chips">${adopters.join("")}</div></div>\n` : ""}          <div class="pkg-links">${links.join("")}</div>
+          <div class="card-top"><span class="card-name">${esc(p.slug)}</span><span class="pkg-badges"><span class="pill pkg-category">${esc(category.title)}</span>${pkgVersion(p)}${pkgPill(p)}</span></div>
+          <span class="card-what">${esc(what)}</span>
         </div>
-      </article>`;
+      </a>`;
   }
 
-  /** Registry packages, then any the site names before they exist on npm. */
   function shownPackages(packages, cfg) {
     return [...(packages.packages ?? []), ...(cfg.upcomingPackages ?? [])];
   }
@@ -77,21 +123,18 @@ ${adopters.length ? `          <div class="uses"><span class="label">Used by</sp
     const alias = cfg.adopterAliases ?? {};
     const registry = packages.packages ?? [];
     const list = shownPackages(packages, cfg);
-    const totalUses = registry.reduce((s, p) => s + (p.adopters ?? 0), 0);
+    const uniqueApps = uniqueAdopterCount(registry);
     const sections = packageSections(list, cfg);
-    const paykit = registry.find((p) => p.slug === "paykit");
     const groupOptions = sections.map((g) => `<option value="${esc(g.id)}" data-description="${esc(g.lede ?? "")}">${esc(g.title)}</option>`).join("");
-    const cards = sections.flatMap((g) => g.items.map((p) => pkgCard(p, cfg.packages?.[p.slug] ?? p, ventureBySlug, alias, g))).join("\n");
-    const body = `  <main>
+    const cards = sections
+      .flatMap((g) => g.items.map((p) => pkgCard(p, editorialFor(p, cfg), ventureBySlug, alias, g)))
+      .join("\n");
+    const body = `  <main id="main">
     <section class="hero compact">
       <div class="wrap">
-        <span class="eyebrow">${registry.length} you can install &middot; MIT &middot; ${totalUses} uses across the fleet</span>
+        <span class="eyebrow">${registry.length} packages &middot; MIT &middot; ${uniqueApps} distinct adopters in the fleet</span>
         <h1 class="display-1">The trunk.</h1>
         <p class="lede">${esc(cfg.packages_lede ?? "")}</p>
-        ${paykit ? `<aside class="pkg-feature" aria-label="Paykit package">
-          <div><span class="label">PAYMENTS · PAYKIT · NPM V${esc(paykit.version ?? "?")} · ${paykit.adopters ?? 0} APPS</span><p>${esc(cfg.packages?.paykit?.what ?? paykit.description ?? "")}</p></div>
-          <a class="btn secondary" href="/packages/paykit/">Explore paykit <span aria-hidden="true">→</span></a>
-        </aside>` : ""}
         <div class="pkg-controls" id="package-controls" hidden>
           <label>Find a package<input id="package-search" type="search" name="q" placeholder="Search packages, features, or adopters" autocomplete="off"></label>
           <label>Category<select id="package-group"><option value="" data-description="Browse shared tools by the jobs they do across the studio.">All categories</option>${groupOptions}</select></label>
@@ -110,7 +153,7 @@ ${adopters.length ? `          <div class="uses"><span class="label">Used by</sp
     </section>
     <section class="section">
       <div class="wrap">
-        <p class="caption">The name of a package opens its page. Adopter counts come from real <code>package.json</code> files, read by <a href="https://github.com/bitbaum/fleet/blob/main/scripts/ci/shared-registry-audit.mjs">fleet's registry audit</a>. Nobody types them. Packages with no adopters are listed openly; counts change when package manifests adopt them.</p>
+        <p class="caption">Each tile opens the package page. Adopter counts come from real <code>package.json</code> files, read by <a href="https://github.com/bitbaum/fleet/blob/main/scripts/ci/shared-registry-audit.mjs">fleet's registry audit</a>. The eyebrow counts distinct adopter names across packages (an app that uses three packages counts once). Packages with no adopters are listed openly.</p>
       </div>
     </section>
   </main>
@@ -119,7 +162,7 @@ ${adopters.length ? `          <div class="uses"><span class="label">Used by</sp
   }
 
   function packagePage(p, cfg, all, list) {
-    const editorial = cfg.packages?.[p.slug] ?? p;
+    const editorial = editorialFor(p, cfg);
     const ventureBySlug = new Map(all.map((v) => [v.slug, v]));
     const alias = cfg.adopterAliases ?? {};
     const adopters = pkgAdopters(p, ventureBySlug, alias);
@@ -130,20 +173,28 @@ ${adopters.length ? `          <div class="uses"><span class="label">Used by</sp
     const repoHref = p.repo?.replace(/\/$/, "");
     const readmeHref = repoHref ? `${repoHref}#readme` : null;
     const versionsHref = npmHref ? `${npmHref}?activeTab=versions` : repoHref ? `${repoHref}/tags` : null;
-    const what = editorial.what ?? p.description ?? "";
-    const why = editorial.why ?? "";
-    const how = editorial.how ?? "";
-    const fits = editorial.fits ?? "";
+    const what = editorial.what;
+    const why = editorial.why;
+    const how = editorial.how;
+    const fits = editorial.fits;
+    const installCmd = p.install?.command ? esc(p.install.command) : "";
     const facts = [
       ["Licence", p.status === "next" ? "MIT, when it is published" : "MIT"],
-      p.install?.source === "npm" && p.version ? ["Latest npm version", `v${esc(p.version)}`] : null,
-      p.install?.command ? ["Install", `<code>${esc(p.install.command)}</code>`] : ["Install", "Not on npm yet"],
+      p.version ? ["Latest version", `v${esc(p.version)}${p.install?.source === "git" ? " (git tag)" : ""}`] : null,
+      p.install?.command
+        ? [
+            "Install",
+            `<button type="button" class="pkg-install js-copy" data-copy="${installCmd}" aria-label="Copy install command"><code>${installCmd}</code></button>`,
+          ]
+        : ["Install", "Not on npm yet"],
       p.repo
         ? ["Source", `<a href="${esc(p.repo)}">${esc(String(p.repo).replace("https://github.com/", ""))}</a>`]
         : ["Source", `<a href="/orangecat/">Inside OrangeCat</a>`],
-      adopters.length ? ["Used by", `${p.adopters} ${p.adopters === 1 ? "app" : "apps"}`] : ["Fleet adoption", "0 apps currently list this package as a dependency"],
+      adopters.length
+        ? ["Used by", `${p.adopters} ${p.adopters === 1 ? "app" : "apps"}`]
+        : ["Fleet adoption", "0 apps currently list this package as a dependency"],
     ].filter(Boolean);
-    const body = `  <main>
+    const body = `  <main id="main">
     <section class="venture-hero">
       <div class="wrap">
         <span class="eyebrow${p.status === "next" ? " quiet" : ""}">${p.status === "next" ? "Next &middot; not on npm yet" : "Package &middot; MIT"}</span>
@@ -165,11 +216,20 @@ ${adopters.length ? `          <div class="uses"><span class="label">Used by</sp
       </div>
       <div class="venture-facts">
 ${facts.map(([k, val]) => `        <div><span class="label">${esc(k)}</span><span>${val}</span></div>`).join("\n")}
-${adopters.length ? `        <div class="uses"><span class="label">Used by</span><div class="chips">${adopters.join("")}</div></div>` : ""}
+${adopters.length ? `        <div class="uses" id="used-by"><span class="label">Used by</span><div class="chips">${adopters.join("")}</div></div>` : ""}
       </div>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/${esc(prev.slug)}/">&larr; ${esc(prev.slug)}</a><a href="/packages/">All packages</a><a href="/packages/${esc(next.slug)}/">${esc(next.slug)} &rarr;</a></div></div>
-  </main>`;
+  </main>
+  <script type="module">
+    for (const btn of document.querySelectorAll(".js-copy")) {
+      btn.addEventListener("click", async () => {
+        const text = btn.getAttribute("data-copy") || "";
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { /* clipboard may be denied */ }
+      });
+    }
+  <\/script>`;
     return shell({
       title: `${p.slug} — bitbaum`,
       description: what,
@@ -179,5 +239,5 @@ ${adopters.length ? `        <div class="uses"><span class="label">Used by</span
     });
   }
 
-  return { pkgCard, packagesPage, packagePage, shownPackages };
+  return { pkgCard, packagesPage, packagePage, shownPackages, editorialFor };
 }

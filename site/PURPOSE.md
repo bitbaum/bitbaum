@@ -35,11 +35,11 @@ So the first job is **arrival**, and layout is second. See "How people arrive".
 
 | # | Reader | What they need to decide | Where they land | Their door |
 |---|---|---|---|---|
-| 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this supplier real and senior, what does it cost, and is it worth waiting for? | `/hire/`, with venture pages as evidence | the waitlist form (or `cato@orangecat.ch`) |
+| 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this supplier real and senior, what does it cost, and is it worth waiting for? | `/hire/`, with venture pages as evidence | the waitlist form |
 | 2 | **A developer who already uses a package** | Is this maintained, and what else is here? | `/packages/`, reached from a package README | install, source |
 | 3 | **An organisation receiving an application** — a public service, a non-profit, AOZ, SBB, Stadt Zürich | What exists, how real is it, can I reply? | one venture page, sent as a direct link | "Ask about …" on that page |
 | 4 | **A builder who might join** | Can I contribute, and what do I get, exactly? | `/#join` | contributor terms, a pull request |
-| 5 | **An agent** | What exists, where, in what state? | `/map.json` | — |
+| 5 | **An agent** | What exists, where, in what state? | `/map.json` (redacted catalogue — no ops changelog) | — |
 
 Reader 1 is first because it is the only near-term path to revenue. Reader 4 is
 the long-term ambition — more than one person building here, on OrangeCat,
@@ -70,13 +70,14 @@ for a list of gaps (the fleet registers publish those, not this page).
   place in the queue rather than a start date. That also makes the list a
   demand signal — who wants what, at these prices, is worth knowing before
   capacity opens. Written in the company's voice, never one person's. The form
-  posts to Loki's `POST /api/newsletter` (`source: bitbaum-hire`), which
-  rate-limits, dedupes and announces each new row, so a signup reaches a person
-  rather than a table. If the request fails the page names the mailbox and the
-  `mailto` still works. **`node site/check-hire.mjs <base-url>` pins all of
+  posts to Loki's `POST /api/feedback` with a public write-only widget token
+  (`fcw_…`), which rate-limits, dedupes and files each request into the feedback
+  inbox so a person can triage it. The form is the only door: no mailbox and no
+  `mailto` are rendered. On failure the page tells the visitor to retry or open
+  an issue on GitHub. **`node site/check-hire.mjs <base-url>` pins all of
   this in a real browser** — rates present, no first-person voice, honeypot
-  silent, engagement carried into the signup, and a door left open when the
-  endpoint is down. Run it against the live URL after publishing.
+  silent, engagement carried into the signup, and a recoverable failure path.
+  Run it against the live URL after publishing.
 - **`/studio/`** — the thesis and the rules, for the reader who wants the why.
 
 ## How people arrive — the part that actually matters
@@ -124,10 +125,8 @@ Read weekly, once they can be read:
   agents. A referrer is the only evidence a link sent someone here;
 - **waitlist signups, and which engagement they name** — the point of showing
   rates beside a closed door is that joining is a costly-enough signal to be
-  worth counting: `select count(*), source from newsletter_subscribers where
-  source like 'bitbaum-%' group by source` on the box, and the subject line of
-  a `Waitlist — <engagement>` mail says which of the three a reader wanted;
-- enquiries to `cato@orangecat.ch` that name a page;
+  worth counting: triage in Loki's `/feedback` inbox (source page `/hire/`),
+  filtered by engagement line in the suggestion body;
 - package-README referrals (referrer `npmjs.com` or `github.com`);
 - stars and downloads in `fleet/registers/readings.json`.
 
@@ -143,3 +142,9 @@ Read weekly, once they can be read:
 Measurement is no longer one of these: this host writes its own access log
 (`/etc/caddy/apps.d/bitbaum.caddy`, 5mb rolls, 20 kept, 90 days) and
 `site/visits.sh` reads it.
+
+---
+
+created_date: 2026-09-15
+last_modified_date: 2026-09-24
+last_modified_summary: Hire door is Loki /api/feedback (not newsletter/mailto); map.json is a redacted agent catalogue; measurement via feedback inbox.

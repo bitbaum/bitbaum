@@ -8,10 +8,16 @@
     "build": "node site/build.mjs",
     "check": "node site/build.mjs --check",
     "test": "node --test site/*.test.mjs",
-    "publish:site": "bash site/publish.sh"
+    "publish:site": "bash site/publish.sh",
+    "check:claims": "node site/check-claims.mjs",
+    "check:hire": "node site/check-hire.mjs",
+    "check:theme": "node site/check-theme.mjs"
   },
   "dependencies": {
     "@bitbaum/design-tokens": "1.1.0",
-    "listkit": "github:bitbaum/listkit#v0.1.0"
+    "listkit": "github:bitbaum/listkit#69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
   }
 }
