@@ -109,6 +109,31 @@
       </div>
     </section>
 
+    <section class="section ask-section" id="ask">
+      <div class="wrap ask">
+        <div class="ask-copy">
+          <span class="eyebrow">Chat</span>
+          <h2 class="display-2">Not sure where to start?</h2>
+          <p class="lede">Ask in your own words. The Cat and Loki are both in this chat and between them know every project here — the Cat answers when it's about earning or getting paid, Loki when it's about getting something built — and they send you to the one that fits.</p>
+        </div>
+        <form class="ask-form" id="ask-form" action="/work/" method="get">
+          <label class="sr-only" for="ask-q">Ask the chat about any project</label>
+          <div class="ask-row">
+            <input id="ask-q" type="text" maxlength="1000" autocomplete="off" placeholder="What are you looking for?">
+            <button class="btn primary" type="submit">Ask <span class="arrow" aria-hidden="true">&rarr;</span></button>
+          </div>
+          <div class="ask-starters">
+            <button type="button" class="ask-starter" data-q="I want to earn and get paid in Bitcoin">I want to earn and get paid in Bitcoin</button>
+            <button type="button" class="ask-starter" data-q="I need AI agents working on my code">I need AI agents working on my code</button>
+            <button type="button" class="ask-starter" data-q="Can you build something for my organisation?">Can you build something for my organisation?</button>
+            <button type="button" class="ask-starter" data-q="What's being built right now?">What's being built right now?</button>
+          </div>
+          <p class="ask-status" id="ask-status" role="status" hidden>The assistant isn't reachable right now. <a class="textlink" href="/work/">Browse every project <span class="arrow" aria-hidden="true">&rarr;</span></a> or <a class="textlink" href="/hire/#waitlist">join the waitlist</a>.</p>
+          <p class="ask-note">Answered by AI from the public project catalogue — it can be wrong, and the links it gives are the catalogue's own.</p>
+        </form>
+      </div>
+    </section>
+
     <section class="section stack-section" id="the-stack">
       <div class="wrap">
         <div class="section-head">
@@ -249,7 +274,7 @@
     </div>
   </footer>
   <script type="module" src="/theme.mjs"></script>
-
-  <script src="https://loki.orangecat.ch/widget.js" data-fc-project="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" async></script>
+  <script type="module" src="/ask.mjs"></script>
+  <script src="https://loki.orangecat.ch/widget.js" data-fc-project="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-fc-modes="chat,report" async></script>
 </body>
 </html>

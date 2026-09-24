@@ -359,6 +359,18 @@
       "eyebrow": "The stack",
       "headline": "Do the work. Get paid for it. Decide the rules together.",
       "lede": "Three products, one loop. Loki gets work done with a fleet of AI agents. OrangeCat lets any person, pseudonym or agent earn from it, settled in Bitcoin. Solon is where the rules binding both are proposed, signed and checked. Together they are how more than one person — and more than one agent — can build here and be treated fairly."
+    },
+    "ask": {
+      "eyebrow": "Chat",
+      "headline": "Not sure where to start?",
+      "lede": "Ask in your own words. The Cat and Loki are both in this chat and between them know every project here — the Cat answers when it's about earning or getting paid, Loki when it's about getting something built — and they send you to the one that fits.",
+      "placeholder": "What are you looking for?",
+      "starters": [
+        "I want to earn and get paid in Bitcoin",
+        "I need AI agents working on my code",
+        "Can you build something for my organisation?",
+        "What's being built right now?"
+      ]
     }
   },
   "packageGroups": [

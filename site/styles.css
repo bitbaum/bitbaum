@@ -171,6 +171,23 @@ img { max-width: 100%; display: block; }
 .home-stack-line { color: var(--fg-2); font-size: 0.85rem; line-height: 1.4; }
 .home-stack-arrow { color: var(--fg-3); font-size: 1.1rem; }
 
+/* The front desk: one question box that hands off to the Cat and Loki. Sits
+   between the hero and the stack because it is the shortest path for a reader
+   who does not yet know which of the projects is theirs. */
+.ask-section { border-top: 1px solid var(--line); }
+.ask { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(1.75rem, 5vw, 5rem); align-items: center; }
+.ask-copy { display: grid; gap: 1rem; justify-items: start; }
+.ask-form { display: grid; gap: 0.9rem; padding: clamp(1rem, 2.5vw, 1.75rem); border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--bg-raised); }
+.ask-row { display: flex; gap: 0.6rem; }
+.ask-row input { flex: 1; min-width: 0; min-height: 48px; padding: 0 1rem; font: inherit; font-size: 1rem; color: var(--fg); background: var(--bg); border: 1px solid var(--line-2); border-radius: var(--radius); }
+.ask-row input::placeholder { color: var(--fg-3); }
+.ask-row input:focus { outline: none; border-color: var(--fg); }
+.ask-starters { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.ask-starter { font: inherit; font-size: 0.85rem; color: var(--fg-2); background: transparent; border: 1px dashed var(--line-2); border-radius: var(--radius); padding: 0.5rem 0.75rem; min-height: 40px; cursor: pointer; text-align: left; }
+.ask-starter:hover { color: var(--fg); border-color: var(--fg); border-style: solid; }
+.ask-status { margin: 0; padding: 0.75rem 0.9rem; border: 1px solid var(--line-2); border-radius: var(--radius); color: var(--fg-2); font-size: 0.9rem; line-height: 1.5; }
+.ask-note { margin: 0; color: var(--fg-3); font-size: 0.78rem; line-height: 1.5; }
+
 /* The stack, told properly: one panel per layer, a real screenshot beside what
    the layer is for and what ships today. Alternating sides keeps three panels
    from reading as a list. */
@@ -439,6 +456,9 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .home-stack-name { font-size: 1.05rem; }
   .home-stack-line { font-size: 0.79rem; }
   .stack-layer { grid-template-columns: 1fr; padding-block: 2.25rem; }
+  .ask { grid-template-columns: 1fr; }
+  .ask-row { flex-direction: column; }
+  .ask-row .btn { justify-content: center; }
   .stack-layer.flip .stack-layer-copy { order: 0; }
   .stack-layer-shot { order: -1; position: static; }
   .home-section-head { align-items: flex-start; flex-wrap: wrap; }
