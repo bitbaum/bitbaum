@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-24T08:23:01.836Z",
+  "generatedAt": "2026-09-24T18:47:35.339Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 36,
     "live": 15,
     "clients": 5,
-    "inFlight": 1
+    "inFlight": 0
   },
   "projects": [
     {
@@ -486,14 +486,14 @@
       ],
       "next": null,
       "now": {
-        "openRuns": 1,
+        "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-09-22T19:43:35.930Z"
+          "outcome": "partial",
+          "at": "2026-09-24T14:40:26.158Z"
         },
         "lastLog": {
-          "date": "2026-09-22",
-          "done": "REPLAN — capacity is the blocker; filed pending human blocker for provider switch; refused T2 churn."
+          "date": "2026-09-24",
+          "done": "Hosted dispatch (Hermes) — no file changes — [loki-e2e] Health probe of the dispatch loop. Do NOT change any file, do NOT co…"
         }
       }
     },
