@@ -99,28 +99,33 @@
     },
     "solon": {
       "name": "Solon",
-      "what": "Governance software in development",
-      "stage": "development",
+      "what": "Governance any group can run",
+      "stage": "product",
       "pillar": "Governance",
-      "homeLine": "Governance you can verify instead of trust — for humans and AI agents.",
+      "homeLine": "Decide together, in the open — for companies, towns, associations and communities.",
       "tags": [
         "Infrastructure"
       ],
       "order": 3,
-      "pillarRole": "Governance software still being built. Its public site describes signed votes, versioned rules and an audit trail; Bitbaum is not asking organisations to rely on it yet.",
-      "story": "Solon is still in development. Its public site demonstrates signed votes, versioned rules and an audit trail, but Bitbaum is not presenting it as ready to govern an organisation or as an active originator-payment scheme.",
+      "pillarRole": "How groups decide. Proposals, one-click votes under rules the group chose, and a public record — for companies, towns, associations and communities, humans and AI agents alike.",
+      "story": "Solon runs governance for companies, towns, associations and communities — proposals, votes and the books, where every member can see them. Anyone with a seat puts a question on the record, members vote with one click under rules the group chose, and the result is published with every vote behind it. It is in beta; the governance agent that does the clerk's work is being built with the first pilot groups.",
       "stack": {
-        "headline": "Governance you can verify instead of trust.",
-        "promise": "When AI agents help run an economy, someone has to decide what they may do — and it should be neither the agents nor a company's settings page. Solon is a legislature for organisations of humans and agents: proposals, Bitcoin-signed votes, versioned rules and a public record anyone can recount. It is in development; the mechanism works end to end and its first real decision is still ahead.",
+        "headline": "Decide together. In the open.",
+        "promise": "Every group decides things — a board, a village, an association, a co-op — and most do it in a meeting nobody minutes and a spreadsheet nobody trusts. Solon puts the question on the record, lets members vote with one click under rules the group chose, and publishes the result with every vote behind it, so everyone can hold the people carrying it out to it. In beta.",
         "does": [
-          "Every vote is a Bitcoin-signed message over the whole ballot: one member, one signature.",
-          "Six voting methods — single choice, consent, approval, dot, score, ranked — and profiles from town to cooperative to company.",
-          "Red lines only humans can vote on: aid, membership, safety and the governance rules themselves.",
-          "Rules freeze when a vote opens, so every past decision stays explainable after the rules change.",
-          "Any decision can be fetched as a signed record and recounted by anyone; the audit trail is append-only.",
-          "A watch-only treasury: Solon holds no keys and has no code path that can spend."
+          "Propose, decide, carry out: a question in plain words, one-click votes, and a published result with every vote behind it.",
+          "Rules the group chooses — who votes, how votes are counted, how many must agree: pick one, approval, dots, score or ranked.",
+          "One click by default, a signature when wanted, and every record says which. A seat no longer needs a Bitcoin wallet.",
+          "Red lines only people can vote on: who may join, and the rules themselves.",
+          "Rules freeze when a vote opens, so past decisions stay explainable; the record is append-only and anyone can recount it.",
+          "A governance agent that writes proposals up, reminds members and follows the money — it proposes, people decide. Being built with the first pilot groups."
         ],
-        "connects": "Solon sets the ceiling on what OrangeCat's Cat may spend. The Cat proposes, the Cat and Loki vote with their own keys, and OrangeCat verifies those signatures before anything changes. Loki deploys it; OrangeCat signs you in."
+        "connects": "Solon sets the ceiling on what OrangeCat's Cat may spend: the Cat proposes, the Cat and Loki vote with their own keys, and OrangeCat checks the result before anything changes. Loki builds and deploys Solon; you sign in with OrangeCat."
+      },
+      "identity": {
+        "problem": "Groups decide things all the time — boards, villages, associations, co-ops — mostly in meetings nobody minutes and spreadsheets nobody trusts. Afterwards nobody can show who decided what, under which rules, or whether it was carried out.",
+        "solution": "Anyone with a seat puts a question on the record in plain words; members vote with one click under rules the group chose; the result is published with every vote behind it, so everyone can hold the people carrying it out to it.",
+        "vision": "Any group, at any size, from anywhere, governing itself the way Glarus has for centuries: everyone hears the question, everyone sees the vote, everyone knows the result."
       }
     },
     "revamp-info": {

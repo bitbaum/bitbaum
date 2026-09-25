@@ -44,6 +44,12 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ hashFiles('package.json') }}
       - run: pnpm exec playwright install chromium --with-deps
       - run: pnpm test
+      # Every product page says its picture was "taken by a machine when this
+      # site was built" — so take it. Until 2026-09-25 nothing did, and Solon's
+      # shot was eleven days and a whole redesign stale. A site that fails to
+      # load keeps its previous picture (shots.mjs logs FAILED and moves on).
+      - name: Retake product screenshots
+        run: node site/shots.mjs
       - name: Build from current fleet sources
         env:
           FLEET_PACKAGES_SHA: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.packages_sha || '' }}

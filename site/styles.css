@@ -199,6 +199,28 @@ img { max-width: 100%; display: block; }
 .ask { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(1.75rem, 5vw, 5rem); align-items: start; }
 .ask-copy { display: grid; gap: 1rem; justify-items: start; }
 
+/* "Build it yourself": the studio's closed door, turned into three open
+   ones. Big, even cards — each a verb, a product and one line of why. */
+.build-band { border-top: 1px solid var(--line); }
+.build-paths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.75rem, 2vw, 1.25rem); }
+.build-path { display: grid; align-content: start; gap: 0.6rem; min-width: 0; padding: clamp(1.25rem, 2.5vw, 1.75rem); border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--bg-raised); transition: border-color 140ms ease, transform 140ms ease; }
+.build-path:hover { border-color: var(--fg); transform: translateY(-2px); }
+.build-path-name { font-size: clamp(1.6rem, 2.6vw, 2.1rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1; }
+.build-path-line { color: var(--fg-2); line-height: 1.55; }
+.build-path-go { margin-top: 0.4rem; font-size: 0.8rem; font-weight: 600; letter-spacing: var(--tracking-caps); text-transform: uppercase; }
+.build-wait { margin: clamp(1.25rem, 2.5vw, 1.75rem) 0 0; color: var(--fg-2); max-width: var(--measure-copy); line-height: 1.6; }
+@media (max-width: 860px) { .build-paths { grid-template-columns: 1fr; } }
+
+/* The portfolio on the homepage: screenshots, not counters. */
+.home-work-grid { margin-top: 0.5rem; }
+.stage-inline { display: inline-flex; flex-wrap: wrap; gap: 0.35rem; vertical-align: middle; }
+.stage-inline .stage-link { min-height: 32px; padding: 0.2rem 0.6rem; font-size: 0.8rem; }
+
+/* Packages are for developers: one quiet line near the end, not a section. */
+.dev-band { padding: 1.5rem 0; border-top: 1px solid var(--line); color: var(--fg-2); font-size: 0.95rem; }
+.dev-band p { margin: 0; line-height: 1.7; }
+.dev-band .label { margin-right: 0.6rem; }
+
 /* The site's chat (site/chat/chat.tsx — @bitbaum/chatkit). The chat's own
    look comes from chatkit.css over the design tokens; this only frames it. */
 .chat-card { display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; padding: clamp(1rem, 2.5vw, 1.5rem); border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--bg-raised); }
@@ -376,6 +398,54 @@ a.card-name:hover { color: var(--accent); }
 .stage-count { color: var(--fg); font-family: var(--mono); font-size: 1.1rem; font-variant-numeric: tabular-nums; }
 #work-grid { margin-top: 1.6rem; }
 .empty { margin: 1.5rem 0 0; color: var(--fg-2); }
+
+/* A product page's depth: problem → what it does → where it is heading,
+   then (flagships) everything it does, then what is being built now. */
+.venture-depth { border-top: 1px solid var(--line); }
+.venture-depth .wrap { display: grid; gap: clamp(2rem, 4vw, 3.5rem); }
+.depth-blocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: clamp(1rem, 2.5vw, 2rem); }
+.depth-block { display: grid; gap: 0.6rem; align-content: start; padding-top: 1rem; border-top: 2px solid var(--fg); }
+.depth-block p { margin: 0; color: var(--fg); font-size: 1.05rem; line-height: 1.6; text-wrap: pretty; }
+.depth-does { display: grid; gap: 1rem; max-width: 52rem; }
+.depth-does ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+.depth-does li { position: relative; padding-left: 1.4rem; line-height: 1.55; }
+.depth-does li::before { content: ""; position: absolute; left: 0; top: 0.65em; width: 0.55rem; height: 1px; background: var(--fg-3); }
+.depth-connects { margin: 0.5rem 0 0; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--fg-2); line-height: 1.55; }
+.depth-connects .label { display: block; margin-bottom: 0.3rem; }
+.depth-roadmap { display: grid; gap: 0.8rem; max-width: 52rem; }
+.depth-roadmap ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.depth-roadmap li { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; padding: 0 0.9rem; border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--bg-raised); }
+.depth-progress { flex: 0 0 6rem; height: 4px; border-radius: 999px; background: var(--line-2); overflow: hidden; }
+.depth-progress span { display: block; height: 100%; background: var(--fg); }
+
+/* /work/: the projects are the page; the filters are a tool beside them. */
+.work-hero .lede { max-width: 60ch; }
+.work-section { padding-top: 0; }
+.work-layout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: clamp(1.5rem, 3vw, 3rem); align-items: start; }
+.work-side { position: sticky; top: calc(var(--nav-h) + 1rem); max-height: calc(100vh - var(--nav-h) - 2rem); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.work-filters-summary { display: none; }
+.work-side .filters { display: grid; gap: 1.4rem; padding: 0; border: 0; }
+.work-side .filters[hidden] { display: none; }
+.filter-group { display: grid; gap: 0.55rem; }
+.chips.vertical { display: grid; gap: 0.3rem; }
+.chips.vertical .chip { justify-content: space-between; width: 100%; min-height: 40px; }
+.work-side .filter-search, .work-side .filter-sort { min-width: 0; font-size: 0.72rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; font-family: var(--mono); }
+.work-side .clear { margin-left: 0; justify-self: start; }
+.stage-help summary { cursor: pointer; font-size: 0.85rem; color: var(--fg-2); }
+.stage-help .legend { grid-template-columns: 1fr; margin-top: 0.8rem; }
+.work-count { margin: 0 0 1rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-3); }
+.work-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+@media (max-width: 1023px) {
+  .work-layout { grid-template-columns: 1fr; }
+  .work-side { position: static; max-height: none; overflow: visible; }
+  .work-filters-box { border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--bg-raised); }
+  .work-filters-summary { display: flex; align-items: center; justify-content: space-between; min-height: 48px; padding: 0 1rem; cursor: pointer; font-weight: 600; list-style: none; }
+  .work-filters-summary::-webkit-details-marker { display: none; }
+  .work-filters-summary::after { content: "+"; font-size: 1.25rem; color: var(--fg-3); }
+  .work-filters-box[open] .work-filters-summary::after { content: "−"; }
+  .work-filters-box .filters { padding: 0 1rem 1.25rem; }
+  .chips.vertical { grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); }
+}
 
 /* ─── "used by" / "built from": the same idiom in both directions ──────── */
 .uses { display: grid; gap: 0.4rem; margin-top: 0.35rem; }

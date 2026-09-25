@@ -43,57 +43,60 @@
       <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
       <nav class="top-links" aria-label="Site">
         <a href="/work/" aria-current="page">The work</a>
-        <a href="/packages/">Packages</a>
         <a href="/studio/">Studio</a>
+        <a href="/hire/">Hire</a>
         <a href="/#join">Build with us</a>
       </nav>
-      <a class="btn primary top-cta" href="/hire/#waitlist">Join the waitlist <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="btn primary top-cta" href="https://loki.orangecat.ch/">Start with Loki <span class="arrow" aria-hidden="true">&rarr;</span></a>
       <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
   </header>
   <main id="main">
-    <section class="hero compact"><div class="wrap">
-      <span class="eyebrow">Projects and pilots</span>
-      <h1 class="display-1">The work, at its actual stage.</h1>
-      <p class="lede">Running services, real pilots, work in development, concepts, and named projects that are not built are labelled separately. Filter by stage and field; every count and result comes from this catalogue.</p>
+    <section class="hero compact work-hero"><div class="wrap">
+      <span class="eyebrow">The work</span>
+      <h1 class="display-1">Everything built here, at its real stage.</h1>
+      <p class="lede">Products and pilots in use, concepts built to show what is possible, and ideas named but not built — each labelled honestly. Filters live in the address bar, so a filtered view is a link you can send.</p>
     </div></section>
-    <section class="section" id="work">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="row"><h2 class="display-2">The work</h2><span class="label" id="work-count">23 of 23</span></div>
-          <p class="lede">Everything the studio has built, at the stage it is really at. Pick a stage or a field — the address bar keeps your choice, so a filtered view is a link you can send.</p>
-        </div>
-        <div class="filters" id="work-filters" hidden>
-          <div class="filter-row"><span class="label">Stage</span><div class="chips">
-            <button type="button" class="chip" data-facet="stage" data-value="product" aria-pressed="false">Products<span class="chip-n">10</span></button>
-            <button type="button" class="chip" data-facet="stage" data-value="pilot" aria-pressed="false">Pilots<span class="chip-n">5</span></button>
-            <button type="button" class="chip" data-facet="stage" data-value="development" aria-pressed="false">In development<span class="chip-n">1</span></button>
-            <button type="button" class="chip" data-facet="stage" data-value="concept" aria-pressed="false">Concepts<span class="chip-n">4</span></button>
-            <button type="button" class="chip" data-facet="stage" data-value="next" aria-pressed="false">Not built<span class="chip-n">3</span></button>
-          </div></div>
-          <div class="filter-row"><span class="label">Field</span><div class="chips">
-            <button type="button" class="chip" data-facet="field" data-value="infrastructure" aria-pressed="false">Infrastructure<span class="chip-n">3</span></button>
-            <button type="button" class="chip" data-facet="field" data-value="ai-agents" aria-pressed="false">AI agents<span class="chip-n">6</span></button>
-            <button type="button" class="chip" data-facet="field" data-value="health" aria-pressed="false">Health<span class="chip-n">4</span></button>
-            <button type="button" class="chip" data-facet="field" data-value="public-sector" aria-pressed="false">Public sector<span class="chip-n">3</span></button>
-            <button type="button" class="chip" data-facet="field" data-value="circular-economy" aria-pressed="false">Circular economy<span class="chip-n">3</span></button>
-            <button type="button" class="chip" data-facet="field" data-value="local-business" aria-pressed="false">Local business<span class="chip-n">4</span></button>
-            <button type="button" class="chip" data-facet="field" data-value="knowledge" aria-pressed="false">Knowledge<span class="chip-n">6</span></button>
-          </div></div>
-          <label class="filter-search">Search work<input id="work-search" type="search" placeholder="Product, purpose, or address" autocomplete="off"></label>
-          <label class="filter-sort">Sort by<select id="work-sort"><option value="studio">Studio order</option><option value="name">Name</option><option value="newest">Newest</option></select></label>
-          <button type="button" class="clear" id="clear-filters" hidden>Clear <span class="arrow" aria-hidden="true">&rarr;</span></button>
-        </div>
-        <dl class="legend">
-          <div><dt>Products</dt><dd>Public beta services. Check each product page for its current scope and access.</dd></div>
-          <div><dt>Pilots</dt><dd>Built for a real organisation and in real use. No commercial terms — a working answer, offered first.</dd></div>
-          <div><dt>In development</dt><dd>A public surface exists, but the system is still being built and is not ready to rely on.</dd></div>
-          <div><dt>Concepts</dt><dd>Built to apply with, before anyone asked. Working demos on public or mock data.</dd></div>
-          <div><dt>Not built</dt><dd>Named, not built. Listed so the list is honest.</dd></div>
-        </dl>
-        <div class="grid" id="work-grid">
+    <section class="section work-section" id="work">
+      <div class="wrap work-layout">
+        <aside class="work-side" aria-label="Filter the work">
+          <details class="work-filters-box" id="work-filters-box">
+            <summary class="work-filters-summary">Filter the work</summary>
+            <div class="filters" id="work-filters" hidden>
+              <label class="filter-search">Search<input id="work-search" type="search" placeholder="Product, purpose or address" autocomplete="off"></label>
+              <div class="filter-group"><span class="label">Stage</span><div class="chips vertical">
+                <button type="button" class="chip" data-facet="stage" data-value="product" aria-pressed="false" title="Public beta services. Check each product page for its current scope and access.">Products<span class="chip-n">11</span></button>
+                <button type="button" class="chip" data-facet="stage" data-value="pilot" aria-pressed="false" title="Built for a real organisation and in real use. No commercial terms — a working answer, offered first.">Pilots<span class="chip-n">5</span></button>
+                <button type="button" class="chip" data-facet="stage" data-value="concept" aria-pressed="false" title="Built to apply with, before anyone asked. Working demos on public or mock data.">Concepts<span class="chip-n">4</span></button>
+                <button type="button" class="chip" data-facet="stage" data-value="next" aria-pressed="false" title="Named, not built. Listed so the list is honest.">Not built<span class="chip-n">3</span></button>
+              </div></div>
+              <div class="filter-group"><span class="label">Field</span><div class="chips vertical">
+                <button type="button" class="chip" data-facet="field" data-value="infrastructure" aria-pressed="false">Infrastructure<span class="chip-n">3</span></button>
+                <button type="button" class="chip" data-facet="field" data-value="ai-agents" aria-pressed="false">AI agents<span class="chip-n">6</span></button>
+                <button type="button" class="chip" data-facet="field" data-value="health" aria-pressed="false">Health<span class="chip-n">4</span></button>
+                <button type="button" class="chip" data-facet="field" data-value="public-sector" aria-pressed="false">Public sector<span class="chip-n">3</span></button>
+                <button type="button" class="chip" data-facet="field" data-value="circular-economy" aria-pressed="false">Circular economy<span class="chip-n">3</span></button>
+                <button type="button" class="chip" data-facet="field" data-value="local-business" aria-pressed="false">Local business<span class="chip-n">4</span></button>
+                <button type="button" class="chip" data-facet="field" data-value="knowledge" aria-pressed="false">Knowledge<span class="chip-n">6</span></button>
+              </div></div>
+              <label class="filter-sort">Sort by<select id="work-sort"><option value="studio">Studio order</option><option value="name">Name</option><option value="newest">Newest</option></select></label>
+              <button type="button" class="clear" id="clear-filters" hidden>Clear filters</button>
+              <details class="stage-help"><summary>What the stages mean</summary>
+                <dl class="legend">
+                  <div><dt>Products</dt><dd>Public beta services. Check each product page for its current scope and access.</dd></div>
+                  <div><dt>Pilots</dt><dd>Built for a real organisation and in real use. No commercial terms — a working answer, offered first.</dd></div>
+                  <div><dt>Concepts</dt><dd>Built to apply with, before anyone asked. Working demos on public or mock data.</dd></div>
+                  <div><dt>Not built</dt><dd>Named, not built. Listed so the list is honest.</dd></div>
+                </dl>
+              </details>
+            </div>
+          </details>
+        </aside>
+        <div class="work-main">
+          <p class="work-count"><span id="work-count">23 of 23</span> projects</p>
+          <div class="grid work-grid" id="work-grid">
       <a class="card" href="/orangecat/" data-stage="product" data-tags="infrastructure ai-agents" data-name="OrangeCat" data-host="orangecat.ch" data-since="2025-04-02T14:37:17Z">
         <div class="shot"><img src="/shots/orangecat.jpg" alt="OrangeCat — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
@@ -113,6 +116,13 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">Heidi</span><span class="pill beta">beta</span></div>
           <span class="card-what">Zürich German, for learners</span>
+        </div>
+      </a>
+      <a class="card" href="/solon/" data-stage="product" data-tags="infrastructure" data-name="Solon" data-host="solon.orangecat.ch" data-since="2025-08-26T09:12:28Z">
+        <div class="shot"><img src="/shots/solon.jpg" alt="Solon — screenshot" loading="lazy" width="1280" height="800"></div>
+        <div class="card-body">
+          <div class="card-top"><span class="card-name">Solon</span><span class="pill beta">beta</span></div>
+          <span class="card-what">Governance any group can run</span>
         </div>
       </a>
       <a class="card" href="/revamp-info/" data-stage="product" data-tags="ai-agents knowledge" data-name="Hirnli" data-host="hirnli.orangecat.ch" data-since="2026-02-05T14:57:32Z">
@@ -204,13 +214,6 @@
           <span class="label">for Annushka, Zürich</span>
         </div>
       </a>
-      <a class="card" href="/solon/" data-stage="development" data-tags="infrastructure" data-name="Solon" data-host="solon.orangecat.ch" data-since="2025-08-26T09:12:28Z">
-        <div class="shot"><img src="/shots/solon.jpg" alt="Solon — screenshot" loading="lazy" width="1280" height="800"></div>
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">Solon</span><span class="pill">in development</span></div>
-          <span class="card-what">Governance software in development</span>
-        </div>
-      </a>
       <a class="card" href="/sbb-fundbuero/" data-stage="concept" data-tags="public-sector" data-name="Nordbahn Fundbüro" data-host="sbbfundbuero.orangecat.ch" data-since="2026-01-23T15:13:32Z">
         <div class="shot"><img src="/shots/sbb-fundbuero.jpg" alt="Nordbahn Fundbüro — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
@@ -257,8 +260,9 @@
           <span class="card-what">Named. Not written down.</span>
         </div>
       </a>
+          </div>
+          <p class="empty" id="work-empty" hidden>Nothing at that intersection yet. <button type="button" class="linkish" data-clear>Clear the filter</button> to see everything.</p>
         </div>
-        <p class="empty" id="work-empty" hidden>Nothing at that intersection yet. <button type="button" class="linkish" data-clear>Clear the filter</button> to see everything.</p>
       </div>
     </section>
   </main>
@@ -283,16 +287,16 @@
         <nav aria-label="Explore">
           <h2 class="label">Explore</h2>
           <a href="/work/" aria-current="page">The work</a>
-          <a href="/packages/">Packages</a>
           <a href="/studio/">The studio</a>
-          <a href="/map.json">map.json</a>
+          <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
         </nav>
         <nav aria-label="Build with us">
           <h2 class="label">Build with us</h2>
           <a href="/#join">How to join</a>
+          <a href="/packages/">Packages (for developers)</a>
           <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
           <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
-          <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
+          <a href="/map.json">map.json</a>
         </nav>
         <nav aria-label="Work with the studio">
           <h2 class="label">Work with the studio</h2>
@@ -311,16 +315,16 @@
       <nav aria-label="Explore">
         <h2 class="label">Explore</h2>
         <a href="/work/" aria-current="page">The work</a>
-          <a href="/packages/">Packages</a>
           <a href="/studio/">The studio</a>
-          <a href="/map.json">map.json</a>
+          <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
       </nav>
       <nav aria-label="Build with us">
         <h2 class="label">Build with us</h2>
         <a href="/#join">How to join</a>
+          <a href="/packages/">Packages (for developers)</a>
           <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
           <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
-          <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
+          <a href="/map.json">map.json</a>
       </nav>
       <nav aria-label="Work with the studio">
         <h2 class="label">Work with the studio</h2>

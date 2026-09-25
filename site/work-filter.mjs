@@ -91,3 +91,16 @@ if (grid && controls) {
   controls.hidden = false;
   render(state);
 }
+
+// The filter panel is always open beside the grid on a desk and folds shut
+// above it on a phone. <details> gives the fold for free; this only keeps it
+// open where there is room for it, following the viewport as it changes.
+const box = document.querySelector("#work-filters-box");
+if (box) {
+  const wide = matchMedia("(min-width: 1024px)");
+  const sync = () => {
+    if (wide.matches) box.open = true;
+  };
+  sync();
+  wide.addEventListener("change", sync);
+}
