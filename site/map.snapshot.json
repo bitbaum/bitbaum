@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T09:50:31.600Z",
+  "generatedAt": "2026-09-25T14:30:08.176Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 37,
     "live": 15,
     "clients": 5,
-    "inFlight": 1
+    "inFlight": 0
   },
   "projects": [
     {
@@ -405,6 +405,14 @@
       "changelog": [
         {
           "date": "2026-09-25",
+          "done": "Fixed wrong cloud-offline signal (presence channel matches heartbeat) and separated project header status from actions; PR #912 check green."
+        },
+        {
+          "date": "2026-09-25",
+          "done": "Reviewing existing branch fix for cloud presence and project header; rebasing onto main."
+        },
+        {
+          "date": "2026-09-25",
           "done": "REPLAN — capacity is the blocker; reconfirmed pending human ask for provider switch; refused T2 churn and any agent rewrite of builder_pref."
         },
         {
@@ -474,26 +482,18 @@
         {
           "date": "2026-09-20",
           "done": "Two of #584's bullets. (1) LIVE as 451ac5de (PR #800): expired dates no longer reach dispatches as \"near-term commitments\" — confirmed by a later dispatch's own preamble rendering \"was due 2026-07-03 (OVERDUE)\" and \"(PAST, not met)\", correctly reordered nearest-first. (2) Committed ed5505b9: the hosted runner wrote the run's output — on failure the raw stderr — into the dev-log `next`, which the dossier re-serves to every later dispatch as the project's next step, and stamped health \"good\" on FAILED runs; `done` was the first 100 chars of the dispatch envelope. Now built in src/lib/hosted-run-log.ts from the outcome, with extractOperatorTask recovering the real ask."
-        },
-        {
-          "date": "2026-09-20",
-          "done": "Shipped and verified live the first bullet of #584 (PR #800, merged as 451ac5de): expired dates no longer reach every dispatch as \"near-term commitments\" — overdue rows render \"was due <date> (OVERDUE)\" and missed goal targets \"(PAST, not met)\"; listUpcomingCommitments now orders by distance from today instead of due_date ASC (ascending over an unfloored set let the two most-expired rows take the whole LIMIT 8, crowding out anything genuinely due); isOverdue added to lib/dates.ts comparing printed dates so the label cannot contradict the date beside it; lib/agent/brief.ts states its real SQL predicate and labels its own overdue rows. Prod /api/health serves 451ac5de and the deployed bundle carries the new strings with zero occurrences of \"near-term commitments\"."
-        },
-        {
-          "date": "2026-09-20",
-          "done": "Landed PR #800 (first bullet of #584) — expired dates no longer reach every dispatch as \"near-term commitments\"; CI green, squash-merged to main as 451ac5de."
         }
       ],
       "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-09-25T07:42:30.367Z"
+          "outcome": "success",
+          "at": "2026-09-25T12:36:16.139Z"
         },
         "lastLog": {
           "date": "2026-09-25",
-          "done": "REPLAN — capacity is the blocker; reconfirmed pending human ask for provider switch; refused T2 churn and any agent rewrite of builder_pref."
+          "done": "Fixed wrong cloud-offline signal (presence channel matches heartbeat) and separated project header status from actions; PR #912 check green."
         }
       }
     },
@@ -2687,10 +2687,10 @@
       ],
       "next": null,
       "now": {
-        "openRuns": 1,
+        "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-09-25T06:54:55.405Z"
+          "outcome": "success",
+          "at": "2026-09-25T12:06:58.578Z"
         },
         "lastLog": {
           "date": "2026-09-24",
