@@ -32,6 +32,10 @@
   /* The only chromatic colours on the site, and neither is decoration. */
   --status: hsl(var(--status-warning));
   --orangecat: var(--public-accent);
+  /* bitbaum's own colour: the green of the tree it is named after. One
+     primary action per screen wears it; nothing else does. */
+  --baum: #3ee08f;
+  --on-baum: #04140b;
   --ok: hsl(var(--status-positive));
 
   --sans: var(--font-sans, "Inter", system-ui, -apple-system, "Segoe UI", sans-serif);
@@ -203,8 +207,8 @@ img { max-width: 100%; display: block; }
    Full-screen photographs, each with one statement and one way forward; big
    uppercase sans headlines of a few words; framed buttons. Text on a photo is
    always light on a dark scrim, whatever theme the reader chose — the photo
-   is the same photo in both. The one warm colour is #ff5c00, the family's
-   accent (Solon, OrangeCat), used for the single primary action. */
+   is the same photo in both. The one colour is bitbaum's green (--baum), on
+   the single primary action; orange stays OrangeCat's. */
 .bleed { position: relative; display: flex; align-items: flex-end; min-height: 100svh; overflow: hidden; background: #050505; color: #fafafa; }
 .bleed-under { margin-top: calc(-1 * var(--nav-h)); }
 .bleed-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -219,7 +223,7 @@ img { max-width: 100%; display: block; }
 .bleed .headline-caps.long { font-size: clamp(2.4rem, 5.4vw, 4.9rem); }
 .section-title + .lede, .section-title + p { margin-top: 1.25rem; }
 .bleed-lede { margin: 0; max-width: 38rem; font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.55; color: rgb(250 250 250 / 0.9); text-wrap: pretty; }
-.bleed-notice { margin: 0; max-width: 38rem; padding-left: 0.9rem; border-left: 2px solid var(--orangecat); color: rgb(250 250 250 / 0.9); line-height: 1.5; }
+.bleed-notice { margin: 0; max-width: 38rem; padding-left: 0.9rem; border-left: 2px solid var(--baum); color: rgb(250 250 250 / 0.9); line-height: 1.5; }
 .studio-facts { padding-block: 2.5rem; }
 .bleed-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.6rem; }
 .kicker { font-size: 0.74rem; font-weight: 600; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-2); }
@@ -229,7 +233,7 @@ img { max-width: 100%; display: block; }
 .btn-frame, .btn-frame-accent { display: inline-flex; align-items: center; justify-content: center; gap: 0.7rem; min-height: 48px; padding: 0 1.75rem; font-size: 0.76rem; font-weight: 700; letter-spacing: var(--tracking-caps); text-transform: uppercase; transition: background 140ms ease, color 140ms ease, border-color 140ms ease; }
 .btn-frame { color: #fafafa; border: 2px solid #fafafa; }
 .btn-frame:hover { color: #0a0a0a; background: #fafafa; }
-.btn-frame-accent { color: #0a0a0a; background: var(--orangecat); border: 2px solid transparent; }
+.btn-frame-accent { color: var(--on-baum); background: var(--baum); border: 2px solid transparent; }
 .btn-frame-accent:hover { filter: brightness(1.08); }
 .rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
@@ -712,3 +716,60 @@ main:has(> .dev-band:last-child) + footer { margin-top: 0; }
 
 /* The feedback widget floats over everything; not over the open menu. */
 .menu-open #loki-feedback-host { display: none; }
+
+/* ─── noir lodge ───────────────────────────────────────────────────────────
+   The look: film noir with a Lynch floor. Every photograph in black and white,
+   grain over the whole page, deep blacks — so the only colour on the site is
+   the work itself (product screenshots) and one ember of orange on the action
+   that matters. The hero's oak breathes very slowly, like Loki's spiral: one
+   gesture, hypnotic. Under it, the chevron floor — a precise system laid down
+   in the dark, which is what we build. */
+.bleed-img { filter: grayscale(1) contrast(1.2) brightness(0.88); }
+.bleed-lodge .bleed-img { transform-origin: 50% 42%; animation: breathe 40s ease-in-out infinite alternate; }
+@keyframes breathe { from { transform: scale(1.02) rotate(0deg); } to { transform: scale(1.13) rotate(0.8deg); } }
+.lodge-floor {
+  --bone: #ebe5d8; --ink: #0a0a0a; --tile: 72px;
+  position: absolute; left: -30%; right: -30%; bottom: 0; height: 32vh;
+  transform-origin: 50% 100%; transform: perspective(540px) rotateX(64deg);
+  background:
+    linear-gradient(135deg, var(--bone) 25%, transparent 25%) calc(var(--tile) / -2) 0 / var(--tile) var(--tile),
+    linear-gradient(225deg, var(--bone) 25%, transparent 25%) calc(var(--tile) / -2) 0 / var(--tile) var(--tile),
+    linear-gradient(315deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
+    linear-gradient(45deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
+    var(--ink);
+  -webkit-mask-image: linear-gradient(to top, #000 35%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 35%, transparent 100%);
+  opacity: 0.92;
+}
+.bleed-lodge .bleed-body { padding-block: calc(var(--nav-h) + 2.5rem) calc(24vh + 1.5rem); }
+.bleed-lodge .bleed-copy { position: relative; }
+
+/* The same floor, flat, is the ground the footer stands on. */
+footer { position: relative; }
+footer::before {
+  --bone: #ebe5d8; --ink: #0a0a0a; --tile: 24px;
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: var(--tile);
+  background:
+    linear-gradient(135deg, var(--bone) 25%, transparent 25%) calc(var(--tile) / -2) 0 / var(--tile) var(--tile),
+    linear-gradient(225deg, var(--bone) 25%, transparent 25%) calc(var(--tile) / -2) 0 / var(--tile) var(--tile),
+    linear-gradient(315deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
+    linear-gradient(45deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
+    var(--ink);
+  opacity: 0.85;
+}
+
+/* Film grain over everything, never in the way of a click. */
+body::after {
+  content: ""; position: fixed; inset: -50%; z-index: 60; pointer-events: none; opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 1.4s steps(4) infinite;
+}
+@keyframes grain { 0% { transform: translate(0, 0); } 25% { transform: translate(-2%, 1.5%); } 50% { transform: translate(1.5%, -2%); } 75% { transform: translate(-1%, -1%); } 100% { transform: translate(0, 0); } }
+:root:not(.dark) body::after { opacity: 0.04; }
+@media (prefers-reduced-motion: reduce) {
+  .bleed-lodge .bleed-img, body::after { animation: none; }
+}
+@media (max-width: 640px) {
+  .lodge-floor { height: 26vh; --tile: 56px; }
+  .bleed-lodge .bleed-body { padding-bottom: calc(20vh + 1rem); }
+}

@@ -100,12 +100,13 @@ const PHOTOS = JSON.parse(readFileSync(join(here, "photos.json"), "utf8"));
  * whatever theme the reader chose. `under` slides the first section beneath
  * the header.
  */
-function fullBleed({ photo, id, position = "center", under = false, strong = false, first = false, body }) {
+function fullBleed({ photo, id, position = "center", under = false, strong = false, first = false, floor = false, body }) {
   const p = PHOTOS[photo];
   if (!p) throw new Error(`photo ${photo} is not registered in site/photos.json`);
-  return `    <section class="bleed${under ? " bleed-under" : ""}"${id ? ` id="${esc(id)}"` : ""}>
+  return `    <section class="bleed${under ? " bleed-under" : ""}${floor ? " bleed-lodge" : ""}"${id ? ` id="${esc(id)}"` : ""}>
       <img class="bleed-img" src="/${esc(p.file)}" alt="${esc(p.alt)}" width="${p.width}" height="${p.height}" style="object-position:${esc(position)}"${first ? ' fetchpriority="high"' : ' loading="lazy"'}>
-      <div class="bleed-scrim${strong ? " strong" : ""}" aria-hidden="true"></div>
+      <div class="bleed-scrim${strong ? " strong" : ""}" aria-hidden="true"></div>${floor ? `
+      <div class="lodge-floor" aria-hidden="true"></div>` : ""}
       <div class="wrap bleed-body">
 ${body}
       </div>
@@ -561,7 +562,7 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
           </a>`;
   }).join("\n");
   const body = `  <main id="main" class="home-page">
-${fullBleed({ photo: "tree", under: true, first: true, strong: true, position: "center 42%", body: `        <div class="bleed-copy rise">
+${fullBleed({ photo: "tree", under: true, first: true, strong: true, floor: true, position: "center 42%", body: `        <div class="bleed-copy rise">
           <span class="kicker">AI-native product studio &middot; Zürich</span>
           <h1 class="headline-caps">One trunk.<br>Many products.</h1>
           <p class="bleed-lede">We build software products — and the tools that let anyone build their own.</p>
