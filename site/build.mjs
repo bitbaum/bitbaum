@@ -125,6 +125,11 @@ export function ventures(map, cfg, origin, packages) {
       pillar: o.pillar ?? null,
       pillarRole: o.pillarRole ?? null,
       stack: o.stack ?? null,
+      // What the product is FOR, from its Loki profile (the SSOT, edited where
+      // the product is built) — so the page grows as the product does. An
+      // editorial override wins where the profile has fallen behind.
+      identity: { ...(p.identity ?? {}), ...(o.identity ?? {}) },
+      roadmap: (p.roadmap ?? []).filter((r) => r?.title),
       for: o.for ?? null,
       order: o.order ?? 99,
       status: p.status ?? (url ? "live" : ""),
@@ -189,8 +194,8 @@ function shell({ title, description, path, body, nav, script, image }) {
   // six links wrapped onto two rows made the phone header 164px tall.
   const items = [
     ["/work/", "The work"],
-    ["/packages/", "Packages"],
     ["/studio/", "Studio"],
+    ["/hire/", "Hire"],
     ["/#join", "Build with us"],
   ];
   const cur = (href) => (nav === href ? ' aria-current="page"' : "");
@@ -208,8 +213,8 @@ function shell({ title, description, path, body, nav, script, image }) {
   // One map of the site, rendered twice: as the phone menu and as the footer.
   // Two hand-kept lists drift; this cannot.
   const sections = [
-    ["Explore", [["/work/", "The work"], ["/packages/", "Packages"], ["/studio/", "The studio"], ["/map.json", "map.json"]]],
-    ["Build with us", [["/#join", "How to join"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"], [ARTICLES, "Writing ↗"]]],
+    ["Explore", [["/work/", "The work"], ["/studio/", "The studio"], [ARTICLES, "Writing ↗"]]],
+    ["Build with us", [["/#join", "How to join"], ["/packages/", "Packages (for developers)"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"], ["/map.json", "map.json"]]],
     ["Work with the studio", [[HIRE, "Engagements and rates"], [`${HIRE}#waitlist`, "Join the waitlist"]]],
   ];
   const sectionLinks = (links) =>
@@ -268,7 +273,7 @@ function shell({ title, description, path, body, nav, script, image }) {
       <nav class="top-links" aria-label="Site">
 ${items.map(([href, t]) => `        <a href="${href}"${cur(href)}>${t}</a>`).join("\n")}
       </nav>
-      <a class="btn primary top-cta" href="${HIRE}#waitlist">Join the waitlist ${ARROW}</a>
+      <a class="btn primary top-cta" href="https://loki.orangecat.ch/">Start with Loki ${ARROW}</a>
       <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -340,32 +345,41 @@ const { pkgCard, packagesPage, packagePage, shownPackages } = createPackagePages
 function workSection(all, cfg) {
   const stages = Object.entries(cfg.stages ?? {}).filter(([k]) => all.some((v) => v.stage === k));
   const tags = (cfg.tagOrder ?? []).filter((t) => all.some((v) => v.tags.includes(t)));
-  const chip = (facet, value, label, n) =>
-    `<button type="button" class="chip" data-facet="${facet}" data-value="${esc(value)}" aria-pressed="false">${esc(label)}<span class="chip-n">${n}</span></button>`;
-  return `    <section class="section" id="work">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="row"><h2 class="display-2">The work</h2><span class="label" id="work-count">${all.length} of ${all.length}</span></div>
-          <p class="lede">Everything the studio has built, at the stage it is really at. Pick a stage or a field — the address bar keeps your choice, so a filtered view is a link you can send.</p>
-        </div>
-        <div class="filters" id="work-filters" hidden>
-          <div class="filter-row"><span class="label">Stage</span><div class="chips">
-${stages.map(([k, s]) => `            ${chip("stage", k, s.plural, all.filter((v) => v.stage === k).length)}`).join("\n")}
-          </div></div>
-          <div class="filter-row"><span class="label">Field</span><div class="chips">
-${tags.map((t) => `            ${chip("field", slugify(t), t, all.filter((v) => v.tags.includes(t)).length)}`).join("\n")}
-          </div></div>
-          <label class="filter-search">Search work<input id="work-search" type="search" placeholder="Product, purpose, or address" autocomplete="off"></label>
-          <label class="filter-sort">Sort by<select id="work-sort"><option value="studio">Studio order</option><option value="name">Name</option><option value="newest">Newest</option></select></label>
-          <button type="button" class="clear" id="clear-filters" hidden>Clear ${ARROW}</button>
-        </div>
-        <dl class="legend">
-${stages.map(([, s]) => `          <div><dt>${esc(s.plural)}</dt><dd>${esc(s.lede)}</dd></div>`).join("\n")}
-        </dl>
-        <div class="grid" id="work-grid">
+  const chip = (facet, value, label, n, title) =>
+    `<button type="button" class="chip" data-facet="${facet}" data-value="${esc(value)}" aria-pressed="false"${title ? ` title="${esc(title)}"` : ""}>${esc(label)}<span class="chip-n">${n}</span></button>`;
+  // Vertical filters beside the grid: the projects are the page, the filters
+  // are a tool beside them — not two rows of chips and a legend stacked on top
+  // of the first card. On a phone the same panel folds shut above the grid.
+  return `    <section class="section work-section" id="work">
+      <div class="wrap work-layout">
+        <aside class="work-side" aria-label="Filter the work">
+          <details class="work-filters-box" id="work-filters-box">
+            <summary class="work-filters-summary">Filter the work</summary>
+            <div class="filters" id="work-filters" hidden>
+              <label class="filter-search">Search<input id="work-search" type="search" placeholder="Product, purpose or address" autocomplete="off"></label>
+              <div class="filter-group"><span class="label">Stage</span><div class="chips vertical">
+${stages.map(([k, st]) => `                ${chip("stage", k, st.plural, all.filter((v) => v.stage === k).length, st.lede)}`).join("\n")}
+              </div></div>
+              <div class="filter-group"><span class="label">Field</span><div class="chips vertical">
+${tags.map((t) => `                ${chip("field", slugify(t), t, all.filter((v) => v.tags.includes(t)).length)}`).join("\n")}
+              </div></div>
+              <label class="filter-sort">Sort by<select id="work-sort"><option value="studio">Studio order</option><option value="name">Name</option><option value="newest">Newest</option></select></label>
+              <button type="button" class="clear" id="clear-filters" hidden>Clear filters</button>
+              <details class="stage-help"><summary>What the stages mean</summary>
+                <dl class="legend">
+${stages.map(([, st]) => `                  <div><dt>${esc(st.plural)}</dt><dd>${esc(st.lede)}</dd></div>`).join("\n")}
+                </dl>
+              </details>
+            </div>
+          </details>
+        </aside>
+        <div class="work-main">
+          <p class="work-count"><span id="work-count">${all.length} of ${all.length}</span> projects</p>
+          <div class="grid work-grid" id="work-grid">
 ${all.map((v) => card(v, true)).join("\n")}
+          </div>
+          <p class="empty" id="work-empty" hidden>Nothing at that intersection yet. <button type="button" class="linkish" data-clear>Clear the filter</button> to see everything.</p>
         </div>
-        <p class="empty" id="work-empty" hidden>Nothing at that intersection yet. <button type="button" class="linkish" data-clear>Clear the filter</button> to see everything.</p>
       </div>
     </section>`;
 }
@@ -376,6 +390,43 @@ const FILTER_SCRIPT = `  <script type="module" src="/work-filter.mjs"></script>`
 // chat — mic, 16px, stop, retry, who is speaking — instead of forms.
 const CHAT_SCRIPT = `  <link rel="stylesheet" href="/chatkit.css">
   <script type="module" src="/chat.js"></script>`;
+
+/**
+ * "The studio is at capacity — build it yourself." The same three products the
+ * studio builds with, offered to the visitor: build with Loki, earn with
+ * OrangeCat, decide with Solon. Shared by the homepage and /hire/, so the
+ * invitation reads the same wherever someone meets the closed door.
+ */
+function buildYourselfBand(all, hire, { heading = true } = {}) {
+  const by = new Map(all.map((v) => [v.slug, v]));
+  const paths = [
+    ["loki", "Build it", "Describe what you want; a fleet of AI agents builds, tests and ships it, and you approve what goes live. The system that built everything on this site."],
+    ["orangecat", "Earn from it", "Sell it and get paid: pay links, services and backing, settled in Bitcoin straight to your wallet. Nobody holds your money but you."],
+    ["solon", "Decide it together", "Run it with others: proposals and one-click votes for a team, a co-op or a community, with a record everyone can see."],
+  ].filter(([slug]) => by.get(slug)?.url);
+  const offers = hire?.offers ?? [];
+  const from = offers[0] ? `${esc(offers[0].name)} ${esc(offers[0].price)}${offers[0].unit ? ` ${esc(offers[0].unit)}` : ""}` : "";
+  return `    <section class="section build-band" id="build-yourself">
+      <div class="wrap">
+        ${heading ? `<div class="section-head">
+          <div class="stack-head"><span class="eyebrow">${esc(hire?.availability?.shortLine ?? "The studio")}</span><h2 class="display-2">Build it yourself — with the same system.</h2></div>
+          <p class="lede">The studio is full, but the tools it builds with are open. Loki, OrangeCat and Solon cover every part of an idea: making it, earning from it, and running it with other people.</p>
+        </div>` : ""}
+        <div class="build-paths">
+${paths.map(([slug, verb, line]) => {
+    const v = by.get(slug);
+    return `          <a class="build-path" href="${esc(v.url)}">
+            <span class="label">${esc(verb)}</span>
+            <span class="build-path-name">${esc(v.name)}</span>
+            <span class="build-path-line">${esc(line)}</span>
+            <span class="build-path-go">Open ${esc(host(v.url))} ${ARROW}</span>
+          </a>`;
+  }).join("\n")}
+        </div>
+        <p class="build-wait">Rather have the studio build it? ${from ? `Engagements start at ${from}; ` : ""}<a class="textlink" href="${HIRE}">see rates</a> and <a class="textlink" href="${HIRE}#waitlist">join the waitlist</a> to hear first when a slot opens.</p>
+      </div>
+    </section>`;
+}
 
 /** Where the chat mounts. Without JavaScript it says so and points onward. */
 function chatMount({ title, starters }) {
@@ -408,13 +459,15 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
       const count = all.filter((v) => v.stage === stage).length;
       return `<a class="stage-link" href="/work/#work?stage=${encodeURIComponent(stage)}"><span class="stage-count">${count}</span><span>${esc(definition.plural)}</span></a>`;
     }).join("\n");
-  const pkgCards = featuredPackages.map((p) => pkgCard(
-    p,
-    cfg.packages?.[p.slug],
-    ventureBySlug,
-    alias,
-    cfg.packageGroups?.find((g) => g.id === cfg.packages?.[p.slug]?.group),
-  )).join("\n");
+  // The portfolio, shown rather than counted: running products and pilots
+  // beyond the three flagships, each with its screenshot.
+  const featuredWork = all
+    .filter((v) => ["product", "pilot"].includes(v.stage) && !flagshipSlugs.includes(v.slug) && v.shot)
+    .slice(0, 6);
+  // Packages are for developers; on a portfolio they are one line, not a section.
+  const pkgLine = featuredPackages
+    .map((p) => `<a class="textlink" href="/packages/${esc(p.slug)}/" data-package="${esc(p.slug)}">${esc(p.slug)}</a>`)
+    .join(", ");
   const stackCards = flagships.map((v) => {
     if (!v.pillar || !v.homeLine) throw new Error(`home flagship ${v.slug} needs a pillar and concise homeLine`);
     return `        <a class="home-stack-item" href="#stack-${esc(v.slug)}" data-stack-project="${esc(v.slug)}">
@@ -446,10 +499,10 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
             <p class="stack-layer-headline">${esc(s.headline)}</p>
             <p class="stack-layer-promise">${esc(s.promise)}</p>
             <ul class="stack-layer-does">
-${s.does.map((d) => `              <li>${esc(d)}</li>`).join("\n")}
+${s.does.slice(0, 3).map((d) => `              <li>${esc(d)}</li>`).join("\n")}
             </ul>
             <p class="stack-layer-connects"><span class="label">In the stack</span> ${esc(s.connects)}</p>
-            <div class="actions">${open}<a class="btn secondary" href="/${esc(v.slug)}/">About ${esc(v.name)}</a></div>
+            <div class="actions">${open}<a class="btn secondary" href="/${esc(v.slug)}/">Everything ${esc(v.name)} does</a></div>
           </div>
           ${v.shot ? `<a class="stack-layer-shot" href="/${esc(v.slug)}/" tabindex="-1" aria-hidden="true"><img src="/shots/${esc(v.slug)}.jpg" alt="" loading="lazy" width="1280" height="800"></a>` : ""}
         </article>`;
@@ -479,10 +532,10 @@ ${s.does.map((d) => `              <li>${esc(d)}</li>`).join("\n")}
           <h1 class="display-1">One trunk. Many products.</h1>
           <p class="home-lede">Tools for agent-led work, economic participation and shared governance.</p>
           <div class="actions" id="join">
-            <a class="btn primary" href="https://loki.orangecat.ch/">Start with Loki ${ARROW}</a>
+            <a class="btn primary" href="https://loki.orangecat.ch/">Build it with Loki ${ARROW}</a>
             <a class="btn secondary" href="${HIRE}#waitlist">Join the waitlist ${ARROW}</a>
           </div>
-          <p class="home-capacity">${esc(hire?.availability?.shortLine ?? hire?.availability?.line ?? "Studio availability is listed on the hire page.")}</p>
+          <p class="home-capacity">${esc(hire?.availability?.shortLine ?? "Studio availability is listed on the hire page.")} <a class="textlink" href="#build-yourself">Build it yourself instead</a> or <a class="textlink" href="${HIRE}">see rates</a>.</p>
         </div>
         <aside class="home-stack" id="stack" aria-label="The Bitbaum stack">
           <div class="home-stack-heading"><span class="label">The stack</span><span>${flagships.length} connected layers</span></div>
@@ -490,8 +543,6 @@ ${stackCards}
         </aside>
       </div>
     </section>
-
-${askSection}
 
     <section class="section stack-section" id="the-stack">
       <div class="wrap">
@@ -503,25 +554,26 @@ ${stackLayers}
       </div>
     </section>
 
-    <section class="section" id="packages">
-      <div class="wrap">
-        <div class="home-section-head">
-          <div><span class="eyebrow quiet">Shared code</span><h2 class="display-2">Packages</h2></div>
-          <a class="textlink" href="/packages/">Explore all ${pkgCount} packages ${ARROW}</a>
-        </div>
-        <p class="home-section-note">Small tools for common jobs; each profile shows its source, version and verified adopters.</p>
-        <div class="grid home-package-grid">${pkgCards}</div>
-      </div>
-    </section>
-
     <section class="section" id="work-preview">
       <div class="wrap">
         <div class="home-section-head">
-          <div><span class="eyebrow quiet">Beyond the stack</span><h2 class="display-2">Other work</h2></div>
-          <a class="textlink" href="/work/">Browse all ${all.length} projects ${ARROW}</a>
+          <div><span class="eyebrow quiet">The work</span><h2 class="display-2">Built here, running now</h2></div>
+          <a class="textlink" href="/work/">All ${all.length} projects ${ARROW}</a>
         </div>
-        <p class="home-section-note">Each project is labelled by its actual stage. Select a stage to explore.</p>
-        <div class="stage-links">${stageLinks}</div>
+        <p class="home-section-note">Products and pilots in real use — each built on the stack above. Every project is labelled by the stage it is really at: <span class="stage-inline">${stageLinks}</span></p>
+        <div class="grid home-work-grid">
+${featuredWork.map((v) => card(v, false)).join("\n")}
+        </div>
+      </div>
+    </section>
+
+${askSection}
+
+${buildYourselfBand(all, hire)}
+
+    <section class="dev-band">
+      <div class="wrap">
+        <p><span class="label">For developers</span> The ${pkgCount} MIT packages behind these products — ${pkgLine} and more. <a class="textlink" href="/packages/">Explore packages ${ARROW}</a></p>
       </div>
     </section>
   </main>`;
@@ -534,10 +586,10 @@ ${stackLayers}
 
 export function workPage(all, cfg) {
   const body = `  <main id="main">
-    <section class="hero compact"><div class="wrap">
-      <span class="eyebrow">Projects and pilots</span>
-      <h1 class="display-1">The work, at its actual stage.</h1>
-      <p class="lede">Running services, real pilots, work in development, concepts, and named projects that are not built are labelled separately. Filter by stage and field; every count and result comes from this catalogue.</p>
+    <section class="hero compact work-hero"><div class="wrap">
+      <span class="eyebrow">The work</span>
+      <h1 class="display-1">Everything built here, at its real stage.</h1>
+      <p class="lede">Products and pilots in use, concepts built to show what is possible, and ideas named but not built — each labelled honestly. Filters live in the address bar, so a filtered view is a link you can send.</p>
     </div></section>
 ${workSection(all, cfg)}
   </main>`;
@@ -546,6 +598,48 @@ ${workSection(all, cfg)}
     description: "Browse Bitbaum projects by readiness stage and field, from running beta products to concepts and projects not yet built.",
     path: "/work/", body, nav: "/work/", script: FILTER_SCRIPT,
   });
+}
+
+/**
+ * The part of a product page that makes it more than a screenshot: the
+ * problem it exists for, what it does about it, where it is heading, what is
+ * being built now — and, for the three flagships, everything they do. All of
+ * it from the product's Loki profile or its editorial stack block, never typed
+ * into this page; an empty field renders nothing rather than a placeholder.
+ */
+function ventureDepth(v) {
+  const id = v.identity ?? {};
+  const blocks = [
+    ["The problem", id.problem],
+    ["What it does", id.solution],
+    ["Where it is heading", id.vision],
+  ].filter(([, t]) => t && String(t).trim());
+  const does = v.stack?.does ?? [];
+  const roadmap = (v.roadmap ?? []).slice(0, 5);
+  if (!blocks.length && !does.length && !roadmap.length) return "";
+  return `    <section class="section venture-depth">
+      <div class="wrap">
+${blocks.length ? `        <div class="depth-blocks">
+${blocks.map(([h, t]) => `          <div class="depth-block"><span class="label">${esc(h)}</span><p>${esc(t)}</p></div>`).join("\n")}
+        </div>` : ""}
+${does.length ? `        <div class="depth-does">
+          <h2 class="display-3">${esc(v.stack.headline ?? `What ${v.name} does`)}</h2>
+          <ul>
+${does.map((d) => `            <li>${esc(d)}</li>`).join("\n")}
+          </ul>
+          ${v.stack.connects ? `<p class="depth-connects"><span class="label">In the stack</span> ${esc(v.stack.connects)}</p>` : ""}
+        </div>` : ""}
+${roadmap.length ? `        <div class="depth-roadmap">
+          <span class="label">Being built now</span>
+          <ul>
+${roadmap.map((r) => {
+    const pct = Number(r.progress);
+    return `            <li><span>${esc(r.title)}</span>${Number.isFinite(pct) && pct > 0 ? `<span class="depth-progress" role="img" aria-label="${Math.round(pct)}% done"><span style="width:${Math.min(100, Math.round(pct))}%"></span></span>` : ""}</li>`;
+  }).join("\n")}
+          </ul>
+        </div>` : ""}
+      </div>
+    </section>`;
 }
 
 /**
@@ -611,6 +705,7 @@ ${facts.map(([k, val]) => `        <div><span class="label">${esc(k)}</span><spa
 ${built}
       </div>
     </section>
+${ventureDepth(v)}
 ${contact ? `    <section class="section" id="ask">
       <div class="wrap">
         <div class="section-head">
@@ -647,9 +742,9 @@ export function studioPage(all, packages, origin, readings) {
     <section class="section">
       <div class="wrap"><div class="prose">
         <h2>What bitbaum is</h2>
-        <p>Bitbaum is a product studio building AI-native software. OrangeCat and Loki are public beta products. Other projects are labelled on the <a href="/work/">work catalogue</a> by what can be verified: pilot, in development, concept, or not built.</p>
+        <p>Bitbaum is a product studio building AI-native software. OrangeCat, Loki and Solon are public beta products. Other projects are labelled on the <a href="/work/">work catalogue</a> by what can be verified: pilot, in development, concept, or not built.</p>
         <h2>Why the stack is what it is</h2>
-        <p><a href="/orangecat/">OrangeCat</a> is the economic product, with payment links and Bitcoin settlement. <a href="/loki/">Loki</a> is the engineering control plane for dispatching work to agents, following sessions and reviewing changes. <a href="/solon/">Solon is still in development</a>; it is not presented as ready for an organisation to depend on.</p>
+        <p><a href="/orangecat/">OrangeCat</a> is the economic product, with payment links and Bitcoin settlement. <a href="/loki/">Loki</a> is the engineering control plane for dispatching work to agents, following sessions and reviewing changes. <a href="/solon/">Solon</a> is the governance product: proposals, one-click votes under rules a group chose, and a public record — in beta, with its governance agent being built alongside the first pilot groups.</p>
         <h2>How the work gets done</h2>
         <p>The studio publishes ${pkgCount} MIT-licensed packages for specific jobs: model routing, email, content, forms, rate limits, lists, threads and more. They are not all used by every product. Each <a href="/packages/">package profile</a> links to its source, current version and apps that list it as a dependency. Agents can do implementation work in Loki; people set the goals, review changes and remain responsible for what ships.</p>
         <h2>What is true</h2>
@@ -728,7 +823,7 @@ export function hirePage(all, cfg, hire, packages, origin) {
         <p class="lede">${esc(hire.lede)}</p>
         <div class="actions">
           <a class="btn primary" href="#waitlist">${esc(hire.availability.cta)} ${ARROW}</a>
-          <a class="btn secondary" href="#shipped">See what is running</a>
+          <a class="btn secondary" href="#build-yourself">Build it yourself now ${ARROW}</a>
         </div>
         <p class="notice">${esc(hire.availability.line)}</p>
         <div class="hero-facts">
@@ -739,6 +834,8 @@ export function hirePage(all, cfg, hire, packages, origin) {
         <p class="caption">Every number here is checkable: the systems are listed below with their addresses, the packages are on npm, and the origin proofs are <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">in a public register</a>.</p>
       </div>
     </section>
+
+${buildYourselfBand(all, hire)}
 
     <section class="section" id="engagements">
       <div class="wrap">

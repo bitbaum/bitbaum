@@ -188,7 +188,10 @@ say(home.includes(`${widget.origin}/widget.js`) && home.includes(`data-fc-projec
 const plainAll = all.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
 say(!/\b(?:10%|10 percent|a tenth)\b[^.]{0,180}(?:revenue|originator|product)/i.test(plainAll), "no unsupported revenue-share promise is published");
 const workPlain = work.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
-say(/Solon/.test(workPlain) && /in development/.test(workPlain) && /Causius/.test(workPlain) && /Skif/.test(workPlain), "development and not-built projects are present in the staged catalogue");
+// Honesty cuts both ways: a project that is not built stays listed as not
+// built. (Solon was pinned here as "in development" until it shipped its beta,
+// 2026-09-25 — solon#184/#188; the stage now comes from overrides.json.)
+say(/Solon/.test(workPlain) && /Not built/.test(workPlain) && /Causius/.test(workPlain) && /Skif/.test(workPlain), "not-built projects are present in the staged catalogue");
 say(!/Built from \d+ shared packages|every product is built from/i.test(home), "homepage does not imply every product uses every package");
 const pkgRepos = packages.map((p) => String(p.repo ?? "").split("/").pop()).filter(Boolean);
 const pkgNotMit = pkgRepos.filter((r) => licences[r] && licences[r] !== "MIT");
