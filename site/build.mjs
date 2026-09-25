@@ -87,6 +87,31 @@ const LOKI_FEEDBACK = JSON.parse(readFileSync(join(here, "loki-feedback.json"), 
 if (!/^https:\/\//.test(LOKI_FEEDBACK.origin) || !/^fcw_[a-f0-9]{32}$/.test(LOKI_FEEDBACK.token)) {
   throw new Error("site/loki-feedback.json must contain an HTTPS Loki origin and public widget token");
 }
+// Every photograph on the site, with who made it and under what licence
+// (site/photos.json). One list, so /credits/ cannot miss an image a page uses:
+// pages take their photos from here. All from Wikimedia Commons under public
+// domain, CC0 or CC BY — the same rule Solon's front door follows.
+const PHOTOS = JSON.parse(readFileSync(join(here, "photos.json"), "utf8"));
+
+/**
+ * A full-screen section: one photograph, one statement, one way forward —
+ * Solon's front door, in this site's markup. The text sits bottom-left where
+ * the scrim is darkest, so it stays readable whatever the photograph does and
+ * whatever theme the reader chose. `under` slides the first section beneath
+ * the header.
+ */
+function fullBleed({ photo, id, position = "center", under = false, strong = false, first = false, body }) {
+  const p = PHOTOS[photo];
+  if (!p) throw new Error(`photo ${photo} is not registered in site/photos.json`);
+  return `    <section class="bleed${under ? " bleed-under" : ""}"${id ? ` id="${esc(id)}"` : ""}>
+      <img class="bleed-img" src="/${esc(p.file)}" alt="${esc(p.alt)}" width="${p.width}" height="${p.height}" style="object-position:${esc(position)}"${first ? ' fetchpriority="high"' : ' loading="lazy"'}>
+      <div class="bleed-scrim${strong ? " strong" : ""}" aria-hidden="true"></div>
+      <div class="wrap bleed-body">
+${body}
+      </div>
+    </section>`;
+}
+
 // Which widget modes this site asks for. Chat is opt-in per embed (Loki's
 // widget/surface-modes.ts) and it is the one the homepage's Ask box opens.
 if (!/^(report|chat|watch)(,(report|chat|watch))*$/.test(LOKI_FEEDBACK.modes ?? "")) {
@@ -125,6 +150,9 @@ export function ventures(map, cfg, origin, packages) {
       pillar: o.pillar ?? null,
       pillarRole: o.pillarRole ?? null,
       stack: o.stack ?? null,
+      // Who built it. Every project so far is the studio's; a partner's work
+      // carries the partner's name, so the portfolio shows who built what.
+      builtBy: o.builtBy ?? "bitbaum studio",
       // What the product is FOR, from its Loki profile (the SSOT, edited where
       // the product is built) — so the page grows as the product does. An
       // editorial override wins where the profile has fallen behind.
@@ -192,11 +220,12 @@ function shell({ title, description, path, body, nav, script, image }) {
   // The header carries four destinations and one action; everything else is
   // in the menu (phones) and the footer. Solon's pattern, which reads well:
   // six links wrapped onto two rows made the phone header 164px tall.
+  // Three destinations and one action, as on Solon. A visitor comes to get
+  // something built; "Start a project" is where every path begins.
   const items = [
     ["/work/", "The work"],
-    ["/studio/", "Studio"],
-    ["/hire/", "Hire"],
-    ["/#join", "Build with us"],
+    ["/partners/", "Partners"],
+    ["/hire/", "Studio"],
   ];
   const cur = (href) => (nav === href ? ' aria-current="page"' : "");
   const themeSwitch = `<div class="theme" role="group" aria-label="Colour theme">
@@ -213,9 +242,9 @@ function shell({ title, description, path, body, nav, script, image }) {
   // One map of the site, rendered twice: as the phone menu and as the footer.
   // Two hand-kept lists drift; this cannot.
   const sections = [
-    ["Explore", [["/work/", "The work"], ["/studio/", "The studio"], [ARTICLES, "Writing ↗"]]],
-    ["Build with us", [["/#join", "How to join"], ["/packages/", "Packages (for developers)"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"], ["/map.json", "map.json"]]],
-    ["Work with the studio", [[HIRE, "Engagements and rates"], [`${HIRE}#waitlist`, "Join the waitlist"]]],
+    ["Explore", [["/work/", "The work"], ["/partners/", "Partners"], ["/studio/", "About bitbaum"], [ARTICLES, "Writing ↗"]]],
+    ["Build with us", [["/partners/#join", "Become a partner"], ["/packages/", "Packages (for developers)"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"]]],
+    ["The studio", [[HIRE, "Engagements and rates"], [`${HIRE}#waitlist`, "Join the waitlist"], ["/credits/", "Photo credits"]]],
   ];
   const sectionLinks = (links) =>
     links.map(([href, t]) => `<a href="${esc(href)}"${cur(href)}${href.startsWith("http") ? ' rel="noopener"' : ""}>${esc(t)}</a>`).join("\n          ");
@@ -273,7 +302,7 @@ function shell({ title, description, path, body, nav, script, image }) {
       <nav class="top-links" aria-label="Site">
 ${items.map(([href, t]) => `        <a href="${href}"${cur(href)}>${t}</a>`).join("\n")}
       </nav>
-      <a class="btn primary top-cta" href="https://loki.orangecat.ch/">Start with Loki ${ARROW}</a>
+      <a class="btn primary top-cta" href="/#start">Start a project ${ARROW}</a>
       <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -299,7 +328,8 @@ ${sections.map(([title, links]) => `        <nav aria-label="${esc(title)}">
   <div class="site-menu" id="site-menu" hidden>
     <div class="wrap">
       <div class="menu-actions">
-        <a class="btn primary" href="/#ask">Ask anything ${ARROW}</a>
+        <a class="btn primary" href="/#start">Start a project ${ARROW}</a>
+        <a class="btn secondary" href="/#ask">Ask anything ${ARROW}</a>
       </div>
 ${sections.map(([title, links]) => `      <nav aria-label="${esc(title)}">
         <h2 class="label">${esc(title)}</h2>
@@ -322,7 +352,10 @@ function card(v, filterable = false) {
   const img = v.shot
     ? `        <div class="shot"><img src="/shots/${esc(v.slug)}.jpg" alt="${esc(v.name)} — screenshot" loading="lazy" width="1280" height="800"></div>\n`
     : "";
-  const sub = v.for ? `<span class="label">for ${esc(v.for)}</span>` : "";
+  // Who built it (and for whom) — the portfolio says who made what. Something
+  // not built has no builder to credit.
+  const credit = [v.stage !== "next" && v.builtBy ? `by ${esc(v.builtBy)}` : "", v.for ? `for ${esc(v.for)}` : ""].filter(Boolean).join(" · ");
+  const sub = credit ? `<span class="card-by">${credit}</span>` : "";
   const meta = filterable ? `data-stage="${esc(v.stage)}" data-tags="${esc(v.tags.map(slugify).join(" "))}" data-name="${esc(v.name)}" data-host="${esc(host(v.url ?? ""))}" data-since="${esc(v.since ?? "")}"` : "";
   return `      <a class="card${v.shot ? "" : " text"}" href="/${esc(v.slug)}/"${meta ? ` ${meta}` : ""}>
 ${img}        <div class="card-body">
@@ -468,46 +501,6 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
   const pkgLine = featuredPackages
     .map((p) => `<a class="textlink" href="/packages/${esc(p.slug)}/" data-package="${esc(p.slug)}">${esc(p.slug)}</a>`)
     .join(", ");
-  const stackCards = flagships.map((v) => {
-    if (!v.pillar || !v.homeLine) throw new Error(`home flagship ${v.slug} needs a pillar and concise homeLine`);
-    return `        <a class="home-stack-item" href="#stack-${esc(v.slug)}" data-stack-project="${esc(v.slug)}">
-          ${v.shot ? `<span class="home-stack-shot"><img src="/shots/${esc(v.slug)}.jpg" alt="" loading="lazy" width="1280" height="800"></span>` : ""}
-          <span class="home-stack-copy">
-            <span class="home-stack-top"><span class="home-stack-layer">${esc(v.pillar)}</span>${pill(v)}</span>
-            <span class="home-stack-name">${esc(v.name)}</span>
-            <span class="home-stack-line">${esc(v.homeLine)}</span>
-          </span>
-          <span class="home-stack-arrow" aria-hidden="true">&rarr;</span>
-        </a>`;
-  }).join("\n");
-  // The hero card names each layer; this section says what it is FOR. One line
-  // each was accurate and undersold all three — a visitor could not tell that
-  // Loki builds every product here, or what OrangeCat changes for a person.
-  // The copy is editorial (overrides.json `stack`) and required, not defaulted:
-  // a flagship with nothing to say fails the build instead of rendering an
-  // empty panel.
-  const stackLayers = flagships.map((v, i) => {
-    const s = v.stack;
-    if (!s?.headline || !s.promise || !s.connects || !(s.does?.length >= 3)) {
-      throw new Error(`home flagship ${v.slug} needs stack.headline, promise, connects and at least three stack.does lines`);
-    }
-    const open = v.url ? `<a class="btn primary" href="${esc(v.url)}">Open ${esc(host(v.url))} ${ARROW}</a>` : "";
-    return `        <article class="stack-layer${i % 2 ? " flip" : ""}" id="stack-${esc(v.slug)}">
-          <div class="stack-layer-copy">
-            <div class="stack-layer-top"><span class="stack-layer-n">0${i + 1}</span><span class="home-stack-layer">${esc(v.pillar)}</span>${pill(v)}</div>
-            <h3 class="stack-layer-name">${esc(v.name)}</h3>
-            <p class="stack-layer-headline">${esc(s.headline)}</p>
-            <p class="stack-layer-promise">${esc(s.promise)}</p>
-            <ul class="stack-layer-does">
-${s.does.slice(0, 3).map((d) => `              <li>${esc(d)}</li>`).join("\n")}
-            </ul>
-            <p class="stack-layer-connects"><span class="label">In the stack</span> ${esc(s.connects)}</p>
-            <div class="actions">${open}<a class="btn secondary" href="/${esc(v.slug)}/">Everything ${esc(v.name)} does</a></div>
-          </div>
-          ${v.shot ? `<a class="stack-layer-shot" href="/${esc(v.slug)}/" tabindex="-1" aria-hidden="true"><img src="/shots/${esc(v.slug)}.jpg" alt="" loading="lazy" width="1280" height="800"></a>` : ""}
-        </article>`;
-  }).join("\n");
-  const stackIntro = home.stack ?? {};
   // The front desk: the site's chat, where the Cat and Loki answer from the
   // public fleet map.
   const ask = home.ask;
@@ -524,52 +517,124 @@ ${s.does.slice(0, 3).map((d) => `              <li>${esc(d)}</li>`).join("\n")}
         ${chatMount({ title: "", starters: ask.starters })}
       </div>
     </section>`;
+  const by = (slug) => ventureBySlug.get(slug);
+  const studioOffer = (hire?.offers ?? [])[0];
+  const studioFrom = studioOffer ? `From ${esc(studioOffer.price)}${studioOffer.unit ? ` ${esc(studioOffer.unit)}` : ""}` : "Published rates";
+  const studioOpen = hire?.availability?.state !== "closed";
+  // "How do you want it built?" — the one decision on the page, cheapest first.
+  // The studio is not a separate world: it is the third answer, honestly
+  // marked when it is full.
+  const paths = [
+    {
+      n: "01", key: "self", title: "Build it yourself",
+      price: "Free to start", when: "Start now", open: true,
+      body: "Describe what you want. A fleet of AI agents builds it and you approve what ships — then sell it with OrangeCat and run it with others in Solon.",
+      cta: "Start with Loki", href: by("loki")?.url ?? "https://loki.orangecat.ch/",
+    },
+    {
+      n: "02", key: "partner", title: "Hire a partner",
+      price: "Less than the studio", when: "Partners are joining", open: false,
+      body: "Approved builders who work with the same tools, show their work here, and set their own prices. You hire them directly.",
+      cta: "Meet the partners", href: "/partners/",
+    },
+    {
+      n: "03", key: "studio", title: "The bitbaum studio",
+      price: studioFrom, when: studioOpen ? "Taking projects" : "Fully booked", open: studioOpen,
+      body: "Bespoke, production-grade work: built, run and handed over so a normal team can keep it going.",
+      cta: studioOpen ? "Talk to the studio" : "Join the waitlist", href: `${HIRE}#waitlist`,
+    },
+  ];
+  const pathCards = paths.map((pth) => `          <a class="path" href="${esc(pth.href)}" data-path="${pth.key}">
+            <span class="path-n">${pth.n}</span>
+            <span class="path-title">${esc(pth.title)}</span>
+            <span class="path-meta"><span class="path-price">${esc(pth.price)}</span><span class="path-when${pth.open ? " open" : ""}">${esc(pth.when)}</span></span>
+            <span class="path-body">${esc(pth.body)}</span>
+            <span class="path-cta">${esc(pth.cta)} ${ARROW}</span>
+          </a>`).join("\n");
+  const tools = flagships.map((v) => {
+    if (!v.pillar || !v.homeLine) throw new Error(`home flagship ${v.slug} needs a pillar and concise homeLine`);
+    return `          <a class="tool" href="/${esc(v.slug)}/" data-stack-project="${esc(v.slug)}">
+            ${v.shot ? `<span class="tool-shot"><img src="/shots/${esc(v.slug)}.jpg" alt="" loading="lazy" width="1280" height="800"></span>` : ""}
+            <span class="tool-copy"><span class="label">${esc(v.pillar)}</span>${pill(v)}</span>
+            <span class="tool-name">${esc(v.name)}</span>
+            <span class="tool-line">${esc(v.homeLine)}</span>
+          </a>`;
+  }).join("\n");
   const body = `  <main id="main" class="home-page">
-    <section class="hero home-hero">
-      <div class="wrap">
-        <div class="home-intro">
-          <span class="eyebrow">AI-native product studio &middot; Zürich</span>
-          <h1 class="display-1">One trunk. Many products.</h1>
-          <p class="home-lede">Tools for agent-led work, economic participation and shared governance.</p>
-          <div class="actions" id="join">
-            <a class="btn primary" href="https://loki.orangecat.ch/">Build it with Loki ${ARROW}</a>
-            <a class="btn secondary" href="${HIRE}#waitlist">Join the waitlist ${ARROW}</a>
+${fullBleed({ photo: "tree", under: true, first: true, strong: true, position: "center 42%", body: `        <div class="bleed-copy rise">
+          <span class="kicker">AI-native product studio &middot; Zürich</span>
+          <h1 class="headline-caps">One trunk.<br>Many products.</h1>
+          <p class="bleed-lede">We build software products — and the tools that let anyone build their own.</p>
+          <div class="bleed-actions">
+            <a class="btn-frame-accent" href="#start">Start a project ${ARROW}</a>
+            <a class="btn-frame" href="/work/">See the work</a>
           </div>
-          <p class="home-capacity">${esc(hire?.availability?.shortLine ?? "Studio availability is listed on the hire page.")} <a class="textlink" href="#build-yourself">Build it yourself instead</a> or <a class="textlink" href="${HIRE}">see rates</a>.</p>
+        </div>` })}
+
+    <section class="section paths-section" id="start">
+      <div class="wrap">
+        <span class="kicker quiet">Start a project</span>
+        <h2 class="headline-caps section-title">How do you want it built?</h2>
+        <div class="paths">
+${pathCards}
         </div>
-        <aside class="home-stack" id="stack" aria-label="The Bitbaum stack">
-          <div class="home-stack-heading"><span class="label">The stack</span><span>${flagships.length} connected layers</span></div>
-${stackCards}
-        </aside>
       </div>
     </section>
 
-    <section class="section stack-section" id="the-stack">
+${fullBleed({ photo: "hands", id: "build-yourself", position: "center 55%", body: `        <div class="bleed-copy">
+          <span class="kicker">Build it yourself</span>
+          <h2 class="headline-caps">Make it yourself.<br>Today.</h2>
+          <p class="bleed-lede">The studio is full; its tools are not. The same three products it builds with are open to you — make it, earn from it, run it with other people.</p>
+          <div class="bleed-actions">
+            <a class="btn-frame-accent" href="${esc(by("loki")?.url ?? "https://loki.orangecat.ch/")}">Start with Loki ${ARROW}</a>
+            <a class="btn-frame" href="#tools">How the tools fit</a>
+          </div>
+        </div>` })}
+
+    <section class="section tools-section" id="tools">
       <div class="wrap">
-        <div class="section-head">
-          <div class="stack-head"><span class="eyebrow">${esc(stackIntro.eyebrow ?? "The stack")}</span><h2 class="display-2">${esc(stackIntro.headline ?? "")}</h2></div>
-          ${stackIntro.lede ? `<p class="lede">${esc(stackIntro.lede)}</p>` : ""}
+        <span class="kicker quiet">The tools</span>
+        <h2 class="headline-caps section-title">Build. Earn. Decide.</h2>
+        <div class="tools">
+${tools}
         </div>
-${stackLayers}
       </div>
     </section>
 
     <section class="section" id="work-preview">
       <div class="wrap">
         <div class="home-section-head">
-          <div><span class="eyebrow quiet">The work</span><h2 class="display-2">Built here, running now</h2></div>
+          <div><span class="kicker quiet">The work</span><h2 class="headline-caps section-title">Built here, running now</h2></div>
           <a class="textlink" href="/work/">All ${all.length} projects ${ARROW}</a>
         </div>
-        <p class="home-section-note">Products and pilots in real use — each built on the stack above. Every project is labelled by the stage it is really at: <span class="stage-inline">${stageLinks}</span></p>
         <div class="grid home-work-grid">
 ${featuredWork.map((v) => card(v, false)).join("\n")}
         </div>
+        <p class="home-section-note">Every project is labelled by the stage it is really at: <span class="stage-inline">${stageLinks}</span></p>
       </div>
     </section>
 
-${askSection}
+${fullBleed({ photo: "zurich", id: "studio", position: "center 60%", body: `        <div class="bleed-copy">
+          <span class="kicker">The studio &middot; ${esc(studioOpen ? "Taking projects" : "Fully booked")}</span>
+          <h2 class="headline-caps">Built for you.<br>Built to last.</h2>
+          <p class="bleed-lede">${esc(hire?.lede ?? "")} ${esc(studioFrom)}.</p>
+          <div class="bleed-actions">
+            <a class="btn-frame-accent" href="${HIRE}#waitlist">${esc(studioOpen ? "Talk to the studio" : "Join the waitlist")} ${ARROW}</a>
+            <a class="btn-frame" href="${HIRE}">Rates and how it works</a>
+          </div>
+        </div>` })}
 
-${buildYourselfBand(all, hire)}
+${fullBleed({ photo: "barn", id: "join", strong: true, position: "center 55%", body: `        <div class="bleed-copy">
+          <span class="kicker">Partners</span>
+          <h2 class="headline-caps">Build here.</h2>
+          <p class="bleed-lede">Approved builders take the work the studio cannot — with the same tools, under their own name, at their own price. The customer hires them directly.</p>
+          <div class="bleed-actions">
+            <a class="btn-frame-accent" href="/partners/#join">Become a partner ${ARROW}</a>
+            <a class="btn-frame" href="/partners/">Meet the partners</a>
+          </div>
+        </div>` })}
+
+${askSection}
 
     <section class="dev-band">
       <div class="wrap">
@@ -582,6 +647,101 @@ ${buildYourselfBand(all, hire)}
     description: "An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.",
     path: "/", body, nav: "/", script: CHAT_SCRIPT,
   });
+}
+
+// ── partners ────────────────────────────────────────────────────────────────
+//
+// The second answer to "how do you want it built?": approved builders who use
+// the same tools, under their own name and price. site/partners.json is the
+// list you approve — it is empty until the first real partner is approved, and
+// the page says so rather than showing anyone who is not real.
+const PARTNERS = JSON.parse(readFileSync(join(here, "partners.json"), "utf8"));
+
+function partnerCard(pt) {
+  const open = pt.availability === "available";
+  return `          <article class="partner">
+            <div class="partner-top"><span class="partner-name">${esc(pt.name)}</span><span class="path-when${open ? " open" : ""}">${esc(open ? "Available" : pt.availability === "limited" ? "Limited" : `Fully booked${pt.nextOpening ? ` · opens ${pt.nextOpening}` : ""}`)}</span></div>
+            <span class="partner-line">${esc(pt.headline ?? "")}</span>
+            ${pt.rate ? `<span class="path-price">${esc(pt.rate)}</span>` : ""}
+            <div class="bleed-actions"><a class="btn primary" href="${esc(pt.url)}">${esc(open ? `Ask ${pt.name}` : "Join the waitlist")} ${ARROW}</a></div>
+          </article>`;
+}
+
+export function partnersPage() {
+  const steps = [
+    ["Apply", "Tell us what you build and show work you have shipped — in the chat below, in your own words."],
+    ["Get approved", "The studio looks at your work. Approved partners are listed here with their projects, rates and availability."],
+    ["Take the work", "Customers hire you directly and pay you directly. You build with Loki, OrangeCat and Solon — the same tools the studio uses. The studio takes no cut."],
+  ];
+  const body = `  <main id="main">
+${fullBleed({ photo: "barn", under: true, first: true, strong: true, position: "center 55%", body: `        <div class="bleed-copy rise">
+          <span class="kicker">Partners</span>
+          <h1 class="headline-caps">Build here.</h1>
+          <p class="bleed-lede">The studio is full. Approved partner builders take the work it cannot — with the same tools, under their own name, at their own price.</p>
+          <div class="bleed-actions">
+            <a class="btn-frame-accent" href="#join">Become a partner ${ARROW}</a>
+            <a class="btn-frame" href="#partners">Find a partner</a>
+          </div>
+        </div>` })}
+
+    <section class="section" id="partners">
+      <div class="wrap">
+        <span class="kicker quiet">Partners</span>
+        <h2 class="headline-caps section-title">${PARTNERS.length ? "Hire a partner" : "The first partners are joining"}</h2>
+${PARTNERS.length
+    ? `        <div class="partners">\n${PARTNERS.map(partnerCard).join("\n")}\n        </div>`
+    : `        <p class="lede">No partner is listed yet — every one is approved by hand, and none has been approved. Until then you can build it yourself today, or join the studio's waitlist.</p>
+        <div class="bleed-actions quiet-actions">
+          <a class="btn primary" href="https://loki.orangecat.ch/">Build it yourself ${ARROW}</a>
+          <a class="btn secondary" href="${HIRE}#waitlist">Join the studio's waitlist</a>
+        </div>`}
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="wrap">
+        <span class="kicker quiet">How partnering works</span>
+        <h2 class="headline-caps section-title">Three steps.</h2>
+        <ol class="steps">
+${steps.map(([t, b], i) => `          <li><span class="path-n">0${i + 1}</span><span class="step-title">${esc(t)}</span><p>${esc(b)}</p></li>`).join("\n")}
+        </ol>
+        <p class="caption">Partners are independent. A customer contracts with the partner, not with bitbaum.</p>
+      </div>
+    </section>
+
+    <section class="section ask-section" id="join">
+      <div class="wrap ask">
+        <div class="ask-copy">
+          <span class="kicker quiet">Become a partner</span>
+          <h2 class="headline-caps section-title">Show us what you build.</h2>
+          <p class="lede">Tell the chat who you are, what you build and where your work lives. When you are ready, send it to the studio — one email field, no form.</p>
+        </div>
+        ${chatMount({ title: "", starters: ["I want to become a partner builder", "What do partners need to show?", "How do partners get paid?"] })}
+      </div>
+    </section>
+  </main>`;
+  return shell({
+    title: "Partners — bitbaum",
+    description: "Hire an approved partner builder who works with bitbaum's tools, or apply to become one.",
+    path: "/partners/", body, nav: "/partners/", script: CHAT_SCRIPT,
+  });
+}
+
+// ── credits ─────────────────────────────────────────────────────────────────
+export function creditsPage() {
+  const body = `  <main id="main">
+    <section class="hero compact"><div class="wrap">
+      <span class="kicker quiet">Credits</span>
+      <h1 class="headline-caps section-title">Photographs</h1>
+      <p class="lede">Every photograph on this site, with who made it and under what licence. All from Wikimedia Commons. Product screenshots are taken by a machine each time the site is built.</p>
+    </div></section>
+    <section class="section"><div class="wrap">
+      <ul class="credits">
+${Object.values(PHOTOS).map((ph) => `        <li><img src="/${esc(ph.file)}" alt="" loading="lazy" width="${ph.width}" height="${ph.height}"><div><strong>${esc(ph.title)}</strong><span>${esc(ph.author || "Unknown photographer")} · ${ph.licenseUrl ? `<a href="${esc(ph.licenseUrl)}">${esc(ph.license)}</a>` : esc(ph.license)} · <a href="${esc(ph.source)}">Source</a></span></div></li>`).join("\n")}
+      </ul>
+    </div></section>
+  </main>`;
+  return shell({ title: "Credits — bitbaum", description: "Photographs used on bitbaum.orangecat.ch, with authors and licences.", path: "/credits/", body });
 }
 
 export function workPage(all, cfg) {
@@ -816,16 +976,19 @@ export function hirePage(all, cfg, hire, packages, origin) {
   const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
   const pkgCount = (packages.packages ?? []).length;
   const body = `  <main id="main">
-    <section class="hero compact">
+${fullBleed({ photo: "zurich", under: true, first: true, position: "center 60%", body: `        <div class="bleed-copy rise">
+          <span class="kicker">${esc(hire.eyebrow)}</span>
+          <h1 class="headline-caps long">${esc(hire.title)}</h1>
+          <p class="bleed-lede">${esc(hire.lede)}</p>
+          <p class="bleed-notice">${esc(hire.availability.line)}</p>
+          <div class="bleed-actions">
+            <a class="btn-frame-accent" href="#waitlist">${esc(hire.availability.cta)} ${ARROW}</a>
+            <a class="btn-frame" href="#build-yourself">Build it yourself now</a>
+          </div>
+        </div>` })}
+
+    <section class="section studio-facts">
       <div class="wrap">
-        <span class="eyebrow">${esc(hire.eyebrow)}</span>
-        <h1 class="display-1">${esc(hire.title)}</h1>
-        <p class="lede">${esc(hire.lede)}</p>
-        <div class="actions">
-          <a class="btn primary" href="#waitlist">${esc(hire.availability.cta)} ${ARROW}</a>
-          <a class="btn secondary" href="#build-yourself">Build it yourself now ${ARROW}</a>
-        </div>
-        <p class="notice">${esc(hire.availability.line)}</p>
         <div class="hero-facts">
           <a href="#shipped"><b>${running.length}</b> systems built and running</a>
           <a href="/packages/"><b>${pkgCount}</b> packages published open source</a>
@@ -940,6 +1103,8 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   const files = new Map();
   files.set("index.html", homePage(all, packages, cfg, origin, readings, hire));
   files.set("work/index.html", workPage(all, cfg));
+  files.set("partners/index.html", partnersPage());
+  files.set("credits/index.html", creditsPage());
   files.set("packages/index.html", packagesPage(packages, cfg, all));
   files.set("packages-filter.mjs", readFileSync(join(here, "packages-filter.mjs"), "utf8"));
   files.set("work-filter.mjs", readFileSync(join(here, "work-filter.mjs"), "utf8"));
@@ -1036,9 +1201,10 @@ if (isMain) {
     }
     // Pages for ventures that no longer exist must not linger.
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
-      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "studio", "hire", "og", "vendor"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
+      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "studio", "hire", "og", "vendor", "photos", "partners", "credits"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
     cpSync(join(here, "styles.css"), join(DIST, "styles.css"));
+    cpSync(join(here, "photos"), join(DIST, "photos"), { recursive: true });
     // Same rule, fewer generations — a favicon that cannot drift from the logo.
     writeFileSync(join(DIST, "logo-mark.svg"), MARK_FAVICON() + "\n");
     cpSync(join(here, "fonts"), join(DIST, "fonts"), { recursive: true });

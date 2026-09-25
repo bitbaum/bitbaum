@@ -1,0 +1,46 @@
+{
+  "tree": {
+    "file": "photos/tree.jpg",
+    "title": "A winter oak seen from above (“Дуб зима”)",
+    "author": "Sage Ekchard",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:%D0%94%D1%83%D0%B1_%D0%B7%D0%B8%D0%BC%D0%B0.jpg",
+    "width": 2400,
+    "height": 1800,
+    "alt": "A single oak seen from directly above in winter: one trunk, its branches spreading out in every direction across the snow."
+  },
+  "hands": {
+    "file": "photos/hands.jpg",
+    "title": "Woodworker in a workshop (Unsplash)",
+    "author": "Ian Schneider",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Woodworker_in_a_workshop_(Unsplash).jpg",
+    "width": 2400,
+    "height": 1602,
+    "alt": "Hands smoothing a plank of dark wood at a workbench in a workshop."
+  },
+  "zurich": {
+    "file": "photos/zurich.jpg",
+    "title": "The Zurich skyline",
+    "author": "sdh_zh",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:The_Zurich_skyline.jpg",
+    "width": 2400,
+    "height": 1548,
+    "alt": "Zürich at night: the Limmat river, the Fraumünster and Grossmünster lit up along the water."
+  },
+  "barn": {
+    "file": "photos/barn.jpg",
+    "title": "People at a barn raising",
+    "author": "Unknown photographer",
+    "license": "Public domain",
+    "licenseUrl": null,
+    "source": "https://commons.wikimedia.org/wiki/File:People_at_a_barn_raising_(I0014059).jpg",
+    "width": 2400,
+    "height": 1815,
+    "alt": "A historic photograph of a whole community gathered at a barn raising."
+  }
+}
