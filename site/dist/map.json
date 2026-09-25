@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T14:30:08.176Z",
+  "generatedAt": "2026-09-25T15:14:08.922Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -19,8 +19,8 @@
     }
   ],
   "summary": {
-    "projects": 37,
-    "live": 15,
+    "projects": 33,
+    "live": 16,
     "clients": 5,
     "inFlight": 0
   },
@@ -427,11 +427,11 @@
       "what": null,
       "stack": null,
       "layer": "next",
-      "status": "not live",
+      "status": "live",
       "owner": "bitbaum",
       "since": null,
       "urls": {
-        "live": null,
+        "live": "https://bitbaum.orangecat.ch",
         "repo": "https://github.com/bitbaum/bitbaum",
         "orangecat": "https://orangecat.ch/projects/7a41a97f-e8d1-4565-a11b-4350ddb3a58b",
         "solon": null
@@ -510,72 +510,6 @@
       }
     },
     {
-      "slug": "dogfood-bridge-test-2026-09-06b",
-      "name": "Dogfood Bridge Test 2026-09-06b",
-      "what": "A short live retest project for the wizard persistence fix.",
-      "stack": null,
-      "layer": "next",
-      "status": "not live",
-      "owner": "bitbaum",
-      "since": null,
-      "urls": {
-        "live": null,
-        "repo": null,
-        "orangecat": "https://orangecat.ch/projects/7ad598b9-0a24-4e62-8e1b-d3338b90d811",
-        "solon": null
-      },
-      "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
-        "vision": null
-      }
-    },
-    {
-      "slug": "factory-sep11-0040",
-      "name": "Factory",
-      "what": null,
-      "stack": null,
-      "layer": "next",
-      "status": "not live",
-      "owner": "bitbaum",
-      "since": null,
-      "urls": {
-        "live": null,
-        "repo": "https://github.com/bitbaum/factory-sep11-0040",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
-        "vision": null
-      }
-    },
-    {
-      "slug": "factory-sep11-0110",
-      "name": "Factory Two",
-      "what": null,
-      "stack": null,
-      "layer": "next",
-      "status": "not live",
-      "owner": "bitbaum",
-      "since": null,
-      "urls": {
-        "live": null,
-        "repo": "https://github.com/bitbaum/factory-sep11-0110",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
-        "vision": null
-      }
-    },
-    {
       "slug": "ivy-portal",
       "name": "ivy-portal",
       "what": "Personal AI assistant dashboard — finances, memory, links",
@@ -617,28 +551,6 @@
         "solution": "Shape those tasks like repos. Loki already dispatches, verifies, and records runs against repos, so a repo-shaped workload inherits all of that for free.",
         "mission": "Make personal, non-code workloads repo-shaped so the existing Loki ⇄ OpenClaw ⇄ runtime stack can execute them, instead of building a second execution system for life admin.",
         "vision": "Every recurring personal task George does by hand becomes a workload that runs unattended, verifies its own effect, and leaves a run record — the same way code work already does."
-      }
-    },
-    {
-      "slug": "one-shot-slop-the-one-shot-slop-machine",
-      "name": "one-shot.slop — The One-Shot Slop Machine",
-      "what": "This project builds an interactive web experience that limits each generation to a single AI prompt. The interface displays deliberately low-quality, almost-good AI output, assigns a Slop Score™, and offers an endless remix feed together with a curated museum of the most interesting results. The design is polished and the content intentionally absurd, aiming to provide a playful environment for users who enjoy experimenting with AI-generated media.",
-      "stack": null,
-      "layer": "next",
-      "status": "not live",
-      "owner": "bitbaum",
-      "since": null,
-      "urls": {
-        "live": null,
-        "repo": "https://github.com/bitbaum/one-shot.slop-the-one-shot-slop-machine",
-        "orangecat": "https://orangecat.ch/projects/f4e4f4ea-a6e5-4c0c-9165-9bf5fa453186",
-        "solon": null
-      },
-      "identity": {
-        "problem": "Users want a playful, low-stakes way to experiment with AI media without the pressure of high-quality expectations.",
-        "solution": "Limits generation to a single prompt, assigns a Slop Score™, and provides an endless remix feed and curated museum for absurd results.",
-        "mission": "To provide a playful environment for users who enjoy experimenting with AI-generated media by embracing and celebrating intentionally absurd, low-quality outputs.",
-        "vision": "A polished, endless platform for AI experimentation where users remix and curate the most interesting 'slop' results in a dedicated museum."
       }
     },
     {
