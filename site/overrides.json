@@ -320,6 +320,14 @@
       "order": 2,
       "shot": false,
       "story": "Named, not built."
+    },
+    "skif": {
+      "name": "Skif",
+      "what": "Safety for a whole life, Zürich first",
+      "stage": "development",
+      "tags": [],
+      "order": 3,
+      "story": "Looks at the whole of a life: you, the people you love, your home, your accounts, your privacy and your good name. It suggests the most proportionate step. Sometimes that is a calm, qualified person beside you, often a small change, sometimes nothing at all."
     }
   },
   "extras": [
@@ -336,16 +344,6 @@
       "for": "Annushka, Zürich",
       "story": "Works, events and a way to book a sitting for a painter from Ukraine in Zürich. Built and hosted as a favour.",
       "_why": "static site plus a dead :4030 api; does not fit an apps.conf row"
-    },
-    {
-      "slug": "skif",
-      "name": "Skif",
-      "what": "Named. Not written down.",
-      "stage": "next",
-      "tags": [],
-      "order": 3,
-      "shot": false,
-      "story": "Named, not built."
     }
   ],
   "packages_lede": "Shared tools for different product needs. Each package page explains what it does, how it works, where to get it, and which apps list it as a dependency. Some are new and have no adopters yet.",
