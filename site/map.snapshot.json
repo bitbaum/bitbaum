@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-24T21:11:14.552Z",
+  "generatedAt": "2026-09-25T05:49:26.894Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 37,
     "live": 15,
     "clients": 5,
-    "inFlight": 1
+    "inFlight": 0
   },
   "projects": [
     {
@@ -404,6 +404,14 @@
       ],
       "changelog": [
         {
+          "date": "2026-09-25",
+          "done": "Escalation rung diagnosed non-transient; Rule 0 — re-surfaced provider-capacity blocker; no task picked (clean tree, tsc/lint green, only T2s)."
+        },
+        {
+          "date": "2026-09-25",
+          "done": "e2e ok — no changes"
+        },
+        {
           "date": "2026-09-24",
           "done": "Rule 0 — surfaced pending provider-capacity blocker; did not pick a task (clean tree, tsc/lint green, only T2s in roadmap)."
         },
@@ -474,26 +482,18 @@
         {
           "date": "2026-09-20",
           "done": "Shipped PR #800 for the first bullet of #584 — expired dates reaching every dispatch as \"near-term commitments\"; committed bfd8b6e5, pre-push verify green, PR open and non-draft."
-        },
-        {
-          "date": "2026-09-20",
-          "done": "Fixed the first bullet of #584 — expired dates reaching every dispatch as \"near-term commitments\" (PR #800): overdue rows now render \"was due <date> (OVERDUE)\" / \"target <date> (PAST, not met)\", listUpcomingCommitments orders by distance from today instead of due_date ASC (ascending over an unfloored set let the two most-expired rows take the whole LIMIT 8), isOverdue added to lib/dates.ts comparing printed dates so the word cannot disagree with the date beside it, and lib/agent/brief.ts now states its real predicate and labels its own overdue rows."
-        },
-        {
-          "date": "2026-09-18",
-          "done": "e2e ok — no changes"
         }
       ],
       "next": null,
       "now": {
-        "openRuns": 1,
+        "openRuns": 0,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-09-24T19:44:12.489Z"
+          "outcome": "error",
+          "at": "2026-09-25T01:40:57.482Z"
         },
         "lastLog": {
-          "date": "2026-09-24",
-          "done": "Rule 0 — surfaced pending provider-capacity blocker; did not pick a task (clean tree, tsc/lint green, only T2s in roadmap)."
+          "date": "2026-09-25",
+          "done": "Escalation rung diagnosed non-transient; Rule 0 — re-surfaced provider-capacity blocker; no task picked (clean tree, tsc/lint green, only T2s)."
         }
       }
     },
@@ -682,6 +682,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-09-25",
+          "done": "Restored the four dependency bumps (next 16.3.5, react-dom/@types/react-dom 19.3.0, prettier 3.9.8, vitest 5.0.1) that closing #177-#180 had made Dependabot skip, and grouped minor/patch npm bumps plus dropped the nonexistent labels so it cannot recur — PR #185, CI verify+integration green, awaiting the repo's auto-merge workflow."
+        },
+        {
           "date": "2026-09-21",
           "done": "Committed a root .nvmrc reading 24 and pointed both CI jobs at it via node-version-file, so verify, integration and the shared deploy now resolve the same Node major from one declaration — merged as PR #174, CI green, Deploy green, deploy log confirms \"Node version from .nvmrc: 24\", solon.orangecat.ch 200."
         },
@@ -710,12 +714,12 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-09-23T04:01:53.191Z"
+          "outcome": "partial",
+          "at": "2026-09-25T04:05:32.230Z"
         },
         "lastLog": {
-          "date": "2026-09-21",
-          "done": "Committed a root .nvmrc reading 24 and pointed both CI jobs at it via node-version-file, so verify, integration and the shared deploy now resolve the same Node major from one declaration — merged as PR #174, CI green, Deploy green, deploy log confirms \"Node version from .nvmrc: 24\", solon.orangecat.ch 200."
+          "date": "2026-09-25",
+          "done": "Restored the four dependency bumps (next 16.3.5, react-dom/@types/react-dom 19.3.0, prettier 3.9.8, vitest 5.0.1) that closing #177-#180 had made Dependabot skip, and grouped minor/patch npm bumps plus dropped the nonexistent labels so it cannot recur — PR #185, CI verify+integration green, awaiting the repo's auto-merge workflow."
         }
       }
     },
@@ -1308,6 +1312,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-09-25",
+          "done": "Closed the last two open Dependabot alerts (esbuild #1 medium, #5 low) with two scoped esbuild floors in pnpm-workspace.yaml (0.18.20→0.25.12, 0.27.7→0.28.2); verify + build + drizzle-kit generate green locally, PR #78 CI \"Verify & Build\" pass, left for the scheduled Auto-merge workflow (gh auto-merge unavailable: no branch protection rules)."
+        },
+        {
           "date": "2026-09-24",
           "done": "Closed the four open vitest/vite Dependabot alerts (incl. one high on vite): vitest+coverage to ^4.1.11 and vite declared as a devDependency (pnpm overrides don't reach auto-installed peers) resolving to 8.3.0, config moved to vitest.config.mts; PR #77 merged as 76389b9, Deploy green, prod 200."
         },
@@ -1382,22 +1390,18 @@
         {
           "date": "2026-09-03",
           "done": "Backward self-throttle (loop protection) fired instead of Pick — this is the 3rd+ consecutive autopilot cycle re-surfacing the identical openai-api-key-missing.md blocker with no human response between turns (prior cycles: 2026-09-02T03:03, 2026-09-03T13:36, now). Re-catting it again would be a low-value loop burning tokens with zero new information. Confirmed nothing changed (still bd7bc35, clean tree, blocker still pending, pnpm verify still fully green) and stopped without picking a task."
-        },
-        {
-          "date": "2026-09-03",
-          "done": "5th+ dispatch, unchanged root cause — appcron-surf-your-life-embed-backfill.service 503 is still the intentional fail-closed response (PR #33) because OPENAI_API_KEY remains unset on bitbaum. Confirmed route.ts and embeddings.ts have no new commits since I last checked (still bd7bc35, working tree clean), re-ran pnpm verify fully green (lint/tsc/627 tests), and confirmed the blocker file (already corrected for PR #49's ANTHROPIC_API_KEY removal two cycles ago) is still accurate and still pending. No repo changes made."
         }
       ],
-      "next": null,
+      "next": "PR #78 open and green, awaiting the scheduled Auto-merge workflow; then Deploy. Separately flagged in PR: drizzle/meta has snapshots only to 0002 so `pnpm db:generate` emits a bogus catch-up migration — needs a human decision before rebasing the snapshot.",
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-09-24T04:00:43.924Z"
+          "outcome": "partial",
+          "at": "2026-09-25T04:06:35.490Z"
         },
         "lastLog": {
-          "date": "2026-09-24",
-          "done": "Closed the four open vitest/vite Dependabot alerts (incl. one high on vite): vitest+coverage to ^4.1.11 and vite declared as a devDependency (pnpm overrides don't reach auto-installed peers) resolving to 8.3.0, config moved to vitest.config.mts; PR #77 merged as 76389b9, Deploy green, prod 200."
+          "date": "2026-09-25",
+          "done": "Closed the last two open Dependabot alerts (esbuild #1 medium, #5 low) with two scoped esbuild floors in pnpm-workspace.yaml (0.18.20→0.25.12, 0.27.7→0.28.2); verify + build + drizzle-kit generate green locally, PR #78 CI \"Verify & Build\" pass, left for the scheduled Auto-merge workflow (gh auto-merge unavailable: no branch protection rules)."
         }
       }
     },
@@ -1626,6 +1630,10 @@
       "roadmap": [],
       "changelog": [
         {
+          "date": "2026-09-25",
+          "done": "Rule 0 fired, so no task was picked: re-surfaced the pending blocker 2026-09-21-prod-shop-directory-empty.md (re-checked 2026-09-25: https://reparaturbonus.orangecat.ch/api/shops still returns []), and `pnpm run verify` on origin/main 15d0fcf is green (prettier clean, eslint clean, tsc clean, vitest 40/40)."
+        },
+        {
           "date": "2026-09-21",
           "done": "Cleared the run blocker (a leftover pre-Drizzle src/generated/prisma/ tree that made `pnpm run verify` fail on prettier locally while CI stayed green — the likely cause of the last two timeouts), then made src/lib/uploads.ts the single source for the residence-proof upload contract so /verify no longer tells shop staff \"MAX. 5MB\" while the route accepts 10 MB, with the page's hint, `accept`, the route's rejection messages and a new client-side pre-check all derived from it; merged as 60a6920 (PR #154), Deploy green, verified live on reparaturbonus.orangecat.ch."
         },
@@ -1650,12 +1658,12 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-09-23T04:01:17.202Z"
+          "outcome": "partial",
+          "at": "2026-09-25T04:01:22.890Z"
         },
         "lastLog": {
-          "date": "2026-09-21",
-          "done": "Cleared the run blocker (a leftover pre-Drizzle src/generated/prisma/ tree that made `pnpm run verify` fail on prettier locally while CI stayed green — the likely cause of the last two timeouts), then made src/lib/uploads.ts the single source for the residence-proof upload contract so /verify no longer tells shop staff \"MAX. 5MB\" while the route accepts 10 MB, with the page's hint, `accept`, the route's rejection messages and a new client-side pre-check all derived from it; merged as 60a6920 (PR #154), Deploy green, verified live on reparaturbonus.orangecat.ch."
+          "date": "2026-09-25",
+          "done": "Rule 0 fired, so no task was picked: re-surfaced the pending blocker 2026-09-21-prod-shop-directory-empty.md (re-checked 2026-09-25: https://reparaturbonus.orangecat.ch/api/shops still returns []), and `pnpm run verify` on origin/main 15d0fcf is green (prettier clean, eslint clean, tsc clean, vitest 40/40)."
         }
       }
     },
@@ -2670,6 +2678,10 @@
       "changelog": [
         {
           "date": "2026-09-24",
+          "done": "Fixed the false Swiss data-location claim (PR #3), wrote docs/GAP.md against docs/SPEC.md (PR #4), and closed every P0 and P1 gap in 14 merged PRs (#5–#10, #12–#18), each with tests and a local Playwright run."
+        },
+        {
+          "date": "2026-09-24",
           "done": "Shipped Skif v1 (PR #2, squash-merged as e402384): OIDC sign-in with no users table, safety preferences, booking, ops ranking with reasons and assignment, protector accept/start/complete with reports and incidents, respect/discretion/safety rating, ops lifecycle view and a Safety Plan that can say \"nothing to buy\". Verified by pnpm verify, a PGlite lifecycle test and a local Playwright run."
         }
       ],
@@ -2678,11 +2690,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "partial",
-          "at": "2026-09-24T20:41:19.778Z"
+          "at": "2026-09-24T22:29:20.603Z"
         },
         "lastLog": {
           "date": "2026-09-24",
-          "done": "Shipped Skif v1 (PR #2, squash-merged as e402384): OIDC sign-in with no users table, safety preferences, booking, ops ranking with reasons and assignment, protector accept/start/complete with reports and incidents, respect/discretion/safety rating, ops lifecycle view and a Safety Plan that can say \"nothing to buy\". Verified by pnpm verify, a PGlite lifecycle test and a local Playwright run."
+          "done": "Fixed the false Swiss data-location claim (PR #3), wrote docs/GAP.md against docs/SPEC.md (PR #4), and closed every P0 and P1 gap in 14 merged PRs (#5–#10, #12–#18), each with tests and a local Playwright run."
         }
       }
     },
