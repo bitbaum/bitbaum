@@ -38,29 +38,19 @@
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header class="top">
+  <header class="top" data-header>
     <div class="wrap">
       <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
-      <nav aria-label="Site">
+      <nav class="top-links" aria-label="Site">
         <a href="/work/">The work</a>
         <a href="/packages/">Packages</a>
         <a href="/studio/">Studio</a>
         <a href="/#join">Build with us</a>
-        <a href="/hire/">Hire</a>
-        <a href="https://github.com/bitbaum" rel="noopener">GitHub &#8599;</a>
       </nav>
-      <div class="theme" role="group" aria-label="Colour theme">
-        <button type="button" data-set-theme="light" title="Light" aria-label="Light">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
-        </button>
-        <button type="button" data-set-theme="system" title="Match system" aria-label="Match system">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.6" rx="1.6"/><path d="M8.6 20.4h6.8"/></svg>
-        </button>
-        <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
-        </button>
-      </div>
-      <a class="btn secondary cta" href="/hire/#waitlist">Join the waitlist <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="btn primary top-cta" href="/hire/#waitlist">Join the waitlist <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
     </div>
   </header>
   <main id="main">
@@ -97,20 +87,11 @@
       <div class="wrap">
         <div class="section-head">
           <h2 class="display-2">Ask about Causius</h2>
-          <p class="lede">Whether you are evaluating it, want it for your organisation, or want to know how it was built — this reaches a person, and the reply comes from one.</p>
+          <p class="lede">Ask anything about Causius — the Cat and Loki answer right away from the project catalogue. Want a person instead? Send them the conversation.</p>
         </div>
-        <form class="signup js-request" id="form-ask-causius" data-form="ask-causius" data-endpoint="https://loki.orangecat.ch/api/feedback" novalidate>
-          <p class="field"><label for="f-ask-causius-name">Your name</label><input id="f-ask-causius-name" type="text" name="name" autocomplete="name" placeholder="" required></p>
-          <p class="field"><label for="f-ask-causius-email">Email</label><input id="f-ask-causius-email" type="email" name="email" autocomplete="email" placeholder="" required></p>
-          <p class="field"><label for="f-ask-causius-org">Company or organisation <span class="opt">optional</span></label><input id="f-ask-causius-org" type="text" name="org" autocomplete="organization" placeholder=""></p>
-          <p class="field wide"><label for="f-ask-causius-what">What you want to know about Causius</label><textarea id="f-ask-causius-what" name="what" rows="4" placeholder="" required></textarea></p>
-          <div class="hp" aria-hidden="true">
-            <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
-          </div>
-          <p class="field wide submit"><button class="btn primary" type="submit">Send <span class="arrow" aria-hidden="true">&rarr;</span></button></p>
-        </form>
-        <p class="form-status" role="status"></p>
-
+        <div class="chat-mount" data-chat data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is Causius?&quot;,&quot;Is Causius ready to use?&quot;,&quot;How could Causius work for my organisation?&quot;]">
+          <p class="caption">The chat needs JavaScript. <a class="textlink" href="/work/">Browse every project</a> or <a class="textlink" href="/hire/#waitlist">join the waitlist</a>.</p>
+        </div>
       </div>
     </section>
     <div class="wrap"><div class="pager"><a href="/diplodoctor/">&larr; Diplodoctor</a><a href="/work/#work?stage=next">All not built</a><a href="/skif/">Skif &rarr;</a></div></div>
@@ -121,23 +102,34 @@
         <div class="foot-brand">
           <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
           <p>AI-native products on infrastructure that is open by construction. Built in Zürich.</p>
+          <div class="theme" role="group" aria-label="Colour theme">
+        <button type="button" data-set-theme="light" title="Light" aria-label="Light">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
+        </button>
+        <button type="button" data-set-theme="system" title="Match system" aria-label="Match system">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.6" rx="1.6"/><path d="M8.6 20.4h6.8"/></svg>
+        </button>
+        <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
+        </button>
+      </div>
         </div>
-        <nav aria-label="The work">
-          <h2 class="label">The work</h2>
-          <a href="/work/">All work and stages</a>
+        <nav aria-label="Explore">
+          <h2 class="label">Explore</h2>
+          <a href="/work/">The work</a>
           <a href="/packages/">Packages</a>
           <a href="/studio/">The studio</a>
           <a href="/map.json">map.json</a>
         </nav>
         <nav aria-label="Build with us">
           <h2 class="label">Build with us</h2>
-          <a href="https://github.com/bitbaum" rel="noopener">GitHub</a>
-          <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md">Contributing</a>
           <a href="/#join">How to join</a>
-          <a href="https://orangecat.ch/articles">Writing</a>
+          <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
+          <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
+          <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
         </nav>
-        <nav aria-label="Work together">
-          <h2 class="label">Work together</h2>
+        <nav aria-label="Work with the studio">
+          <h2 class="label">Work with the studio</h2>
           <a href="/hire/">Engagements and rates</a>
           <a href="/hire/#waitlist">Join the waitlist</a>
         </nav>
@@ -145,8 +137,47 @@
       <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
     </div>
   </footer>
+  <div class="site-menu" id="site-menu" hidden>
+    <div class="wrap">
+      <div class="menu-actions">
+        <a class="btn primary" href="/#ask">Ask anything <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
+      <nav aria-label="Explore">
+        <h2 class="label">Explore</h2>
+        <a href="/work/">The work</a>
+          <a href="/packages/">Packages</a>
+          <a href="/studio/">The studio</a>
+          <a href="/map.json">map.json</a>
+      </nav>
+      <nav aria-label="Build with us">
+        <h2 class="label">Build with us</h2>
+        <a href="/#join">How to join</a>
+          <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
+          <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
+          <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
+      </nav>
+      <nav aria-label="Work with the studio">
+        <h2 class="label">Work with the studio</h2>
+        <a href="/hire/">Engagements and rates</a>
+          <a href="/hire/#waitlist">Join the waitlist</a>
+      </nav>
+      <div class="menu-theme"><span class="label">Theme</span><div class="theme" role="group" aria-label="Colour theme">
+        <button type="button" data-set-theme="light" title="Light" aria-label="Light">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
+        </button>
+        <button type="button" data-set-theme="system" title="Match system" aria-label="Match system">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.6" rx="1.6"/><path d="M8.6 20.4h6.8"/></svg>
+        </button>
+        <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
+        </button>
+      </div></div>
+    </div>
+  </div>
   <script type="module" src="/theme.mjs"></script>
-  <script type="module" src="/request.mjs" data-endpoint="https://loki.orangecat.ch/api/feedback" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693"></script>
-  <script src="https://loki.orangecat.ch/widget.js" data-fc-project="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-fc-modes="chat,report" async></script>
+  <script type="module" src="/nav.mjs"></script>
+  <link rel="stylesheet" href="/chatkit.css">
+  <script type="module" src="/chat.js"></script>
+  <script src="https://loki.orangecat.ch/widget.js" data-fc-project="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-fc-modes="report" async></script>
 </body>
 </html>

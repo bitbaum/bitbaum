@@ -15,10 +15,14 @@
     "check:widget": "node site/check-widget.mjs"
   },
   "dependencies": {
+    "@bitbaum/chatkit": "github:bitbaum/chatkit#v0.1.0",
     "@bitbaum/design-tokens": "1.1.0",
-    "listkit": "github:bitbaum/listkit#69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525"
+    "listkit": "github:bitbaum/listkit#69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
+    "esbuild": "^0.28.2",
     "playwright": "1.63.0"
   }
 }

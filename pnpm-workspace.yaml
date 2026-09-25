@@ -1,2 +1,3 @@
 allowBuilds:
   listkit@https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525: true
+  esbuild: true

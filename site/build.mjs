@@ -28,6 +28,7 @@ import { createPackagePages } from "./packages-page.mjs";
 import { publicMap } from "./public-map.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildSync } from "esbuild";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const DIST = join(here, "dist");
@@ -183,13 +184,36 @@ function shell({ title, description, path, body, nav, script, image }) {
   // renders is part of the page: a venture shows its own screenshot, every
   // other page the studio card (site/og.mjs).
   const ogImage = `${SITE}${image ?? "/og/studio.png"}`;
+  // The header carries four destinations and one action; everything else is
+  // in the menu (phones) and the footer. Solon's pattern, which reads well:
+  // six links wrapped onto two rows made the phone header 164px tall.
   const items = [
     ["/work/", "The work"],
     ["/packages/", "Packages"],
     ["/studio/", "Studio"],
     ["/#join", "Build with us"],
-    ["/hire/", "Hire"],
   ];
+  const cur = (href) => (nav === href ? ' aria-current="page"' : "");
+  const themeSwitch = `<div class="theme" role="group" aria-label="Colour theme">
+        <button type="button" data-set-theme="light" title="Light" aria-label="Light">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
+        </button>
+        <button type="button" data-set-theme="system" title="Match system" aria-label="Match system">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.6" rx="1.6"/><path d="M8.6 20.4h6.8"/></svg>
+        </button>
+        <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
+        </button>
+      </div>`;
+  // One map of the site, rendered twice: as the phone menu and as the footer.
+  // Two hand-kept lists drift; this cannot.
+  const sections = [
+    ["Explore", [["/work/", "The work"], ["/packages/", "Packages"], ["/studio/", "The studio"], ["/map.json", "map.json"]]],
+    ["Build with us", [["/#join", "How to join"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"], [ARTICLES, "Writing ↗"]]],
+    ["Work with the studio", [[HIRE, "Engagements and rates"], [`${HIRE}#waitlist`, "Join the waitlist"]]],
+  ];
+  const sectionLinks = (links) =>
+    links.map(([href, t]) => `<a href="${esc(href)}"${cur(href)}${href.startsWith("http") ? ' rel="noopener"' : ""}>${esc(t)}</a>`).join("\n          ");
   const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -238,25 +262,16 @@ function shell({ title, description, path, body, nav, script, image }) {
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header class="top">
+  <header class="top" data-header>
     <div class="wrap">
       <a class="mark" href="/">${MARK}bitbaum</a>
-      <nav aria-label="Site">
-${items.map(([href, t]) => `        <a href="${href}"${nav === href ? ' aria-current="page"' : ""}>${t}</a>`).join("\n")}
-        <a href="${GITHUB}" rel="noopener">GitHub &#8599;</a>
+      <nav class="top-links" aria-label="Site">
+${items.map(([href, t]) => `        <a href="${href}"${cur(href)}>${t}</a>`).join("\n")}
       </nav>
-      <div class="theme" role="group" aria-label="Colour theme">
-        <button type="button" data-set-theme="light" title="Light" aria-label="Light">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
-        </button>
-        <button type="button" data-set-theme="system" title="Match system" aria-label="Match system">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.6" rx="1.6"/><path d="M8.6 20.4h6.8"/></svg>
-        </button>
-        <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
-        </button>
-      </div>
-      <a class="btn secondary cta" href="${HIRE}#waitlist">Join the waitlist ${ARROW}</a>
+      <a class="btn primary top-cta" href="${HIRE}#waitlist">Join the waitlist ${ARROW}</a>
+      <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
     </div>
   </header>
 ${body}
@@ -266,31 +281,30 @@ ${body}
         <div class="foot-brand">
           <a class="mark" href="/">${MARK}bitbaum</a>
           <p>AI-native products on infrastructure that is open by construction. Built in Zürich.</p>
+          ${themeSwitch}
         </div>
-        <nav aria-label="The work">
-          <h2 class="label">The work</h2>
-          <a href="/work/">All work and stages</a>
-          <a href="/packages/">Packages</a>
-          <a href="/studio/">The studio</a>
-          <a href="/map.json">map.json</a>
-        </nav>
-        <nav aria-label="Build with us">
-          <h2 class="label">Build with us</h2>
-          <a href="${GITHUB}" rel="noopener">GitHub</a>
-          <a href="${CONTRIBUTING}">Contributing</a>
-          <a href="/#join">How to join</a>
-          <a href="${ARTICLES}">Writing</a>
-        </nav>
-        <nav aria-label="Work together">
-          <h2 class="label">Work together</h2>
-          <a href="${HIRE}">Engagements and rates</a>
-          <a href="${HIRE}#waitlist">Join the waitlist</a>
-        </nav>
+${sections.map(([title, links]) => `        <nav aria-label="${esc(title)}">
+          <h2 class="label">${esc(title)}</h2>
+          ${sectionLinks(links)}
+        </nav>`).join("\n")}
       </div>
       <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
     </div>
   </footer>
+  <div class="site-menu" id="site-menu" hidden>
+    <div class="wrap">
+      <div class="menu-actions">
+        <a class="btn primary" href="/#ask">Ask anything ${ARROW}</a>
+      </div>
+${sections.map(([title, links]) => `      <nav aria-label="${esc(title)}">
+        <h2 class="label">${esc(title)}</h2>
+        ${sectionLinks(links)}
+      </nav>`).join("\n")}
+      <div class="menu-theme"><span class="label">Theme</span>${themeSwitch}</div>
+    </div>
+  </div>
   <script type="module" src="/theme.mjs"><\/script>
+  <script type="module" src="/nav.mjs"><\/script>
 ${script ?? ""}
   <script src="${esc(LOKI_FEEDBACK.origin)}/widget.js" data-fc-project="${esc(LOKI_FEEDBACK.token)}" data-fc-modes="${esc(LOKI_FEEDBACK.modes)}" async><\/script>
 </body>
@@ -357,7 +371,18 @@ ${all.map((v) => card(v, true)).join("\n")}
 }
 
 const FILTER_SCRIPT = `  <script type="module" src="/work-filter.mjs"></script>`;
-const ASK_SCRIPT = `  <script type="module" src="/ask.mjs"></script>`;
+// The site's chat (site/chat/chat.tsx): @bitbaum/chatkit, bundled once into
+// /chat.js and mounted wherever a page renders chatMount(). The fleet's one
+// chat — mic, 16px, stop, retry, who is speaking — instead of forms.
+const CHAT_SCRIPT = `  <link rel="stylesheet" href="/chatkit.css">
+  <script type="module" src="/chat.js"></script>`;
+
+/** Where the chat mounts. Without JavaScript it says so and points onward. */
+function chatMount({ title, starters }) {
+  return `<div class="chat-mount" data-chat data-origin="${esc(LOKI_FEEDBACK.origin)}" data-token="${esc(LOKI_FEEDBACK.token)}" data-title="${esc(title)}" data-starters="${esc(JSON.stringify(starters))}">
+          <p class="caption">The chat needs JavaScript. <a class="textlink" href="/work/">Browse every project</a> or <a class="textlink" href="${HIRE}#waitlist">join the waitlist</a>.</p>
+        </div>`;
+}
 
 // ── pages ───────────────────────────────────────────────────────────────────
 export function homePage(all, packages, cfg, origin, readings, hire) {
@@ -430,10 +455,8 @@ ${s.does.map((d) => `              <li>${esc(d)}</li>`).join("\n")}
         </article>`;
   }).join("\n");
   const stackIntro = home.stack ?? {};
-  // The front desk. The question is answered by Loki's widget in Chat mode
-  // (the Cat and Loki, from the public fleet map) — this page only hands it
-  // over (site/ask.mjs). When the widget cannot answer, the box says so and
-  // offers the catalogue; without JavaScript the form opens the catalogue.
+  // The front desk: the site's chat, where the Cat and Loki answer from the
+  // public fleet map.
   const ask = home.ask;
   if (!ask?.headline || !ask.lede || !(ask.starters?.length >= 2)) {
     throw new Error("home.ask needs a headline, a lede and at least two starters");
@@ -445,18 +468,7 @@ ${s.does.map((d) => `              <li>${esc(d)}</li>`).join("\n")}
           <h2 class="display-2">${esc(ask.headline)}</h2>
           <p class="lede">${esc(ask.lede)}</p>
         </div>
-        <form class="ask-form" id="ask-form" action="/work/" method="get">
-          <label class="sr-only" for="ask-q">Ask the chat about any project</label>
-          <div class="ask-row">
-            <input id="ask-q" type="text" maxlength="1000" autocomplete="off" placeholder="${esc(ask.placeholder ?? "")}">
-            <button class="btn primary" type="submit">Ask ${ARROW}</button>
-          </div>
-          <div class="ask-starters">
-${ask.starters.map((q) => `            <button type="button" class="ask-starter" data-q="${esc(q)}">${esc(q)}</button>`).join("\n")}
-          </div>
-          <p class="ask-status" id="ask-status" role="status" hidden>The assistant isn't reachable right now. <a class="textlink" href="/work/">Browse every project ${ARROW}</a> or <a class="textlink" href="${HIRE}#waitlist">join the waitlist</a>.</p>
-          <p class="ask-note">Answered by AI from the public project catalogue — it can be wrong, and the links it gives are the catalogue's own.</p>
-        </form>
+        ${chatMount({ title: "", starters: ask.starters })}
       </div>
     </section>`;
   const body = `  <main id="main" class="home-page">
@@ -516,7 +528,7 @@ ${stackLayers}
   return shell({
     title: "bitbaum — one trunk, many products",
     description: "An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.",
-    path: "/", body, nav: "/", script: ASK_SCRIPT,
+    path: "/", body, nav: "/", script: CHAT_SCRIPT,
   });
 }
 
@@ -603,23 +615,17 @@ ${contact ? `    <section class="section" id="ask">
       <div class="wrap">
         <div class="section-head">
           <h2 class="display-2">Ask about ${esc(v.name)}</h2>
-          <p class="lede">Whether you are evaluating it, want it for your organisation, or want to know how it was built — this reaches a person, and the reply comes from one.</p>
+          <p class="lede">Ask anything about ${esc(v.name)} — the Cat and Loki answer right away from the project catalogue. Want a person instead? Send them the conversation.</p>
         </div>
-${requestForm({
-  id: `ask-${v.slug}`,
-  cta: "Send",
-  fields: [
-    { name: "name", label: "Your name", kind: "text", autocomplete: "name", required: true },
-    { name: "email", label: "Email", kind: "email", autocomplete: "email", required: true },
-    { name: "org", label: "Company or organisation", kind: "text", autocomplete: "organization" },
-    { name: "what", label: `What you want to know about ${esc(v.name)}`, kind: "textarea", required: true },
-  ],
-})}
+        ${chatMount({
+          title: "",
+          starters: [`What is ${v.name}?`, `Is ${v.name} ready to use?`, `How could ${v.name} work for my organisation?`],
+        })}
       </div>
     </section>` : ""}
     <div class="wrap"><div class="pager"><a href="/${esc(prev.slug)}/">&larr; ${esc(prev.name)}</a><a href="/work/#work?stage=${encodeURIComponent(v.stage)}">All ${esc((stage?.plural ?? "").toLowerCase())}</a><a href="/${esc(next.slug)}/">${esc(next.name)} &rarr;</a></div></div>
   </main>`;
-  return shell({ title: `${v.name} — ${v.what}`, description: v.story || v.what, path: `/${v.slug}/`, body, image: v.shot ? `/shots/${v.slug}.jpg` : undefined, script: contact ? requestScript() : undefined });
+  return shell({ title: `${v.name} — ${v.what}`, description: v.story || v.what, path: `/${v.slug}/`, body, image: v.shot ? `/shots/${v.slug}.jpg` : undefined, script: contact ? CHAT_SCRIPT : undefined });
 }
 
 export function studioPage(all, packages, origin, readings) {
@@ -840,7 +846,20 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("packages/index.html", packagesPage(packages, cfg, all));
   files.set("packages-filter.mjs", readFileSync(join(here, "packages-filter.mjs"), "utf8"));
   files.set("work-filter.mjs", readFileSync(join(here, "work-filter.mjs"), "utf8"));
-  files.set("ask.mjs", readFileSync(join(here, "ask.mjs"), "utf8"));
+  // The chat island: chatkit + React bundled once for every page that mounts it.
+  const bundle = buildSync({
+    entryPoints: [join(here, "chat", "chat.tsx")],
+    bundle: true,
+    minify: true,
+    format: "esm",
+    jsx: "automatic",
+    target: "es2020",
+    define: { "process.env.NODE_ENV": '"production"' },
+    write: false,
+    logLevel: "warning",
+  });
+  files.set("chat.js", bundle.outputFiles[0].text);
+  files.set("chatkit.css", readFileSync(join(here, "..", "node_modules", "@bitbaum", "chatkit", "styles.css"), "utf8"));
   const listkitDist = join(here, "..", "node_modules", "listkit", "dist");
   if (!existsSync(join(listkitDist, "index.js"))) throw new Error("missing listkit browser modules — run: pnpm install");
   files.set("vendor/listkit/LICENSE", readFileSync(join(here, "..", "node_modules", "listkit", "LICENSE"), "utf8"));
@@ -860,6 +879,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("robots.txt", `User-agent: *\nAllow: /\nDisallow: /map.json\n\nSitemap: ${SITE}/sitemap.xml\n`);
   files.set("theme.mjs", readFileSync(join(here, "theme.mjs"), "utf8"));
   files.set("request.mjs", readFileSync(join(here, "request.mjs"), "utf8"));
+  files.set("nav.mjs", readFileSync(join(here, "nav.mjs"), "utf8"));
   return { all, files };
 }
 
