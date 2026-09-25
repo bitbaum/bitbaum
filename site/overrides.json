@@ -366,7 +366,7 @@
     "ask": {
       "eyebrow": "Chat",
       "headline": "Not sure where to start?",
-      "lede": "Ask in your own words. The Cat and Loki are both in this chat and between them know every project here — the Cat answers when it's about earning or getting paid, Loki when it's about getting something built — and they send you to the one that fits.",
+      "lede": "Ask in your own words. The Cat knows earning and getting paid, Loki knows building — between them, every project here. They send you to the one that fits.",
       "placeholder": "What are you looking for?",
       "starters": [
         "I want to earn and get paid in Bitcoin",

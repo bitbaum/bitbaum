@@ -510,8 +510,8 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
   const askSection = `    <section class="section ask-section" id="ask">
       <div class="wrap ask">
         <div class="ask-copy">
-          <span class="eyebrow">${esc(ask.eyebrow ?? "Ask")}</span>
-          <h2 class="display-2">${esc(ask.headline)}</h2>
+          <span class="kicker quiet">${esc(ask.eyebrow ?? "Ask")}</span>
+          <h2 class="headline-caps section-title">${esc(ask.headline)}</h2>
           <p class="lede">${esc(ask.lede)}</p>
         </div>
         ${chatMount({ title: "", starters: ask.starters })}
