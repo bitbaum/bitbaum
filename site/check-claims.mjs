@@ -15,6 +15,62 @@ import { uniqueAdopterCount } from "./packages-page.mjs";
 const here = dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2];
 
+/**
+ * Refuse to judge the LIVE site from a checkout that is behind main.
+ *
+ * Every assertion below compares live page text against the register snapshots
+ * sitting next to this file. If those snapshots are older than main's, a
+ * mismatch says nothing about the site - it says this checkout is old. Run from
+ * a branch nine commits behind, this gate reported the live site as making two
+ * false claims; both were true (46 repositories / 43 Software Heritage
+ * snapshots, exactly as published). A gate that cries wolf gets ignored, and
+ * this one exists precisely to be believed.
+ *
+ * Only guards the live mode: with no URL the target IS the local build, so
+ * checking local snapshots against local dist is exactly right.
+ */
+function refuseIfCheckoutIsStale() {
+  if (!base) return;
+  const snapshots = ["origin.snapshot.json", "packages.snapshot.json", "readings.snapshot.json", "map.snapshot.json"];
+  const stale = [];
+  for (const name of snapshots) {
+    const path = join(here, name);
+    if (!existsSync(path)) continue;
+    let onMain;
+    try {
+      onMain = execFileSync("git", ["show", `origin/main:site/${name}`], {
+        cwd: here,
+        encoding: "utf8",
+        maxBuffer: 8 << 20,
+        stdio: ["ignore", "pipe", "ignore"],
+      });
+    } catch {
+      return; // no origin/main to compare against - nothing to assert
+    }
+    if (onMain !== readFileSync(path, "utf8")) stale.push(name);
+  }
+  if (!stale.length) return;
+  console.error(
+    [
+      "",
+      "REFUSING TO JUDGE THE LIVE SITE FROM THIS CHECKOUT.",
+      "",
+      `  These snapshots differ from origin/main: ${stale.join(", ")}`,
+      "",
+      "  Every check below compares the live pages against these files, so a",
+      "  mismatch would blame the site for this checkout being old. Re-run from",
+      "  main:",
+      "",
+      "      git -C <repo> worktree add --detach /tmp/site-main origin/main",
+      `      node /tmp/site-main/site/check-claims.mjs ${base}`,
+      "",
+    ].join("\n"),
+  );
+  process.exit(3); // distinct from 1 (a claim is false) and 2 (bad usage)
+}
+
+refuseIfCheckoutIsStale();
+
 let fail = 0;
 const say = (ok, m) => {
   if (!ok) fail++;
