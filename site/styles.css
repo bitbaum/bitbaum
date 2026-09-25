@@ -117,22 +117,43 @@ img { max-width: 100%; display: block; }
 .textlink:hover { color: var(--fg); border-color: var(--fg-3); }
 
 /* ─── nav ─────────────────────────────────────────────────────────────── */
-.top { position: sticky; top: 0; z-index: 10; height: var(--nav-h); background: hsl(var(--surface-base) / 0.72); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line); }
+.top { position: sticky; top: 0; z-index: 30; height: var(--nav-h); background: hsl(var(--surface-base) / 0.6); backdrop-filter: blur(16px); border-bottom: 1px solid transparent; transition: border-color 160ms ease, background 160ms ease; }
+.top.scrolled, .menu-open .top { background: hsl(var(--surface-base) / 0.92); border-bottom-color: var(--line); }
 .top .wrap { height: 100%; display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.5rem); }
-/* NOT tokens.css's .wordmark: that component is the display serif, and the
-   studio's own register is Inter 600 tight (the serif was tried and rejected).
-   Everything else here comes from the package. */
-.mark { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 600; letter-spacing: -0.02em; font-size: 1.05rem; }
+.mark { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 44px; font-weight: 600; letter-spacing: -0.02em; font-size: 1.05rem; }
 .mark svg { width: 22px; height: 25px; color: var(--fg); }
-.top nav { display: flex; gap: clamp(0.9rem, 2.2vw, 1.9rem); font-size: 0.72rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; font-weight: 500; color: var(--fg-2); margin-left: auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
-.top nav::-webkit-scrollbar { display: none; }
-.top nav a { white-space: nowrap; padding: 0.35rem 0; border-bottom: 1px solid transparent; transition: color 120ms ease; }
-.top nav a:hover, .top nav a[aria-current="page"] { color: var(--fg); }
-.top .cta { margin-left: 0.25rem; }
+.top-links { display: flex; gap: clamp(1.25rem, 2.4vw, 2.25rem); margin-left: auto; font-size: 0.74rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; font-weight: 500; color: var(--fg-2); }
+.top-links a { display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; transition: color 120ms ease; }
+.top-links a:hover, .top-links a[aria-current="page"] { color: var(--fg); }
+.top-links a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.55em; }
+.top-cta { min-height: 44px; }
+.menu-btn { display: none; place-items: center; width: 44px; height: 44px; margin-left: auto; margin-right: -0.5rem; padding: 0; border: 0; background: transparent; color: var(--fg); cursor: pointer; }
+.menu-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.menu-btn .menu-close, .menu-btn[aria-expanded="true"] .menu-open { display: none; }
+.menu-btn[aria-expanded="true"] .menu-close { display: inline; }
+@media (max-width: 899px) {
+  .top-links, .top-cta { display: none; }
+  .menu-btn { display: grid; }
+}
 
-/* Three states, one row of hairline squares — the same geometry as the rest
-   of the chrome, so the switcher reads as part of the page and not a widget. */
-.theme { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 3px; margin-left: 0.75rem; flex: none; }
+/* The phone menu: a sheet under the header, the site's map in three groups,
+   the two actions a visitor most likely came for at the top, 44px rows. */
+.site-menu { position: fixed; inset: var(--nav-h) 0 0; z-index: 29; overflow-y: auto; overscroll-behavior: contain; background: var(--bg); border-top: 1px solid var(--line); }
+.site-menu[hidden] { display: none; }
+.site-menu .wrap { display: grid; gap: 2rem; padding-block: 1.5rem 3rem; }
+.menu-actions { display: grid; gap: 0.6rem; }
+.menu-actions .btn { justify-content: center; }
+.site-menu nav { display: grid; gap: 0.1rem; }
+.site-menu nav .label { margin: 0 0 0.4rem; }
+.site-menu nav a { display: flex; align-items: center; min-height: 48px; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.015em; color: var(--fg); border-bottom: 1px solid var(--line); }
+.site-menu nav a[aria-current="page"] { color: var(--fg); text-decoration: underline; text-underline-offset: 0.3em; }
+.menu-theme { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.menu-theme .theme { margin-left: 0; }
+.menu-open, .menu-open body { overflow: hidden; }
+@media (min-width: 900px) { .site-menu { display: none !important; } }
+
+.theme { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 3px; flex: none; }
+.foot-brand .theme { margin-top: 1.25rem; }
 .theme button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 2px; background: transparent; color: var(--fg-3); cursor: pointer; transition: color 120ms ease, background 120ms ease; }
 .theme button:hover { color: var(--fg); }
 .theme button[aria-pressed="true"] { color: var(--fg); background: var(--bg-overlay); }
@@ -175,18 +196,24 @@ img { max-width: 100%; display: block; }
    between the hero and the stack because it is the shortest path for a reader
    who does not yet know which of the projects is theirs. */
 .ask-section { border-top: 1px solid var(--line); }
-.ask { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(1.75rem, 5vw, 5rem); align-items: center; }
+.ask { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(1.75rem, 5vw, 5rem); align-items: start; }
 .ask-copy { display: grid; gap: 1rem; justify-items: start; }
-.ask-form { display: grid; gap: 0.9rem; padding: clamp(1rem, 2.5vw, 1.75rem); border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--bg-raised); }
-.ask-row { display: flex; gap: 0.6rem; }
-.ask-row input { flex: 1; min-width: 0; min-height: 48px; padding: 0 1rem; font: inherit; font-size: 1rem; color: var(--fg); background: var(--bg); border: 1px solid var(--line-2); border-radius: var(--radius); }
-.ask-row input::placeholder { color: var(--fg-3); }
-.ask-row input:focus { outline: none; border-color: var(--fg); }
-.ask-starters { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.ask-starter { font: inherit; font-size: 0.85rem; color: var(--fg-2); background: transparent; border: 1px dashed var(--line-2); border-radius: var(--radius); padding: 0.5rem 0.75rem; min-height: 40px; cursor: pointer; text-align: left; }
-.ask-starter:hover { color: var(--fg); border-color: var(--fg); border-style: solid; }
-.ask-status { margin: 0; padding: 0.75rem 0.9rem; border: 1px solid var(--line-2); border-radius: var(--radius); color: var(--fg-2); font-size: 0.9rem; line-height: 1.5; }
-.ask-note { margin: 0; color: var(--fg-3); font-size: 0.78rem; line-height: 1.5; }
+
+/* The site's chat (site/chat/chat.tsx — @bitbaum/chatkit). The chat's own
+   look comes from chatkit.css over the design tokens; this only frames it. */
+.chat-card { display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; padding: clamp(1rem, 2.5vw, 1.5rem); border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--bg-raised); }
+.chat-card .ck-thread-wrap { max-height: min(60vh, 32rem); }
+.chat-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+.chat-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.9rem; border: 1px solid var(--line-2); border-radius: var(--radius); color: var(--fg); font-size: 0.9rem; }
+.chat-link:first-child { border-color: var(--fg); }
+.chat-link:hover { background: var(--bg-overlay); }
+.chat-handoff { display: grid; gap: 0.5rem; padding-top: 0.9rem; border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--fg-2); }
+.chat-handoff-row { display: flex; gap: 0.5rem; min-width: 0; }
+.chat-handoff input { flex: 1; min-width: 0; min-height: 44px; padding: 0 0.9rem; font: inherit; font-size: 1rem; color: var(--fg); background: var(--bg); border: 1px solid var(--line-2); border-radius: var(--radius); }
+.chat-handoff input:focus { outline: none; border-color: var(--fg); }
+.chat-handoff-done, .chat-handoff-error { margin: 0; font-size: 0.9rem; color: var(--fg-2); }
+.chat-handoff-error { color: var(--status); }
+@media (max-width: 560px) { .chat-handoff-row { flex-direction: column; } }
 
 /* The stack, told properly: one panel per layer, a real screenshot beside what
    the layer is for and what ships today. Alternating sides keeps three panels
@@ -457,8 +484,6 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .home-stack-line { font-size: 0.79rem; }
   .stack-layer { grid-template-columns: 1fr; padding-block: 2.25rem; }
   .ask { grid-template-columns: 1fr; }
-  .ask-row { flex-direction: column; }
-  .ask-row .btn { justify-content: center; }
   .stack-layer.flip .stack-layer-copy { order: 0; }
   .stack-layer-shot { order: -1; position: static; }
   .home-section-head { align-items: flex-start; flex-wrap: wrap; }
@@ -468,16 +493,6 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .home-page .stage-link { min-height: 40px; padding: 0.35rem 0.65rem; font-size: 0.78rem; }
 }
 @media (max-width: 640px) {
-  /* The bar is one row on a desk. On a phone the same row left the menu a
-     hundred pixels wide, so "Packages" rendered as "PAC". Wrap it: mark and
-     theme on the first line, every destination on the next. */
-  :root { --nav-h: 10.5rem; }
-  .top { height: auto; }
-  .top .wrap { height: auto; flex-wrap: wrap; row-gap: 0.15rem; padding-block: 0.65rem; }
-  .theme { margin-left: auto; }
-  .mark { min-height: 44px; }
-  .top nav { order: 3; flex: 1 0 100%; margin-left: 0; overflow: visible; flex-wrap: wrap; row-gap: 0.1rem; column-gap: 0.85rem; }
-  .top nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0.35rem 0; }
   .pager { flex-wrap: wrap; }
   .pager a { min-height: 44px; display: inline-flex; align-items: center; }
   .pkg-links { align-items: center; gap: 0.9rem; }
@@ -490,7 +505,6 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .hero-cinema { min-height: 74vh; }
   .btn { padding: 0 1.15rem; font-size: 0.72rem; }
   .grid, .grid.two, .grid.four { grid-template-columns: 1fr; }
-  .top .cta { display: none; }
   .hero { padding-top: var(--section-tight); }
   .eyebrow { font-size: 0.64rem; letter-spacing: 0.1em; padding: 0.35rem 0.7rem; }
   .hero-facts { gap: 0.4rem 1.25rem; }
@@ -515,4 +529,7 @@ footer a:not(.mark):hover { color: var(--fg); }
 @media (max-width: 860px) {
   .foot-cols { grid-template-columns: 1fr 1fr; }
   .foot-brand { grid-column: 1 / -1; }
+  /* The third group would sit alone under the first two; give it the row. */
+  .foot-cols nav:last-child { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; column-gap: 1.5rem; }
+  .foot-cols nav:last-child .label { flex-basis: 100%; }
 }

@@ -122,25 +122,47 @@ say(!/@/.test(err), "and does not fall back to an address");
 say(!(await page.$eval("#form-waitlist button[type=submit]", (b) => b.disabled)), "the button is usable again");
 await ctx.close();
 
-// ── a venture page carries the same door ────────────────────────────────────
+// ── a venture page asks by chat, and a person is one field away ─────────────
+// The four-field "Ask about X" form became the site's chat (@bitbaum/chatkit):
+// the Cat and Loki answer at once, and "Send to a person" posts the whole
+// conversation to the same inbox — still recording which product it was about.
 const ctx2 = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 const p2 = await ctx2.newPage();
 let vposts = 0;
 let vlast = null;
+await p2.route("**/api/widget/chat", async (route) => {
+  await route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    headers: { "access-control-allow-origin": "*" },
+    body: JSON.stringify({
+      ok: true,
+      reply: "Loki: Sign up and I will run agents on your code.",
+      messages: [{ speaker: "loki", text: "Sign up and I will run agents on your code." }],
+      links: [{ label: "Loki", url: "https://loki.orangecat.ch/" }],
+    }),
+  });
+});
 await p2.route("**/api/feedback", async (route) => {
   vposts++;
   vlast = JSON.parse(route.request().postData() || "{}");
-  await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true }) });
+  await route.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify({ ok: true }) });
 });
 await p2.goto(base + "/loki/", { waitUntil: "networkidle" });
-say((await p2.$$("form.js-request")).length === 1, "a venture page has its own request form");
-await p2.fill("#f-ask-loki-name", "Probe");
-await p2.fill("#f-ask-loki-email", "someone@example.com");
-await p2.fill("#f-ask-loki-what", "Could this run for our organisation?");
-await p2.click("#form-ask-loki button[type=submit]");
+say((await p2.$$("form.js-request")).length === 0, "a venture page has no request form any more");
+await p2.waitForSelector("#ask .ck-input", { timeout: 10000 }).catch(() => {});
+say((await p2.$$("#ask .ck-input")).length === 1, "a venture page has the chat");
+say((await p2.$$("#ask .ck-composer .ck-mic")).length === 1, "and its composer has a microphone");
+await p2.fill("#ask .ck-input", "Could this run for our organisation?");
+await p2.press("#ask .ck-input", "Enter");
+await p2.waitForSelector("#ask .ck-turn-answer .ck-md", { timeout: 5000 }).catch(() => {});
+say((await p2.$$("#ask .ck-turn-answer .ck-md")).length >= 1, "a question gets an answer in place");
+await p2.fill("#ask .chat-handoff input", "someone@example.com");
+await p2.click("#ask .chat-handoff button[type=submit]");
 await p2.waitForTimeout(600);
-say(vposts === 1, `and it posts (${vposts})`);
+say(vposts === 1, `"Send to a person" posts the conversation (${vposts})`);
 say((vlast?.page ?? "") === "/loki/", `recording which product was asked about (${vlast?.page})`);
+say(/Could this run for our organisation\?/.test(vlast?.suggestion ?? ""), "carrying the question the visitor asked");
 await ctx2.close();
 
 await browser.close();
