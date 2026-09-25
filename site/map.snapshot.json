@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T05:49:26.894Z",
+  "generatedAt": "2026-09-25T09:07:43.806Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 37,
     "live": 15,
     "clients": 5,
-    "inFlight": 0
+    "inFlight": 1
   },
   "projects": [
     {
@@ -405,6 +405,10 @@
       "changelog": [
         {
           "date": "2026-09-25",
+          "done": "REPLAN — capacity is the blocker; reconfirmed pending human ask for provider switch; refused T2 churn and any agent rewrite of builder_pref."
+        },
+        {
+          "date": "2026-09-25",
           "done": "Escalation rung diagnosed non-transient; Rule 0 — re-surfaced provider-capacity blocker; no task picked (clean tree, tsc/lint green, only T2s)."
         },
         {
@@ -478,10 +482,6 @@
         {
           "date": "2026-09-20",
           "done": "Landed PR #800 (first bullet of #584) — expired dates no longer reach every dispatch as \"near-term commitments\"; CI green, squash-merged to main as 451ac5de."
-        },
-        {
-          "date": "2026-09-20",
-          "done": "Shipped PR #800 for the first bullet of #584 — expired dates reaching every dispatch as \"near-term commitments\"; committed bfd8b6e5, pre-push verify green, PR open and non-draft."
         }
       ],
       "next": null,
@@ -489,11 +489,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-09-25T01:40:57.482Z"
+          "at": "2026-09-25T07:42:30.367Z"
         },
         "lastLog": {
           "date": "2026-09-25",
-          "done": "Escalation rung diagnosed non-transient; Rule 0 — re-surfaced provider-capacity blocker; no task picked (clean tree, tsc/lint green, only T2s)."
+          "done": "REPLAN — capacity is the blocker; reconfirmed pending human ask for provider switch; refused T2 churn and any agent rewrite of builder_pref."
         }
       }
     },
@@ -2687,10 +2687,10 @@
       ],
       "next": null,
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-09-24T22:29:20.603Z"
+          "outcome": "error",
+          "at": "2026-09-25T06:54:55.405Z"
         },
         "lastLog": {
           "date": "2026-09-24",
