@@ -15,8 +15,12 @@ const phone = () => innerWidth < 700;
 // ── curtains ──────────────────────────────────────────────────────────────
 // Velvet, from dark to sheen. A shade family of the signal green, deeper and
 // bluer, so the curtain reads as cloth and the signal still reads as light.
-const VELVET = [[2, 16, 9], [6, 44, 26], [11, 82, 50], [44, 150, 102]];
+// Night velvet is deep; by day the same cloth hangs in sunlight.
+const VELVET_NIGHT = [[2, 16, 9], [6, 44, 26], [11, 82, 50], [44, 150, 102]];
+const VELVET_DAY = [[14, 60, 40], [28, 100, 68], [54, 142, 98], [168, 218, 186]];
+const isNight = () => document.documentElement.classList.contains("dark");
 function velvet(s) {
+  const VELVET = isNight() ? VELVET_NIGHT : VELVET_DAY;
   const k = Math.max(0, Math.min(1, s)) * (VELVET.length - 1);
   const i = Math.min(VELVET.length - 2, Math.floor(k)), f = k - i;
   const a = VELVET[i], b = VELVET[i + 1];
@@ -80,7 +84,8 @@ for (const stage of document.querySelectorAll("[data-lodge]")) {
     // Light from above: the hem sinks into shadow.
     const x0 = side === "left" ? 0 : W - width - amp;
     const shade = ctx.createLinearGradient(0, 0, 0, H);
-    shade.addColorStop(0, "rgba(0,0,0,0)"); shade.addColorStop(0.55, "rgba(0,0,0,0.18)"); shade.addColorStop(1, "rgba(0,0,0,0.6)");
+    const hem = isNight() ? 0.6 : 0.28;
+    shade.addColorStop(0, "rgba(0,0,0,0)"); shade.addColorStop(0.55, `rgba(0,0,0,${hem * 0.3})`); shade.addColorStop(1, `rgba(0,0,0,${hem})`);
     ctx.fillStyle = shade; ctx.fillRect(x0, 0, width + amp + 1, H);
     // The curtain throws a soft shadow onto the stage.
     const edge = side === "left" ? width : W - width;
@@ -138,45 +143,62 @@ if (holes.length && !still) {
 }
 
 // ── the White Rabbit ─────────────────────────────────────────────────────
-// Once the tree has grown, he comes out from behind the left curtain, hops
-// across the Lodge floor, and dives into the spiral burrow — which is also
-// the way on: it links to the next chapter. With reduced motion he simply
-// waits beside the hole.
+// He is always there, beside the burrow, fretting over his watch. Every so
+// often he is late: a crouch, a hop, a dive into the spiral — and a few
+// seconds later his ears come up out of the hole and he climbs back out.
 const rabbit = document.querySelector(".rabbit");
 const burrow = document.querySelector(".burrow");
 if (rabbit && burrow) {
-  // Measured against the hero itself: a hidden element has no offsetParent.
-  const stage = burrow.closest("section");
-  if (still) rabbit.classList.add("rabbit-waits");
-  else {
-    const run = () => {
-      const s = stage.getBoundingClientRect(), b = burrow.getBoundingClientRect();
-      const size = rabbit.offsetWidth;
-      const endX = b.left - s.left + b.width / 2 - size * 0.62, y = b.top - s.top + b.height * 0.5 - size * 0.86;
-      const startX = -size;
-      const hops = Math.max(4, Math.round((endX - startX) / (size * 1.15)));
-      const hopMs = 430, travel = hops * hopMs;
-      rabbit.hidden = false;
-      rabbit.animate([{ transform: `translate(${startX}px, ${y}px)` }, { transform: `translate(${endX}px, ${y}px)` }], { duration: travel, easing: "linear", fill: "forwards" });
-      rabbit.firstElementChild.animate([
-        { transform: "translateY(0) scale(1.06, 0.9)", easing: "cubic-bezier(.2,.7,.4,1)" },
-        { transform: `translateY(${-size * 0.55}px) scale(0.95, 1.06)`, offset: 0.45, easing: "cubic-bezier(.6,0,.8,.4)" },
-        { transform: "translateY(0) scale(1.08, 0.88)" },
-      ], { duration: hopMs, iterations: hops });
-      setTimeout(() => {
-        burrow.classList.add("gulp");
-        const dive = rabbit.animate([
-          { transform: `translate(${endX}px, ${y}px) rotate(0) scale(1)`, opacity: 1 },
-          { transform: `translate(${endX + size * 0.35}px, ${y - size * 0.35}px) rotate(-25deg) scale(1)`, opacity: 1, offset: 0.35 },
-          { transform: `translate(${endX + size * 0.55}px, ${y + size * 0.55}px) rotate(70deg) scale(0.12)`, opacity: 0 },
-        ], { duration: 700, easing: "cubic-bezier(.5,0,.7,1)", fill: "forwards" });
-        dive.onfinish = () => { rabbit.hidden = true; setTimeout(() => burrow.classList.remove("gulp"), 900); };
-      }, travel);
+  rabbit.hidden = false;
+  const hop = rabbit.firstElementChild;
+  if (!still) {
+    const dive = () => {
+      const r = rabbit.getBoundingClientRect(), b = burrow.getBoundingClientRect();
+      const dx = b.left + b.width / 2 - (r.left + r.width / 2), dy = b.top + b.height / 2 - (r.top + r.height * 0.8);
+      burrow.classList.add("gulp");
+      const out = hop.animate([
+        { transform: "translate(0, 0) scale(1, 1)" },
+        { transform: "translate(0, 4px) scale(1.1, 0.85)", offset: 0.14 },
+        { transform: `translate(${dx * 0.5}px, ${dy - r.height * 0.7}px) rotate(12deg)`, offset: 0.46 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(80deg) scale(0.18)`, opacity: 0, offset: 0.8 },
+        { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 },
+      ], { duration: 1500, easing: "ease-in", fill: "forwards" });
+      out.onfinish = () => setTimeout(() => {
+        const back = hop.animate([
+          { transform: `translate(${dx}px, ${dy + 10}px) scale(0.9)`, opacity: 0 },
+          { transform: `translate(${dx}px, ${dy - r.height * 0.35}px) scale(1)`, opacity: 1, offset: 0.3 },
+          { transform: `translate(${dx * 0.4}px, ${-r.height * 0.4}px)`, offset: 0.65 },
+          { transform: "translate(0, 0)" },
+        ], { duration: 1600, easing: "ease-out", fill: "forwards" });
+        back.onfinish = () => { burrow.classList.remove("gulp"); out.cancel(); back.cancel(); };
+      }, 3500);
     };
-    let ran = false;
-    const go = () => { if (ran) return; ran = true; setTimeout(run, 2800); };
-    new IntersectionObserver(([e], io) => { if (e.isIntersecting) { go(); io.disconnect(); } }, { threshold: 0.4 }).observe(stage);
+    let onScreen = false, timer = 0;
+    const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden) dive(); next(18000 + Math.random() * 12000); }, ms); };
+    new IntersectionObserver(([e]) => { const was = onScreen; onScreen = e.isIntersecting; if (onScreen && !was && !timer) next(4000); }, { threshold: 0.4 }).observe(burrow.closest("section"));
   }
+}
+
+// ── the fox ──────────────────────────────────────────────────────────────
+// On the inner pages, now and then, a fox lopes across the stage floor from
+// one curtain to the other: there, then gone. Only while the stage is on
+// screen, never under reduced motion.
+const fox = document.querySelector(".fox");
+const foxStage = document.querySelector("[data-lodge].stage-floored");
+if (fox && foxStage && !still) {
+  foxStage.append(fox);
+  let onScreen = false, timer = 0;
+  const lope = () => {
+    const w = foxStage.clientWidth, size = fox.offsetWidth || 110;
+    const ltr = Math.random() < 0.5;
+    fox.hidden = false;
+    fox.style.transform = `scaleX(${ltr ? 1 : -1})`;
+    const from = ltr ? -size : w + size, to = ltr ? w + size : -size;
+    const run = fox.animate([{ left: `${from}px` }, { left: `${to}px` }], { duration: (w / 330) * 1000, easing: "linear" });
+    run.onfinish = () => { fox.hidden = true; };
+  };
+  const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden) lope(); next(24000 + Math.random() * 22000); }, ms); };
+  new IntersectionObserver(([e]) => { const was = onScreen; onScreen = e.isIntersecting; if (onScreen && !was && !timer) next(2600 + Math.random() * 2000); }, { threshold: 0.3 }).observe(foxStage);
 }
 
 // ── the cat ───────────────────────────────────────────────────────────────

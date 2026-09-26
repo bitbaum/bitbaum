@@ -115,24 +115,22 @@ ${body}
 // hummingbird that feeds at the grown tree; the partners' meadow has a deer
 // and a cow grazing under the connected trees. A dream of a past that never
 // happened, so nobody minds that they were never in the same era.
-const DIPLODOCUS = `<svg class="diplodocus" viewBox="0 0 160 60"><ellipse cx="80" cy="36" rx="22" ry="10"/><g class="dip-neck"><path d="M66 29C54 20 42 10 26 6.2L26.6 10.4C41 14 53 24 61 36Z"/><ellipse cx="23" cy="8" rx="5.2" ry="2.8"/></g><path d="M100 30C120 31 140 38 158 46C140 41.5 120 38.5 100 40.5Z"/><path class="line leg" d="M70 42V58M77 43V58M90 43V58M97 42V58"/></svg>`;
+const DIPLODOCUS = `<svg class="diplodocus" viewBox="0 0 160 60"><path d="M60 34C60 26 70 23 82 23C94 23 104 27 104 34C104 41 95 45 82 45C69 45 60 41 60 34Z"/><g class="dip-neck"><path d="M67 28C55 19 42 10 26 6.2L26.6 10.4C41 14 53 24 62 37Z"/><path d="M18.5 8.2C18.5 5.8 21 4.6 24 4.9C27 5.2 28.6 6.6 28.2 8.8C27.8 10.8 25 11.6 22 11.2C20 11 18.5 10 18.5 8.2Z"/></g><path d="M103 30C121 31 141 38 158 46C141 42 121 39 102 40Z"/><path d="M66 40L64 58H69.5L71.5 41ZM75 43L74.5 58H80L80.5 43ZM88 43L88.5 58H94L93.5 42ZM96 40L98 58H103.5L101.5 38Z"/></svg>`;
 const COW = `<svg class="cow" viewBox="0 0 60 40"><path d="M11 12H41Q46 12 46 17.5V23Q46 28 41.5 28H12.5Q8 28 8 22.5V16.5Q8 12 11 12Z"/><g class="cow-head"><path d="M43 14.5L51.5 21L53.6 27.4L49.6 29.4L45.4 25.6L41.6 19.4Z"/><path class="line" d="M46.5 15.2L48 12.2M44.6 16.4L42.4 14.2"/></g><path class="line" d="M13 28V38M18 28V38M36 28V38M41 28V38M8.4 14Q4.4 20 5.4 28"/><ellipse cx="30" cy="29" rx="3" ry="1.5"/></svg>`;
 const DEER = `<svg class="deer" viewBox="0 0 50 56"><ellipse cx="28" cy="30" rx="12" ry="6"/><g class="deer-head"><path d="M18 27L14 14L18 13L22.4 27Z"/><path d="M13.4 13.2L7 16L8 18.4L15.2 16.6Z"/><path class="line thin" d="M15 12L13 5L10 2M13 5L15 1M17 12L19 5L22 2M19 5L17 1M16.4 11.4L19.2 9.6"/></g><path class="line" d="M20 35L19 54M23 35.4L24 54M33 35.4L32 54M37 34.6L39 54M40 27.4L43 28.6"/></svg>`;
 const HUMMINGBIRD = `<div class="hummingbird" hidden aria-hidden="true"><svg viewBox="0 0 40 32"><path class="hb-body" d="M9 17C9 12 14 9.5 19 10.5C23.5 11.4 26 14 26.8 16.2C22 19.6 15.6 21.6 9 17Z"/><path class="hb-tail" d="M9.4 16.6L2 13.6L3.4 19.4Z"/><circle class="hb-head" cx="25" cy="13" r="3.4"/><path class="hb-beak" d="M28 12.6L39 11.4"/><circle class="hb-eye" cx="25.9" cy="12.3" r="0.7"/><g class="hb-wings"><ellipse cx="17" cy="8" rx="3" ry="8.5" transform="rotate(-25 17 12)"/></g></svg></div>`;
 const DRAGONFLY = `<div class="dragonfly" hidden aria-hidden="true"><svg viewBox="0 0 40 24"><g class="df-wings"><ellipse cx="19" cy="7.4" rx="9.5" ry="2.5" transform="rotate(-10 19 7.4)"/><ellipse cx="19" cy="16.6" rx="9.5" ry="2.5" transform="rotate(10 19 16.6)"/><ellipse cx="25" cy="7.8" rx="7.4" ry="2.1" transform="rotate(-18 25 7.8)"/><ellipse cx="25" cy="16.2" rx="7.4" ry="2.1" transform="rotate(18 25 16.2)"/></g><path class="df-body" d="M4 12H31"/><circle class="df-head" cx="33.4" cy="12" r="2.3"/></svg></div>`;
 const SCENE_LIFE = {
-  seed: `      <div class="horizon-life" aria-hidden="true">${DIPLODOCUS}</div>\n      ${HUMMINGBIRD}`,
-  mycelium: `      <div class="horizon-life" aria-hidden="true">${DEER}${COW}</div>`,
+  seed: `      ${HUMMINGBIRD}`,
+  mycelium: `      <div class="horizon-life" aria-hidden="true">${DEER}${COW}${DIPLODOCUS}</div>`,
 };
 
 // Everything that stands on the hero's horizon, drawn as silhouettes against
 // its haze: a La Mancha windmill turning, Don Quixote on Rocinante with his
-// lance levelled at it and Sancho on his donkey behind, and one of Dalí's
-// elephants on impossibly long legs, crossing very slowly. If you know.
+// lance levelled at it and Sancho on his donkey behind, and If you know.
 const HORIZON_LIFE = `      <div class="horizon-life" aria-hidden="true">
         <svg class="windmill" viewBox="0 0 60 90"><path d="M22 88L26.5 40H33.5L38 88Z"/><path d="M24.5 40.5Q30 29 35.5 40.5Z"/><g class="sails">${[0, 90, 180, 270].map((a) => `<g transform="rotate(${a} 30 38)"><path class="spar" d="M30 38V8"/><path class="lattice" d="M30.8 10H37V33H30.8M30.8 15.5H37M30.8 21H37M30.8 26.5H37"/></g>`).join("")}</g></svg>
         <svg class="quixote" viewBox="0 0 110 70"><ellipse cx="70" cy="44" rx="16" ry="5.5"/><path d="M82 42L90 30L96 31L97.5 34L91.5 35.5L86 44Z"/><path class="line" d="M58 48L56 66M62 48.5L63 66M78 48L80 66M83 47L86.5 66M54 42Q48 48 50 58"/><path class="line thick" d="M70 39L69 20"/><path class="line" d="M70 39L74 48L73 54M69 24L76 28M62 31L108 19"/><circle cx="69" cy="16" r="2.8"/><path d="M65 14.5Q69 10 73 14.5Z"/><path class="line" d="M64 14.6H74"/><ellipse cx="66.5" cy="28" rx="2.4" ry="3.4"/><ellipse cx="26" cy="50" rx="11" ry="5.5"/><path d="M35 47L41 41L44 43L39 50Z"/><path class="line" d="M40 41.5L39 34M41.8 41.8L43.5 35M19 54L18 66M23 55L23 66M30 55L31 66M34 54L35 66"/><circle cx="25" cy="40" r="6"/><circle cx="26" cy="31" r="3.2"/><path d="M23.5 29.5Q26 25.2 28.5 29.5Z"/><path class="line" d="M21.5 29.6H30.5M25 45L29 51"/></svg>
-        <svg class="elephant" viewBox="0 0 40 90"><ellipse cx="20" cy="22" rx="11" ry="6.5"/><circle cx="31" cy="19.5" r="4.6"/><path class="line" d="M34.5 21.5Q38 29 35.5 36M12 27L10 88M16 28L15 88M24 28L25 88M28 27L30.5 88"/><path d="M17.5 16L19.5 3L21.5 16Z"/><path d="M13 15.5H26V18H13Z"/></svg>
       </div>`;
 
 // The White Rabbit: bone-white, late, pocket watch and all. lodge.mjs runs
@@ -167,13 +165,12 @@ ${HORIZON_LIFE}
       <a class="burrow" href="#start" aria-label="Follow the white rabbit" data-label="Follow the white rabbit &darr;"><span class="burrow-mouth" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></span></a>
 ${RABBIT}
       ${DRAGONFLY}
-      <svg class="glass-clock" viewBox="0 0 54 52" aria-hidden="true"><path class="face" d="M3.5 13.5C3.5 6 15 2 27.5 2.6C40 3.2 51 7 51 13.5C51 18.6 45.4 21 41.2 24C36.6 27.6 37.4 36 34.4 43.4C32.4 48.6 27 49.4 26.8 44.4C26.6 37.6 24 32.8 18.4 29.6C10.6 25.4 3.5 21 3.5 13.5Z"/><path class="tick" d="M36.20 13.50L37.60 13.50"/><path class="tick" d="M34.97 16.10L36.18 16.50"/><path class="tick" d="M31.60 18.00L32.30 18.70"/><path class="tick" d="M27.00 18.70L27.00 19.50"/><path class="tick" d="M22.40 18.00L21.70 18.70"/><path class="tick" d="M19.03 16.10L17.82 16.50"/><path class="tick" d="M17.80 13.50L16.40 13.50"/><path class="tick" d="M19.03 10.90L17.82 10.50"/><path class="tick" d="M22.40 9.00L21.70 8.30"/><path class="tick" d="M27.00 8.30L27.00 7.50"/><path class="tick" d="M31.60 9.00L32.30 8.30"/><path class="tick" d="M34.97 10.90L36.18 10.50"/><line class="glass-hour" x1="27" y1="13.5" x2="31.5" y2="11"/><line class="glass-minute" x1="27" y1="13.5" x2="21" y2="9.2"/><circle class="pin" cx="27" cy="13.5" r="0.9"/></svg>
+      <svg class="glass-clock" viewBox="0 0 80 154" aria-hidden="true"><path class="face" d="M6 20C6 10 22 5 40 5.5C58 6 74 11 74 20C74 27 64 30 56 33C50 35 47 40 46 50C45 64 47 78 45.5 92C44.5 104 46 116 44 126C43 131 45 136 43 140C41.5 143 38.5 143 38 140C37 136 39 131 38 126C36.5 116 37 104 36 92C35 78 36 64 34 50C33 40 30 35 24 33C16 30 6 27 6 20Z"/><ellipse class="drop" cx="40.6" cy="149" rx="2.1" ry="3"/><path class="rim" d="M11.5 20C11.5 13.4 24 9.6 40 10C56 10.4 68.5 14 68.5 20C68.5 25.5 57 29.6 40 29.8C23 29.6 11.5 25.5 11.5 20Z"/><path class="tick major" d="M40.0 12.3L40.0 11.4"/><path class="tick" d="M48.8 13.2L50.0 12.4"/><path class="tick" d="M55.2 15.7L57.3 15.2"/><path class="tick major" d="M57.5 19.0L60.0 19.0"/><path class="tick" d="M55.2 22.3L57.3 22.8"/><path class="tick" d="M48.8 24.8L50.0 25.6"/><path class="tick major" d="M40.0 25.6L40.0 26.6"/><path class="tick" d="M31.2 24.8L30.0 25.6"/><path class="tick" d="M24.8 22.3L22.7 22.8"/><path class="tick major" d="M22.5 19.0L20.0 19.0"/><path class="tick" d="M24.8 15.7L22.7 15.2"/><path class="tick" d="M31.2 13.2L30.0 12.4"/><path class="fold" d="M44.2 46C43.2 70 44.4 96 42.6 122M36.4 52C37.4 72 36.6 92 38 112M29 33.6C33 36 35 40 35.6 45"/><circle class="bow" cx="40" cy="2.6" r="2.3"/><path class="bow-stem" d="M40 4.9V5.8"/><line class="glass-hour" x1="40" y1="19" x2="48.0" y2="21.6"/><line class="glass-minute" x1="40" y1="19" x2="54.3" y2="22.1"/><circle class="pin" cx="40" cy="19" r="0.9"/><g class="fly"><ellipse cx="21.5" cy="15.4" rx="1.5" ry="0.9"/><ellipse class="wing" cx="20.8" cy="14.3" rx="1.3" ry="0.6" transform="rotate(-25 20.8 14.3)"/><ellipse class="wing" cx="22.1" cy="14.2" rx="1.3" ry="0.6" transform="rotate(25 22.1 14.2)"/></g></svg>
       <div class="wrap bleed-body">
         <div class="bleed-copy rise">
           <span class="kicker">${kicker}</span>
           <div class="glass-title">
             <h1 class="headline-caps">${text}</h1>
-            <span class="headline-caps glass-mirror-clip" aria-hidden="true"><span class="glass-mirror">${text}</span></span>
           </div>
           <p class="bleed-lede">${lede}</p>
           <div class="bleed-actions">
@@ -230,6 +227,18 @@ const CAT = `  <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" d
       <path class="cat-mouth" d="M30 34.5Q31 35.9 32 34.7Q33 35.9 34 34.5"/>
     </svg>
   </a>`;
+
+// The fox: the inner pages' own creature. Russet, not OrangeCat's orange; a
+// white-tipped brush. lodge.mjs sends him across a stage floor now and then.
+const FOX = `  <div class="fox" hidden aria-hidden="true"><svg viewBox="0 0 100 50">
+    <path class="fox-tail" d="M28 22C18 16 8 19 2.5 26C8 25 11 27.5 13.5 30C18 26.5 24 27 29 28Z"/><path class="fox-tip" d="M2.5 26C5 23.5 7.5 22.8 10 23.4C8.6 25.4 8 27 8.2 28.6C6.4 27.4 4.6 26.6 2.5 26Z"/>
+    <g class="fox-legs back"><path d="M33 31L27 44M36 32L33 45"/></g>
+    <path class="fox-body" d="M27 25C33 18 50 18 62 20C68 21 72 24 72 29C72 34 64 36 52 36C42 36 32 35 28 31Z"/>
+    <path class="fox-belly" d="M44 34.6C50 35.4 58 35.2 64 33.6C62 36 56 37 50 37C47 37 45 36 44 34.6Z"/>
+    <g class="fox-legs front"><path d="M64 33L71 44M60 34L62 45.5"/></g>
+    <path class="fox-head" d="M66 23C69 17 74 14 78 14L80 7L83.5 14.4L86.5 9.5L87.8 16.4C90 18 94 20.5 98 22.4C96 24.6 91 25.6 86 26C81 27 74 29 70 29Z"/>
+    <path class="fox-cheek" d="M86 26C91 25.6 96 24.6 98 22.4C95 25.8 90 28 84.6 28.2Z"/><circle class="fox-eye" cx="84.6" cy="19" r="0.95"/><circle class="fox-nose" cx="97.6" cy="22.6" r="1.1"/>
+  </svg></div>`;
 
 const RABBIT_HOLE = `    <div class="rabbit-hole" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></div>`;
 
@@ -464,6 +473,7 @@ ${sections.map(([title, links]) => `      <nav aria-label="${esc(title)}">
   <script type="module" src="/theme.mjs"><\/script>
   <script type="module" src="/nav.mjs"><\/script>
 ${CAT}
+${path === "/" ? "" : FOX}
   <script type="module" src="/sky.mjs"><\/script>
   <script type="module" src="/lodge.mjs"><\/script>
 ${script ?? ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>\n  <script type="module" src="/creatures.mjs"><\/script>` : ""}

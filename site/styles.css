@@ -71,7 +71,7 @@
    night; sky.mjs and the drawn scenes read these, so the painted world and
    the page never disagree. */
 :root {
-  --sky-base: #dcdcd4;
+  --sky-base: #e6dcc6;
   --veil: 232 228 218;
   --line-rgb: 34 31 27;
   --signal-rgb: 12 140 82;
@@ -811,26 +811,27 @@ body::after {
 .glass { background: transparent; }
 .scene-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .bleed-scene { background: transparent; }
-.glass-horizon { position: absolute; left: 0; right: 0; top: 66%; height: 1px; background: linear-gradient(90deg, transparent 48%, rgb(var(--line-rgb) / 0.28) 62%, rgb(var(--line-rgb) / 0.28) 85%, transparent); }
+.glass-horizon { position: absolute; left: 0; right: 0; top: var(--horizon, 66%); height: 1px; background: linear-gradient(90deg, transparent 48%, rgb(var(--line-rgb) / 0.28) 62%, rgb(var(--line-rgb) / 0.28) 85%, transparent); }
 .glass .lodge-floor { opacity: 0.5; height: 22vh; }
-@media (max-width: 700px) { .glass .lodge-floor { height: 13vh; } }
-/* Dalí's soft watch, draped over the tree's left limb (scenes.mjs sets the perch):
-   the dial rests on the branch and the rest of it pours down. */
-.glass-clock { position: absolute; z-index: 1; left: var(--clock-x); top: var(--clock-y); width: 58px; height: auto; transform: translate(-50%, -30%) rotate(-8deg); fill: none; stroke: rgb(var(--line-rgb) / 0.85); stroke-width: 1.1; stroke-linecap: round; transition: opacity 0.8s; }
+@media (max-width: 700px) { .glass .lodge-floor { height: 9vh; } }
+/* Dalí's soft watch, slumped over the fork where the trunk divides and
+   pouring down it, stopped at twenty past four. scenes.mjs sets the fork. */
+.glass-clock { position: absolute; z-index: 1; left: var(--clock-x); top: var(--clock-y); width: 64px; height: auto; transform: translate(-50%, -14%); fill: none; stroke: rgb(var(--line-rgb) / 0.9); stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; transition: opacity 1.2s; }
+.glass-clock .drop { fill: var(--clock-face); stroke-width: 0.9; animation: drip 5s ease-in infinite; transform-box: fill-box; transform-origin: 50% 0; }
+@keyframes drip { 0%, 60% { transform: translateY(-6px) scale(0.6); opacity: 0; } 70% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(26px) scale(0.9, 1.15); opacity: 0; } }
 .glass-clock .face { fill: var(--clock-face); stroke-width: 1.3; }
-.glass-clock .tick { stroke-width: 0.9; }
-.glass-clock .pin { fill: rgb(var(--line-rgb) / 0.9); stroke: none; }
-.glass:not([data-perched]) .glass-clock { opacity: 0; }
-.glass-minute, .glass-hour { transform-origin: 27px 13.5px; animation: backwards 12s linear infinite; }
-.glass-hour { animation-duration: 144s; }
+.glass-clock .rim { stroke-width: 0.7; stroke: rgb(var(--line-rgb) / 0.55); }
+.glass-clock .tick { stroke-width: 0.8; }
+.glass-clock .tick.major { stroke-width: 1.4; }
+.glass-clock .fold { stroke-width: 0.6; stroke: rgb(var(--line-rgb) / 0.4); }
+.glass-clock .bow { stroke-width: 1; }
+.glass-clock .pin, .glass-clock .fly ellipse { fill: rgb(var(--line-rgb) / 0.95); stroke: none; }
+.glass-clock .fly .wing { fill: rgb(var(--line-rgb) / 0.3); }
+.glass:not([data-draped]) .glass-clock { opacity: 0; }
 @keyframes backwards { to { transform: rotate(-360deg); } }
 .glass .kicker { animation: flicker 11s steps(1) 4s infinite; }
 @keyframes flicker { 0%, 100% { opacity: 1; } 90% { opacity: 0.2; } 90.6% { opacity: 1; } 92% { opacity: 0.35; } 92.4% { opacity: 1; } }
 
-/* The headline, again, in the glass. */
-.glass-title { display: grid; }
-.glass-mirror-clip { display: block; height: 0.42em; overflow: hidden; margin-top: 0.02em; -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.55), transparent 90%); mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.55), transparent 90%); }
-.glass-mirror { display: block; transform: scaleY(-1); filter: url(#ripple-soft); color: var(--fg); }
 
 
 /* The rabbit hole. */
@@ -843,11 +844,11 @@ body::after {
 .home-page .kicker::before { counter-increment: chapter; content: counter(chapter, upper-roman) "\2003"; font-family: var(--mono); letter-spacing: 0.05em; opacity: 0.7; }
 
 @media (max-width: 700px) {
-  .glass-horizon { top: 82%; background: linear-gradient(90deg, transparent, rgb(var(--line-rgb) / 0.22) 30%, rgb(var(--line-rgb) / 0.22) 70%, transparent); }
-  .glass-clock { width: 34px; }
+  .glass-horizon { background: linear-gradient(90deg, transparent, rgb(var(--line-rgb) / 0.22) 30%, rgb(var(--line-rgb) / 0.22) 70%, transparent); }
+  .glass-clock { width: 46px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .glass-minute, .glass-hour, .glass .kicker { animation: none; }
+  .glass-clock .drop, .glass .kicker { animation: none; }
 }
 
 /* A drawn scene keeps to the right of the copy on wide screens, so its scrim
@@ -927,14 +928,13 @@ body::after {
 .horizon-life svg { position: absolute; bottom: -1px; height: auto; fill: currentColor; stroke: rgb(var(--line-rgb) / 0.42); stroke-width: 0.9; stroke-linecap: round; paint-order: stroke; }
 .horizon-life .line { fill: none; stroke-width: 1.5; stroke: color-mix(in srgb, rgb(var(--line-rgb)) 40%, var(--silhouette)); }
 .horizon-life .thick { stroke-width: 3.2; }
-.windmill { left: 86%; width: 58px; }
+.windmill { left: 85%; width: 84px; }
 .windmill .spar { stroke-width: 1.4; fill: none; }
 .windmill .lattice { fill: none; stroke-width: 0.8; }
 .windmill .sails { transform-origin: 30px 38px; animation: sails 18s linear infinite; }
 @keyframes sails { to { transform: rotate(-360deg); } }
-.quixote { left: 50%; width: 118px; }
-.elephant { left: 0; width: 40px; opacity: 0.8; animation: elephant 160s linear infinite; }
-@keyframes elephant { from { transform: translateX(96vw) scaleX(-1); } to { transform: translateX(40vw) scaleX(-1); } }
+/* Quixote charges the windmill: between the tree and the mill, lance levelled. */
+.quixote { left: 72.5%; width: 150px; }
 
 /* ─── the burrow and the White Rabbit ─────────────────────────────────── */
 .burrow { position: absolute; z-index: 4; left: 44%; bottom: 6vh; width: 138px; height: 52px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(closest-side, #000 50%, rgb(0 0 0 / 0.7) 72%, transparent); box-shadow: 0 0 34px rgb(var(--signal-rgb) / 0.22); }
@@ -945,7 +945,7 @@ body::after {
 .burrow::after { content: attr(data-label); position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, 0); padding: 5px 8px; border-radius: 3px; background: rgb(var(--signal-rgb)); color: #04140b; font: 600 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
 .burrow:hover::after, .burrow:focus-visible::after { opacity: 1; transform: translate(-50%, -8px); }
 .burrow:focus-visible { outline: 2px solid rgb(var(--signal-rgb)); outline-offset: 6px; }
-.rabbit { position: absolute; z-index: 4; left: 0; top: 0; width: 64px; height: 64px; pointer-events: none; }
+.rabbit { position: absolute; z-index: 4; left: calc(44% - 150px); bottom: calc(6vh + 4px); width: 84px; height: 84px; pointer-events: none; }
 .rabbit[hidden] { display: none; }
 .rabbit-hop { width: 100%; height: 100%; transform-origin: 50% 100%; }
 .rabbit svg { width: 100%; height: 100%; overflow: visible; stroke: var(--rabbit-line); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
@@ -957,8 +957,9 @@ body::after {
 .rabbit .r-glint { fill: #fff; stroke: none; }
 .rabbit .r-nose { fill: #e79aa4; stroke: none; }
 .rabbit .r-watch { fill: #d9c48e; }
-/* With reduced motion he does not run; he waits by the hole, checking his watch. */
-.rabbit-waits { display: block !important; left: calc(44% - 120px); top: auto; bottom: calc(6vh + 10px); }
+/* Fretting: the ears twitch, now and then he checks the watch. */
+.rabbit-hop svg { transform-origin: 50% 100%; animation: fret 3.6s ease-in-out infinite; }
+@keyframes fret { 0%, 70%, 100% { transform: rotate(0); } 76% { transform: rotate(-4deg) translateY(-2px); } 84% { transform: rotate(2deg); } }
 
 /* ─── the cat, cuter ──────────────────────────────────────────────────── */
 .cat-paw { fill: color-mix(in srgb, currentColor 18%, transparent); stroke-width: 1.4; }
@@ -967,27 +968,25 @@ body::after {
 .cat-nose { fill: currentColor; stroke: none; }
 
 @media (max-width: 700px) {
-  .windmill { left: 80%; width: 32px; }
-  .quixote { left: 4%; width: 60px; }
-  .elephant { width: 22px; }
-  .burrow { left: 72%; bottom: 2.5vh; width: 104px; height: 40px; }
+  .windmill { left: 80%; width: 40px; }
+  .quixote { left: 50%; width: 76px; }
+  .burrow { left: 26%; bottom: 3vh; width: 92px; height: 34px; }
   .burrow svg { width: 92px; height: 92px; }
-  .rabbit { width: 48px; height: 48px; }
-  .rabbit-waits { left: calc(72% - 96px); bottom: calc(2.5vh + 6px); }
+  .rabbit { width: 58px; height: 58px; left: calc(26% + 44px); bottom: calc(3vh + 2px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .windmill .sails, .elephant, .burrow svg { animation: none; }
-  .elephant { transform: translateX(70vw) scaleX(-1); }
+  .windmill .sails, .burrow svg, .rabbit-hop svg { animation: none; }
 }
 
 /* ─── creatures ───────────────────────────────────────────────────────── */
-.diplodocus { left: 57%; width: 130px; opacity: 0.85; }
+/* In the meadow, reaching up into the connected trees to browse. */
+.diplodocus { left: 66%; width: 270px; transform: scaleX(1); }
 .dip-neck { transform-origin: 64px 32px; animation: graze-neck 9s ease-in-out infinite; }
 @keyframes graze-neck { 0%, 100% { transform: rotate(0); } 45% { transform: rotate(-4deg); } 60% { transform: rotate(3deg); } }
-.cow { left: 62%; width: 54px; }
+.cow { left: 50%; width: 64px; }
 .cow-head { transform-origin: 44px 16px; animation: graze 7s ease-in-out infinite; }
 @keyframes graze { 0%, 55%, 100% { transform: rotate(0); } 65%, 85% { transform: rotate(14deg); } }
-.deer { left: 46%; width: 44px; }
+.deer { left: 38%; width: 52px; }
 .deer-head { transform-origin: 20px 27px; animation: deer-look 11s ease-in-out infinite; }
 @keyframes deer-look { 0%, 40%, 100% { transform: rotate(0); } 50%, 70% { transform: rotate(-38deg); } 78% { transform: rotate(4deg); } }
 .horizon-life .leg, .horizon-life .line.thin { fill: none; }
@@ -995,13 +994,13 @@ body::after {
 .horizon-life .thin { stroke-width: 1; }
 .dragonfly, .hummingbird { position: absolute; z-index: 2; left: 0; top: 0; pointer-events: none; will-change: transform; }
 .dragonfly[hidden], .hummingbird[hidden] { display: none; }
-.dragonfly svg { width: 36px; height: auto; margin: -11px 0 0 -18px; overflow: visible; }
+.dragonfly svg { width: 50px; height: auto; margin: -15px 0 0 -25px; overflow: visible; }
 .df-body { fill: none; stroke: rgb(var(--signal-rgb)); stroke-width: 1.8; stroke-linecap: round; stroke-dasharray: 3 1.2; }
 .df-head { fill: rgb(var(--signal-rgb)); }
 .df-wings ellipse { fill: rgb(var(--line-rgb) / 0.16); stroke: rgb(var(--line-rgb) / 0.55); stroke-width: 0.5; }
 .df-wings { transform-origin: 21px 12px; animation: shimmer 90ms linear infinite alternate; }
 @keyframes shimmer { to { transform: scaleY(0.72); opacity: 0.75; } }
-.hummingbird svg { width: 34px; height: auto; margin: -14px 0 0 -17px; overflow: visible; }
+.hummingbird svg { width: 50px; height: auto; margin: -20px 0 0 -25px; overflow: visible; }
 .hb-body, .hb-head { fill: rgb(var(--signal-rgb) / 0.9); }
 .hb-tail { fill: rgb(var(--line-rgb) / 0.7); }
 .hb-beak { fill: none; stroke: rgb(var(--line-rgb) / 0.9); stroke-width: 0.9; stroke-linecap: round; }
@@ -1010,9 +1009,9 @@ body::after {
 .hb-wings { transform-origin: 18px 13px; animation: whirr 45ms linear infinite alternate; }
 @keyframes whirr { from { transform: rotate(-38deg); } to { transform: rotate(28deg); } }
 @media (max-width: 700px) {
-  .diplodocus { width: 84px; left: 44%; }
-  .cow { width: 34px; left: 64%; }
-  .deer { width: 28px; left: 44%; }
+  .diplodocus { width: 130px; left: 58%; }
+  .cow { width: 36px; left: 40%; }
+  .deer { width: 30px; left: 22%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .dip-neck, .cow-head, .deer-head { animation: none; }
@@ -1022,3 +1021,33 @@ body::after {
    next instead of starting at a hard line. */
 .bleed-scrim { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%); mask-image: linear-gradient(to bottom, transparent, #000 22%); }
 .bleed-under .bleed-scrim { -webkit-mask-image: none; mask-image: none; }
+
+/* By day the floor is laid in full sun: crisp, not greyed. */
+:root:not(.dark) .glass .lodge-floor, :root:not(.dark) .stage-floored::after { opacity: 0.9; --ink: #2b2620; --bone: #f4ecdc; }
+
+/* The Lodge floor lies in front of the hero's ground plane. */
+.glass .lodge-floor { z-index: 1; }
+
+/* On a phone the crown stands behind the words; the watch would hang on a
+   sentence. It waits for a wider screen. */
+@media (max-width: 700px) { .glass-clock { display: none; } }
+
+.glass-clock .glass-hour { stroke-width: 1.6; }
+.glass-clock .glass-minute { stroke-width: 1.1; }
+@media (max-width: 700px) { .rabbit-hop { transform: scaleX(-1); } }
+
+/* ─── the fox ─────────────────────────────────────────────────────────── */
+.fox { position: absolute; z-index: 2; left: -120px; bottom: 26px; width: 104px; pointer-events: none; }
+.fox[hidden] { display: none; }
+.fox svg { display: block; width: 100%; height: auto; overflow: visible; stroke-linecap: round; stroke-linejoin: round; animation: lope 0.42s ease-in-out infinite; transform-origin: 50% 80%; }
+.fox-body, .fox-head, .fox-tail { fill: #b8632f; stroke: rgb(var(--line-rgb) / 0.55); stroke-width: 0.8; }
+.fox-tip, .fox-belly, .fox-cheek { fill: #f3ece0; stroke: none; }
+.fox-legs path { fill: none; stroke: #6b3a1e; stroke-width: 3; }
+.fox-eye, .fox-nose { fill: #16110d; }
+.fox-legs.front { transform-origin: 62px 33px; animation: stride 0.42s ease-in-out infinite; }
+.fox-legs.back { transform-origin: 34px 31px; animation: stride 0.42s ease-in-out infinite reverse; }
+.fox-tail, .fox-tip { transform-origin: 28px 25px; animation: brush 0.42s ease-in-out infinite; }
+@keyframes lope { 50% { transform: translateY(-7px) rotate(-3deg); } }
+@keyframes stride { 0%, 100% { transform: rotate(28deg); } 50% { transform: rotate(-32deg); } }
+@keyframes brush { 50% { transform: rotate(-8deg); } }
+@media (max-width: 700px) { .fox { width: 72px; bottom: 18px; } }
