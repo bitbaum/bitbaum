@@ -70,8 +70,10 @@ if (walker && plain) {
     // Depth eases in: far is slow and small, near is larger and quicker.
     const d = u * u * 0.35 + u * 0.65;
     const x = w * (phoneW ? 0.95 - d * 0.35 : 0.97 - d * 0.3);
-    const y = horizon + (h - horizon) * d * 0.62;
-    const scale = 0.34 + d * 0.72;
+    // On a phone the words fill the plain below its horizon, so the elephant
+    // keeps to the far ground just under it, smaller.
+    const y = phoneW ? horizon + d * 34 : horizon + (h - horizon) * d * 0.62;
+    const scale = phoneW ? 0.3 + d * 0.3 : 0.34 + d * 0.72;
     const fade = Math.min(1, u / 0.06, (1 - u) / 0.08);
     walker.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-50%, -100%) scale(${scale.toFixed(3)})`;
     walker.style.opacity = Math.max(0, fade).toFixed(3);

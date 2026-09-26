@@ -440,7 +440,7 @@ function mycelium(ctx, box, canvas) {
   return {
     size(w, h) {
       W = w; H = h; phone = W < 700;
-      horizon = H * (phone ? 0.4 : 0.5);
+      horizon = H * (phone ? 0.3 : 0.5);
       const n = phone ? 4 : 6;
       trees = [];
       for (let i = 0; i < n; i++) {
