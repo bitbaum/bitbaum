@@ -23,8 +23,16 @@
   // Tiny FOUC guard only — theme UI lives in /theme.mjs.
   (function () {
     try {
-      var saved = localStorage.getItem("theme") || "system";
-      var dark = saved === "dark" || (saved === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
+      // "auto" (local time) is the default: night while the sun is down where
+      // the reader is. The same sum as theme.mjs, kept tiny.
+      var saved = localStorage.getItem("theme") || "auto";
+      if (saved === "system") saved = "auto";
+      var d = new Date(), lat = 47, lng = -d.getTimezoneOffset() / 4, g = JSON.parse(localStorage.getItem("bb-geo") || "null");
+      if (g) { lat = g.lat; lng = g.lng; }
+      var r = Math.PI / 180, day = (d - Date.UTC(d.getUTCFullYear(), 0, 0)) / 864e5, dec = -23.44 * Math.cos(2 * Math.PI / 365 * (day + 10));
+      var h = 15 * (d.getUTCHours() + d.getUTCMinutes() / 60 + lng / 15 - 12);
+      var sun = Math.asin(Math.sin(lat * r) * Math.sin(dec * r) + Math.cos(lat * r) * Math.cos(dec * r) * Math.cos(h * r)) / r;
+      var dark = saved === "dark" || (saved === "auto" && sun < -3);
       document.documentElement.classList.toggle("dark", dark);
       document.documentElement.dataset.theme = saved;
     } catch (e) {
@@ -38,7 +46,7 @@
 </head>
 <body>
   <canvas class="sky" aria-hidden="true"></canvas>
-  <div class="sky-life" aria-hidden="true"><div class="whale" hidden><span class="fig puppet fig-whale"><img class="pp-body" src="/art/rig/whale.body.webp" width="582" height="242" alt="" loading="lazy" decoding="async" draggable="false"><img class="pp pp-tail" src="/art/rig/whale.tail.webp" alt="" loading="lazy" decoding="async" draggable="false" style="left:61.512%;top:2.066%;width:38.488%;height:71.074%;transform-origin:6.46% 61.81%;--a0:-9deg;--a1:9deg;animation-duration:4.2s;animation-delay:0s"><img class="pp pp-fin" src="/art/rig/whale.fin.webp" alt="" loading="lazy" decoding="async" draggable="false" style="left:12.543%;top:50.826%;width:42.268%;height:48.347%;transform-origin:36.57% 6.56%;--a0:-8deg;--a1:6deg;animation-duration:4.2s;animation-delay:-2.1s"></span></div><div class="fog-walker" hidden><img class="fig fig-fog-neck" src="/art/fog-neck.webp" width="247" height="280" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
+  <div class="sky-life" aria-hidden="true"><div class="whale" hidden><span class="fig puppet fig-whale" data-rig='[{"poly":[[62,0],[100,0],[100,72],[62,72]],"pivot":[64,46],"a":[-9,9],"dur":4.2,"delay":0,"mode":"swing"},{"poly":[[13,55],[30,52],[56,92],[50,100],[24,100],[13,70]],"pivot":[28,54],"a":[-8,6],"dur":4.2,"delay":-2.1,"mode":"swing"}]'><img class="pp-body" src="/art/whale.webp" width="582" height="242" alt="" loading="lazy" decoding="async" draggable="false"></span></div><div class="fog-walker" hidden><img class="fig fig-fog-neck" src="/art/fog-neck.webp" width="247" height="280" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
   <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false"><filter id="ripple"><feTurbulence type="fractalNoise" baseFrequency="0.006 0.09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter><filter id="ripple-soft"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.12" numOctaves="1" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
   <a class="skip" href="#main">Skip to content</a>
   <header class="top" data-header>
@@ -135,8 +143,8 @@
         <button type="button" data-set-theme="light" title="Light" aria-label="Light">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
         </button>
-        <button type="button" data-set-theme="system" title="Match system" aria-label="Match system">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.6" rx="1.6"/><path d="M8.6 20.4h6.8"/></svg>
+        <button type="button" data-set-theme="auto" title="Local time — day or night where you are" aria-label="Local time: day or night where you are">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 3.4a8.6 8.6 0 0 1 0 17.2z" fill="currentColor"/><path d="M12 7.2V12l3 2"/></svg>
         </button>
         <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
@@ -144,6 +152,8 @@
       </div>
           <button type="button" class="weather-switch" data-weather-cycle aria-label="Change the weather" title="Change the weather">
         <svg class="w-clear" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7"/></svg>
+        <svg class="w-clouds" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 18.5a4 4 0 0 1-.4-8A5.5 5.5 0 0 1 16.6 9a3.9 3.9 0 0 1 .9 7.7z"/></svg>
+        <svg class="w-wind" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h11.5a2.5 2.5 0 1 0-2.5-2.5M3 14h15.5a2.5 2.5 0 1 1-2.5 2.5M3 19h7"/></svg>
         <svg class="w-mist" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5h13M6 12h15M3 15.5h12M7 19h10"/></svg>
         <svg class="w-rain" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14.5a4.5 4.5 0 1 1 1.3-8.8A5.5 5.5 0 0 1 18.8 8a3.3 3.3 0 0 1-.8 6.5z"/><path d="M8.5 17.5l-1 2.5M12.5 17.5l-1 2.5M16.5 17.5l-1 2.5"/></svg>
         <svg class="w-snow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 6.8l2.5-2.3M9.5 19.5 12 17.2l2.5 2.3"/></svg>
@@ -201,14 +211,16 @@
         <button type="button" data-set-theme="light" title="Light" aria-label="Light">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
         </button>
-        <button type="button" data-set-theme="system" title="Match system" aria-label="Match system">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.6" rx="1.6"/><path d="M8.6 20.4h6.8"/></svg>
+        <button type="button" data-set-theme="auto" title="Local time — day or night where you are" aria-label="Local time: day or night where you are">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 3.4a8.6 8.6 0 0 1 0 17.2z" fill="currentColor"/><path d="M12 7.2V12l3 2"/></svg>
         </button>
         <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
         </button>
       </div><button type="button" class="weather-switch" data-weather-cycle aria-label="Change the weather" title="Change the weather">
         <svg class="w-clear" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7"/></svg>
+        <svg class="w-clouds" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 18.5a4 4 0 0 1-.4-8A5.5 5.5 0 0 1 16.6 9a3.9 3.9 0 0 1 .9 7.7z"/></svg>
+        <svg class="w-wind" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h11.5a2.5 2.5 0 1 0-2.5-2.5M3 14h15.5a2.5 2.5 0 1 1-2.5 2.5M3 19h7"/></svg>
         <svg class="w-mist" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5h13M6 12h15M3 15.5h12M7 19h10"/></svg>
         <svg class="w-rain" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14.5a4.5 4.5 0 1 1 1.3-8.8A5.5 5.5 0 0 1 18.8 8a3.3 3.3 0 0 1-.8 6.5z"/><path d="M8.5 17.5l-1 2.5M12.5 17.5l-1 2.5M16.5 17.5l-1 2.5"/></svg>
         <svg class="w-snow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 6.8l2.5-2.3M9.5 19.5 12 17.2l2.5 2.3"/></svg>
@@ -217,10 +229,11 @@
   </div>
   <script type="module" src="/theme.mjs"></script>
   <script type="module" src="/nav.mjs"></script>
-  <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" data-label="OrangeCat &rarr;"><span class="fig puppet fig-cat"><img class="pp pp-tail" src="/art/rig/cat.tail.webp" alt="" loading="lazy" decoding="async" draggable="false" style="left:0%;top:53.008%;width:36.842%;height:43.985%;transform-origin:89.57% 75.01%;--a0:-8deg;--a1:7deg;animation-duration:2.8s;animation-delay:0s"><img class="pp-body" src="/art/rig/cat.body.webp" width="228" height="266" alt="" loading="lazy" decoding="async" draggable="false"></span></a>
+  <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" data-label="OrangeCat &rarr;"><span class="fig puppet fig-cat" data-rig='[{"poly":[[0,50],[36,50],[34,100],[0,100]],"pivot":[33,86],"a":[-8,7],"dur":2.8,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/cat.webp" width="228" height="266" alt="" loading="lazy" decoding="async" draggable="false"></span></a>
   <div class="guest guest-moth" hidden aria-hidden="true"><img class="fig fig-moth" src="/art/moth.webp" width="412" height="272" alt="" loading="lazy" decoding="async" draggable="false"></div>
   <script type="module" src="/sky.mjs"></script>
   <script type="module" src="/lodge.mjs"></script>
+  <script type="module" src="/warp.mjs"></script>
   <link rel="stylesheet" href="/chatkit.css">
   <script type="module" src="/chat.js"></script>
   <script src="https://loki.orangecat.ch/widget.js" data-fc-project="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-fc-modes="report" async></script>

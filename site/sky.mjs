@@ -54,7 +54,7 @@ function art(name) {
 // rain comes most in autumn, fog in any month. ?weather=clear|mist|rain|snow
 // pins it. The choice is written to <html data-weather> so the page (and
 // lodge.mjs, which sends things through the fog) can follow it.
-export const WEATHERS = ["clear", "mist", "rain", "snow"];
+export const WEATHERS = ["clear", "clouds", "wind", "mist", "rain", "snow"];
 export let WEATHER = (() => {
   const pinned = new URLSearchParams(location.search).get("weather");
   if (WEATHERS.includes(pinned)) return pinned;
@@ -104,11 +104,13 @@ export let PLACE = "";
     const geo = await (await fetch(`https://geocoding-api.open-meteo.com/v1/search?count=1&name=${encodeURIComponent(city)}`, { signal: ctl.signal })).json();
     const g = geo.results?.[0];
     if (!g) return;
-    const now = await (await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${g.latitude}&longitude=${g.longitude}&current=weather_code`, { signal: ctl.signal })).json();
+    const now = await (await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${g.latitude}&longitude=${g.longitude}&current=weather_code,wind_speed_10m`, { signal: ctl.signal })).json();
     const c = now.current?.weather_code;
     if (c == null) return;
-    const w = c === 45 || c === 48 ? "mist" : (c >= 71 && c <= 77) || c === 85 || c === 86 ? "snow" : (c >= 51 && c <= 67) || (c >= 80 && c <= 82) || c >= 95 ? "rain" : "clear";
+    const wind = now.current?.wind_speed_10m ?? 0;
+    const w = c === 45 || c === 48 ? "mist" : (c >= 71 && c <= 77) || c === 85 || c === 86 ? "snow" : (c >= 51 && c <= 67) || (c >= 80 && c <= 82) || c >= 95 ? "rain" : wind > 30 ? "wind" : c >= 2 ? "clouds" : "clear";
     PLACE = g.name;
+    try { localStorage.setItem("bb-geo", JSON.stringify({ lat: g.latitude, lng: g.longitude })); dispatchEvent(new Event("bb-geo")); } catch { /* ignore */ }
     try { sessionStorage.setItem("bb-weather-real", JSON.stringify({ w, place: PLACE })); } catch { /* ignore */ }
     if (w !== WEATHER) setWeather(w, false);
     relabel();
@@ -130,7 +132,16 @@ for (const b of document.querySelectorAll("[data-weather-cycle]")) {
   });
   b.addEventListener("relabel", label);
 }
-root.dataset.season = ["winter", "winter", "spring", "spring", "spring", "summer", "summer", "summer", "autumn", "autumn", "autumn", "winter"][new Date().getMonth()];
+// The season is the real one where the reader is: by month, turned over for
+// the southern hemisphere once the weather lookup has learned the latitude.
+const SEASONS = ["winter", "winter", "spring", "spring", "spring", "summer", "summer", "summer", "autumn", "autumn", "autumn", "winter"];
+export function season() {
+  let m = new Date().getMonth();
+  try { const g = JSON.parse(localStorage.getItem("bb-geo") || "null"); if (g && g.lat < 0) m = (m + 6) % 12; } catch { /* ignore */ }
+  return new URLSearchParams(location.search).get("season") || SEASONS[m];
+}
+root.dataset.season = season();
+addEventListener("bb-geo", () => { root.dataset.season = season(); });
 
 // ── molecules, as skeletal formulas in bond lengths (y up) ─────────────────
 const INDOLE = {
@@ -511,7 +522,8 @@ if (canvas) {
       // are spread over the whole sky yet never cross a sentence. On a phone
       // there are no margins: they hang faint behind, at the edges.
       const side = (k + (hash & 1)) % 2 === 1;
-      const inset = Math.max(margin0 * 0.5, bond * 2.4);
+      // Far enough in that the whole figure fits on the screen.
+      const inset = Math.max(margin0 * 0.5, bond * 3.4);
       const x = phone ? W * (side ? 0.8 : 0.2) : side ? W - inset : inset;
       // A figure at sky height y sits mid-screen when its page point does.
       // …and never in the first screen, which belongs to the hero.
@@ -522,6 +534,17 @@ if (canvas) {
     wormhole = false && home && span ? { x: W * (phone ? 0.5 : 0.8), y: Math.max(H * 1.3, H / 2 + PARALLAX * (at(0.55) - H / 2)), r: phone ? W * 0.42 : Math.min(W * 0.2, 290) } : null;
     // Without motion the sky does not move, so only the hero's figure shows.
     figures = figures.filter(Boolean);
+    // No two figures may touch: on each side they are pushed apart to at
+    // least their own size (the one with the Little Prince beneath it needs
+    // room for him too), so every molecule reads on its own.
+    const extent = (f) => { const m = MOLECULES[f.name]; const ys = Object.values(m.atoms).map((q) => q[1]); const xs = Object.values(m.atoms).map((q) => q[0]); return Math.max(Math.max(...ys) - Math.min(...ys), Math.max(...xs) - Math.min(...xs)) * f.bond; };
+    for (const side of [true, false]) {
+      const col = figures.filter((f) => f.name !== "dmt" && (f.x > W / 2) === side).sort((a, b) => a.y - b.y);
+      for (let i = 1; i < col.length; i++) {
+        const prev = col[i - 1], need = (extent(prev) + extent(col[i])) / 2 + prev.bond * (prev.name === "lsd" ? 12 : 3);
+        if (col[i].y - prev.y < need) col[i].y = prev.y + need;
+      }
+    }
     if (!PARALLAX) figures = figures.slice(0, 1);
     moonR = phone ? 30 : Math.max(40, Math.min(72, W * 0.042));
     const mimg = art("moon");
@@ -631,6 +654,13 @@ if (canvas) {
     // Dalí's day: a clear, slightly cool sky that warms to a luminous horizon.
     else { bg.addColorStop(0, "#5f8fb8"); bg.addColorStop(0.45, "#a9c6d6"); bg.addColorStop(0.8, "#eadcc0"); bg.addColorStop(1, "#f3cf98"); }
     ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    // Dawn and dusk (theme "local time"): a warm band low in the sky.
+    const light = root.dataset.theme === "auto" ? root.dataset.light : "";
+    if (light === "dawn" || light === "dusk") {
+      const warm = ctx.createLinearGradient(0, H * 0.35, 0, H);
+      warm.addColorStop(0, "rgba(255, 150, 90, 0)"); warm.addColorStop(1, light === "dusk" ? "rgba(236, 120, 80, 0.38)" : "rgba(255, 176, 130, 0.3)");
+      ctx.fillStyle = warm; ctx.fillRect(0, 0, W, H);
+    }
 
     if (night) {
       if (milky) ctx.drawImage(milky, 0, -H * 0.4 - off * 0.6, W, milky.height);
@@ -769,13 +799,57 @@ if (canvas) {
   // Rain falls as fine slanting lines, snow as soft flakes that sway; both
   // are few, drawn over the sky and behind every word. Fog is CSS (a pair of
   // slow bands, styles.css) and needs nothing here.
-  let drops = [];
-  document.addEventListener("weather", () => { drops = []; if (still) draw(0); });
+  let drops = [], motes = [], clouds = [];
+  document.addEventListener("weather", () => { drops = []; motes = []; clouds = []; if (still) draw(0); });
+  // Weather and season, drawn behind every word. Particles are few and
+  // capped; all of it holds still for reduced motion.
   function weather(t) {
-    if (still || (WEATHER !== "rain" && WEATHER !== "snow")) return;
-    const want = WEATHER === "rain" ? (W < 700 ? 70 : 140) : (W < 700 ? 60 : 110);
-    if (drops.length !== want) drops = [...Array(want)].map(() => ({ x: Math.random() * W, y: Math.random() * H, v: 0.6 + Math.random() * 0.8, s: Math.random() }));
     const dt = Math.min(0.05, (t - (weather.last || t)) / 1000); weather.last = t;
+    const phone = W < 700, windy = WEATHER === "wind" ? 1 : 0;
+    // Clouds: the painted ones, drifting at their own heights and speeds —
+    // many under "clouds", a few wisps otherwise, none in snow or rain's dark.
+    const nClouds = WEATHER === "clouds" ? (phone ? 3 : 5) : WEATHER === "wind" || WEATHER === "rain" ? (phone ? 2 : 3) : WEATHER === "clear" ? 1 : 0;
+    if (clouds.length !== nClouds) clouds = [...Array(nClouds)].map((_, i) => ({ img: `cloud-${(i % 4) + 1}`, x: Math.random() * W, y: H * (0.06 + Math.random() * 0.34), s: 0.55 + Math.random() * 0.7, v: 6 + Math.random() * 10 }));
+    for (const c of clouds) {
+      const img = art(c.img);
+      if (!img) continue;
+      const w = Math.min(W * 0.55, 420) * c.s, h = w * (img.naturalHeight / img.naturalWidth);
+      if (!still) c.x -= (c.v + windy * 40) * dt;
+      if (c.x < -w) { c.x = W + w * 0.2; c.y = H * (0.06 + Math.random() * 0.34); }
+      ctx.globalAlpha = palette.night ? 0.28 : WEATHER === "rain" ? 0.95 : 0.85;
+      if (palette.night || WEATHER === "rain") ctx.filter = palette.night ? "brightness(0.5) saturate(0.4)" : "brightness(0.75) saturate(0.5)";
+      ctx.drawImage(img, c.x, c.y, w, h);
+      ctx.filter = "none"; ctx.globalAlpha = 1;
+    }
+    if (still) return;
+    // The season, in a few drifting things: blossom in spring, motes (and at
+    // night fireflies) in summer, leaves in autumn, glints of frost in winter.
+    const sea = root.dataset.season;
+    const nMotes = (phone ? 10 : 18) * (windy ? 2 : 1);
+    if (motes.length !== nMotes) motes = [...Array(nMotes)].map(() => ({ x: Math.random() * W, y: Math.random() * H, v: 0.5 + Math.random(), r: Math.random() * 6.28, s: Math.random() }));
+    for (const m of motes) {
+      const gust = 1 + windy * 3;
+      if (sea === "autumn" || sea === "spring") {
+        m.x -= (18 + 30 * m.v) * gust * dt; m.y += (14 + 18 * m.v) * dt + Math.sin(t * 0.002 + m.s * 9) * 0.6; m.r += dt * (1 + m.v) * gust;
+        if (m.y > H + 10 || m.x < -10) { m.x = W + Math.random() * 60; m.y = Math.random() * H * 0.7; }
+        ctx.save(); ctx.translate(m.x, m.y); ctx.rotate(m.r); ctx.scale(1, 0.45 + 0.4 * Math.abs(Math.sin(m.r * 2)));
+        ctx.fillStyle = sea === "autumn" ? `rgba(${170 + Math.round(m.s * 50)}, ${80 + Math.round(m.s * 50)}, 30, ${palette.night ? 0.55 : 0.8})` : `rgba(248, 214, 222, ${palette.night ? 0.5 : 0.85})`;
+        const sz = sea === "autumn" ? 5 + m.v * 3 : 3 + m.v * 1.5;
+        ctx.beginPath(); ctx.ellipse(0, 0, sz, sz * 0.55, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+      } else if (sea === "summer") {
+        m.x += Math.sin(t * 0.0007 + m.s * 20) * 12 * dt - windy * 60 * dt; m.y += Math.cos(t * 0.0009 + m.s * 13) * 9 * dt;
+        if (m.x < -10) m.x = W + 10;
+        const pulse = 0.5 + 0.5 * Math.sin(t * 0.003 + m.s * 30);
+        if (palette.night) { ctx.globalAlpha = pulse * 0.9; ctx.drawImage(glowSprite("190, 240, 140"), m.x - 5, m.y - 5, 10, 10); ctx.globalAlpha = 1; }
+        else { ctx.fillStyle = `rgba(255, 250, 220, ${0.35 * pulse})`; ctx.beginPath(); ctx.arc(m.x, m.y, 1.4, 0, Math.PI * 2); ctx.fill(); }
+      } else if (sea === "winter" && WEATHER !== "snow") {
+        const glint = Math.max(0, Math.sin(t * 0.0015 + m.s * 40)) ** 8;
+        if (glint > 0.05) { ctx.globalAlpha = glint * 0.8; ctx.drawImage(glowSprite("220, 235, 255"), m.x - 4, m.y - 4, 8, 8); ctx.globalAlpha = 1; }
+      }
+    }
+    if (WEATHER !== "rain" && WEATHER !== "snow") return;
+    const want = WEATHER === "rain" ? (phone ? 70 : 140) : (phone ? 60 : 110);
+    if (drops.length !== want) drops = [...Array(want)].map(() => ({ x: Math.random() * W, y: Math.random() * H, v: 0.6 + Math.random() * 0.8, s: Math.random() }));
     if (WEATHER === "rain") {
       ctx.strokeStyle = palette.night ? "rgba(190, 205, 230, 0.28)" : "rgba(70, 90, 110, 0.3)"; ctx.lineWidth = 1;
       ctx.beginPath();

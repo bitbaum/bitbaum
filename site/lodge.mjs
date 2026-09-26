@@ -520,6 +520,19 @@ if (guest && stageFloor) {
     });
   }
 
+  if (kind === "unicorn") {
+    // Rare, and shy: it stands far back on the floor, half in the dark, and
+    // when the pointer comes near it fades away, returning a while later.
+    guest.style.pointerEvents = "auto";
+    let gone = false;
+    guest.addEventListener("pointerenter", () => {
+      if (gone || still) return; gone = true;
+      guest.animate([{ opacity: 1, filter: "blur(0)" }, { opacity: 0, filter: "blur(6px)" }], { duration: 1600, fill: "forwards" }).onfinish = () => setTimeout(() => {
+        guest.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 3000, fill: "forwards" }).onfinish = () => { gone = false; };
+      }, 9000);
+    });
+  }
+
   if (kind === "snail") {
     // It crawls, very slowly, along the front of the floor; touch it and it
     // draws into its shell for a while.

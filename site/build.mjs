@@ -121,6 +121,7 @@ ${body}
 const SCENE_LIFE = {
   seed: `      <div class="horizon-life" aria-hidden="true">${fig("watch-block")}${fig("gear-l", "gear g-big")}${fig("gear-s", "gear g-small")}</div>
       <div class="walker" aria-hidden="true">${fig("elephant")}</div>
+      <div class="tumbleweed" hidden aria-hidden="true">${fig("tumbleweed")}</div>
       <div class="horizon-life rye-clump" aria-hidden="true">${fig("rye-a", "rye r1")}${fig("rye-c", "rye r2")}${fig("rye-b", "rye r3")}</div>
       <div class="hummingbird" hidden aria-hidden="true">${fig("hummingbird")}</div>`,
   // Links sit in the scene, so this container is not aria-hidden; the two
@@ -209,6 +210,7 @@ const STORIES = {
   fox: () => `${EGG}\n${FOX}`,
   owl: () => `  <div class="guest guest-owl" hidden aria-hidden="true"><span class="owl-perch">${fig("owl")}</span><span class="owl-flying" hidden>${fig("owl-fly")}</span></div>`,
   horse: () => `  <div class="guest guest-horse" hidden aria-hidden="true"><span class="horse-stand">${fig("horse")}</span><span class="horse-gallop" hidden>${fig("horse-run")}</span></div>`,
+  unicorn: () => `  <div class="guest guest-unicorn" hidden aria-hidden="true">${fig("unicorn")}</div>`,
   snail: () => `  <div class="guest guest-snail" hidden aria-hidden="true">${fig("snail")}</div>`,
   moth: () => `  <div class="guest guest-moth" hidden aria-hidden="true">${fig("moth")}</div>`,
   ...(ART_NAMES.includes("scarab") ? { scarab: () => `  <div class="guest guest-scarab" hidden aria-hidden="true"><span class="scarab">${fig("scarab")}</span><span class="sunball">${fig("sunball")}</span></div>` } : {}),
@@ -342,8 +344,8 @@ function shell({ title, description, path, body, nav, script, image }) {
         <button type="button" data-set-theme="light" title="Light" aria-label="Light">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
         </button>
-        <button type="button" data-set-theme="system" title="Match system" aria-label="Match system">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.6" rx="1.6"/><path d="M8.6 20.4h6.8"/></svg>
+        <button type="button" data-set-theme="auto" title="Local time — day or night where you are" aria-label="Local time: day or night where you are">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 3.4a8.6 8.6 0 0 1 0 17.2z" fill="currentColor"/><path d="M12 7.2V12l3 2"/></svg>
         </button>
         <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
@@ -353,6 +355,8 @@ function shell({ title, description, path, body, nav, script, image }) {
   // — and the icon shows the weather now. sky.mjs does the rest.
   const weatherSwitch = `<button type="button" class="weather-switch" data-weather-cycle aria-label="Change the weather" title="Change the weather">
         <svg class="w-clear" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7"/></svg>
+        <svg class="w-clouds" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 18.5a4 4 0 0 1-.4-8A5.5 5.5 0 0 1 16.6 9a3.9 3.9 0 0 1 .9 7.7z"/></svg>
+        <svg class="w-wind" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h11.5a2.5 2.5 0 1 0-2.5-2.5M3 14h15.5a2.5 2.5 0 1 1-2.5 2.5M3 19h7"/></svg>
         <svg class="w-mist" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5h13M6 12h15M3 15.5h12M7 19h10"/></svg>
         <svg class="w-rain" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14.5a4.5 4.5 0 1 1 1.3-8.8A5.5 5.5 0 0 1 18.8 8a3.3 3.3 0 0 1-.8 6.5z"/><path d="M8.5 17.5l-1 2.5M12.5 17.5l-1 2.5M16.5 17.5l-1 2.5"/></svg>
         <svg class="w-snow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 6.8l2.5-2.3M9.5 19.5 12 17.2l2.5 2.3"/></svg>
@@ -399,8 +403,16 @@ function shell({ title, description, path, body, nav, script, image }) {
   // Tiny FOUC guard only — theme UI lives in /theme.mjs.
   (function () {
     try {
-      var saved = localStorage.getItem("theme") || "system";
-      var dark = saved === "dark" || (saved === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
+      // "auto" (local time) is the default: night while the sun is down where
+      // the reader is. The same sum as theme.mjs, kept tiny.
+      var saved = localStorage.getItem("theme") || "auto";
+      if (saved === "system") saved = "auto";
+      var d = new Date(), lat = 47, lng = -d.getTimezoneOffset() / 4, g = JSON.parse(localStorage.getItem("bb-geo") || "null");
+      if (g) { lat = g.lat; lng = g.lng; }
+      var r = Math.PI / 180, day = (d - Date.UTC(d.getUTCFullYear(), 0, 0)) / 864e5, dec = -23.44 * Math.cos(2 * Math.PI / 365 * (day + 10));
+      var h = 15 * (d.getUTCHours() + d.getUTCMinutes() / 60 + lng / 15 - 12);
+      var sun = Math.asin(Math.sin(lat * r) * Math.sin(dec * r) + Math.cos(lat * r) * Math.cos(dec * r) * Math.cos(h * r)) / r;
+      var dark = saved === "dark" || (saved === "auto" && sun < -3);
       document.documentElement.classList.toggle("dark", dark);
       document.documentElement.dataset.theme = saved;
     } catch (e) {
@@ -466,6 +478,7 @@ ${CAT}
 ${path === "/" ? "" : story(path)}
   <script type="module" src="/sky.mjs"><\/script>
   <script type="module" src="/lodge.mjs"><\/script>
+  <script type="module" src="/warp.mjs"><\/script>
 ${script ?? ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>\n  <script type="module" src="/creatures.mjs"><\/script>` : ""}
   <script src="${esc(LOKI_FEEDBACK.origin)}/widget.js" data-fc-project="${esc(LOKI_FEEDBACK.token)}" data-fc-modes="${esc(LOKI_FEEDBACK.modes)}" async><\/script>
 </body>
@@ -1260,6 +1273,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("sky.mjs", readFileSync(join(here, "sky.mjs"), "utf8"));
   files.set("lodge.mjs", readFileSync(join(here, "lodge.mjs"), "utf8"));
   files.set("creatures.mjs", readFileSync(join(here, "creatures.mjs"), "utf8"));
+  files.set("warp.mjs", readFileSync(join(here, "warp.mjs"), "utf8"));
   return { all, files };
 }
 

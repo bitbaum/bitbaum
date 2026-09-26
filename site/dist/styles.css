@@ -1052,7 +1052,7 @@ body::after {
 .weather-switch { display: grid; place-items: center; width: 48px; height: 48px; margin-left: 6px; padding: 0; flex: none; border: 1px solid var(--line); border-radius: 3px; background: transparent; color: var(--fg-2); cursor: pointer; transition: color 120ms ease, background 120ms ease; }
 .weather-switch:hover { color: var(--fg); background: var(--bg-overlay); }
 .weather-switch svg { display: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-:root:not([data-weather]) .w-clear, :root[data-weather="clear"] .w-clear, :root[data-weather="mist"] .w-mist, :root[data-weather="rain"] .w-rain, :root[data-weather="snow"] .w-snow { display: block; }
+:root:not([data-weather]) .w-clear, :root[data-weather="clear"] .w-clear, :root[data-weather="clouds"] .w-clouds, :root[data-weather="wind"] .w-wind, :root[data-weather="mist"] .w-mist, :root[data-weather="rain"] .w-rain, :root[data-weather="snow"] .w-snow { display: block; }
 .weather-switch.turned svg { animation: wx-turn 0.45s ease-out; }
 @keyframes wx-turn { from { rotate: -90deg; scale: 0.4; opacity: 0; } }
 
@@ -1255,3 +1255,14 @@ html { overflow-x: clip; }
   .cat-footer::after { left: auto; right: 0; transform: translate(0, 0); }
   .cat-footer:hover::after, .cat-footer:focus-visible::after { transform: translate(0, -8px); }
 }
+
+/* ─── mesh-warped figures (warp.mjs): the canvas takes the painting's place,
+   a little larger so a bend can reach past the painting's edge ──────────── */
+.puppet .warp-canvas { position: absolute; left: -12%; top: -12%; width: 124%; height: 124%; pointer-events: none; }
+.puppet.warping .pp-body { visibility: hidden; }
+
+.tumbleweed { position: absolute; left: 0; top: 0; z-index: 2; width: 70px; pointer-events: none; }
+.tumbleweed[hidden] { display: none; }
+.tumbleweed .fig { width: 100%; }
+.guest-unicorn { left: 58%; bottom: 72px; width: 110px; filter: saturate(0.9) contrast(0.92); }
+@media (max-width: 700px) { .tumbleweed { width: 46px; } .guest-unicorn { width: 72px; left: 50%; bottom: 58px; } }
