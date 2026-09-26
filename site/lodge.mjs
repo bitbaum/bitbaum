@@ -190,6 +190,32 @@ if (rabbit && burrow) {
   }
 }
 
+// ── down the rabbit hole ─────────────────────────────────────────────────
+// Following the White Rabbit takes you somewhere on this site — nobody knows
+// where, not even him: a spiral opens from the hole and fills the screen,
+// and you land on a page chosen at random from the site's own map.
+if (burrow) {
+  burrow.addEventListener("click", async (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    e.preventDefault();
+    let dest = burrow.getAttribute("href");
+    try {
+      const xml = await (await fetch("/sitemap.xml")).text();
+      const pages = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname).filter((p) => p !== location.pathname && p !== "/");
+      if (pages.length) dest = pages[Math.floor(Math.random() * pages.length)];
+    } catch { /* offline: the work page will do */ }
+    if (still) { location.href = dest; return; }
+    const b = burrow.getBoundingClientRect();
+    const fall = document.createElement("div");
+    fall.className = "falling";
+    fall.style.setProperty("--fx", `${b.left + b.width / 2}px`);
+    fall.style.setProperty("--fy", `${b.top + b.height / 2}px`);
+    fall.innerHTML = burrow.querySelector("svg").outerHTML;
+    document.body.append(fall);
+    setTimeout(() => { location.href = dest; }, 950);
+  });
+}
+
 // ── the egg, and the fox ─────────────────────────────────────────────────
 // On the inner pages a speckled egg sits on the stage floor. While the stage
 // is on screen it wobbles, the shell breaks, its cap tumbles away, and a fox
@@ -278,7 +304,7 @@ if (cat) {
     if (kind === "peek") cat.style.setProperty("--cat-y", `${Math.round(24 + Math.random() * 20)}%`);
     host.append(cat);
     cat.hidden = false;
-    const body = cat.querySelector("img");
+    const body = cat.querySelector(".fig");
     if (!still && matchMedia("(pointer: fine)").matches && body) {
       // It leans toward the pointer, a few degrees — enough to feel watched —
       // and if the pointer lingers near, it crouches and pounces, then goes
@@ -328,8 +354,10 @@ if (skyLife && !still) {
   // The whale: first a while after arrival, then rarely — a sighting, not a feature.
   const sight = (ms) => setTimeout(() => { if (!document.hidden) pass(whale, phone() ? 55 : 80); sight(150000 + Math.random() * 120000); }, ms);
   if (Math.random() < 0.7) sight(9000 + Math.random() * 16000);
-  if (document.documentElement.dataset.weather === "mist" || document.documentElement.dataset.weather === "fog") {
-    const walk = (ms) => setTimeout(() => { if (!document.hidden) pass(walker, 140, false); walk(200000); }, ms);
-    walk(6000);
-  }
+  // In fog, something vast walks slowly past, far off — whenever the fog
+  // comes, whether the visit began in it or the reader turned it on.
+  let walking = 0;
+  const walk = (ms) => { clearTimeout(walking); walking = setTimeout(() => { if (!document.hidden && document.documentElement.dataset.weather === "mist") pass(walker, 140, false); walk(200000); }, ms); };
+  if (document.documentElement.dataset.weather === "mist") walk(6000);
+  document.addEventListener("weather", (e) => { if (e.detail === "mist" && walker.hidden) walk(2500); });
 }

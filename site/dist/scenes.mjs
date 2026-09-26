@@ -278,6 +278,29 @@ function seed(ctx, box, canvas) {
       if (palette.night) { ground.addColorStop(0, "rgba(46, 43, 37, 0.95)"); ground.addColorStop(0.5, "rgba(22, 21, 15, 0.9)"); ground.addColorStop(1, "rgba(7, 7, 7, 0.6)"); }
       else { ground.addColorStop(0, "rgba(226, 212, 186, 0.95)"); ground.addColorStop(1, "rgba(201, 184, 150, 0.5)"); }
       ctx.fillStyle = ground; ctx.fillRect(0, horizon, W, H - horizon);
+      // Depth: furrows in the sand running to a vanishing point on the
+      // horizon, and bands that crowd together as they recede.
+      const vx = W * 0.62;
+      ctx.strokeStyle = palette.night ? "rgba(235, 229, 216, 0.05)" : "rgba(92, 70, 40, 0.1)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let k = -14; k <= 14; k++) { ctx.moveTo(vx, horizon); ctx.lineTo(vx + k * W * 0.16, H); }
+      for (let k = 1; k <= 7; k++) { const y = horizon + (H - horizon) * Math.pow(k / 7, 2.2); ctx.moveTo(0, y); ctx.lineTo(W, y); }
+      ctx.stroke();
+      // Long evening shadows: the sun is low behind us and to the right, so
+      // everything standing on the plain throws its shadow forward and left.
+      const stage = canvas.parentElement, hb = stage.getBoundingClientRect();
+      ctx.fillStyle = palette.night ? "rgba(0, 0, 0, 0.42)" : "rgba(84, 60, 30, 0.2)";
+      for (const el of stage.querySelectorAll(".walker .fig, .fig-watch-block")) {
+        const r = el.getBoundingClientRect();
+        if (!r.width) continue;
+        const fx = r.left - hb.left + r.width * 0.5, fy = r.bottom - hb.top, len = r.height * 1.5;
+        ctx.globalAlpha = +getComputedStyle(el.closest(".walker") ?? el).opacity || 1;
+        ctx.beginPath();
+        ctx.ellipse(fx - len * 0.45, fy + len * 0.05, len * 0.5, Math.max(3, r.width * 0.09), -0.08, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
       // How far the reader has scrolled through this section grows the tree.
       const r = canvas.getBoundingClientRect();
       const seen = still ? 1 : Math.max(0, Math.min(1, (innerHeight - r.top) / (r.height + innerHeight * 0.1)));
