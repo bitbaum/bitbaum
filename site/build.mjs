@@ -128,8 +128,10 @@ const SCENE_LIFE = {
   // doors carry their own labels and the rest is decorative.
   // The home meadow is the herd's: the two doors and one cluster of
   // mushrooms. The partners page has its own cast, so no screen is crowded.
-  mycelium: `      <div class="horizon-life">${fig("mushrooms-3", "shroom s1")}${fig("cow", "", { href: "/heidi/", label: "Heidi" })}${fig("diplodocus", "", { href: "/diplodoctor/", label: "Diplodoctor" })}</div>`,
-  partners: `      <div class="horizon-life">${fig("fog-giant", "in-fog")}${fig("deer")}${fig("mushroom-1", "shroom s2")}${fig("mushrooms-2", "shroom s3")}</div>
+  // The home meadow is the grove alone: trees in depth, their network and its
+  // mushrooms. Heidi's cow and Diplodoctor's diplodocus live on their own pages.
+  mycelium: ``,
+  partners: `      <div class="horizon-life">${fig("fog-giant", "in-fog")}${fig("deer", "deer-deep")}</div>
       <div class="foreground" aria-hidden="true">${fig("fiddlehead")}${fig("fern")}</div>`,
 };
 
@@ -158,6 +160,7 @@ function glassHero({ kicker, lines, lede, actions, burrowTo = ["/work/"] }) {
 ${HORIZON_LIFE}
       <div class="floor-plane"><a class="burrow" href="/work/" data-to="${esc(burrowTo.join(" "))}" aria-label="Follow the white rabbit — somewhere on this site" data-label="Follow the white rabbit &rarr;"><span class="burrow-mouth" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></span></a></div>
 ${RABBIT}
+${WHALE}
       ${DRAGONFLY}
       <div class="wrap bleed-body">
         <div class="bleed-copy rise">
@@ -196,7 +199,10 @@ const FOX = `  <div class="fox" hidden aria-hidden="true">${fig("fox", "fox-run"
 
 // Now and then a whale swims across the sky, and in fog something vast
 // passes behind the page. Fixed to the sky, behind every word.
-const SKY_LIFE = `  <div class="sky-life" aria-hidden="true"><div class="whale" hidden>${fig("whale")}</div><div class="fog-walker" hidden>${fig("fog-neck")}</div></div>`;
+const SKY_LIFE = `  <div class="sky-life" aria-hidden="true"><div class="fog-walker" hidden>${fig("fog-neck")}</div></div>`;
+// The whale belongs to the first sky only: it crosses the hero, now and then,
+// and is gone when the reader moves on.
+const WHALE = `      <div class="whale" hidden aria-hidden="true">${fig("whale")}</div>`;
 
 // Between two chapters, a wormhole: the painted vortex in open space, turning
 // inward and swelling as the reader falls past it (lodge.mjs).
@@ -217,6 +223,9 @@ const STORIES = {
 };
 function story(path) {
   if (path === "/work/") return STORIES.fox();
+  // The two animals that stand for projects live on those projects' pages.
+  if (path === "/heidi/") return `  <div class="guest guest-cow" hidden aria-hidden="true">${fig("cow")}</div>`;
+  if (path === "/diplodoctor/") return `  <div class="guest guest-diplo" hidden aria-hidden="true">${fig("diplodocus")}</div>`;
   const names = Object.keys(STORIES);
   const h = [...path].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 17);
   return STORIES[names[h % names.length]]();

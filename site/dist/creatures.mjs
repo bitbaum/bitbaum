@@ -154,7 +154,7 @@ if (tumble && !still) {
     const w = plain.clientWidth, h = num(plain, "--horizon", plain.clientHeight * 0.74), size = tumble.offsetWidth || 70;
     const frames = [], hops = 7;
     for (let k = 0; k <= hops * 2; k++) {
-      const u = k / (hops * 2), x = w + size - u * (w * 0.75 + size), s = 0.55 + u * 0.5;
+      const u = k / (hops * 2), x = w + size - u * (w * 0.5 + size), s = 0.55 + u * 0.5;
       const y = h + u * 70 - (k % 2 ? 26 * (1 - u * 0.5) : 0);
       frames.push({ transform: `translate(${x.toFixed(0)}px, ${(y - size * s).toFixed(0)}px) rotate(${(-u * 900).toFixed(0)}deg) scale(${s.toFixed(2)})`, opacity: Math.min(1, u * 8, (1 - u) * 8), easing: k % 2 ? "ease-in" : "ease-out" });
     }
