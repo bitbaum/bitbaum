@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T16:49:09.957Z",
+  "generatedAt": "2026-09-26T05:29:35.302Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -19,8 +19,8 @@
     }
   ],
   "summary": {
-    "projects": 33,
-    "live": 16,
+    "projects": 35,
+    "live": 17,
     "clients": 5,
     "inFlight": 0
   },
@@ -356,6 +356,28 @@
       }
     },
     {
+      "slug": "aoz-demo",
+      "name": "aoz-demo",
+      "what": null,
+      "stack": null,
+      "layer": "demo",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": "2026-09-25",
+      "urls": {
+        "live": "https://demo.aoz.orangecat.ch",
+        "repo": null,
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      }
+    },
+    {
       "slug": "camille-boulangerie",
       "name": "camille-boulangerie",
       "what": null,
@@ -507,6 +529,28 @@
         "solution": "A health platform: home diagnostics, a 24/7 AI doctor that introduces itself as Diplodoc, and a doctor-in-the-loop marketplace so a licensed clinician stands behind the AI. Vitareba, a Zürich clinic, is the credibility engine and first reference customer; Diplodoctor is the platform, in its own entity.",
         "mission": null,
         "vision": null
+      }
+    },
+    {
+      "slug": "farmhouse",
+      "name": "Farmhouse",
+      "what": "Farmhouse is a gathering space and venue hosting noise, ambient music performances, and community parties.",
+      "stack": null,
+      "layer": "next",
+      "status": "prospect",
+      "owner": "bitbaum",
+      "since": "2026-09-26",
+      "urls": {
+        "live": "https://farmhouse.orangecat.ch",
+        "repo": "https://github.com/bitbaum/farmhouse",
+        "orangecat": "https://orangecat.ch/projects/2783f13f-2d32-4b0a-b513-e1fb71315076",
+        "solon": null
+      },
+      "identity": {
+        "problem": "Experimental music genres like noise and ambient struggle to find welcoming, sonically appropriate physical venues, while local subcultures often lack dedicated, accessible community spaces.",
+        "solution": "A focused physical venue and gathering space tailored specifically for niche music performances and grassroots community parties.",
+        "mission": "To provide a dedicated physical gathering space for underground and experimental music performances and community events.",
+        "vision": "To become a vital cultural hub and cornerstone for experimental music, sound art, and local community life."
       }
     },
     {

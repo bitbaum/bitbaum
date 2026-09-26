@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T16:49:09.957Z",
+  "generatedAt": "2026-09-26T05:29:35.302Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -19,8 +19,8 @@
     }
   ],
   "summary": {
-    "projects": 33,
-    "live": 16,
+    "projects": 35,
+    "live": 17,
     "clients": 5,
     "inFlight": 0
   },
@@ -488,8 +488,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-09-25T12:36:16.139Z"
+          "outcome": "partial",
+          "at": "2026-09-25T18:11:47.844Z"
         },
         "lastLog": {
           "date": "2026-09-25",
@@ -1787,6 +1787,36 @@
       }
     },
     {
+      "slug": "aoz-demo",
+      "name": "aoz-demo",
+      "what": null,
+      "stack": null,
+      "layer": "demo",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": "2026-09-25",
+      "urls": {
+        "live": "https://demo.aoz.orangecat.ch",
+        "repo": null,
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
       "slug": "camille-boulangerie",
       "name": "camille-boulangerie",
       "what": null,
@@ -2193,6 +2223,51 @@
       }
     },
     {
+      "slug": "farmhouse",
+      "name": "Farmhouse",
+      "what": "Farmhouse is a gathering space and venue hosting noise, ambient music performances, and community parties.",
+      "stack": null,
+      "layer": "next",
+      "status": "prospect",
+      "owner": "bitbaum",
+      "since": "2026-09-26",
+      "urls": {
+        "live": "https://farmhouse.orangecat.ch",
+        "repo": "https://github.com/bitbaum/farmhouse",
+        "orangecat": "https://orangecat.ch/projects/2783f13f-2d32-4b0a-b513-e1fb71315076",
+        "solon": null
+      },
+      "identity": {
+        "problem": "Experimental music genres like noise and ambient struggle to find welcoming, sonically appropriate physical venues, while local subcultures often lack dedicated, accessible community spaces.",
+        "solution": "A focused physical venue and gathering space tailored specifically for niche music performances and grassroots community parties.",
+        "mission": "To provide a dedicated physical gathering space for underground and experimental music performances and community events.",
+        "vision": "To become a vital cultural hub and cornerstone for experimental music, sound art, and local community life."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-26",
+          "done": "Found why Farmhouse isn't live (org var HETZNER_IP not visible to the repo, so Deploy exits early; PR #1 skipped by the fleet sweep for a missing Signed-off-by) and wrote both up as a pending blocker; no code change was needed."
+        },
+        {
+          "date": "2026-09-26",
+          "done": "Replaced the starter placeholder with a config-driven one-page Farmhouse venue site (hero/about/program/upcoming/visit), verified by local type-check+build+serve and green CI on PR #1 (branch feat/first-site)."
+        }
+      ],
+      "next": "awaiting_user: blocker 2026-09-26-deploy-hetzner-ip-and-pr-signoff.md (org var access + PR #1 merge decision)",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "success",
+          "at": "2026-09-26T04:01:11.138Z"
+        },
+        "lastLog": {
+          "date": "2026-09-26",
+          "done": "Found why Farmhouse isn't live (org var HETZNER_IP not visible to the repo, so Deploy exits early; PR #1 skipped by the fleet sweep for a missing Signed-off-by) and wrote both up as a pending blocker; no code change was needed."
+        }
+      }
+    },
+    {
       "slug": "ivy-portal",
       "name": "ivy-portal",
       "what": "Personal AI assistant dashboard — finances, memory, links",
@@ -2554,6 +2629,10 @@
       "roadmap": [],
       "changelog": [
         {
+          "date": "2026-09-26",
+          "done": "Found why local verify could not finish (eslint and vitest walked 2.6 GB of agent worktrees in .claude/, so lint hung for more than 5 min and 3 stale-worktree test files failed); fixed both configs in PR #32 (https://github.com/bitbaum/skif/pull/32, branch fix/lint-ignore-agent-worktrees): lint now 7s, 179/179 tests in 20s."
+        },
+        {
           "date": "2026-09-24",
           "done": "Fixed the false Swiss data-location claim (PR #3), wrote docs/GAP.md against docs/SPEC.md (PR #4), and closed every P0 and P1 gap in 14 merged PRs (#5–#10, #12–#18), each with tests and a local Playwright run."
         },
@@ -2567,11 +2646,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-09-25T12:06:58.578Z"
+          "at": "2026-09-26T04:17:07.955Z"
         },
         "lastLog": {
-          "date": "2026-09-24",
-          "done": "Fixed the false Swiss data-location claim (PR #3), wrote docs/GAP.md against docs/SPEC.md (PR #4), and closed every P0 and P1 gap in 14 merged PRs (#5–#10, #12–#18), each with tests and a local Playwright run."
+          "date": "2026-09-26",
+          "done": "Found why local verify could not finish (eslint and vitest walked 2.6 GB of agent worktrees in .claude/, so lint hung for more than 5 min and 3 stale-worktree test files failed); fixed both configs in PR #32 (https://github.com/bitbaum/skif/pull/32, branch fix/lint-ignore-agent-worktrees): lint now 7s, 179/179 tests in 20s."
         }
       }
     },
