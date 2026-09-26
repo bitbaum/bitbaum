@@ -105,6 +105,7 @@ function fullBleed({ photo, id, position = "center", under = false, strong = fal
   if (!p) throw new Error(`photo ${photo} is not registered in site/photos.json`);
   return `    <section class="bleed${under ? " bleed-under" : ""}${floor ? " bleed-lodge" : ""}"${id ? ` id="${esc(id)}"` : ""}>
       <img class="bleed-img" src="/${esc(p.file)}" alt="${esc(p.alt)}" width="${p.width}" height="${p.height}" style="object-position:${esc(position)}"${first ? ' fetchpriority="high"' : ' loading="lazy"'}>
+      <img class="bleed-mirror" src="/${esc(p.file)}" alt="" aria-hidden="true" style="object-position:${esc(position)}" loading="lazy">
       <div class="bleed-scrim${strong ? " strong" : ""}" aria-hidden="true"></div>${floor ? `
       <div class="lodge-floor" aria-hidden="true"></div>` : ""}
       <div class="wrap bleed-body">
@@ -112,6 +113,48 @@ ${body}
       </div>
     </section>`;
 }
+
+/**
+ * The home hero, through the looking-glass: no photograph, a tree drawn live
+ * as one line (site/glass.mjs) over its disobedient reflection, the Lodge
+ * floor, a clock that runs backwards, and the headline written again in the
+ * glass — the way Carroll printed Jabberwocky. Everything but the copy is
+ * aria-hidden decoration; without JavaScript the floor and copy still stand.
+ */
+function glassHero({ kicker, lines, lede, actions }) {
+  const text = lines.join("<br>");
+  return `    <section class="bleed bleed-under bleed-lodge glass">
+      <div class="lodge-floor" aria-hidden="true"></div>
+      <canvas class="glass-canvas" data-glass aria-hidden="true"></canvas>
+      <div class="glass-horizon" aria-hidden="true"></div>
+      <svg class="glass-clock" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5"/><line class="glass-hour" x1="20" y1="20" x2="20" y2="11"/><line class="glass-minute" x1="20" y1="20" x2="20" y2="5"/></svg>
+      <div class="wrap bleed-body">
+        <div class="bleed-copy rise">
+          <span class="kicker">${kicker}</span>
+          <div class="glass-title">
+            <h1 class="headline-caps">${text}</h1>
+            <span class="headline-caps glass-mirror-clip" aria-hidden="true"><span class="glass-mirror">${text}</span></span>
+          </div>
+          <p class="bleed-lede">${lede}</p>
+          <div class="bleed-actions">
+${actions}
+          </div>
+        </div>
+      </div>
+    </section>`;
+}
+
+// Loki's spiral, used as the rabbit hole between chapters. An Archimedean
+// spiral from the rim inwards, generated rather than pasted so it stays one line.
+const SPIRAL = (() => {
+  const pts = [];
+  for (let th = 0; th <= Math.PI * 2 * 4.25; th += 0.12) {
+    const r = 46 * (1 - th / (Math.PI * 2 * 4.6));
+    pts.push(`${(50 + r * Math.cos(th - Math.PI / 2)).toFixed(2)} ${(50 + r * Math.sin(th - Math.PI / 2)).toFixed(2)}`);
+  }
+  return `M${pts.join(" L")}`;
+})();
+const RABBIT_HOLE = `    <div class="rabbit-hole" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></div>`;
 
 // Which widget modes this site asks for. Chat is opt-in per embed (Loki's
 // widget/surface-modes.ts) and it is the one the homepage's Ask box opens.
@@ -296,6 +339,7 @@ function shell({ title, description, path, body, nav, script, image }) {
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+  <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false"><filter id="ripple"><feTurbulence type="fractalNoise" baseFrequency="0.006 0.09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter><filter id="ripple-soft"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.12" numOctaves="1" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
   <a class="skip" href="#main">Skip to content</a>
   <header class="top" data-header>
     <div class="wrap">
@@ -562,15 +606,13 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
           </a>`;
   }).join("\n");
   const body = `  <main id="main" class="home-page">
-${fullBleed({ photo: "tree", under: true, first: true, strong: true, floor: true, position: "center 42%", body: `        <div class="bleed-copy rise">
-          <span class="kicker">AI-native product studio &middot; Zürich</span>
-          <h1 class="headline-caps">One trunk.<br>Many products.</h1>
-          <p class="bleed-lede">We build software products — and the tools that let anyone build their own.</p>
-          <div class="bleed-actions">
-            <a class="btn-frame-accent" href="#start">Start a project ${ARROW}</a>
-            <a class="btn-frame" href="/work/">See the work</a>
-          </div>
-        </div>` })}
+${glassHero({
+    kicker: "AI-native product studio &middot; Zürich",
+    lines: ["One trunk.", "Many products."],
+    lede: "We build software products — and the tools that let anyone build their own.",
+    actions: `            <a class="btn-frame-accent" href="#start">Start a project ${ARROW}</a>
+            <a class="btn-frame" href="/work/">See the work</a>`,
+  })}
 
     <section class="section paths-section" id="start">
       <div class="wrap">
@@ -601,6 +643,8 @@ ${tools}
         </div>
       </div>
     </section>
+
+${RABBIT_HOLE}
 
     <section class="section" id="work-preview">
       <div class="wrap">
@@ -635,6 +679,8 @@ ${fullBleed({ photo: "barn", id: "join", strong: true, position: "center 55%", b
           </div>
         </div>` })}
 
+${RABBIT_HOLE}
+
 ${askSection}
 
     <section class="dev-band">
@@ -646,7 +692,8 @@ ${askSection}
   return shell({
     title: "bitbaum — one trunk, many products",
     description: "An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.",
-    path: "/", body, nav: "/", script: CHAT_SCRIPT,
+    path: "/", body, nav: "/", script: `${CHAT_SCRIPT}
+  <script type="module" src="/glass.mjs"></script>`,
   });
 }
 
@@ -1143,6 +1190,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("theme.mjs", readFileSync(join(here, "theme.mjs"), "utf8"));
   files.set("request.mjs", readFileSync(join(here, "request.mjs"), "utf8"));
   files.set("nav.mjs", readFileSync(join(here, "nav.mjs"), "utf8"));
+  files.set("glass.mjs", readFileSync(join(here, "glass.mjs"), "utf8"));
   return { all, files };
 }
 
