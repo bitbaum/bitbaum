@@ -1051,3 +1051,21 @@ body::after {
 @keyframes stride { 0%, 100% { transform: rotate(28deg); } 50% { transform: rotate(-32deg); } }
 @keyframes brush { 50% { transform: rotate(-8deg); } }
 @media (max-width: 700px) { .fox { width: 72px; bottom: 18px; } }
+
+/* ─── the egg ─────────────────────────────────────────────────────────── */
+.egg { position: absolute; z-index: 2; bottom: 24px; width: 30px; transform-origin: 50% 100%; pointer-events: none; margin-left: -15px; }
+.egg[hidden] { display: none; }
+.egg svg { display: block; width: 100%; height: auto; overflow: visible; }
+/* Whole, the egg has one outline; the halves only get their own edges once it breaks. */
+.egg-top path, .egg-bottom path { fill: #f4ede0; stroke: none; }
+.egg-shell { fill: none; stroke: rgb(var(--line-rgb) / 0.7); stroke-width: 1; }
+.egg.hatched .egg-shell { display: none; }
+.egg.hatched .egg-bottom path, .egg-top.flying path { stroke: rgb(var(--line-rgb) / 0.7); stroke-width: 1; stroke-linejoin: round; }
+.egg .speck { fill: #b8632f; opacity: 0.55; }
+.egg-crack { fill: none; stroke: rgb(var(--line-rgb) / 0.9); stroke-width: 1.1; stroke-linejoin: round; stroke-dasharray: 60; stroke-dashoffset: 60; }
+.egg-top { transform-box: fill-box; transform-origin: 50% 90%; }
+.egg.hatched .egg-top { opacity: 0; }
+.egg.hatched .egg-crack { stroke-dashoffset: 0; opacity: 0; }
+.fox { transform-origin: 50% 100%; }
+.fox.resting svg, .fox.resting .fox-legs, .fox.resting .fox-tail, .fox.resting .fox-tip { animation-play-state: paused; }
+@media (max-width: 700px) { .egg { width: 22px; margin-left: -11px; bottom: 16px; } }

@@ -228,6 +228,16 @@ const CAT = `  <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" d
     </svg>
   </a>`;
 
+// The egg the fox hatches from: speckled, with a crack that draws itself and
+// a top that comes away. lodge.mjs runs the hatching; the bottom half stays.
+const EGG = `  <div class="egg" hidden aria-hidden="true"><svg viewBox="0 0 40 50">
+    <g class="egg-bottom"><path d="M4.6 30C4.6 40 11 47.5 20 47.5C29 47.5 35.4 40 35.4 30L31 26.5L26.5 31L21.5 26L16.5 31.5L11.5 26.5L7.5 30.5Z"/></g>
+    <g class="egg-top"><path d="M4.6 30C4.6 16 11 2.5 20 2.5C29 2.5 35.4 16 35.4 30L31 26.5L26.5 31L21.5 26L16.5 31.5L11.5 26.5L7.5 30.5Z"/><circle class="speck" cx="14" cy="14" r="1.2"/><circle class="speck" cx="24" cy="10" r="0.9"/><circle class="speck" cx="27" cy="19" r="1.3"/><circle class="speck" cx="11" cy="23" r="0.8"/></g>
+    <circle class="speck" cx="17" cy="38" r="1"/><circle class="speck" cx="28" cy="36" r="0.8"/>
+    <path class="egg-shell" d="M4.6 30C4.6 16 11 2.5 20 2.5C29 2.5 35.4 16 35.4 30C35.4 40 29 47.5 20 47.5C11 47.5 4.6 40 4.6 30Z"/>
+    <path class="egg-crack" d="M4.6 30L7.5 30.5L11.5 26.5L16.5 31.5L21.5 26L26.5 31L31 26.5L35.4 30"/>
+  </svg></div>`;
+
 // The fox: the inner pages' own creature. Russet, not OrangeCat's orange; a
 // white-tipped brush. lodge.mjs sends him across a stage floor now and then.
 const FOX = `  <div class="fox" hidden aria-hidden="true"><svg viewBox="0 0 100 50">
@@ -473,7 +483,7 @@ ${sections.map(([title, links]) => `      <nav aria-label="${esc(title)}">
   <script type="module" src="/theme.mjs"><\/script>
   <script type="module" src="/nav.mjs"><\/script>
 ${CAT}
-${path === "/" ? "" : FOX}
+${path === "/" ? "" : `${EGG}\n${FOX}`}
   <script type="module" src="/sky.mjs"><\/script>
   <script type="module" src="/lodge.mjs"><\/script>
 ${script ?? ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>\n  <script type="module" src="/creatures.mjs"><\/script>` : ""}
