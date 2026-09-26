@@ -569,8 +569,22 @@ const FILTER_SCRIPT = `  <script type="module" src="/work-filter.mjs"></script>`
 // The site's chat (site/chat/chat.tsx): @bitbaum/chatkit, bundled once into
 // /chat.js and mounted wherever a page renders chatMount(). The fleet's one
 // chat — mic, 16px, stop, retry, who is speaking — instead of forms.
-const CHAT_SCRIPT = `  <link rel="stylesheet" href="/chatkit.css">
-  <script type="module" src="/chat.js"></script>`;
+// The chat (React + chatkit, ~250 KB) is the heaviest thing on the page and
+// sits at its foot, so it never competes with the first paint: it loads when
+// the reader comes within a screen or two of it, or once the page is idle.
+const CHAT_SCRIPT = `  <script>
+    (function () {
+      var done = false;
+      function load() {
+        if (done) return; done = true;
+        var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/chatkit.css"; document.head.appendChild(l);
+        var s = document.createElement("script"); s.type = "module"; s.src = "/chat.js"; document.body.appendChild(s);
+      }
+      var el = document.querySelector("[data-chat]");
+      if (el && "IntersectionObserver" in window) new IntersectionObserver(function (e, io) { if (e[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: "1200px 0px" }).observe(el);
+      addEventListener("load", function () { (window.requestIdleCallback || setTimeout)(load, { timeout: 4000 }); });
+    })();
+  <\/script>`;
 
 /**
  * "The studio is at capacity — build it yourself." The same three products the
