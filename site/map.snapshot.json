@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26T19:25:33.700Z",
+  "generatedAt": "2026-09-26T19:45:08.456Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -20,7 +20,7 @@
   ],
   "summary": {
     "projects": 35,
-    "live": 17,
+    "live": 16,
     "clients": 5,
     "inFlight": 0
   },
@@ -1787,36 +1787,6 @@
       }
     },
     {
-      "slug": "aoz-demo",
-      "name": "aoz-demo",
-      "what": null,
-      "stack": null,
-      "layer": "demo",
-      "status": "live",
-      "owner": "bitbaum",
-      "since": "2026-09-25",
-      "urls": {
-        "live": "https://aoz-demo.orangecat.ch",
-        "repo": null,
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
-        "vision": null
-      },
-      "roadmap": [],
-      "changelog": [],
-      "next": null,
-      "now": {
-        "openRuns": 0,
-        "lastRun": null,
-        "lastLog": null
-      }
-    },
-    {
       "slug": "camille-boulangerie",
       "name": "camille-boulangerie",
       "what": null,
@@ -2606,6 +2576,47 @@
         "lastLog": {
           "date": "2026-09-24",
           "done": "Confirmed the escalation's last failure was a dispatch-side usage-limit error rather than a project blocker, re-ran the full verify gate on bf26dbd (format, lint, tsc, 101/101 tests all green), and found nothing in Pick rules 0–8, so handed back instead of inventing T2 work."
+        }
+      }
+    },
+    {
+      "slug": "probe-loop",
+      "name": "probe-loop",
+      "what": "A one-page test website that Loki builds and ships by itself, to prove the loop works.",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": "https://github.com/bitbaum/probe-loop",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": "Autonomous agent loops are difficult to validate end-to-end without a lightweight, low-risk target project.",
+        "solution": "A minimal, single-page test site acting as an autonomous build and deployment canary for Loki.",
+        "mission": "Prove that Loki can build and deploy software end-to-end without human intervention.",
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-26",
+          "done": "Shipped the first runnable probe-loop canary: a live page plus a /health endpoint that report the deployed commit. PR #1 (branch feat/first-canary-page) passed CI verify and is waiting for the repo's auto-merge sweep."
+        }
+      ],
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "success",
+          "at": "2026-09-26T19:44:25.796Z"
+        },
+        "lastLog": {
+          "date": "2026-09-26",
+          "done": "Shipped the first runnable probe-loop canary: a live page plus a /health endpoint that report the deployed commit. PR #1 (branch feat/first-canary-page) passed CI verify and is waiting for the repo's auto-merge sweep."
         }
       }
     },
