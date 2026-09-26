@@ -130,7 +130,7 @@ export function createPackagePages({ esc, shell }) {
       .flatMap((g) => g.items.map((p) => pkgCard(p, editorialFor(p, cfg), ventureBySlug, alias, g)))
       .join("\n");
     const body = `  <main id="main">
-    <section class="hero compact">
+    <section data-lodge class="dark stage stage-floored hero compact">
       <div class="wrap">
         <span class="eyebrow">${registry.length} packages &middot; MIT &middot; ${uniqueApps} distinct adopters in the fleet</span>
         <h1 class="display-1">The trunk.</h1>
@@ -195,7 +195,7 @@ export function createPackagePages({ esc, shell }) {
         : ["Fleet adoption", "0 apps currently list this package as a dependency"],
     ].filter(Boolean);
     const body = `  <main id="main">
-    <section class="venture-hero">
+    <section data-lodge class="dark stage stage-floored venture-hero">
       <div class="wrap">
         <span class="eyebrow${p.status === "next" ? " quiet" : ""}">${p.status === "next" ? "Next &middot; not on npm yet" : "Package &middot; MIT"}</span>
         <h1 class="display-1">${esc(p.slug)}</h1>

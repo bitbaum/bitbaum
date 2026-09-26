@@ -100,7 +100,7 @@ const SCENES = ["neuron", "seed", "rings", "mycelium"];
  */
 function fullBleed({ scene, id, under = false, strong = false, body }) {
   if (!SCENES.includes(scene)) throw new Error(`scene ${scene} is not one of ${SCENES.join(", ")} (site/scenes.mjs)`);
-  return `    <section class="bleed bleed-scene${under ? " bleed-under" : ""}"${id ? ` id="${esc(id)}"` : ""}>
+  return `    <section class="bleed bleed-scene${under ? " bleed-under" : ""}"${id ? ` id="${esc(id)}"` : ""}${under ? " data-lodge" : ""}>
       <canvas class="scene-canvas" data-scene="${scene}" aria-hidden="true"></canvas>
       <div class="bleed-scrim${strong ? " strong" : ""}" aria-hidden="true"></div>
       <div class="wrap bleed-body">
@@ -118,7 +118,7 @@ ${body}
  */
 function glassHero({ kicker, lines, lede, actions }) {
   const text = lines.join("<br>");
-  return `    <section class="bleed bleed-under bleed-lodge glass">
+  return `    <section class="bleed bleed-under bleed-lodge glass" data-lodge data-cat-perch>
       <div class="lodge-floor" aria-hidden="true"></div>
       <canvas class="scene-canvas" data-scene="neuron" aria-hidden="true"></canvas>
       <div class="glass-horizon" aria-hidden="true"></div>
@@ -149,6 +149,36 @@ const SPIRAL = (() => {
   }
   return `M${pts.join(" L")}`;
 })();
+// A small inward spiral as an SVG path, for the cat's eyes and tail.
+function spiralPath(cx, cy, r, turns = 2.4) {
+  const pts = [];
+  for (let th = 0; th <= Math.PI * 2 * turns; th += 0.25) {
+    const rr = r * (1 - th / (Math.PI * 2 * (turns + 0.3)));
+    pts.push(`${(cx + rr * Math.cos(th)).toFixed(2)} ${(cy + rr * Math.sin(th)).toFixed(2)}`);
+  }
+  return `M${pts.join(" L")}`;
+}
+
+// The cat: a few curves and dots in OrangeCat's orange, Cheshire when it sits
+// in the tree. Its tail ends in Loki's spiral and, on hover, so do its eyes.
+// lodge.mjs chooses where it sits; it is a real link to OrangeCat's page.
+const CAT = `  <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" data-label="OrangeCat &rarr;">
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <g class="cat-fade">
+        <g class="cat-tail"><path d="M42.5 55.5C51 56.5 57.5 51.5 57.5 45"/><path d="${spiralPath(53.2, 44.6, 4.3, 1.25)}"/></g>
+        <path class="cat-body" d="M21 58C19 48 22 40.5 26.5 37.5H37.5C42 40.5 45 48 43 58Z"/>
+        <path class="cat-head" d="M19.5 27C19.5 20 21 15 22 8L28.5 13.5C30.8 12.9 33.2 12.9 35.5 13.5L42 8C43 15 44.5 20 44.5 27C44.5 34 39 38.5 32 38.5C25 38.5 19.5 34 19.5 27Z"/>
+        <path class="cat-whisker" d="M18 28.6L12.5 27.6M18 31.2L12.5 32M46 28.6L51.5 27.6M46 31.2L51.5 32"/>
+        <circle class="cat-cheek" cx="24.3" cy="31" r="1.7"/><circle class="cat-cheek" cx="39.7" cy="31" r="1.7"/>
+      </g>
+      <g class="cat-eyes">
+        <g class="cat-blink"><ellipse class="cat-eye" cx="27" cy="26" rx="1.9" ry="2.3"/><ellipse class="cat-eye" cx="37" cy="26" rx="1.9" ry="2.3"/></g>
+        <path class="cat-eye-spiral cat-eye-l" d="${spiralPath(27, 26, 2.8)}"/><path class="cat-eye-spiral cat-eye-r" d="${spiralPath(37, 26, 2.8)}"/>
+      </g>
+      <path class="cat-mouth" d="M30 30.3Q31 31.7 32 30.7Q33 31.7 34 30.3"/>
+    </svg>
+  </a>`;
+
 const RABBIT_HOLE = `    <div class="rabbit-hole" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></div>`;
 
 // Which widget modes this site asks for. Chat is opt-in per embed (Loki's
@@ -380,6 +410,8 @@ ${sections.map(([title, links]) => `      <nav aria-label="${esc(title)}">
   </div>
   <script type="module" src="/theme.mjs"><\/script>
   <script type="module" src="/nav.mjs"><\/script>
+${CAT}
+  <script type="module" src="/lodge.mjs"><\/script>
 ${script ?? ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>` : ""}
   <script src="${esc(LOKI_FEEDBACK.origin)}/widget.js" data-fc-project="${esc(LOKI_FEEDBACK.token)}" data-fc-modes="${esc(LOKI_FEEDBACK.modes)}" async><\/script>
 </body>
@@ -772,7 +804,7 @@ ${steps.map(([t, b], i) => `          <li><span class="path-n">0${i + 1}</span><
 
 export function workPage(all, cfg) {
   const body = `  <main id="main">
-    <section class="hero compact work-hero"><div class="wrap">
+    <section data-lodge class="dark stage stage-floored hero compact work-hero"><div class="wrap">
       <span class="eyebrow">The work</span>
       <h1 class="display-1">Everything built here, at its real stage.</h1>
       <p class="lede">Products and pilots in use, concepts built to show what is possible, and ideas named but not built — each labelled honestly. Filters live in the address bar, so a filtered view is a link you can send.</p>
@@ -867,7 +899,7 @@ export function venturePage(v, all, cfg, contact) {
     ? `        <div class="uses"><span class="label">Built from</span><div class="chips">${v.uses.map((s) => `<a href="/packages/${esc(s)}/">${esc(s)}</a>`).join("")}</div></div>`
     : "";
   const body = `  <main id="main">
-    <section class="venture-hero">
+    <section data-lodge class="dark stage stage-floored venture-hero">
       <div class="wrap">
         <span class="eyebrow${v.status === "live" ? "" : " quiet"}">${esc(stage?.title ?? v.stage)}${v.pillar ? ` &middot; ${esc(v.pillar)}` : ""}${v.for ? ` &middot; for ${esc(v.for)}` : ""}</span>
         <h1 class="display-1">${esc(v.name)}</h1>
@@ -914,7 +946,7 @@ export function studioPage(all, packages, origin, readings) {
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
   const reading = readings?.current;
   const body = `  <main id="main">
-    <section class="hero compact">
+    <section data-lodge class="dark stage stage-floored hero compact">
       <div class="wrap">
         <span class="eyebrow">The studio</span>
         <h1 class="display-1">Bit, and Baum.</h1>
@@ -1168,6 +1200,8 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("request.mjs", readFileSync(join(here, "request.mjs"), "utf8"));
   files.set("nav.mjs", readFileSync(join(here, "nav.mjs"), "utf8"));
   files.set("scenes.mjs", readFileSync(join(here, "scenes.mjs"), "utf8"));
+  files.set("sky.mjs", readFileSync(join(here, "sky.mjs"), "utf8"));
+  files.set("lodge.mjs", readFileSync(join(here, "lodge.mjs"), "utf8"));
   return { all, files };
 }
 
