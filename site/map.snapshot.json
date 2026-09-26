@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26T21:08:36.638Z",
+  "generatedAt": "2026-09-26T21:12:30.602Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 35,
     "live": 17,
     "clients": 5,
-    "inFlight": 1
+    "inFlight": 0
   },
   "projects": [
     {
@@ -2604,19 +2604,23 @@
       "changelog": [
         {
           "date": "2026-09-26",
+          "done": "Added a \"Built with Loki\" link to https://loki.orangecat.ch below the loop steps and opened PR #2 (https://github.com/bitbaum/probe-loop3/pull/2), whose CI verify check is green."
+        },
+        {
+          "date": "2026-09-26",
           "done": "Shipped the first real probe-loop3 page (hero, 5-step loop, commit/build-time stamp) via PR #1, which CI verified, the sweep auto-merged as 28d20a9, and Deploy put live at https://probe-loop3.orangecat.ch (HTTP 200, footer shows build 28d20a9)."
         }
       ],
       "next": null,
       "now": {
-        "openRuns": 1,
+        "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-09-26T21:07:05.367Z"
+          "at": "2026-09-26T21:09:49.556Z"
         },
         "lastLog": {
           "date": "2026-09-26",
-          "done": "Shipped the first real probe-loop3 page (hero, 5-step loop, commit/build-time stamp) via PR #1, which CI verified, the sweep auto-merged as 28d20a9, and Deploy put live at https://probe-loop3.orangecat.ch (HTTP 200, footer shows build 28d20a9)."
+          "done": "Added a \"Built with Loki\" link to https://loki.orangecat.ch below the loop steps and opened PR #2 (https://github.com/bitbaum/probe-loop3/pull/2), whose CI verify check is green."
         }
       }
     },
