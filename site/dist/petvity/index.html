@@ -168,7 +168,7 @@
           <a href="/hire/#waitlist">Join the waitlist</a>
         </nav>
       </div>
-      <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
+      <p class="foot-note">bitbaum is built in Zürich, in the open.</p>
     </div>
   </footer>
   <div class="site-menu" id="site-menu" hidden>
@@ -219,7 +219,7 @@
   <script type="module" src="/theme.mjs"></script>
   <script type="module" src="/nav.mjs"></script>
   <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" data-label="OrangeCat &rarr;"><span class="fig puppet fig-cat" data-rig='[{"poly":[[0,50],[36,50],[34,100],[0,100]],"pivot":[33,86],"a":[-8,7],"dur":2.8,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/cat.webp" width="228" height="266" alt="" loading="lazy" decoding="async" draggable="false"></span></a>
-  <div class="guest guest-unicorn" hidden aria-hidden="true"><img class="fig fig-unicorn" src="/art/unicorn.webp" width="440" height="381" alt="" loading="lazy" decoding="async" draggable="false"></div>
+  <div class="guest guest-stand guest-art-kit" hidden aria-hidden="true"><span class="fig puppet fig-kit" data-rig='[{"poly":[[44,0],[100,0],[100,46],[58,50],[44,42]],"pivot":[66,46],"a":[-7,6],"dur":5,"delay":0,"mode":"gesture"}]'><img class="pp-body" src="/art/kit.webp" width="184" height="226" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
   <script type="module" src="/sky.mjs"></script>
   <script type="module" src="/lodge.mjs"></script>
   <script type="module" src="/warp.mjs"></script>
@@ -231,7 +231,7 @@
         var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/chatkit.css"; document.head.appendChild(l);
         var s = document.createElement("script"); s.type = "module"; s.src = "/chat.js"; document.body.appendChild(s);
       }
-      var el = document.querySelector("[data-chat]");
+      var el = document.querySelector("[data-chat],[data-intake]");
       if (el && "IntersectionObserver" in window) new IntersectionObserver(function (e, io) { if (e[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: "1200px 0px" }).observe(el);
       addEventListener("load", function () { (window.requestIdleCallback || setTimeout)(load, { timeout: 4000 }); });
     })();

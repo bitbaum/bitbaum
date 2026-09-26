@@ -238,6 +238,120 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
   );
 }
 
+// The waitlist, as a conversation instead of a form. One free-form field —
+// typed or spoken — and whatever arrives is kept: nothing is required, nothing
+// is refused for its shape, because a request that bounces is a person lost.
+// An email written anywhere in the message becomes the reply address; without
+// one the intake asks once, and the answer is optional too. No AI answers
+// here: every word goes to the studio's inbox (POST /api/feedback) as written.
+const EMAIL = /[^\s<>(),;:"']+@[^\s<>(),;:"']+\.[a-z]{2,}/i;
+
+function Intake({ cfg, prompt, about }: { cfg: Config; prompt: string; about: () => string }) {
+  const [messages, setMessages] = useState<ChatMessageData[]>([
+    { id: "hello", role: "assistant", content: prompt },
+  ]);
+  const [sending, setSending] = useState(false);
+  const first = useRef("");
+  const replyTo = useRef("");
+  const pending = useRef<{ text: string; kept: ChatMessageData[] } | null>(null);
+
+  const say = (content: string, failed = false) =>
+    setMessages((prev) => [...prev, { id: `${Date.now()}-a`, role: "assistant", content, failed }]);
+
+  const deliver = async (text: string, kept: ChatMessageData[]) => {
+    pending.current = { text, kept };
+    setSending(true);
+    const found = text.match(EMAIL)?.[0] ?? "";
+    const isFirst = !first.current;
+    const topic = about();
+    const suggestion = isFirst
+      ? `Waitlist — from the website${topic ? `\nEngagement: ${topic}` : ""}\n\n${text}`
+      : `Waitlist, follow-up to: “${first.current.slice(0, 300)}”\n\n${text}`;
+    try {
+      const res = await fetch(`${cfg.origin}/api/feedback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token: cfg.token,
+          suggestion: suggestion.slice(0, 2000),
+          contact: (found || replyTo.current || undefined)?.slice(0, 200),
+          page: location.pathname.slice(0, 300),
+          url: location.href.slice(0, 1000),
+          pageTitle: document.title.slice(0, 300) || undefined,
+        }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      pending.current = null;
+      if (isFirst) first.current = text;
+      const newAddress = found && !replyTo.current;
+      if (found) replyTo.current = found;
+      if (isFirst && found)
+        say(`You are on the waitlist. A person reads this and will write to ${found} when a slot opens — nothing automated goes out. Anything to add, just say it here.`);
+      else if (isFirst)
+        say("You are on the waitlist, and a person will read it. Where should the reply go? An email address is enough — or leave it, and add anything else you like.");
+      else if (newAddress) say(`Thank you — the reply will go to ${found}.`);
+      else say("Added to your note.");
+    } catch {
+      say("That did not reach us — your words are still here. Press “Try again” below.", true);
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const send = (text: string) => {
+    const t = text.trim();
+    if (!t || sending) return false;
+    const next = [...messages.filter((m) => !m.failed), { id: `${Date.now()}-u`, role: "user" as const, content: t }];
+    setMessages(next);
+    void deliver(t, next);
+    return true;
+  };
+
+  const retry = () => {
+    const p = pending.current;
+    if (!p || sending) return;
+    setMessages(p.kept);
+    void deliver(p.text, p.kept);
+  };
+
+  return (
+    <div className="chat-card intake-card">
+      <ChatThread
+        messages={messages}
+        live={sending ? { status: "Sending to the studio" } : null}
+        onRetry={messages[messages.length - 1]?.failed ? retry : undefined}
+      />
+      <Composer
+        onSend={(text) => send(text)}
+        placeholder={first.current ? "Add anything, or your email…" : "What would you like to build? Your own words…"}
+        sending={sending}
+        voice={{
+          transcribe: async (audio) => {
+            const body = new FormData();
+            body.append("token", cfg.token);
+            body.append("audio", new File([audio], "voice.webm", { type: audio.type || "audio/webm" }));
+            const res = await fetch(`${cfg.origin}/api/widget/transcribe`, { method: "POST", body });
+            if (!res.ok) throw new Error(`transcription ${res.status}`);
+            const data = (await res.json()) as { text?: string };
+            return (data.text ?? "").trim();
+          },
+        }}
+      />
+    </div>
+  );
+}
+
+for (const el of document.querySelectorAll<HTMLElement>("[data-intake]")) {
+  const cfg = { origin: el.dataset.origin ?? "", token: el.dataset.token ?? "" };
+  // A rate card's "join the waitlist" link says which engagement it came from.
+  let topic = decodeURIComponent((location.hash.split("for=")[1] ?? "").replace(/-/g, " "));
+  document.querySelectorAll<HTMLElement>("[data-engagement]").forEach((a) =>
+    a.addEventListener("click", () => (topic = a.dataset.engagement ?? "")),
+  );
+  el.textContent = "";
+  createRoot(el).render(<Intake cfg={cfg} prompt={el.dataset.prompt ?? ""} about={() => topic} />);
+}
+
 for (const el of document.querySelectorAll<HTMLElement>("[data-chat]")) {
   const cfg = { origin: el.dataset.origin ?? "", token: el.dataset.token ?? "" };
   let starters: string[] = [];

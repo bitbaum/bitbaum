@@ -528,6 +528,44 @@ if (guest && stageFloor) {
     });
   }
 
+  if (kind === "stand") {
+    // Stands in the floor's depth, alive through its mesh; now and then it
+    // turns to face the other way and settles again.
+    every(19000, () => { const f = guest.querySelector(".fig"); if (f) f.animate([{ scale: "1 1" }, { scale: "-1 1", offset: 0.1 }, { scale: "-1 1", offset: 0.85 }, { scale: "1 1" }], { duration: 9000, easing: "ease-in-out" }); });
+  }
+
+  if (kind === "flutter") {
+    // Hovers over the stage and follows the pointer at a distance, nearer and
+    // further, banking as it turns.
+    let x = W() * 0.7, y = Hs() * 0.35, z = 1, px = null, py = null, face = 1;
+    stageFloor.addEventListener("pointermove", (e) => { const r = stageFloor.getBoundingClientRect(); px = e.clientX - r.left; py = e.clientY - r.top; }, { passive: true });
+    stageFloor.addEventListener("pointerleave", () => { px = null; });
+    const tick = (t) => {
+      if (onScreen && !still) {
+        const tx = (px != null ? px + 70 : W() * (0.6 + 0.25 * Math.sin(t * 0.00025))) + Math.sin(t * 0.0021) * 30;
+        const ty = (py != null ? py - 40 : Hs() * (0.32 + 0.12 * Math.sin(t * 0.0004))) + Math.cos(t * 0.0033) * 18;
+        const nx = x + (tx - x) * 0.03; if (Math.abs(nx - x) > 0.2) face = nx > x ? 1 : -1;
+        y += (ty - y) * 0.03; x = nx; z += ((0.75 + 0.3 * Math.sin(t * 0.0009)) - z) * 0.05;
+        guest.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${(face * z).toFixed(3)}, ${z.toFixed(3)})`;
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  if (kind === "drift") {
+    // Crosses the stage's sky, slow as breathing, and again after a while.
+    every(26000, () => {
+      const w = W();
+      guest.animate([
+        { transform: `translate(${w + 40}px, 10px) scale(0.6)`, opacity: 0 },
+        { transform: `translate(${w * 0.7}px, -4px) scale(0.8)`, opacity: 0.8, offset: 0.2 },
+        { transform: `translate(${w * 0.2}px, 14px) scale(0.95)`, opacity: 0.8, offset: 0.8 },
+        { transform: `translate(${-w * 0.4}px, 6px) scale(1)`, opacity: 0 },
+      ], { duration: 22000, easing: "linear" });
+    });
+  }
+
   if (kind === "unicorn") {
     // Rare, and shy: it stands far back on the floor, half in the dark, and
     // when the pointer comes near it fades away, returning a while later.

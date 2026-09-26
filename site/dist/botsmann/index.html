@@ -168,7 +168,7 @@
           <a href="/hire/#waitlist">Join the waitlist</a>
         </nav>
       </div>
-      <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
+      <p class="foot-note">bitbaum is built in Zürich, in the open.</p>
     </div>
   </footer>
   <div class="site-menu" id="site-menu" hidden>
@@ -231,7 +231,7 @@
         var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/chatkit.css"; document.head.appendChild(l);
         var s = document.createElement("script"); s.type = "module"; s.src = "/chat.js"; document.body.appendChild(s);
       }
-      var el = document.querySelector("[data-chat]");
+      var el = document.querySelector("[data-chat],[data-intake]");
       if (el && "IntersectionObserver" in window) new IntersectionObserver(function (e, io) { if (e[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: "1200px 0px" }).observe(el);
       addEventListener("load", function () { (window.requestIdleCallback || setTimeout)(load, { timeout: 4000 }); });
     })();

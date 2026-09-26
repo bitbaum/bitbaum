@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26T20:21:24.332Z",
+  "generatedAt": "2026-09-26T21:08:36.638Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -19,10 +19,10 @@
     }
   ],
   "summary": {
-    "projects": 34,
-    "live": 16,
+    "projects": 35,
+    "live": 17,
     "clients": 5,
-    "inFlight": 0
+    "inFlight": 1
   },
   "projects": [
     {
@@ -2576,6 +2576,47 @@
         "lastLog": {
           "date": "2026-09-24",
           "done": "Confirmed the escalation's last failure was a dispatch-side usage-limit error rather than a project blocker, re-ran the full verify gate on bf26dbd (format, lint, tsc, 101/101 tests all green), and found nothing in Pick rules 0–8, so handed back instead of inventing T2 work."
+        }
+      }
+    },
+    {
+      "slug": "probe-loop3",
+      "name": "probe-loop3",
+      "what": "A one-page test website that Loki builds and ships by itself, to prove the loop works.",
+      "stack": null,
+      "layer": "next",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://probe-loop3.orangecat.ch",
+        "repo": "https://github.com/bitbaum/probe-loop3",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": "Autonomous coding agents often fail during the final delivery stages, making it hard to verify whether an end-to-end build, deploy, and ship pipeline actually functions autonomously.",
+        "solution": "A minimal test project used as a canary to exercise and prove Loki's autonomous generation and shipping capabilities.",
+        "mission": "Validate that an autonomous agent can independently build, deploy, and ship a live web application without human intervention.",
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-09-26",
+          "done": "Shipped the first real probe-loop3 page (hero, 5-step loop, commit/build-time stamp) via PR #1, which CI verified, the sweep auto-merged as 28d20a9, and Deploy put live at https://probe-loop3.orangecat.ch (HTTP 200, footer shows build 28d20a9)."
+        }
+      ],
+      "next": null,
+      "now": {
+        "openRuns": 1,
+        "lastRun": {
+          "outcome": "success",
+          "at": "2026-09-26T21:07:05.367Z"
+        },
+        "lastLog": {
+          "date": "2026-09-26",
+          "done": "Shipped the first real probe-loop3 page (hero, 5-step loop, commit/build-time stamp) via PR #1, which CI verified, the sweep auto-merged as 28d20a9, and Deploy put live at https://probe-loop3.orangecat.ch (HTTP 200, footer shows build 28d20a9)."
         }
       }
     },

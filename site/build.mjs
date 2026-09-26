@@ -221,11 +221,43 @@ const STORIES = {
   moth: () => `  <div class="guest guest-moth" hidden aria-hidden="true">${fig("moth")}</div>`,
   ...(ART_NAMES.includes("scarab") ? { scarab: () => `  <div class="guest guest-scarab" hidden aria-hidden="true"><span class="scarab">${fig("scarab")}</span><span class="sunball">${fig("sunball")}</span></div>` } : {}),
 };
+// Each project page has its own small avatar, chosen for what the project is.
+// kind: "stand" (on the floor, alive through its mesh), "flutter" (hovers,
+// drawn to the pointer), "drift" (crosses the stage's sky), or a story above.
+const AVATARS = {
+  "/heidi/": ["stand", "cow"],                 // Swiss German: a Swiss cow
+  "/diplodoctor/": ["stand", "diplodocus"],    // its name
+  "/orangecat/": ["stand", "cat"],             // its name
+  "/datacat/": ["stand", "cat"],
+  "/loki/": ["story", "fox"],                  // the trickster, hatching
+  "/solon/": ["story", "owl"],                 // wisdom, for deciding together
+  "/causius/": ["story", "owl"],               // law
+  "/aoz-housing/": ["story", "snail"],         // carries its home with it
+  "/evig/": ["story", "unicorn"],              // evig: forever
+  "/petvity/": ["stand", "kit"],               // pets
+  "/vitareba/": ["stand", "deer"],             // a gentle clinic
+  "/wild-spirit/": ["stand", "deer"],
+  "/s-ink/": ["flutter", "dragonfly"],         // the classic tattoo motif
+  "/annushka/": ["flutter", "hummingbird"],    // a painter's colour
+  "/printcraft/": ["flutter", "moth"],
+  "/substrata/": ["story", "moth"],            // drawn to the light of progress
+  "/kivvi/": ["story", "scarab"],              // the original recycler
+  "/reparaturbonus-zh/": ["story", "scarab"],
+  "/surf-your-life/": ["drift", "whale"],      // breath, and calm
+  "/skif/": ["story", "horse"],                // a guardian
+  "/botsmann/": ["story", "horse"],
+  "/sbb-fundbuero/": ["stand", "rabbit"],      // late, and still looking
+  "/camille-boulangerie/": ["stand", "kit"],
+  "/revamp-info/": ["stand", "elephant"],      // Hirnli, the brain; an elephant never forgets
+  "/studio/": ["story", "scarab"],
+  "/partners/": ["story", "horse"],
+  "/hire/": ["story", "owl"],
+};
 function story(path) {
   if (path === "/work/") return STORIES.fox();
-  // The two animals that stand for projects live on those projects' pages.
-  if (path === "/heidi/") return `  <div class="guest guest-cow" hidden aria-hidden="true">${fig("cow")}</div>`;
-  if (path === "/diplodoctor/") return `  <div class="guest guest-diplo" hidden aria-hidden="true">${fig("diplodocus")}</div>`;
+  const a = AVATARS[path];
+  if (a && a[0] === "story" && STORIES[a[1]]) return STORIES[a[1]]();
+  if (a) return `  <div class="guest guest-${a[0]} guest-art-${a[1]}" hidden aria-hidden="true">${fig(a[1])}</div>`;
   const names = Object.keys(STORIES);
   const h = [...path].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 17);
   return STORIES[names[h % names.length]]();
@@ -465,7 +497,7 @@ ${sections.map(([title, links]) => `        <nav aria-label="${esc(title)}">
           ${sectionLinks(links)}
         </nav>`).join("\n")}
       </div>
-      <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
+      <p class="foot-note">bitbaum is built in Zürich, in the open.</p>
     </div>
   </footer>
   <div class="site-menu" id="site-menu" hidden>
@@ -580,7 +612,7 @@ const CHAT_SCRIPT = `  <script>
         var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/chatkit.css"; document.head.appendChild(l);
         var s = document.createElement("script"); s.type = "module"; s.src = "/chat.js"; document.body.appendChild(s);
       }
-      var el = document.querySelector("[data-chat]");
+      var el = document.querySelector("[data-chat],[data-intake]");
       if (el && "IntersectionObserver" in window) new IntersectionObserver(function (e, io) { if (e[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: "1200px 0px" }).observe(el);
       addEventListener("load", function () { (window.requestIdleCallback || setTimeout)(load, { timeout: 4000 }); });
     })();
@@ -600,12 +632,11 @@ function buildYourselfBand(all, hire, { heading = true } = {}) {
     ["solon", "Decide it together", "Run it with others: proposals and one-click votes for a team, a co-op or a community, with a record everyone can see."],
   ].filter(([slug]) => by.get(slug)?.url);
   const offers = hire?.offers ?? [];
-  const from = offers[0] ? `${esc(offers[0].name)} ${esc(offers[0].price)}${offers[0].unit ? ` ${esc(offers[0].unit)}` : ""}` : "";
   return `    <section class="section build-band" id="build-yourself">
       <div class="wrap">
         ${heading ? `<div class="section-head">
           <div class="stack-head"><span class="eyebrow">${esc(hire?.availability?.shortLine ?? "The studio")}</span><h2 class="display-2">Build it yourself — with the same system.</h2></div>
-          <p class="lede">The studio is full, but the tools it builds with are open. Loki, OrangeCat and Solon cover every part of an idea: making it, earning from it, and running it with other people.</p>
+          <p class="lede">The studio is at capacity, but the tools it builds with are open to everyone. Loki, OrangeCat and Solon cover every part of an idea: making it, earning from it, and running it with other people.</p>
         </div>` : ""}
         <div class="build-paths">
 ${paths.map(([slug, verb, line]) => {
@@ -618,7 +649,7 @@ ${paths.map(([slug, verb, line]) => {
           </a>`;
   }).join("\n")}
         </div>
-        <p class="build-wait">Rather have the studio build it? ${from ? `Engagements start at ${from}; ` : ""}<a class="textlink" href="${HIRE}">see rates</a> and <a class="textlink" href="${HIRE}#waitlist">join the waitlist</a> to hear first when a slot opens.</p>
+        <p class="build-wait">Rather have the studio build it? ${offers[0] ? `Engagements start from ${esc(offers[0].price)}${offers[0].unit ? ` ${esc(offers[0].unit)}` : ""}. ` : ""}<a class="textlink" href="${HIRE}">See the rates</a> and <a class="textlink" href="${HIRE}#waitlist">join the waitlist</a> to hear first when a slot opens.</p>
       </div>
     </section>`;
 }
@@ -695,13 +726,13 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
     },
     {
       n: "02", key: "partner", title: "Hire a partner",
-      price: "Less than the studio", when: "Partners are joining", open: false,
-      body: "Approved builders who work with the same tools, show their work here, and set their own prices. You hire them directly.",
+      price: "Their own rates", when: "First partners in review", open: false,
+      body: "Independent builders, approved by the studio, who work with the same tools and set their own prices. Once listed, you hire them directly.",
       cta: "Meet the partners", href: "/partners/",
     },
     {
       n: "03", key: "studio", title: "The bitbaum studio",
-      price: studioFrom, when: studioOpen ? "Taking projects" : "Fully booked", open: studioOpen,
+      price: studioFrom, when: studioOpen ? "Taking projects" : "At capacity · waitlist open", open: studioOpen,
       body: "Bespoke, production-grade work: built, run and handed over so a normal team can keep it going.",
       cta: studioOpen ? "Talk to the studio" : "Join the waitlist", href: `${HIRE}#waitlist`,
     },
@@ -747,7 +778,7 @@ ${pathCards}
 ${fullBleed({ scene: "seed", id: "build-yourself", body: `        <div class="bleed-copy">
           <span class="kicker">Build it yourself</span>
           <h2 class="headline-caps">Make it yourself.<br>Today.</h2>
-          <p class="bleed-lede">The studio is full; its tools are not. The same three products it builds with are open to you — make it, earn from it, run it with other people.</p>
+          <p class="bleed-lede">The studio is at capacity. Its tools are not: the same three products it builds with are open to you — to make something, earn from it, and run it with other people.</p>
           <div class="bleed-actions">
             <a class="btn-frame-accent" href="${esc(by("loki")?.url ?? "https://loki.orangecat.ch/")}">Start with Loki ${ARROW}</a>
             <a class="btn-frame" href="#tools">How the tools fit</a>
@@ -780,7 +811,7 @@ ${featuredWork.map((v) => card(v, false)).join("\n")}
     </section>
 
 ${fullBleed({ scene: "rings", id: "studio", body: `        <div class="bleed-copy">
-          <span class="kicker">The studio &middot; ${esc(studioOpen ? "Taking projects" : "Fully booked")}</span>
+          <span class="kicker">The studio &middot; ${esc(studioOpen ? "Taking projects" : "At capacity")}</span>
           <h2 class="headline-caps">Built for you.<br>Built to last.</h2>
           <p class="bleed-lede">${esc(hire?.lede ?? "")} ${esc(studioFrom)}.</p>
           <div class="bleed-actions">
@@ -844,7 +875,7 @@ export function partnersPage() {
 ${fullBleed({ scene: "mycelium", cast: "partners", under: true, strong: true, body: `        <div class="bleed-copy rise">
           <span class="kicker">Partners</span>
           <h1 class="headline-caps">Build here.</h1>
-          <p class="bleed-lede">The studio is full. Approved partner builders take the work it cannot — with the same tools, under their own name, at their own price.</p>
+          <p class="bleed-lede">While the studio is at capacity, independent builders it approves can take on the work — with the same tools, under their own name, at their own price. The first are being reviewed now.</p>
           <div class="bleed-actions">
             <a class="btn-frame-accent" href="#join">Become a partner ${ARROW}</a>
             <a class="btn-frame" href="#partners">Find a partner</a>
@@ -1063,7 +1094,7 @@ export function studioPage(all, packages, origin, readings) {
         <h2>Open by construction</h2>
         <p>The shared packages are MIT-licensed. Work built for someone else stays theirs. Contributor terms live in <a href="${CONTRIBUTING}">bitbaum/.github</a>. The <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a> tracks <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">${origin?.repos?.length ?? 0} repositories</a>, of which <a href="https://archive.softwareheritage.org/">${origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0} have a Software Heritage snapshot</a>${block ? `; the <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">earliest recorded proof is anchored at Bitcoin block ${block}</a>` : ""}.</p>
         <h2>Numbers, in the open</h2>
-        <p>Fleet's <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">${esc(reading?.date ?? "latest")} readings</a> report <a href="https://github.com/bitbaum">${Number(reading?.stars ?? 0)} GitHub stars</a> and <a href="https://www.npmjs.com/org/bitbaum">${Number(reading?.downloads?.lastMonth ?? 0).toLocaleString("en-US")} package downloads over 30 days</a> (including our own CI installs). The same dated register reports <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">CHF ${Number(reading?.clients?.mrrChf ?? 0).toLocaleString("en-US")} monthly client revenue</a>. These are readings, not forecasts; the source and date are linked.</p>
+        <p>Fleet's <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">${esc(reading?.date ?? "latest")} readings</a> report <a href="https://github.com/bitbaum">${Number(reading?.stars ?? 0)} GitHub stars</a> and <a href="https://www.npmjs.com/org/bitbaum">${Number(reading?.downloads?.lastMonth ?? 0).toLocaleString("en-US")} package downloads over 30 days</a> (including our own CI installs). The same dated register reports <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">CHF ${Number(reading?.clients?.mrrChf ?? 0).toLocaleString("en-US")} a month from studio engagements</a> so far. These are readings, not forecasts; the source and date are linked.</p>
         <h2>Work with the studio</h2>
         <p>Fractional CTO and contract engineering, Zürich. Rates, scope and the waitlist are on the <a href="${HIRE}">hire page</a>. The code is on <a href="${GITHUB}">GitHub</a>.</p>
       </div></div>
@@ -1086,37 +1117,13 @@ export function studioPage(all, packages, origin, readings) {
 // Requests go to Loki's feedback inbox — the one inbound surface in the fleet
 // that is cross-origin safe, rate-limited, deduped, notified AND triaged in a
 // real UI (/feedback). The token is public ON PURPOSE (widget_tokens schema).
-const REQUEST_ENDPOINT = "https://loki.orangecat.ch/api/feedback";
 
-/** A field. `kind` is text | email | textarea | select. */
-const field = (f) => {
-  const id = `f-${f.form}-${f.name}`;
-  const label = `<label for="${id}">${esc(f.label)}${f.required ? "" : ` <span class="opt">optional</span>`}</label>`;
-  const req = f.required ? " required" : "";
-  if (f.kind === "textarea")
-    return `<p class="field wide">${label}<textarea id="${id}" name="${esc(f.name)}" rows="4" placeholder="${esc(f.placeholder ?? "")}"${req}></textarea></p>`;
-  if (f.kind === "select")
-    return `<p class="field">${label}<select id="${id}" name="${esc(f.name)}"${req}>${f.options
-      .map((o) => `<option value="${esc(o)}">${esc(o)}</option>`)
-      .join("")}</select></p>`;
-  return `<p class="field"><label for="${id}">${esc(f.label)}${f.required ? "" : ` <span class="opt">optional</span>`}</label><input id="${id}" type="${f.kind}" name="${esc(f.name)}" autocomplete="${esc(f.autocomplete ?? "on")}" placeholder="${esc(f.placeholder ?? "")}"${req}></p>`;
-};
-
-/** The intake form. Every door on this site is one of these. */
-function requestForm({ id, fields, cta, note }) {
-  return `        <form class="signup js-request" id="form-${esc(id)}" data-form="${esc(id)}" data-endpoint="${esc(REQUEST_ENDPOINT)}" novalidate>
-${fields.map((f) => `          ${field({ ...f, form: id })}`).join("\n")}
-          <div class="hp" aria-hidden="true">
-            <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
-          </div>
-          <p class="field wide submit"><button class="btn primary" type="submit">${esc(cta)} ${ARROW}</button></p>
-        </form>
-        <p class="form-status" role="status"></p>
-${note ? `        <p class="caption">${note}</p>` : ""}`;
-}
-
-function requestScript() {
-  return `  <script type="module" src="/request.mjs" data-endpoint="${esc(LOKI_FEEDBACK.origin)}/api/feedback" data-token="${esc(LOKI_FEEDBACK.token)}"><\/script>`;
+/** The waitlist, as a conversation (site/chat/chat.tsx, Intake). One field,
+ * typed or spoken, and nothing refused. Without JavaScript it says so. */
+function intakeMount(prompt) {
+  return `        <div class="chat-mount intake-mount" data-intake data-origin="${esc(LOKI_FEEDBACK.origin)}" data-token="${esc(LOKI_FEEDBACK.token)}" data-prompt="${esc(prompt)}">
+          <p class="caption">The waitlist needs JavaScript to reach the studio. <a class="textlink" href="/work/">Browse every project</a> in the meantime.</p>
+        </div>`;
 }
 
 const slug = (name) =>
@@ -1225,26 +1232,14 @@ ${hire.waitlist.promises.map((w) => `          <article class="card text">
             </div>
           </article>`).join("\n")}
         </div>
-${requestForm({
-  id: "waitlist",
-  cta: hire.availability.cta,
-  note: esc(hire.contact.line),
-  fields: [
-    { name: "name", label: "Your name", kind: "text", autocomplete: "name", required: true },
-    { name: "email", label: "Email", kind: "email", autocomplete: "email", placeholder: "you@yourcompany.ch", required: true },
-    { name: "org", label: "Company or organisation", kind: "text", autocomplete: "organization" },
-    { name: "engagement", label: "Which engagement", kind: "select", options: ["Not sure yet", ...hire.offers.map((o) => o.name)] },
-    { name: "timeline", label: "When you need it", kind: "select", options: ["Not urgent", "This quarter", "Next quarter", "As soon as there is capacity"] },
-    { name: "what", label: "What you are building, and what is in the way", kind: "textarea", placeholder: "A sentence or two is plenty.", required: true },
-  ],
-})}
+${intakeMount(hire.waitlist.prompt)}
       </div>
     </section>
   </main>`;
   return shell({
     title: "Hire the studio — bitbaum",
     description: `${hire.eyebrow}. ${hire.lede}`,
-    path: "/hire/", body, nav: "/hire/", script: requestScript(),
+    path: "/hire/", body, nav: "/hire/", script: CHAT_SCRIPT,
   });
 }
 
@@ -1290,7 +1285,6 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((u) => `  <url><loc>${u}</loc></url>`).join("\n")}\n</urlset>\n`);
   files.set("robots.txt", `User-agent: *\nAllow: /\nDisallow: /map.json\n\nSitemap: ${SITE}/sitemap.xml\n`);
   files.set("theme.mjs", readFileSync(join(here, "theme.mjs"), "utf8"));
-  files.set("request.mjs", readFileSync(join(here, "request.mjs"), "utf8"));
   files.set("nav.mjs", readFileSync(join(here, "nav.mjs"), "utf8"));
   files.set("scenes.mjs", readFileSync(join(here, "scenes.mjs"), "utf8"));
   files.set("sky.mjs", readFileSync(join(here, "sky.mjs"), "utf8"));

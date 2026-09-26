@@ -103,14 +103,14 @@
           <a class="path" href="/partners/" data-path="partner">
             <span class="path-n">02</span>
             <span class="path-title">Hire a partner</span>
-            <span class="path-meta"><span class="path-price">Less than the studio</span><span class="path-when">Partners are joining</span></span>
-            <span class="path-body">Approved builders who work with the same tools, show their work here, and set their own prices. You hire them directly.</span>
+            <span class="path-meta"><span class="path-price">Their own rates</span><span class="path-when">First partners in review</span></span>
+            <span class="path-body">Independent builders, approved by the studio, who work with the same tools and set their own prices. Once listed, you hire them directly.</span>
             <span class="path-cta">Meet the partners <span class="arrow" aria-hidden="true">&rarr;</span></span>
           </a>
           <a class="path" href="/hire/#waitlist" data-path="studio">
             <span class="path-n">03</span>
             <span class="path-title">The bitbaum studio</span>
-            <span class="path-meta"><span class="path-price">From CHF 2,400 per day</span><span class="path-when">Fully booked</span></span>
+            <span class="path-meta"><span class="path-price">From CHF 2,400 per day</span><span class="path-when">At capacity · waitlist open</span></span>
             <span class="path-body">Bespoke, production-grade work: built, run and handed over so a normal team can keep it going.</span>
             <span class="path-cta">Join the waitlist <span class="arrow" aria-hidden="true">&rarr;</span></span>
           </a>
@@ -130,7 +130,7 @@
         <div class="bleed-copy">
           <span class="kicker">Build it yourself</span>
           <h2 class="headline-caps">Make it yourself.<br>Today.</h2>
-          <p class="bleed-lede">The studio is full; its tools are not. The same three products it builds with are open to you — make it, earn from it, run it with other people.</p>
+          <p class="bleed-lede">The studio is at capacity. Its tools are not: the same three products it builds with are open to you — to make something, earn from it, and run it with other people.</p>
           <div class="bleed-actions">
             <a class="btn-frame-accent" href="https://loki.orangecat.ch">Start with Loki <span class="arrow" aria-hidden="true">&rarr;</span></a>
             <a class="btn-frame" href="#tools">How the tools fit</a>
@@ -237,7 +237,7 @@
       <div class="bleed-scrim" aria-hidden="true"></div>
       <div class="wrap bleed-body">
         <div class="bleed-copy">
-          <span class="kicker">The studio &middot; Fully booked</span>
+          <span class="kicker">The studio &middot; At capacity</span>
           <h2 class="headline-caps">Built for you.<br>Built to last.</h2>
           <p class="bleed-lede">bitbaum takes a product from idea to a running, monitored, backed-up production service — and hands over something a normal team can maintain afterwards. From CHF 2,400 per day.</p>
           <div class="bleed-actions">
@@ -331,7 +331,7 @@
           <a href="/hire/#waitlist">Join the waitlist</a>
         </nav>
       </div>
-      <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
+      <p class="foot-note">bitbaum is built in Zürich, in the open.</p>
     </div>
   </footer>
   <div class="site-menu" id="site-menu" hidden>
@@ -394,7 +394,7 @@
         var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/chatkit.css"; document.head.appendChild(l);
         var s = document.createElement("script"); s.type = "module"; s.src = "/chat.js"; document.body.appendChild(s);
       }
-      var el = document.querySelector("[data-chat]");
+      var el = document.querySelector("[data-chat],[data-intake]");
       if (el && "IntersectionObserver" in window) new IntersectionObserver(function (e, io) { if (e[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: "1200px 0px" }).observe(el);
       addEventListener("load", function () { (window.requestIdleCallback || setTimeout)(load, { timeout: 4000 }); });
     })();
