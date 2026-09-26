@@ -139,3 +139,26 @@ for (const m of document.querySelectorAll(".shroom")) {
   m.addEventListener("pointerenter", puff);
   m.addEventListener("click", puff);
 }
+
+// A tumbleweed rolls across the plain in autumn or on a windy day: in from
+// the far right, bouncing, turning, a little nearer as it goes, and away.
+const tumble = document.querySelector(".tumbleweed");
+if (tumble && !still) {
+  const plain = tumble.closest("section");
+  let busy = false, visible = false;
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(plain);
+  const roll = () => {
+    const root = document.documentElement;
+    if (busy || !visible || document.hidden || !(root.dataset.weather === "wind" || root.dataset.season === "autumn")) return;
+    busy = true; tumble.hidden = false;
+    const w = plain.clientWidth, h = num(plain, "--horizon", plain.clientHeight * 0.74), size = tumble.offsetWidth || 70;
+    const frames = [], hops = 7;
+    for (let k = 0; k <= hops * 2; k++) {
+      const u = k / (hops * 2), x = w + size - u * (w * 0.75 + size), s = 0.55 + u * 0.5;
+      const y = h + u * 70 - (k % 2 ? 26 * (1 - u * 0.5) : 0);
+      frames.push({ transform: `translate(${x.toFixed(0)}px, ${(y - size * s).toFixed(0)}px) rotate(${(-u * 900).toFixed(0)}deg) scale(${s.toFixed(2)})`, opacity: Math.min(1, u * 8, (1 - u) * 8), easing: k % 2 ? "ease-in" : "ease-out" });
+    }
+    tumble.animate(frames, { duration: 9000 }).onfinish = () => { tumble.hidden = true; busy = false; };
+  };
+  setInterval(roll, 14000); setTimeout(roll, 3000);
+}

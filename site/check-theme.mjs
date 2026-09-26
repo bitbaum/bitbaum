@@ -61,19 +61,21 @@ const browser = await pw.chromium.launch();
   const page = await ctx.newPage();
   await page.goto(base + "/", { waitUntil: "domcontentloaded" });
   const head = await page.$eval("head", (h) => h.innerHTML);
-  const scriptAt = head.indexOf("prefers-color-scheme");
+  const scriptAt = head.indexOf("localStorage.getItem(\"theme\")");
   const cssAt = head.indexOf('href="/styles.css"');
   say(scriptAt !== -1 && scriptAt < cssAt, "the theme is decided in <head> before the stylesheet loads");
   await ctx.close();
 }
 
-// ── default follows the operating system, both ways ────────────────────────
-for (const [scheme, expectDark] of [["dark", true], ["light", false]]) {
-  const ctx = await browser.newContext({ colorScheme: scheme });
+// ── by default the site follows the real sky where the reader is ───────────
+// Zurich at noon is day and at midnight is night, whatever the OS prefers.
+for (const [hour, expectDark] of [[12, false], [0, true]]) {
+  const ctx = await browser.newContext({ colorScheme: expectDark ? "light" : "dark", timezoneId: "Europe/Zurich" });
   const page = await ctx.newPage();
+  await page.clock.setFixedTime(new Date(`2026-06-21T${String(hour).padStart(2, "0")}:30:00+02:00`));
   await page.goto(base + "/", { waitUntil: "networkidle" });
   const isDark = await page.$eval("html", (h) => h.classList.contains("dark"));
-  say(isDark === expectDark, `a ${scheme} system gets the ${expectDark ? "dark" : "light"} theme by default`);
+  say(isDark === expectDark, `at ${hour}:30 local time the page is ${expectDark ? "night (dark)" : "day (light)"} by default`);
 
   const [bg, fg] = await page.evaluate(() => {
     // The page's background is the sky (sky.mjs), painted over html's
@@ -111,19 +113,21 @@ for (const [scheme, expectDark] of [["dark", true], ["light", false]]) {
   });
   say(contrast(ratio[0], ratio[1]) >= 7, `light stays readable after switching (${contrast(ratio[0], ratio[1]).toFixed(1)}:1)`);
 
-  // ── "system" means system from then on ───────────────────────────────────
-  await page.click('[data-set-theme="system"]');
+  await ctx.close();
+}
+
+// ── "local time" hands control back to the sky ────────────────────────────
+{
+  const ctx = await browser.newContext({ colorScheme: "light", timezoneId: "Europe/Zurich" });
+  const page = await ctx.newPage();
+  await page.clock.setFixedTime(new Date("2026-06-21T23:30:00+02:00"));
+  await page.goto(base + "/", { waitUntil: "networkidle" });
+  await page.click('[data-set-theme="light"]');
   await page.waitForTimeout(150);
-  say(await page.$eval("html", (h) => h.classList.contains("dark")), "choosing system hands control back to the OS");
-  await page.emulateMedia({ colorScheme: "light" });
-  // Wait for the flip rather than a fixed beat: on a loaded machine 200ms was
-  // not enough and this step failed while the site was fine. A page that never
-  // follows the OS still fails — the wait just ends at its bound.
-  await page.waitForFunction(() => !document.documentElement.classList.contains("dark"), null, { timeout: 3000 }).catch(() => {});
-  say(
-    !(await page.$eval("html", (h) => h.classList.contains("dark"))),
-    "and it keeps following the OS when that changes later",
-  );
+  say(!(await page.$eval("html", (h) => h.classList.contains("dark"))), "light can be chosen at night");
+  await page.click('[data-set-theme="auto"]');
+  await page.waitForTimeout(150);
+  say(await page.$eval("html", (h) => h.classList.contains("dark")), "choosing local time at 23:30 gives night again");
   await ctx.close();
 }
 

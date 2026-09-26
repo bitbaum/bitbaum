@@ -13,28 +13,25 @@ import { readFileSync } from "node:fs";
 
 const read = (p) => JSON.parse(readFileSync(new URL(p, import.meta.url), "utf8"));
 const INDEX = read("./art/index.json");
-const RIGS = read("./art/rig/index.json");
 export const ART_NAMES = Object.keys(INDEX);
 
 const lazy = (eager) => (eager ? 'fetchpriority="high"' : 'loading="lazy"');
 
+// A rigged figure is ONE painting, bent on a mesh by warp.mjs (never cut
+// into pieces: pieces show seams). The rig — each moving part's outline,
+// joint and swing — travels with it as data-rig.
+const RIGS_SRC = read("./art-src/rigs.json");
 function puppet(name, cls, eager) {
-  const rig = RIGS[name];
-  const [w, h] = rig.size;
-  const layer = ([pname, p]) => {
-    const [x, y, pw, ph] = p.box;
-    const style = `left:${x}%;top:${y}%;width:${pw}%;height:${ph}%;transform-origin:${p.origin[0]}% ${p.origin[1]}%;--a0:${p.a[0]}deg;--a1:${p.a[1]}deg;animation-duration:${p.dur}s;animation-delay:${p.delay}s`;
-    return `<img class="pp pp-${pname}${p.mode === "gesture" ? " pp-gesture" : p.mode === "spin" ? " pp-spin" : ""}" src="/art/rig/${name}.${pname}.webp" alt="" ${lazy(eager)} decoding="async" draggable="false" style="${style}">`;
-  };
-  const parts = Object.entries(rig.parts);
-  return `<span class="fig puppet fig-${name}${cls ? ` ${cls}` : ""}">${parts.filter(([, p]) => p.under).map(layer).join("")}<img class="pp-body" src="/art/rig/${name}.body.webp" width="${w}" height="${h}" alt="" ${lazy(eager)} decoding="async" draggable="false">${parts.filter(([, p]) => !p.under).map(layer).join("")}</span>`;
+  const [w, h] = INDEX[name];
+  const rig = Object.values(RIGS_SRC[name].parts).map((p) => ({ poly: p.poly, pivot: p.pivot, a: p.a, dur: p.dur, delay: p.delay || 0, mode: p.mode || "swing", ...(p.rigid ? { rigid: true } : {}) }));
+  return `<span class="fig puppet fig-${name}${cls ? ` ${cls}` : ""}" data-rig='${JSON.stringify(rig)}'><img class="pp-body" src="/art/${name}.webp" width="${w}" height="${h}" alt="" ${lazy(eager)} decoding="async" draggable="false"></span>`;
 }
 
 // fig("cow", "extra-class", { href, label }) — a figure, or a labelled door.
 export function fig(name, cls = "", { href, label, eager = false, still = false } = {}) {
   const size = INDEX[name];
   if (!size) throw new Error(`art ${name} is not in site/art/index.json`);
-  const body = RIGS[name] && !still
+  const body = RIGS_SRC[name]?.parts && !still
     ? puppet(name, cls, eager)
     : `<img class="fig fig-${name}${cls ? ` ${cls}` : ""}" src="/art/${name}.webp" width="${size[0]}" height="${size[1]}" alt="" ${lazy(eager)} decoding="async" draggable="false">`;
   if (!href) return body;

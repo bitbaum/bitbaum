@@ -57,7 +57,8 @@ function growTree(seed, maxDepth, { three = 0.12, spread = 1 } = {}) {
 // or roots); `key` names the layout so one tree can be posed twice.
 function pose(node, x, y, angle, len, opts) {
   const { t = 0, key = "up", squash = 1, sway = 1, phase = 0, lean = 0, progress = 99 } = opts;
-  const s = still ? 0 : Math.sin(t * 0.0005 + phase + node.depth * 0.7) * 0.014 * node.depth * sway;
+  const gusty = document.documentElement.dataset.weather === "wind" ? 2.6 : 1;
+  const s = still ? 0 : Math.sin(t * 0.0005 * gusty + phase + node.depth * 0.7) * 0.014 * node.depth * sway * gusty;
   const a = angle + node.turn + s + lean * node.depth * 0.012;
   const L = len * node.len;
   const part = Math.max(0, Math.min(1, progress - node.depth));
