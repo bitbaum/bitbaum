@@ -237,7 +237,7 @@ if (paid === undefined) {
   const current = readings.current;
   say(
       studio.includes(`${current.date} readings`) && studio.includes(`${current.downloads.lastMonth.toLocaleString("en-US")} package downloads`) &&
-      studio.includes(`CHF ${Number(current.clients?.mrrChf ?? 0).toLocaleString("en-US")} monthly client revenue`) &&
+      studio.includes(`CHF ${Number(current.clients?.mrrChf ?? 0).toLocaleString("en-US")} a month from studio engagements`) &&
       studio.includes("including our own CI installs"),
     `studio readings match Fleet's dated register (${current.date}) and disclose CI downloads`,
   );

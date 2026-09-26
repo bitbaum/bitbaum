@@ -6,11 +6,11 @@
   "availability": {
     "state": "closed",
     "shortLine": "Studio engagements are at capacity.",
-    "line": "At capacity: no new engagements are starting right now. The rates below are current, and the waitlist is how you hear first when a slot opens.",
+    "line": "The studio is at capacity. The rates below are current, and the waitlist is how you hear first when a slot opens.",
     "cta": "Join the waitlist"
   },
   "waitlist": {
-    "lede": "Tell us what you are building and roughly when you need it. When a slot opens we work the list in the order it was joined — and a request with real detail is the one we can answer properly.",
+    "lede": "Say what you want built, in your own words — typed or spoken. When a slot opens, the list is worked in the order it was joined.",
     "promises": [
       {
         "title": "A reply from a person",
@@ -22,9 +22,10 @@
       },
       {
         "title": "Leave whenever",
-        "what": "Ask through this same form and the record is deleted. There is no account to close, because there was never one to open."
+        "what": "Write the same way asking to be removed, and the record is deleted. There is no account to close, because there was never one to open."
       }
-    ]
+    ],
+    "prompt": "Hello. What would you like the studio to build? A sentence is enough, and it does not need to be polished — add when you need it and an email if you would like a reply."
   },
   "offers": [
     {
@@ -96,6 +97,6 @@
   "contact": {
     "email": "cato@orangecat.ch",
     "line": "Tell us what you are building and what is currently in the way. If we are not the right fit, we will say so in the first reply rather than in the third meeting.",
-    "_note": "The address is where requests are answered FROM; it is deliberately NOT rendered on the site any more (2026-09-17) — the form is the only door. Kept here so the destination is documented."
+    "_note": "The address is where requests are answered FROM; it is deliberately NOT rendered on the site any more (2026-09-17) — the waitlist intake is the only door. Kept here so the destination is documented."
   }
 }

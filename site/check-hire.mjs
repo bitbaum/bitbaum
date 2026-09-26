@@ -6,12 +6,13 @@
 //
 // It pins: the published rates are on /hire/ (they were removed once and put
 // back); the copy speaks for the company, never "I"; no email address is
-// rendered anywhere, because the form is the only door; an incomplete request
-// costs no network call; a filled honeypot stores nothing while telling a bot
-// exactly what a person is told; the engagement a reader clicked reaches the
-// payload; one submission makes exactly one request, shaped the way Loki's
-// feedback route expects; a failure leaves the visitor a way forward; and a
-// venture page carries the same working door.
+// rendered anywhere, because the waitlist intake is the only door; the intake
+// is ONE free-form field with a microphone and refuses nothing — a vague line
+// with no email is kept, because a request that bounces is a person lost; the
+// engagement a reader clicked reaches the payload; one message makes exactly
+// one request, shaped the way Loki's feedback route expects; an email given
+// afterwards becomes the reply address; a failure keeps the words and can be
+// retried; and a venture page carries the same working door.
 import { createRequire } from "node:module";
 
 const require_ = createRequire(import.meta.url);
@@ -72,54 +73,55 @@ const text = await page.innerText("main");
 say(!/\bI\b|\bmy\b/.test(text), "no first-person voice in the page text");
 say(!/mailto:/i.test(html) && !/@orangecat\.ch/i.test(html), "no mailbox or mailto: is rendered anywhere");
 
-// an incomplete request never reaches the network
-await fill("#f-waitlist-email", "nope");
-await fill("#f-waitlist-what", "short");
-await page.click("#form-waitlist button[type=submit]");
-await page.waitForTimeout(200);
-say(posts === 0, "a bad address is refused without a request");
-await fill("#f-waitlist-email", "someone@example.com");
-await page.click("#form-waitlist button[type=submit]");
-await page.waitForTimeout(200);
-say(posts === 0, "and too little detail is refused too");
-say((await page.textContent("#form-waitlist ~ .form-status")).length > 0, "both say why");
+const W = "#waitlist";
+await page.waitForSelector(`${W} .ck-input`, { timeout: 10000 }).catch(() => {});
+say((await page.$$(`${W} .ck-input`)).length === 1, "the waitlist is one field");
+say((await page.$$(`${W} .ck-mic`)).length === 1, "with a microphone");
+say((await page.$$(`${W} form, ${W} input[type=email], ${W} select`)).length === 0, "and no form fields to fill");
 
-// honeypot: a bot is answered exactly as a person is, and nothing is sent
-await page.$eval('#form-waitlist [name="website"]', (el) => (el.value = "Acme"));
-await fill("#f-waitlist-what", "We have an inherited Rails app nobody understands.");
-await page.click("#form-waitlist button[type=submit]");
-await page.waitForTimeout(250);
-say(posts === 0, "a filled honeypot sends nothing");
-say((await page.textContent("#form-waitlist ~ .form-status")).includes("Request sent"), "but is told what a person is told");
-
-// the engagement a reader clicked reaches the payload
-await page.reload({ waitUntil: "networkidle" });
+// the engagement a reader clicked reaches the payload, and a vague line with
+// no email is kept, not refused
 await page.click('[data-engagement="Rescue"]');
-await fill("#f-waitlist-name", "Probe Tester");
-await fill("#f-waitlist-email", "someone@example.com");
-await fill("#f-waitlist-org", "Acme AG");
-await fill("#f-waitlist-what", "We have an inherited Rails app nobody understands.");
-await page.click("#form-waitlist button[type=submit]");
+await page.fill(`${W} .ck-input`, "an app");
+await page.press(`${W} .ck-input`, "Enter");
 await page.waitForTimeout(600);
-say(posts === 1, `one submission makes exactly one request (${posts})`);
+say(posts === 1, `one message makes exactly one request, however short (${posts})`);
 say(/^fcw_/.test(last?.token ?? ""), "it carries the widget token");
-say((last?.suggestion ?? "").includes("Engagement: Rescue"), `the engagement is recorded (${(last?.suggestion ?? "").split("\n")[0]})`);
-say((last?.contact ?? "").includes("Probe Tester") && (last?.contact ?? "").includes("Acme AG"), `the contact is recorded (${last?.contact})`);
+say((last?.suggestion ?? "").includes("Engagement: Rescue"), "the engagement is recorded");
+say((last?.suggestion ?? "").includes("an app"), "the words are recorded as written");
+say(!last?.contact, "no address is invented");
 say((last?.page ?? "") === "/hire/", `the page is recorded (${last?.page})`);
-say(await page.$eval("#form-waitlist", (f) => f.hidden), "and the form gets out of the way");
+const asked = await page.innerText(`${W} .ck-thread`);
+say(/on the waitlist/i.test(asked) && /where should the reply go/i.test(asked), "the visitor is told it is kept, and asked once where to reply");
 
-// a failure must still leave a way forward, and must not name an address
-await page.reload({ waitUntil: "networkidle" });
-await page.route("**/api/feedback", (r) => r.abort());
-await fill("#f-waitlist-name", "Probe");
-await fill("#f-waitlist-email", "someone@example.com");
-await fill("#f-waitlist-what", "We have an inherited Rails app nobody understands.");
-await page.click("#form-waitlist button[type=submit]");
+// an email given afterwards becomes the reply address
+await page.fill(`${W} .ck-input`, "someone@example.com please");
+await page.press(`${W} .ck-input`, "Enter");
 await page.waitForTimeout(600);
-const err = await page.textContent("#form-waitlist ~ .form-status");
-say(/try again/i.test(err), `a failed request says what to do: "${err.trim().slice(0, 60)}"`);
-say(!/@/.test(err), "and does not fall back to an address");
-say(!(await page.$eval("#form-waitlist button[type=submit]", (b) => b.disabled)), "the button is usable again");
+say(posts === 2, `the follow-up is kept too (${posts})`);
+say(last?.contact === "someone@example.com", `the address is recorded (${last?.contact})`);
+say((last?.suggestion ?? "").includes("an app"), "tied to the first message");
+
+// a failure keeps the words and can be retried
+await page.reload({ waitUntil: "networkidle" });
+await page.waitForSelector(`${W} .ck-input`, { timeout: 10000 }).catch(() => {});
+await page.unroute("**/api/feedback");
+await page.route("**/api/feedback", (r) => r.abort());
+await page.fill(`${W} .ck-input`, "We have an inherited Rails app nobody understands. ops@example.com");
+await page.press(`${W} .ck-input`, "Enter");
+await page.waitForTimeout(600);
+const failed = await page.innerText(`${W} .ck-thread`);
+say(/did not reach us/i.test(failed) && /Rails app/.test(failed), "a failed request says so and keeps the words");
+await page.unroute("**/api/feedback");
+posts = 0;
+await page.route("**/api/feedback", async (route) => {
+  posts++;
+  last = JSON.parse(route.request().postData() || "{}");
+  await route.fulfill({ status: 200, contentType: "application/json", body: "{\"ok\":true}" });
+});
+await page.locator(W).getByRole("button", { name: /try again|retry/i }).first().click().catch(() => {});
+await page.waitForTimeout(600);
+say(posts === 1 && last?.contact === "ops@example.com", `retry sends it (${posts}, ${last?.contact})`);
 await ctx.close();
 
 // ── a venture page asks by chat, and a person is one field away ─────────────
