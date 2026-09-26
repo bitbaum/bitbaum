@@ -204,14 +204,13 @@ img { max-width: 100%; display: block; }
 .ask-copy { display: grid; gap: 1rem; justify-items: start; }
 
 /* ─── the front door, Solon's way ─────────────────────────────────────────
-   Full-screen photographs, each with one statement and one way forward; big
-   uppercase sans headlines of a few words; framed buttons. Text on a photo is
-   always light on a dark scrim, whatever theme the reader chose — the photo
-   is the same photo in both. The one colour is bitbaum's green (--baum), on
+   Full-screen scenes, each with one statement and one way forward; big
+   uppercase sans headlines of a few words; framed buttons. Text on a scene is
+   always light on a dark scrim, whatever theme the reader chose — the scene
+   is the same drawing in both. The one colour is bitbaum's green (--baum), on
    the single primary action; orange stays OrangeCat's. */
 .bleed { position: relative; display: flex; align-items: flex-end; min-height: 100svh; overflow: hidden; background: #050505; color: #fafafa; }
 .bleed-under { margin-top: calc(-1 * var(--nav-h)); }
-.bleed-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .bleed-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgb(0 0 0 / 0.85) 0%, rgb(0 0 0 / 0.35) 45%, rgb(0 0 0 / 0) 70%), linear-gradient(to right, rgb(0 0 0 / 0.55) 0%, rgb(0 0 0 / 0) 60%); }
 .bleed-scrim.strong { background: linear-gradient(to top, rgb(0 0 0 / 0.9) 0%, rgb(0 0 0 / 0.6) 50%, rgb(0 0 0 / 0.25) 80%), linear-gradient(to right, rgb(0 0 0 / 0.7) 0%, rgb(0 0 0 / 0) 65%); }
 .bleed-under .bleed-scrim::before { content: ""; position: absolute; inset: 0 0 auto; height: 10rem; background: linear-gradient(to bottom, rgb(0 0 0 / 0.55), rgb(0 0 0 / 0)); }
@@ -718,15 +717,10 @@ main:has(> .dev-band:last-child) + footer { margin-top: 0; }
 .menu-open #loki-feedback-host { display: none; }
 
 /* ─── noir lodge ───────────────────────────────────────────────────────────
-   The look: film noir with a Lynch floor. Every photograph in black and white,
-   grain over the whole page, deep blacks — so the only colour on the site is
-   the work itself (product screenshots) and one ember of orange on the action
-   that matters. The hero's oak breathes very slowly, like Loki's spiral: one
-   gesture, hypnotic. Under it, the chevron floor — a precise system laid down
-   in the dark, which is what we build. */
-.bleed-img { filter: grayscale(1) contrast(1.2) brightness(0.88); }
-.bleed-lodge .bleed-img { transform-origin: 50% 42%; animation: breathe 40s ease-in-out infinite alternate; }
-@keyframes breathe { from { transform: scale(1.02) rotate(0deg); } to { transform: scale(1.13) rotate(0.8deg); } }
+   The look: film noir with a Lynch floor. Grain over the whole page, deep
+   blacks — so the only colour is the work itself (product screenshots) and
+   bitbaum's green, which means signal. Under the hero, the chevron floor — a
+   precise system laid down in the dark, which is what we build. */
 .lodge-floor {
   --bone: #ebe5d8; --ink: #0a0a0a; --tile: 72px;
   position: absolute; left: -30%; right: -30%; bottom: 0; height: 32vh;
@@ -775,19 +769,20 @@ body::after {
 }
 
 /* ─── through the looking-glass ────────────────────────────────────────────
-   Techno-surreal, a little Lynch, a little Carroll. The home hero is drawn,
-   not photographed: one tree as one line (glass.mjs) over a reflection that
-   lags behind it, on the Lodge floor, with a clock running backwards. Every
-   photograph elsewhere stands on black glass and is reflected — rippled, a
-   little wrong. Loki's spiral is the rabbit hole between chapters, and the
-   chapters are numbered. Decoration is aria-hidden and stops for reduced motion. */
+   Techno-surreal: a little Lynch, Carroll, Dalí and Giger. Nothing is
+   photographed; every scene is drawn live by scenes.mjs. The home hero is a
+   tree that is a neuron, on the Lodge floor, under a soft clock that runs
+   backwards; the headline is written again in the glass. Loki's spiral is the
+   rabbit hole between chapters, and the chapters are numbered. Decoration is
+   aria-hidden and holds still for reduced motion. */
 .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 .glass { background: #030303; }
-.glass-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.scene-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.bleed-scene { background: #050505; }
 .glass-horizon { position: absolute; left: 0; right: 0; top: 66%; height: 1px; background: linear-gradient(90deg, transparent 48%, rgb(235 229 216 / 0.28) 62%, rgb(235 229 216 / 0.28) 85%, transparent); }
 .glass .lodge-floor { opacity: 0.5; height: 22vh; }
 @media (max-width: 700px) { .glass .lodge-floor { height: 13vh; } }
-.glass-clock { position: absolute; top: calc(var(--nav-h) + 2rem); right: var(--gutter); width: 44px; height: 44px; fill: none; stroke: rgb(250 250 250 / 0.55); stroke-width: 1.2; stroke-linecap: round; }
+.glass-clock { position: absolute; top: calc(var(--nav-h) + 2rem); right: var(--gutter); width: 38px; height: auto; fill: none; stroke: rgb(250 250 250 / 0.55); stroke-width: 1.2; stroke-linecap: round; }
 .glass-minute, .glass-hour { transform-origin: 20px 20px; animation: backwards 12s linear infinite; }
 .glass-hour { animation-duration: 144s; }
 @keyframes backwards { to { transform: rotate(-360deg); } }
@@ -799,10 +794,6 @@ body::after {
 .glass-mirror-clip { display: block; height: 0.42em; overflow: hidden; margin-top: 0.02em; -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.55), transparent 90%); mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.55), transparent 90%); }
 .glass-mirror { display: block; transform: scaleY(-1); filter: url(#ripple-soft); color: #ebe5d8; }
 
-/* Every other photograph, reflected in black glass below its horizon (62%).
-   The flipped copy starts at 24% so the line it mirrors about lands at 62%. */
-.bleed-mirror { position: absolute; left: 0; top: 24%; width: 100%; height: 100%; object-fit: cover; transform: scaleY(-1); clip-path: inset(0 0 38% 0); filter: url(#ripple) grayscale(1) contrast(1.2) brightness(0.5); pointer-events: none; }
-.bleed:not(.glass)::after { content: ""; position: absolute; left: 0; right: 0; top: 62%; height: 1px; background: linear-gradient(90deg, transparent, rgb(250 250 250 / 0.25), transparent); pointer-events: none; }
 
 /* The rabbit hole. */
 .rabbit-hole { display: grid; place-items: center; padding-block: clamp(0.5rem, 3vw, 2rem); }
@@ -815,8 +806,16 @@ body::after {
 
 @media (max-width: 700px) {
   .glass-horizon { top: 82%; background: linear-gradient(90deg, transparent, rgb(235 229 216 / 0.22) 30%, rgb(235 229 216 / 0.22) 70%, transparent); }
-  .glass-clock { top: calc(var(--nav-h) + 1rem); width: 34px; height: 34px; }
+  .glass-clock { top: calc(var(--nav-h) + 1rem); width: 28px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .glass-minute, .glass-hour, .glass .kicker, .rabbit-hole svg { animation: none; }
+}
+
+/* A drawn scene keeps to the right of the copy on wide screens, so its scrim
+   only needs to guard the text column; the full scrim would bury the roots
+   and the shadow, which is where the scenes say most. On a phone the text sits
+   over the drawing, so the full scrim stays. */
+@media (min-width: 701px) {
+  .bleed-scene .bleed-scrim, .bleed-scene .bleed-scrim.strong { background: linear-gradient(to right, rgb(0 0 0 / 0.78) 0%, rgb(0 0 0 / 0.45) 38%, rgb(0 0 0 / 0) 62%); }
 }

@@ -54,9 +54,8 @@
     </div>
   </header>
   <main id="main">
-    <section class="bleed bleed-under">
-      <img class="bleed-img" src="/photos/zurich.jpg" alt="Zürich at night: the Limmat river, the Fraumünster and Grossmünster lit up along the water." width="2400" height="1548" style="object-position:center 60%" fetchpriority="high">
-      <img class="bleed-mirror" src="/photos/zurich.jpg" alt="" aria-hidden="true" style="object-position:center 60%" loading="lazy">
+    <section class="bleed bleed-scene bleed-under">
+      <canvas class="scene-canvas" data-scene="rings" aria-hidden="true"></canvas>
       <div class="bleed-scrim" aria-hidden="true"></div>
       <div class="wrap bleed-body">
         <div class="bleed-copy rise">
@@ -419,7 +418,6 @@
           <h2 class="label">The studio</h2>
           <a href="/hire/" aria-current="page">Engagements and rates</a>
           <a href="/hire/#waitlist">Join the waitlist</a>
-          <a href="/credits/">Photo credits</a>
         </nav>
       </div>
       <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
@@ -449,7 +447,6 @@
         <h2 class="label">The studio</h2>
         <a href="/hire/" aria-current="page">Engagements and rates</a>
           <a href="/hire/#waitlist">Join the waitlist</a>
-          <a href="/credits/">Photo credits</a>
       </nav>
       <div class="menu-theme"><span class="label">Theme</span><div class="theme" role="group" aria-label="Colour theme">
         <button type="button" data-set-theme="light" title="Light" aria-label="Light">
@@ -467,6 +464,7 @@
   <script type="module" src="/theme.mjs"></script>
   <script type="module" src="/nav.mjs"></script>
   <script type="module" src="/request.mjs" data-endpoint="https://loki.orangecat.ch/api/feedback" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693"></script>
+  <script type="module" src="/scenes.mjs"></script>
   <script src="https://loki.orangecat.ch/widget.js" data-fc-project="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-fc-modes="report" async></script>
 </body>
 </html>

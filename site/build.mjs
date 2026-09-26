@@ -87,27 +87,22 @@ const LOKI_FEEDBACK = JSON.parse(readFileSync(join(here, "loki-feedback.json"), 
 if (!/^https:\/\//.test(LOKI_FEEDBACK.origin) || !/^fcw_[a-f0-9]{32}$/.test(LOKI_FEEDBACK.token)) {
   throw new Error("site/loki-feedback.json must contain an HTTPS Loki origin and public widget token");
 }
-// Every photograph on the site, with who made it and under what licence
-// (site/photos.json). One list, so /credits/ cannot miss an image a page uses:
-// pages take their photos from here. All from Wikimedia Commons under public
-// domain, CC0 or CC BY — the same rule Solon's front door follows.
-const PHOTOS = JSON.parse(readFileSync(join(here, "photos.json"), "utf8"));
+// The pictures are drawn, not photographed: every full-screen section holds
+// a scene from site/scenes.mjs, each about what its section says. Stock photos
+// said nothing about building systems; a tree that is a neuron does.
+const SCENES = ["neuron", "seed", "rings", "mycelium"];
 
 /**
- * A full-screen section: one photograph, one statement, one way forward —
- * Solon's front door, in this site's markup. The text sits bottom-left where
- * the scrim is darkest, so it stays readable whatever the photograph does and
- * whatever theme the reader chose. `under` slides the first section beneath
- * the header.
+ * A full-screen section: one drawn scene, one statement, one way forward. The
+ * text sits bottom-left where the scrim is darkest, so it stays readable
+ * whatever the scene is doing and whatever theme the reader chose. `under`
+ * slides the first section beneath the header.
  */
-function fullBleed({ photo, id, position = "center", under = false, strong = false, first = false, floor = false, body }) {
-  const p = PHOTOS[photo];
-  if (!p) throw new Error(`photo ${photo} is not registered in site/photos.json`);
-  return `    <section class="bleed${under ? " bleed-under" : ""}${floor ? " bleed-lodge" : ""}"${id ? ` id="${esc(id)}"` : ""}>
-      <img class="bleed-img" src="/${esc(p.file)}" alt="${esc(p.alt)}" width="${p.width}" height="${p.height}" style="object-position:${esc(position)}"${first ? ' fetchpriority="high"' : ' loading="lazy"'}>
-      <img class="bleed-mirror" src="/${esc(p.file)}" alt="" aria-hidden="true" style="object-position:${esc(position)}" loading="lazy">
-      <div class="bleed-scrim${strong ? " strong" : ""}" aria-hidden="true"></div>${floor ? `
-      <div class="lodge-floor" aria-hidden="true"></div>` : ""}
+function fullBleed({ scene, id, under = false, strong = false, body }) {
+  if (!SCENES.includes(scene)) throw new Error(`scene ${scene} is not one of ${SCENES.join(", ")} (site/scenes.mjs)`);
+  return `    <section class="bleed bleed-scene${under ? " bleed-under" : ""}"${id ? ` id="${esc(id)}"` : ""}>
+      <canvas class="scene-canvas" data-scene="${scene}" aria-hidden="true"></canvas>
+      <div class="bleed-scrim${strong ? " strong" : ""}" aria-hidden="true"></div>
       <div class="wrap bleed-body">
 ${body}
       </div>
@@ -116,7 +111,7 @@ ${body}
 
 /**
  * The home hero, through the looking-glass: no photograph, a tree drawn live
- * as one line (site/glass.mjs) over its disobedient reflection, the Lodge
+ * as one line (site/scenes.mjs) over its disobedient reflection, the Lodge
  * floor, a clock that runs backwards, and the headline written again in the
  * glass — the way Carroll printed Jabberwocky. Everything but the copy is
  * aria-hidden decoration; without JavaScript the floor and copy still stand.
@@ -125,9 +120,9 @@ function glassHero({ kicker, lines, lede, actions }) {
   const text = lines.join("<br>");
   return `    <section class="bleed bleed-under bleed-lodge glass">
       <div class="lodge-floor" aria-hidden="true"></div>
-      <canvas class="glass-canvas" data-glass aria-hidden="true"></canvas>
+      <canvas class="scene-canvas" data-scene="neuron" aria-hidden="true"></canvas>
       <div class="glass-horizon" aria-hidden="true"></div>
-      <svg class="glass-clock" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5"/><line class="glass-hour" x1="20" y1="20" x2="20" y2="11"/><line class="glass-minute" x1="20" y1="20" x2="20" y2="5"/></svg>
+      <svg class="glass-clock" viewBox="0 0 40 58" aria-hidden="true"><path d="M20 1.5C30.5 1.5 38.5 9.5 38.5 20c0 7.6-4.4 11.8-8.2 16.4-3.1 3.7-2.2 9.6-4.6 14.6-1.6 3.4-5.3 3.3-5.1-.6.2-4.9-1.5-8.6-6.4-11.7C7.6 35.7 1.5 30.2 1.5 20 1.5 9.5 9.5 1.5 20 1.5Z"/><line class="glass-hour" x1="20" y1="20" x2="20" y2="11"/><line class="glass-minute" x1="20" y1="20" x2="20" y2="5"/></svg>
       <div class="wrap bleed-body">
         <div class="bleed-copy rise">
           <span class="kicker">${kicker}</span>
@@ -288,7 +283,7 @@ function shell({ title, description, path, body, nav, script, image }) {
   const sections = [
     ["Explore", [["/work/", "The work"], ["/partners/", "Partners"], ["/studio/", "About bitbaum"], [ARTICLES, "Writing ↗"]]],
     ["Build with us", [["/partners/#join", "Become a partner"], ["/packages/", "Packages (for developers)"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"]]],
-    ["The studio", [[HIRE, "Engagements and rates"], [`${HIRE}#waitlist`, "Join the waitlist"], ["/credits/", "Photo credits"]]],
+    ["The studio", [[HIRE, "Engagements and rates"], [`${HIRE}#waitlist`, "Join the waitlist"]]],
   ];
   const sectionLinks = (links) =>
     links.map(([href, t]) => `<a href="${esc(href)}"${cur(href)}${href.startsWith("http") ? ' rel="noopener"' : ""}>${esc(t)}</a>`).join("\n          ");
@@ -385,7 +380,7 @@ ${sections.map(([title, links]) => `      <nav aria-label="${esc(title)}">
   </div>
   <script type="module" src="/theme.mjs"><\/script>
   <script type="module" src="/nav.mjs"><\/script>
-${script ?? ""}
+${script ?? ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>` : ""}
   <script src="${esc(LOKI_FEEDBACK.origin)}/widget.js" data-fc-project="${esc(LOKI_FEEDBACK.token)}" data-fc-modes="${esc(LOKI_FEEDBACK.modes)}" async><\/script>
 </body>
 </html>
@@ -624,7 +619,7 @@ ${pathCards}
       </div>
     </section>
 
-${fullBleed({ photo: "hands", id: "build-yourself", position: "center 55%", body: `        <div class="bleed-copy">
+${fullBleed({ scene: "seed", id: "build-yourself", body: `        <div class="bleed-copy">
           <span class="kicker">Build it yourself</span>
           <h2 class="headline-caps">Make it yourself.<br>Today.</h2>
           <p class="bleed-lede">The studio is full; its tools are not. The same three products it builds with are open to you — make it, earn from it, run it with other people.</p>
@@ -659,7 +654,7 @@ ${featuredWork.map((v) => card(v, false)).join("\n")}
       </div>
     </section>
 
-${fullBleed({ photo: "zurich", id: "studio", position: "center 60%", body: `        <div class="bleed-copy">
+${fullBleed({ scene: "rings", id: "studio", body: `        <div class="bleed-copy">
           <span class="kicker">The studio &middot; ${esc(studioOpen ? "Taking projects" : "Fully booked")}</span>
           <h2 class="headline-caps">Built for you.<br>Built to last.</h2>
           <p class="bleed-lede">${esc(hire?.lede ?? "")} ${esc(studioFrom)}.</p>
@@ -669,7 +664,7 @@ ${fullBleed({ photo: "zurich", id: "studio", position: "center 60%", body: `    
           </div>
         </div>` })}
 
-${fullBleed({ photo: "barn", id: "join", strong: true, position: "center 55%", body: `        <div class="bleed-copy">
+${fullBleed({ scene: "mycelium", id: "join", strong: true, body: `        <div class="bleed-copy">
           <span class="kicker">Partners</span>
           <h2 class="headline-caps">Build here.</h2>
           <p class="bleed-lede">Approved builders take the work the studio cannot — with the same tools, under their own name, at their own price. The customer hires them directly.</p>
@@ -692,8 +687,7 @@ ${askSection}
   return shell({
     title: "bitbaum — one trunk, many products",
     description: "An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.",
-    path: "/", body, nav: "/", script: `${CHAT_SCRIPT}
-  <script type="module" src="/glass.mjs"></script>`,
+    path: "/", body, nav: "/", script: CHAT_SCRIPT,
   });
 }
 
@@ -722,7 +716,7 @@ export function partnersPage() {
     ["Take the work", "Customers hire you directly and pay you directly. You build with Loki, OrangeCat and Solon — the same tools the studio uses. The studio takes no cut."],
   ];
   const body = `  <main id="main">
-${fullBleed({ photo: "barn", under: true, first: true, strong: true, position: "center 55%", body: `        <div class="bleed-copy rise">
+${fullBleed({ scene: "mycelium", under: true, strong: true, body: `        <div class="bleed-copy rise">
           <span class="kicker">Partners</span>
           <h1 class="headline-caps">Build here.</h1>
           <p class="bleed-lede">The studio is full. Approved partner builders take the work it cannot — with the same tools, under their own name, at their own price.</p>
@@ -775,22 +769,6 @@ ${steps.map(([t, b], i) => `          <li><span class="path-n">0${i + 1}</span><
   });
 }
 
-// ── credits ─────────────────────────────────────────────────────────────────
-export function creditsPage() {
-  const body = `  <main id="main">
-    <section class="hero compact"><div class="wrap">
-      <span class="kicker quiet">Credits</span>
-      <h1 class="headline-caps section-title">Photographs</h1>
-      <p class="lede">Every photograph on this site, with who made it and under what licence. All from Wikimedia Commons. Product screenshots are taken by a machine each time the site is built.</p>
-    </div></section>
-    <section class="section"><div class="wrap">
-      <ul class="credits">
-${Object.values(PHOTOS).map((ph) => `        <li><img src="/${esc(ph.file)}" alt="" loading="lazy" width="${ph.width}" height="${ph.height}"><div><strong>${esc(ph.title)}</strong><span>${esc(ph.author || "Unknown photographer")} · ${ph.licenseUrl ? `<a href="${esc(ph.licenseUrl)}">${esc(ph.license)}</a>` : esc(ph.license)} · <a href="${esc(ph.source)}">Source</a></span></div></li>`).join("\n")}
-      </ul>
-    </div></section>
-  </main>`;
-  return shell({ title: "Credits — bitbaum", description: "Photographs used on bitbaum.orangecat.ch, with authors and licences.", path: "/credits/", body });
-}
 
 export function workPage(all, cfg) {
   const body = `  <main id="main">
@@ -1024,7 +1002,7 @@ export function hirePage(all, cfg, hire, packages, origin) {
   const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
   const pkgCount = (packages.packages ?? []).length;
   const body = `  <main id="main">
-${fullBleed({ photo: "zurich", under: true, first: true, position: "center 60%", body: `        <div class="bleed-copy rise">
+${fullBleed({ scene: "rings", under: true, body: `        <div class="bleed-copy rise">
           <span class="kicker">${esc(hire.eyebrow)}</span>
           <h1 class="headline-caps long">${esc(hire.title)}</h1>
           <p class="bleed-lede">${esc(hire.lede)}</p>
@@ -1152,7 +1130,6 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("index.html", homePage(all, packages, cfg, origin, readings, hire));
   files.set("work/index.html", workPage(all, cfg));
   files.set("partners/index.html", partnersPage());
-  files.set("credits/index.html", creditsPage());
   files.set("packages/index.html", packagesPage(packages, cfg, all));
   files.set("packages-filter.mjs", readFileSync(join(here, "packages-filter.mjs"), "utf8"));
   files.set("work-filter.mjs", readFileSync(join(here, "work-filter.mjs"), "utf8"));
@@ -1190,7 +1167,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("theme.mjs", readFileSync(join(here, "theme.mjs"), "utf8"));
   files.set("request.mjs", readFileSync(join(here, "request.mjs"), "utf8"));
   files.set("nav.mjs", readFileSync(join(here, "nav.mjs"), "utf8"));
-  files.set("glass.mjs", readFileSync(join(here, "glass.mjs"), "utf8"));
+  files.set("scenes.mjs", readFileSync(join(here, "scenes.mjs"), "utf8"));
   return { all, files };
 }
 
@@ -1250,10 +1227,9 @@ if (isMain) {
     }
     // Pages for ventures that no longer exist must not linger.
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
-      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "studio", "hire", "og", "vendor", "photos", "partners", "credits"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
+      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "studio", "hire", "og", "vendor", "partners"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
     cpSync(join(here, "styles.css"), join(DIST, "styles.css"));
-    cpSync(join(here, "photos"), join(DIST, "photos"), { recursive: true });
     // Same rule, fewer generations — a favicon that cannot drift from the logo.
     writeFileSync(join(DIST, "logo-mark.svg"), MARK_FAVICON() + "\n");
     cpSync(join(here, "fonts"), join(DIST, "fonts"), { recursive: true });

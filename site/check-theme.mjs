@@ -110,7 +110,10 @@ for (const [scheme, expectDark] of [["dark", true], ["light", false]]) {
   await page.waitForTimeout(150);
   say(await page.$eval("html", (h) => h.classList.contains("dark")), "choosing system hands control back to the OS");
   await page.emulateMedia({ colorScheme: "light" });
-  await page.waitForTimeout(200);
+  // Wait for the flip rather than a fixed beat: on a loaded machine 200ms was
+  // not enough and this step failed while the site was fine. A page that never
+  // follows the OS still fails — the wait just ends at its bound.
+  await page.waitForFunction(() => !document.documentElement.classList.contains("dark"), null, { timeout: 3000 }).catch(() => {});
   say(
     !(await page.$eval("html", (h) => h.classList.contains("dark"))),
     "and it keeps following the OS when that changes later",
