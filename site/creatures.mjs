@@ -55,6 +55,8 @@ if (!still) {
   if (dragonfly && hero) {
     creature(dragonfly, hero, () => {
       const w = hero.clientWidth, h = num(hero, "--horizon", hero.clientHeight * 0.66);
+      // On a phone the words fill the sky, so it hunts over the water instead.
+      if (w < 700) return [w * (0.15 + Math.random() * 0.7), h + 18 + Math.random() * 40];
       return [w * (0.5 + Math.random() * 0.42), h - 30 - Math.random() * 150];
     }, { speed: 7, hover: () => 700 + Math.random() * 1800, shy: 90 });
   }

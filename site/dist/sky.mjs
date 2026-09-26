@@ -2,8 +2,8 @@
 // through: the hero stands on the ground, and every section below is more of
 // the same sky, drifting past a little slower than the page as you scroll.
 // The theme is the time of day — dark is night (stars, the Milky Way, the
-// molecule constellations, shooting stars), light is a pale Dalí day (a few
-// soft clouds, the moon still up). The moon is always in today's real phase,
+// molecule constellations, shooting stars), light is a clear Dalí day with
+// the moon still up. The moon is always in today's real phase,
 // its maria and bright craters where they really are.
 //
 // It also owns the palette the drawn scenes use, so a scene and its sky are
@@ -116,12 +116,13 @@ export function lunarPhase(date = new Date()) {
 }
 // Maria and bright craters in disc coordinates (x right, y up, as seen from
 // the northern hemisphere), roughly where they are on the real near side.
+// [x, y, rx, ry, depth]: the great basins darker, the small ones barely.
 const MARIA = [
-  [-0.56, 0.12, 0.3, 0.5], [-0.28, 0.43, 0.26, 0.22], [0.17, 0.38, 0.16, 0.15], [0.33, 0.12, 0.2, 0.18],
-  [0.66, 0.3, 0.11, 0.09], [0.55, -0.15, 0.13, 0.15], [0.33, -0.27, 0.09, 0.09], [-0.22, -0.36, 0.18, 0.14],
-  [-0.48, -0.33, 0.09, 0.09], [0.02, 0.63, 0.45, 0.07], [0.03, 0.16, 0.08, 0.06],
+  [-0.55, 0.1, 0.34, 0.52, 0.8], [-0.27, 0.42, 0.28, 0.24, 1], [0.16, 0.37, 0.17, 0.16, 1], [0.32, 0.1, 0.22, 0.2, 1],
+  [0.66, 0.3, 0.11, 0.1, 0.9], [0.54, -0.16, 0.14, 0.16, 0.7], [0.33, -0.28, 0.1, 0.1, 0.6], [-0.2, -0.36, 0.2, 0.15, 0.7],
+  [-0.47, -0.33, 0.1, 0.1, 0.7], [0.05, 0.64, 0.4, 0.09, 0.45], [0.03, 0.18, 0.1, 0.08, 0.5],
 ];
-const BRIGHT = [[-0.12, -0.62, 0.045, "rays"], [-0.3, 0.13, 0.04], [-0.52, 0.12, 0.028], [-0.62, 0.35, 0.025]];
+const BRIGHT = [[-0.12, -0.62, 0.035, "rays"], [-0.3, 0.13, 0.03]];
 
 function noise2(seed) {
   const r = rng(seed), g = [...Array(256)].map(() => r());
@@ -134,7 +135,7 @@ function noise2(seed) {
   };
 }
 
-function renderMoon(radius, dpr, phase, night) {
+export function renderMoon(radius, dpr, phase, night) {
   const size = Math.ceil(radius * 2 * dpr) + 2;
   const c = document.createElement("canvas");
   c.width = c.height = size;
@@ -148,9 +149,10 @@ function renderMoon(radius, dpr, phase, night) {
   L[0] /= Ln; L[1] /= Ln; L[2] /= Ln;
   const L2n = Math.hypot(L[0], L[1]) || 1, L2 = [L[0] / L2n, L[1] / L2n];
   const cr = rng(11);
-  const craters = [...Array(70)].map(() => {
-    const ang = cr() * 6.283, d = Math.sqrt(cr()) * 0.95;
-    return [Math.cos(ang) * d, Math.sin(ang) * d, 0.012 + Math.pow(cr(), 3) * 0.07];
+  // Only a few craters show at this size, mostly in the southern highlands.
+  const craters = [...Array(9)].map(() => {
+    const ang = cr() * 6.283, d = Math.sqrt(cr()) * 0.85;
+    return [Math.cos(ang) * d, -Math.abs(Math.sin(ang) * d) * 0.9, 0.02 + cr() * 0.03];
   });
   const R = (size - 2) / 2;
   const smooth = (e0, e1, x) => { const t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t); };
@@ -162,38 +164,46 @@ function renderMoon(radius, dpr, phase, night) {
       const edge = Math.max(0, Math.min(1, (1 - Math.sqrt(rr)) * R + 0.5));
       const z = Math.sqrt(Math.max(0, 1 - rr));
       // Albedo: highlands, darker maria with ragged shores, fine texture.
-      let alb = 0.8 + (fbm(x * 3 + 7, y * 3 + 7) - 0.5) * 0.16;
-      for (const [mx, my, rx, ry] of MARIA) {
-        const d = Math.hypot((x - mx) / rx, (y - my) / ry) + (fbm(x * 5 + mx * 9, y * 5) - 0.5) * 0.55;
-        alb -= 0.3 * (1 - smooth(0.75, 1.05, d));
+      // Highlands with a fine regolith grain; maria only a little darker,
+      // their shores dissolving rather than drawn.
+      let alb = 0.82 + (fbm(x * 3 + 7, y * 3 + 7) - 0.5) * 0.1 + (n(x * 38, y * 38) - 0.5) * 0.035;
+      let mare = 0;
+      for (const [mx, my, rx, ry, depth] of MARIA) {
+        const d = Math.hypot((x - mx) / rx, (y - my) / ry) + (fbm(x * 1.8 + mx * 9, y * 1.8 + my * 5) - 0.5) * 1.3;
+        mare += depth * (1 - smooth(0.35, 1.3, d));
       }
+      mare = Math.min(1, mare);
+      alb -= 0.25 * mare * (0.75 + 0.5 * fbm(x * 6 + 3, y * 6 + 1));
       let relief = 0;
       for (const [cx, cy, r] of craters) {
         const dx = x - cx, dy = y - cy, d = Math.hypot(dx, dy) / r;
         if (d > 1.3) continue;
         const ux = dx / (d * r || 1), uy = dy / (d * r || 1);
-        if (d < 1) { alb -= 0.05 * (1 - d); relief += 0.34 * smooth(0.5, 1, d) * -(ux * L2[0] + uy * L2[1]); }
-        else relief += 0.22 * (1 - (d - 1) / 0.3) * (ux * L2[0] + uy * L2[1]);
+        if (d < 1) { relief += 0.05 * smooth(0.6, 1, d) * -(ux * L2[0] + uy * L2[1]); }
+        else relief += 0.03 * (1 - (d - 1) / 0.3) * (ux * L2[0] + uy * L2[1]);
       }
       for (const [bx, by, br, rays] of BRIGHT) {
         const d = Math.hypot(x - bx, y - by);
-        alb += 0.28 * (1 - smooth(br * 0.6, br * 1.6, d));
+        alb += 0.13 * (1 - smooth(br * 0.5, br * 2, d));
         if (rays) {
           const ang = Math.atan2(y - by, x - bx);
-          const ray = Math.pow(Math.abs(Math.cos(ang * 7 + 0.6)) * Math.abs(Math.cos(ang * 11 + 1.9)), 6);
-          alb += 0.16 * ray * (1 - smooth(0.05, 0.75, d));
+          const ray = Math.pow(Math.abs(Math.cos(ang * 9 + 0.6)) * Math.abs(Math.cos(ang * 13 + 1.9)), 8);
+          alb += 0.06 * ray * (1 - smooth(0.04, 0.9, d));
         }
       }
       const ndl = x * L[0] + y * L[1] + z * L[2];
       const lit = smooth(-0.04, 0.1, ndl) * (0.6 + 0.4 * Math.sqrt(Math.max(0, ndl)));
       const shade = Math.max(0, Math.min(1.2, alb * lit + relief * lit * 0.8));
       const earthshine = night ? 0.05 * alb : 0;
-      const lum = Math.max(earthshine, shade);
+      // Limb darkening: the edge of the disc a touch dimmer, as the eye sees it.
+      const lum = Math.max(earthshine, shade) * (0.8 + 0.2 * Math.sqrt(z));
       const i = (py * size + px) * 4;
       if (night) {
-        img.data[i] = 22 + 222 * lum; img.data[i + 1] = 22 + 218 * lum; img.data[i + 2] = 26 + 204 * lum; img.data[i + 3] = 255 * edge;
+        // Warm ivory in the light, cool slate in shadow.
+        img.data[i] = 18 + 236 * lum; img.data[i + 1] = 20 + 226 * lum; img.data[i + 2] = 30 + 196 * lum; img.data[i + 3] = 255 * edge;
       } else {
-        img.data[i] = 255; img.data[i + 1] = 255; img.data[i + 2] = 252; img.data[i + 3] = 235 * edge * Math.min(1, lum * 1.05);
+        // By day the moon is thin: the sky shows through its seas.
+        img.data[i] = 255; img.data[i + 1] = 253; img.data[i + 2] = 248; img.data[i + 3] = 205 * edge * Math.min(1, Math.pow(lum, 1.6));
       }
     }
   }
@@ -315,7 +325,8 @@ const canvas = document.querySelector("canvas.sky");
 if (canvas) {
   const ctx = canvas.getContext("2d");
   const phase = lunarPhase();
-  let W = 0, H = 0, dpr = 1, skyH = 0, stars = [], figures = [], clouds = [], milky = null, moon = null, moonR = 0;
+  let contentLeft = 0;
+  let W = 0, H = 0, dpr = 1, skyH = 0, stars = [], figures = [], milky = null, moon = null, moonR = 0;
   let shooting = null, nextShot = 0, lastDraw = 0, lastScroll = -1, raf = 0;
 
   function layout() {
@@ -334,30 +345,31 @@ if (canvas) {
         rgb: temp < 0.12 ? "190, 210, 255" : temp > 0.9 ? "255, 214, 170" : "248, 246, 238",
       };
     });
-    // Constellations fall past as the page scrolls: DMT and its sibling over
-    // the hero, the rest spaced down the sky, alternating sides.
-    const order = ["dmt", "meo", "lsd", "psilocybin", "serotonin", "mdma", "oxytocin", "ketamine"];
-    const bond = phone ? 11 : Math.min(19, W / 72);
-    // The content column is at most 80rem wide; on wide screens the figures
-    // live in the margins either side of it, clear of the words.
-    const margin = Math.max(0, (W - 1280) / 2) + 48;
-    const leftX = margin > 150 ? margin / 2 : W * 0.08, rightX = margin > 150 ? W - margin / 2 : W * 0.92;
-    // Each figure after the first is hung over a plain text section, so it
-    // drifts past in open sky rather than across a drawn scene: a figure at
-    // sky height PARALLAX*top + H/2 sits mid-screen when its section arrives.
+    // Each page has its own few figures, chosen by its address so they are
+    // stable; the home page keeps DMT over the tree and the Little Prince's LSD.
+    const all = ["meo", "lsd", "psilocybin", "serotonin", "mdma", "oxytocin", "ketamine"];
+    const home = location.pathname === "/";
+    const hash = [...location.pathname].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 11);
+    const pick = rng(hash);
+    const rest = home ? ["lsd", ...all.filter((n) => n !== "lsd").sort(() => pick() - 0.5).slice(0, 2)] : all.sort(() => pick() - 0.5).slice(0, 2);
+    const order = home ? ["dmt", ...rest] : rest;
+    const bond = phone ? 11 : Math.min(19, W / 72, (Math.max(0, (W - 1280) / 2) + 48) / 6.6);
+    contentLeft = Math.max(0, (W - 1280) / 2) + Math.min(48, Math.max(20, W * 0.05));
+    // Figures hang over plain text sections, in open sky rather than across a
+    // drawn scene; side, drift, tilt and size are left to chance.
     const anchors = [...document.querySelectorAll("main > section")].filter((el) => !el.classList.contains("bleed") && !el.hasAttribute("data-lodge") && el.offsetHeight > 240);
+    const spread = anchors.length ? anchors : [document.querySelector("main")];
     figures = order.map((name, i) => {
-      const hero = i === 0;
-      // DMT over the hero; its sibling is the first thing met on the way down.
-      const x = i === 0 ? W * (phone ? 0.72 : 0.5) : phone ? W * (i % 2 ? 0.8 : 0.2) : i % 2 ? rightX : leftX;
-      const y = i === 0 ? H * (phone ? 0.16 : 0.13) : i === 1 ? H * 1.15 : H * 1.5 + ((skyH - H * 1.7) * (i - 2)) / (order.length - 3);
-      const a = i > 0 ? anchors[i - 1] : null;
-      const ay = a ? PARALLAX * (a.getBoundingClientRect().top + scrollY) + H * (0.45 + (i % 3) * 0.08) : y;
-      return { name, x, y: ay, bond: hero ? bond * 0.75 : bond, rot: (r() - 0.5) * 1.2 };
+      if (name === "dmt") return { name, x: W * (phone ? 0.3 : 0.5), y: H * (phone ? 0.14 : 0.13), bond: bond * 0.75, rot: -0.3 };
+      const k = home ? i - 1 : i;
+      const a = spread[Math.min(spread.length - 1, Math.floor(((k + pick() * 0.8) / order.length) * spread.length))];
+      const side = pick() < 0.5;
+      const x = phone ? W * (side ? 0.72 + pick() * 0.14 : 0.14 + pick() * 0.14) : side ? W - contentLeft * (0.3 + pick() * 0.4) : contentLeft * (0.3 + pick() * 0.4);
+      const y = Math.max(H * 1.1, PARALLAX * (a.getBoundingClientRect().top + scrollY) + H * (0.25 + pick() * 0.5));
+      return { name, x, y, bond: bond * (0.8 + pick() * 0.35), rot: (pick() - 0.5) * Math.PI * 1.4 };
     });
     // Without motion the sky does not move, so only the hero's figure shows.
     if (!PARALLAX) figures = figures.slice(0, 1);
-    clouds = [...Array(phone ? 3 : 5)].map(() => ({ x: r() * W, y: r() * skyH * 0.6, w: 160 + r() * 260, h: 26 + r() * 30, v: 3 + r() * 5 }));
     moonR = phone ? 26 : Math.max(34, Math.min(62, W * 0.036));
     moon = renderMoon(moonR, dpr, phase, palette.night);
     milky = palette.night ? renderMilkyWay() : null;
@@ -461,7 +473,8 @@ if (canvas) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const bg = ctx.createLinearGradient(0, 0, 0, H);
     if (night) { bg.addColorStop(0, "#02030a"); bg.addColorStop(0.6, "#050815"); bg.addColorStop(1, "#0a0d18"); }
-    else { bg.addColorStop(0, "#b8c7d6"); bg.addColorStop(0.55, "#dcdcd4"); bg.addColorStop(1, "#efe3cc"); }
+    // Dalí's day: a clear, slightly cool sky that warms to a luminous horizon.
+    else { bg.addColorStop(0, "#5f8fb8"); bg.addColorStop(0.45, "#a9c6d6"); bg.addColorStop(0.8, "#eadcc0"); bg.addColorStop(1, "#f3cf98"); }
     ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
 
     if (night) {
@@ -525,29 +538,24 @@ if (canvas) {
           if (s.life > 0.9) shooting = null;
         }
       }
-    } else {
-      // A few soft clouds, lit from above, drifting.
-      for (const c of clouds) {
-        const x = ((c.x + (still ? 0 : t * 0.001 * c.v)) % (W + c.w * 2)) - c.w, y = c.y - off * 0.8;
-        if (y < -80 || y > H + 80) continue;
-        for (let k = 0; k < 4; k++) {
-          const cx = x + (k - 1.5) * c.w * 0.22, cy = y + Math.sin(k * 1.7) * c.h * 0.25, rad = c.w * (0.22 + (k % 2) * 0.08);
-          const g = ctx.createRadialGradient(cx, cy - c.h * 0.2, 0, cx, cy, rad);
-          g.addColorStop(0, "rgba(255, 253, 248, 0.55)"); g.addColorStop(0.7, "rgba(240, 236, 228, 0.18)"); g.addColorStop(1, "rgba(240, 236, 228, 0)");
-          ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(cx, cy, rad, rad * (c.h / c.w) * 2.2, 0, 0, Math.PI * 2); ctx.fill();
-        }
-      }
     }
 
     sceneRects = [...document.querySelectorAll("section.bleed:not(.glass)")].map((el) => el.getBoundingClientRect());
     for (const f of figures) figure(f, off, t);
     const lsd = figures.find((f) => f.name === "lsd");
     if (lsd) {
-      const px = lsd.x + (lsd.x > W / 2 ? -1 : 1) * Math.min(150, W * 0.18), py = lsd.y - off + (W < 700 ? 120 : 170);
-      if (py > -80 && py < H + 80) prince(ctx, px, py, W < 700 ? 1.2 : 1.6, t, lsd.x, lsd.y - off);
+      // He stands in the same margin as the figure, below it, looking up; he
+      // needs room, so only where the margin can hold him.
+      const room = W < 700 ? 0 : contentLeft - 16;
+      const ps = Math.min(1.9, room / 52), py = lsd.y - off + 150;
+      const pv = veiled(py) * veiled(lsd.y - off);
+      if (ps >= 1.2 && pv > 0.02 && py > -80 && py < H + 80) { ctx.globalAlpha = pv; prince(ctx, lsd.x, py, ps, t, lsd.x, lsd.y - off); ctx.globalAlpha = 1; }
     }
+    // On a phone there is no margin for it in the first screen; it rises into
+    // view once the reader has moved on from the hero.
     const docH = Math.max(document.documentElement.scrollHeight - H, 1);
-    dandelion(ctx, W, H, Math.min(1, scrollY / docH), t);
+    const show = W < 700 ? Math.max(0, Math.min(1, (scrollY - H * 0.5) / (H * 0.4))) : 1;
+    if (show > 0) { ctx.globalAlpha = show; dandelion(ctx, W, H, Math.min(1, scrollY / docH), t); ctx.globalAlpha = 1; }
   }
 
   const loop = (t) => {
