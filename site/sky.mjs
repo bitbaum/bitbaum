@@ -850,7 +850,10 @@ if (canvas) {
   };
 
   onArt = () => { layout(); draw(performance.now()); };
-  art("moon"); art("prince"); art("rig/prince.body"); art("rig/prince.scarfa"); art("rig/prince.scarfb"); art("rig/prince.coat"); art("dandelion-flower"); art("dandelion-clock"); art("dandelion-bare");
+  // Only what this screen will draw: phones show neither the Little Prince
+  // nor the dandelion, so they never download them.
+  art("moon");
+  if (innerWidth >= 700) { art("rig/prince.body"); art("rig/prince.scarfa"); art("rig/prince.scarfb"); art("rig/prince.coat"); art("dandelion-flower"); art("dandelion-clock"); art("dandelion-bare"); }
   layout();
   let lastW = innerWidth;
   addEventListener("resize", () => {
