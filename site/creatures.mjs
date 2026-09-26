@@ -106,3 +106,31 @@ if (!still) {
     }, { speed: 4, hover: () => 1200 + Math.random() * 1600, curious: 170 });
   }
 }
+
+// Touch a mushroom (or pass the pointer over it) and it breathes out a small
+// cloud of glowing spores that drift up and away.
+for (const m of document.querySelectorAll(".shroom")) {
+  let last = 0;
+  const puff = () => {
+    const now = performance.now();
+    if (still || now - last < 1400) return;
+    last = now;
+    m.animate([{ scale: "1 1" }, { scale: "1.06 0.9" }, { scale: "0.98 1.04" }, { scale: "1 1" }], { duration: 700, easing: "ease-out" });
+    const host = m.parentElement, hr = host.getBoundingClientRect(), r = m.getBoundingClientRect();
+    for (let i = 0; i < 14; i++) {
+      const sp = document.createElement("span");
+      sp.className = "spore";
+      sp.style.left = `${r.left - hr.left + r.width * (0.3 + Math.random() * 0.4)}px`;
+      sp.style.top = `${r.top - hr.top + r.height * 0.25}px`;
+      host.append(sp);
+      const dx = (Math.random() - 0.5) * 90, dy = -60 - Math.random() * 90;
+      sp.animate([
+        { transform: "translate(0, 0) scale(0.6)", opacity: 0 },
+        { transform: `translate(${dx * 0.3}px, ${dy * 0.3}px) scale(1)`, opacity: 1, offset: 0.2 },
+        { transform: `translate(${dx}px, ${dy}px) scale(0.4)`, opacity: 0 },
+      ], { duration: 1800 + Math.random() * 1400, easing: "cubic-bezier(.2,.6,.4,1)" }).onfinish = () => sp.remove();
+    }
+  };
+  m.addEventListener("pointerenter", puff);
+  m.addEventListener("click", puff);
+}

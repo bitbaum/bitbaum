@@ -74,14 +74,54 @@ export let WEATHER = (() => {
 root.dataset.weather = WEATHER;
 // The reader can turn the weather with one button; the choice holds for the
 // rest of the visit and tells everyone who is listening.
-export function setWeather(w) {
+export function setWeather(w, byReader = true) {
   WEATHER = w;
   root.dataset.weather = w;
-  try { sessionStorage.setItem("bb-weather", w); } catch { /* ignore */ }
+  try { sessionStorage.setItem("bb-weather", w); if (byReader) sessionStorage.setItem("bb-weather-chosen", "1"); } catch { /* ignore */ }
   document.dispatchEvent(new CustomEvent("weather", { detail: w }));
 }
+// The weather where the reader is, if we can know it without asking: the
+// time zone names a city (Europe/Zurich → Zurich); Open-Meteo geocodes it and
+// reports the weather there now. Only the city's name leaves the browser,
+// no key, no location permission. If it is slow or unknown, the seasonal
+// guess stands. A pin or the reader's own choice always wins.
+export let PLACE = "";
+(async () => {
+  if (new URLSearchParams(location.search).get("weather")) return;
+  let chosen = null;
+  try { chosen = sessionStorage.getItem("bb-weather-chosen"); } catch { /* ignore */ }
+  if (chosen) return;
+  try {
+    const cached = JSON.parse(sessionStorage.getItem("bb-weather-real") || "null");
+    if (cached) { PLACE = cached.place; if (cached.w !== WEATHER) setWeather(cached.w, false); relabel(); return; }
+  } catch { /* ignore */ }
+  const zone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+  const city = zone.split("/").pop().replace(/_/g, " ");
+  if (!city || /^(UTC|GMT|Etc)/i.test(zone)) return;
+  const ctl = new AbortController();
+  const stop = setTimeout(() => ctl.abort(), 3500);
+  try {
+    const geo = await (await fetch(`https://geocoding-api.open-meteo.com/v1/search?count=1&name=${encodeURIComponent(city)}`, { signal: ctl.signal })).json();
+    const g = geo.results?.[0];
+    if (!g) return;
+    const now = await (await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${g.latitude}&longitude=${g.longitude}&current=weather_code`, { signal: ctl.signal })).json();
+    const c = now.current?.weather_code;
+    if (c == null) return;
+    const w = c === 45 || c === 48 ? "mist" : (c >= 71 && c <= 77) || c === 85 || c === 86 ? "snow" : (c >= 51 && c <= 67) || (c >= 80 && c <= 82) || c >= 95 ? "rain" : "clear";
+    PLACE = g.name;
+    try { sessionStorage.setItem("bb-weather-real", JSON.stringify({ w, place: PLACE })); } catch { /* ignore */ }
+    if (w !== WEATHER) setWeather(w, false);
+    relabel();
+  } catch { /* offline or slow: the seasonal guess stands */ } finally { clearTimeout(stop); }
+})();
+function relabel() { for (const b of document.querySelectorAll("[data-weather-cycle]")) b.dispatchEvent(new Event("relabel")); }
+
 for (const b of document.querySelectorAll("[data-weather-cycle]")) {
-  const label = () => b.setAttribute("aria-label", `Weather: ${WEATHER === "mist" ? "fog" : WEATHER}. Change the weather`);
+  const label = () => {
+    const now = `${WEATHER === "mist" ? "fog" : WEATHER}${PLACE ? ` — as in ${PLACE} now` : ""}`;
+    b.setAttribute("aria-label", `Weather: ${now}. Change the weather`);
+    b.title = `Weather: ${now}. Press to change it.`;
+  };
   label();
   b.addEventListener("click", () => {
     setWeather(WEATHERS[(WEATHERS.indexOf(WEATHER) + 1) % WEATHERS.length]);
@@ -267,45 +307,103 @@ function pappus(ctx, x, y, dirx, diry, len, rgb, a, fine) {
     ctx.stroke();
   }
 }
+// Where each painting's head and stem foot are, in fractions of the image.
+const DAND = {
+  flower: { head: [0.48, 0.2], foot: 0.37 },
+  clock: { head: [0.5, 0.33], r: 0.45, foot: 0.5 },
+  bare: { head: [0.5, 0.1], foot: 0.5 },
+};
+let eaten = null, eatenCount = -1;
 function dandelion(ctx, W, H, progress, t) {
   const phone = W < 700;
   const margin = Math.max(0, (W - 1280) / 2) + 48;
-  // It lives in the right margin and must never reach across the content, so
-  // its size is set by the room the margin has.
+  // It lives in the right margin and must never reach across the content.
   const room = phone ? 56 : margin - 24;
   const tall = Math.max(70, Math.min(phone ? 110 : 180, room * 1.15)), foot = H + 6;
   const hx = W - (phone ? 30 : margin / 2);
-  const stage = (name, alpha) => {
-    const img = art(name);
-    if (!img || alpha <= 0.01) return;
-    const w = tall * (img.naturalWidth / img.naturalHeight);
-    ctx.globalAlpha *= alpha;
-    ctx.drawImage(img, hx - w / 2, foot - tall, w, tall);
-    ctx.globalAlpha /= alpha;
-  };
-  // Flower, then the white clock, then — as its seeds leave — the bare stem.
-  const bloom = Math.max(0, 1 - progress / 0.14);
-  const clock = Math.min(1, Math.max(0, (progress - 0.08) / 0.12)) * Math.max(0, 1 - Math.max(0, progress - 0.55) / 0.35);
-  const bare = Math.max(0, Math.min(1, (progress - 0.55) / 0.3));
-  stage("dandelion-flower", bloom);
-  stage("dandelion-bare", bare);
-  stage("dandelion-clock", clock);
-  // The seeds that have left fly off on the wind, drawn fine.
-  const night = palette.night;
-  const seedRgb = night ? "243, 241, 234" : palette.line;
-  const hy = foot - tall * 0.8, R = tall * 0.13;
-  for (let n = 0; n < SEEDS; n++) {
-    const i = seedOrder[n];
-    const release = 0.3 + (n / SEEDS) * 0.66;
-    const f = Math.max(0, (progress - release) * 7);
-    if (f <= 0 || f > 1.6) continue;
-    const ang = (i / SEEDS) * Math.PI * 2;
-    const drift = still ? 0 : Math.sin(t * 0.0015 + i) * 10;
-    const x = hx + Math.cos(ang) * R - f * W * (0.45 + (i % 5) * 0.08) + drift;
-    const y = hy + Math.sin(ang) * R - f * H * (0.45 + (i % 4) * 0.1) + Math.sin(f * 6 + i) * 18;
-    const spin = ang - f * 2.2, fade = Math.max(0, 1 - f / 1.6);
-    pappus(ctx, x, y, Math.cos(spin - Math.PI / 2) * 0.2, -1, R * 0.8, seedRgb, 0.85 * fade, !phone);
+  // It grows from a small mound of earth and grass in the corner of the
+  // frame, like a plant at the edge of a stage — not out of nowhere.
+  ctx.save();
+  ctx.translate(hx, foot);
+  const mw = Math.max(46, tall * 0.5), mh = tall * 0.13;
+  ctx.fillStyle = palette.night ? "rgba(10, 12, 18, 0.96)" : "rgba(112, 96, 64, 0.92)";
+  ctx.beginPath(); ctx.moveTo(-mw, 2); ctx.bezierCurveTo(-mw * 0.6, -mh * 1.1, mw * 0.5, -mh * 1.2, mw * 1.1, 2); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = palette.night ? "rgba(62, 150, 104, 0.5)" : "rgba(84, 120, 60, 0.85)"; ctx.lineWidth = 1.1;
+  for (let k = 0; k < 16; k++) {
+    const bx = -mw * 0.8 + (k / 15) * mw * 1.7, bh = mh * (0.8 + ((k * 37) % 7) / 6), lean = (((k * 53) % 9) - 4) * 1.2 + (still ? 0 : Math.sin(t * 0.0012 + k) * 1.5);
+    ctx.beginPath(); ctx.moveTo(bx, -mh * 0.5); ctx.quadraticCurveTo(bx + lean * 0.4, -mh * 0.5 - bh * 0.6, bx + lean, -mh * 0.5 - bh); ctx.stroke();
   }
+  ctx.restore();
+  // The whole plant bends a little in the wind, from its foot.
+  ctx.save();
+  ctx.translate(hx, foot - mh * 0.55);
+  ctx.rotate(still ? 0 : Math.sin(t * 0.0009) * 0.035 + Math.sin(t * 0.0023) * 0.012);
+  const draw = (name, img, alpha, scaleHead = 1) => {
+    if (!img || alpha <= 0.01) return;
+    const k = DAND[name], w = tall * (img.naturalWidth / img.naturalHeight);
+    const x0 = -w * k.foot, y0 = -tall;
+    ctx.save();
+    ctx.globalAlpha *= alpha;
+    if (scaleHead !== 1) {
+      // Scale about the head, so a flower closes and a clock opens in place.
+      const cx = x0 + w * k.head[0], cy = y0 + tall * k.head[1];
+      ctx.translate(cx, cy); ctx.scale(scaleHead, scaleHead); ctx.translate(-cx, -cy);
+    }
+    ctx.drawImage(img, x0, y0, w, tall);
+    ctx.restore();
+  };
+  const smooth = (e0, e1, x) => { const u = Math.max(0, Math.min(1, (x - e0) / (e1 - e0))); return u * u * (3 - 2 * u); };
+  // Flower (0–0.1) closes; the seed clock opens in its place (0.1–0.22).
+  const close = smooth(0.06, 0.16, progress), open = smooth(0.12, 0.22, progress);
+  const flower = art("dandelion-flower"), clock = art("dandelion-clock"), bare = art("dandelion-bare");
+  if (close < 1) draw("flower", flower, 1 - close, 1 - close * 0.45);
+  if (open <= 0) { ctx.restore(); return; }
+  // The bare head is always there under the clock; each seed that leaves
+  // opens a small gap in the clock through which it shows.
+  draw("bare", bare, open);
+  const gone = seedOrder.map((i, n) => [i, Math.max(0, (progress - (0.3 + (n / SEEDS) * 0.62)) * 6)]).filter(([, f]) => f > 0);
+  if (clock && gone.length < SEEDS) {
+    if (gone.length !== eatenCount || !eaten) {
+      eatenCount = gone.length;
+      eaten = eaten || document.createElement("canvas");
+      eaten.width = clock.naturalWidth; eaten.height = clock.naturalHeight;
+      const g = eaten.getContext("2d");
+      g.drawImage(clock, 0, 0);
+      g.globalCompositeOperation = "destination-out";
+      const cx = eaten.width * DAND.clock.head[0], cy = eaten.height * DAND.clock.head[1], R = eaten.width * DAND.clock.r;
+      for (const [i] of gone) {
+        const ang = (i / SEEDS) * Math.PI * 2;
+        const px = cx + Math.cos(ang) * R * 0.66, py = cy + Math.sin(ang) * R * 0.66;
+        const gr = g.createRadialGradient(px, py, 0, px, py, R * 0.6);
+        gr.addColorStop(0, "rgba(0,0,0,1)"); gr.addColorStop(0.75, "rgba(0,0,0,1)"); gr.addColorStop(1, "rgba(0,0,0,0)");
+        g.fillStyle = gr; g.beginPath(); g.arc(px, py, R * 0.6, 0, Math.PI * 2); g.fill();
+      }
+      g.globalCompositeOperation = "source-over";
+    }
+    const scale = 0.55 + open * 0.45;
+    const w = tall * (clock.naturalWidth / clock.naturalHeight), x0 = -w * DAND.clock.foot, y0 = -tall;
+    const cx = x0 + w * DAND.clock.head[0], cy = y0 + tall * DAND.clock.head[1];
+    ctx.save(); ctx.globalAlpha *= open;
+    ctx.translate(cx, cy); ctx.scale(scale, scale); ctx.translate(-cx, -cy);
+    ctx.drawImage(eaten, x0, y0, w, tall);
+    ctx.restore();
+  }
+  // Each seed, once loose, lifts off from where it sat and rides the wind —
+  // left and up, turning slowly, rocking under its parachute.
+  const night = palette.night, seedRgb = night ? "245, 243, 236" : palette.line;
+  const w = clock ? tall * (clock.naturalWidth / clock.naturalHeight) : tall * 0.7;
+  const hcx = -w * DAND.clock.foot + w * DAND.clock.head[0], hcy = -tall + tall * DAND.clock.head[1], R = w * DAND.clock.r;
+  for (const [i, f] of gone) {
+    if (f > 2.2) continue;
+    const ang = (i / SEEDS) * Math.PI * 2;
+    const ease = f * f * (0.6 + (i % 3) * 0.15);
+    const x = hcx + Math.cos(ang) * R * 0.7 - ease * W * (0.18 + (i % 5) * 0.04) + (still ? 0 : Math.sin(t * 0.002 + i * 1.7) * 8 * f);
+    const y = hcy + Math.sin(ang) * R * 0.7 - ease * H * (0.16 + (i % 4) * 0.05) - f * 10;
+    const rock = still ? 0 : Math.sin(t * 0.003 + i) * 0.35;
+    const fade = Math.min(1, f * 4) * Math.max(0, 1 - Math.max(0, f - 1.4) / 0.8);
+    pappus(ctx, x, y, Math.sin(rock) * 0.3, -1, R * 0.34, seedRgb, 0.9 * fade, !phone);
+  }
+  ctx.restore();
 }
 
 // ── the sky ────────────────────────────────────────────────────────────────
@@ -359,7 +457,8 @@ if (canvas) {
       const side = pick() < 0.5;
       const x = phone ? W * (side ? 0.72 + pick() * 0.14 : 0.14 + pick() * 0.14) : side ? W - contentLeft * (0.3 + pick() * 0.4) : contentLeft * (0.3 + pick() * 0.4);
       // A figure at sky height y sits mid-screen when its page point does.
-      const y = H / 2 + PARALLAX * (docY - H / 2);
+      // …and never in the first screen, which belongs to the hero.
+      const y = Math.max(H * 1.12, H / 2 + PARALLAX * (docY - H / 2));
       return { name, x, y, bond: bond * (0.8 + pick() * 0.35), rot: (pick() - 0.5) * Math.PI * 1.4 };
     });
     // Without motion the sky does not move, so only the hero's figure shows.
@@ -484,17 +583,38 @@ if (canvas) {
     moonAt(ctx, off);
   }
 
+  // By night the moon. By day the sun, low and soft, in Dalí's warm light —
+  // and the moon too, faint, but only on the days it really stands in the
+  // daytime sky: waxing it is up in the afternoon, waning in the morning;
+  // round the full it rises at sunset and is not there by day.
   function moonAt(ctx, off) {
     const night = palette.night, phone = W < 700;
     const mx = W * (phone ? 0.82 : 0.86), my = H * (phone ? 0.17 : 0.2) - off * 0.75;
-    if (!moon || my < -moonR * 4) return;
-    const lit = 0.5 - 0.5 * Math.cos(phase * Math.PI * 2);
     if (night) {
+      if (!moon || my < -moonR * 4) return;
+      const lit = 0.5 - 0.5 * Math.cos(phase * Math.PI * 2);
       const halo = ctx.createRadialGradient(mx, my, moonR * 0.95, mx, my, moonR * 3.2);
       halo.addColorStop(0, `rgba(220, 225, 240, ${0.1 * lit + 0.02})`); halo.addColorStop(1, "rgba(220, 225, 240, 0)");
       ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(mx, my, moonR * 3.2, 0, Math.PI * 2); ctx.fill();
+      ctx.drawImage(moon, mx - moonR - 1 / dpr, my - moonR - 1 / dpr, moon.width / dpr, moon.height / dpr);
+      return;
     }
-    ctx.drawImage(moon, mx - moonR - 1 / dpr, my - moonR - 1 / dpr, moon.width / dpr, moon.height / dpr);
+    if (my > -moonR * 6) {
+      const sr = moonR * 0.9;
+      const glow = ctx.createRadialGradient(mx, my, 0, mx, my, sr * 7);
+      glow.addColorStop(0, "rgba(255, 244, 214, 0.9)"); glow.addColorStop(0.12, "rgba(255, 236, 196, 0.55)");
+      glow.addColorStop(0.4, "rgba(255, 226, 180, 0.16)"); glow.addColorStop(1, "rgba(255, 226, 180, 0)");
+      ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(mx, my, sr * 7, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "rgba(255, 250, 236, 0.96)"; ctx.beginPath(); ctx.arc(mx, my, sr, 0, Math.PI * 2); ctx.fill();
+    }
+    const dayMoon = (phase > 0.12 && phase < 0.42) || (phase > 0.58 && phase < 0.88);
+    const dmx = W * (phone ? 0.58 : 0.66), dmy = H * (phone ? 0.1 : 0.1) - off * 0.75;
+    if (dayMoon && moon && dmy > -moonR * 2) {
+      ctx.globalAlpha = 0.55;
+      const s = 0.62;
+      ctx.drawImage(moon, dmx - moonR * s, dmy - moonR * s, (moon.width / dpr) * s, (moon.height / dpr) * s);
+      ctx.globalAlpha = 1;
+    }
   }
 
   function draw(t) {

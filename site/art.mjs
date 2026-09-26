@@ -24,7 +24,7 @@ function puppet(name, cls, eager) {
   const layer = ([pname, p]) => {
     const [x, y, pw, ph] = p.box;
     const style = `left:${x}%;top:${y}%;width:${pw}%;height:${ph}%;transform-origin:${p.origin[0]}% ${p.origin[1]}%;--a0:${p.a[0]}deg;--a1:${p.a[1]}deg;animation-duration:${p.dur}s;animation-delay:${p.delay}s`;
-    return `<img class="pp pp-${pname}" src="/art/rig/${name}.${pname}.webp" alt="" ${lazy(eager)} decoding="async" draggable="false" style="${style}">`;
+    return `<img class="pp pp-${pname}${p.mode === "gesture" ? " pp-gesture" : p.mode === "spin" ? " pp-spin" : ""}" src="/art/rig/${name}.${pname}.webp" alt="" ${lazy(eager)} decoding="async" draggable="false" style="${style}">`;
   };
   const parts = Object.entries(rig.parts);
   return `<span class="fig puppet fig-${name}${cls ? ` ${cls}` : ""}">${parts.filter(([, p]) => p.under).map(layer).join("")}<img class="pp-body" src="/art/rig/${name}.body.webp" width="${w}" height="${h}" alt="" ${lazy(eager)} decoding="async" draggable="false">${parts.filter(([, p]) => !p.under).map(layer).join("")}</span>`;

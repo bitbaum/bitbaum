@@ -266,9 +266,10 @@ function seed(ctx, box, canvas) {
   return {
     size(w, h) {
       W = w; H = h; phone = W < 700; maxDepth = phone ? 7 : 8;
-      horizon = H * (phone ? 0.8 : 0.74);
-      rootX = W * (phone ? 0.62 : 0.72);
-      trunk = phone ? H * 0.12 : Math.min(H * 0.11, W * 0.17);
+      // On a phone the words fill the lower half, so the plain lies above them.
+      horizon = H * (phone ? 0.36 : 0.74);
+      rootX = W * (phone ? 0.66 : 0.72);
+      trunk = phone ? H * 0.065 : Math.min(H * 0.11, W * 0.17);
       tree = growTree(311, maxDepth, { spread: 1.1 });
     },
     draw(t) {
