@@ -16,7 +16,7 @@
 :root {
   /* Surfaces and text — roles, not values. */
   --bg: hsl(var(--surface-base));
-  --bg-raised: hsl(var(--surface-raised));
+  --bg-raised: hsl(var(--surface-raised) / 0.62); /* panels float in the sky */
   --bg-overlay: hsl(var(--surface-overlay));
   --fg: hsl(var(--text-primary));
   --fg-2: hsl(var(--text-secondary));
@@ -67,8 +67,30 @@
   --scrim-3: hsl(var(--surface-base) / 0.96);
 }
 
+/* The world's own colours, by time of day. Light is a pale Dalí day, dark is
+   night; sky.mjs and the drawn scenes read these, so the painted world and
+   the page never disagree. */
+:root {
+  --sky-base: #dcdcd4;
+  --veil: 232 228 218;
+  --line-rgb: 34 31 27;
+  --signal-rgb: 12 140 82;
+  --silhouette: #2d2922;
+  --clock-face: #efe7d6;
+  --rabbit-fill: #fffdf8;
+  --rabbit-line: #2d2922;
+}
+
 /* Dark roles come from @bitbaum/design-tokens (.dark). Site-only cinema scrims. */
 .dark {
+  --sky-base: #03050a;
+  --veil: 0 0 0;
+  --line-rgb: 235 229 216;
+  --signal-rgb: 62 224 143;
+  --silhouette: #05070c;
+  --clock-face: #0c0f18;
+  --rabbit-fill: #f1ece2;
+  --rabbit-line: rgb(0 0 0 / 0.55);
   --bed-opacity: 0.26;
   --scrim-1: hsl(var(--surface-base) / 0.86);
   --scrim-2: hsl(var(--surface-base) / 0.72);
@@ -79,7 +101,12 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; color-scheme: light; }
 html.dark { color-scheme: dark; }
-html, body { margin: 0; background: var(--bg); color: var(--fg); }
+html { background: var(--sky-base); }
+html, body { margin: 0; color: var(--fg); }
+/* design-tokens paints body with the page surface; here the page is the sky. */
+body { background: transparent; }
+/* The one sky behind every page (sky.mjs); everything else is transparent over it. */
+.sky { position: fixed; inset: 0; width: 100%; height: 100lvh; z-index: -1; pointer-events: none; }
 body { font-family: var(--sans); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
@@ -121,8 +148,10 @@ img { max-width: 100%; display: block; }
 .textlink:hover { color: var(--fg); border-color: var(--fg-3); }
 
 /* ─── nav ─────────────────────────────────────────────────────────────── */
-.top { position: sticky; top: 0; z-index: 30; height: var(--nav-h); background: hsl(var(--surface-base) / 0.6); backdrop-filter: blur(16px); border-bottom: 1px solid transparent; transition: border-color 160ms ease, background 160ms ease; }
-.top.scrolled, .menu-open .top { background: hsl(var(--surface-base) / 0.92); border-bottom-color: var(--line); }
+/* No backdrop blur: behind the header the sky never stops moving, and re-blurring
+   it every frame is the most expensive thing a phone could be asked to do here. */
+.top { position: sticky; top: 0; z-index: 30; height: var(--nav-h); background: linear-gradient(to bottom, rgb(var(--veil) / 0.72), rgb(var(--veil) / 0.38)); border-bottom: 1px solid transparent; transition: border-color 160ms ease, background 160ms ease; }
+.top.scrolled, .menu-open .top { background: rgb(var(--veil) / 0.62); border-bottom-color: var(--line); }
 .top .wrap { height: 100%; display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.5rem); }
 .mark { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 44px; font-weight: 600; letter-spacing: -0.02em; font-size: 1.05rem; }
 .mark svg { width: 22px; height: 25px; color: var(--fg); }
@@ -209,20 +238,20 @@ img { max-width: 100%; display: block; }
    always light on a dark scrim, whatever theme the reader chose — the scene
    is the same drawing in both. The one colour is bitbaum's green (--baum), on
    the single primary action; orange stays OrangeCat's. */
-.bleed { position: relative; display: flex; align-items: flex-end; min-height: 100svh; overflow: hidden; background: #050505; color: #fafafa; }
+.bleed { position: relative; display: flex; align-items: flex-end; min-height: 100svh; overflow: hidden; color: var(--fg); }
 .bleed-under { margin-top: calc(-1 * var(--nav-h)); }
-.bleed-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgb(0 0 0 / 0.85) 0%, rgb(0 0 0 / 0.35) 45%, rgb(0 0 0 / 0) 70%), linear-gradient(to right, rgb(0 0 0 / 0.55) 0%, rgb(0 0 0 / 0) 60%); }
-.bleed-scrim.strong { background: linear-gradient(to top, rgb(0 0 0 / 0.9) 0%, rgb(0 0 0 / 0.6) 50%, rgb(0 0 0 / 0.25) 80%), linear-gradient(to right, rgb(0 0 0 / 0.7) 0%, rgb(0 0 0 / 0) 65%); }
-.bleed-under .bleed-scrim::before { content: ""; position: absolute; inset: 0 0 auto; height: 10rem; background: linear-gradient(to bottom, rgb(0 0 0 / 0.55), rgb(0 0 0 / 0)); }
+.bleed-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgb(var(--veil) / 0.85) 0%, rgb(var(--veil) / 0.35) 45%, rgb(var(--veil) / 0) 70%), linear-gradient(to right, rgb(var(--veil) / 0.55) 0%, rgb(var(--veil) / 0) 60%); }
+.bleed-scrim.strong { background: linear-gradient(to top, rgb(var(--veil) / 0.9) 0%, rgb(var(--veil) / 0.6) 50%, rgb(var(--veil) / 0.25) 80%), linear-gradient(to right, rgb(var(--veil) / 0.7) 0%, rgb(var(--veil) / 0) 65%); }
+.bleed-under .bleed-scrim::before { content: ""; position: absolute; inset: 0 0 auto; height: 10rem; background: linear-gradient(to bottom, rgb(var(--veil) / 0.55), rgb(var(--veil) / 0)); }
 .bleed-body { position: relative; width: 100%; padding-block: 10rem clamp(4rem, 8vw, 7rem); }
 .bleed-copy { display: grid; justify-items: start; gap: 1.4rem; max-width: 52rem; }
-.bleed .kicker { color: rgb(250 250 250 / 0.82); }
-.bleed .headline-caps { color: #fafafa; font-size: clamp(2.9rem, 8.4vw, 7rem); }
+.bleed .kicker { color: var(--fg-2); }
+.bleed .headline-caps { color: var(--fg); font-size: clamp(2.9rem, 8.4vw, 7rem); }
 /* A statement longer than a few words steps down a size, so it stays three lines. */
 .bleed .headline-caps.long { font-size: clamp(2.4rem, 5.4vw, 4.9rem); }
 .section-title + .lede, .section-title + p { margin-top: 1.25rem; }
-.bleed-lede { margin: 0; max-width: 38rem; font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.55; color: rgb(250 250 250 / 0.9); text-wrap: pretty; }
-.bleed-notice { margin: 0; max-width: 38rem; padding-left: 0.9rem; border-left: 2px solid var(--baum); color: rgb(250 250 250 / 0.9); line-height: 1.5; }
+.bleed-lede { margin: 0; max-width: 38rem; font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.55; color: var(--fg); text-wrap: pretty; }
+.bleed-notice { margin: 0; max-width: 38rem; padding-left: 0.9rem; border-left: 2px solid var(--baum); color: var(--fg); line-height: 1.5; }
 .studio-facts { padding-block: 2.5rem; }
 .bleed-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.6rem; }
 .kicker { font-size: 0.74rem; font-weight: 600; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-2); }
@@ -230,8 +259,8 @@ img { max-width: 100%; display: block; }
 .headline-caps { margin: 0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.005em; line-height: 0.98; text-wrap: balance; }
 .section-title { margin-top: 1rem; font-size: clamp(2.2rem, 5vw, 3.9rem); color: var(--fg); }
 .btn-frame, .btn-frame-accent { display: inline-flex; align-items: center; justify-content: center; gap: 0.7rem; min-height: 48px; padding: 0 1.75rem; font-size: 0.76rem; font-weight: 700; letter-spacing: var(--tracking-caps); text-transform: uppercase; transition: background 140ms ease, color 140ms ease, border-color 140ms ease; }
-.btn-frame { color: #fafafa; border: 2px solid #fafafa; }
-.btn-frame:hover { color: #0a0a0a; background: #fafafa; }
+.btn-frame { color: var(--fg); border: 2px solid currentColor; }
+.btn-frame:hover { color: var(--bg); background: var(--fg); border-color: var(--fg); }
 .btn-frame-accent { color: var(--on-baum); background: var(--baum); border: 2px solid transparent; }
 .btn-frame-accent:hover { filter: brightness(1.08); }
 .rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
@@ -757,7 +786,7 @@ footer::before {
 
 /* Film grain over everything, never in the way of a click. */
 body::after {
-  content: ""; position: fixed; inset: -50%; z-index: 60; pointer-events: none; opacity: 0.06;
+  content: ""; position: fixed; inset: -4%; z-index: 60; pointer-events: none; opacity: 0.06;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation: grain 1.4s steps(4) infinite;
 }
@@ -779,14 +808,20 @@ body::after {
    rabbit hole between chapters, and the chapters are numbered. Decoration is
    aria-hidden and holds still for reduced motion. */
 .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-.glass { background: #030303; }
+.glass { background: transparent; }
 .scene-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.bleed-scene { background: #050505; }
-.glass-horizon { position: absolute; left: 0; right: 0; top: 66%; height: 1px; background: linear-gradient(90deg, transparent 48%, rgb(235 229 216 / 0.28) 62%, rgb(235 229 216 / 0.28) 85%, transparent); }
+.bleed-scene { background: transparent; }
+.glass-horizon { position: absolute; left: 0; right: 0; top: 66%; height: 1px; background: linear-gradient(90deg, transparent 48%, rgb(var(--line-rgb) / 0.28) 62%, rgb(var(--line-rgb) / 0.28) 85%, transparent); }
 .glass .lodge-floor { opacity: 0.5; height: 22vh; }
 @media (max-width: 700px) { .glass .lodge-floor { height: 13vh; } }
-.glass-clock { position: absolute; top: calc(var(--nav-h) + 2rem); right: var(--gutter); width: 38px; height: auto; fill: none; stroke: rgb(250 250 250 / 0.55); stroke-width: 1.2; stroke-linecap: round; }
-.glass-minute, .glass-hour { transform-origin: 20px 20px; animation: backwards 12s linear infinite; }
+/* Dalí's soft watch, draped over the tree's left limb (scenes.mjs sets the perch):
+   the dial rests on the branch and the rest of it pours down. */
+.glass-clock { position: absolute; z-index: 1; left: var(--clock-x); top: var(--clock-y); width: 58px; height: auto; transform: translate(-50%, -30%) rotate(-8deg); fill: none; stroke: rgb(var(--line-rgb) / 0.85); stroke-width: 1.1; stroke-linecap: round; transition: opacity 0.8s; }
+.glass-clock .face { fill: var(--clock-face); stroke-width: 1.3; }
+.glass-clock .tick { stroke-width: 0.9; }
+.glass-clock .pin { fill: rgb(var(--line-rgb) / 0.9); stroke: none; }
+.glass:not([data-perched]) .glass-clock { opacity: 0; }
+.glass-minute, .glass-hour { transform-origin: 27px 13.5px; animation: backwards 12s linear infinite; }
 .glass-hour { animation-duration: 144s; }
 @keyframes backwards { to { transform: rotate(-360deg); } }
 .glass .kicker { animation: flicker 11s steps(1) 4s infinite; }
@@ -795,7 +830,7 @@ body::after {
 /* The headline, again, in the glass. */
 .glass-title { display: grid; }
 .glass-mirror-clip { display: block; height: 0.42em; overflow: hidden; margin-top: 0.02em; -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.55), transparent 90%); mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.55), transparent 90%); }
-.glass-mirror { display: block; transform: scaleY(-1); filter: url(#ripple-soft); color: #ebe5d8; }
+.glass-mirror { display: block; transform: scaleY(-1); filter: url(#ripple-soft); color: var(--fg); }
 
 
 /* The rabbit hole. */
@@ -808,8 +843,8 @@ body::after {
 .home-page .kicker::before { counter-increment: chapter; content: counter(chapter, upper-roman) "\2003"; font-family: var(--mono); letter-spacing: 0.05em; opacity: 0.7; }
 
 @media (max-width: 700px) {
-  .glass-horizon { top: 82%; background: linear-gradient(90deg, transparent, rgb(235 229 216 / 0.22) 30%, rgb(235 229 216 / 0.22) 70%, transparent); }
-  .glass-clock { top: calc(var(--nav-h) + 1rem); width: 28px; }
+  .glass-horizon { top: 82%; background: linear-gradient(90deg, transparent, rgb(var(--line-rgb) / 0.22) 30%, rgb(var(--line-rgb) / 0.22) 70%, transparent); }
+  .glass-clock { width: 34px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .glass-minute, .glass-hour, .glass .kicker { animation: none; }
@@ -820,7 +855,7 @@ body::after {
    and the shadow, which is where the scenes say most. On a phone the text sits
    over the drawing, so the full scrim stays. */
 @media (min-width: 701px) {
-  .bleed-scene .bleed-scrim, .bleed-scene .bleed-scrim.strong { background: linear-gradient(to right, rgb(0 0 0 / 0.78) 0%, rgb(0 0 0 / 0.45) 38%, rgb(0 0 0 / 0) 62%); }
+  .bleed-scene .bleed-scrim, .bleed-scene .bleed-scrim.strong { background: linear-gradient(to right, rgb(var(--veil) / 0.78) 0%, rgb(var(--veil) / 0.45) 38%, rgb(var(--veil) / 0) 62%); }
 }
 
 /* ─── the green room ───────────────────────────────────────────────────────
@@ -833,7 +868,7 @@ body::after {
 :root { --curtain: 16px; }
 @media (min-width: 701px) { :root { --curtain: clamp(40px, 7vw, 128px); } }
 [data-lodge] { position: relative; isolation: isolate; }
-.stage { background: #050505; overflow: hidden; }
+.stage { background: transparent; overflow: hidden; }
 .stage.hero { padding-bottom: calc(var(--section-tight) + 72px); }
 .venture-hero.stage { padding: calc(var(--section) * 0.8) 0 calc(var(--section-tight) + 72px); }
 .curtains { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
@@ -870,7 +905,8 @@ body::after {
 @keyframes cat-breathe { 50% { transform: scale(1.025, 1.035); } }
 @keyframes cat-tail { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(9deg); } }
 @keyframes cat-blink { 0%, 93%, 100% { transform: scaleY(1); } 95.5% { transform: scaleY(0.08); } }
-@keyframes cat-hypno { to { transform: rotate(360deg); } }
+/* Counter-clockwise, like every spiral here: inward. */
+@keyframes cat-hypno { to { transform: rotate(-360deg); } }
 
 /* Where it sits. On the tree it is the Cheshire cat: it fades to its eyes
    and smile, and back. It only appears once the tree has grown its fork. */
@@ -885,3 +921,104 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   .cat svg, .cat-tail, .cat-blink, .cat-tree .cat-fade, .cat:hover .cat-eye-spiral { animation: none; }
 }
+
+/* ─── the landscape on the hero's horizon ─────────────────────────────── */
+.horizon-life { position: absolute; left: 0; right: 0; top: var(--horizon, 66%); height: 0; z-index: 1; pointer-events: none; color: var(--silhouette); }
+.horizon-life svg { position: absolute; bottom: -1px; height: auto; fill: currentColor; stroke: rgb(var(--line-rgb) / 0.42); stroke-width: 0.9; stroke-linecap: round; paint-order: stroke; }
+.horizon-life .line { fill: none; stroke-width: 1.5; stroke: color-mix(in srgb, rgb(var(--line-rgb)) 40%, var(--silhouette)); }
+.horizon-life .thick { stroke-width: 3.2; }
+.windmill { left: 86%; width: 58px; }
+.windmill .spar { stroke-width: 1.4; fill: none; }
+.windmill .lattice { fill: none; stroke-width: 0.8; }
+.windmill .sails { transform-origin: 30px 38px; animation: sails 18s linear infinite; }
+@keyframes sails { to { transform: rotate(-360deg); } }
+.quixote { left: 50%; width: 118px; }
+.elephant { left: 0; width: 40px; opacity: 0.8; animation: elephant 160s linear infinite; }
+@keyframes elephant { from { transform: translateX(96vw) scaleX(-1); } to { transform: translateX(40vw) scaleX(-1); } }
+
+/* ─── the burrow and the White Rabbit ─────────────────────────────────── */
+.burrow { position: absolute; z-index: 4; left: 44%; bottom: 6vh; width: 138px; height: 52px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(closest-side, #000 50%, rgb(0 0 0 / 0.7) 72%, transparent); box-shadow: 0 0 34px rgb(var(--signal-rgb) / 0.22); }
+.burrow-mouth { position: absolute; left: 0; right: 0; top: 50%; height: 138px; margin-top: -69px; display: grid; place-items: center; transform: scaleY(0.37); pointer-events: none; }
+.burrow svg { width: 120px; height: 120px; fill: none; stroke: rgb(var(--signal-rgb) / 0.85); stroke-width: 1.7; stroke-linecap: round; animation: inward 10s linear infinite; }
+.burrow:hover svg, .burrow:focus-visible svg, .burrow.gulp svg { animation-duration: 1.2s; }
+@keyframes inward { to { transform: rotate(-360deg); } }
+.burrow::after { content: attr(data-label); position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, 0); padding: 5px 8px; border-radius: 3px; background: rgb(var(--signal-rgb)); color: #04140b; font: 600 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
+.burrow:hover::after, .burrow:focus-visible::after { opacity: 1; transform: translate(-50%, -8px); }
+.burrow:focus-visible { outline: 2px solid rgb(var(--signal-rgb)); outline-offset: 6px; }
+.rabbit { position: absolute; z-index: 4; left: 0; top: 0; width: 64px; height: 64px; pointer-events: none; }
+.rabbit[hidden] { display: none; }
+.rabbit-hop { width: 100%; height: 100%; transform-origin: 50% 100%; }
+.rabbit svg { width: 100%; height: 100%; overflow: visible; stroke: var(--rabbit-line); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.rabbit .r-fill, .rabbit .r-ear { fill: var(--rabbit-fill); }
+.rabbit .r-ear { opacity: 0.85; }
+.rabbit .r-inner { fill: #f3b8c0; stroke: none; opacity: 0.8; }
+.rabbit .r-leg, .rabbit .r-chain { fill: none; }
+.rabbit .r-eye { fill: #1a1612; stroke: none; }
+.rabbit .r-glint { fill: #fff; stroke: none; }
+.rabbit .r-nose { fill: #e79aa4; stroke: none; }
+.rabbit .r-watch { fill: #d9c48e; }
+/* With reduced motion he does not run; he waits by the hole, checking his watch. */
+.rabbit-waits { display: block !important; left: calc(44% - 120px); top: auto; bottom: calc(6vh + 10px); }
+
+/* ─── the cat, cuter ──────────────────────────────────────────────────── */
+.cat-paw { fill: color-mix(in srgb, currentColor 18%, transparent); stroke-width: 1.4; }
+.cat-inner { fill: currentColor; stroke: none; opacity: 0.35; }
+.cat-glint { fill: #fff; stroke: none; }
+.cat-nose { fill: currentColor; stroke: none; }
+
+@media (max-width: 700px) {
+  .windmill { left: 80%; width: 32px; }
+  .quixote { left: 4%; width: 60px; }
+  .elephant { width: 22px; }
+  .burrow { left: 72%; bottom: 2.5vh; width: 104px; height: 40px; }
+  .burrow svg { width: 92px; height: 92px; }
+  .rabbit { width: 48px; height: 48px; }
+  .rabbit-waits { left: calc(72% - 96px); bottom: calc(2.5vh + 6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .windmill .sails, .elephant, .burrow svg { animation: none; }
+  .elephant { transform: translateX(70vw) scaleX(-1); }
+}
+
+/* ─── creatures ───────────────────────────────────────────────────────── */
+.diplodocus { left: 57%; width: 130px; opacity: 0.85; }
+.dip-neck { transform-origin: 64px 32px; animation: graze-neck 9s ease-in-out infinite; }
+@keyframes graze-neck { 0%, 100% { transform: rotate(0); } 45% { transform: rotate(-4deg); } 60% { transform: rotate(3deg); } }
+.cow { left: 62%; width: 54px; }
+.cow-head { transform-origin: 44px 16px; animation: graze 7s ease-in-out infinite; }
+@keyframes graze { 0%, 55%, 100% { transform: rotate(0); } 65%, 85% { transform: rotate(14deg); } }
+.deer { left: 46%; width: 44px; }
+.deer-head { transform-origin: 20px 27px; animation: deer-look 11s ease-in-out infinite; }
+@keyframes deer-look { 0%, 40%, 100% { transform: rotate(0); } 50%, 70% { transform: rotate(-38deg); } 78% { transform: rotate(4deg); } }
+.horizon-life .leg, .horizon-life .line.thin { fill: none; }
+.horizon-life .leg { stroke-width: 3.4; }
+.horizon-life .thin { stroke-width: 1; }
+.dragonfly, .hummingbird { position: absolute; z-index: 2; left: 0; top: 0; pointer-events: none; will-change: transform; }
+.dragonfly[hidden], .hummingbird[hidden] { display: none; }
+.dragonfly svg { width: 36px; height: auto; margin: -11px 0 0 -18px; overflow: visible; }
+.df-body { fill: none; stroke: rgb(var(--signal-rgb)); stroke-width: 1.8; stroke-linecap: round; stroke-dasharray: 3 1.2; }
+.df-head { fill: rgb(var(--signal-rgb)); }
+.df-wings ellipse { fill: rgb(var(--line-rgb) / 0.16); stroke: rgb(var(--line-rgb) / 0.55); stroke-width: 0.5; }
+.df-wings { transform-origin: 21px 12px; animation: shimmer 90ms linear infinite alternate; }
+@keyframes shimmer { to { transform: scaleY(0.72); opacity: 0.75; } }
+.hummingbird svg { width: 34px; height: auto; margin: -14px 0 0 -17px; overflow: visible; }
+.hb-body, .hb-head { fill: rgb(var(--signal-rgb) / 0.9); }
+.hb-tail { fill: rgb(var(--line-rgb) / 0.7); }
+.hb-beak { fill: none; stroke: rgb(var(--line-rgb) / 0.9); stroke-width: 0.9; stroke-linecap: round; }
+.hb-eye { fill: #0b0d12; }
+.hb-wings ellipse { fill: rgb(var(--line-rgb) / 0.25); }
+.hb-wings { transform-origin: 18px 13px; animation: whirr 45ms linear infinite alternate; }
+@keyframes whirr { from { transform: rotate(-38deg); } to { transform: rotate(28deg); } }
+@media (max-width: 700px) {
+  .diplodocus { width: 84px; left: 44%; }
+  .cow { width: 34px; left: 64%; }
+  .deer { width: 28px; left: 44%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dip-neck, .cow-head, .deer-head { animation: none; }
+}
+
+/* Scrims fade in from the top of their section, so one scene flows into the
+   next instead of starting at a hard line. */
+.bleed-scrim { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%); mask-image: linear-gradient(to bottom, transparent, #000 22%); }
+.bleed-under .bleed-scrim { -webkit-mask-image: none; mask-image: none; }

@@ -99,15 +99,56 @@ const SCENES = ["neuron", "seed", "rings", "mycelium"];
  * slides the first section beneath the header.
  */
 function fullBleed({ scene, id, under = false, strong = false, body }) {
+  const life = SCENE_LIFE[scene] ?? "";
   if (!SCENES.includes(scene)) throw new Error(`scene ${scene} is not one of ${SCENES.join(", ")} (site/scenes.mjs)`);
   return `    <section class="bleed bleed-scene${under ? " bleed-under" : ""}"${id ? ` id="${esc(id)}"` : ""}${under ? " data-lodge" : ""}>
-      <canvas class="scene-canvas" data-scene="${scene}" aria-hidden="true"></canvas>
+      <canvas class="scene-canvas" data-scene="${scene}" aria-hidden="true"></canvas>${life ? `\n${life}` : ""}
       <div class="bleed-scrim${strong ? " strong" : ""}" aria-hidden="true"></div>
       <div class="wrap bleed-body">
 ${body}
       </div>
     </section>`;
 }
+
+// Creatures of the other scenes, standing on each scene's own horizon. The
+// desert of "build it yourself" has a diplodocus far out on the plain and a
+// hummingbird that feeds at the grown tree; the partners' meadow has a deer
+// and a cow grazing under the connected trees. A dream of a past that never
+// happened, so nobody minds that they were never in the same era.
+const DIPLODOCUS = `<svg class="diplodocus" viewBox="0 0 160 60"><ellipse cx="80" cy="36" rx="22" ry="10"/><g class="dip-neck"><path d="M66 29C54 20 42 10 26 6.2L26.6 10.4C41 14 53 24 61 36Z"/><ellipse cx="23" cy="8" rx="5.2" ry="2.8"/></g><path d="M100 30C120 31 140 38 158 46C140 41.5 120 38.5 100 40.5Z"/><path class="line leg" d="M70 42V58M77 43V58M90 43V58M97 42V58"/></svg>`;
+const COW = `<svg class="cow" viewBox="0 0 60 40"><path d="M11 12H41Q46 12 46 17.5V23Q46 28 41.5 28H12.5Q8 28 8 22.5V16.5Q8 12 11 12Z"/><g class="cow-head"><path d="M43 14.5L51.5 21L53.6 27.4L49.6 29.4L45.4 25.6L41.6 19.4Z"/><path class="line" d="M46.5 15.2L48 12.2M44.6 16.4L42.4 14.2"/></g><path class="line" d="M13 28V38M18 28V38M36 28V38M41 28V38M8.4 14Q4.4 20 5.4 28"/><ellipse cx="30" cy="29" rx="3" ry="1.5"/></svg>`;
+const DEER = `<svg class="deer" viewBox="0 0 50 56"><ellipse cx="28" cy="30" rx="12" ry="6"/><g class="deer-head"><path d="M18 27L14 14L18 13L22.4 27Z"/><path d="M13.4 13.2L7 16L8 18.4L15.2 16.6Z"/><path class="line thin" d="M15 12L13 5L10 2M13 5L15 1M17 12L19 5L22 2M19 5L17 1M16.4 11.4L19.2 9.6"/></g><path class="line" d="M20 35L19 54M23 35.4L24 54M33 35.4L32 54M37 34.6L39 54M40 27.4L43 28.6"/></svg>`;
+const HUMMINGBIRD = `<div class="hummingbird" hidden aria-hidden="true"><svg viewBox="0 0 40 32"><path class="hb-body" d="M9 17C9 12 14 9.5 19 10.5C23.5 11.4 26 14 26.8 16.2C22 19.6 15.6 21.6 9 17Z"/><path class="hb-tail" d="M9.4 16.6L2 13.6L3.4 19.4Z"/><circle class="hb-head" cx="25" cy="13" r="3.4"/><path class="hb-beak" d="M28 12.6L39 11.4"/><circle class="hb-eye" cx="25.9" cy="12.3" r="0.7"/><g class="hb-wings"><ellipse cx="17" cy="8" rx="3" ry="8.5" transform="rotate(-25 17 12)"/></g></svg></div>`;
+const DRAGONFLY = `<div class="dragonfly" hidden aria-hidden="true"><svg viewBox="0 0 40 24"><g class="df-wings"><ellipse cx="19" cy="7.4" rx="9.5" ry="2.5" transform="rotate(-10 19 7.4)"/><ellipse cx="19" cy="16.6" rx="9.5" ry="2.5" transform="rotate(10 19 16.6)"/><ellipse cx="25" cy="7.8" rx="7.4" ry="2.1" transform="rotate(-18 25 7.8)"/><ellipse cx="25" cy="16.2" rx="7.4" ry="2.1" transform="rotate(18 25 16.2)"/></g><path class="df-body" d="M4 12H31"/><circle class="df-head" cx="33.4" cy="12" r="2.3"/></svg></div>`;
+const SCENE_LIFE = {
+  seed: `      <div class="horizon-life" aria-hidden="true">${DIPLODOCUS}</div>\n      ${HUMMINGBIRD}`,
+  mycelium: `      <div class="horizon-life" aria-hidden="true">${DEER}${COW}</div>`,
+};
+
+// Everything that stands on the hero's horizon, drawn as silhouettes against
+// its haze: a La Mancha windmill turning, Don Quixote on Rocinante with his
+// lance levelled at it and Sancho on his donkey behind, and one of Dalí's
+// elephants on impossibly long legs, crossing very slowly. If you know.
+const HORIZON_LIFE = `      <div class="horizon-life" aria-hidden="true">
+        <svg class="windmill" viewBox="0 0 60 90"><path d="M22 88L26.5 40H33.5L38 88Z"/><path d="M24.5 40.5Q30 29 35.5 40.5Z"/><g class="sails">${[0, 90, 180, 270].map((a) => `<g transform="rotate(${a} 30 38)"><path class="spar" d="M30 38V8"/><path class="lattice" d="M30.8 10H37V33H30.8M30.8 15.5H37M30.8 21H37M30.8 26.5H37"/></g>`).join("")}</g></svg>
+        <svg class="quixote" viewBox="0 0 110 70"><ellipse cx="70" cy="44" rx="16" ry="5.5"/><path d="M82 42L90 30L96 31L97.5 34L91.5 35.5L86 44Z"/><path class="line" d="M58 48L56 66M62 48.5L63 66M78 48L80 66M83 47L86.5 66M54 42Q48 48 50 58"/><path class="line thick" d="M70 39L69 20"/><path class="line" d="M70 39L74 48L73 54M69 24L76 28M62 31L108 19"/><circle cx="69" cy="16" r="2.8"/><path d="M65 14.5Q69 10 73 14.5Z"/><path class="line" d="M64 14.6H74"/><ellipse cx="66.5" cy="28" rx="2.4" ry="3.4"/><ellipse cx="26" cy="50" rx="11" ry="5.5"/><path d="M35 47L41 41L44 43L39 50Z"/><path class="line" d="M40 41.5L39 34M41.8 41.8L43.5 35M19 54L18 66M23 55L23 66M30 55L31 66M34 54L35 66"/><circle cx="25" cy="40" r="6"/><circle cx="26" cy="31" r="3.2"/><path d="M23.5 29.5Q26 25.2 28.5 29.5Z"/><path class="line" d="M21.5 29.6H30.5M25 45L29 51"/></svg>
+        <svg class="elephant" viewBox="0 0 40 90"><ellipse cx="20" cy="22" rx="11" ry="6.5"/><circle cx="31" cy="19.5" r="4.6"/><path class="line" d="M34.5 21.5Q38 29 35.5 36M12 27L10 88M16 28L15 88M24 28L25 88M28 27L30.5 88"/><path d="M17.5 16L19.5 3L21.5 16Z"/><path d="M13 15.5H26V18H13Z"/></svg>
+      </div>`;
+
+// The White Rabbit: bone-white, late, pocket watch and all. lodge.mjs runs
+// him across the Lodge floor and into the burrow once the tree has grown.
+const RABBIT = `      <div class="rabbit" hidden aria-hidden="true"><div class="rabbit-hop"><svg viewBox="0 0 64 64">
+        <path class="r-ear" d="M37.5 22.5C33 13 30.5 5.5 33.2 3.6C36 2.2 40 12 41.5 21.5Z"/>
+        <ellipse class="r-fill" cx="29" cy="42" rx="15" ry="10.5" transform="rotate(-10 29 42)"/>
+        <circle class="r-fill" cx="14.5" cy="40" r="4.2"/>
+        <circle class="r-fill" cx="44.5" cy="30" r="9"/>
+        <path class="r-fill" d="M43 22.5C42 12.5 43 4 46.6 3.5C50.2 4 48.8 13 47.4 23Z"/>
+        <path class="r-inner" d="M45.2 20C44.8 13 45.2 7 46.6 6.5C47.8 7 47.4 13 46.6 20Z"/>
+        <path class="r-leg" d="M22 50Q16 56 8.5 55M38 49.5Q42 55 48 56"/>
+        <circle class="r-eye" cx="47.8" cy="28.4" r="1.7"/><circle class="r-glint" cx="48.4" cy="27.8" r="0.55"/>
+        <circle class="r-nose" cx="53.2" cy="31" r="1"/>
+        <circle class="r-watch" cx="33" cy="44" r="3.3"/><path class="r-chain" d="M33 40.7V39.6M30.2 42.2Q26.4 41.6 24.8 38.6"/>
+      </svg></div></div>`;
 
 /**
  * The home hero, through the looking-glass: no photograph, a tree drawn live
@@ -122,7 +163,11 @@ function glassHero({ kicker, lines, lede, actions }) {
       <div class="lodge-floor" aria-hidden="true"></div>
       <canvas class="scene-canvas" data-scene="neuron" aria-hidden="true"></canvas>
       <div class="glass-horizon" aria-hidden="true"></div>
-      <svg class="glass-clock" viewBox="0 0 40 58" aria-hidden="true"><path d="M20 1.5C30.5 1.5 38.5 9.5 38.5 20c0 7.6-4.4 11.8-8.2 16.4-3.1 3.7-2.2 9.6-4.6 14.6-1.6 3.4-5.3 3.3-5.1-.6.2-4.9-1.5-8.6-6.4-11.7C7.6 35.7 1.5 30.2 1.5 20 1.5 9.5 9.5 1.5 20 1.5Z"/><line class="glass-hour" x1="20" y1="20" x2="20" y2="11"/><line class="glass-minute" x1="20" y1="20" x2="20" y2="5"/></svg>
+${HORIZON_LIFE}
+      <a class="burrow" href="#start" aria-label="Follow the white rabbit" data-label="Follow the white rabbit &darr;"><span class="burrow-mouth" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></span></a>
+${RABBIT}
+      ${DRAGONFLY}
+      <svg class="glass-clock" viewBox="0 0 54 52" aria-hidden="true"><path class="face" d="M3.5 13.5C3.5 6 15 2 27.5 2.6C40 3.2 51 7 51 13.5C51 18.6 45.4 21 41.2 24C36.6 27.6 37.4 36 34.4 43.4C32.4 48.6 27 49.4 26.8 44.4C26.6 37.6 24 32.8 18.4 29.6C10.6 25.4 3.5 21 3.5 13.5Z"/><path class="tick" d="M36.20 13.50L37.60 13.50"/><path class="tick" d="M34.97 16.10L36.18 16.50"/><path class="tick" d="M31.60 18.00L32.30 18.70"/><path class="tick" d="M27.00 18.70L27.00 19.50"/><path class="tick" d="M22.40 18.00L21.70 18.70"/><path class="tick" d="M19.03 16.10L17.82 16.50"/><path class="tick" d="M17.80 13.50L16.40 13.50"/><path class="tick" d="M19.03 10.90L17.82 10.50"/><path class="tick" d="M22.40 9.00L21.70 8.30"/><path class="tick" d="M27.00 8.30L27.00 7.50"/><path class="tick" d="M31.60 9.00L32.30 8.30"/><path class="tick" d="M34.97 10.90L36.18 10.50"/><line class="glass-hour" x1="27" y1="13.5" x2="31.5" y2="11"/><line class="glass-minute" x1="27" y1="13.5" x2="21" y2="9.2"/><circle class="pin" cx="27" cy="13.5" r="0.9"/></svg>
       <div class="wrap bleed-body">
         <div class="bleed-copy rise">
           <span class="kicker">${kicker}</span>
@@ -165,17 +210,24 @@ function spiralPath(cx, cy, r, turns = 2.4) {
 const CAT = `  <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" data-label="OrangeCat &rarr;">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <g class="cat-fade">
-        <g class="cat-tail"><path d="M42.5 55.5C51 56.5 57.5 51.5 57.5 45"/><path d="${spiralPath(53.2, 44.6, 4.3, 1.25)}"/></g>
-        <path class="cat-body" d="M21 58C19 48 22 40.5 26.5 37.5H37.5C42 40.5 45 48 43 58Z"/>
-        <path class="cat-head" d="M19.5 27C19.5 20 21 15 22 8L28.5 13.5C30.8 12.9 33.2 12.9 35.5 13.5L42 8C43 15 44.5 20 44.5 27C44.5 34 39 38.5 32 38.5C25 38.5 19.5 34 19.5 27Z"/>
-        <path class="cat-whisker" d="M18 28.6L12.5 27.6M18 31.2L12.5 32M46 28.6L51.5 27.6M46 31.2L51.5 32"/>
-        <circle class="cat-cheek" cx="24.3" cy="31" r="1.7"/><circle class="cat-cheek" cx="39.7" cy="31" r="1.7"/>
+        <g class="cat-tail"><path d="M41.5 55C49 56 55 51.5 55 45.5"/><path d="${spiralPath(51.2, 45, 4.1, 1.25)}"/></g>
+        <path class="cat-body" d="M23.5 42.5C21 47 21 53 22.5 58H41.5C43 53 43 47 40.5 42.5Z"/>
+        <ellipse class="cat-paw" cx="28" cy="57.6" rx="3.1" ry="1.9"/><ellipse class="cat-paw" cx="36" cy="57.6" rx="3.1" ry="1.9"/>
+        <path class="cat-head" d="M16 30C16 21 19 15 21 9L28.5 15C30.9 14.2 33.1 14.2 35.5 15L43 9C45 15 48 21 48 30C48 38.5 41 43 32 43C23 43 16 38.5 16 30Z"/>
+        <path class="cat-inner" d="M22 12.4L22.8 18L27 15.4ZM42 12.4L41.2 18L37 15.4Z"/>
+        <path class="cat-whisker" d="M16.5 31.5L10.5 30.4M16.5 34.2L10.5 35M47.5 31.5L53.5 30.4M47.5 34.2L53.5 35"/>
+        <circle class="cat-cheek" cx="22.4" cy="34.2" r="2.3"/><circle class="cat-cheek" cx="41.6" cy="34.2" r="2.3"/>
       </g>
       <g class="cat-eyes">
-        <g class="cat-blink"><ellipse class="cat-eye" cx="27" cy="26" rx="1.9" ry="2.3"/><ellipse class="cat-eye" cx="37" cy="26" rx="1.9" ry="2.3"/></g>
-        <path class="cat-eye-spiral cat-eye-l" d="${spiralPath(27, 26, 2.8)}"/><path class="cat-eye-spiral cat-eye-r" d="${spiralPath(37, 26, 2.8)}"/>
+        <g class="cat-blink">
+          <ellipse class="cat-eye" cx="26" cy="29" rx="3.1" ry="3.7"/><ellipse class="cat-eye" cx="38" cy="29" rx="3.1" ry="3.7"/>
+          <circle class="cat-glint" cx="27.2" cy="27.5" r="1.15"/><circle class="cat-glint" cx="39.2" cy="27.5" r="1.15"/>
+          <circle class="cat-glint" cx="25.2" cy="30.6" r="0.5"/><circle class="cat-glint" cx="37.2" cy="30.6" r="0.5"/>
+        </g>
+        <path class="cat-eye-spiral cat-eye-l" d="${spiralPath(26, 29, 3.3)}"/><path class="cat-eye-spiral cat-eye-r" d="${spiralPath(38, 29, 3.3)}"/>
       </g>
-      <path class="cat-mouth" d="M30 30.3Q31 31.7 32 30.7Q33 31.7 34 30.3"/>
+      <path class="cat-nose" d="M31 32.7H33L32 33.9Z"/>
+      <path class="cat-mouth" d="M30 34.5Q31 35.9 32 34.7Q33 35.9 34 34.5"/>
     </svg>
   </a>`;
 
@@ -364,6 +416,7 @@ function shell({ title, description, path, body, nav, script, image }) {
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+  <canvas class="sky" aria-hidden="true"></canvas>
   <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false"><filter id="ripple"><feTurbulence type="fractalNoise" baseFrequency="0.006 0.09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter><filter id="ripple-soft"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.12" numOctaves="1" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
   <a class="skip" href="#main">Skip to content</a>
   <header class="top" data-header>
@@ -411,8 +464,9 @@ ${sections.map(([title, links]) => `      <nav aria-label="${esc(title)}">
   <script type="module" src="/theme.mjs"><\/script>
   <script type="module" src="/nav.mjs"><\/script>
 ${CAT}
+  <script type="module" src="/sky.mjs"><\/script>
   <script type="module" src="/lodge.mjs"><\/script>
-${script ?? ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>` : ""}
+${script ?? ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>\n  <script type="module" src="/creatures.mjs"><\/script>` : ""}
   <script src="${esc(LOKI_FEEDBACK.origin)}/widget.js" data-fc-project="${esc(LOKI_FEEDBACK.token)}" data-fc-modes="${esc(LOKI_FEEDBACK.modes)}" async><\/script>
 </body>
 </html>
@@ -804,7 +858,7 @@ ${steps.map(([t, b], i) => `          <li><span class="path-n">0${i + 1}</span><
 
 export function workPage(all, cfg) {
   const body = `  <main id="main">
-    <section data-lodge class="dark stage stage-floored hero compact work-hero"><div class="wrap">
+    <section data-lodge class="stage stage-floored hero compact work-hero"><div class="wrap">
       <span class="eyebrow">The work</span>
       <h1 class="display-1">Everything built here, at its real stage.</h1>
       <p class="lede">Products and pilots in use, concepts built to show what is possible, and ideas named but not built — each labelled honestly. Filters live in the address bar, so a filtered view is a link you can send.</p>
@@ -899,7 +953,7 @@ export function venturePage(v, all, cfg, contact) {
     ? `        <div class="uses"><span class="label">Built from</span><div class="chips">${v.uses.map((s) => `<a href="/packages/${esc(s)}/">${esc(s)}</a>`).join("")}</div></div>`
     : "";
   const body = `  <main id="main">
-    <section data-lodge class="dark stage stage-floored venture-hero">
+    <section data-lodge class="stage stage-floored venture-hero">
       <div class="wrap">
         <span class="eyebrow${v.status === "live" ? "" : " quiet"}">${esc(stage?.title ?? v.stage)}${v.pillar ? ` &middot; ${esc(v.pillar)}` : ""}${v.for ? ` &middot; for ${esc(v.for)}` : ""}</span>
         <h1 class="display-1">${esc(v.name)}</h1>
@@ -946,7 +1000,7 @@ export function studioPage(all, packages, origin, readings) {
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
   const reading = readings?.current;
   const body = `  <main id="main">
-    <section data-lodge class="dark stage stage-floored hero compact">
+    <section data-lodge class="stage stage-floored hero compact">
       <div class="wrap">
         <span class="eyebrow">The studio</span>
         <h1 class="display-1">Bit, and Baum.</h1>
@@ -1202,6 +1256,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("scenes.mjs", readFileSync(join(here, "scenes.mjs"), "utf8"));
   files.set("sky.mjs", readFileSync(join(here, "sky.mjs"), "utf8"));
   files.set("lodge.mjs", readFileSync(join(here, "lodge.mjs"), "utf8"));
+  files.set("creatures.mjs", readFileSync(join(here, "creatures.mjs"), "utf8"));
   return { all, files };
 }
 
