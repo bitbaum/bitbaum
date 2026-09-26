@@ -285,8 +285,13 @@ if (fox && egg && foxStage) {
       const w = foxStage.clientWidth, sz = runW();
       const to = dir > 0 ? w + sz : -sz;
       fox.hidden = false; fox.classList.remove("kit");
-      fox.style.transform = `scaleX(${dir})`;
-      const go = fox.animate([{ left: `${fromX}px` }, { left: `${to}px` }], { duration: (Math.abs(to - fromX) / 420) * 1000, easing: "cubic-bezier(.45,0,1,1)" });
+      // Across the floor AND toward us: from the back of the floor, small,
+      // to its front edge, full size — a run through depth, not along a line.
+      fox.style.transform = "";
+      const go = fox.animate([
+        { left: `${fromX}px`, transform: `translateY(-48px) scale(${dir * 0.55}, 0.55)` },
+        { left: `${to}px`, transform: `translateY(6px) scale(${dir * 1.1}, 1.1)` },
+      ], { duration: (Math.abs(to - fromX) / 380) * 1000, easing: "cubic-bezier(.4,0,.9,.9)" });
       go.onfinish = () => { fox.hidden = true; };
     };
     const hatch = () => {
@@ -412,7 +417,10 @@ if (cat) {
 // fog, something vast and long-legged walks slowly past, far off.
 const skyLife = document.querySelector(".sky-life");
 if (skyLife && !still) {
-  const whale = skyLife.querySelector(".whale"), walker = skyLife.querySelector(".fog-walker");
+  const whale = document.querySelector(".whale"), walker = skyLife.querySelector(".fog-walker");
+  const heroSky = whale?.closest("section");
+  let heroSeen = false;
+  if (heroSky) new IntersectionObserver(([e]) => { heroSeen = e.intersectionRatio > 0.5; }, { threshold: [0, 0.5, 1] }).observe(heroSky);
   const pass = (el, seconds, rtl = true) => {
     el.hidden = false;
     const w = el.offsetWidth || 400;
@@ -423,7 +431,7 @@ if (skyLife && !still) {
   // the sky, its body pitching to follow the rise and fall, rising a little
   // as it goes. First soon after arrival, then as a rare sighting.
   const swim = () => {
-    if (document.hidden) return;
+    if (!whale || document.hidden || !heroSeen) return;
     whale.hidden = false;
     const w = whale.offsetWidth || 380, from = innerWidth + 60, to = -w - 60;
     const dur = (phone() ? 48 : 70) * 1000, t0 = performance.now();
@@ -445,7 +453,7 @@ if (skyLife && !still) {
     };
     requestAnimationFrame(step);
   };
-  const sight = (ms) => setTimeout(() => { swim(); sight(120000 + Math.random() * 90000); }, ms);
+  const sight = (ms) => setTimeout(() => { swim(); sight(150000 + Math.random() * 120000); }, ms);
   sight(5000 + Math.random() * 6000);
 
   // In fog, something vast walks slowly past, far off — whenever the fog

@@ -359,7 +359,6 @@ const DAND = {
   clock: { head: [0.5, 0.33], r: 0.45, foot: 0.5 },
   bare: { head: [0.5, 0.1], foot: 0.5 },
 };
-let eaten = null, eatenCount = -1;
 const seedLaunch = new Array(SEEDS).fill(0);
 function dandelion(ctx, W, H, progress, t) {
   const phone = W < 700;
@@ -409,30 +408,16 @@ function dandelion(ctx, W, H, progress, t) {
   // opens a small gap in the clock through which it shows.
   draw("bare", bare, open);
   const gone = seedOrder.map((i, n) => [i, Math.max(0, (progress - (0.3 + (n / SEEDS) * 0.62)) * 6)]).filter(([, f]) => f > 0);
-  if (clock && gone.length < SEEDS) {
-    if (gone.length !== eatenCount || !eaten) {
-      eatenCount = gone.length;
-      eaten = eaten || document.createElement("canvas");
-      eaten.width = clock.naturalWidth; eaten.height = clock.naturalHeight;
-      const g = eaten.getContext("2d");
-      g.drawImage(clock, 0, 0);
-      g.globalCompositeOperation = "destination-out";
-      const cx = eaten.width * DAND.clock.head[0], cy = eaten.height * DAND.clock.head[1], R = eaten.width * DAND.clock.r;
-      for (const [i] of gone) {
-        const ang = (i / SEEDS) * Math.PI * 2;
-        const px = cx + Math.cos(ang) * R * 0.66, py = cy + Math.sin(ang) * R * 0.66;
-        const gr = g.createRadialGradient(px, py, 0, px, py, R * 0.6);
-        gr.addColorStop(0, "rgba(0,0,0,1)"); gr.addColorStop(0.75, "rgba(0,0,0,1)"); gr.addColorStop(1, "rgba(0,0,0,0)");
-        g.fillStyle = gr; g.beginPath(); g.arc(px, py, R * 0.6, 0, Math.PI * 2); g.fill();
-      }
-      g.globalCompositeOperation = "source-over";
-    }
-    const scale = 0.55 + open * 0.45;
+  // As its seeds leave, the white head thins evenly and shrinks a little —
+  // no holes cut into it; the bare head shows through as it goes.
+  if (clock) {
+    const left = 1 - gone.length / SEEDS;
     const w = tall * (clock.naturalWidth / clock.naturalHeight), x0 = -w * DAND.clock.foot, y0 = -tall;
     const cx = x0 + w * DAND.clock.head[0], cy = y0 + tall * DAND.clock.head[1];
-    ctx.save(); ctx.globalAlpha *= open;
+    const scale = (0.55 + open * 0.45) * (0.85 + 0.15 * left);
+    ctx.save(); ctx.globalAlpha *= open * Math.pow(left, 0.7);
     ctx.translate(cx, cy); ctx.scale(scale, scale); ctx.translate(-cx, -cy);
-    ctx.drawImage(eaten, x0, y0, w, tall);
+    ctx.drawImage(clock, x0, y0, w, tall);
     ctx.restore();
   }
   // Scrolling only decides when a seed lets go. From then on it lives in its
@@ -445,7 +430,8 @@ function dandelion(ctx, W, H, progress, t) {
   const loose = new Set(gone.map(([i]) => i));
   for (let i = 0; i < SEEDS; i++) {
     if (!loose.has(i)) { seedLaunch[i] = 0; continue; }
-    if (!seedLaunch[i]) seedLaunch[i] = t;
+    // One seed leaves at a time, however fast the reader scrolls.
+    if (!seedLaunch[i]) { if (t - (dandelion.lastLaunch || 0) < 180) continue; seedLaunch[i] = dandelion.lastLaunch = t; }
     if (still) continue;
     const age = (t - seedLaunch[i]) / 1000;
     if (age > 12) continue;
@@ -528,7 +514,8 @@ if (canvas) {
       // A figure at sky height y sits mid-screen when its page point does.
       // …and never in the first screen, which belongs to the hero.
       const y = Math.max(H * 1.12, H / 2 + PARALLAX * (docY - H / 2));
-      return { name, x, y, bond: bond * (0.9 + pick() * 0.25), rot: (pick() - 0.5) * Math.PI * 1.4 };
+      // Some near and bright, some small and far: sizes vary, as in a real sky.
+      return { name, x, y, bond: bond * (0.62 + pick() * 0.7), rot: (pick() - 0.5) * Math.PI * 1.4 };
     });
     // One wormhole, on the home page, deep in the sky between two chapters.
     wormhole = false && home && span ? { x: W * (phone ? 0.5 : 0.8), y: Math.max(H * 1.3, H / 2 + PARALLAX * (at(0.55) - H / 2)), r: phone ? W * 0.42 : Math.min(W * 0.2, 290) } : null;
@@ -822,29 +809,14 @@ if (canvas) {
       ctx.filter = "none"; ctx.globalAlpha = 1;
     }
     if (still) return;
-    // The season, in a few drifting things: blossom in spring, motes (and at
-    // night fireflies) in summer, leaves in autumn, glints of frost in winter.
-    const sea = root.dataset.season;
-    const nMotes = (phone ? 10 : 18) * (windy ? 2 : 1);
-    if (motes.length !== nMotes) motes = [...Array(nMotes)].map(() => ({ x: Math.random() * W, y: Math.random() * H, v: 0.5 + Math.random(), r: Math.random() * 6.28, s: Math.random() }));
-    for (const m of motes) {
-      const gust = 1 + windy * 3;
-      if (sea === "autumn" || sea === "spring") {
-        m.x -= (18 + 30 * m.v) * gust * dt; m.y += (14 + 18 * m.v) * dt + Math.sin(t * 0.002 + m.s * 9) * 0.6; m.r += dt * (1 + m.v) * gust;
-        if (m.y > H + 10 || m.x < -10) { m.x = W + Math.random() * 60; m.y = Math.random() * H * 0.7; }
-        ctx.save(); ctx.translate(m.x, m.y); ctx.rotate(m.r); ctx.scale(1, 0.45 + 0.4 * Math.abs(Math.sin(m.r * 2)));
-        ctx.fillStyle = sea === "autumn" ? `rgba(${170 + Math.round(m.s * 50)}, ${80 + Math.round(m.s * 50)}, 30, ${palette.night ? 0.55 : 0.8})` : `rgba(248, 214, 222, ${palette.night ? 0.5 : 0.85})`;
-        const sz = sea === "autumn" ? 5 + m.v * 3 : 3 + m.v * 1.5;
-        ctx.beginPath(); ctx.ellipse(0, 0, sz, sz * 0.55, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-      } else if (sea === "summer") {
-        m.x += Math.sin(t * 0.0007 + m.s * 20) * 12 * dt - windy * 60 * dt; m.y += Math.cos(t * 0.0009 + m.s * 13) * 9 * dt;
-        if (m.x < -10) m.x = W + 10;
-        const pulse = 0.5 + 0.5 * Math.sin(t * 0.003 + m.s * 30);
-        if (palette.night) { ctx.globalAlpha = pulse * 0.9; ctx.drawImage(glowSprite("190, 240, 140"), m.x - 5, m.y - 5, 10, 10); ctx.globalAlpha = 1; }
-        else { ctx.fillStyle = `rgba(255, 250, 220, ${0.35 * pulse})`; ctx.beginPath(); ctx.arc(m.x, m.y, 1.4, 0, Math.PI * 2); ctx.fill(); }
-      } else if (sea === "winter" && WEATHER !== "snow") {
-        const glint = Math.max(0, Math.sin(t * 0.0015 + m.s * 40)) ** 8;
-        if (glint > 0.05) { ctx.globalAlpha = glint * 0.8; ctx.drawImage(glowSprite("220, 235, 255"), m.x - 4, m.y - 4, 8, 8); ctx.globalAlpha = 1; }
+    // Summer nights have a few fireflies — nothing else drifts about; the
+    // season shows in the trees' lights (scenes.mjs).
+    if (root.dataset.season === "summer" && palette.night) {
+      if (motes.length !== 7) motes = [...Array(7)].map(() => ({ x: Math.random() * W, y: H * (0.45 + Math.random() * 0.5), s: Math.random() }));
+      for (const m of motes) {
+        m.x += Math.sin(t * 0.0006 + m.s * 20) * 10 * dt; m.y += Math.cos(t * 0.0008 + m.s * 13) * 7 * dt;
+        const pulse = Math.max(0, Math.sin(t * 0.0022 + m.s * 30)) ** 2;
+        ctx.globalAlpha = pulse * 0.8; ctx.drawImage(glowSprite("190, 240, 140"), m.x - 5, m.y - 5, 10, 10); ctx.globalAlpha = 1;
       }
     }
     if (WEATHER !== "rain" && WEATHER !== "snow") return;

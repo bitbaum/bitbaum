@@ -130,7 +130,17 @@ export function spiral(ctx, x, y, r, turn, style, width = 1.1) {
   ctx.stroke();
 }
 
+// The season shows in the tree's lights, not in things flying about: pale
+// blossom in spring, green in summer, amber in autumn, frost in winter.
+const SEASON_RGB = { spring: "246, 196, 214", summer: null, autumn: "236, 150, 60", winter: "214, 232, 250" };
 function glow(ctx, x, y, r, core, alpha = 1) {
+  if (core === "season") {
+    const rgb = SEASON_RGB[document.documentElement.dataset.season] || palette.signal;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, `rgba(${rgb}, ${alpha})`); g.addColorStop(0.35, `rgba(${rgb}, ${0.45 * alpha})`); g.addColorStop(1, `rgba(${rgb}, 0)`);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    return;
+  }
   const g = ctx.createRadialGradient(x, y, 0, x, y, r);
   g.addColorStop(0, core === "white" ? `rgba(${palette.hot}, ${0.95 * alpha})` : `rgba(${palette.signal}, ${alpha})`);
   g.addColorStop(0.35, `rgba(${palette.signal}, ${0.45 * alpha})`);
@@ -327,7 +337,8 @@ function seed(ctx, box, canvas) {
       strokeTree(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.4 : 0.85})`, 2.4);
       spine(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.3 : 0.6})`, 2.4);
       // Far back on the horizon, small: distance is what makes the plain deep.
-      dome(ctx, W * (phone ? 0.86 : 0.955), horizon, phone ? 16 : Math.min(46, W * 0.03), still ? 0.4 : t * 0.00012);
+      // Fuller's dome, standing on the plain at mid-distance, large enough to read.
+      dome(ctx, W * (phone ? 0.86 : 0.86), horizon + (phone ? 10 : 12), phone ? 30 : Math.min(80, W * 0.055), still ? 0.4 : t * 0.00012);
       // The seed itself, and — once grown — the crown's tips come alive.
       glow(ctx, rootX, horizon, 10, "green", progress < 1 ? 1 : 0.4);
       if (progress > maxDepth) {
@@ -335,7 +346,7 @@ function seed(ctx, box, canvas) {
         const k = Math.min(1, progress - maxDepth);
         tree.tips.forEach((tip, i) => {
           if (!tip.up || i % 3) return;
-          glow(ctx, tip.up.x2, tip.up.y2, 7, "green", k * (0.35 + 0.35 * Math.sin(t * 0.002 + i)));
+          glow(ctx, tip.up.x2, tip.up.y2, 7, "season", k * (0.35 + 0.35 * Math.sin(t * 0.002 + i)));
         });
         ctx.globalCompositeOperation = "source-over";
       }
@@ -400,9 +411,31 @@ function rings(ctx) {
   };
 }
 
+// A biomechanical mushroom, in the trees' own line: a ribbed, slightly bent
+// stalk like a length of spine, a cap with vertebral ridges and gills. It
+// breathes, and glows from underneath when the network fires.
+function bioShroom(ctx, x, y, h, t, fade, lit) {
+  const sway = still ? 0 : Math.sin(t * 0.0006) * h * 0.04;
+  const top = [x + sway, y - h], ctl = [x + h * 0.12, y - h * 0.5];
+  const at2 = (u) => [(1 - u) * (1 - u) * x + 2 * (1 - u) * u * ctl[0] + u * u * top[0], (1 - u) * (1 - u) * y + 2 * (1 - u) * u * ctl[1] + u * u * top[1]];
+  ctx.strokeStyle = `rgba(${palette.line}, ${0.75 * fade})`; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(x - h * 0.05, y); ctx.quadraticCurveTo(ctl[0] - h * 0.05, ctl[1], top[0] - h * 0.04, top[1]);
+  ctx.moveTo(x + h * 0.05, y); ctx.quadraticCurveTo(ctl[0] + h * 0.05, ctl[1], top[0] + h * 0.04, top[1]); ctx.stroke();
+  ctx.lineWidth = 0.7;
+  for (let k = 1; k < 9; k++) { const [px, py] = at2(k / 9), w = h * (0.07 - k * 0.003); ctx.beginPath(); ctx.moveTo(px - w, py); ctx.lineTo(px + w, py); ctx.stroke(); }
+  const cw = h * 0.42, ch = h * 0.3, [cx, cy] = top;
+  if (lit > 0.02) { const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, cw * 1.8); g.addColorStop(0, `rgba(${palette.signal}, ${0.5 * lit})`); g.addColorStop(1, `rgba(${palette.signal}, 0)`); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, cw * 1.8, 0, Math.PI * 2); ctx.fill(); }
+  ctx.fillStyle = palette.night ? `rgba(8, 10, 16, ${0.85 * fade})` : `rgba(236, 226, 204, ${0.9 * fade})`;
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(cx - cw, cy); ctx.bezierCurveTo(cx - cw, cy - ch * 1.4, cx + cw, cy - ch * 1.4, cx + cw, cy); ctx.quadraticCurveTo(cx, cy - ch * 0.25, cx - cw, cy); ctx.fill(); ctx.stroke();
+  ctx.lineWidth = 0.6;
+  for (let k = -3; k <= 3; k++) { ctx.beginPath(); ctx.moveTo(cx + k * cw * 0.2, cy - ch * 0.1); ctx.quadraticCurveTo(cx + k * cw * 0.26, cy - ch * 0.75, cx + k * cw * 0.12, cy - ch * 1.02); ctx.stroke(); }
+}
+
 // ── mycelium: separate trees, one network underground ────────────────────
 function mycelium(ctx, box, canvas) {
-  let W, H, horizon, trees, links, sparks, phone, nextSpark = 0, shrooms = [];
+  let W, H, horizon, trees, links, sparks, phone, nextSpark = 0;
+  const shroomLit = [];
   const chance = rng(77);
   return {
     size(w, h) {
@@ -411,9 +444,12 @@ function mycelium(ctx, box, canvas) {
       const n = phone ? 4 : 6;
       trees = [];
       for (let i = 0; i < n; i++) {
-        const x = W * (phone ? 0.14 + i * 0.24 : 0.36 + i * 0.12);
-        const size = (phone ? H * 0.07 : H * 0.075) * (0.8 + chance() * 0.5);
-        trees.push({ x, size, crown: growTree(900 + i, phone ? 6 : 7), roots: growTree(500 + i, 5, { spread: 1.35 }) });
+        // A grove in depth: each tree at its own distance — far ones small,
+        // higher on the ground and paler; near ones large and low.
+        const d = [0.15, 0.7, 0.35, 0.95, 0.5, 0.2][i % 6];
+        const x = W * (phone ? 0.12 + i * 0.25 : 0.38 + i * 0.115) + (chance() - 0.5) * 30;
+        const size = (phone ? H * 0.06 : H * 0.065) * (0.6 + d * 0.9);
+        trees.push({ x, d, size, crown: growTree(900 + i, phone ? 6 : 7), roots: growTree(500 + i, 5, { spread: 1.35 }) });
       }
       // Hyphae: each tree's root tips reach for its neighbour's.
       links = [];
@@ -434,11 +470,17 @@ function mycelium(ctx, box, canvas) {
       if (palette.night) { soil.addColorStop(0, "rgba(16, 20, 18, 0.92)"); soil.addColorStop(1, "rgba(6, 8, 8, 0.6)"); }
       else { soil.addColorStop(0, "rgba(186, 170, 128, 0.85)"); soil.addColorStop(1, "rgba(150, 128, 90, 0.4)"); }
       ctx.fillStyle = soil; ctx.fillRect(0, horizon, W, H - horizon);
-      for (const [i, tr] of trees.entries()) {
-        pose(tr.crown.root, tr.x, horizon, 0, tr.size, { t, key: "up", phase: i });
-        pose(tr.roots.root, tr.x, horizon, 0, tr.size * 0.8, { t, key: "down", squash: -0.9, sway: 0.4, phase: i });
-        strokeTree(ctx, tr.roots.root, "down", `rgba(${palette.signal}, 0.5)`, 1.9);
-        strokeTree(ctx, tr.crown.root, "up", `rgba(${palette.line}, ${phone ? 0.5 : 0.8})`, 2);
+      const base = (tr) => horizon + (H - horizon) * 0.34 * tr.d;
+      for (const [i, tr] of [...trees.entries()].sort((a, b) => a[1].d - b[1].d)) {
+        const y0 = base(tr), fade = 0.45 + tr.d * 0.55;
+        pose(tr.crown.root, tr.x, y0, 0, tr.size, { t, key: "up", phase: i });
+        pose(tr.roots.root, tr.x, y0, 0, tr.size * 0.8, { t, key: "down", squash: -0.9, sway: 0.4, phase: i });
+        strokeTree(ctx, tr.roots.root, "down", `rgba(${palette.signal}, ${0.5 * fade})`, 1.9);
+        strokeTree(ctx, tr.crown.root, "up", `rgba(${palette.line}, ${(phone ? 0.5 : 0.8) * fade})`, 2);
+        // Giger: bone and vertebra up the trunk and into the first limbs.
+        spine(ctx, tr.crown.root, "up", `rgba(${palette.line}, ${(phone ? 0.4 : 0.62) * fade})`, 2);
+        // At the foot of some trees, a biomechanical mushroom grows from the network.
+        if (i % 2 === 0) bioShroom(ctx, tr.x + tr.size * 0.55, y0, tr.size * 0.55, t + i * 900, fade, shroomLit[i] || 0);
       }
       const curve = (l) => {
         const A = l.a.down, B = l.b.down;
@@ -451,19 +493,9 @@ function mycelium(ctx, box, canvas) {
         if (!c) continue;
         ctx.beginPath(); ctx.moveTo(c.x, c.y); ctx.quadraticCurveTo(c.cx, c.cy, c.x2, c.y2); ctx.stroke();
       }
-      const line = ctx.createLinearGradient(0, 0, W, 0);
-      line.addColorStop(phone ? 0 : 0.3, `rgba(${palette.line}, 0)`); line.addColorStop(phone ? 0.3 : 0.5, `rgba(${palette.line}, 0.3)`); line.addColorStop(1, `rgba(${palette.line}, 0.1)`);
-      ctx.strokeStyle = line; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(0, horizon); ctx.lineTo(W, horizon); ctx.stroke();
-      // The painted mushrooms light up when a spark runs beneath them.
-      if (!shrooms.length) shrooms = [...canvas.parentElement.querySelectorAll(".shroom")].map((el) => ({ el, k: 0 }));
-      const cb = canvas.getBoundingClientRect();
+      // The mushrooms light when a spark runs beneath them.
       const lit = sparks.map((sp) => (sp.l.c ? at(sp.l.c, sp.u)[0] : -1e4));
-      for (const m of shrooms) {
-        const r = m.el.getBoundingClientRect(), mx = r.left - cb.left + r.width / 2;
-        const k = Math.round(Math.max(0, ...lit.map((lx) => 1 - Math.abs(lx - mx) / 80)) * 4) / 4;
-        if (k !== m.k) { m.k = k; m.el.style.setProperty("--lit", k); }
-      }
+      trees.forEach((tr, i) => { shroomLit[i] = Math.max((shroomLit[i] || 0) * 0.94, ...lit.map((lx) => Math.max(0, 1 - Math.abs(lx - (tr.x + tr.size * 0.55)) / 60))); });
       if (still) return;
       if (t > nextSpark) {
         const l = links[Math.floor(chance() * links.length)];
