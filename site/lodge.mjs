@@ -143,106 +143,110 @@ if (holes.length && !still) {
 }
 
 // ── the White Rabbit ─────────────────────────────────────────────────────
-// He is always there, beside the burrow, fretting over his watch. Every so
-// often he is late: a crouch, a hop, a dive into the spiral — and a few
-// seconds later his ears come up out of the hole and he climbs back out.
+// He sits on the Lodge floor beside the burrow — a hole in the floor itself —
+// fretting over his watch. Every so often he is late: a crouch, a hop, a dive
+// into the spiral; a few seconds later he climbs back out.
 const rabbit = document.querySelector(".rabbit");
 const burrow = document.querySelector(".burrow");
 if (rabbit && burrow) {
-  rabbit.hidden = false;
+  const hero = burrow.closest("section");
+  const seat = () => {
+    const h = hero.getBoundingClientRect(), b = burrow.getBoundingClientRect();
+    const w = rabbit.offsetWidth || 84;
+    rabbit.style.left = `${(b.left - h.left - w * 0.9).toFixed(1)}px`;
+    rabbit.style.top = `${(b.top - h.top + b.height * 0.55 - w * 1.02).toFixed(1)}px`;
+  };
+  seat();
+  let lastW = innerWidth;
+  addEventListener("resize", () => { if (innerWidth !== lastW) { lastW = innerWidth; seat(); } }, { passive: true });
+  addEventListener("load", seat, { once: true });
   const hop = rabbit.firstElementChild;
   if (!still) {
     const dive = () => {
+      seat();
       const r = rabbit.getBoundingClientRect(), b = burrow.getBoundingClientRect();
-      const dx = b.left + b.width / 2 - (r.left + r.width / 2), dy = b.top + b.height / 2 - (r.top + r.height * 0.8);
+      const dx = b.left + b.width / 2 - (r.left + r.width / 2), dy = b.top + b.height / 2 - (r.top + r.height * 0.85);
       burrow.classList.add("gulp");
       const out = hop.animate([
         { transform: "translate(0, 0) scale(1, 1)" },
-        { transform: "translate(0, 4px) scale(1.1, 0.85)", offset: 0.14 },
-        { transform: `translate(${dx * 0.5}px, ${dy - r.height * 0.7}px) rotate(12deg)`, offset: 0.46 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(80deg) scale(0.18)`, opacity: 0, offset: 0.8 },
+        { transform: "translate(0, 5px) scale(1.08, 0.88)", offset: 0.16 },
+        { transform: `translate(${dx * 0.55}px, ${dy - r.height * 0.55}px) rotate(14deg)`, offset: 0.48 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(70deg) scale(0.15)`, opacity: 0, offset: 0.82 },
         { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 },
-      ], { duration: 1500, easing: "ease-in", fill: "forwards" });
+      ], { duration: 1600, easing: "ease-in", fill: "forwards" });
       out.onfinish = () => setTimeout(() => {
         const back = hop.animate([
-          { transform: `translate(${dx}px, ${dy + 10}px) scale(0.9)`, opacity: 0 },
-          { transform: `translate(${dx}px, ${dy - r.height * 0.35}px) scale(1)`, opacity: 1, offset: 0.3 },
-          { transform: `translate(${dx * 0.4}px, ${-r.height * 0.4}px)`, offset: 0.65 },
+          { transform: `translate(${dx}px, ${dy + 8}px) scale(0.85)`, opacity: 0 },
+          { transform: `translate(${dx}px, ${dy - r.height * 0.3}px) scale(1)`, opacity: 1, offset: 0.35 },
+          { transform: `translate(${dx * 0.4}px, ${-r.height * 0.3}px)`, offset: 0.68 },
           { transform: "translate(0, 0)" },
-        ], { duration: 1600, easing: "ease-out", fill: "forwards" });
+        ], { duration: 1700, easing: "ease-out", fill: "forwards" });
         back.onfinish = () => { burrow.classList.remove("gulp"); out.cancel(); back.cancel(); };
-      }, 3500);
+      }, 3200);
     };
     let onScreen = false, timer = 0;
-    const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden) dive(); next(18000 + Math.random() * 12000); }, ms); };
-    new IntersectionObserver(([e]) => { const was = onScreen; onScreen = e.isIntersecting; if (onScreen && !was && !timer) next(4000); }, { threshold: 0.4 }).observe(burrow.closest("section"));
+    const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden) dive(); next(16000 + Math.random() * 12000); }, ms); };
+    new IntersectionObserver(([e]) => { const was = onScreen; onScreen = e.isIntersecting; if (onScreen && !was && !timer) next(5000); }, { threshold: 0.4 }).observe(hero);
   }
 }
 
 // ── the egg, and the fox ─────────────────────────────────────────────────
 // On the inner pages a speckled egg sits on the stage floor. While the stage
-// is on screen it wobbles, cracks, the top of the shell tumbles away, and a
-// fox kit shakes itself out, grows, looks about — and runs off. The empty
+// is on screen it wobbles, the shell breaks, its cap tumbles away, and a fox
+// kit sits up in the half-shell, looks about, grows — and runs off. The empty
 // half-shell stays where it was: something has begun, and something is over.
-// After that, now and then, the grown fox lopes across the stage.
+// After that, now and then, the grown fox runs across the stage.
 const fox = document.querySelector(".fox");
 const egg = document.querySelector(".egg");
 const foxStage = document.querySelector("[data-lodge].stage-floored");
 if (fox && egg && foxStage) {
   foxStage.append(egg, fox);
   egg.hidden = false;
-  const eggX = () => foxStage.clientWidth * (phone() ? 0.78 : 0.72);
+  const eggX = () => foxStage.clientWidth * (phone() ? 0.8 : 0.72);
   egg.style.left = `${eggX()}px`;
-  if (still) egg.classList.add("hatched");
+  const cap = egg.querySelector(".egg-cap");
+  if (still) { egg.classList.add("hatched"); cap.hidden = true; }
   else {
     let onScreen = false, timer = 0, hatched = false;
-    const size = () => fox.offsetWidth || 104;
-    const lope = (fromX, dir) => {
-      const w = foxStage.clientWidth, sz = size();
+    const runW = () => fox.offsetWidth || 150;
+    const run = (fromX, dir) => {
+      const w = foxStage.clientWidth, sz = runW();
       const to = dir > 0 ? w + sz : -sz;
-      fox.hidden = false; fox.classList.remove("resting");
+      fox.hidden = false; fox.classList.remove("kit");
       fox.style.transform = `scaleX(${dir})`;
-      const run = fox.animate([{ left: `${fromX}px` }, { left: `${to}px` }], { duration: (Math.abs(to - fromX) / 330) * 1000, easing: "cubic-bezier(.4,0,1,1)" });
-      run.onfinish = () => { fox.hidden = true; };
+      const go = fox.animate([{ left: `${fromX}px` }, { left: `${to}px` }], { duration: (Math.abs(to - fromX) / 420) * 1000, easing: "cubic-bezier(.45,0,1,1)" });
+      go.onfinish = () => { fox.hidden = true; };
     };
     const hatch = () => {
       hatched = true;
-      const x = eggX(), sz = size();
-      const top = egg.querySelector(".egg-top"), crack = egg.querySelector(".egg-crack");
+      const x = eggX();
       const wobble = egg.animate([
-        { transform: "rotate(0)" }, { transform: "rotate(-9deg)", offset: 0.12 }, { transform: "rotate(7deg)", offset: 0.24 }, { transform: "rotate(0)", offset: 0.34 },
-        { transform: "rotate(0)", offset: 0.55 }, { transform: "rotate(-12deg)", offset: 0.66 }, { transform: "rotate(11deg)", offset: 0.78 }, { transform: "rotate(-5deg)", offset: 0.88 }, { transform: "rotate(0)" },
+        { transform: "rotate(0)" }, { transform: "rotate(-8deg)", offset: 0.12 }, { transform: "rotate(6deg)", offset: 0.24 }, { transform: "rotate(0)", offset: 0.34 },
+        { transform: "rotate(0)", offset: 0.55 }, { transform: "rotate(-11deg)", offset: 0.66 }, { transform: "rotate(10deg)", offset: 0.78 }, { transform: "rotate(-4deg)", offset: 0.88 }, { transform: "rotate(0)" },
       ], { duration: 2200, easing: "ease-in-out" });
       wobble.onfinish = () => {
-        crack.animate([{ strokeDashoffset: 60 }, { strokeDashoffset: 0 }], { duration: 500, easing: "ease-out", fill: "forwards" });
-        setTimeout(() => {
-          const dir = x > foxStage.clientWidth / 2 ? 1 : -1;
-          top.classList.add("flying");
-          top.animate([
-            { transform: "translate(0, 0) rotate(0)", opacity: 1 },
-            { transform: `translate(${-dir * 14}px, -30px) rotate(${-dir * 50}deg)`, opacity: 1, offset: 0.45 },
-            { transform: `translate(${-dir * 26}px, 14px) rotate(${-dir * 150}deg)`, opacity: 0 },
-          ], { duration: 900, easing: "cubic-bezier(.2,.6,.5,1)", fill: "forwards" });
-          egg.classList.add("hatched");
-          // The kit: small, shaking off the shell, growing, looking about.
-          fox.hidden = false; fox.classList.add("resting");
-          fox.style.left = `${x - sz / 2 + 10}px`;
-          const born = fox.animate([
-            { transform: `scale(${dir * 0.2}, 0.2)`, opacity: 0 },
-            { transform: `scale(${dir * 0.4}, 0.4) translateY(-6px)`, opacity: 1, offset: 0.15 },
-            { transform: `scale(${dir * 0.45}, 0.42) rotate(-6deg)`, offset: 0.25 },
-            { transform: `scale(${dir * 0.45}, 0.42) rotate(6deg)`, offset: 0.33 },
-            { transform: `scale(${dir * 0.5}, 0.5)`, offset: 0.4 },
-            { transform: `scale(${dir * 0.85}, 0.85)`, offset: 0.62 },
-            { transform: `scale(${-dir * 0.9}, 0.9)`, offset: 0.72 },
-            { transform: `scale(${-dir * 0.9}, 0.9)`, offset: 0.8 },
-            { transform: `scale(${dir}, 1)` },
-          ], { duration: 2600, easing: "ease-out" });
-          born.onfinish = () => lope(x - sz / 2 + 10, dir);
-        }, 520);
+        const dir = x > foxStage.clientWidth / 2 ? 1 : -1;
+        egg.classList.add("hatched");
+        cap.animate([
+          { transform: "translate(0, 0) rotate(0)", opacity: 1 },
+          { transform: `translate(${-dir * 16}px, -34px) rotate(${-dir * 55}deg)`, opacity: 1, offset: 0.45 },
+          { transform: `translate(${-dir * 30}px, 18px) rotate(${-dir * 160}deg)`, opacity: 0 },
+        ], { duration: 950, easing: "cubic-bezier(.2,.6,.5,1)", fill: "forwards" });
+        // The kit sits up out of the shell, looks both ways, and grows.
+        fox.hidden = false; fox.classList.add("kit");
+        fox.style.left = `${x}px`;
+        const kit = fox.querySelector(".fox-kit");
+        const born = kit.animate([
+          { transform: `translate(-50%, 40%) scale(${dir * 0.35}, 0.35)`, opacity: 0 },
+          { transform: `translate(-50%, 8%) scale(${dir * 0.5}, 0.5)`, opacity: 1, offset: 0.2 },
+          { transform: `translate(-50%, 8%) scale(${-dir * 0.5}, 0.5)`, offset: 0.4 },
+          { transform: `translate(-50%, 8%) scale(${dir * 0.5}, 0.5)`, offset: 0.55 },
+          { transform: `translate(-50%, 0) scale(${dir * 0.85}, 0.85)` },
+        ], { duration: 2600, easing: "ease-out", fill: "forwards" });
+        born.onfinish = () => { born.cancel(); run(x - runW() / 2, dir); };
       };
     };
-    const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden) { const dir = Math.random() < 0.5 ? 1 : -1; lope(dir > 0 ? -size() : foxStage.clientWidth + size(), dir); } next(26000 + Math.random() * 22000); }, ms); };
+    const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden) { const dir = Math.random() < 0.5 ? 1 : -1; run(dir > 0 ? -runW() : foxStage.clientWidth + runW(), dir); } next(26000 + Math.random() * 22000); }, ms); };
     new IntersectionObserver(([e]) => {
       const was = onScreen; onScreen = e.isIntersecting;
       if (onScreen && !was && !hatched) setTimeout(() => { if (onScreen && !hatched) { hatch(); next(30000); } }, 1800);
@@ -268,17 +272,23 @@ if (cat) {
     const want = new URLSearchParams(location.search).get("cat");
     const [kind, host] = spots.find(([k]) => k === want) ?? spots[Math.floor(Math.random() * spots.length)];
     cat.classList.add(`cat-${kind}`);
-    if (kind === "floor" || kind === "footer") cat.style.setProperty("--cat-x", `${Math.round(58 + Math.random() * 30)}%`);
+    // On a stage floor it keeps to the left half: the right is the egg's.
+    if (kind === "floor") cat.style.setProperty("--cat-x", `${Math.round(16 + Math.random() * 22)}%`);
+    if (kind === "footer") cat.style.setProperty("--cat-x", `${Math.round(58 + Math.random() * 30)}%`);
     if (kind === "peek") cat.style.setProperty("--cat-y", `${Math.round(24 + Math.random() * 20)}%`);
     host.append(cat);
     cat.hidden = false;
-    // Sometimes, if the pointer lingers near it, it crouches and pounces —
-    // then trots back to where it was sitting. Not on touch screens.
-    const body = cat.querySelector("svg");
+    const body = cat.querySelector("img");
     if (!still && matchMedia("(pointer: fine)").matches && body) {
+      // It leans toward the pointer, a few degrees — enough to feel watched —
+      // and if the pointer lingers near, it crouches and pounces, then goes
+      // back to where it was sitting. Not on touch screens.
       let idleSince = 0, lastX = 0, lastY = 0, cooling = 0;
       addEventListener("pointermove", (e) => {
         if (Math.hypot(e.clientX - lastX, e.clientY - lastY) > 6) { idleSince = performance.now(); lastX = e.clientX; lastY = e.clientY; }
+        const r = cat.getBoundingClientRect();
+        const lean = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / 400));
+        cat.style.setProperty("--lean", `${(lean * 7).toFixed(2)}deg`);
       }, { passive: true });
       setInterval(() => {
         const now = performance.now();
@@ -286,28 +296,40 @@ if (cat) {
         const r = cat.getBoundingClientRect();
         const dx = lastX - (r.left + r.width / 2), dy = lastY - (r.top + r.height / 2);
         const d = Math.hypot(dx, dy);
-        if (d < 40 || d > 190 || Math.random() > 0.55) return;
+        if (d < 40 || d > 200 || Math.random() > 0.55) return;
         cooling = now + 7000;
         const k = Math.min(1, 130 / d), jx = dx * k, jy = dy * k;
         body.animate([
           { transform: "translate(0, 0) scale(1, 1)" },
-          { transform: "translate(0, 3px) scale(1.12, 0.82)", offset: 0.18 },
-          { transform: `translate(${jx * 0.5}px, ${jy * 0.5 - 46}px) scale(0.92, 1.1) rotate(${Math.sign(jx) * 12}deg)`, offset: 0.42 },
-          { transform: `translate(${jx}px, ${jy}px) scale(1.1, 0.86)`, offset: 0.62 },
+          { transform: "translate(0, 3px) scale(1.1, 0.84)", offset: 0.18 },
+          { transform: `translate(${jx * 0.5}px, ${jy * 0.5 - 46}px) scale(0.94, 1.08) rotate(${Math.sign(jx) * 12}deg)`, offset: 0.42 },
+          { transform: `translate(${jx}px, ${jy}px) scale(1.08, 0.88)`, offset: 0.62 },
           { transform: `translate(${jx}px, ${jy}px) scale(1, 1)`, offset: 0.74 },
           { transform: "translate(0, 0) scale(1, 1)" },
         ], { duration: 1500, easing: "ease-in-out" });
       }, 400);
     }
-    // The eyes follow the pointer, a pixel or so — enough to feel watched.
-    const eyes = cat.querySelector(".cat-eyes");
-    if (!still && eyes) {
-      addEventListener("pointermove", (e) => {
-        const r = cat.getBoundingClientRect();
-        const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
-        const d = Math.hypot(dx, dy) || 1;
-        eyes.style.transform = `translate(${((dx / d) * 1.2).toFixed(2)}px, ${((dy / d) * 1).toFixed(2)}px)`;
-      }, { passive: true });
-    }
+  }
+}
+
+// ── weather, and what drifts through it ──────────────────────────────────
+// The sky decides the weather once per visit (sky.mjs sets data-weather on
+// <html>). Now and then a whale swims across the sky behind everything; in
+// fog, something vast and long-legged walks slowly past, far off.
+const skyLife = document.querySelector(".sky-life");
+if (skyLife && !still) {
+  const whale = skyLife.querySelector(".whale"), walker = skyLife.querySelector(".fog-walker");
+  const pass = (el, seconds, rtl = true) => {
+    el.hidden = false;
+    const w = el.offsetWidth || 400;
+    const a = el.animate([{ transform: `translateX(${rtl ? innerWidth + 40 : -w - 40}px)` }, { transform: `translateX(${rtl ? -w - 40 : innerWidth + 40}px)` }], { duration: seconds * 1000, easing: "linear" });
+    a.onfinish = () => { el.hidden = true; };
+  };
+  // The whale: first a while after arrival, then rarely — a sighting, not a feature.
+  const sight = (ms) => setTimeout(() => { if (!document.hidden) pass(whale, phone() ? 55 : 80); sight(150000 + Math.random() * 120000); }, ms);
+  if (Math.random() < 0.7) sight(9000 + Math.random() * 16000);
+  if (document.documentElement.dataset.weather === "mist" || document.documentElement.dataset.weather === "fog") {
+    const walk = (ms) => setTimeout(() => { if (!document.hidden) pass(walker, 140, false); walk(200000); }, ms);
+    walk(6000);
   }
 }

@@ -767,7 +767,7 @@ main:has(> .dev-band:last-child) + footer { margin-top: 0; }
   mask-image: linear-gradient(to top, #000 35%, transparent 100%);
   opacity: 0.92;
 }
-.bleed-lodge .bleed-body { padding-block: calc(var(--nav-h) + 2.5rem) calc(24vh + 1.5rem); }
+.bleed-lodge .bleed-body { padding-block: calc(var(--nav-h) + 2.5rem) calc(27vh + 1.5rem); }
 .bleed-lodge .bleed-copy { position: relative; }
 
 /* The same floor, flat, is the ground the footer stands on. */
@@ -802,9 +802,9 @@ body::after {
 
 /* ─── through the looking-glass ────────────────────────────────────────────
    Techno-surreal: a little Lynch, Carroll, Dalí and Giger. Nothing is
-   photographed; every scene is drawn live by scenes.mjs. The home hero is a
-   tree that is a neuron, on the Lodge floor, under a soft clock that runs
-   backwards; the headline is written again in the glass. Loki's spiral is the
+   photographed; the scenes are drawn live by scenes.mjs and peopled with
+   painted figures (art.mjs). The home hero is a
+   tree that is a neuron, standing over the Lodge floor. Loki's spiral is the
    rabbit hole between chapters, and the chapters are numbered. Decoration is
    aria-hidden and holds still for reduced motion. */
 .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
@@ -812,23 +812,10 @@ body::after {
 .scene-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .bleed-scene { background: transparent; }
 .glass-horizon { position: absolute; left: 0; right: 0; top: var(--horizon, 66%); height: 1px; background: linear-gradient(90deg, transparent 48%, rgb(var(--line-rgb) / 0.28) 62%, rgb(var(--line-rgb) / 0.28) 85%, transparent); }
-.glass .lodge-floor { opacity: 0.5; height: 22vh; }
-@media (max-width: 700px) { .glass .lodge-floor { height: 9vh; } }
-/* Dalí's soft watch, slumped over the fork where the trunk divides and
-   pouring down it, stopped at twenty past four. scenes.mjs sets the fork. */
-.glass-clock { position: absolute; z-index: 1; left: var(--clock-x); top: var(--clock-y); width: 64px; height: auto; transform: translate(-50%, -14%); fill: none; stroke: rgb(var(--line-rgb) / 0.9); stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; transition: opacity 1.2s; }
-.glass-clock .drop { fill: var(--clock-face); stroke-width: 0.9; animation: drip 5s ease-in infinite; transform-box: fill-box; transform-origin: 50% 0; }
-@keyframes drip { 0%, 60% { transform: translateY(-6px) scale(0.6); opacity: 0; } 70% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(26px) scale(0.9, 1.15); opacity: 0; } }
-.glass-clock .face { fill: var(--clock-face); stroke-width: 1.3; }
-.glass-clock .rim { stroke-width: 0.7; stroke: rgb(var(--line-rgb) / 0.55); }
-.glass-clock .tick { stroke-width: 0.8; }
-.glass-clock .tick.major { stroke-width: 1.4; }
-.glass-clock .fold { stroke-width: 0.6; stroke: rgb(var(--line-rgb) / 0.4); }
-.glass-clock .bow { stroke-width: 1; }
-.glass-clock .pin, .glass-clock .fly ellipse { fill: rgb(var(--line-rgb) / 0.95); stroke: none; }
-.glass-clock .fly .wing { fill: rgb(var(--line-rgb) / 0.3); }
-.glass:not([data-draped]) .glass-clock { opacity: 0; }
-@keyframes backwards { to { transform: rotate(-360deg); } }
+/* The floor is the stage the hero stands on: deep, and plainly there. */
+.glass .lodge-floor, .floor-plane { height: 50vh; --tile: 96px; }
+.glass .lodge-floor { opacity: 0.9; z-index: 1; }
+@media (max-width: 700px) { .glass .lodge-floor, .floor-plane { height: 16vh; --tile: 58px; } }
 .glass .kicker { animation: flicker 11s steps(1) 4s infinite; }
 @keyframes flicker { 0%, 100% { opacity: 1; } 90% { opacity: 0.2; } 90.6% { opacity: 1; } 92% { opacity: 0.35; } 92.4% { opacity: 1; } }
 
@@ -845,10 +832,9 @@ body::after {
 
 @media (max-width: 700px) {
   .glass-horizon { background: linear-gradient(90deg, transparent, rgb(var(--line-rgb) / 0.22) 30%, rgb(var(--line-rgb) / 0.22) 70%, transparent); }
-  .glass-clock { width: 46px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .glass-clock .drop, .glass .kicker { animation: none; }
+  .glass .kicker { animation: none; }
 }
 
 /* A drawn scene keeps to the right of the copy on wide screens, so its scrim
@@ -870,236 +856,184 @@ body::after {
 @media (min-width: 701px) { :root { --curtain: clamp(40px, 7vw, 128px); } }
 [data-lodge] { position: relative; isolation: isolate; }
 .stage { background: transparent; overflow: hidden; }
-.stage.hero { padding-bottom: calc(var(--section-tight) + 72px); }
-.venture-hero.stage { padding: calc(var(--section) * 0.8) 0 calc(var(--section-tight) + 72px); }
+.stage.hero { padding-bottom: calc(var(--section-tight) + 110px); }
+.venture-hero.stage { padding: calc(var(--section) * 0.8) 0 calc(var(--section-tight) + 110px); }
 .curtains { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
 [data-lodge] > .wrap { position: relative; z-index: 3; padding-inline: max(var(--gutter), calc(var(--curtain) + 1rem - max(0px, (100vw - var(--shell)) / 2))); }
 .stage-floored::after {
-  --bone: #ebe5d8; --ink: #0a0a0a; --tile: 40px;
-  content: ""; position: absolute; left: -25%; right: -25%; bottom: 0; height: 90px; z-index: 1;
+  --bone: #ebe5d8; --ink: #0a0a0a; --tile: 52px;
+  content: ""; position: absolute; left: -25%; right: -25%; bottom: 0; height: 140px; z-index: 1;
   transform-origin: 50% 100%; transform: perspective(320px) rotateX(58deg);
   -webkit-mask-image: linear-gradient(to top, #000 30%, transparent 100%); mask-image: linear-gradient(to top, #000 30%, transparent 100%);
-  opacity: 0.55; pointer-events: none;
+  opacity: 0.82; pointer-events: none;
 }
 
-/* ─── the cat ──────────────────────────────────────────────────────────── */
-.cat { position: absolute; z-index: 1; display: block; width: 58px; height: 58px; border-radius: 50%; }
-/* Always OrangeCat's orange — the footer's own link colour must not win. */
-.cat, footer a.cat:not(.mark), footer a.cat:not(.mark):hover { color: var(--orangecat); }
+/* ─── the painted world ────────────────────────────────────────────────────
+   Every figure is one painted set (art.mjs, site/art/): placed as images on
+   its scene's horizon, few to a screen. By night the painted figures are
+   moonlit — a little darker and cooler — and in fog they recede. Nothing here
+   takes a click except the doors, and all of it holds still for reduced
+   motion. */
+.fig { display: block; height: auto; user-select: none; -webkit-user-drag: none; }
+.dark .bleed .fig, .dark .stage .fig, .dark .sky-life .fig { filter: brightness(0.8) saturate(0.82) hue-rotate(-6deg); }
+.horizon-life { position: absolute; left: 0; right: 0; top: var(--horizon, 66%); height: 0; z-index: 1; pointer-events: none; }
+.horizon-life > .fig, .horizon-life > .door { position: absolute; bottom: -2px; transform: translateX(-50%); }
+.foreground { position: absolute; left: 0; right: 0; bottom: 0; height: 0; z-index: 2; pointer-events: none; }
+.foreground .fig { position: absolute; bottom: 0; width: auto; }
+
+/* Hero: far off in the haze, Sancho and Quixote face the turning windmill. */
+.glass .fig-sancho { left: 76%; width: 76px; }
+.glass .fig-quixote { left: 81.5%; width: 122px; }
+.glass .fig-windmill { left: 88.6%; width: 96px; transform-origin: 50% 100%; }
+.glass .horizon-life { opacity: 0.94; }
+
+/* The plain: Dalí's watch melting over its stone, spilled clockwork, the
+   long-legged elephant walking far off; rye with ergot in the foreground. */
+.fig-watch-block { left: 60.5%; width: 132px; }
+.gear { position: absolute; bottom: -18px; transform: translateX(-50%); animation: turn 60s linear infinite; }
+.g-big { left: 66%; width: 50px; }
+.g-small { left: 68.3%; width: 30px; bottom: -8px; animation-duration: 34s; animation-direction: reverse; }
+@keyframes turn { to { rotate: 360deg; } }
+.walker { left: 0; width: 112px; opacity: 0; animation: walk-plain 150s linear infinite; }
+@keyframes walk-plain { 0% { left: 104%; opacity: 0; } 6% { opacity: 0.95; } 88% { opacity: 0.95; } 100% { left: 58%; opacity: 0; } }
+/* Rye stands on the near sand between the tree and the dome, well clear of the words. */
+.bleed-scene .foreground .fig-rye-a { left: 78%; height: 30vh; }
+.bleed-scene .foreground .fig-rye-c { left: 81%; height: 25vh; }
+.bleed-scene .foreground .fig-rye-b { left: 83.6%; height: 28vh; }
+.foreground .fig { transform-origin: 50% 100%; animation: sway 7s ease-in-out infinite alternate; }
+.foreground .fig:nth-child(2) { animation-duration: 8.5s; }
+.foreground .fig:nth-child(3) { animation-duration: 6.2s; }
+@keyframes sway { from { rotate: -1.4deg; } to { rotate: 1.6deg; } }
+.hummingbird { position: absolute; z-index: 2; left: 0; top: 0; pointer-events: none; will-change: transform; }
+.hummingbird[hidden] { display: none; }
+.hummingbird .fig { width: 64px; margin: -26px 0 0 -32px; }
+
+/* The meadow: the herd under the connected trees, mushrooms fruiting from
+   the network (they light when a spark passes beneath), a fern unrolling in
+   front, and far behind, in the fog, something vast walking. */
+.fig-fog-giant { left: 24%; width: 230px; opacity: 0.13; filter: blur(2.5px) !important; }
+.fig-deer { left: 37%; width: 70px; }
+.shroom { filter: drop-shadow(0 0 calc(var(--lit, 0) * 12px) rgb(var(--signal-rgb) / calc(var(--lit, 0) * 0.9))); transition: filter 0.4s; }
+.s1 { left: 43.5%; width: 42px; }
+.s2 { left: 60.5%; width: 22px; }
+.s3 { left: 88%; width: 48px; }
+.door-cow { left: 52%; width: 124px; }
+.door-diplodocus { left: 72%; width: 250px; }
+.door .fig { width: 100%; }
+.foreground .fig-fiddlehead { right: 14%; height: 22vh; }
+.foreground .fig-fern { right: 3%; height: 40vh; }
+
+/* Doors: Heidi's cow and Diplodoctor's diplodocus. A label, and a lift. */
+.door { display: block; pointer-events: auto; transition: translate 0.35s cubic-bezier(.2,.7,.3,1); }
+.door:hover, .door:focus-visible { translate: 0 -4px; }
+.door::after { content: attr(data-label); position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, 0); padding: 5px 8px; border-radius: 3px; background: rgb(var(--signal-rgb)); color: #04140b; font: 600 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
+.door:hover::after, .door:focus-visible::after { opacity: 1; transform: translate(-50%, -8px); }
+.door:focus-visible { outline: 2px solid rgb(var(--signal-rgb)); outline-offset: 4px; border-radius: 4px; }
+
+/* ─── the burrow, a hole in the Lodge floor, and the White Rabbit ─────── */
+.floor-plane { position: absolute; left: -30%; right: -30%; bottom: 0; z-index: 3; transform-origin: 50% 100%; transform: perspective(540px) rotateX(64deg); pointer-events: none; }
+.burrow { position: absolute; left: 41%; top: 24%; width: 210px; height: 210px; margin: -105px 0 0 -105px; border-radius: 50%; pointer-events: auto;
+  background: radial-gradient(closest-side, #000 0 58%, #07090d 70%, rgb(0 0 0 / 0.75) 82%, rgb(0 0 0 / 0) 100%);
+  box-shadow: 0 0 0 5px rgb(var(--line-rgb) / 0.18), 0 0 60px 10px rgb(var(--signal-rgb) / 0.14); }
+.burrow-mouth { position: absolute; inset: 14%; display: grid; place-items: center; pointer-events: none; }
+.burrow svg { width: 100%; height: 100%; fill: none; stroke: rgb(var(--signal-rgb) / 0.8); stroke-width: 1.6; stroke-linecap: round; animation: inward 12s linear infinite; }
+.burrow:hover svg, .burrow:focus-visible svg, .burrow.gulp svg { animation-duration: 1.4s; }
+@keyframes inward { to { transform: rotate(-360deg); } }
+.burrow::after { content: attr(data-label); position: absolute; left: 50%; top: -34%; transform: translate(-50%, 0) rotateX(-64deg); padding: 6px 9px; border-radius: 3px; background: rgb(var(--signal-rgb)); color: #04140b; font: 600 12px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.burrow:hover::after, .burrow:focus-visible::after { opacity: 1; }
+.burrow:focus-visible { outline: 3px solid rgb(var(--signal-rgb)); outline-offset: 8px; }
+.rabbit { position: absolute; z-index: 4; left: 30%; top: 80%; width: 84px; pointer-events: none; }
+.rabbit-hop { transform-origin: 50% 100%; }
+.rabbit .fig { width: 100%; transform-origin: 50% 100%; animation: fret 3.8s ease-in-out infinite; }
+@keyframes fret { 0%, 70%, 100% { rotate: 0deg; translate: 0 0; } 76% { rotate: -4deg; translate: 0 -2px; } 84% { rotate: 2deg; } }
+
+/* ─── the dragonfly ───────────────────────────────────────────────────── */
+.dragonfly { position: absolute; z-index: 2; left: 0; top: 0; pointer-events: none; will-change: transform; }
+.dragonfly[hidden] { display: none; }
+.dragonfly .fig { width: 72px; margin: -24px 0 0 -36px; rotate: 90deg; }
+
+/* ─── the cat ─────────────────────────────────────────────────────────── */
+.cat { position: absolute; z-index: 1; display: block; width: 62px; }
 .cat[hidden] { display: none; }
-.cat svg { width: 100%; height: 100%; overflow: visible; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transform-origin: 50% 100%; animation: cat-breathe 4.2s ease-in-out infinite; }
-.cat-body, .cat-head { fill: color-mix(in srgb, currentColor 12%, transparent); }
-.cat-whisker { stroke-width: 0.9; opacity: 0.75; }
-.cat-cheek { fill: currentColor; stroke: none; opacity: 0.35; }
-.cat-eye { fill: currentColor; stroke: none; }
-.cat-mouth { stroke-width: 1.3; }
-.cat-tail { transform-origin: 42.5px 55.5px; animation: cat-tail 3.4s ease-in-out infinite; }
-.cat-blink { transform-origin: 32px 26px; animation: cat-blink 5.5s infinite; transition: opacity 0.2s; }
-.cat-eye-spiral { stroke-width: 1; opacity: 0; transition: opacity 0.25s; }
-.cat-eye-l { transform-origin: 27px 26px; }
-.cat-eye-r { transform-origin: 37px 26px; }
-.cat:hover .cat-blink, .cat:focus-visible .cat-blink { opacity: 0; }
-.cat:hover .cat-eye-spiral, .cat:focus-visible .cat-eye-spiral { opacity: 1; animation: cat-hypno 1.6s linear infinite; }
+.cat .fig { width: 100%; transform-origin: 50% 100%; rotate: var(--lean, 0deg); transition: rotate 0.5s ease-out; animation: cat-breathe 4.2s ease-in-out infinite; }
+@keyframes cat-breathe { 50% { scale: 1.02 1.035; } }
 .cat::after { content: attr(data-label); position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, 0); padding: 5px 8px; border-radius: 3px; background: var(--orangecat); color: #0a0a0a; font: 600 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
 .cat:hover::after, .cat:focus-visible::after { opacity: 1; transform: translate(-50%, -8px); }
-.cat:focus-visible { outline: 2px solid var(--orangecat); outline-offset: 4px; }
-@keyframes cat-breathe { 50% { transform: scale(1.025, 1.035); } }
-@keyframes cat-tail { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(9deg); } }
-@keyframes cat-blink { 0%, 93%, 100% { transform: scaleY(1); } 95.5% { transform: scaleY(0.08); } }
-/* Counter-clockwise, like every spiral here: inward. */
-@keyframes cat-hypno { to { transform: rotate(-360deg); } }
-
-/* Where it sits. On the tree it is the Cheshire cat: it fades to its eyes
-   and smile, and back. It only appears once the tree has grown its fork. */
-.cat-tree { left: var(--perch-x); top: var(--perch-y); transform: translate(-50%, -88%); transition: opacity 0.8s; }
+.cat:focus-visible { outline: 2px solid var(--orangecat); outline-offset: 4px; border-radius: 6px; }
+/* Where it sits. In the tree it is the Cheshire cat: it fades almost away,
+   and back. It appears only once the tree has grown its fork. */
+.cat-tree { left: var(--perch-x); top: var(--perch-y); transform: translate(-50%, -90%); transition: opacity 0.8s; }
 .glass:not([data-perched]) .cat-tree { opacity: 0; }
-.cat-tree .cat-fade { animation: cheshire 16s ease-in-out infinite; }
-@keyframes cheshire { 0%, 52%, 100% { opacity: 1; } 66%, 84% { opacity: 0.05; } }
-.cat-floor { left: var(--cat-x); bottom: 16px; transform: translateX(-50%); }
-.cat-footer { left: var(--cat-x); top: -54px; transform: translateX(-50%); }
-.cat-peek { right: calc(var(--curtain) - 30px); top: var(--cat-y); transform: rotate(-16deg); }
+.cat-tree .fig { animation: cat-breathe 4.2s ease-in-out infinite, cheshire 18s ease-in-out infinite; }
+@keyframes cheshire { 0%, 52%, 100% { opacity: 1; } 66%, 84% { opacity: 0.08; } }
+.cat-floor { left: var(--cat-x); bottom: 18px; transform: translateX(-50%); }
+.cat-footer { left: var(--cat-x); top: -64px; transform: translateX(-50%); }
+.cat-peek { right: calc(var(--curtain) - 28px); top: var(--cat-y); transform: rotate(-14deg); }
 
-@media (prefers-reduced-motion: reduce) {
-  .cat svg, .cat-tail, .cat-blink, .cat-tree .cat-fade, .cat:hover .cat-eye-spiral { animation: none; }
-}
-
-/* ─── the landscape on the hero's horizon ─────────────────────────────── */
-.horizon-life { position: absolute; left: 0; right: 0; top: var(--horizon, 66%); height: 0; z-index: 1; pointer-events: none; color: var(--silhouette); }
-.horizon-life .critter { position: absolute; bottom: -1px; display: block; }
-.critter svg { display: block; width: 100%; height: auto; overflow: visible; }
-.windmill { left: 85%; width: 86px; }
-.windmill .sails { transform-origin: 30px 38px; animation: sails 18s linear infinite; }
-@keyframes sails { to { transform: rotate(-360deg); } }
-/* Quixote charges the windmill: between the tree and the mill, lance levelled. */
-.quixote { left: 72.5%; width: 160px; }
-
-/* ─── the burrow and the White Rabbit ─────────────────────────────────── */
-.burrow { position: absolute; z-index: 4; left: 44%; bottom: 6vh; width: 138px; height: 52px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(closest-side, #000 50%, rgb(0 0 0 / 0.7) 72%, transparent); box-shadow: 0 0 34px rgb(var(--signal-rgb) / 0.22); }
-.burrow-mouth { position: absolute; left: 0; right: 0; top: 50%; height: 138px; margin-top: -69px; display: grid; place-items: center; transform: scaleY(0.37); pointer-events: none; }
-.burrow svg { width: 120px; height: 120px; fill: none; stroke: rgb(var(--signal-rgb) / 0.85); stroke-width: 1.7; stroke-linecap: round; animation: inward 10s linear infinite; }
-.burrow:hover svg, .burrow:focus-visible svg, .burrow.gulp svg { animation-duration: 1.2s; }
-@keyframes inward { to { transform: rotate(-360deg); } }
-.burrow::after { content: attr(data-label); position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, 0); padding: 5px 8px; border-radius: 3px; background: rgb(var(--signal-rgb)); color: #04140b; font: 600 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
-.burrow:hover::after, .burrow:focus-visible::after { opacity: 1; transform: translate(-50%, -8px); }
-.burrow:focus-visible { outline: 2px solid rgb(var(--signal-rgb)); outline-offset: 6px; }
-.rabbit { position: absolute; z-index: 4; left: calc(44% - 150px); bottom: calc(6vh + 4px); width: 84px; height: 84px; pointer-events: none; }
-.rabbit[hidden] { display: none; }
-.rabbit-hop { width: 100%; height: 100%; transform-origin: 50% 100%; }
-.rabbit svg { width: 100%; height: 100%; overflow: visible; stroke: var(--rabbit-line); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
-.rabbit .r-fill, .rabbit .r-ear { fill: var(--rabbit-fill); }
-.rabbit .r-ear { opacity: 0.85; }
-.rabbit .r-inner { fill: #f3b8c0; stroke: none; opacity: 0.8; }
-.rabbit .r-leg, .rabbit .r-chain { fill: none; }
-.rabbit .r-eye { fill: #1a1612; stroke: none; }
-.rabbit .r-glint { fill: #fff; stroke: none; }
-.rabbit .r-nose { fill: #e79aa4; stroke: none; }
-.rabbit .r-watch { fill: #d9c48e; }
-/* Fretting: the ears twitch, now and then he checks the watch. */
-.rabbit-hop svg { transform-origin: 50% 100%; animation: fret 3.6s ease-in-out infinite; }
-@keyframes fret { 0%, 70%, 100% { transform: rotate(0); } 76% { transform: rotate(-4deg) translateY(-2px); } 84% { transform: rotate(2deg); } }
-
-/* ─── the cat, cuter ──────────────────────────────────────────────────── */
-.cat-paw { fill: color-mix(in srgb, currentColor 18%, transparent); stroke-width: 1.4; }
-.cat-inner { fill: currentColor; stroke: none; opacity: 0.35; }
-.cat-glint { fill: #fff; stroke: none; }
-.cat-nose { fill: currentColor; stroke: none; }
-
-@media (max-width: 700px) {
-  .windmill { left: 80%; width: 40px; }
-  .quixote { left: 50%; width: 76px; }
-  .burrow { left: 26%; bottom: 3vh; width: 92px; height: 34px; }
-  .burrow svg { width: 92px; height: 92px; }
-  .rabbit { width: 58px; height: 58px; left: calc(26% + 44px); bottom: calc(3vh + 2px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .windmill .sails, .burrow svg, .rabbit-hop svg { animation: none; }
-}
-
-/* ─── creatures ───────────────────────────────────────────────────────── */
-/* In the meadow, reaching up into the connected trees to browse. */
-.diplodocus { left: 64%; width: 280px; }
-.dip-neck { transform-origin: 74px 50px; animation: graze-neck 9s ease-in-out infinite; }
-@keyframes graze-neck { 0%, 100% { transform: rotate(0); } 45% { transform: rotate(-4deg); } 60% { transform: rotate(3deg); } }
-.cow { left: 48%; width: 92px; }
-.cow-head { transform-origin: 95px 38px; animation: graze 7s ease-in-out infinite; }
-.cow-tail { transform-origin: 20px 34px; animation: swish 3.4s ease-in-out infinite; }
-@keyframes swish { 50% { transform: rotate(12deg); } }
-@keyframes graze { 0%, 55%, 100% { transform: rotate(0); } 65%, 85% { transform: rotate(14deg); } }
-.deer { left: 38%; width: 58px; }
-.deer-head { transform-origin: 48px 42px; animation: deer-look 11s ease-in-out infinite; }
-@keyframes deer-look { 0%, 40%, 100% { transform: rotate(0); } 50%, 70% { transform: rotate(-38deg); } 78% { transform: rotate(4deg); } }
-.dragonfly, .hummingbird { position: absolute; z-index: 2; left: 0; top: 0; pointer-events: none; will-change: transform; }
-.dragonfly[hidden], .hummingbird[hidden] { display: none; }
-.dragonfly svg { width: 50px; height: auto; margin: -15px 0 0 -25px; overflow: visible; }
-.df-body { fill: none; stroke: rgb(var(--signal-rgb)); stroke-width: 1.8; stroke-linecap: round; stroke-dasharray: 3 1.2; }
-.df-head { fill: rgb(var(--signal-rgb)); }
-.df-wings ellipse { fill: rgb(var(--line-rgb) / 0.16); stroke: rgb(var(--line-rgb) / 0.55); stroke-width: 0.5; }
-.df-wings { transform-origin: 21px 12px; animation: shimmer 90ms linear infinite alternate; }
-@keyframes shimmer { to { transform: scaleY(0.72); opacity: 0.75; } }
-.hummingbird svg { width: 50px; height: auto; margin: -20px 0 0 -25px; overflow: visible; }
-.hb-body, .hb-head { fill: rgb(var(--signal-rgb) / 0.9); }
-.hb-tail { fill: rgb(var(--line-rgb) / 0.7); }
-.hb-beak { fill: none; stroke: rgb(var(--line-rgb) / 0.9); stroke-width: 0.9; stroke-linecap: round; }
-.hb-eye { fill: #0b0d12; }
-.hb-wings ellipse { fill: rgb(var(--line-rgb) / 0.25); }
-.hb-wings { transform-origin: 18px 13px; animation: whirr 45ms linear infinite alternate; }
-@keyframes whirr { from { transform: rotate(-38deg); } to { transform: rotate(28deg); } }
-@media (max-width: 700px) {
-  .diplodocus { width: 150px; left: 56%; }
-  .cow { width: 52px; left: 34%; }
-  .deer { width: 34px; left: 16%; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .dip-neck, .cow-head, .cow-tail, .deer-head, .gear { animation: none; }
-}
-
-/* Scrims fade in from the top of their section, so one scene flows into the
-   next instead of starting at a hard line. */
-.bleed-scrim { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%); mask-image: linear-gradient(to bottom, transparent, #000 22%); }
-.bleed-under .bleed-scrim { -webkit-mask-image: none; mask-image: none; }
-
-/* By day the floor is laid in full sun: crisp, not greyed. */
-:root:not(.dark) .glass .lodge-floor, :root:not(.dark) .stage-floored::after { opacity: 0.9; --ink: #2b2620; --bone: #f4ecdc; }
-
-/* The Lodge floor lies in front of the hero's ground plane. */
-.glass .lodge-floor { z-index: 1; }
-
-/* On a phone the crown stands behind the words; the watch would hang on a
-   sentence. It waits for a wider screen. */
-@media (max-width: 700px) { .glass-clock { display: none; } }
-
-.glass-clock .glass-hour { stroke-width: 1.6; }
-.glass-clock .glass-minute { stroke-width: 1.1; }
-@media (max-width: 700px) { .rabbit-hop { transform: scaleX(-1); } }
-
-/* ─── the fox ─────────────────────────────────────────────────────────── */
-.fox { position: absolute; z-index: 2; left: -120px; bottom: 26px; width: 104px; pointer-events: none; }
-.fox[hidden] { display: none; }
-.fox svg { display: block; width: 100%; height: auto; overflow: visible; stroke-linecap: round; stroke-linejoin: round; animation: lope 0.42s ease-in-out infinite; transform-origin: 50% 80%; }
-.fox-body, .fox-head, .fox-tail { fill: #b8632f; stroke: rgb(var(--line-rgb) / 0.55); stroke-width: 0.8; }
-.fox-tip, .fox-belly, .fox-cheek { fill: #f3ece0; stroke: none; }
-.fox-legs path { fill: none; stroke: #6b3a1e; stroke-width: 3; }
-.fox-eye, .fox-nose { fill: #16110d; }
-.fox-legs.front { transform-origin: 62px 33px; animation: stride 0.42s ease-in-out infinite; }
-.fox-legs.back { transform-origin: 34px 31px; animation: stride 0.42s ease-in-out infinite reverse; }
-.fox-tail, .fox-tip { transform-origin: 28px 25px; animation: brush 0.42s ease-in-out infinite; }
-@keyframes lope { 50% { transform: translateY(-7px) rotate(-3deg); } }
-@keyframes stride { 0%, 100% { transform: rotate(28deg); } 50% { transform: rotate(-32deg); } }
-@keyframes brush { 50% { transform: rotate(-8deg); } }
-@media (max-width: 700px) { .fox { width: 72px; bottom: 18px; } }
-
-/* ─── the egg ─────────────────────────────────────────────────────────── */
-.egg { position: absolute; z-index: 2; bottom: 24px; width: 30px; transform-origin: 50% 100%; pointer-events: none; margin-left: -15px; }
+/* ─── the egg, and the fox ────────────────────────────────────────────── */
+.egg { position: absolute; z-index: 2; bottom: 24px; width: 40px; margin-left: -20px; transform-origin: 50% 100%; pointer-events: none; }
 .egg[hidden] { display: none; }
-.egg svg { display: block; width: 100%; height: auto; overflow: visible; }
-/* Whole, the egg has one outline; the halves only get their own edges once it breaks. */
-.egg-top path, .egg-bottom path { fill: #f4ede0; stroke: none; }
-.egg-shell { fill: none; stroke: rgb(var(--line-rgb) / 0.7); stroke-width: 1; }
-.egg.hatched .egg-shell { display: none; }
-.egg.hatched .egg-bottom path, .egg-top.flying path { stroke: rgb(var(--line-rgb) / 0.7); stroke-width: 1; stroke-linejoin: round; }
-.egg .speck { fill: #b8632f; opacity: 0.55; }
-.egg-crack { fill: none; stroke: rgb(var(--line-rgb) / 0.9); stroke-width: 1.1; stroke-linejoin: round; stroke-dasharray: 60; stroke-dashoffset: 60; }
-.egg-top { transform-box: fill-box; transform-origin: 50% 90%; }
-.egg.hatched .egg-top { opacity: 0; }
-.egg.hatched .egg-crack { stroke-dashoffset: 0; opacity: 0; }
-.fox { transform-origin: 50% 100%; }
-.fox.resting svg, .fox.resting .fox-legs, .fox.resting .fox-tail, .fox.resting .fox-tip { animation-play-state: paused; }
-@media (max-width: 700px) { .egg { width: 22px; margin-left: -11px; bottom: 16px; } }
+.egg .fig { width: 100%; }
+.egg-half, .egg-cap { position: absolute; left: 0; opacity: 0; }
+.egg-half { bottom: 0; width: 108% !important; left: -4%; }
+.egg-cap { bottom: 46%; width: 96% !important; left: 2%; }
+.egg.hatched .egg-whole { opacity: 0; }
+.egg.hatched .egg-half, .egg.hatched .egg-cap { opacity: 1; }
+.fox { position: absolute; z-index: 2; left: -170px; bottom: 20px; width: 150px; pointer-events: none; }
+.fox[hidden] { display: none; }
+.fox-run { width: 100%; transform-origin: 50% 100%; animation: gallop 0.46s ease-in-out infinite; }
+@keyframes gallop { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 0 -8px; rotate: -3deg; } }
+.fox-kit { display: none; position: absolute; left: 0; bottom: 0; width: 64px !important; transform-origin: 50% 100%; }
+.fox.kit .fox-run { display: none; }
+.fox.kit .fox-kit { display: block; }
 
-/* ─── engraving: the one drawing language for every figure (art.mjs) ─────
-   Paper and ink follow the time of day: by day ink on cream, by night light
-   cut into dark, like scratchboard. */
-:root { --paper: #efe3c6; --ink: rgb(var(--line-rgb) / 0.95); --brass: #9a7433; }
-.dark { --paper: #0b0f1c; --brass: #c9a25a; }
-.pat-paper { fill: var(--paper); }
-.pat-line { stroke: rgb(var(--line-rgb)); stroke-width: 0.26; opacity: 0.2; }
-.dark .pat-line { opacity: 0.28; }
-.pat-x { stroke: rgb(var(--line-rgb)); stroke-width: 0.3; opacity: 0.62; }
-.critter path, .critter circle, .critter ellipse, .gears path { vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
-.ink-body { fill: url(#engrave); stroke: var(--ink); stroke-width: 1.1; }
-.ink-far { fill: url(#engrave-x); stroke: var(--ink); stroke-width: 0.9; }
-.ink-shade { fill: url(#engrave-x); stroke: none; }
-.ink-spot { fill: url(#engrave-x); stroke: var(--ink); stroke-width: 0.5; opacity: 0.9; }
-.ink-line { fill: none; stroke: var(--ink); stroke-width: 0.9; }
-.ink-lattice { fill: none; stroke: var(--ink); stroke-width: 0.6; }
-.ink-lance { fill: none; stroke: var(--ink); stroke-width: 1.8; }
-.ink-dot { fill: var(--ink); stroke: none; }
-.ink-bell { fill: var(--brass); stroke: var(--ink); stroke-width: 0.8; }
+/* ─── the sky's own life: the whale, fog and what walks in it ─────────── */
+.sky-life { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+/* Far off and high: a sighting, not a figure in the page. */
+.whale { position: absolute; top: 5vh; left: 0; width: min(30vw, 380px); opacity: 0.42; filter: blur(0.4px); }
+:root:not(.dark) .whale { opacity: 0.5; }
+.whale[hidden], .fog-walker[hidden] { display: none; }
+.whale .fig { width: 100%; animation: swim 11s ease-in-out infinite; }
+@keyframes swim { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 0 -16px; rotate: -1.5deg; } }
+.fog-walker { position: absolute; bottom: 6vh; left: 0; width: min(38vw, 420px); opacity: 0.2; filter: blur(2px); }
+.fog-walker .fig { width: 100%; }
+/* Fog: two long banks drifting at different speeds, over the sky and under
+   every word. */
+:root[data-weather="mist"] .sky-life::before, :root[data-weather="mist"] .sky-life::after {
+  content: ""; position: absolute; left: -50%; right: -50%; height: 46vh; pointer-events: none;
+  background: radial-gradient(50% 50% at 30% 50%, rgb(var(--fog-rgb) / 0.55), transparent 70%), radial-gradient(40% 50% at 72% 45%, rgb(var(--fog-rgb) / 0.45), transparent 70%);
+  animation: fog-drift 90s linear infinite alternate;
+}
+:root[data-weather="mist"] .sky-life::before { top: 34vh; }
+:root[data-weather="mist"] .sky-life::after { top: 60vh; animation-duration: 140s; animation-direction: alternate-reverse; opacity: 0.8; }
+@keyframes fog-drift { from { translate: -10% 0; } to { translate: 10% 0; } }
+:root { --fog-rgb: 238 234 222; }
+.dark { --fog-rgb: 120 132 150; }
 
-/* The two animals that are doors: a brass label, and a lift on hover. */
-a.critter { pointer-events: auto; transition: transform 0.35s cubic-bezier(.2,.7,.3,1); }
-a.critter:hover, a.critter:focus-visible { transform: translateY(-3px); }
-a.critter::after { content: attr(data-label); position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, 0); padding: 5px 8px; border-radius: 3px; background: rgb(var(--signal-rgb)); color: #04140b; font: 600 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
-a.critter:hover::after, a.critter:focus-visible::after { opacity: 1; transform: translate(-50%, -8px); }
-a.critter:focus-visible { outline: 2px solid rgb(var(--signal-rgb)); outline-offset: 4px; border-radius: 4px; }
-
-/* ─── clockwork, spilled from the melting watch ───────────────────────── */
-.gears-bed { position: absolute; z-index: 1; left: calc(var(--root-x, 71%) - 150px); top: var(--horizon, 66%); width: 118px; transform: translateY(-60%); clip-path: inset(0 0 40% 0); pointer-events: none; }
-.gears { display: block; width: 100%; height: auto; }
-.ink-brass { fill: url(#engrave); stroke: var(--brass); stroke-width: 1.2; }
-.gear { transform-box: fill-box; transform-origin: center; }
-.g1 { animation: turn 36s linear infinite; }
-.g2 { animation: turn 22s linear infinite reverse; }
-.g3 { animation: turn 14s linear infinite; }
-@keyframes turn { to { transform: rotate(360deg); } }
-@media (max-width: 700px) { .gears-bed { width: 70px; left: calc(var(--root-x, 50%) - 88px); } }
+@media (max-width: 700px) {
+  .glass .fig-sancho { left: 64%; width: 38px; }
+  .glass .fig-quixote { left: 74%; width: 58px; }
+  .glass .fig-windmill { left: 88%; width: 46px; }
+  /* On a phone the words cover the plain's horizon: its figures step aside. */
+  .fig-watch-block, .gear, .walker { display: none; }
+  .bleed-scene .foreground .fig-rye-a, .bleed-scene .foreground .fig-rye-b, .bleed-scene .foreground .fig-rye-c { display: none; }
+  .fig-fog-giant { left: 10%; width: 150px; }
+  .fig-deer { left: 18%; width: 40px; }
+  .s1 { left: 28%; width: 26px; }
+  .s2, .s3 { display: none; }
+  .door-cow { left: 42%; width: 70px; }
+  .door-diplodocus { left: 72%; width: 150px; }
+  .foreground .fig-fiddlehead { display: none; }
+  .foreground .fig-fern { display: none; }
+  .burrow { left: 52%; width: 150px; height: 150px; margin: -75px 0 0 -75px; }
+  .rabbit { width: 58px; }
+  .cat { width: 50px; }
+  .fox { width: 100px; bottom: 16px; }
+  .egg { width: 30px; margin-left: -15px; bottom: 16px; }
+  .whale { width: 78vw; top: 9vh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gear, .walker, .foreground .fig, .burrow svg, .rabbit .fig, .cat .fig, .cat-tree .fig, .fox-run, .whale .fig { animation: none; }
+  .walker { left: 80%; opacity: 0.9; }
+  :root[data-weather="mist"] .sky-life::before, :root[data-weather="mist"] .sky-life::after { animation: none; }
+}
