@@ -1132,3 +1132,8 @@ footer::before { background-position: calc(var(--tile) / -2 + var(--fy, 0px)) 0,
 @keyframes sails-turn { to { rotate: -360deg; } }
 @media (max-width: 700px) { .glass .windmill { left: 86%; width: 34px; } }
 @media (prefers-reduced-motion: reduce) { .windmill .wm-sails { animation: none; rotate: -18deg; } }
+
+/* Nothing may ever make the page scroll sideways — not a painted figure at its
+   natural size before its stylesheet lands, nor a creature mid-leap. `clip`,
+   not `hidden`: hidden on the root would break the sticky header. */
+html { overflow-x: clip; }
