@@ -54,9 +54,8 @@
     </div>
   </header>
   <main id="main">
-    <section class="bleed bleed-under">
-      <img class="bleed-img" src="/photos/barn.jpg" alt="A historic photograph of a whole community gathered at a barn raising." width="2400" height="1815" style="object-position:center 55%" fetchpriority="high">
-      <img class="bleed-mirror" src="/photos/barn.jpg" alt="" aria-hidden="true" style="object-position:center 55%" loading="lazy">
+    <section class="bleed bleed-scene bleed-under">
+      <canvas class="scene-canvas" data-scene="mycelium" aria-hidden="true"></canvas>
       <div class="bleed-scrim strong" aria-hidden="true"></div>
       <div class="wrap bleed-body">
         <div class="bleed-copy rise">
@@ -145,7 +144,6 @@
           <h2 class="label">The studio</h2>
           <a href="/hire/">Engagements and rates</a>
           <a href="/hire/#waitlist">Join the waitlist</a>
-          <a href="/credits/">Photo credits</a>
         </nav>
       </div>
       <p class="foot-note">bitbaum is built in Zürich, in the open. Nothing here is registered as a company; an orangecat.ch name is an address on one server.</p>
@@ -175,7 +173,6 @@
         <h2 class="label">The studio</h2>
         <a href="/hire/">Engagements and rates</a>
           <a href="/hire/#waitlist">Join the waitlist</a>
-          <a href="/credits/">Photo credits</a>
       </nav>
       <div class="menu-theme"><span class="label">Theme</span><div class="theme" role="group" aria-label="Colour theme">
         <button type="button" data-set-theme="light" title="Light" aria-label="Light">
@@ -194,6 +191,7 @@
   <script type="module" src="/nav.mjs"></script>
   <link rel="stylesheet" href="/chatkit.css">
   <script type="module" src="/chat.js"></script>
+  <script type="module" src="/scenes.mjs"></script>
   <script src="https://loki.orangecat.ch/widget.js" data-fc-project="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-fc-modes="report" async></script>
 </body>
 </html>
