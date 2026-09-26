@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26T10:57:23.644Z",
+  "generatedAt": "2026-09-26T15:47:03.263Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -2247,6 +2247,10 @@
       "changelog": [
         {
           "date": "2026-09-26",
+          "done": "Added a \"Back to top ↑\" link to the page footer (PR #2, https://github.com/bitbaum/farmhouse/pull/2, CI green)."
+        },
+        {
+          "date": "2026-09-26",
           "done": "Found why Farmhouse isn't live (org var HETZNER_IP not visible to the repo, so Deploy exits early; PR #1 skipped by the fleet sweep for a missing Signed-off-by) and wrote both up as a pending blocker; no code change was needed."
         },
         {
@@ -2254,16 +2258,16 @@
           "done": "Replaced the starter placeholder with a config-driven one-page Farmhouse venue site (hero/about/program/upcoming/visit), verified by local type-check+build+serve and green CI on PR #1 (branch feat/first-site)."
         }
       ],
-      "next": "awaiting_user: blocker 2026-09-26-deploy-hetzner-ip-and-pr-signoff.md (org var access + PR #1 merge decision)",
+      "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-09-26T04:01:11.138Z"
+          "at": "2026-09-26T11:54:48.205Z"
         },
         "lastLog": {
           "date": "2026-09-26",
-          "done": "Found why Farmhouse isn't live (org var HETZNER_IP not visible to the repo, so Deploy exits early; PR #1 skipped by the fleet sweep for a missing Signed-off-by) and wrote both up as a pending blocker; no code change was needed."
+          "done": "Added a \"Back to top ↑\" link to the page footer (PR #2, https://github.com/bitbaum/farmhouse/pull/2, CI green)."
         }
       }
     },
