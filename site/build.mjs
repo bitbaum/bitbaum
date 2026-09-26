@@ -119,7 +119,8 @@ ${body}
 // diplodocus (both doors), mushrooms, a fern unrolling, and something vast
 // passing in the fog behind. A dream of a past that never happened.
 const SCENE_LIFE = {
-  seed: `      <div class="horizon-life" aria-hidden="true">${fig("elephant", "walker")}${fig("watch-block")}${fig("gear-l", "gear g-big")}${fig("gear-s", "gear g-small")}</div>
+  seed: `      <div class="horizon-life" aria-hidden="true">${fig("watch-block")}${fig("gear-l", "gear g-big")}${fig("gear-s", "gear g-small")}</div>
+      <div class="walker" aria-hidden="true">${fig("elephant")}</div>
       <div class="foreground" aria-hidden="true">${fig("rye-a")}${fig("rye-c")}${fig("rye-b")}</div>
       <div class="hummingbird" hidden aria-hidden="true">${fig("hummingbird")}</div>`,
   // Links sit in the scene, so this container is not aria-hidden; the two
@@ -151,7 +152,7 @@ function glassHero({ kicker, lines, lede, actions }) {
       <canvas class="scene-canvas" data-scene="neuron" aria-hidden="true"></canvas>
       <div class="glass-horizon" aria-hidden="true"></div>
 ${HORIZON_LIFE}
-      <div class="floor-plane"><a class="burrow" href="#start" aria-label="Follow the white rabbit" data-label="Follow the white rabbit &darr;"><span class="burrow-mouth" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></span></a></div>
+      <div class="floor-plane"><a class="burrow" href="/work/" aria-label="Follow the white rabbit — somewhere on this site" data-label="Follow the white rabbit &rarr;"><span class="burrow-mouth" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></span></a></div>
 ${RABBIT}
       ${DRAGONFLY}
       <div class="wrap bleed-body">
@@ -322,6 +323,14 @@ function shell({ title, description, path, body, nav, script, image }) {
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
         </button>
       </div>`;
+  // One button for the weather: each press turns it — clear, fog, rain, snow
+  // — and the icon shows the weather now. sky.mjs does the rest.
+  const weatherSwitch = `<button type="button" class="weather-switch" data-weather-cycle aria-label="Change the weather" title="Change the weather">
+        <svg class="w-clear" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7"/></svg>
+        <svg class="w-mist" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5h13M6 12h15M3 15.5h12M7 19h10"/></svg>
+        <svg class="w-rain" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14.5a4.5 4.5 0 1 1 1.3-8.8A5.5 5.5 0 0 1 18.8 8a3.3 3.3 0 0 1-.8 6.5z"/><path d="M8.5 17.5l-1 2.5M12.5 17.5l-1 2.5M16.5 17.5l-1 2.5"/></svg>
+        <svg class="w-snow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 6.8l2.5-2.3M9.5 19.5 12 17.2l2.5 2.3"/></svg>
+      </button>`;
   // One map of the site, rendered twice: as the phone menu and as the footer.
   // Two hand-kept lists drift; this cannot.
   const sections = [
@@ -402,6 +411,7 @@ ${body}
           <a class="mark" href="/">${MARK}bitbaum</a>
           <p>AI-native products on infrastructure that is open by construction. Built in Zürich.</p>
           ${themeSwitch}
+          ${weatherSwitch}
         </div>
 ${sections.map(([title, links]) => `        <nav aria-label="${esc(title)}">
           <h2 class="label">${esc(title)}</h2>
@@ -421,7 +431,7 @@ ${sections.map(([title, links]) => `      <nav aria-label="${esc(title)}">
         <h2 class="label">${esc(title)}</h2>
         ${sectionLinks(links)}
       </nav>`).join("\n")}
-      <div class="menu-theme"><span class="label">Theme</span>${themeSwitch}</div>
+      <div class="menu-theme"><span class="label">Theme and weather</span>${themeSwitch}${weatherSwitch}</div>
     </div>
   </div>
   <script type="module" src="/theme.mjs"><\/script>

@@ -49,6 +49,38 @@ function creature(el, host, pick, { speed, hover, shy, curious }) {
   }).observe(host);
 }
 
+// The elephant crosses the plain in depth: it appears small and far on the
+// horizon, walks forward and to the left — toward us — growing as it nears,
+// and fades before it reaches the words. Its legs stride as it goes
+// (art.mjs), and scenes.mjs casts its long evening shadow on the sand.
+const walker = document.querySelector(".walker");
+const plain = walker?.closest("section");
+if (walker && plain) {
+  const LOOP = 95000;
+  let raf = 0, visible = false, t0 = performance.now();
+  const place = (now) => {
+    const u = still ? 0.45 : ((now - t0) % LOOP) / LOOP;
+    const w = plain.clientWidth, h = plain.clientHeight, horizon = num(plain, "--horizon", h * 0.74);
+    const phoneW = w < 700;
+    // Depth eases in: far is slow and small, near is larger and quicker.
+    const d = u * u * 0.35 + u * 0.65;
+    const x = w * (phoneW ? 0.95 - d * 0.35 : 0.97 - d * 0.3);
+    const y = horizon + (h - horizon) * d * 0.62;
+    const scale = 0.34 + d * 0.72;
+    const fade = Math.min(1, u / 0.06, (1 - u) / 0.08);
+    walker.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-50%, -100%) scale(${scale.toFixed(3)})`;
+    walker.style.opacity = Math.max(0, fade).toFixed(3);
+    walker.style.setProperty("--depth", d.toFixed(3));
+  };
+  const frame = (now) => { place(now); if (visible && !still) raf = requestAnimationFrame(frame); };
+  new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    cancelAnimationFrame(raf);
+    if (visible) raf = requestAnimationFrame(frame);
+  }).observe(plain);
+  place(performance.now());
+}
+
 if (!still) {
   const dragonfly = document.querySelector(".dragonfly");
   const hero = dragonfly?.closest("section");

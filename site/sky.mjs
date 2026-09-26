@@ -54,12 +54,13 @@ function art(name) {
 // rain comes most in autumn, fog in any month. ?weather=clear|mist|rain|snow
 // pins it. The choice is written to <html data-weather> so the page (and
 // lodge.mjs, which sends things through the fog) can follow it.
-export const WEATHER = (() => {
+export const WEATHERS = ["clear", "mist", "rain", "snow"];
+export let WEATHER = (() => {
   const pinned = new URLSearchParams(location.search).get("weather");
-  if (["clear", "mist", "rain", "snow"].includes(pinned)) return pinned;
+  if (WEATHERS.includes(pinned)) return pinned;
   let stored = null;
   try { stored = sessionStorage.getItem("bb-weather"); } catch { /* private mode */ }
-  if (stored) return stored;
+  if (WEATHERS.includes(stored)) return stored;
   const m = new Date().getMonth();
   const table = m <= 1 || m === 11 ? [["clear", 0.35], ["snow", 0.35], ["mist", 0.3]]
     : m <= 4 ? [["clear", 0.45], ["rain", 0.25], ["mist", 0.3]]
@@ -71,6 +72,24 @@ export const WEATHER = (() => {
   return w;
 })();
 root.dataset.weather = WEATHER;
+// The reader can turn the weather with one button; the choice holds for the
+// rest of the visit and tells everyone who is listening.
+export function setWeather(w) {
+  WEATHER = w;
+  root.dataset.weather = w;
+  try { sessionStorage.setItem("bb-weather", w); } catch { /* ignore */ }
+  document.dispatchEvent(new CustomEvent("weather", { detail: w }));
+}
+for (const b of document.querySelectorAll("[data-weather-cycle]")) {
+  const label = () => b.setAttribute("aria-label", `Weather: ${WEATHER === "mist" ? "fog" : WEATHER}. Change the weather`);
+  label();
+  b.addEventListener("click", () => {
+    setWeather(WEATHERS[(WEATHERS.indexOf(WEATHER) + 1) % WEATHERS.length]);
+    for (const other of document.querySelectorAll("[data-weather-cycle]")) other.dispatchEvent(new Event("relabel"));
+    b.classList.remove("turned"); void b.offsetWidth; b.classList.add("turned");
+  });
+  b.addEventListener("relabel", label);
+}
 root.dataset.season = ["winter", "winter", "spring", "spring", "spring", "summer", "summer", "summer", "autumn", "autumn", "autumn", "winter"][new Date().getMonth()];
 
 // ── molecules, as skeletal formulas in bond lengths (y up) ─────────────────
@@ -122,6 +141,19 @@ export const MOLECULES = {
       ["p2", "O1"], ["O1", "CH2"], ["CH2", "O2"], ["O2", "p3"], ["p0", "Ca"], ["Ca", "Cb"], ["Cb", "Me"], ["Cb", "N"], ["N", "NMe"],
     ],
   },
+  // 2C-B: a phenethylamine — the ring with its two methoxy arms at 2 and 5,
+  // the bromine at 4 (the larger star), and the ethylamine chain.
+  "2cb": {
+    atoms: {
+      p0: [0.866, 0.5], p1: [0, 1], p2: [-0.866, 0.5], p3: [-0.866, -0.5], p4: [0, -1], p5: [0.866, -0.5],
+      O1: [0, 2], Me1: [-0.866, 2.5], O2: [0, -2], Me2: [0.866, -2.5], Br: [-1.732, -1],
+      Ca: [1.732, 1], Cb: [2.598, 0.5], N: [3.464, 1],
+    },
+    bonds: [
+      ["p0", "p1", 2], ["p1", "p2"], ["p2", "p3", 2], ["p3", "p4"], ["p4", "p5", 2], ["p5", "p0"],
+      ["p1", "O1"], ["O1", "Me1"], ["p4", "O2"], ["O2", "Me2"], ["p3", "Br"], ["p0", "Ca"], ["Ca", "Cb"], ["Cb", "N"],
+    ],
+  },
   ketamine: {
     atoms: {
       r0: [0.866, 0.5], r1: [0, 1], r2: [-0.866, 0.5], r3: [-0.866, -0.5], r4: [0, -1], r5: [0.866, -0.5], O: [1.732, -1],
@@ -146,7 +178,7 @@ export const MOLECULES = {
     ],
   },
 };
-const element = (k) => (/^N/.test(k) && k !== "NMe" ? "N" : /^O/.test(k) ? "O" : /^S\d/.test(k) ? "S" : k === "P" ? "P" : k === "Cl" ? "Cl" : "C");
+const element = (k) => (/^N/.test(k) && k !== "NMe" ? "N" : /^O/.test(k) ? "O" : /^S\d/.test(k) ? "S" : k === "P" ? "P" : k === "Cl" ? "Cl" : k === "Br" ? "Br" : "C");
 
 // ── the moon, in today's phase ─────────────────────────────────────────────
 // A reference new moon (2000-01-06 18:14 UTC) and the synodic month.
@@ -301,28 +333,33 @@ if (canvas) {
         rgb: temp < 0.12 ? "190, 210, 255" : temp > 0.9 ? "255, 214, 170" : "248, 246, 238",
       };
     });
-    // Each page has its own few figures, chosen by its address so they are
-    // stable; the home page keeps DMT over the tree and the Little Prince's LSD.
-    const all = ["meo", "lsd", "psilocybin", "serotonin", "mdma", "oxytocin", "ketamine"];
+    // The home page carries all nine, spaced through the open sky between
+    // the scenes as you scroll; every other page has its own few, chosen by
+    // its address so they are stable. Side, tilt and size are left to chance.
+    const all = ["meo", "lsd", "psilocybin", "2cb", "serotonin", "mdma", "oxytocin", "ketamine"];
     const home = location.pathname === "/";
     const hash = [...location.pathname].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 11);
     const pick = rng(hash);
-    const rest = home ? ["lsd", ...all.filter((n) => n !== "lsd").sort(() => pick() - 0.5).slice(0, 2)] : all.sort(() => pick() - 0.5).slice(0, 2);
-    const order = home ? ["dmt", ...rest] : rest;
+    const order = home ? ["dmt", ...all] : all.slice().sort(() => pick() - 0.5).slice(0, 3);
     // Large enough to read as a figure in the sky, never across the words.
     const bond = phone ? 14 : Math.min(26, W / 56, (Math.max(0, (W - 1280) / 2) + 48) / 5.2);
     contentLeft = Math.max(0, (W - 1280) / 2) + Math.min(48, Math.max(20, W * 0.05));
-    // Figures hang over plain text sections, in open sky rather than across a
-    // drawn scene; side, drift, tilt and size are left to chance.
-    const anchors = [...document.querySelectorAll("main > section")].filter((el) => !el.classList.contains("bleed") && !el.hasAttribute("data-lodge") && el.offsetHeight > 240);
-    const spread = anchors.length ? anchors : [document.querySelector("main")];
-    figures = order.map((name, i) => {
+    // Open stretches of the page (not drawn scenes), in page coordinates.
+    const open = [...document.querySelectorAll("main > section")]
+      .filter((el) => !el.classList.contains("bleed") && !el.hasAttribute("data-lodge") && el.offsetHeight > 200)
+      .map((el) => { const r = el.getBoundingClientRect(); return [r.top + scrollY + 60, r.bottom + scrollY - 60]; })
+      .filter(([a, b]) => b > a && a > H * 0.9);
+    const span = open.reduce((n, [a, b]) => n + (b - a), 0);
+    const at = (f) => { let d = f * span; for (const [a, b] of open) { if (d <= b - a) return a + d; d -= b - a; } return open.at(-1)?.[1] ?? H * 2; };
+    const rest = order.filter((n) => n !== "dmt");
+    figures = order.map((name) => {
       if (name === "dmt") return { name, x: W * (phone ? 0.3 : 0.5), y: H * (phone ? 0.14 : 0.13), bond: bond * 0.75, rot: -0.3 };
-      const k = home ? i - 1 : i;
-      const a = spread[Math.min(spread.length - 1, Math.floor(((k + pick() * 0.8) / order.length) * spread.length))];
+      const k = rest.indexOf(name);
+      const docY = span ? at((k + 0.5 + (pick() - 0.5) * 0.4) / rest.length) : H * (1.5 + k);
       const side = pick() < 0.5;
       const x = phone ? W * (side ? 0.72 + pick() * 0.14 : 0.14 + pick() * 0.14) : side ? W - contentLeft * (0.3 + pick() * 0.4) : contentLeft * (0.3 + pick() * 0.4);
-      const y = Math.max(H * 1.1, PARALLAX * (a.getBoundingClientRect().top + scrollY) + H * (0.25 + pick() * 0.5));
+      // A figure at sky height y sits mid-screen when its page point does.
+      const y = H / 2 + PARALLAX * (docY - H / 2);
       return { name, x, y, bond: bond * (0.8 + pick() * 0.35), rot: (pick() - 0.5) * Math.PI * 1.4 };
     });
     // Without motion the sky does not move, so only the hero's figure shows.
@@ -521,6 +558,7 @@ if (canvas) {
   // are few, drawn over the sky and behind every word. Fog is CSS (a pair of
   // slow bands, styles.css) and needs nothing here.
   let drops = [];
+  document.addEventListener("weather", () => { drops = []; if (still) draw(0); });
   function weather(t) {
     if (still || (WEATHER !== "rain" && WEATHER !== "snow")) return;
     const want = WEATHER === "rain" ? (W < 700 ? 70 : 140) : (W < 700 ? 60 : 110);
