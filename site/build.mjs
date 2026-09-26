@@ -26,6 +26,7 @@ import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, write
 import { MARK_HEADER, MARK_FAVICON } from "./brand-mark.mjs";
 import { createPackagePages } from "./packages-page.mjs";
 import { publicMap } from "./public-map.mjs";
+import { DEFS, critter, COW, DIPLODOCUS, DEER, QUIXOTE, WINDMILL, GEARS } from "./art.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildSync } from "esbuild";
@@ -115,23 +116,21 @@ ${body}
 // hummingbird that feeds at the grown tree; the partners' meadow has a deer
 // and a cow grazing under the connected trees. A dream of a past that never
 // happened, so nobody minds that they were never in the same era.
-const DIPLODOCUS = `<svg class="diplodocus" viewBox="0 0 160 60"><path d="M60 34C60 26 70 23 82 23C94 23 104 27 104 34C104 41 95 45 82 45C69 45 60 41 60 34Z"/><g class="dip-neck"><path d="M67 28C55 19 42 10 26 6.2L26.6 10.4C41 14 53 24 62 37Z"/><path d="M18.5 8.2C18.5 5.8 21 4.6 24 4.9C27 5.2 28.6 6.6 28.2 8.8C27.8 10.8 25 11.6 22 11.2C20 11 18.5 10 18.5 8.2Z"/></g><path d="M103 30C121 31 141 38 158 46C141 42 121 39 102 40Z"/><path d="M66 40L64 58H69.5L71.5 41ZM75 43L74.5 58H80L80.5 43ZM88 43L88.5 58H94L93.5 42ZM96 40L98 58H103.5L101.5 38Z"/></svg>`;
-const COW = `<svg class="cow" viewBox="0 0 60 40"><path d="M11 12H41Q46 12 46 17.5V23Q46 28 41.5 28H12.5Q8 28 8 22.5V16.5Q8 12 11 12Z"/><g class="cow-head"><path d="M43 14.5L51.5 21L53.6 27.4L49.6 29.4L45.4 25.6L41.6 19.4Z"/><path class="line" d="M46.5 15.2L48 12.2M44.6 16.4L42.4 14.2"/></g><path class="line" d="M13 28V38M18 28V38M36 28V38M41 28V38M8.4 14Q4.4 20 5.4 28"/><ellipse cx="30" cy="29" rx="3" ry="1.5"/></svg>`;
-const DEER = `<svg class="deer" viewBox="0 0 50 56"><ellipse cx="28" cy="30" rx="12" ry="6"/><g class="deer-head"><path d="M18 27L14 14L18 13L22.4 27Z"/><path d="M13.4 13.2L7 16L8 18.4L15.2 16.6Z"/><path class="line thin" d="M15 12L13 5L10 2M13 5L15 1M17 12L19 5L22 2M19 5L17 1M16.4 11.4L19.2 9.6"/></g><path class="line" d="M20 35L19 54M23 35.4L24 54M33 35.4L32 54M37 34.6L39 54M40 27.4L43 28.6"/></svg>`;
 const HUMMINGBIRD = `<div class="hummingbird" hidden aria-hidden="true"><svg viewBox="0 0 40 32"><path class="hb-body" d="M9 17C9 12 14 9.5 19 10.5C23.5 11.4 26 14 26.8 16.2C22 19.6 15.6 21.6 9 17Z"/><path class="hb-tail" d="M9.4 16.6L2 13.6L3.4 19.4Z"/><circle class="hb-head" cx="25" cy="13" r="3.4"/><path class="hb-beak" d="M28 12.6L39 11.4"/><circle class="hb-eye" cx="25.9" cy="12.3" r="0.7"/><g class="hb-wings"><ellipse cx="17" cy="8" rx="3" ry="8.5" transform="rotate(-25 17 12)"/></g></svg></div>`;
 const DRAGONFLY = `<div class="dragonfly" hidden aria-hidden="true"><svg viewBox="0 0 40 24"><g class="df-wings"><ellipse cx="19" cy="7.4" rx="9.5" ry="2.5" transform="rotate(-10 19 7.4)"/><ellipse cx="19" cy="16.6" rx="9.5" ry="2.5" transform="rotate(10 19 16.6)"/><ellipse cx="25" cy="7.8" rx="7.4" ry="2.1" transform="rotate(-18 25 7.8)"/><ellipse cx="25" cy="16.2" rx="7.4" ry="2.1" transform="rotate(18 25 16.2)"/></g><path class="df-body" d="M4 12H31"/><circle class="df-head" cx="33.4" cy="12" r="2.3"/></svg></div>`;
 const SCENE_LIFE = {
   seed: `      ${HUMMINGBIRD}`,
-  mycelium: `      <div class="horizon-life" aria-hidden="true">${DEER}${COW}${DIPLODOCUS}</div>`,
+  // Links sit in the scene, so this container is not aria-hidden; each
+  // drawing is, and the two doors carry their own labels.
+  mycelium: `      <div class="horizon-life">${critter("deer", DEER)}${critter("cow", COW, "/heidi/", "Heidi")}${critter("diplodocus", DIPLODOCUS, "/diplodoctor/", "Diplodoctor")}</div>`,
 };
 
 // Everything that stands on the hero's horizon, drawn as silhouettes against
 // its haze: a La Mancha windmill turning, Don Quixote on Rocinante with his
-// lance levelled at it and Sancho on his donkey behind, and If you know.
-const HORIZON_LIFE = `      <div class="horizon-life" aria-hidden="true">
-        <svg class="windmill" viewBox="0 0 60 90"><path d="M22 88L26.5 40H33.5L38 88Z"/><path d="M24.5 40.5Q30 29 35.5 40.5Z"/><g class="sails">${[0, 90, 180, 270].map((a) => `<g transform="rotate(${a} 30 38)"><path class="spar" d="M30 38V8"/><path class="lattice" d="M30.8 10H37V33H30.8M30.8 15.5H37M30.8 21H37M30.8 26.5H37"/></g>`).join("")}</g></svg>
-        <svg class="quixote" viewBox="0 0 110 70"><ellipse cx="70" cy="44" rx="16" ry="5.5"/><path d="M82 42L90 30L96 31L97.5 34L91.5 35.5L86 44Z"/><path class="line" d="M58 48L56 66M62 48.5L63 66M78 48L80 66M83 47L86.5 66M54 42Q48 48 50 58"/><path class="line thick" d="M70 39L69 20"/><path class="line" d="M70 39L74 48L73 54M69 24L76 28M62 31L108 19"/><circle cx="69" cy="16" r="2.8"/><path d="M65 14.5Q69 10 73 14.5Z"/><path class="line" d="M64 14.6H74"/><ellipse cx="66.5" cy="28" rx="2.4" ry="3.4"/><ellipse cx="26" cy="50" rx="11" ry="5.5"/><path d="M35 47L41 41L44 43L39 50Z"/><path class="line" d="M40 41.5L39 34M41.8 41.8L43.5 35M19 54L18 66M23 55L23 66M30 55L31 66M34 54L35 66"/><circle cx="25" cy="40" r="6"/><circle cx="26" cy="31" r="3.2"/><path d="M23.5 29.5Q26 25.2 28.5 29.5Z"/><path class="line" d="M21.5 29.6H30.5M25 45L29 51"/></svg>
-      </div>`;
+// lance levelled at it and Sancho on his donkey behind; and clockwork spilled
+// from the melting watch, half-sunk at the foot of the tree. If you know.
+const HORIZON_LIFE = `      <div class="horizon-life" aria-hidden="true">${critter("windmill", WINDMILL)}${critter("quixote", QUIXOTE)}</div>
+      <div class="gears-bed" aria-hidden="true">${GEARS}</div>`;
 
 // The White Rabbit: bone-white, late, pocket watch and all. lodge.mjs runs
 // him across the Lodge floor and into the burrow once the tree has grown.
@@ -436,7 +435,7 @@ function shell({ title, description, path, body, nav, script, image }) {
 </head>
 <body>
   <canvas class="sky" aria-hidden="true"></canvas>
-  <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false"><filter id="ripple"><feTurbulence type="fractalNoise" baseFrequency="0.006 0.09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter><filter id="ripple-soft"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.12" numOctaves="1" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
+  <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">${DEFS}<filter id="ripple"><feTurbulence type="fractalNoise" baseFrequency="0.006 0.09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter><filter id="ripple-soft"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.12" numOctaves="1" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
   <a class="skip" href="#main">Skip to content</a>
   <header class="top" data-header>
     <div class="wrap">

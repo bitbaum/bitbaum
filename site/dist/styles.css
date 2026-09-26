@@ -925,16 +925,13 @@ body::after {
 
 /* ─── the landscape on the hero's horizon ─────────────────────────────── */
 .horizon-life { position: absolute; left: 0; right: 0; top: var(--horizon, 66%); height: 0; z-index: 1; pointer-events: none; color: var(--silhouette); }
-.horizon-life svg { position: absolute; bottom: -1px; height: auto; fill: currentColor; stroke: rgb(var(--line-rgb) / 0.42); stroke-width: 0.9; stroke-linecap: round; paint-order: stroke; }
-.horizon-life .line { fill: none; stroke-width: 1.5; stroke: color-mix(in srgb, rgb(var(--line-rgb)) 40%, var(--silhouette)); }
-.horizon-life .thick { stroke-width: 3.2; }
-.windmill { left: 85%; width: 84px; }
-.windmill .spar { stroke-width: 1.4; fill: none; }
-.windmill .lattice { fill: none; stroke-width: 0.8; }
+.horizon-life .critter { position: absolute; bottom: -1px; display: block; }
+.critter svg { display: block; width: 100%; height: auto; overflow: visible; }
+.windmill { left: 85%; width: 86px; }
 .windmill .sails { transform-origin: 30px 38px; animation: sails 18s linear infinite; }
 @keyframes sails { to { transform: rotate(-360deg); } }
 /* Quixote charges the windmill: between the tree and the mill, lance levelled. */
-.quixote { left: 72.5%; width: 150px; }
+.quixote { left: 72.5%; width: 160px; }
 
 /* ─── the burrow and the White Rabbit ─────────────────────────────────── */
 .burrow { position: absolute; z-index: 4; left: 44%; bottom: 6vh; width: 138px; height: 52px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(closest-side, #000 50%, rgb(0 0 0 / 0.7) 72%, transparent); box-shadow: 0 0 34px rgb(var(--signal-rgb) / 0.22); }
@@ -980,18 +977,17 @@ body::after {
 
 /* ─── creatures ───────────────────────────────────────────────────────── */
 /* In the meadow, reaching up into the connected trees to browse. */
-.diplodocus { left: 66%; width: 270px; transform: scaleX(1); }
-.dip-neck { transform-origin: 64px 32px; animation: graze-neck 9s ease-in-out infinite; }
+.diplodocus { left: 64%; width: 280px; }
+.dip-neck { transform-origin: 74px 50px; animation: graze-neck 9s ease-in-out infinite; }
 @keyframes graze-neck { 0%, 100% { transform: rotate(0); } 45% { transform: rotate(-4deg); } 60% { transform: rotate(3deg); } }
-.cow { left: 50%; width: 64px; }
-.cow-head { transform-origin: 44px 16px; animation: graze 7s ease-in-out infinite; }
+.cow { left: 48%; width: 92px; }
+.cow-head { transform-origin: 95px 38px; animation: graze 7s ease-in-out infinite; }
+.cow-tail { transform-origin: 20px 34px; animation: swish 3.4s ease-in-out infinite; }
+@keyframes swish { 50% { transform: rotate(12deg); } }
 @keyframes graze { 0%, 55%, 100% { transform: rotate(0); } 65%, 85% { transform: rotate(14deg); } }
-.deer { left: 38%; width: 52px; }
-.deer-head { transform-origin: 20px 27px; animation: deer-look 11s ease-in-out infinite; }
+.deer { left: 38%; width: 58px; }
+.deer-head { transform-origin: 48px 42px; animation: deer-look 11s ease-in-out infinite; }
 @keyframes deer-look { 0%, 40%, 100% { transform: rotate(0); } 50%, 70% { transform: rotate(-38deg); } 78% { transform: rotate(4deg); } }
-.horizon-life .leg, .horizon-life .line.thin { fill: none; }
-.horizon-life .leg { stroke-width: 3.4; }
-.horizon-life .thin { stroke-width: 1; }
 .dragonfly, .hummingbird { position: absolute; z-index: 2; left: 0; top: 0; pointer-events: none; will-change: transform; }
 .dragonfly[hidden], .hummingbird[hidden] { display: none; }
 .dragonfly svg { width: 50px; height: auto; margin: -15px 0 0 -25px; overflow: visible; }
@@ -1009,12 +1005,12 @@ body::after {
 .hb-wings { transform-origin: 18px 13px; animation: whirr 45ms linear infinite alternate; }
 @keyframes whirr { from { transform: rotate(-38deg); } to { transform: rotate(28deg); } }
 @media (max-width: 700px) {
-  .diplodocus { width: 130px; left: 58%; }
-  .cow { width: 36px; left: 40%; }
-  .deer { width: 30px; left: 22%; }
+  .diplodocus { width: 150px; left: 56%; }
+  .cow { width: 52px; left: 34%; }
+  .deer { width: 34px; left: 16%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .dip-neck, .cow-head, .deer-head { animation: none; }
+  .dip-neck, .cow-head, .cow-tail, .deer-head, .gear { animation: none; }
 }
 
 /* Scrims fade in from the top of their section, so one scene flows into the
@@ -1069,3 +1065,41 @@ body::after {
 .fox { transform-origin: 50% 100%; }
 .fox.resting svg, .fox.resting .fox-legs, .fox.resting .fox-tail, .fox.resting .fox-tip { animation-play-state: paused; }
 @media (max-width: 700px) { .egg { width: 22px; margin-left: -11px; bottom: 16px; } }
+
+/* ─── engraving: the one drawing language for every figure (art.mjs) ─────
+   Paper and ink follow the time of day: by day ink on cream, by night light
+   cut into dark, like scratchboard. */
+:root { --paper: #efe3c6; --ink: rgb(var(--line-rgb) / 0.95); --brass: #9a7433; }
+.dark { --paper: #0b0f1c; --brass: #c9a25a; }
+.pat-paper { fill: var(--paper); }
+.pat-line { stroke: rgb(var(--line-rgb)); stroke-width: 0.26; opacity: 0.2; }
+.dark .pat-line { opacity: 0.28; }
+.pat-x { stroke: rgb(var(--line-rgb)); stroke-width: 0.3; opacity: 0.62; }
+.critter path, .critter circle, .critter ellipse, .gears path { vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
+.ink-body { fill: url(#engrave); stroke: var(--ink); stroke-width: 1.1; }
+.ink-far { fill: url(#engrave-x); stroke: var(--ink); stroke-width: 0.9; }
+.ink-shade { fill: url(#engrave-x); stroke: none; }
+.ink-spot { fill: url(#engrave-x); stroke: var(--ink); stroke-width: 0.5; opacity: 0.9; }
+.ink-line { fill: none; stroke: var(--ink); stroke-width: 0.9; }
+.ink-lattice { fill: none; stroke: var(--ink); stroke-width: 0.6; }
+.ink-lance { fill: none; stroke: var(--ink); stroke-width: 1.8; }
+.ink-dot { fill: var(--ink); stroke: none; }
+.ink-bell { fill: var(--brass); stroke: var(--ink); stroke-width: 0.8; }
+
+/* The two animals that are doors: a brass label, and a lift on hover. */
+a.critter { pointer-events: auto; transition: transform 0.35s cubic-bezier(.2,.7,.3,1); }
+a.critter:hover, a.critter:focus-visible { transform: translateY(-3px); }
+a.critter::after { content: attr(data-label); position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, 0); padding: 5px 8px; border-radius: 3px; background: rgb(var(--signal-rgb)); color: #04140b; font: 600 10px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
+a.critter:hover::after, a.critter:focus-visible::after { opacity: 1; transform: translate(-50%, -8px); }
+a.critter:focus-visible { outline: 2px solid rgb(var(--signal-rgb)); outline-offset: 4px; border-radius: 4px; }
+
+/* ─── clockwork, spilled from the melting watch ───────────────────────── */
+.gears-bed { position: absolute; z-index: 1; left: calc(var(--root-x, 71%) - 150px); top: var(--horizon, 66%); width: 118px; transform: translateY(-60%); clip-path: inset(0 0 40% 0); pointer-events: none; }
+.gears { display: block; width: 100%; height: auto; }
+.ink-brass { fill: url(#engrave); stroke: var(--brass); stroke-width: 1.2; }
+.gear { transform-box: fill-box; transform-origin: center; }
+.g1 { animation: turn 36s linear infinite; }
+.g2 { animation: turn 22s linear infinite reverse; }
+.g3 { animation: turn 14s linear infinite; }
+@keyframes turn { to { transform: rotate(360deg); } }
+@media (max-width: 700px) { .gears-bed { width: 70px; left: calc(var(--root-x, 50%) - 88px); } }
