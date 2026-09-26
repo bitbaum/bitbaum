@@ -9,8 +9,6 @@
 // back), on a stage floor, peeking round a curtain, or on the footer's floor.
 // It is a real link — to OrangeCat, which is the one thing orange means here.
 
-import { constellation, starfield, MOLECULES } from "./sky.mjs";
-
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const phone = () => innerWidth < 700;
 
@@ -39,13 +37,6 @@ for (const stage of document.querySelectorAll("[data-lodge]")) {
   const ctx = canvas.getContext("2d");
   let W = 0, H = 0, dpr = 1, rest = 0, raf = 0, visible = false, start = 0;
   const seed = [...Array(64)].map((_, i) => Math.sin(i * 12.9898) * 0.5);
-  // A stage with no drawn scene of its own gets a night sky: stars and one
-  // constellation, which one decided by the page's address so it is stable.
-  const sky = !stage.querySelector("canvas[data-scene]");
-  // The home scenes already carry DMT, 5-MeO-DMT, LSD and psilocybin.
-  const names = ["MDMA", "Ketamine", "Serotonin", "Oxytocin"].filter((n) => MOLECULES[n]);
-  const hash = [...location.pathname].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);
-  const molecule = names[hash % names.length];
 
   const size = () => {
     dpr = Math.min(devicePixelRatio || 1, 2);
@@ -100,18 +91,16 @@ for (const stage of document.querySelectorAll("[data-lodge]")) {
   }
 
   const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  let drawn = 0;
   const frame = (t) => {
     if (!start) start = t;
     const p = opened || still ? 1 : ease(Math.max(0, Math.min(1, (t - start - 250) / 2200)));
+    // Once open, the velvet only sways: twenty frames a second is enough.
+    if (p >= 1 && t - drawn < 48 && !still) { if (visible) raf = requestAnimationFrame(frame); return; }
+    drawn = t;
     const width = W / 2 + 2 - (W / 2 + 2 - rest) * p;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
-    if (sky) {
-      starfield(ctx, W, 0, H * 0.8, phone() ? 20 : 44, hash, t, still);
-      if (phone()) constellation(ctx, molecule, W * 0.78, H * 0.14, 7.5, 0.3, t, still, 0.75);
-      // High in the corner, above any column of copy a page hero may have.
-      else constellation(ctx, molecule, W - rest - 120, 70, 10, 0.3, t, still);
-    }
     curtain("left", width, t);
     curtain("right", width, t);
     if (!still && visible) raf = requestAnimationFrame(frame);
@@ -127,18 +116,67 @@ for (const stage of document.querySelectorAll("[data-lodge]")) {
   if (still) frame(performance.now());
 }
 
-// ── the rabbit holes turn as you scroll past them, as if falling ──────────
+// ── falling through the rabbit holes ──────────────────────────────────────
+// Each spiral between chapters turns counter-clockwise, so its arms flow
+// inward, and swells as it passes the middle of the screen: you fall through
+// it into the next chapter.
 const holes = [...document.querySelectorAll(".rabbit-hole svg")];
 if (holes.length && !still) {
   let queued = false;
-  addEventListener("scroll", () => {
-    if (queued) return;
-    queued = true;
-    requestAnimationFrame(() => {
-      queued = false;
-      for (const h of holes) h.style.transform = `rotate(${(scrollY * 0.35) % 360}deg)`;
-    });
-  }, { passive: true });
+  const fall = () => {
+    queued = false;
+    const mid = innerHeight / 2;
+    for (const h of holes) {
+      const r = h.getBoundingClientRect();
+      const k = Math.max(0, 1 - Math.abs(r.top + r.height / 2 - mid) / (innerHeight * 0.5));
+      h.style.transform = `rotate(${(-scrollY * 0.35) % 360}deg) scale(${(1 + k * k * 1.8).toFixed(3)})`;
+      h.style.opacity = (0.55 + k * 0.45).toFixed(2);
+    }
+  };
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(fall); } }, { passive: true });
+  fall();
+}
+
+// ── the White Rabbit ─────────────────────────────────────────────────────
+// Once the tree has grown, he comes out from behind the left curtain, hops
+// across the Lodge floor, and dives into the spiral burrow — which is also
+// the way on: it links to the next chapter. With reduced motion he simply
+// waits beside the hole.
+const rabbit = document.querySelector(".rabbit");
+const burrow = document.querySelector(".burrow");
+if (rabbit && burrow) {
+  // Measured against the hero itself: a hidden element has no offsetParent.
+  const stage = burrow.closest("section");
+  if (still) rabbit.classList.add("rabbit-waits");
+  else {
+    const run = () => {
+      const s = stage.getBoundingClientRect(), b = burrow.getBoundingClientRect();
+      const size = rabbit.offsetWidth;
+      const endX = b.left - s.left + b.width / 2 - size * 0.62, y = b.top - s.top + b.height * 0.5 - size * 0.86;
+      const startX = -size;
+      const hops = Math.max(4, Math.round((endX - startX) / (size * 1.15)));
+      const hopMs = 430, travel = hops * hopMs;
+      rabbit.hidden = false;
+      rabbit.animate([{ transform: `translate(${startX}px, ${y}px)` }, { transform: `translate(${endX}px, ${y}px)` }], { duration: travel, easing: "linear", fill: "forwards" });
+      rabbit.firstElementChild.animate([
+        { transform: "translateY(0) scale(1.06, 0.9)", easing: "cubic-bezier(.2,.7,.4,1)" },
+        { transform: `translateY(${-size * 0.55}px) scale(0.95, 1.06)`, offset: 0.45, easing: "cubic-bezier(.6,0,.8,.4)" },
+        { transform: "translateY(0) scale(1.08, 0.88)" },
+      ], { duration: hopMs, iterations: hops });
+      setTimeout(() => {
+        burrow.classList.add("gulp");
+        const dive = rabbit.animate([
+          { transform: `translate(${endX}px, ${y}px) rotate(0) scale(1)`, opacity: 1 },
+          { transform: `translate(${endX + size * 0.35}px, ${y - size * 0.35}px) rotate(-25deg) scale(1)`, opacity: 1, offset: 0.35 },
+          { transform: `translate(${endX + size * 0.55}px, ${y + size * 0.55}px) rotate(70deg) scale(0.12)`, opacity: 0 },
+        ], { duration: 700, easing: "cubic-bezier(.5,0,.7,1)", fill: "forwards" });
+        dive.onfinish = () => { rabbit.hidden = true; setTimeout(() => burrow.classList.remove("gulp"), 900); };
+      }, travel);
+    };
+    let ran = false;
+    const go = () => { if (ran) return; ran = true; setTimeout(run, 2800); };
+    new IntersectionObserver(([e], io) => { if (e.isIntersecting) { go(); io.disconnect(); } }, { threshold: 0.4 }).observe(stage);
+  }
 }
 
 // ── the cat ───────────────────────────────────────────────────────────────
@@ -163,6 +201,33 @@ if (cat) {
     if (kind === "peek") cat.style.setProperty("--cat-y", `${Math.round(24 + Math.random() * 20)}%`);
     host.append(cat);
     cat.hidden = false;
+    // Sometimes, if the pointer lingers near it, it crouches and pounces —
+    // then trots back to where it was sitting. Not on touch screens.
+    const body = cat.querySelector("svg");
+    if (!still && matchMedia("(pointer: fine)").matches && body) {
+      let idleSince = 0, lastX = 0, lastY = 0, cooling = 0;
+      addEventListener("pointermove", (e) => {
+        if (Math.hypot(e.clientX - lastX, e.clientY - lastY) > 6) { idleSince = performance.now(); lastX = e.clientX; lastY = e.clientY; }
+      }, { passive: true });
+      setInterval(() => {
+        const now = performance.now();
+        if (now < cooling || now - idleSince < 900 || cat.hidden) return;
+        const r = cat.getBoundingClientRect();
+        const dx = lastX - (r.left + r.width / 2), dy = lastY - (r.top + r.height / 2);
+        const d = Math.hypot(dx, dy);
+        if (d < 40 || d > 190 || Math.random() > 0.55) return;
+        cooling = now + 7000;
+        const k = Math.min(1, 130 / d), jx = dx * k, jy = dy * k;
+        body.animate([
+          { transform: "translate(0, 0) scale(1, 1)" },
+          { transform: "translate(0, 3px) scale(1.12, 0.82)", offset: 0.18 },
+          { transform: `translate(${jx * 0.5}px, ${jy * 0.5 - 46}px) scale(0.92, 1.1) rotate(${Math.sign(jx) * 12}deg)`, offset: 0.42 },
+          { transform: `translate(${jx}px, ${jy}px) scale(1.1, 0.86)`, offset: 0.62 },
+          { transform: `translate(${jx}px, ${jy}px) scale(1, 1)`, offset: 0.74 },
+          { transform: "translate(0, 0) scale(1, 1)" },
+        ], { duration: 1500, easing: "ease-in-out" });
+      }, 400);
+    }
     // The eyes follow the pointer, a pixel or so — enough to feel watched.
     const eyes = cat.querySelector(".cat-eyes");
     if (!still && eyes) {

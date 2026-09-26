@@ -16,13 +16,11 @@
 // pauses off-screen; under prefers-reduced-motion each is drawn once, whole
 // and still. All of it is aria-hidden decoration: the words carry the page.
 
-import { constellation, starfield } from "./sky.mjs";
+import { palette } from "./sky.mjs";
 
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const css = getComputedStyle(document.documentElement);
-const GREEN = css.getPropertyValue("--baum").trim() || "#3ee08f";
-const G = "62, 224, 143";
-const BONE = "235, 229, 216";
+// Light adds up on a night sky; by day it would wash out, so it layers plainly.
+const glowMode = () => (palette.night ? "lighter" : "source-over");
 
 function rng(seed) {
   return () => {
@@ -120,33 +118,6 @@ function spine(ctx, node, key, style, width0, maxDepth = 2) {
   for (const k of node.kids) spine(ctx, k, key, style, width0, maxDepth);
 }
 
-// The moon, in the same line as everything else: a waxing gibbous with its
-// craters foreshortened toward the rim, and a few stars. Once, not a theme.
-function moonAndStars(ctx, W, H, horizon, phone, t) {
-  starfield(ctx, W, 0, horizon * 0.72, phone ? 22 : 46, 5, t, still);
-  const r = phone ? 20 : Math.min(W, H) * 0.048;
-  const mx = W * (phone ? 0.8 : 0.9), my = H * (phone ? 0.2 : 0.21);
-  const halo = ctx.createRadialGradient(mx, my, r * 0.9, mx, my, r * 2.2);
-  halo.addColorStop(0, `rgba(${BONE}, 0.06)`); halo.addColorStop(1, `rgba(${BONE}, 0)`);
-  ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(mx, my, r * 2.2, 0, Math.PI * 2); ctx.fill();
-  ctx.save();
-  ctx.beginPath(); ctx.arc(mx, my, r, 0, Math.PI * 2); ctx.clip();
-  ctx.fillStyle = `rgba(${BONE}, 0.2)`; ctx.fillRect(mx - r, my - r, r * 2, r * 2);
-  const craters = rng(9);
-  ctx.strokeStyle = `rgba(${BONE}, 0.5)`; ctx.lineWidth = 0.8;
-  for (let i = 0; i < 10; i++) {
-    const a = craters() * 6.28, d = Math.sqrt(craters()) * r * 0.85, cr = r * (0.06 + craters() * 0.14);
-    const cx = mx + Math.cos(a) * d, cy = my + Math.sin(a) * d;
-    const squash = Math.sqrt(Math.max(0.15, 1 - (d / r) ** 2));
-    ctx.beginPath(); ctx.ellipse(cx, cy, cr * squash, cr, a, 0, Math.PI * 2); ctx.stroke();
-  }
-  ctx.fillStyle = "rgba(4, 4, 4, 0.88)"; // the night side
-  ctx.beginPath(); ctx.arc(mx - r * 0.62, my - r * 0.08, r * 1.02, 0, Math.PI * 2); ctx.fill();
-  ctx.restore();
-  ctx.strokeStyle = `rgba(${BONE}, 0.85)`; ctx.lineWidth = 1.2;
-  ctx.beginPath(); ctx.arc(mx, my, r, 0, Math.PI * 2); ctx.stroke();
-}
-
 // Loki's mark: one line spiralling inward. Used wherever a centre needs one.
 export function spiral(ctx, x, y, r, turn, style, width = 1.1) {
   ctx.strokeStyle = style; ctx.lineWidth = width; ctx.beginPath();
@@ -160,9 +131,9 @@ export function spiral(ctx, x, y, r, turn, style, width = 1.1) {
 
 function glow(ctx, x, y, r, core, alpha = 1) {
   const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-  g.addColorStop(0, core === "white" ? `rgba(255, 255, 255, ${0.95 * alpha})` : `rgba(${G}, ${alpha})`);
-  g.addColorStop(0.35, `rgba(${G}, ${0.45 * alpha})`);
-  g.addColorStop(1, `rgba(${G}, 0)`);
+  g.addColorStop(0, core === "white" ? `rgba(${palette.hot}, ${0.95 * alpha})` : `rgba(${palette.signal}, ${alpha})`);
+  g.addColorStop(0.35, `rgba(${palette.signal}, ${0.45 * alpha})`);
+  g.addColorStop(1, `rgba(${palette.signal}, 0)`);
   ctx.fillStyle = g;
   ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
 }
@@ -193,21 +164,28 @@ function neuron(ctx, box, canvas) {
       lean += (leanTo - lean) * 0.04;
       pose(tree.root, rootX, horizon, 0, trunk, { t, key: "up", progress: grown, lean });
       pose(tree.root, rootX, horizon, 0, trunk, { t, key: "down", squash: -0.8, sway: 1.7, phase: 2.4, progress: grown, lean });
-      const W = canvas.clientWidth, H = canvas.clientHeight;
-      moonAndStars(ctx, W, H, horizon, phone, t);
-      // The tryptamine siblings, high in the sky between the words and the moon.
-      if (phone) constellation(ctx, "DMT", W * 0.72, H * 0.17, 8.5, -0.25, t, still, 0.9);
-      else {
-        constellation(ctx, "DMT", W * 0.55, H * 0.13, 11, -0.3, t, still);
-        constellation(ctx, "5-MeO-DMT", W * 0.73, H * 0.128, 9, 0.5, t, still, 0.8);
-      }
-      strokeTree(ctx, tree.root, "down", `rgba(${G}, ${phone ? 0.22 : 0.32})`, 2.2);
-      spine(ctx, tree.root, "down", `rgba(${G}, ${phone ? 0.2 : 0.3})`, 2.2);
-      strokeTree(ctx, tree.root, "up", `rgba(${BONE}, ${phone ? 0.34 : 0.78})`, 2.4);
-      spine(ctx, tree.root, "up", `rgba(${BONE}, ${phone ? 0.3 : 0.62})`, 2.4);
-      // A perch for the cat, if it chose the tree: the fork of the right limb.
+      const W = canvas.clientWidth;
+      // A low haze along the horizon, so what stands on it reads as silhouette.
+      ctx.save(); ctx.translate(rootX, horizon); ctx.scale(1, 0.2);
+      const haze = ctx.createRadialGradient(0, 0, 0, 0, 0, W * 0.45);
+      haze.addColorStop(0, `rgba(${palette.line}, ${palette.night ? 0.1 : 0.14})`); haze.addColorStop(1, `rgba(${palette.line}, 0)`);
+      ctx.fillStyle = haze; ctx.fillRect(-W * 0.45, -W * 0.45, W * 0.9, W * 0.45); ctx.restore();
+      strokeTree(ctx, tree.root, "down", `rgba(${palette.signal}, ${phone ? 0.22 : 0.32})`, 2.2);
+      spine(ctx, tree.root, "down", `rgba(${palette.signal}, ${phone ? 0.2 : 0.3})`, 2.2);
+      strokeTree(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.34 : 0.78})`, 2.4);
+      spine(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.3 : 0.62})`, 2.4);
+      // Perches: the cat takes the fork of the right limb, Dalí's soft clock
+      // drapes over the left one; the silhouettes stand on the horizon.
       const fork = tree.root.kids[1]?.up;
       const host = canvas.parentElement;
+      host.style.setProperty("--horizon", `${horizon.toFixed(1)}px`);
+      host.style.setProperty("--root-x", `${rootX.toFixed(1)}px`);
+      const limb = tree.root.kids[0]?.up;
+      if (limb && limb.part >= 1) {
+        const [lx, ly] = at(limb, 0.55);
+        host.style.setProperty("--clock-x", `${lx.toFixed(1)}px`);
+        host.style.setProperty("--clock-y", `${ly.toFixed(1)}px`);
+      }
       if (fork && fork.part >= 1) {
         host.style.setProperty("--perch-x", `${fork.x2.toFixed(1)}px`);
         host.style.setProperty("--perch-y", `${fork.y2.toFixed(1)}px`);
@@ -215,7 +193,7 @@ function neuron(ctx, box, canvas) {
       }
       if (still) return;
       if (grown > maxDepth && t > nextIn) { spawn("in"); nextIn = t + 380 + chance() * 900; }
-      ctx.globalCompositeOperation = "lighter";
+      ctx.globalCompositeOperation = glowMode();
       for (let i = signals.length - 1; i >= 0; i--) {
         const g = signals[i];
         g.s += (g.dir === "out" ? 1 : -1) * g.speed * dt;
@@ -237,11 +215,99 @@ function neuron(ctx, box, canvas) {
       }
       glow(ctx, rootX, horizon, 26 + soma * 18, "white", 0.25 + soma * 0.75);
       // Loki's spiral is the cell body: it turns as the neuron fires.
-      spiral(ctx, rootX, horizon, 9 + soma * 3, t * 0.0012 + soma, `rgba(255, 255, 255, ${0.55 + soma * 0.45})`);
+      // Counter-clockwise: the arms flow inward, the way into the rabbit hole.
+      spiral(ctx, rootX, horizon, 9 + soma * 3, -(t * 0.0012 + soma), `rgba(${palette.hot}, ${0.55 + soma * 0.45})`);
       soma *= Math.pow(0.08, dt);
       ctx.globalCompositeOperation = "source-over";
     },
   };
+}
+
+// Buckminster Fuller's geodesic dome: an icosahedron, each face split in
+// four and pushed out to the sphere, the upper half kept. Many small struts,
+// one strong shell — a system. It turns slowly on the plain.
+const DOME = (() => {
+  const p = (1 + Math.sqrt(5)) / 2;
+  let v = [[-1, p, 0], [1, p, 0], [-1, -p, 0], [1, -p, 0], [0, -1, p], [0, 1, p], [0, -1, -p], [0, 1, -p], [p, 0, -1], [p, 0, 1], [-p, 0, -1], [-p, 0, 1]];
+  const f = [[0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11], [1, 5, 9], [5, 11, 4], [11, 10, 2], [10, 7, 6], [7, 1, 8], [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8], [3, 8, 9], [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1]];
+  const norm = ([x, y, z]) => { const l = Math.hypot(x, y, z); return [x / l, y / l, z / l]; };
+  v = v.map(norm);
+  const key = new Map(), edges = new Set();
+  const mid = (a, b) => {
+    const k = a < b ? `${a}-${b}` : `${b}-${a}`;
+    if (!key.has(k)) { v.push(norm([(v[a][0] + v[b][0]) / 2, (v[a][1] + v[b][1]) / 2, (v[a][2] + v[b][2]) / 2])); key.set(k, v.length - 1); }
+    return key.get(k);
+  };
+  const add = (a, b) => edges.add(a < b ? `${a}-${b}` : `${b}-${a}`);
+  for (const [a, b, c] of f) {
+    const ab = mid(a, b), bc = mid(b, c), ca = mid(c, a);
+    for (const [x, y, z] of [[a, ab, ca], [b, bc, ab], [c, ca, bc], [ab, bc, ca]]) { add(x, y); add(y, z); add(z, x); }
+  }
+  // Tilt so a vertex is not at the top, then keep the upper half.
+  const tilt = 0.55, ct = Math.cos(tilt), st = Math.sin(tilt);
+  v = v.map(([x, y, z]) => [x, y * ct - z * st, y * st + z * ct]);
+  const list = [...edges].map((e) => e.split("-").map(Number)).filter(([a, b]) => v[a][1] > -0.08 && v[b][1] > -0.08);
+  return { v, list };
+})();
+function dome(ctx, cx, ground, R, turn) {
+  const c = Math.cos(turn), s = Math.sin(turn);
+  const P = DOME.v.map(([x, y, z]) => [cx + (x * c - z * s) * R, ground - Math.max(0, y) * R, x * s + z * c]);
+  ctx.lineWidth = 0.8;
+  for (const [a, b] of DOME.list) {
+    const depth = (P[a][2] + P[b][2]) / 2;
+    ctx.strokeStyle = `rgba(${palette.line}, ${(0.18 + 0.5 * (depth + 1) / 2).toFixed(2)})`;
+    ctx.beginPath(); ctx.moveTo(P[a][0], P[a][1]); ctx.lineTo(P[b][0], P[b][1]); ctx.stroke();
+  }
+}
+
+// Psilocybe, fruiting from the network: a conical cap with its little umbo,
+// fine gills, a wavy stem that bruises blue at the foot. `glow` lights the cap
+// when a spark passes underneath.
+function mushroom(ctx, x, ground, h, lean, glowK) {
+  const top = ground - h, cw = h * 0.36, ch = h * 0.34, tx = x + lean;
+  ctx.lineCap = "round";
+  ctx.strokeStyle = `rgba(${palette.line}, 0.8)`; ctx.lineWidth = Math.max(1, h * 0.06);
+  ctx.beginPath(); ctx.moveTo(x, ground); ctx.bezierCurveTo(x - h * 0.08, ground - h * 0.4, tx + h * 0.08, top + h * 0.3, tx, top); ctx.stroke();
+  ctx.strokeStyle = "rgba(70, 140, 196, 0.6)"; ctx.lineWidth = Math.max(1, h * 0.07);
+  ctx.beginPath(); ctx.moveTo(x, ground); ctx.lineTo(x - h * 0.02, ground - h * 0.12); ctx.stroke();
+  ctx.fillStyle = palette.night ? "rgba(196, 160, 112, 0.6)" : "rgba(168, 118, 70, 0.65)";
+  ctx.strokeStyle = `rgba(${palette.line}, 0.85)`; ctx.lineWidth = 0.9;
+  ctx.beginPath(); ctx.moveTo(tx - cw, top + 1);
+  ctx.bezierCurveTo(tx - cw * 0.9, top - ch * 0.8, tx - cw * 0.25, top - ch, tx, top - ch * 1.12);
+  ctx.bezierCurveTo(tx + cw * 0.25, top - ch, tx + cw * 0.9, top - ch * 0.8, tx + cw, top + 1);
+  ctx.quadraticCurveTo(tx, top - ch * 0.12, tx - cw, top + 1); ctx.fill(); ctx.stroke();
+  ctx.lineWidth = 0.5;
+  for (let k = -2; k <= 2; k++) { ctx.beginPath(); ctx.moveTo(tx + k * cw * 0.2, top - ch * 0.05); ctx.lineTo(tx + k * cw * 0.34, top + 0.5); ctx.stroke(); }
+  if (glowK > 0.02) {
+    const g = ctx.createRadialGradient(tx, top - ch * 0.5, 0, tx, top - ch * 0.5, cw * 2.2);
+    g.addColorStop(0, `rgba(${palette.signal}, ${0.55 * glowK})`); g.addColorStop(1, `rgba(${palette.signal}, 0)`);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(tx, top - ch * 0.5, cw * 2.2, 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+// Rye in the foreground, heavy-eared and nodding — and on a few ears the dark
+// curved spurs of ergot, Claviceps purpurea, where the LSD story began.
+function rye(ctx, x, ground, h, t, seed) {
+  const sway = still ? 0 : Math.sin(t * 0.0009 + seed) * h * 0.03;
+  const tipX = x + sway + h * 0.06, tipY = ground - h;
+  ctx.strokeStyle = `rgba(${palette.line}, 0.55)`; ctx.lineWidth = 1.1; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(x, ground); ctx.quadraticCurveTo(x + sway * 0.3, ground - h * 0.5, tipX, tipY); ctx.stroke();
+  // The ear nods over at the top.
+  const ear = h * 0.2, ang = -1.25 + (seed % 3) * 0.12;
+  for (let k = 0; k < 9; k++) {
+    const u = k / 9, ex = tipX + Math.cos(ang) * ear * u, ey = tipY + Math.sin(ang) * ear * u;
+    for (const side of [-1, 1]) {
+      const gx = ex + Math.cos(ang + side * 0.9) * 3.2, gy = ey + Math.sin(ang + side * 0.9) * 3.2;
+      ctx.fillStyle = `rgba(${palette.line}, 0.5)`;
+      ctx.beginPath(); ctx.ellipse(gx, gy, 2.4, 1.2, ang + side * 0.5, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = `rgba(${palette.line}, 0.3)`; ctx.lineWidth = 0.4;
+      ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx + Math.cos(ang + side * 0.35) * 11, gy + Math.sin(ang + side * 0.35) * 11); ctx.stroke();
+      if (seed % 2 === 0 && (k === 3 || k === 6) && side === (k === 3 ? 1 : -1)) {
+        ctx.fillStyle = "rgba(34, 18, 30, 0.95)"; ctx.strokeStyle = `rgba(${palette.line}, 0.45)`; ctx.lineWidth = 0.5;
+        ctx.beginPath(); ctx.ellipse(gx + Math.cos(ang + side * 0.9) * 3, gy + Math.sin(ang + side * 0.9) * 3, 5.4, 1.5, ang + side * 0.95, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      }
+    }
+  }
 }
 
 // ── seed: grown by the reader's scroll, with a long Dalí shadow ───────────
@@ -256,34 +322,42 @@ function seed(ctx, box, canvas) {
       tree = growTree(311, maxDepth, { spread: 1.1 });
     },
     draw(t) {
-      // Ground a shade lighter than the sky, as in a Dalí plain at dusk.
+      // The plain: dusk-lit earth by night, Dalí's pale sand by day. The sky
+      // above it is the page's own.
       const ground = ctx.createLinearGradient(0, horizon, 0, H);
-      ground.addColorStop(0, "#2e2b25"); ground.addColorStop(0.5, "#16150f"); ground.addColorStop(1, "#070707");
+      if (palette.night) { ground.addColorStop(0, "rgba(46, 43, 37, 0.95)"); ground.addColorStop(0.5, "rgba(22, 21, 15, 0.9)"); ground.addColorStop(1, "rgba(7, 7, 7, 0.6)"); }
+      else { ground.addColorStop(0, "rgba(226, 212, 186, 0.95)"); ground.addColorStop(1, "rgba(201, 184, 150, 0.5)"); }
       ctx.fillStyle = ground; ctx.fillRect(0, horizon, W, H - horizon);
-      const sky = ctx.createLinearGradient(0, 0, 0, horizon);
-      sky.addColorStop(0, "#040404"); sky.addColorStop(1, "#11110f");
-      ctx.fillStyle = sky; ctx.fillRect(0, 0, W, horizon);
-      starfield(ctx, W, 0, horizon * 0.8, phone ? 18 : 40, 12, t, still);
-      if (!phone) constellation(ctx, "LSD", W * 0.93, H * 0.24, 10, 0.35, t, still, 0.85);
       // How far the reader has scrolled through this section grows the tree.
       const r = canvas.getBoundingClientRect();
       const seen = still ? 1 : Math.max(0, Math.min(1, (innerHeight - r.top) / (r.height + innerHeight * 0.1)));
       const progress = still ? 99 : Math.max(0.02, Math.min(maxDepth + 1, (seen - 0.12) / 0.62 * (maxDepth + 1)));
       pose(tree.root, rootX, horizon, 0, trunk, { t, key: "up", progress });
+      // Where things stand and where the hummingbird feeds.
+      const host = canvas.parentElement;
+      host.style.setProperty("--horizon", `${horizon.toFixed(1)}px`);
+      host.style.setProperty("--crown-x", `${rootX.toFixed(1)}px`);
+      host.style.setProperty("--crown-y", `${(horizon - trunk * 3.1).toFixed(1)}px`);
+      host.style.setProperty("--crown-r", `${(trunk * 2.3).toFixed(1)}px`);
+      host.dataset.grown = progress > maxDepth ? "1" : "0";
       // The shadow: the same tree laid flat on the ground, stretched left.
       ctx.save();
       ctx.translate(rootX, horizon);
       ctx.transform(1, 0, 1.9, 0.2, 0, 0);
       ctx.translate(-rootX, -horizon);
       ctx.scale(1, -1); ctx.translate(0, -2 * horizon);
-      strokeTree(ctx, tree.root, "up", "rgba(0, 0, 0, 0.9)", 3.6);
+      strokeTree(ctx, tree.root, "up", palette.night ? "rgba(0, 0, 0, 0.9)" : "rgba(70, 52, 32, 0.4)", 3.6);
       ctx.restore();
-      strokeTree(ctx, tree.root, "up", `rgba(${BONE}, ${phone ? 0.4 : 0.85})`, 2.4);
-      spine(ctx, tree.root, "up", `rgba(${BONE}, ${phone ? 0.3 : 0.6})`, 2.4);
+      strokeTree(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.4 : 0.85})`, 2.4);
+      spine(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.3 : 0.6})`, 2.4);
+      dome(ctx, W * (phone ? 0.2 : 0.91), horizon, phone ? 26 : Math.min(72, W * 0.05), still ? 0.4 : t * 0.00012);
+      // Rye in the near foreground, in the margin beside the words.
+      const ryeAt = phone ? [[W - 14, 0.3], [W - 30, 0.26]] : [[W * 0.022, 0.46], [W * 0.04, 0.4], [W * 0.058, 0.44], [W * 0.075, 0.36]];
+      ryeAt.forEach(([rx, rh], k) => rye(ctx, rx, H + 4, H * rh, t, k));
       // The seed itself, and — once grown — the crown's tips come alive.
       glow(ctx, rootX, horizon, 10, "green", progress < 1 ? 1 : 0.4);
       if (progress > maxDepth) {
-        ctx.globalCompositeOperation = "lighter";
+        ctx.globalCompositeOperation = glowMode();
         const k = Math.min(1, progress - maxDepth);
         tree.tips.forEach((tip, i) => {
           if (!tip.up || i % 3) return;
@@ -318,7 +392,7 @@ function rings(ctx) {
       const shape = (b, th) => R * breathe * b.rad * (1 + b.amp * Math.sin(th * b.lobes + b.ph) + 0.012 * Math.sin(th * 7 + b.ph * 2));
       ctx.lineCap = "round";
       bands.forEach((b) => {
-        ctx.strokeStyle = `rgba(${BONE}, ${0.14 + 0.5 * (1 - b.rad) * (b.w > 2 ? 1.2 : 1)})`;
+        ctx.strokeStyle = `rgba(${palette.line}, ${0.14 + 0.5 * (1 - b.rad) * (b.w > 2 ? 1.2 : 1)})`;
         ctx.lineWidth = b.w;
         ctx.beginPath();
         for (let k = 0; k <= 180; k++) {
@@ -330,7 +404,7 @@ function rings(ctx) {
         ctx.stroke();
       });
       // Rays from the pith, and one old check (crack) — the wood's own record.
-      ctx.strokeStyle = `rgba(${BONE}, 0.08)`; ctx.lineWidth = 0.7;
+      ctx.strokeStyle = `rgba(${palette.line}, 0.08)`; ctx.lineWidth = 0.7;
       for (let k = 0; k < 28; k++) {
         const th = (k / 28) * Math.PI * 2 + spin;
         ctx.beginPath(); ctx.moveTo(cx + Math.cos(th) * R * 0.06, cy + Math.sin(th) * R * 0.06);
@@ -340,7 +414,7 @@ function rings(ctx) {
       // This year's ring: a green spark tracing the outermost band.
       if (!still) {
         const b = bands[bands.length - 1];
-        ctx.globalCompositeOperation = "lighter";
+        ctx.globalCompositeOperation = glowMode();
         for (let k = 0; k < 14; k++) {
           const th = t * 0.00045 - k * 0.035;
           const rr = shape(b, th);
@@ -353,8 +427,26 @@ function rings(ctx) {
 }
 
 // ── mycelium: separate trees, one network underground ────────────────────
-function mycelium(ctx) {
-  let W, H, horizon, trees, links, sparks, phone, nextSpark = 0;
+// Barnsley's fern: four affine maps, iterated. The same rule at every scale —
+// a fractal that happens to be a plant. Painted once, then just placed.
+function fern(height, rgb) {
+  const c = document.createElement("canvas");
+  const w = Math.ceil(height * 0.55), h = Math.ceil(height);
+  c.width = w; c.height = h;
+  const g = c.getContext("2d");
+  g.fillStyle = `rgba(${rgb}, 0.55)`;
+  let x = 0, y = 0;
+  const r = Math.random;
+  for (let i = 0; i < 26000; i++) {
+    const p = r();
+    [x, y] = p < 0.01 ? [0, 0.16 * y] : p < 0.86 ? [0.85 * x + 0.04 * y, -0.04 * x + 0.85 * y + 1.6] : p < 0.93 ? [0.2 * x - 0.26 * y, 0.23 * x + 0.22 * y + 1.6] : [-0.15 * x + 0.28 * y, 0.26 * x + 0.24 * y + 0.44];
+    g.fillRect(w / 2 + x * (w / 5.6), h - y * (h / 10.2), 0.9, 0.9);
+  }
+  return c;
+}
+
+function mycelium(ctx, box, canvas) {
+  let W, H, horizon, trees, links, sparks, phone, nextSpark = 0, frond = null, frondFor = "";
   const chance = rng(77);
   return {
     size(w, h) {
@@ -379,37 +471,49 @@ function mycelium(ctx) {
       sparks = [];
     },
     draw(t, dt) {
-      starfield(ctx, W, 0, horizon * 0.85, phone ? 16 : 36, 21, t, still);
-      if (phone) constellation(ctx, "Psilocybin", W * 0.78, H * 0.1, 7.5, -0.2, t, still, 0.8);
-      else constellation(ctx, "Psilocybin", W * 0.2, H * 0.22, 11, -0.2, t, still);
+      canvas.parentElement.style.setProperty("--horizon", `${horizon.toFixed(1)}px`);
+      // In the foreground, a fern unrolling out of the meadow's dark.
+      const key = `${palette.line}|${H}`;
+      if (frondFor !== key) { frond = fern(H * (phone ? 0.3 : 0.42), palette.line); frondFor = key; }
+      const sway = still ? 0 : Math.sin(t * 0.0007) * 0.02;
+      ctx.save(); ctx.translate(W * (phone ? 0.86 : 0.9), H); ctx.rotate(-0.12 + sway); ctx.globalAlpha = 0.55;
+      ctx.drawImage(frond, -frond.width / 2, -frond.height); ctx.restore(); ctx.globalAlpha = 1;
       for (const [i, tr] of trees.entries()) {
         pose(tr.crown.root, tr.x, horizon, 0, tr.size, { t, key: "up", phase: i });
         pose(tr.roots.root, tr.x, horizon, 0, tr.size * 0.8, { t, key: "down", squash: -0.9, sway: 0.4, phase: i });
-        strokeTree(ctx, tr.roots.root, "down", `rgba(${G}, 0.5)`, 1.9);
-        strokeTree(ctx, tr.crown.root, "up", `rgba(${BONE}, ${phone ? 0.5 : 0.8})`, 2);
+        strokeTree(ctx, tr.roots.root, "down", `rgba(${palette.signal}, 0.5)`, 1.9);
+        strokeTree(ctx, tr.crown.root, "up", `rgba(${palette.line}, ${phone ? 0.5 : 0.8})`, 2);
       }
       const curve = (l) => {
         const A = l.a.down, B = l.b.down;
         if (!A || !B) return null;
         return { x: A.x2, y: A.y2, x2: B.x2, y2: B.y2, cx: (A.x2 + B.x2) / 2, cy: Math.max(A.y2, B.y2) + (B.x2 - A.x2) * l.sag, part: 1 };
       };
-      ctx.strokeStyle = `rgba(${G}, 0.4)`; ctx.lineWidth = 1;
+      ctx.strokeStyle = `rgba(${palette.signal}, 0.4)`; ctx.lineWidth = 1;
       for (const l of links) {
         const c = (l.c = curve(l));
         if (!c) continue;
         ctx.beginPath(); ctx.moveTo(c.x, c.y); ctx.quadraticCurveTo(c.cx, c.cy, c.x2, c.y2); ctx.stroke();
       }
       const line = ctx.createLinearGradient(0, 0, W, 0);
-      line.addColorStop(phone ? 0 : 0.3, `rgba(${BONE}, 0)`); line.addColorStop(phone ? 0.3 : 0.5, `rgba(${BONE}, 0.3)`); line.addColorStop(1, `rgba(${BONE}, 0.1)`);
+      line.addColorStop(phone ? 0 : 0.3, `rgba(${palette.line}, 0)`); line.addColorStop(phone ? 0.3 : 0.5, `rgba(${palette.line}, 0.3)`); line.addColorStop(1, `rgba(${palette.line}, 0.1)`);
       ctx.strokeStyle = line; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(0, horizon); ctx.lineTo(W, horizon); ctx.stroke();
+      // Mushrooms fruit where the network surfaces, between the trees.
+      const lit = sparks.map((sp) => (sp.l.c ? at(sp.l.c, sp.u)[0] : -1e4));
+      for (let i = 0; i < trees.length - 1; i += phone ? 2 : 1) {
+        const mx = (trees[i].x + trees[i + 1].x) / 2;
+        const k = Math.max(0, ...lit.map((lx) => 1 - Math.abs(lx - mx) / 70));
+        const hs = phone ? [11, 8] : [22, 15, 18];
+        hs.forEach((h, j) => mushroom(ctx, mx + (j - 1) * h * 0.7, horizon, h, (j - 1) * 2, k));
+      }
       if (still) return;
       if (t > nextSpark) {
         const l = links[Math.floor(chance() * links.length)];
         sparks.push({ l, u: chance() < 0.5 ? 0 : 1, dir: 0 }); sparks.at(-1).dir = sparks.at(-1).u ? -1 : 1;
         nextSpark = t + 250 + chance() * 500;
       }
-      ctx.globalCompositeOperation = "lighter";
+      ctx.globalCompositeOperation = glowMode();
       for (let i = sparks.length - 1; i >= 0; i--) {
         const s = sparks[i];
         s.u += s.dir * dt * 0.55;
@@ -438,13 +542,15 @@ for (const canvas of document.querySelectorAll("canvas[data-scene]")) {
     scene.size(W, H);
   };
   const frame = (t) => {
+    if (!still && visible) raf = requestAnimationFrame(frame);
+    // Thirty frames a second is plenty for things that sway and grow.
+    if (start && t - last < 31) return;
     if (!start) start = last = t;
     const dt = Math.min(0.05, (t - last) / 1000); last = t;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
     ctx.lineCap = "round";
     scene.draw(t, dt, t - start);
-    if (!still && visible) raf = requestAnimationFrame(frame);
   };
   size();
   let lastW = innerWidth;

@@ -76,8 +76,11 @@ for (const [scheme, expectDark] of [["dark", true], ["light", false]]) {
   say(isDark === expectDark, `a ${scheme} system gets the ${expectDark ? "dark" : "light"} theme by default`);
 
   const [bg, fg] = await page.evaluate(() => {
-    const s = getComputedStyle(document.body);
-    return [s.backgroundColor, s.color];
+    // The page's background is the sky (sky.mjs), painted over html's
+    // --sky-base; body is transparent. Measure against the first opaque
+    // background up the tree, which is that base.
+    const bg = [document.body, document.documentElement].map((el) => getComputedStyle(el).backgroundColor).find((c) => !/rgba\(.*,\s*0\)|transparent/.test(c));
+    return [bg, getComputedStyle(document.body).color];
   });
   const ratio = contrast(bg, fg);
   say(ratio >= 7, `and body text clears 7:1 there (${ratio.toFixed(1)}:1)`);
@@ -100,8 +103,11 @@ for (const [scheme, expectDark] of [["dark", true], ["light", false]]) {
   say(!(await page.$eval("html", (h) => h.classList.contains("dark"))), "the choice survives navigation");
 
   const ratio = await page.evaluate(() => {
-    const s = getComputedStyle(document.body);
-    return [s.backgroundColor, s.color];
+    // The page's background is the sky (sky.mjs), painted over html's
+    // --sky-base; body is transparent. Measure against the first opaque
+    // background up the tree, which is that base.
+    const bg = [document.body, document.documentElement].map((el) => getComputedStyle(el).backgroundColor).find((c) => !/rgba\(.*,\s*0\)|transparent/.test(c));
+    return [bg, getComputedStyle(document.body).color];
   });
   say(contrast(ratio[0], ratio[1]) >= 7, `light stays readable after switching (${contrast(ratio[0], ratio[1]).toFixed(1)}:1)`);
 
