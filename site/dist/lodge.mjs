@@ -121,6 +121,21 @@ for (const stage of document.querySelectorAll("[data-lodge]")) {
   if (still) frame(performance.now());
 }
 
+// ── the floor, as the camera glides ──────────────────────────────────────
+// Lynch's floors do not move; the camera does. As the reader goes down the
+// page the chevrons flow toward them and the floor tilts a little further
+// away, like a slow dolly shot; the footer's strip slides with it.
+if (!still) {
+  let queued = false;
+  const glide = () => {
+    queued = false;
+    document.documentElement.style.setProperty("--fy", `${(scrollY * 0.45).toFixed(1)}px`);
+    document.documentElement.style.setProperty("--ftilt", Math.min(1, scrollY / innerHeight).toFixed(3));
+  };
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(glide); } }, { passive: true });
+  glide();
+}
+
 // ── falling through the rabbit holes ──────────────────────────────────────
 // Each spiral between chapters turns counter-clockwise, so its arms flow
 // inward, and swells as it passes the middle of the screen: you fall through
@@ -162,27 +177,36 @@ if (rabbit && burrow) {
   addEventListener("load", seat, { once: true });
   const hop = rabbit.firstElementChild;
   if (!still) {
+    // A real rabbit's dive: crouch, spring in an arc, land nose-first at the
+    // lip of the hole and sink into it — the floor swallows him from the feet
+    // up — then, after a while, his ears come up first and he climbs out,
+    // turns, and hops back to his place to go on fretting.
     const dive = () => {
       seat();
       const r = rabbit.getBoundingClientRect(), b = burrow.getBoundingClientRect();
-      const dx = b.left + b.width / 2 - (r.left + r.width / 2), dy = b.top + b.height / 2 - (r.top + r.height * 0.85);
+      const h = r.height;
+      const dx = b.left + b.width / 2 - (r.left + r.width / 2), dy = b.top + b.height * 0.5 - r.bottom;
       burrow.classList.add("gulp");
+      const whole = "inset(-20% -20% 0% -20%)", gone = "inset(-20% -20% 100% -20%)";
       const out = hop.animate([
-        { transform: "translate(0, 0) scale(1, 1)" },
-        { transform: "translate(0, 5px) scale(1.08, 0.88)", offset: 0.16 },
-        { transform: `translate(${dx * 0.55}px, ${dy - r.height * 0.55}px) rotate(14deg)`, offset: 0.48 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(70deg) scale(0.15)`, opacity: 0, offset: 0.82 },
-        { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 },
-      ], { duration: 1600, easing: "ease-in", fill: "forwards" });
+        { transform: "translate(0, 0) rotate(0) scale(1, 1)", clipPath: whole, offset: 0 },
+        { transform: "translate(0, 4%) rotate(0) scale(1.06, 0.9)", clipPath: whole, offset: 0.18, easing: "cubic-bezier(.3,0,.6,1)" },
+        { transform: `translate(${dx * 0.5}px, ${dy - h * 0.32}px) rotate(12deg) scale(0.96, 1.06)`, clipPath: whole, offset: 0.46, easing: "cubic-bezier(.4,0,1,1)" },
+        { transform: `translate(${dx}px, ${dy}px) rotate(24deg) scale(1.03, 0.95)`, clipPath: whole, offset: 0.66, easing: "cubic-bezier(.5,0,.8,.6)" },
+        { transform: `translate(${dx}px, ${dy + h * 1.05}px) rotate(24deg) scale(1, 1)`, clipPath: gone, offset: 1 },
+      ], { duration: 1500, fill: "forwards" });
       out.onfinish = () => setTimeout(() => {
         const back = hop.animate([
-          { transform: `translate(${dx}px, ${dy + 8}px) scale(0.85)`, opacity: 0 },
-          { transform: `translate(${dx}px, ${dy - r.height * 0.3}px) scale(1)`, opacity: 1, offset: 0.35 },
-          { transform: `translate(${dx * 0.4}px, ${-r.height * 0.3}px)`, offset: 0.68 },
-          { transform: "translate(0, 0)" },
-        ], { duration: 1700, easing: "ease-out", fill: "forwards" });
+          { transform: `translate(${dx}px, ${dy + h * 1.05}px) scale(-1, 1)`, clipPath: gone, offset: 0 },
+          { transform: `translate(${dx}px, ${dy + h * 0.55}px) scale(-1, 1)`, clipPath: "inset(-20% -20% 55% -20%)", offset: 0.25, easing: "ease-out" },
+          { transform: `translate(${dx}px, ${dy}px) scale(-1, 1)`, clipPath: whole, offset: 0.42, easing: "cubic-bezier(.3,0,.6,1)" },
+          { transform: `translate(${dx * 0.5}px, ${-h * 0.28}px) scale(-0.97, 1.04)`, clipPath: whole, offset: 0.6, easing: "cubic-bezier(.4,0,1,1)" },
+          { transform: `translate(${dx * 0.12}px, 0) scale(-1.05, 0.92)`, clipPath: whole, offset: 0.76 },
+          { transform: "translate(0, -6%) scale(-1, 1)", clipPath: whole, offset: 0.86 },
+          { transform: "translate(0, 0) scale(1, 1)", clipPath: whole, offset: 1 },
+        ], { duration: 2400, fill: "forwards" });
         back.onfinish = () => { burrow.classList.remove("gulp"); out.cancel(); back.cancel(); };
-      }, 3200);
+      }, 3600);
     };
     let onScreen = false, timer = 0;
     const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden) dive(); next(16000 + Math.random() * 12000); }, ms); };
@@ -351,9 +375,29 @@ if (skyLife && !still) {
     const a = el.animate([{ transform: `translateX(${rtl ? innerWidth + 40 : -w - 40}px)` }, { transform: `translateX(${rtl ? -w - 40 : innerWidth + 40}px)` }], { duration: seconds * 1000, easing: "linear" });
     a.onfinish = () => { el.hidden = true; };
   };
-  // The whale: first a while after arrival, then rarely — a sighting, not a feature.
-  const sight = (ms) => setTimeout(() => { if (!document.hidden) pass(whale, phone() ? 55 : 80); sight(150000 + Math.random() * 120000); }, ms);
-  if (Math.random() < 0.7) sight(9000 + Math.random() * 16000);
+  // The whale swims rather than slides: a long, slow undulating path across
+  // the sky, its body pitching to follow the rise and fall, rising a little
+  // as it goes. First soon after arrival, then as a rare sighting.
+  const swim = () => {
+    if (document.hidden) return;
+    whale.hidden = false;
+    const w = whale.offsetWidth || 380, from = innerWidth + 60, to = -w - 60;
+    const dur = (phone() ? 48 : 70) * 1000, t0 = performance.now();
+    const step = (now) => {
+      const u = (now - t0) / dur;
+      if (u >= 1) { whale.hidden = true; return; }
+      const x = from + (to - from) * u;
+      const wave = Math.sin(u * Math.PI * 4.2), slope = Math.cos(u * Math.PI * 4.2);
+      const y = wave * 26 - u * 40;
+      whale.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${(slope * 4.5 - 1.2).toFixed(2)}deg)`;
+      whale.style.opacity = Math.min(1, u / 0.06, (1 - u) / 0.06).toFixed(3);
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const sight = (ms) => setTimeout(() => { swim(); sight(120000 + Math.random() * 90000); }, ms);
+  sight(5000 + Math.random() * 6000);
+
   // In fog, something vast walks slowly past, far off — whenever the fog
   // comes, whether the visit began in it or the reader turned it on.
   let walking = 0;

@@ -99,8 +99,8 @@ const SCENES = ["neuron", "seed", "rings", "mycelium"];
  * whatever the scene is doing and whatever theme the reader chose. `under`
  * slides the first section beneath the header.
  */
-function fullBleed({ scene, id, under = false, strong = false, body }) {
-  const life = SCENE_LIFE[scene] ?? "";
+function fullBleed({ scene, id, under = false, strong = false, body, cast }) {
+  const life = SCENE_LIFE[cast ?? scene] ?? "";
   if (!SCENES.includes(scene)) throw new Error(`scene ${scene} is not one of ${SCENES.join(", ")} (site/scenes.mjs)`);
   return `    <section class="bleed bleed-scene${under ? " bleed-under" : ""}"${id ? ` id="${esc(id)}"` : ""}${under ? " data-lodge" : ""}>
       <canvas class="scene-canvas" data-scene="${scene}" aria-hidden="true"></canvas>${life ? `\n${life}` : ""}
@@ -121,18 +121,21 @@ ${body}
 const SCENE_LIFE = {
   seed: `      <div class="horizon-life" aria-hidden="true">${fig("watch-block")}${fig("gear-l", "gear g-big")}${fig("gear-s", "gear g-small")}</div>
       <div class="walker" aria-hidden="true">${fig("elephant")}</div>
-      <div class="foreground" aria-hidden="true">${fig("rye-a")}${fig("rye-c")}${fig("rye-b")}</div>
+      <div class="horizon-life rye-clump" aria-hidden="true">${fig("rye-a", "rye r1")}${fig("rye-c", "rye r2")}${fig("rye-b", "rye r3")}</div>
       <div class="hummingbird" hidden aria-hidden="true">${fig("hummingbird")}</div>`,
   // Links sit in the scene, so this container is not aria-hidden; the two
   // doors carry their own labels and the rest is decorative.
-  mycelium: `      <div class="horizon-life">${fig("fog-giant", "in-fog")}${fig("deer")}${fig("mushrooms-3", "shroom s1")}${fig("cow", "", { href: "/heidi/", label: "Heidi" })}${fig("mushroom-1", "shroom s2")}${fig("diplodocus", "", { href: "/diplodoctor/", label: "Diplodoctor" })}${fig("mushrooms-2", "shroom s3")}</div>
+  // The home meadow is the herd's: the two doors and one cluster of
+  // mushrooms. The partners page has its own cast, so no screen is crowded.
+  mycelium: `      <div class="horizon-life">${fig("mushrooms-3", "shroom s1")}${fig("cow", "", { href: "/heidi/", label: "Heidi" })}${fig("diplodocus", "", { href: "/diplodoctor/", label: "Diplodoctor" })}</div>`,
+  partners: `      <div class="horizon-life">${fig("fog-giant", "in-fog")}${fig("deer")}${fig("mushroom-1", "shroom s2")}${fig("mushrooms-2", "shroom s3")}</div>
       <div class="foreground" aria-hidden="true">${fig("fiddlehead")}${fig("fern")}</div>`,
 };
 
 // The hero's far horizon, small in the haze: a La Mancha windmill turning its
 // sails, and Don Quixote on Rocinante with his lance levelled at it, Sancho
 // behind on his donkey.
-const HORIZON_LIFE = `      <div class="horizon-life" aria-hidden="true">${fig("sancho")}${fig("quixote")}${fig("windmill")}</div>`;
+const HORIZON_LIFE = `      <div class="horizon-life" aria-hidden="true"><span class="riders">${fig("sancho")}${fig("quixote")}</span><span class="fig windmill">${fig("windmill-tower", "wm-tower")}${fig("windmill-sails", "wm-sails")}</span></div>`;
 
 // The White Rabbit, late, by the burrow in the Lodge floor.
 const RABBIT = `      <div class="rabbit" aria-hidden="true"><div class="rabbit-hop">${fig("rabbit")}</div></div>`;
@@ -776,7 +779,7 @@ export function partnersPage() {
     ["Take the work", "Customers hire you directly and pay you directly. You build with Loki, OrangeCat and Solon — the same tools the studio uses. The studio takes no cut."],
   ];
   const body = `  <main id="main">
-${fullBleed({ scene: "mycelium", under: true, strong: true, body: `        <div class="bleed-copy rise">
+${fullBleed({ scene: "mycelium", cast: "partners", under: true, strong: true, body: `        <div class="bleed-copy rise">
           <span class="kicker">Partners</span>
           <h1 class="headline-caps">Build here.</h1>
           <p class="bleed-lede">The studio is full. Approved partner builders take the work it cannot — with the same tools, under their own name, at their own price.</p>
