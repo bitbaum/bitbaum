@@ -20,8 +20,11 @@ const num = (el, name, fallback) => parseFloat(getComputedStyle(el).getPropertyV
 const lerp = (a, b, k) => a + (b - a) * k;
 
 function creature(el, host, pick, { speed, hover, shy, curious }) {
-  let x = 0, y = 0, tx = 0, ty = 0, until = 0, raf = 0, visible = false, last = 0, facing = 1;
-  const place = () => { [tx, ty] = pick(); until = performance.now() + hover(); };
+  // z is depth: 1 is the painted size, less is further away. Each new target
+  // lies at its own depth, so the flyer comes toward you and goes away, and it
+  // banks into its turns.
+  let x = 0, y = 0, z = 1, tx = 0, ty = 0, tz = 1, until = 0, raf = 0, visible = false, last = 0, facing = 1, tilt = 0;
+  const place = () => { [tx, ty] = pick(); tz = 0.55 + Math.random() * 0.75; until = performance.now() + hover(); };
   const frame = (t) => {
     const dt = Math.min(0.05, (t - last) / 1000 || 0); last = t;
     const box = host.getBoundingClientRect();
@@ -33,10 +36,12 @@ function creature(el, host, pick, { speed, hover, shy, curious }) {
     const k = 1 - Math.exp(-speed * dt);
     const nx = lerp(x, tx, k), ny = lerp(y, ty, k);
     if (Math.abs(nx - x) > 0.3) facing = nx > x ? 1 : -1;
-    x = nx; y = ny;
+    tilt = lerp(tilt, Math.max(-18, Math.min(18, (ny - y) * 2.2)), 0.2);
+    x = nx; y = ny; z = lerp(z, tz, k * 0.6);
     // A hovering thing is never quite still.
     const bob = Math.sin(t * 0.009) * 1.6;
-    el.style.transform = `translate(${x.toFixed(1)}px, ${(y + bob).toFixed(1)}px) scaleX(${facing})`;
+    el.style.transform = `translate(${x.toFixed(1)}px, ${(y + bob).toFixed(1)}px) rotate(${(tilt * facing).toFixed(1)}deg) scale(${(facing * z).toFixed(3)}, ${z.toFixed(3)})`;
+    el.style.opacity = (0.55 + 0.45 * Math.min(1, z)).toFixed(2);
     if (visible) raf = requestAnimationFrame(frame);
   };
   new IntersectionObserver(([e]) => {

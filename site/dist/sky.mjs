@@ -279,30 +279,34 @@ function glowSprite(rgb) {
 // ── the Little Prince, on B-612, looking up at a constellation ───────────
 // Cut like the creatures (site/art-src/rigs.json → art/rig/prince.*): the
 // scarf flies from his neck and the back of his coat lifts, in gusts.
-const PRINCE_PARTS = [
-  { name: "coat", box: [27.234, 30.199, 27.66, 30.484], origin: [89.54, 9.19], a: [-5, 4], speed: 4.6, under: true },
-  { name: "scarf", box: [0, 12.251, 61.277, 25.356], origin: [89.76, 34.51], a: [-9, 7], speed: 3.9 },
-];
+const PRINCE = {
+  coat: { box: [27.234, 30.199, 27.66, 30.484], origin: [89.54, 9.19], a: [-5, 4], speed: 4.6 },
+  scarfa: { box: [25.957, 12.251, 35.319, 17.094], origin: [82.23, 51.18], a: [-6, 5], speed: 3.9 },
+  scarfb: { box: [0, 23.647, 30.213, 13.96], origin: [92.68, 16.86], a: [-14, 11], speed: 3.9, lag: 0.9 },
+};
+// The scarf ripples rather than swings: its tail rides on its root and
+// follows it a moment late, turning further, as cloth does in wind.
 function prince(ctx, x, y, h, t = 0) {
   const body = art("rig/prince.body");
   if (!body) { const img = art("prince"); if (img) { const w = h * (img.naturalWidth / img.naturalHeight); ctx.drawImage(img, x - w / 2, y - h / 2, w, h); } return; }
   const w = h * (235 / 351), x0 = x - w / 2, y0 = y - h / 2;
-  // Wind comes in gusts: a slow swell with a quicker flutter riding on it.
   const gust = (sp, ph) => still ? 0.5 : 0.5 + 0.5 * (0.65 * Math.sin(t * 0.001 * sp + ph) + 0.35 * Math.sin(t * 0.001 * sp * 2.7 + ph * 1.9));
-  const part = (p) => {
-    const img = art(`rig/prince.${p.name}`);
-    if (!img) return;
+  const geo = (p) => {
     const [bx, by, bw, bh] = p.box;
     const px = x0 + (w * bx) / 100, py = y0 + (h * by) / 100, pw = (w * bw) / 100, ph = (h * bh) / 100;
-    const ox = px + (pw * p.origin[0]) / 100, oy = py + (ph * p.origin[1]) / 100;
-    const k = gust(p.speed, p.name.length);
-    const ang = ((p.a[0] + (p.a[1] - p.a[0]) * k) * Math.PI) / 180;
-    ctx.save(); ctx.translate(ox, oy); ctx.rotate(ang); ctx.translate(-ox, -oy);
-    ctx.drawImage(img, px, py, pw, ph); ctx.restore();
+    return { px, py, pw, ph, ox: px + (pw * p.origin[0]) / 100, oy: py + (ph * p.origin[1]) / 100 };
   };
-  PRINCE_PARTS.filter((p) => p.under).forEach(part);
+  const angle = (p) => ((p.a[0] + (p.a[1] - p.a[0]) * gust(p.speed, -(p.lag || 0))) * Math.PI) / 180;
+  const turn = (g, ang) => { ctx.translate(g.ox, g.oy); ctx.rotate(ang); ctx.translate(-g.ox, -g.oy); };
+  const draw = (name, g) => { const img = art(`rig/prince.${name}`); if (img) ctx.drawImage(img, g.px, g.py, g.pw, g.ph); };
+  const coat = geo(PRINCE.coat);
+  ctx.save(); turn(coat, angle(PRINCE.coat)); draw("coat", coat); ctx.restore();
   ctx.drawImage(body, x0, y0, w, h);
-  PRINCE_PARTS.filter((p) => !p.under).forEach(part);
+  const a = geo(PRINCE.scarfa), b = geo(PRINCE.scarfb);
+  ctx.save(); turn(a, angle(PRINCE.scarfa));
+  ctx.save(); turn(b, angle(PRINCE.scarfb)); draw("scarfb", b); ctx.restore();
+  draw("scarfa", a);
+  ctx.restore();
 }
 
 // ── the dandelion clock ───────────────────────────────────────────────────
@@ -313,20 +317,30 @@ function prince(ctx, x, y, h, t = 0) {
 const SEEDS = 44;
 const seedOrder = (() => { const r = rng(314); return [...Array(SEEDS).keys()].map((i) => [r(), i]).sort((a, b) => a[0] - b[0]).map(([, i]) => i); })();
 function pappus(ctx, x, y, dirx, diry, len, rgb, a, fine) {
-  // A seed: a beak, and at its tip a starburst whose rays fork again.
-  ctx.strokeStyle = `rgba(${rgb}, ${a})`;
-  ctx.lineWidth = 0.7;
-  const tx = x + dirx * len, ty = y + diry * len;
-  ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(tx, ty); ctx.stroke();
+  // A dandelion seed as it really is: a small ribbed brown achene, a long
+  // fine beak, and at its tip an umbrella of many silky hairs that splay
+  // up and out and droop a little at their ends.
   const base = Math.atan2(diry, dirx);
-  ctx.lineWidth = 0.45;
-  for (let k = 0; k < 7; k++) {
-    const ang = base + (k - 3) * 0.32, r = len * 0.42;
+  const ax = Math.cos(base), ay = Math.sin(base);
+  ctx.lineCap = "round";
+  ctx.strokeStyle = `rgba(122, 92, 58, ${a})`; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.moveTo(x - ax * len * 0.18, y - ay * len * 0.18); ctx.lineTo(x, y); ctx.stroke();
+  const tx = x + ax * len, ty = y + ay * len;
+  ctx.strokeStyle = `rgba(${rgb}, ${a * 0.8})`; ctx.lineWidth = 0.5;
+  ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(tx, ty); ctx.stroke();
+  const hairs = fine ? 22 : 12, r = len * 0.55;
+  ctx.lineWidth = 0.35;
+  ctx.strokeStyle = `rgba(${rgb}, ${a * 0.85})`;
+  ctx.beginPath();
+  for (let k = 0; k < hairs; k++) {
+    const spread = ((k / (hairs - 1)) - 0.5) * 2.4;
+    const ang = base + spread;
     const ex = tx + Math.cos(ang) * r, ey = ty + Math.sin(ang) * r;
-    ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(ex, ey);
-    if (fine) for (const f of [-0.35, 0.35]) { ctx.moveTo(ex, ey); ctx.lineTo(ex + Math.cos(ang + f) * r * 0.3, ey + Math.sin(ang + f) * r * 0.3); }
-    ctx.stroke();
+    const droop = Math.abs(spread) * r * 0.18;
+    ctx.moveTo(tx, ty);
+    ctx.quadraticCurveTo(tx + Math.cos(ang) * r * 0.6, ty + Math.sin(ang) * r * 0.6, ex - ax * droop, ey - ay * droop);
   }
+  ctx.stroke();
 }
 // Where each painting's head and stem foot are, in fractions of the image.
 const DAND = {
@@ -472,7 +486,8 @@ if (canvas) {
     const order = home ? ["dmt", ...all] : all.slice().sort(() => pick() - 0.5).slice(0, 3);
     // Large enough to read as a figure in the sky, never across the words.
     // Big enough to read as figures in the night, not specks.
-    const bond = phone ? 17 : Math.max(24, Math.min(34, W / 44));
+    const margin0 = Math.max(0, (W - 1280) / 2) + 48;
+    const bond = phone ? 15 : Math.max(18, Math.min(40, margin0 / 5.2));
     contentLeft = Math.max(0, (W - 1280) / 2) + Math.min(48, Math.max(20, W * 0.05));
     // Open stretches of the page (not drawn scenes), in page coordinates.
     const open = [...document.querySelectorAll("main > section")]
@@ -483,15 +498,21 @@ if (canvas) {
     const at = (f) => { let d = f * span; for (const [a, b] of open) { if (d <= b - a) return a + d; d -= b - a; } return open.at(-1)?.[1] ?? H * 2; };
     const rest = order.filter((n) => n !== "dmt");
     figures = order.map((name) => {
+      if (name === "dmt" && phone) return null;
       if (name === "dmt") return { name, x: W * (phone ? 0.3 : 0.5), y: H * (phone ? 0.14 : 0.13), bond: bond * 0.75, rot: -0.3 };
       const k = rest.indexOf(name);
       const docY = span ? at((k + 0.5 + (pick() - 0.5) * 0.4) / rest.length) : H * (1.5 + k);
       // Strictly alternating sides, so they never gather on one; each sits in
       // its margin and, where the margin is narrow, reaches softly behind the
       // edge of the words.
+      // Spread through the whole sky, not lined up in the margins: across the
+      // width in bands that alternate sides, never twice in the same place.
+      // In the margins either side of the words, strictly alternating, so they
+      // are spread over the whole sky yet never cross a sentence. On a phone
+      // there are no margins: they hang faint behind, at the edges.
       const side = (k + (hash & 1)) % 2 === 1;
-      const inset = Math.max(contentLeft * 0.5, bond * 2.6) + (pick() - 0.5) * bond;
-      const x = phone ? W * (side ? 0.74 : 0.26) + (pick() - 0.5) * W * 0.1 : side ? W - inset : inset;
+      const inset = Math.max(margin0 * 0.5, bond * 2.4);
+      const x = phone ? W * (side ? 0.8 : 0.2) : side ? W - inset : inset;
       // A figure at sky height y sits mid-screen when its page point does.
       // …and never in the first screen, which belongs to the hero.
       const y = Math.max(H * 1.12, H / 2 + PARALLAX * (docY - H / 2));
@@ -500,10 +521,12 @@ if (canvas) {
     // One wormhole, on the home page, deep in the sky between two chapters.
     wormhole = false && home && span ? { x: W * (phone ? 0.5 : 0.8), y: Math.max(H * 1.3, H / 2 + PARALLAX * (at(0.55) - H / 2)), r: phone ? W * 0.42 : Math.min(W * 0.2, 290) } : null;
     // Without motion the sky does not move, so only the hero's figure shows.
+    figures = figures.filter(Boolean);
     if (!PARALLAX) figures = figures.slice(0, 1);
     moonR = phone ? 30 : Math.max(40, Math.min(72, W * 0.042));
     const mimg = art("moon");
-    moon = mimg ? renderMoon(mimg, moonR, dpr, phase, palette.night) : null;
+    // Painted large enough to stay sharp as it grows toward the horizon.
+    moon = mimg ? renderMoon(mimg, moonR * 1.5, dpr, phase, palette.night) : null;
     milky = palette.night ? renderMilkyWay() : null;
   }
 
@@ -547,7 +570,7 @@ if (canvas) {
     const m = MOLECULES[f.name];
     const y0 = f.y - off;
     if (y0 < -160 || y0 > H + 160) return;
-    const veil = f.name === "dmt" ? 1 : veiled(y0);
+    const veil = (f.name === "dmt" ? 1 : veiled(y0)) * (W < 700 ? 0.45 : 1);
     if (veil <= 0.02) return;
     ctx.globalAlpha = veil;
     const pts = Object.values(m.atoms);
@@ -627,30 +650,43 @@ if (canvas) {
   // round the full it rises at sunset and is not there by day.
   function moonAt(ctx, off) {
     const night = palette.night, phone = W < 700;
-    const mx = W * (phone ? 0.82 : 0.86), my = H * (phone ? 0.17 : 0.2) - off * 0.75;
+    // Over the length of the page the moon sets: it sinks toward the horizon,
+    // grows as a low moon seems to, and warms to amber. By day the sun does
+    // the same — a slow sunset for the reader who reads to the end.
+    // Through the first screen the moon (or sun) grows a little and warms, as
+    // a low moon does; then it rides up and away with the sky. It never
+    // travels down across the words.
+    const set = Math.min(1, scrollY / H), ease = set * set * (3 - 2 * set);
+    const mx = W * (phone ? 0.82 : 0.86), my = H * (phone ? 0.15 : 0.2) - off * 0.9 + ease * H * 0.06;
+    const grow = 1 + ease * 0.35;
+    if (my < -moonR * 3) return;
     if (night) {
-      if (!moon || my < -moonR * 4) return;
-      const lit = 0.5 - 0.5 * Math.cos(phase * Math.PI * 2);
-      const halo = ctx.createRadialGradient(mx, my, moonR * 0.95, mx, my, moonR * 3.2);
-      halo.addColorStop(0, `rgba(220, 225, 240, ${0.1 * lit + 0.02})`); halo.addColorStop(1, "rgba(220, 225, 240, 0)");
-      ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(mx, my, moonR * 3.2, 0, Math.PI * 2); ctx.fill();
-      ctx.drawImage(moon, mx - moonR - 1 / dpr, my - moonR - 1 / dpr, moon.width / dpr, moon.height / dpr);
+      if (!moon) return;
+      const lit = 0.5 - 0.5 * Math.cos(phase * Math.PI * 2), R = moonR * grow;
+      const halo = ctx.createRadialGradient(mx, my, R * 0.95, mx, my, R * 3.2);
+      halo.addColorStop(0, `rgba(${Math.round(220 + ease * 35)}, ${Math.round(225 - ease * 40)}, ${Math.round(240 - ease * 110)}, ${0.1 * lit + 0.02 + ease * 0.06})`); halo.addColorStop(1, "rgba(220, 200, 160, 0)");
+      ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(mx, my, R * 3.2, 0, Math.PI * 2); ctx.fill();
+      ctx.save();
+      if (ease > 0.01) ctx.filter = `sepia(${(ease * 0.55).toFixed(2)}) saturate(${(1 + ease * 0.8).toFixed(2)})`;
+      ctx.drawImage(moon, mx - R, my - R, R * 2, R * 2);
+      ctx.restore();
       return;
     }
-    if (my > -moonR * 6) {
-      const sr = moonR * 0.9;
+    {
+      const sr = moonR * 0.9 * grow;
       const glow = ctx.createRadialGradient(mx, my, 0, mx, my, sr * 7);
-      glow.addColorStop(0, "rgba(255, 244, 214, 0.9)"); glow.addColorStop(0.12, "rgba(255, 236, 196, 0.55)");
-      glow.addColorStop(0.4, "rgba(255, 226, 180, 0.16)"); glow.addColorStop(1, "rgba(255, 226, 180, 0)");
+      const g = Math.round(244 - ease * 70), b = Math.round(214 - ease * 120);
+      glow.addColorStop(0, `rgba(255, ${g}, ${b}, 0.9)`); glow.addColorStop(0.12, `rgba(255, ${g - 8}, ${b - 18}, ${0.55 + ease * 0.15})`);
+      glow.addColorStop(0.4, `rgba(255, ${g - 18}, ${b - 34}, ${0.16 + ease * 0.14})`); glow.addColorStop(1, "rgba(255, 200, 150, 0)");
       ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(mx, my, sr * 7, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = "rgba(255, 250, 236, 0.96)"; ctx.beginPath(); ctx.arc(mx, my, sr, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = `rgba(255, ${Math.round(250 - ease * 60)}, ${Math.round(236 - ease * 120)}, 0.96)`; ctx.beginPath(); ctx.arc(mx, my, sr, 0, Math.PI * 2); ctx.fill();
     }
     const dayMoon = (phase > 0.12 && phase < 0.42) || (phase > 0.58 && phase < 0.88);
-    const dmx = W * (phone ? 0.58 : 0.66), dmy = H * (phone ? 0.1 : 0.1) - off * 0.75;
+    const dmx = W * (phone ? 0.58 : 0.66), dmy = H * 0.1;
     if (dayMoon && moon && dmy > -moonR * 2) {
       ctx.globalAlpha = 0.55;
-      const s = 0.62;
-      ctx.drawImage(moon, dmx - moonR * s, dmy - moonR * s, (moon.width / dpr) * s, (moon.height / dpr) * s);
+      const R2 = moonR * 0.62;
+      ctx.drawImage(moon, dmx - R2, dmy - R2, R2 * 2, R2 * 2);
       ctx.globalAlpha = 1;
     }
   }
@@ -711,12 +747,12 @@ if (canvas) {
         ctx.restore();
       }
     }
-    for (const f of figures) figure(f, off, t);
-    const lsd = figures.find((f) => f.name === "lsd");
+    for (const f of figures) if (f) figure(f, off, t);
+    const lsd = figures.find((f) => f && f.name === "lsd");
     if (lsd) {
       // He stands in the same margin as the figure, below it, looking up; he
       // needs room, so only where the margin can hold him.
-      const room = W < 700 ? W * 0.3 : contentLeft - 16;
+      const room = W < 700 ? 0 : contentLeft - 16;
       const ph = Math.min(130, room * 1.3), py = lsd.y - off + lsd.bond * 7 + ph * 0.5;
       const pv = veiled(py) * veiled(lsd.y - off);
       if (ph >= 60 && pv > 0.02 && py > -ph && py < H + ph) { ctx.globalAlpha = pv; prince(ctx, lsd.x, py, ph, t); ctx.globalAlpha = 1; }
@@ -724,7 +760,8 @@ if (canvas) {
     // On a phone there is no margin for it in the first screen; it rises into
     // view once the reader has moved on from the hero.
     const docH = Math.max(document.documentElement.scrollHeight - H, 1);
-    const show = W < 700 ? Math.max(0, Math.min(1, (scrollY - H * 0.5) / (H * 0.4))) : 1;
+    // No room for it on a phone: it would stand on the words.
+    const show = W < 700 ? 0 : 1;
     if (show > 0) { ctx.globalAlpha = show; dandelion(ctx, W, H, Math.min(1, scrollY / docH), t); ctx.globalAlpha = 1; }
     weather(t);
   }
@@ -767,7 +804,7 @@ if (canvas) {
   };
 
   onArt = () => { layout(); draw(performance.now()); };
-  art("moon"); art("prince"); art("rig/prince.body"); art("rig/prince.scarf"); art("rig/prince.coat"); art("dandelion-flower"); art("dandelion-clock"); art("dandelion-bare");
+  art("moon"); art("prince"); art("rig/prince.body"); art("rig/prince.scarfa"); art("rig/prince.scarfb"); art("rig/prince.coat"); art("dandelion-flower"); art("dandelion-clock"); art("dandelion-bare");
   layout();
   let lastW = innerWidth;
   addEventListener("resize", () => {
