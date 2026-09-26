@@ -94,12 +94,12 @@ function strokeTree(ctx, node, key, style, width0) {
 // Giger's biomechanics: the trunk and first limbs are not wood but a ribbed
 // tube — vertebrae along the curve, walls either side — that turns into
 // living branches further out. Drawn over the plain stroke, same colour.
-function spine(ctx, node, key, style, width0, maxDepth = 2) {
+function spine(ctx, node, key, style, width0, maxDepth = 3) {
   const s = node[key];
   if (!s || s.part < 1 || node.depth > maxDepth) return;
   const len = Math.hypot(s.x2 - s.x, s.y2 - s.y);
   const n = Math.max(3, Math.round(len / 6));
-  const half = width0 * Math.pow(0.72, node.depth) * 2.1;
+  const half = width0 * Math.pow(0.74, node.depth) * 2.5;
   const walls = [[], []];
   ctx.strokeStyle = style; ctx.lineWidth = 0.8;
   for (let k = 0; k <= n; k++) {
@@ -427,6 +427,12 @@ function mycelium(ctx, box, canvas) {
     },
     draw(t, dt) {
       canvas.parentElement.style.setProperty("--horizon", `${horizon.toFixed(1)}px`);
+      // The meadow's ground: earth below the horizon, so the herd stands on
+      // something and the network is plainly underground.
+      const soil = ctx.createLinearGradient(0, horizon, 0, H);
+      if (palette.night) { soil.addColorStop(0, "rgba(16, 20, 18, 0.92)"); soil.addColorStop(1, "rgba(6, 8, 8, 0.6)"); }
+      else { soil.addColorStop(0, "rgba(186, 170, 128, 0.85)"); soil.addColorStop(1, "rgba(150, 128, 90, 0.4)"); }
+      ctx.fillStyle = soil; ctx.fillRect(0, horizon, W, H - horizon);
       for (const [i, tr] of trees.entries()) {
         pose(tr.crown.root, tr.x, horizon, 0, tr.size, { t, key: "up", phase: i });
         pose(tr.roots.root, tr.x, horizon, 0, tr.size * 0.8, { t, key: "down", squash: -0.9, sway: 0.4, phase: i });

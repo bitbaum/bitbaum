@@ -129,7 +129,7 @@ if (!still) {
   let queued = false;
   const glide = () => {
     queued = false;
-    document.documentElement.style.setProperty("--fy", `${(scrollY * 0.45).toFixed(1)}px`);
+    document.documentElement.style.setProperty("--fy", `${(scrollY * 0.2).toFixed(1)}px`);
     document.documentElement.style.setProperty("--ftilt", Math.min(1, scrollY / innerHeight).toFixed(3));
   };
   addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(glide); } }, { passive: true });
@@ -140,7 +140,7 @@ if (!still) {
 // Each spiral between chapters turns counter-clockwise, so its arms flow
 // inward, and swells as it passes the middle of the screen: you fall through
 // it into the next chapter.
-const holes = [...document.querySelectorAll(".rabbit-hole svg, .wormhole-gap .wormhole")];
+const holes = [...document.querySelectorAll(".rabbit-hole svg")];
 if (holes.length && !still) {
   let queued = false;
   const fall = () => {
@@ -355,8 +355,8 @@ if (cat) {
   // button: the tree only on wide screens (on a phone the crown is behind
   // the copy), curtain peeks only where the curtain has room.
   const spots = [];
-  const perch = document.querySelector("[data-cat-perch]");
-  if (perch && !phone()) spots.push(["tree", perch]);
+  // (The tree is not a seat: a painted kitten on a line-drawn branch looked
+  // pasted on. It sits on floors, peeks from curtains, or waits by the footer.)
   for (const s of document.querySelectorAll(".stage-floored")) spots.push(["floor", s]);
   if (!phone()) for (const s of document.querySelectorAll("[data-lodge]")) spots.push(["peek", s]);
   const foot = document.querySelector("footer");
@@ -430,10 +430,16 @@ if (skyLife && !still) {
     const step = (now) => {
       const u = (now - t0) / dur;
       if (u >= 1) { whale.hidden = true; return; }
+      // It comes from far away and high, swims closer as it crosses — larger,
+      // lower, turning its body a little toward us — and recedes again.
       const x = from + (to - from) * u;
-      const wave = Math.sin(u * Math.PI * 4.2), slope = Math.cos(u * Math.PI * 4.2);
-      const y = wave * 26 - u * 40;
-      whale.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${(slope * 4.5 - 1.2).toFixed(2)}deg)`;
+      const near = Math.sin(u * Math.PI);
+      const wave = Math.sin(u * Math.PI * 3.4), slope = Math.cos(u * Math.PI * 3.4);
+      const y = wave * 22 + near * innerHeight * 0.1 - 20;
+      const s = 0.5 + near * 0.75;
+      const turn = Math.cos(u * Math.PI) * 18;
+      whale.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) perspective(900px) rotateY(${turn.toFixed(1)}deg) rotate(${(slope * 4 - 1).toFixed(2)}deg) scale(${s.toFixed(3)})`;
+      whale.style.filter = `blur(${((1 - near) * 1.2).toFixed(2)}px)`;
       whale.style.opacity = Math.min(1, u / 0.06, (1 - u) / 0.06).toFixed(3);
       requestAnimationFrame(step);
     };
@@ -448,4 +454,135 @@ if (skyLife && !still) {
   const walk = (ms) => { clearTimeout(walking); walking = setTimeout(() => { if (!document.hidden && document.documentElement.dataset.weather === "mist") pass(walker, 140, false); walk(200000); }, ms); };
   if (document.documentElement.dataset.weather === "mist") walk(6000);
   document.addEventListener("weather", (e) => { if (e.detail === "mist" && walker.hidden) walk(2500); });
+}
+
+// ── depth under the pointer ───────────────────────────────────────────────
+// Three planes shift at different rates as the pointer moves — the far
+// horizon hardly at all, the floor more, the foreground most — the cheapest
+// honest cue that this is a space and not a picture. Desktop only.
+if (!still && matchMedia("(pointer: fine)").matches) {
+  let tx = 0, cx = 0, raf = 0;
+  addEventListener("pointermove", (e) => { tx = (e.clientX / innerWidth - 0.5) * 2; if (!raf) raf = requestAnimationFrame(step); }, { passive: true });
+  function step() {
+    cx += (tx - cx) * 0.08;
+    document.documentElement.style.setProperty("--px", cx.toFixed(4));
+    raf = Math.abs(tx - cx) > 0.002 ? requestAnimationFrame(step) : 0;
+  }
+}
+
+// ── the inner pages' stories ─────────────────────────────────────────────
+// One guest per stage, living in the floor's depth: far is small, high on the
+// floor and hazy; near is large and low. Each only moves while its stage is
+// on screen; under reduced motion each simply stays where it is.
+const guest = document.querySelector(".guest");
+const stageFloor = document.querySelector("[data-lodge].stage-floored");
+if (guest && stageFloor) {
+  stageFloor.append(guest);
+  guest.hidden = false;
+  const W = () => stageFloor.clientWidth, Hs = () => stageFloor.clientHeight;
+  let onScreen = false;
+  new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }, { threshold: 0.2 }).observe(stageFloor);
+  const every = (ms, fn) => setInterval(() => { if (onScreen && !document.hidden && !still) fn(); }, ms);
+  const kind = [...guest.classList].find((c) => c.startsWith("guest-") && c !== "guest").slice(6);
+
+  if (kind === "owl") {
+    // It sits on its branch by the right curtain; now and then it flies a
+    // wide slow loop across the stage — nearer as it passes — and lands again.
+    const perch = guest.querySelector(".owl-perch"), fly = guest.querySelector(".owl-flying");
+    every(24000, () => {
+      const pr = perch.getBoundingClientRect(), sr = stageFloor.getBoundingClientRect();
+      const x0 = pr.left - sr.left, y0 = pr.top - sr.top;
+      perch.style.opacity = "0"; fly.hidden = false;
+      const w = W();
+      fly.animate([
+        { transform: `translate(${x0}px, ${y0}px) scale(0.7)`, offset: 0 },
+        { transform: `translate(${w * 0.45}px, ${y0 + 40}px) scale(1.25)`, offset: 0.35 },
+        { transform: `translate(${w * 0.08}px, ${y0 - 10}px) scale(0.8) scaleX(-1)`, offset: 0.6 },
+        { transform: `translate(${w * 0.5}px, ${y0 - 30}px) scale(0.6) scaleX(-1)`, offset: 0.8 },
+        { transform: `translate(${x0}px, ${y0}px) scale(0.7)`, offset: 1 },
+      ], { duration: 9000, easing: "ease-in-out" }).onfinish = () => { fly.hidden = true; perch.style.opacity = ""; };
+    });
+  }
+
+  if (kind === "horse") {
+    // Far off on the floor it stands like something half-remembered; now and
+    // then it gallops across, coming nearer as it goes, and stands again.
+    const stand = guest.querySelector(".horse-stand"), run = guest.querySelector(".horse-gallop");
+    every(30000, () => {
+      stand.style.opacity = "0"; run.hidden = false;
+      const w = W();
+      run.animate([
+        { transform: `translate(${w + 40}px, 0) scale(0.55)`, opacity: 0 },
+        { transform: `translate(${w * 0.8}px, 6px) scale(0.65)`, opacity: 0.9, offset: 0.12 },
+        { transform: `translate(${w * 0.2}px, 30px) scale(1)`, opacity: 1, offset: 0.8 },
+        { transform: `translate(${-w * 0.2}px, 36px) scale(1.1)`, opacity: 0 },
+      ], { duration: 6500, easing: "linear" }).onfinish = () => { run.hidden = true; stand.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 2400 }).onfinish = () => { stand.style.opacity = ""; }; };
+    });
+  }
+
+  if (kind === "snail") {
+    // It crawls, very slowly, along the front of the floor; touch it and it
+    // draws into its shell for a while.
+    let x = W() * 0.12, tucked = 0;
+    const img = guest.querySelector(".fig");
+    guest.style.pointerEvents = "auto";
+    guest.addEventListener("pointerdown", () => { tucked = performance.now() + 4000; img.animate([{ scale: "1 1" }, { scale: "0.9 0.8" }], { duration: 300, fill: "forwards" }); });
+    let last = performance.now();
+    const crawl = (t) => {
+      const dt = (t - last) / 1000; last = t;
+      if (onScreen && !still && t > tucked) {
+        if (tucked && t - tucked < 50) img.animate([{ scale: "0.9 0.8" }, { scale: "1 1" }], { duration: 900, fill: "forwards" });
+        x += dt * 6;
+        if (x > W() * 0.9) x = W() * 0.05;
+        guest.style.transform = `translateX(${x.toFixed(1)}px)`;
+      }
+      requestAnimationFrame(crawl);
+    };
+    guest.style.transform = `translateX(${x}px)`;
+    requestAnimationFrame(crawl);
+  }
+
+  if (kind === "moth") {
+    // Drawn to the pointer as to a lamp: it flutters near it, now closer, now
+    // further off; with no pointer it wanders over the stage.
+    let x = W() * 0.7, y = Hs() * 0.35, z = 1, px = null, py = null;
+    const img = guest.querySelector(".fig");
+    stageFloor.addEventListener("pointermove", (e) => { const r = stageFloor.getBoundingClientRect(); px = e.clientX - r.left; py = e.clientY - r.top; }, { passive: true });
+    stageFloor.addEventListener("pointerleave", () => { px = null; });
+    const tick = (t) => {
+      if (onScreen && !still) {
+        const tx = (px ?? W() * (0.5 + 0.3 * Math.sin(t * 0.0003))) + Math.sin(t * 0.004) * 40;
+        const ty = (py ?? Hs() * (0.35 + 0.15 * Math.sin(t * 0.0005))) + Math.cos(t * 0.0053) * 30;
+        const tz = 0.7 + 0.35 * Math.sin(t * 0.0011);
+        x += (tx - x) * 0.04; y += (ty - y) * 0.04; z += (tz - z) * 0.05;
+        const flap = 0.55 + 0.45 * Math.abs(Math.sin(t * 0.03));
+        guest.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${z.toFixed(3)})`;
+        img.style.scale = `${flap.toFixed(3)} 1`;
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  if (kind === "scarab") {
+    // Khepri: the scarab rolls the sun. It walks backwards, as dung beetles
+    // do, pushing its golden ball from the far side of the floor toward us;
+    // the ball turns as it rolls, and both grow as they come nearer.
+    const ball = guest.querySelector(".sunball");
+    let u = 0, last = performance.now();
+    const roll = (t) => {
+      const dt = (t - last) / 1000; last = t;
+      if (onScreen && !still) {
+        u += dt / 46;
+        if (u > 1.08) u = -0.05;
+        const w = W(), d = Math.max(0, Math.min(1, u));
+        const x = w * (0.08 + d * 0.72), y = -d * -0.0 + (1 - d) * -46, s = 0.55 + d * 0.6;
+        guest.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${s.toFixed(3)})`;
+        guest.style.opacity = Math.max(0, Math.min(1, u / 0.05, (1.05 - u) / 0.06)).toFixed(3);
+        ball.style.rotate = `${(u * 2200).toFixed(1)}deg`;
+      }
+      requestAnimationFrame(roll);
+    };
+    requestAnimationFrame(roll);
+  }
 }

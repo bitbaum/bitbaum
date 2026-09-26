@@ -1159,3 +1159,99 @@ html { overflow-x: clip; }
 :root:not(.dark) .wormhole-gap .wormhole { opacity: 0.88; }
 @keyframes worm-turn { to { rotate: -360deg; } }
 @media (prefers-reduced-motion: reduce) { .wormhole-gap .wormhole { animation: none; } }
+
+/* ─── depth: shadows on the ground, haze with distance, planes that move ──
+   Every figure standing on a floor or plain has a soft contact shadow, cast
+   a little to the left, away from the moon; distant figures are hazier; and
+   under the pointer the far, middle and near planes shift at different rates
+   (lodge.mjs sets --px). */
+.puppet { isolation: isolate; }
+.puppet::after, .glass .windmill::after {
+  content: ""; position: absolute; z-index: -1; left: 4%; right: 14%; bottom: -3.5%; height: 8%;
+  border-radius: 50%; background: radial-gradient(closest-side, rgb(0 0 0 / 0.5), rgb(0 0 0 / 0)); pointer-events: none;
+}
+:root:not(.dark) .puppet::after, :root:not(.dark) .glass .windmill::after { background: radial-gradient(closest-side, rgb(70 50 25 / 0.32), rgb(70 50 25 / 0)); }
+.whale .puppet::after, .hummingbird .puppet::after, .dragonfly .puppet::after, .guest-fly .puppet::after { display: none; }
+.glass .riders, .glass .windmill { filter: saturate(0.82) contrast(0.92); }
+.glass .horizon-life, .bleed-scene .horizon-life { translate: calc(var(--px, 0) * -5px) 0; }
+.glass .lodge-floor, .glass .floor-plane, .rabbit-hop { translate: calc(var(--px, 0) * -12px) 0; }
+.foreground, .rye-clump, .walker { translate: calc(var(--px, 0) * -20px) 0; }
+
+/* ─── the burrow: a hole cut in the Lodge floor ─────────────────────────── */
+.burrow {
+  background:
+    radial-gradient(64% 50% at 50% 44%, rgb(0 0 0 / 0) 58%, rgb(var(--line-rgb) / 0.22) 63%, rgb(0 0 0 / 0) 70%),
+    radial-gradient(closest-side, #000 0 52%, #07080b 60%, rgb(12 12 14 / 0.9) 68%, rgb(0 0 0 / 0.55) 78%, rgb(0 0 0 / 0) 90%);
+  box-shadow: none;
+}
+.burrow svg { stroke: rgb(var(--line-rgb) / 0.28); stroke-width: 1.2; }
+.burrow:hover svg, .burrow:focus-visible svg, .burrow.gulp svg { stroke: rgb(var(--signal-rgb) / 0.85); }
+
+/* ─── the inner pages' guests ─────────────────────────────────────────── */
+.guest { position: absolute; z-index: 2; pointer-events: none; }
+.guest[hidden] { display: none; }
+.guest .fig { width: 100%; }
+.guest-owl { right: calc(var(--curtain) + 1.5rem); top: 22%; width: 96px; }
+.guest-owl .owl-flying { position: absolute; left: 0; top: 0; width: 150px; }
+.guest-owl .owl-flying[hidden] { display: none; }
+.guest-owl .owl-perch { display: block; transition: opacity 0.4s; }
+.guest-horse { left: 0; bottom: 70px; width: 120px; filter: saturate(0.85) contrast(0.9); }
+.guest-horse .horse-stand { display: block; position: absolute; left: 70%; bottom: 0; width: 100%; transition: opacity 0.4s; }
+.guest-horse .horse-gallop { position: absolute; left: 0; bottom: 0; width: 140px; }
+.guest-horse .horse-gallop[hidden] { display: none; }
+.guest-snail { left: 0; bottom: 14px; width: 62px; }
+.guest-moth { left: 0; top: 0; width: 64px; margin: -24px 0 0 -32px; }
+.guest-scarab { left: 0; bottom: 18px; width: 120px; display: flex; align-items: flex-end; gap: 0; transform-origin: 50% 100%; }
+.guest-scarab .scarab { display: block; width: 58%; }
+.guest-scarab .sunball { display: block; width: 42%; filter: drop-shadow(0 0 10px rgb(255 214 120 / 0.55)); }
+@media (max-width: 700px) {
+  .guest-owl { width: 60px; top: 30%; }
+  .guest-owl .owl-flying { width: 96px; }
+  .guest-horse { width: 80px; bottom: 56px; }
+  .guest-horse .horse-gallop { width: 94px; }
+  .guest-snail { width: 46px; }
+  .guest-moth { width: 44px; }
+  .guest-scarab { width: 84px; }
+}
+
+/* ─── integration: nothing ends in a cut ────────────────────────────────── */
+/* Floors fade out at their near edge as well as their far one: a pool of
+   lit floor in the dark, not a strip that stops at the section's edge. */
+.glass .lodge-floor, .stage-floored::after {
+  -webkit-mask-image: linear-gradient(to top, transparent 0, #000 26%, #000 58%, transparent 100%), linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
+  -webkit-mask-composite: source-in; mask-image: linear-gradient(to top, transparent 0, #000 26%, #000 58%, transparent 100%), linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%); mask-composite: intersect;
+}
+.wormhole-gap .wormhole { transform: none !important; opacity: 0.95; }
+
+/* ─── phones: one thing at a time ───────────────────────────────────────── */
+@media (max-width: 700px) {
+  .curtains, .whale, .dragonfly, .fog-walker { display: none !important; }
+  [data-lodge] > .wrap { padding-inline: var(--gutter); }
+  .wormhole-gap { padding-block: 1.5rem; }
+  .wormhole-gap .wormhole { width: 72vw; }
+}
+
+/* ─── the menu belongs to the night ─────────────────────────────────────── */
+.site-menu { background: color-mix(in srgb, var(--sky-base) 94%, transparent); border-top-color: rgb(var(--line-rgb) / 0.12); }
+.site-menu nav:first-of-type a { font-size: 1.9rem; font-weight: 600; letter-spacing: -0.02em; border-bottom: 0; padding-block: 0.35rem; }
+.site-menu nav:not(:first-of-type) { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1rem; }
+.site-menu nav:not(:first-of-type) .label { grid-column: 1 / -1; }
+.site-menu nav:not(:first-of-type) a { font-size: 1rem; color: var(--fg-2); border-bottom: 0; padding-block: 0.4rem; }
+/* On inner pages the stage is deeper, so the floor reads as a lit pool the
+   guest stands in, and the page's picture begins below it, not on it. */
+.venture-hero.stage, .stage.hero { padding-bottom: calc(var(--section-tight) + 170px); }
+.stage-floored::after { height: 200px; }
+@media (max-width: 700px) {
+  .venture-hero.stage, .stage.hero { padding-bottom: calc(var(--section-tight) + 120px); }
+  .stage-floored::after { height: 130px; }
+  .cat-footer { left: auto; right: 12px; transform: none; }
+}
+/* The whole stage — curtains, floor, guest — dissolves into the night at its
+   lower edge, so the page flows on instead of starting again below a line. */
+.stage.stage-floored { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 110px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 110px), transparent); }
+.guest-horse { left: 52%; }
+@media (max-width: 700px) { .stage.stage-floored { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 70px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 70px), transparent); } .guest-horse { left: 40%; } }
+@media (max-width: 700px) {
+  .cat-footer::after { left: auto; right: 0; transform: translate(0, 0); }
+  .cat-footer:hover::after, .cat-footer:focus-visible::after { transform: translate(0, -8px); }
+}

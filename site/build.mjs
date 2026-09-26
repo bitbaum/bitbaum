@@ -26,7 +26,7 @@ import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, write
 import { MARK_HEADER, MARK_FAVICON } from "./brand-mark.mjs";
 import { createPackagePages } from "./packages-page.mjs";
 import { publicMap } from "./public-map.mjs";
-import { fig } from "./art.mjs";
+import { fig, ART_NAMES } from "./art.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildSync } from "esbuild";
@@ -200,6 +200,25 @@ const SKY_LIFE = `  <div class="sky-life" aria-hidden="true"><div class="whale" 
 // Between two chapters, a wormhole: the painted vortex in open space, turning
 // inward and swelling as the reader falls past it (lodge.mjs).
 const WORMHOLE = `    <div class="wormhole-gap" aria-hidden="true">${fig("wormhole", "wormhole")}</div>`;
+
+// Each inner page has one story on its stage — never more — chosen by its
+// address so it is always the same there: the fox hatching, the owl, the
+// white horse, the snail, the moth, the scarab rolling the sun. Spread across
+// pages, the whole cast is on the site without any one page being crowded.
+const STORIES = {
+  fox: () => `${EGG}\n${FOX}`,
+  owl: () => `  <div class="guest guest-owl" hidden aria-hidden="true"><span class="owl-perch">${fig("owl")}</span><span class="owl-flying" hidden>${fig("owl-fly")}</span></div>`,
+  horse: () => `  <div class="guest guest-horse" hidden aria-hidden="true"><span class="horse-stand">${fig("horse")}</span><span class="horse-gallop" hidden>${fig("horse-run")}</span></div>`,
+  snail: () => `  <div class="guest guest-snail" hidden aria-hidden="true">${fig("snail")}</div>`,
+  moth: () => `  <div class="guest guest-moth" hidden aria-hidden="true">${fig("moth")}</div>`,
+  ...(ART_NAMES.includes("scarab") ? { scarab: () => `  <div class="guest guest-scarab" hidden aria-hidden="true"><span class="scarab">${fig("scarab")}</span><span class="sunball">${fig("sunball")}</span></div>` } : {}),
+};
+function story(path) {
+  if (path === "/work/") return STORIES.fox();
+  const names = Object.keys(STORIES);
+  const h = [...path].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 17);
+  return STORIES[names[h % names.length]]();
+}
 
 const RABBIT_HOLE = `    <div class="rabbit-hole" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></div>`;
 
@@ -444,7 +463,7 @@ ${sections.map(([title, links]) => `      <nav aria-label="${esc(title)}">
   <script type="module" src="/theme.mjs"><\/script>
   <script type="module" src="/nav.mjs"><\/script>
 ${CAT}
-${path === "/" ? "" : `${EGG}\n${FOX}`}
+${path === "/" ? "" : story(path)}
   <script type="module" src="/sky.mjs"><\/script>
   <script type="module" src="/lodge.mjs"><\/script>
 ${script ?? ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>\n  <script type="module" src="/creatures.mjs"><\/script>` : ""}
