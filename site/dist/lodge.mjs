@@ -140,7 +140,7 @@ if (!still) {
 // Each spiral between chapters turns counter-clockwise, so its arms flow
 // inward, and swells as it passes the middle of the screen: you fall through
 // it into the next chapter.
-const holes = [...document.querySelectorAll(".rabbit-hole svg")];
+const holes = [...document.querySelectorAll(".rabbit-hole svg, .wormhole-gap .wormhole")];
 if (holes.length && !still) {
   let queued = false;
   const fall = () => {
@@ -208,8 +208,32 @@ if (rabbit && burrow) {
         back.onfinish = () => { burrow.classList.remove("gulp"); out.cancel(); back.cancel(); };
       }, 3600);
     };
+    // Between dives he wanders: a few hops along the floor, a pause, a look
+    // back; he never strays far from his hole.
+    let pos = 0, busy = false;
+    const face = (d) => { const f = rabbit.querySelector(".fig"); if (f) f.style.scale = d < 0 ? "-1 1" : "1 1"; };
+    const wander = () => {
+      if (busy || !onScreen || document.hidden) return;
+      busy = true;
+      const target = Math.max(-170, Math.min(40, pos + (Math.random() - 0.5) * 220)), d = Math.sign(target - pos) || 1;
+      const hops = Math.max(1, Math.round(Math.abs(target - pos) / 42)), step = (target - pos) / hops;
+      face(d);
+      const frames = [];
+      for (let k = 0; k < hops; k++) {
+        const x0 = pos + step * k;
+        frames.push({ translate: `${x0}px 0`, offset: k / hops });
+        frames.push({ translate: `${x0 + step / 2}px -16px`, offset: (k + 0.5) / hops });
+      }
+      frames.push({ translate: `${target}px 0`, offset: 1 });
+      rabbit.animate(frames, { duration: hops * 380, easing: "ease-in-out", fill: "forwards" }).onfinish = () => {
+        pos = target;
+        rabbit.style.translate = `${pos}px 0`;
+        setTimeout(() => { if (Math.random() < 0.6) face(1); busy = false; }, 900 + Math.random() * 1400);
+      };
+    };
     let onScreen = false, timer = 0;
-    const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden) dive(); next(16000 + Math.random() * 12000); }, ms); };
+    const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden && !busy) { busy = true; face(1); dive(); setTimeout(() => { busy = false; }, 8000); } next(16000 + Math.random() * 12000); }, ms); };
+    setInterval(() => { if (Math.random() < 0.55) wander(); }, 5200);
     new IntersectionObserver(([e]) => { const was = onScreen; onScreen = e.isIntersecting; if (onScreen && !was && !timer) next(5000); }, { threshold: 0.4 }).observe(hero);
   }
 }
@@ -222,19 +246,17 @@ if (burrow) {
   burrow.addEventListener("click", async (e) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
     e.preventDefault();
-    let dest = burrow.getAttribute("href");
-    try {
-      const xml = await (await fetch("/sitemap.xml")).text();
-      const pages = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname).filter((p) => p !== location.pathname && p !== "/");
-      if (pages.length) dest = pages[Math.floor(Math.random() * pages.length)];
-    } catch { /* offline: the work page will do */ }
+    // Only pages worth landing on: the build lists them (live projects with
+    // a screenshot, and the site's main rooms).
+    const pages = (burrow.dataset.to || "").split(" ").filter((p) => p && p !== location.pathname);
+    const dest = pages.length ? pages[Math.floor(Math.random() * pages.length)] : burrow.getAttribute("href");
     if (still) { location.href = dest; return; }
     const b = burrow.getBoundingClientRect();
     const fall = document.createElement("div");
     fall.className = "falling";
     fall.style.setProperty("--fx", `${b.left + b.width / 2}px`);
     fall.style.setProperty("--fy", `${b.top + b.height / 2}px`);
-    fall.innerHTML = burrow.querySelector("svg").outerHTML;
+    fall.innerHTML = `${burrow.querySelector("svg").outerHTML}<img class="falling-worm" src="/art/wormhole.webp" alt="">`;
     document.body.append(fall);
     setTimeout(() => { location.href = dest; }, 950);
   });
@@ -279,21 +301,43 @@ if (fox && egg && foxStage) {
         egg.classList.add("hatched");
         cap.animate([
           { transform: "translate(0, 0) rotate(0)", opacity: 1 },
-          { transform: `translate(${-dir * 16}px, -34px) rotate(${-dir * 55}deg)`, opacity: 1, offset: 0.45 },
-          { transform: `translate(${-dir * 30}px, 18px) rotate(${-dir * 160}deg)`, opacity: 0 },
-        ], { duration: 950, easing: "cubic-bezier(.2,.6,.5,1)", fill: "forwards" });
-        // The kit sits up out of the shell, looks both ways, and grows.
+          { transform: `translate(${-dir * 10}px, -38px) rotate(${-dir * 70}deg)`, opacity: 1, offset: 0.4 },
+          { transform: `translate(${-dir * 30}px, 20px) rotate(${-dir * 170}deg)`, opacity: 1, offset: 0.8 },
+          { transform: `translate(${-dir * 34}px, 18px) rotate(${-dir * 180}deg)`, opacity: 0 },
+        ], { duration: 1100, easing: "cubic-bezier(.2,.6,.5,1)", fill: "forwards" });
+        // The kit: ears over the rim first, a look left and right, a spring
+        // out of the shell, a squashy landing, a moment's sitting — then off
+        // in small bounding hops.
         fox.hidden = false; fox.classList.add("kit");
-        fox.style.left = `${x}px`;
         const kit = fox.querySelector(".fox-kit");
+        const kw = kit.offsetWidth || 64, kh = kit.offsetHeight || 78;
+        fox.style.left = `${x - kw / 2}px`;
+        const sink = kh * 0.72, rim = kh * 0.42, out = "inset(-40% -40% 0 -40%)";
         const born = kit.animate([
-          { transform: `translate(-50%, 40%) scale(${dir * 0.35}, 0.35)`, opacity: 0 },
-          { transform: `translate(-50%, 8%) scale(${dir * 0.5}, 0.5)`, opacity: 1, offset: 0.2 },
-          { transform: `translate(-50%, 8%) scale(${-dir * 0.5}, 0.5)`, offset: 0.4 },
-          { transform: `translate(-50%, 8%) scale(${dir * 0.5}, 0.5)`, offset: 0.55 },
-          { transform: `translate(-50%, 0) scale(${dir * 0.85}, 0.85)` },
-        ], { duration: 2600, easing: "ease-out", fill: "forwards" });
-        born.onfinish = () => { born.cancel(); run(x - runW() / 2, dir); };
+          { transform: `translate(0, ${sink}px)`, clipPath: `inset(-40% -40% ${sink}px -40%)`, offset: 0 },
+          { transform: `translate(0, ${rim}px)`, clipPath: `inset(-40% -40% ${rim}px -40%)`, offset: 0.16, easing: "ease-out" },
+          { transform: `translate(0, ${rim}px) rotate(-9deg)`, clipPath: `inset(-40% -40% ${rim}px -40%)`, offset: 0.28 },
+          { transform: `translate(0, ${rim}px) rotate(9deg)`, clipPath: `inset(-40% -40% ${rim}px -40%)`, offset: 0.4 },
+          { transform: `translate(0, ${rim * 1.15}px) scale(1.06, 0.9)`, clipPath: `inset(-40% -40% ${rim * 1.15}px -40%)`, offset: 0.5, easing: "cubic-bezier(.3,0,.6,1)" },
+          { transform: `translate(${dir * kw * 0.35}px, ${-kh * 0.35}px) scale(0.95, 1.08)`, clipPath: out, offset: 0.64, easing: "cubic-bezier(.4,0,1,1)" },
+          { transform: `translate(${dir * kw * 0.7}px, 0) scale(1.14, 0.84)`, clipPath: out, offset: 0.74, easing: "ease-out" },
+          { transform: `translate(${dir * kw * 0.7}px, -4px) scale(0.97, 1.04)`, clipPath: out, offset: 0.8 },
+          { transform: `translate(${dir * kw * 0.7}px, 0) scale(1, 1)`, clipPath: out, offset: 1 },
+        ], { duration: 4200, fill: "forwards" });
+        born.onfinish = () => {
+          const start = x - kw / 2 + dir * kw * 0.7, w = foxStage.clientWidth;
+          const end = dir > 0 ? w + kw : -kw * 2, dist = Math.abs(end - start);
+          const hops = Math.max(4, Math.round(dist / 46)), hopMs = 330;
+          born.cancel();
+          kit.style.scale = dir > 0 ? "1 1" : "-1 1";
+          const go = fox.animate([{ left: `${start}px` }, { left: `${end}px` }], { duration: hops * hopMs, easing: "linear", fill: "forwards" });
+          kit.animate([
+            { transform: "translate(0, 0) scale(1.06, 0.9)" },
+            { transform: "translate(0, -22px) scale(0.96, 1.06)", offset: 0.45, easing: "cubic-bezier(.3,0,.7,1)" },
+            { transform: "translate(0, 0) scale(1.08, 0.88)" },
+          ], { duration: hopMs, iterations: hops, easing: "cubic-bezier(.4,0,.6,1)" });
+          go.onfinish = () => { go.cancel(); fox.hidden = true; fox.classList.remove("kit"); kit.style.scale = ""; };
+        };
       };
     };
     const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden) { const dir = Math.random() < 0.5 ? 1 : -1; run(dir > 0 ? -runW() : foxStage.clientWidth + runW(), dir); } next(26000 + Math.random() * 22000); }, ms); };
