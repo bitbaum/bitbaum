@@ -33,6 +33,46 @@ export function rng(seed) {
   };
 }
 
+// The painted pieces the sky uses (site/art/): fetched once, when first
+// asked for; until an image arrives its part of the sky simply waits.
+const artCache = new Map();
+let onArt = () => {};
+function art(name) {
+  if (!artCache.has(name)) {
+    const img = new Image();
+    img.decoding = "async";
+    img.onload = () => onArt();
+    img.src = `/art/${name}.webp`;
+    artCache.set(name, img);
+  }
+  const img = artCache.get(name);
+  return img.complete && img.naturalWidth ? img : null;
+}
+
+// ── weather ────────────────────────────────────────────────────────────────
+// Chosen once per visit, weighted by the real season: snow is a winter thing,
+// rain comes most in autumn, fog in any month. ?weather=clear|mist|rain|snow
+// pins it. The choice is written to <html data-weather> so the page (and
+// lodge.mjs, which sends things through the fog) can follow it.
+export const WEATHER = (() => {
+  const pinned = new URLSearchParams(location.search).get("weather");
+  if (["clear", "mist", "rain", "snow"].includes(pinned)) return pinned;
+  let stored = null;
+  try { stored = sessionStorage.getItem("bb-weather"); } catch { /* private mode */ }
+  if (stored) return stored;
+  const m = new Date().getMonth();
+  const table = m <= 1 || m === 11 ? [["clear", 0.35], ["snow", 0.35], ["mist", 0.3]]
+    : m <= 4 ? [["clear", 0.45], ["rain", 0.25], ["mist", 0.3]]
+    : m <= 7 ? [["clear", 0.6], ["rain", 0.15], ["mist", 0.25]]
+    : [["clear", 0.35], ["rain", 0.3], ["mist", 0.35]];
+  let r = Math.random(), w = "clear";
+  for (const [k, p] of table) { if ((r -= p) < 0) { w = k; break; } }
+  try { sessionStorage.setItem("bb-weather", w); } catch { /* ignore */ }
+  return w;
+})();
+root.dataset.weather = WEATHER;
+root.dataset.season = ["winter", "winter", "spring", "spring", "spring", "summer", "summer", "summer", "autumn", "autumn", "autumn", "winter"][new Date().getMonth()];
+
 // ── molecules, as skeletal formulas in bond lengths (y up) ─────────────────
 const INDOLE = {
   C3a: [0.866, 0.5], C4: [0, 1], C5: [-0.866, 0.5], C6: [-0.866, -0.5], C7: [0, -1], C7a: [0.866, -0.5],
@@ -114,100 +154,39 @@ export function lunarPhase(date = new Date()) {
   const days = (date.getTime() - Date.UTC(2000, 0, 6, 18, 14)) / 86400000;
   return (((days / 29.530588853) % 1) + 1) % 1; // 0 new, .25 first quarter, .5 full
 }
-// Maria and bright craters in disc coordinates (x right, y up, as seen from
-// the northern hemisphere), roughly where they are on the real near side.
-// [x, y, rx, ry, depth]: the great basins darker, the small ones barely.
-const MARIA = [
-  [-0.55, 0.1, 0.34, 0.52, 0.8], [-0.27, 0.42, 0.28, 0.24, 1], [0.16, 0.37, 0.17, 0.16, 1], [0.32, 0.1, 0.22, 0.2, 1],
-  [0.66, 0.3, 0.11, 0.1, 0.9], [0.54, -0.16, 0.14, 0.16, 0.7], [0.33, -0.28, 0.1, 0.1, 0.6], [-0.2, -0.36, 0.2, 0.15, 0.7],
-  [-0.47, -0.33, 0.1, 0.1, 0.7], [0.05, 0.64, 0.4, 0.09, 0.45], [0.03, 0.18, 0.1, 0.08, 0.5],
-];
-const BRIGHT = [[-0.12, -0.62, 0.035, "rays"], [-0.3, 0.13, 0.03]];
-
-function noise2(seed) {
-  const r = rng(seed), g = [...Array(256)].map(() => r());
-  const h = (x, y) => g[(((x * 73856093) ^ (y * 19349663)) >>> 0) % 256];
-  const s = (t) => t * t * (3 - 2 * t);
-  return (x, y) => {
-    const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
-    const a = h(xi, yi), b = h(xi + 1, yi), c = h(xi, yi + 1), d = h(xi + 1, yi + 1);
-    return a + (b - a) * s(xf) + (c - a) * s(yf) + (a - b - c + d) * s(xf) * s(yf);
-  };
-}
-
-export function renderMoon(radius, dpr, phase, night) {
+// The painted moon, lit for today: every pixel of the disc is shaded by the
+// angle between its sphere normal and the sun's direction for this phase, so
+// the terminator falls where it really does tonight. The night side keeps a
+// trace of earthshine; by day it simply is not there, as the eye sees it.
+export function renderMoon(img, radius, dpr, phase, night) {
   const size = Math.ceil(radius * 2 * dpr) + 2;
   const c = document.createElement("canvas");
   c.width = c.height = size;
   const g = c.getContext("2d");
-  const img = g.createImageData(size, size);
-  const n = noise2(3);
-  const fbm = (x, y) => n(x, y) * 0.5 + n(x * 2.1, y * 2.1) * 0.25 + n(x * 4.3, y * 4.3) * 0.15 + n(x * 9, y * 9) * 0.1;
+  g.drawImage(img, 1, 1, size - 2, size - 2);
+  const data = g.getImageData(0, 0, size, size);
   const a = phase * Math.PI * 2;
-  const L = [Math.sin(a), 0.12, -Math.cos(a)];
-  const Ln = Math.hypot(...L);
-  L[0] /= Ln; L[1] /= Ln; L[2] /= Ln;
-  const L2n = Math.hypot(L[0], L[1]) || 1, L2 = [L[0] / L2n, L[1] / L2n];
-  const cr = rng(11);
-  // Only a few craters show at this size, mostly in the southern highlands.
-  const craters = [...Array(9)].map(() => {
-    const ang = cr() * 6.283, d = Math.sqrt(cr()) * 0.85;
-    return [Math.cos(ang) * d, -Math.abs(Math.sin(ang) * d) * 0.9, 0.02 + cr() * 0.03];
-  });
+  const L = [Math.sin(a), 0.1, -Math.cos(a)];
+  const n = Math.hypot(...L);
   const R = (size - 2) / 2;
   const smooth = (e0, e1, x) => { const t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t); };
   for (let py = 0; py < size; py++) {
     for (let px = 0; px < size; px++) {
       const x = (px + 0.5 - size / 2) / R, y = -(py + 0.5 - size / 2) / R;
       const rr = x * x + y * y;
-      if (rr > 1.02) continue;
-      const edge = Math.max(0, Math.min(1, (1 - Math.sqrt(rr)) * R + 0.5));
-      const z = Math.sqrt(Math.max(0, 1 - rr));
-      // Albedo: highlands, darker maria with ragged shores, fine texture.
-      // Highlands with a fine regolith grain; maria only a little darker,
-      // their shores dissolving rather than drawn.
-      let alb = 0.82 + (fbm(x * 3 + 7, y * 3 + 7) - 0.5) * 0.1 + (n(x * 38, y * 38) - 0.5) * 0.035;
-      let mare = 0;
-      for (const [mx, my, rx, ry, depth] of MARIA) {
-        const d = Math.hypot((x - mx) / rx, (y - my) / ry) + (fbm(x * 1.8 + mx * 9, y * 1.8 + my * 5) - 0.5) * 1.3;
-        mare += depth * (1 - smooth(0.35, 1.3, d));
-      }
-      mare = Math.min(1, mare);
-      alb -= 0.25 * mare * (0.75 + 0.5 * fbm(x * 6 + 3, y * 6 + 1));
-      let relief = 0;
-      for (const [cx, cy, r] of craters) {
-        const dx = x - cx, dy = y - cy, d = Math.hypot(dx, dy) / r;
-        if (d > 1.3) continue;
-        const ux = dx / (d * r || 1), uy = dy / (d * r || 1);
-        if (d < 1) { relief += 0.05 * smooth(0.6, 1, d) * -(ux * L2[0] + uy * L2[1]); }
-        else relief += 0.03 * (1 - (d - 1) / 0.3) * (ux * L2[0] + uy * L2[1]);
-      }
-      for (const [bx, by, br, rays] of BRIGHT) {
-        const d = Math.hypot(x - bx, y - by);
-        alb += 0.13 * (1 - smooth(br * 0.5, br * 2, d));
-        if (rays) {
-          const ang = Math.atan2(y - by, x - bx);
-          const ray = Math.pow(Math.abs(Math.cos(ang * 9 + 0.6)) * Math.abs(Math.cos(ang * 13 + 1.9)), 8);
-          alb += 0.06 * ray * (1 - smooth(0.04, 0.9, d));
-        }
-      }
-      const ndl = x * L[0] + y * L[1] + z * L[2];
-      const lit = smooth(-0.04, 0.1, ndl) * (0.6 + 0.4 * Math.sqrt(Math.max(0, ndl)));
-      const shade = Math.max(0, Math.min(1.2, alb * lit + relief * lit * 0.8));
-      const earthshine = night ? 0.05 * alb : 0;
-      // Limb darkening: the edge of the disc a touch dimmer, as the eye sees it.
-      const lum = Math.max(earthshine, shade) * (0.8 + 0.2 * Math.sqrt(z));
       const i = (py * size + px) * 4;
-      if (night) {
-        // Warm ivory in the light, cool slate in shadow.
-        img.data[i] = 18 + 236 * lum; img.data[i + 1] = 20 + 226 * lum; img.data[i + 2] = 30 + 196 * lum; img.data[i + 3] = 255 * edge;
-      } else {
-        // By day the moon is thin: the sky shows through its seas.
-        img.data[i] = 255; img.data[i + 1] = 253; img.data[i + 2] = 248; img.data[i + 3] = 205 * edge * Math.min(1, Math.pow(lum, 1.6));
-      }
+      if (rr > 1) { data.data[i + 3] = 0; continue; }
+      const z = Math.sqrt(1 - rr);
+      const ndl = (x * L[0] + y * L[1] + z * L[2]) / n;
+      const lit = smooth(-0.06, 0.12, ndl);
+      const k = night ? 0.07 + 0.93 * lit : lit;
+      data.data[i] *= k; data.data[i + 1] *= k; data.data[i + 2] *= k * (night ? 1.04 : 1);
+      if (!night) data.data[i + 3] *= 0.9 * lit;
+      // soft edge
+      data.data[i + 3] *= Math.min(1, (1 - Math.sqrt(rr)) * R + 0.5);
     }
   }
-  g.putImageData(img, 0, 0);
+  g.putImageData(data, 0, 0);
   return c;
 }
 
@@ -226,38 +205,11 @@ function glowSprite(rgb) {
 }
 
 // ── the Little Prince, on B-612, looking up at a constellation ───────────
-const YELLOW = "242, 196, 64";
-function prince(ctx, x, y, s, t, lookX, lookY) {
-  const line = palette.line, night = palette.night;
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.lineCap = "round"; ctx.lineJoin = "round";
-  // The asteroid, with a volcano and the rose under her glass.
-  ctx.fillStyle = night ? "rgba(14, 16, 26, 0.95)" : "rgba(236, 230, 218, 0.95)";
-  ctx.strokeStyle = `rgba(${line}, 0.8)`; ctx.lineWidth = 1.1;
-  ctx.beginPath(); ctx.arc(0, 26 * s, 24 * s, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-  ctx.lineWidth = 0.7;
-  for (const [cx, cy, r] of [[-9, 30, 3.2], [7, 38, 2.2], [11, 24, 1.6]]) { ctx.beginPath(); ctx.arc(cx * s, cy * s, r * s, 0, Math.PI * 2); ctx.stroke(); }
-  ctx.beginPath(); ctx.moveTo(-19 * s, 11 * s); ctx.lineTo(-15.5 * s, 5.5 * s); ctx.lineTo(-12.5 * s, 5.5 * s); ctx.lineTo(-10 * s, 9 * s); ctx.stroke();
-  ctx.beginPath(); ctx.arc(14 * s, 0, 4.5 * s, Math.PI, 0); ctx.lineTo(18.5 * s, 3.5 * s); ctx.lineTo(9.5 * s, 3.5 * s); ctx.closePath(); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(14 * s, 3.2 * s); ctx.lineTo(14 * s, -1.2 * s); ctx.stroke();
-  ctx.fillStyle = `rgba(${line}, 0.8)`; ctx.beginPath(); ctx.arc(14 * s, -1.8 * s, 1.1 * s, 0, Math.PI * 2); ctx.fill();
-  // The boy: long coat, a turn of the head toward the stars, the scarf in the wind.
-  ctx.strokeStyle = `rgba(${line}, 0.95)`; ctx.lineWidth = 1.2;
-  ctx.beginPath(); ctx.moveTo(-1.5 * s, 2.5 * s); ctx.lineTo(-1.8 * s, -3 * s); ctx.moveTo(1.5 * s, 2.5 * s); ctx.lineTo(1.8 * s, -3 * s); ctx.stroke();
-  ctx.fillStyle = night ? "rgba(96, 134, 110, 0.95)" : "rgba(70, 110, 88, 0.95)";
-  ctx.beginPath(); ctx.moveTo(-4 * s, -3 * s); ctx.lineTo(-2.6 * s, -14 * s); ctx.lineTo(2.6 * s, -14 * s); ctx.lineTo(4 * s, -3 * s); ctx.closePath(); ctx.fill();
-  const up = Math.atan2(lookY - (y - 18 * s), lookX - x);
-  const hx = Math.cos(up) * 1.2 * s, hy = -18 * s + Math.sin(up) * 0.8 * s;
-  ctx.fillStyle = night ? "rgba(236, 226, 206, 0.95)" : "rgba(250, 244, 232, 1)";
-  ctx.beginPath(); ctx.arc(hx, hy, 3.6 * s, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-  ctx.strokeStyle = `rgba(${YELLOW}, 0.95)`; ctx.lineWidth = 1;
-  for (let k = -2; k <= 2; k++) { ctx.beginPath(); ctx.moveTo(hx + k * 1.3 * s, hy - 3 * s); ctx.lineTo(hx + k * 1.9 * s, hy - 5.6 * s); ctx.stroke(); }
-  const flutter = still ? 0 : Math.sin(t * 0.004) * 1.6;
-  ctx.fillStyle = `rgba(${YELLOW}, 0.95)`;
-  ctx.beginPath(); ctx.moveTo(-2 * s, -14 * s); ctx.quadraticCurveTo(-9 * s, (-16 + flutter) * s, -15 * s, (-13 + flutter) * s);
-  ctx.lineTo(-14 * s, (-11 + flutter) * s); ctx.quadraticCurveTo(-8 * s, (-12.5 + flutter) * s, -2 * s, -12.2 * s); ctx.fill();
-  ctx.restore();
+function prince(ctx, x, y, h) {
+  const img = art("prince");
+  if (!img) return;
+  const w = h * (img.naturalWidth / img.naturalHeight);
+  ctx.drawImage(img, x - w / 2, y - h / 2, w, h);
 }
 
 // ── the dandelion clock ───────────────────────────────────────────────────
@@ -286,38 +238,42 @@ function pappus(ctx, x, y, dirx, diry, len, rgb, a, fine) {
 function dandelion(ctx, W, H, progress, t) {
   const phone = W < 700;
   const margin = Math.max(0, (W - 1280) / 2) + 48;
-  const hx = phone ? W - 26 : W - Math.max(40, margin / 2), hy = H * (phone ? 0.86 : 0.78), R = phone ? 17 : 24;
+  // It lives in the right margin and must never reach across the content, so
+  // its size is set by the room the margin has.
+  const room = phone ? 56 : margin - 24;
+  const tall = Math.max(70, Math.min(phone ? 110 : 180, room * 1.15)), foot = H + 6;
+  const hx = W - (phone ? 30 : margin / 2);
+  const stage = (name, alpha) => {
+    const img = art(name);
+    if (!img || alpha <= 0.01) return;
+    const w = tall * (img.naturalWidth / img.naturalHeight);
+    ctx.globalAlpha *= alpha;
+    ctx.drawImage(img, hx - w / 2, foot - tall, w, tall);
+    ctx.globalAlpha /= alpha;
+  };
+  // Flower, then the white clock, then — as its seeds leave — the bare stem.
+  const bloom = Math.max(0, 1 - progress / 0.14);
+  const clock = Math.min(1, Math.max(0, (progress - 0.08) / 0.12)) * Math.max(0, 1 - Math.max(0, progress - 0.55) / 0.35);
+  const bare = Math.max(0, Math.min(1, (progress - 0.55) / 0.3));
+  stage("dandelion-flower", bloom);
+  stage("dandelion-bare", bare);
+  stage("dandelion-clock", clock);
+  // The seeds that have left fly off on the wind, drawn fine.
   const night = palette.night;
   const seedRgb = night ? "243, 241, 234" : palette.line;
-  // Stem.
-  ctx.strokeStyle = `rgba(${palette.signal}, ${night ? 0.45 : 0.6})`; ctx.lineWidth = 1.4;
-  ctx.beginPath(); ctx.moveTo(hx - 8, H + 4); ctx.quadraticCurveTo(hx - 12, (H + hy) / 2, hx, hy + 3); ctx.stroke();
-  const bloom = Math.max(0, 1 - progress / 0.14), puff = Math.max(0, Math.min(1, (progress - 0.1) / 0.14));
-  if (bloom > 0) {
-    ctx.strokeStyle = `rgba(${YELLOW}, ${0.9 * bloom})`; ctx.lineWidth = 1.6;
-    for (let ring = 0; ring < 3; ring++) for (let k = 0; k < 22; k++) {
-      const ang = (k / 22) * Math.PI * 2 + ring * 0.14, r = R * (0.95 - ring * 0.22) * (0.35 + 0.65 * bloom);
-      ctx.beginPath(); ctx.moveTo(hx + Math.cos(ang) * r * 0.25, hy + Math.sin(ang) * r * 0.25); ctx.lineTo(hx + Math.cos(ang) * r, hy + Math.sin(ang) * r); ctx.stroke();
-    }
-  }
-  if (puff <= 0) return;
+  const hy = foot - tall * 0.8, R = tall * 0.13;
   for (let n = 0; n < SEEDS; n++) {
     const i = seedOrder[n];
-    const ang = (i / SEEDS) * Math.PI * 2 + (i % 3) * 0.05;
-    const dx = Math.cos(ang), dy = Math.sin(ang);
     const release = 0.3 + (n / SEEDS) * 0.66;
     const f = Math.max(0, (progress - release) * 7);
-    if (f <= 0) { pappus(ctx, hx + dx * 3, hy + dy * 3, dx, dy, R * 0.55, seedRgb, 0.75 * puff, !phone); continue; }
-    if (f > 1.6) continue;
-    // Away on the wind: up and to the right, turning, fluttering.
+    if (f <= 0 || f > 1.6) continue;
+    const ang = (i / SEEDS) * Math.PI * 2;
     const drift = still ? 0 : Math.sin(t * 0.0015 + i) * 10;
-    const x = hx + dx * R * 0.5 + f * W * (0.55 + (i % 5) * 0.08) + drift;
-    const y = hy + dy * R * 0.5 - f * H * (0.45 + (i % 4) * 0.1) + Math.sin(f * 6 + i) * 18;
+    const x = hx + Math.cos(ang) * R - f * W * (0.45 + (i % 5) * 0.08) + drift;
+    const y = hy + Math.sin(ang) * R - f * H * (0.45 + (i % 4) * 0.1) + Math.sin(f * 6 + i) * 18;
     const spin = ang - f * 2.2, fade = Math.max(0, 1 - f / 1.6);
-    pappus(ctx, x, y, Math.cos(spin - Math.PI / 2) * 0.2, -1, R * 0.55, seedRgb, 0.8 * fade, !phone);
+    pappus(ctx, x, y, Math.cos(spin - Math.PI / 2) * 0.2, -1, R * 0.8, seedRgb, 0.85 * fade, !phone);
   }
-  ctx.fillStyle = `rgba(${palette.signal}, 0.55)`;
-  ctx.beginPath(); ctx.arc(hx, hy, 2.4, 0, Math.PI * 2); ctx.fill();
 }
 
 // ── the sky ────────────────────────────────────────────────────────────────
@@ -353,7 +309,8 @@ if (canvas) {
     const pick = rng(hash);
     const rest = home ? ["lsd", ...all.filter((n) => n !== "lsd").sort(() => pick() - 0.5).slice(0, 2)] : all.sort(() => pick() - 0.5).slice(0, 2);
     const order = home ? ["dmt", ...rest] : rest;
-    const bond = phone ? 11 : Math.min(19, W / 72, (Math.max(0, (W - 1280) / 2) + 48) / 6.6);
+    // Large enough to read as a figure in the sky, never across the words.
+    const bond = phone ? 14 : Math.min(26, W / 56, (Math.max(0, (W - 1280) / 2) + 48) / 5.2);
     contentLeft = Math.max(0, (W - 1280) / 2) + Math.min(48, Math.max(20, W * 0.05));
     // Figures hang over plain text sections, in open sky rather than across a
     // drawn scene; side, drift, tilt and size are left to chance.
@@ -370,8 +327,9 @@ if (canvas) {
     });
     // Without motion the sky does not move, so only the hero's figure shows.
     if (!PARALLAX) figures = figures.slice(0, 1);
-    moonR = phone ? 26 : Math.max(34, Math.min(62, W * 0.036));
-    moon = renderMoon(moonR, dpr, phase, palette.night);
+    moonR = phone ? 30 : Math.max(40, Math.min(72, W * 0.042));
+    const mimg = art("moon");
+    moon = mimg ? renderMoon(mimg, moonR, dpr, phase, palette.night) : null;
     milky = palette.night ? renderMilkyWay() : null;
   }
 
@@ -546,16 +504,45 @@ if (canvas) {
     if (lsd) {
       // He stands in the same margin as the figure, below it, looking up; he
       // needs room, so only where the margin can hold him.
-      const room = W < 700 ? 0 : contentLeft - 16;
-      const ps = Math.min(1.9, room / 52), py = lsd.y - off + 150;
+      const room = W < 700 ? W * 0.3 : contentLeft - 16;
+      const ph = Math.min(130, room * 1.3), py = lsd.y - off + lsd.bond * 7 + ph * 0.5;
       const pv = veiled(py) * veiled(lsd.y - off);
-      if (ps >= 1.2 && pv > 0.02 && py > -80 && py < H + 80) { ctx.globalAlpha = pv; prince(ctx, lsd.x, py, ps, t, lsd.x, lsd.y - off); ctx.globalAlpha = 1; }
+      if (ph >= 60 && pv > 0.02 && py > -ph && py < H + ph) { ctx.globalAlpha = pv; prince(ctx, lsd.x, py, ph); ctx.globalAlpha = 1; }
     }
     // On a phone there is no margin for it in the first screen; it rises into
     // view once the reader has moved on from the hero.
     const docH = Math.max(document.documentElement.scrollHeight - H, 1);
     const show = W < 700 ? Math.max(0, Math.min(1, (scrollY - H * 0.5) / (H * 0.4))) : 1;
     if (show > 0) { ctx.globalAlpha = show; dandelion(ctx, W, H, Math.min(1, scrollY / docH), t); ctx.globalAlpha = 1; }
+    weather(t);
+  }
+
+  // Rain falls as fine slanting lines, snow as soft flakes that sway; both
+  // are few, drawn over the sky and behind every word. Fog is CSS (a pair of
+  // slow bands, styles.css) and needs nothing here.
+  let drops = [];
+  function weather(t) {
+    if (still || (WEATHER !== "rain" && WEATHER !== "snow")) return;
+    const want = WEATHER === "rain" ? (W < 700 ? 70 : 140) : (W < 700 ? 60 : 110);
+    if (drops.length !== want) drops = [...Array(want)].map(() => ({ x: Math.random() * W, y: Math.random() * H, v: 0.6 + Math.random() * 0.8, s: Math.random() }));
+    const dt = Math.min(0.05, (t - (weather.last || t)) / 1000); weather.last = t;
+    if (WEATHER === "rain") {
+      ctx.strokeStyle = palette.night ? "rgba(190, 205, 230, 0.28)" : "rgba(70, 90, 110, 0.3)"; ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (const d of drops) {
+        d.y += 900 * d.v * dt; d.x -= 120 * d.v * dt;
+        if (d.y > H) { d.y = -20; d.x = Math.random() * (W + 100); }
+        ctx.moveTo(d.x, d.y); ctx.lineTo(d.x + 5 * d.v, d.y - 16 * d.v);
+      }
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = palette.night ? "rgba(240, 244, 250, 0.8)" : "rgba(255, 255, 255, 0.92)";
+      for (const d of drops) {
+        d.y += 40 * d.v * dt; d.x += Math.sin(t * 0.001 + d.s * 9) * 18 * dt;
+        if (d.y > H) { d.y = -6; d.x = Math.random() * W; }
+        ctx.beginPath(); ctx.arc(d.x, d.y, 0.8 + d.s * 1.8, 0, Math.PI * 2); ctx.fill();
+      }
+    }
   }
 
   const loop = (t) => {
@@ -566,6 +553,8 @@ if (canvas) {
     draw(t);
   };
 
+  onArt = () => { layout(); draw(performance.now()); };
+  art("moon"); art("prince"); art("dandelion-flower"); art("dandelion-clock"); art("dandelion-bare");
   layout();
   let lastW = innerWidth;
   addEventListener("resize", () => {

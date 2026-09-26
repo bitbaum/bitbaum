@@ -180,19 +180,12 @@ function neuron(ctx, box, canvas) {
       spine(ctx, tree.root, "down", `rgba(${palette.signal}, ${phone ? 0.2 : 0.3})`, 2.2);
       strokeTree(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.34 : 0.78})`, 2.4);
       spine(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.3 : 0.62})`, 2.4);
-      // Perches: the cat takes the fork of the right limb, Dalí's soft clock
-      // slumps over the trunk fork; the silhouettes stand on the horizon.
+      // Perches: the cat takes the fork of the right limb; the silhouettes
+      // stand on the horizon.
       const fork = tree.root.kids[1]?.up;
       const host = canvas.parentElement;
       host.style.setProperty("--horizon", `${horizon.toFixed(1)}px`);
       host.style.setProperty("--root-x", `${rootX.toFixed(1)}px`);
-      // The watch slumps over the fork where the trunk divides.
-      const fk = tree.root.up;
-      if (fk && grown > 3) {
-        host.style.setProperty("--clock-x", `${fk.x2.toFixed(1)}px`);
-        host.style.setProperty("--clock-y", `${fk.y2.toFixed(1)}px`);
-        host.dataset.draped = "";
-      }
       if (fork && fork.part >= 1) {
         host.style.setProperty("--perch-x", `${fork.x2.toFixed(1)}px`);
         host.style.setProperty("--perch-y", `${fork.y2.toFixed(1)}px`);
@@ -267,133 +260,6 @@ function dome(ctx, cx, ground, R, turn) {
   }
 }
 
-// Psilocybe, fruiting from the network: a conical cap with its little umbo,
-// fine gills, a wavy stem that bruises blue at the foot. `glow` lights the cap
-// when a spark passes underneath.
-function mushroom(ctx, x, ground, h, lean, glowK, wide = 0.36, tall = 0.34) {
-  const top = ground - h, cw = h * wide, ch = h * tall, tx = x + lean;
-  ctx.lineCap = "round";
-  ctx.strokeStyle = `rgba(${palette.line}, 0.8)`; ctx.lineWidth = Math.max(1, h * 0.06);
-  ctx.beginPath(); ctx.moveTo(x, ground); ctx.bezierCurveTo(x - h * 0.08, ground - h * 0.4, tx + h * 0.08, top + h * 0.3, tx, top); ctx.stroke();
-  ctx.strokeStyle = "rgba(70, 140, 196, 0.6)"; ctx.lineWidth = Math.max(1, h * 0.07);
-  ctx.beginPath(); ctx.moveTo(x, ground); ctx.lineTo(x - h * 0.02, ground - h * 0.12); ctx.stroke();
-  ctx.fillStyle = palette.night ? "rgba(196, 160, 112, 0.6)" : "rgba(168, 118, 70, 0.65)";
-  ctx.strokeStyle = `rgba(${palette.line}, 0.85)`; ctx.lineWidth = 0.9;
-  ctx.beginPath(); ctx.moveTo(tx - cw, top + 1);
-  ctx.bezierCurveTo(tx - cw * 0.9, top - ch * 0.8, tx - cw * 0.25, top - ch, tx, top - ch * 1.12);
-  ctx.bezierCurveTo(tx + cw * 0.25, top - ch, tx + cw * 0.9, top - ch * 0.8, tx + cw, top + 1);
-  ctx.quadraticCurveTo(tx, top - ch * 0.12, tx - cw, top + 1); ctx.fill(); ctx.stroke();
-  ctx.lineWidth = 0.5;
-  for (let k = -2; k <= 2; k++) { ctx.beginPath(); ctx.moveTo(tx + k * cw * 0.2, top - ch * 0.05); ctx.lineTo(tx + k * cw * 0.34, top + 0.5); ctx.stroke(); }
-  if (glowK > 0.02) {
-    const g = ctx.createRadialGradient(tx, top - ch * 0.5, 0, tx, top - ch * 0.5, cw * 2.2);
-    g.addColorStop(0, `rgba(${palette.signal}, ${0.55 * glowK})`); g.addColorStop(1, `rgba(${palette.signal}, 0)`);
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(tx, top - ch * 0.5, cw * 2.2, 0, Math.PI * 2); ctx.fill();
-  }
-}
-
-// Rye in the foreground, heavy-eared and nodding — and on a few ears the dark
-// curved spurs of ergot, Claviceps purpurea, where the LSD story began.
-function rye(ctx, x, ground, h, t, seed) {
-  const sway = still ? 0 : Math.sin(t * 0.0009 + seed) * h * 0.03;
-  const tipX = x + sway + h * 0.06, tipY = ground - h;
-  ctx.strokeStyle = `rgba(${palette.line}, 0.55)`; ctx.lineWidth = 1.1; ctx.lineCap = "round";
-  ctx.beginPath(); ctx.moveTo(x, ground); ctx.quadraticCurveTo(x + sway * 0.3, ground - h * 0.5, tipX, tipY); ctx.stroke();
-  // The ear nods over at the top.
-  const ear = h * 0.2, ang = -1.25 + (seed % 3) * 0.12;
-  for (let k = 0; k < 9; k++) {
-    const u = k / 9, ex = tipX + Math.cos(ang) * ear * u, ey = tipY + Math.sin(ang) * ear * u;
-    for (const side of [-1, 1]) {
-      const gx = ex + Math.cos(ang + side * 0.9) * 3.2, gy = ey + Math.sin(ang + side * 0.9) * 3.2;
-      ctx.fillStyle = `rgba(${palette.line}, 0.5)`;
-      ctx.beginPath(); ctx.ellipse(gx, gy, 2.4, 1.2, ang + side * 0.5, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = `rgba(${palette.line}, 0.3)`; ctx.lineWidth = 0.4;
-      ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx + Math.cos(ang + side * 0.35) * 11, gy + Math.sin(ang + side * 0.35) * 11); ctx.stroke();
-      if (seed % 2 === 0 && (k === 3 || k === 6) && side === (k === 3 ? 1 : -1)) {
-        ctx.fillStyle = "rgba(34, 18, 30, 0.95)"; ctx.strokeStyle = `rgba(${palette.line}, 0.45)`; ctx.lineWidth = 0.5;
-        ctx.beginPath(); ctx.ellipse(gx + Math.cos(ang + side * 0.9) * 3, gy + Math.sin(ang + side * 0.9) * 3, 5.4, 1.5, ang + side * 0.95, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-      }
-    }
-  }
-}
-
-// Dalí's elephant, drawn in this site's line with Giger's bones: legs far
-// too long, each a ribbed tube with a knee; a ribbed trunk; an obelisk on a
-// saddle cloth. It really walks — every planted foot stays planted while the
-// body passes over it, and the knees are solved from hip and foot.
-const ELEPHANT_BODY = new Path2D("M48 -8C50 -24 30 -31 6 -29C-14 -27 -26 -33 -38 -34C-52 -35 -60 -26 -59 -14C-58 -6 -54 0 -48 2L-40 4C-30 8 -22 10 -10 10L30 10C42 10 48 4 48 -8Z");
-const ELEPHANT_EAR = new Path2D("M-33 -26C-25 -29 -17 -20 -19 -8C-21 2 -30 4 -35 -2");
-const ELEPHANT_CLOTH = new Path2D("M-15 -28L15 -30L17 -17L-13 -15Z");
-const OBELISK = new Path2D("M-6 -34H6V-30H-6ZM-4 -34L4 -34L2.4 -82L0 -89L-2.4 -82Z");
-function tube(ctx, pts, w0, w1, style, ribEvery = 5) {
-  // A ribbed tube along a polyline: two walls and a rib every few pixels.
-  const n = pts.length, walls = [[], []];
-  ctx.strokeStyle = style;
-  let run = 0;
-  for (let i = 0; i < n; i++) {
-    const [x, y] = pts[i], [px, py] = pts[Math.max(0, i - 1)], [nx, ny] = pts[Math.min(n - 1, i + 1)];
-    const dx = nx - px, dy = ny - py, d = Math.hypot(dx, dy) || 1, ox = -dy / d, oy = dx / d;
-    const w = w0 + (w1 - w0) * (i / (n - 1));
-    walls[0].push([x + ox * w, y + oy * w]); walls[1].push([x - ox * w, y - oy * w]);
-    if (i) run += Math.hypot(x - pts[i - 1][0], y - pts[i - 1][1]);
-    if (i && i < n - 1 && run >= ribEvery) {
-      run = 0; ctx.lineWidth = 0.6;
-      ctx.beginPath(); ctx.moveTo(x + ox * w * 1.15, y + oy * w * 1.15); ctx.lineTo(x - ox * w * 1.15, y - oy * w * 1.15); ctx.stroke();
-    }
-  }
-  ctx.lineWidth = 0.9;
-  for (const wall of walls) { ctx.beginPath(); wall.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke(); }
-}
-function elephant(ctx, x, ground, s, legLen, t) {
-  const line = palette.line;
-  const fill = palette.night ? "rgba(9, 12, 22, 0.96)" : "rgba(242, 234, 216, 0.97)";
-  const bodyY = ground - legLen - 10 * s;
-  const stride = legLen * 0.2, cycle = 5600;
-  // Hips: far legs first (fainter), then near.
-  const hips = [[-24, 0.5, 0.55], [30, 0, 0.55], [-32, 0, 1], [24, 0.5, 1]];
-  for (const [hx, phase, alpha] of hips) {
-    const hipX = x + hx * s, hipY = bodyY + 8 * s;
-    const u = ((still ? 0.3 : t / cycle) + phase) % 1;
-    let off, lift = 0;
-    if (u < 0.6) off = stride * (0.5 - u / 0.6);
-    else { const v = (u - 0.6) / 0.4; off = stride * (-0.5 + v); lift = Math.sin(Math.PI * v) * legLen * 0.05; }
-    const fx = hipX - off, fy = ground - lift;
-    const a = legLen * 0.53, b = legLen * 0.53, d = Math.min(a + b - 0.01, Math.hypot(fx - hipX, fy - hipY));
-    const base = Math.atan2(fy - hipY, fx - hipX), bend = Math.acos((a * a + d * d - b * b) / (2 * a * d));
-    const kx = hipX + Math.cos(base + bend) * a, ky = hipY + Math.sin(base + bend) * a;
-    const seg = (x0, y0, x1, y1, k = 10) => [...Array(k + 1)].map((_, i) => [x0 + ((x1 - x0) * i) / k, y0 + ((y1 - y0) * i) / k]);
-    const style = `rgba(${line}, ${0.85 * alpha})`;
-    tube(ctx, seg(hipX, hipY, kx, ky), 3.4 * s, 2.4 * s, style, 6 * s);
-    tube(ctx, seg(kx, ky, fx, fy), 2.2 * s, 1.3 * s, style, 6 * s);
-    ctx.fillStyle = style;
-    ctx.beginPath(); ctx.arc(kx, ky, 2.6 * s, 0, Math.PI * 2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(fx, fy - 1, 3.4 * s, 1.6 * s, 0, 0, Math.PI * 2); ctx.fill();
-  }
-  ctx.save();
-  ctx.translate(x, bodyY); ctx.scale(s, s);
-  ctx.fillStyle = fill; ctx.strokeStyle = `rgba(${line}, 0.9)`; ctx.lineWidth = 1.2 / s;
-  ctx.fill(ELEPHANT_BODY); ctx.stroke(ELEPHANT_BODY);
-  ctx.lineWidth = 0.9 / s; ctx.stroke(ELEPHANT_EAR);
-  ctx.fillStyle = palette.night ? "rgba(46, 60, 52, 0.95)" : "rgba(116, 150, 126, 0.9)";
-  ctx.fill(ELEPHANT_CLOTH); ctx.stroke(ELEPHANT_CLOTH);
-  ctx.lineWidth = 0.5 / s;
-  for (let k = 0; k < 5; k++) { ctx.beginPath(); ctx.moveTo(-13 + k * 6.5, -28.6 + k * -0.3); ctx.lineTo(-11 + k * 6.5, -15.6 - k * 0.3); ctx.stroke(); }
-  ctx.fillStyle = palette.night ? "rgba(214, 206, 188, 0.95)" : "rgba(252, 248, 238, 1)"; ctx.lineWidth = 0.9 / s;
-  ctx.fill(OBELISK); ctx.stroke(OBELISK);
-  ctx.fillStyle = `rgba(${line}, 0.95)`; ctx.beginPath(); ctx.arc(-48, -20, 1.3, 0, Math.PI * 2); ctx.fill();
-  ctx.strokeStyle = `rgba(${line}, 0.9)`; ctx.lineWidth = 1.4 / s;
-  ctx.beginPath(); ctx.moveTo(-52, -1); ctx.quadraticCurveTo(-58, 6, -51, 11); ctx.stroke();
-  ctx.lineWidth = 0.8 / s; ctx.beginPath(); ctx.moveTo(48, -8); ctx.quadraticCurveTo(53, 0, 52, 9); ctx.stroke();
-  ctx.restore();
-  // The trunk: a ribbed tube, swaying.
-  const sw = still ? 0 : Math.sin(t * 0.0011) * 4;
-  const trunk = [...Array(16)].map((_, i) => {
-    const u = i / 15;
-    return [x + (-58 - 8 * Math.sin(u * 2.6) + sw * u * u) * s, bodyY + (-12 + 42 * u - 10 * u * u * u) * s];
-  });
-  tube(ctx, trunk, 4.2 * s, 1.6 * s, `rgba(${line}, 0.85)`, 3.2 * s);
-}
-
 // ── seed: grown by the reader's scroll, with a long Dalí shadow ───────────
 function seed(ctx, box, canvas) {
   let tree, maxDepth, horizon, rootX, trunk, W, H, phone;
@@ -436,29 +302,6 @@ function seed(ctx, box, canvas) {
       strokeTree(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.4 : 0.85})`, 2.4);
       spine(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.3 : 0.6})`, 2.4);
       dome(ctx, W * (phone ? 0.2 : 0.91), horizon, phone ? 26 : Math.min(72, W * 0.05), still ? 0.4 : t * 0.00012);
-      // The elephant walks the near sand in front of the tree, slowly, on its
-      // impossible legs, with the long low shadow of a Dalí evening. It only
-      // crosses the open ground right of the words, fading in and out.
-      const eS = phone ? 0.5 : Math.min(0.85, W / 1650);
-      // Measured from the horizon, not the canvas: the section can be taller
-      // than the screen, and the elephant must stand where it can be seen.
-      const feet = horizon + (phone ? 34 : 70), legLen = phone ? 90 : Math.min(190, H * 0.2);
-      const pace = (legLen * 0.2) / 3.36; // one stride per stance: planted feet stay planted
-      const from = W * 1.06, to = W * (phone ? 0.2 : 0.5), span = from - to;
-      const ex = still ? W * 0.84 : from - ((t * pace) / 1000 + span * 0.3) % span;
-      const edge = Math.max(0, Math.min(1, (ex - to) / (W * 0.08), (from - ex) / (W * 0.06)));
-      if (edge > 0) {
-        ctx.save(); ctx.globalAlpha = edge * (palette.night ? 0.5 : 0.22);
-        ctx.fillStyle = palette.night ? "#000" : "rgba(92, 70, 40, 1)";
-        ctx.beginPath(); ctx.ellipse(ex - legLen * 1.4, feet + 2, legLen * 1.6, 3 * eS + 2, 0, 0, Math.PI * 2); ctx.fill();
-        ctx.restore();
-        ctx.globalAlpha = edge;
-        elephant(ctx, ex, feet, eS, legLen, t);
-        ctx.globalAlpha = 1;
-      }
-      // Rye in the near foreground, in the margin beside the words.
-      const ryeAt = phone ? [[W - 14, 0.3], [W - 30, 0.26]] : [[W * 0.022, 0.46], [W * 0.04, 0.4], [W * 0.058, 0.44], [W * 0.075, 0.36]];
-      ryeAt.forEach(([rx, rh], k) => rye(ctx, rx, H + 4, H * rh, t, k));
       // The seed itself, and — once grown — the crown's tips come alive.
       glow(ctx, rootX, horizon, 10, "green", progress < 1 ? 1 : 0.4);
       if (progress > maxDepth) {
@@ -532,26 +375,8 @@ function rings(ctx) {
 }
 
 // ── mycelium: separate trees, one network underground ────────────────────
-// Barnsley's fern: four affine maps, iterated. The same rule at every scale —
-// a fractal that happens to be a plant. Painted once, then just placed.
-function fern(height, rgb) {
-  const c = document.createElement("canvas");
-  const w = Math.ceil(height * 0.55), h = Math.ceil(height);
-  c.width = w; c.height = h;
-  const g = c.getContext("2d");
-  g.fillStyle = `rgba(${rgb}, 0.55)`;
-  let x = 0, y = 0;
-  const r = Math.random;
-  for (let i = 0; i < 26000; i++) {
-    const p = r();
-    [x, y] = p < 0.01 ? [0, 0.16 * y] : p < 0.86 ? [0.85 * x + 0.04 * y, -0.04 * x + 0.85 * y + 1.6] : p < 0.93 ? [0.2 * x - 0.26 * y, 0.23 * x + 0.22 * y + 1.6] : [-0.15 * x + 0.28 * y, 0.26 * x + 0.24 * y + 0.44];
-    g.fillRect(w / 2 + x * (w / 5.6), h - y * (h / 10.2), 0.9, 0.9);
-  }
-  return c;
-}
-
 function mycelium(ctx, box, canvas) {
-  let W, H, horizon, trees, links, sparks, phone, nextSpark = 0, frond = null, frondFor = "", shrooms = [];
+  let W, H, horizon, trees, links, sparks, phone, nextSpark = 0, shrooms = [];
   const chance = rng(77);
   return {
     size(w, h) {
@@ -574,27 +399,9 @@ function mycelium(ctx, box, canvas) {
         }
       }
       sparks = [];
-      const mr = rng(4242), unit = phone ? 0.55 : 1;
-      const spots = phone ? [0.3, 0.7] : [0.41, 0.63, 0.86];
-      shrooms = spots.map((f, ci) => {
-        const count = [1, 2, 4][ci % 3];
-        return {
-          x: W * (f + (mr() - 0.5) * 0.04),
-          items: [...Array(count)].map((_, j) => {
-            const h = (j === count - 1 && count > 2 ? 7 : 12 + mr() * 18) * unit;
-            return { dx: (j - (count - 1) / 2) * 11 * unit + (mr() - 0.5) * 6, h, lean: (mr() - 0.5) * h * 0.35, wide: 0.3 + mr() * 0.16, tall: j === count - 1 && count > 2 ? 0.46 : 0.24 + mr() * 0.14, lit: 0.4 + mr() * 0.6 };
-          }),
-        };
-      });
     },
     draw(t, dt) {
       canvas.parentElement.style.setProperty("--horizon", `${horizon.toFixed(1)}px`);
-      // In the foreground, a fern unrolling out of the meadow's dark.
-      const key = `${palette.line}|${H}`;
-      if (frondFor !== key) { frond = fern(H * (phone ? 0.3 : 0.42), palette.line); frondFor = key; }
-      const sway = still ? 0 : Math.sin(t * 0.0007) * 0.02;
-      ctx.save(); ctx.translate(W * (phone ? 0.86 : 0.8), H); ctx.rotate(-0.12 + sway); ctx.globalAlpha = 0.55;
-      ctx.drawImage(frond, -frond.width / 2, -frond.height); ctx.restore(); ctx.globalAlpha = 1;
       for (const [i, tr] of trees.entries()) {
         pose(tr.crown.root, tr.x, horizon, 0, tr.size, { t, key: "up", phase: i });
         pose(tr.roots.root, tr.x, horizon, 0, tr.size * 0.8, { t, key: "down", squash: -0.9, sway: 0.4, phase: i });
@@ -616,13 +423,14 @@ function mycelium(ctx, box, canvas) {
       line.addColorStop(phone ? 0 : 0.3, `rgba(${palette.line}, 0)`); line.addColorStop(phone ? 0.3 : 0.5, `rgba(${palette.line}, 0.3)`); line.addColorStop(1, `rgba(${palette.line}, 0.1)`);
       ctx.strokeStyle = line; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(0, horizon); ctx.lineTo(W, horizon); ctx.stroke();
-      // Mushrooms fruit where the network surfaces, between the trees.
-      // A few clusters only, each its own: one tall and alone, a leaning
-      // pair, a family with a button just breaking the ground.
+      // The painted mushrooms light up when a spark runs beneath them.
+      if (!shrooms.length) shrooms = [...canvas.parentElement.querySelectorAll(".shroom")].map((el) => ({ el, k: 0 }));
+      const cb = canvas.getBoundingClientRect();
       const lit = sparks.map((sp) => (sp.l.c ? at(sp.l.c, sp.u)[0] : -1e4));
-      for (const cl of shrooms) {
-        const k = Math.max(0, ...lit.map((lx) => 1 - Math.abs(lx - cl.x) / 70));
-        for (const m of cl.items) mushroom(ctx, cl.x + m.dx, horizon, m.h, m.lean, k * m.lit, m.wide, m.tall);
+      for (const m of shrooms) {
+        const r = m.el.getBoundingClientRect(), mx = r.left - cb.left + r.width / 2;
+        const k = Math.round(Math.max(0, ...lit.map((lx) => 1 - Math.abs(lx - mx) / 80)) * 4) / 4;
+        if (k !== m.k) { m.k = k; m.el.style.setProperty("--lit", k); }
       }
       if (still) return;
       if (t > nextSpark) {

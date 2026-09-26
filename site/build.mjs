@@ -26,7 +26,7 @@ import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, write
 import { MARK_HEADER, MARK_FAVICON } from "./brand-mark.mjs";
 import { createPackagePages } from "./packages-page.mjs";
 import { publicMap } from "./public-map.mjs";
-import { DEFS, critter, COW, DIPLODOCUS, DEER, QUIXOTE, WINDMILL, GEARS } from "./art.mjs";
+import { fig } from "./art.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildSync } from "esbuild";
@@ -111,41 +111,31 @@ ${body}
     </section>`;
 }
 
-// Creatures of the other scenes, standing on each scene's own horizon. The
-// desert of "build it yourself" has a diplodocus far out on the plain and a
-// hummingbird that feeds at the grown tree; the partners' meadow has a deer
-// and a cow grazing under the connected trees. A dream of a past that never
-// happened, so nobody minds that they were never in the same era.
-const HUMMINGBIRD = `<div class="hummingbird" hidden aria-hidden="true"><svg viewBox="0 0 40 32"><path class="hb-body" d="M9 17C9 12 14 9.5 19 10.5C23.5 11.4 26 14 26.8 16.2C22 19.6 15.6 21.6 9 17Z"/><path class="hb-tail" d="M9.4 16.6L2 13.6L3.4 19.4Z"/><circle class="hb-head" cx="25" cy="13" r="3.4"/><path class="hb-beak" d="M28 12.6L39 11.4"/><circle class="hb-eye" cx="25.9" cy="12.3" r="0.7"/><g class="hb-wings"><ellipse cx="17" cy="8" rx="3" ry="8.5" transform="rotate(-25 17 12)"/></g></svg></div>`;
-const DRAGONFLY = `<div class="dragonfly" hidden aria-hidden="true"><svg viewBox="0 0 40 24"><g class="df-wings"><ellipse cx="19" cy="7.4" rx="9.5" ry="2.5" transform="rotate(-10 19 7.4)"/><ellipse cx="19" cy="16.6" rx="9.5" ry="2.5" transform="rotate(10 19 16.6)"/><ellipse cx="25" cy="7.8" rx="7.4" ry="2.1" transform="rotate(-18 25 7.8)"/><ellipse cx="25" cy="16.2" rx="7.4" ry="2.1" transform="rotate(18 25 16.2)"/></g><path class="df-body" d="M4 12H31"/><circle class="df-head" cx="33.4" cy="12" r="2.3"/></svg></div>`;
+// What lives in each scene. Few figures per screen, each with room around it:
+// the plain of "build it yourself" belongs to Dalí — the soft watch on its
+// stone, spilled clockwork, the long-legged elephant far off, ergot on the
+// rye, a hummingbird at the grown tree; the partners' meadow to the herd and
+// what fruits from the network — the deer, Heidi's cow and Diplodoctor's
+// diplodocus (both doors), mushrooms, a fern unrolling, and something vast
+// passing in the fog behind. A dream of a past that never happened.
 const SCENE_LIFE = {
-  seed: `      ${HUMMINGBIRD}`,
-  // Links sit in the scene, so this container is not aria-hidden; each
-  // drawing is, and the two doors carry their own labels.
-  mycelium: `      <div class="horizon-life">${critter("deer", DEER)}${critter("cow", COW, "/heidi/", "Heidi")}${critter("diplodocus", DIPLODOCUS, "/diplodoctor/", "Diplodoctor")}</div>`,
+  seed: `      <div class="horizon-life" aria-hidden="true">${fig("elephant", "walker")}${fig("watch-block")}${fig("gear-l", "gear g-big")}${fig("gear-s", "gear g-small")}</div>
+      <div class="foreground" aria-hidden="true">${fig("rye-a")}${fig("rye-c")}${fig("rye-b")}</div>
+      <div class="hummingbird" hidden aria-hidden="true">${fig("hummingbird")}</div>`,
+  // Links sit in the scene, so this container is not aria-hidden; the two
+  // doors carry their own labels and the rest is decorative.
+  mycelium: `      <div class="horizon-life">${fig("fog-giant", "in-fog")}${fig("deer")}${fig("mushrooms-3", "shroom s1")}${fig("cow", "", { href: "/heidi/", label: "Heidi" })}${fig("mushroom-1", "shroom s2")}${fig("diplodocus", "", { href: "/diplodoctor/", label: "Diplodoctor" })}${fig("mushrooms-2", "shroom s3")}</div>
+      <div class="foreground" aria-hidden="true">${fig("fiddlehead")}${fig("fern")}</div>`,
 };
 
-// Everything that stands on the hero's horizon, drawn as silhouettes against
-// its haze: a La Mancha windmill turning, Don Quixote on Rocinante with his
-// lance levelled at it and Sancho on his donkey behind; and clockwork spilled
-// from the melting watch, half-sunk at the foot of the tree. If you know.
-const HORIZON_LIFE = `      <div class="horizon-life" aria-hidden="true">${critter("windmill", WINDMILL)}${critter("quixote", QUIXOTE)}</div>
-      <div class="gears-bed" aria-hidden="true">${GEARS}</div>`;
+// The hero's far horizon, small in the haze: a La Mancha windmill turning its
+// sails, and Don Quixote on Rocinante with his lance levelled at it, Sancho
+// behind on his donkey.
+const HORIZON_LIFE = `      <div class="horizon-life" aria-hidden="true">${fig("sancho")}${fig("quixote")}${fig("windmill")}</div>`;
 
-// The White Rabbit: bone-white, late, pocket watch and all. lodge.mjs runs
-// him across the Lodge floor and into the burrow once the tree has grown.
-const RABBIT = `      <div class="rabbit" hidden aria-hidden="true"><div class="rabbit-hop"><svg viewBox="0 0 64 64">
-        <path class="r-ear" d="M37.5 22.5C33 13 30.5 5.5 33.2 3.6C36 2.2 40 12 41.5 21.5Z"/>
-        <ellipse class="r-fill" cx="29" cy="42" rx="15" ry="10.5" transform="rotate(-10 29 42)"/>
-        <circle class="r-fill" cx="14.5" cy="40" r="4.2"/>
-        <circle class="r-fill" cx="44.5" cy="30" r="9"/>
-        <path class="r-fill" d="M43 22.5C42 12.5 43 4 46.6 3.5C50.2 4 48.8 13 47.4 23Z"/>
-        <path class="r-inner" d="M45.2 20C44.8 13 45.2 7 46.6 6.5C47.8 7 47.4 13 46.6 20Z"/>
-        <path class="r-leg" d="M22 50Q16 56 8.5 55M38 49.5Q42 55 48 56"/>
-        <circle class="r-eye" cx="47.8" cy="28.4" r="1.7"/><circle class="r-glint" cx="48.4" cy="27.8" r="0.55"/>
-        <circle class="r-nose" cx="53.2" cy="31" r="1"/>
-        <circle class="r-watch" cx="33" cy="44" r="3.3"/><path class="r-chain" d="M33 40.7V39.6M30.2 42.2Q26.4 41.6 24.8 38.6"/>
-      </svg></div></div>`;
+// The White Rabbit, late, by the burrow in the Lodge floor.
+const RABBIT = `      <div class="rabbit" aria-hidden="true"><div class="rabbit-hop">${fig("rabbit")}</div></div>`;
+const DRAGONFLY = `<div class="dragonfly" hidden aria-hidden="true">${fig("dragonfly")}</div>`;
 
 /**
  * The home hero, through the looking-glass: no photograph, a tree drawn live
@@ -161,10 +151,9 @@ function glassHero({ kicker, lines, lede, actions }) {
       <canvas class="scene-canvas" data-scene="neuron" aria-hidden="true"></canvas>
       <div class="glass-horizon" aria-hidden="true"></div>
 ${HORIZON_LIFE}
-      <a class="burrow" href="#start" aria-label="Follow the white rabbit" data-label="Follow the white rabbit &darr;"><span class="burrow-mouth" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></span></a>
+      <div class="floor-plane"><a class="burrow" href="#start" aria-label="Follow the white rabbit" data-label="Follow the white rabbit &darr;"><span class="burrow-mouth" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></span></a></div>
 ${RABBIT}
       ${DRAGONFLY}
-      <svg class="glass-clock" viewBox="0 0 80 154" aria-hidden="true"><path class="face" d="M6 20C6 10 22 5 40 5.5C58 6 74 11 74 20C74 27 64 30 56 33C50 35 47 40 46 50C45 64 47 78 45.5 92C44.5 104 46 116 44 126C43 131 45 136 43 140C41.5 143 38.5 143 38 140C37 136 39 131 38 126C36.5 116 37 104 36 92C35 78 36 64 34 50C33 40 30 35 24 33C16 30 6 27 6 20Z"/><ellipse class="drop" cx="40.6" cy="149" rx="2.1" ry="3"/><path class="rim" d="M11.5 20C11.5 13.4 24 9.6 40 10C56 10.4 68.5 14 68.5 20C68.5 25.5 57 29.6 40 29.8C23 29.6 11.5 25.5 11.5 20Z"/><path class="tick major" d="M40.0 12.3L40.0 11.4"/><path class="tick" d="M48.8 13.2L50.0 12.4"/><path class="tick" d="M55.2 15.7L57.3 15.2"/><path class="tick major" d="M57.5 19.0L60.0 19.0"/><path class="tick" d="M55.2 22.3L57.3 22.8"/><path class="tick" d="M48.8 24.8L50.0 25.6"/><path class="tick major" d="M40.0 25.6L40.0 26.6"/><path class="tick" d="M31.2 24.8L30.0 25.6"/><path class="tick" d="M24.8 22.3L22.7 22.8"/><path class="tick major" d="M22.5 19.0L20.0 19.0"/><path class="tick" d="M24.8 15.7L22.7 15.2"/><path class="tick" d="M31.2 13.2L30.0 12.4"/><path class="fold" d="M44.2 46C43.2 70 44.4 96 42.6 122M36.4 52C37.4 72 36.6 92 38 112M29 33.6C33 36 35 40 35.6 45"/><circle class="bow" cx="40" cy="2.6" r="2.3"/><path class="bow-stem" d="M40 4.9V5.8"/><line class="glass-hour" x1="40" y1="19" x2="48.0" y2="21.6"/><line class="glass-minute" x1="40" y1="19" x2="54.3" y2="22.1"/><circle class="pin" cx="40" cy="19" r="0.9"/><g class="fly"><ellipse cx="21.5" cy="15.4" rx="1.5" ry="0.9"/><ellipse class="wing" cx="20.8" cy="14.3" rx="1.3" ry="0.6" transform="rotate(-25 20.8 14.3)"/><ellipse class="wing" cx="22.1" cy="14.2" rx="1.3" ry="0.6" transform="rotate(25 22.1 14.2)"/></g></svg>
       <div class="wrap bleed-body">
         <div class="bleed-copy rise">
           <span class="kicker">${kicker}</span>
@@ -190,64 +179,19 @@ const SPIRAL = (() => {
   }
   return `M${pts.join(" L")}`;
 })();
-// A small inward spiral as an SVG path, for the cat's eyes and tail.
-function spiralPath(cx, cy, r, turns = 2.4) {
-  const pts = [];
-  for (let th = 0; th <= Math.PI * 2 * turns; th += 0.25) {
-    const rr = r * (1 - th / (Math.PI * 2 * (turns + 0.3)));
-    pts.push(`${(cx + rr * Math.cos(th)).toFixed(2)} ${(cy + rr * Math.sin(th)).toFixed(2)}`);
-  }
-  return `M${pts.join(" L")}`;
-}
+// The cat: OrangeCat's, very small and very round, with its tail curled into
+// Loki's spiral. lodge.mjs chooses where it sits (in the tree it is the
+// Cheshire cat); it is a real link to OrangeCat's page.
+const CAT = `  <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" data-label="OrangeCat &rarr;">${fig("cat")}</a>`;
 
-// The cat: a few curves and dots in OrangeCat's orange, Cheshire when it sits
-// in the tree. Its tail ends in Loki's spiral and, on hover, so do its eyes.
-// lodge.mjs chooses where it sits; it is a real link to OrangeCat's page.
-const CAT = `  <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" data-label="OrangeCat &rarr;">
-    <svg viewBox="0 0 64 64" aria-hidden="true">
-      <g class="cat-fade">
-        <g class="cat-tail"><path d="M41.5 55C49 56 55 51.5 55 45.5"/><path d="${spiralPath(51.2, 45, 4.1, 1.25)}"/></g>
-        <path class="cat-body" d="M23.5 42.5C21 47 21 53 22.5 58H41.5C43 53 43 47 40.5 42.5Z"/>
-        <ellipse class="cat-paw" cx="28" cy="57.6" rx="3.1" ry="1.9"/><ellipse class="cat-paw" cx="36" cy="57.6" rx="3.1" ry="1.9"/>
-        <path class="cat-head" d="M16 30C16 21 19 15 21 9L28.5 15C30.9 14.2 33.1 14.2 35.5 15L43 9C45 15 48 21 48 30C48 38.5 41 43 32 43C23 43 16 38.5 16 30Z"/>
-        <path class="cat-inner" d="M22 12.4L22.8 18L27 15.4ZM42 12.4L41.2 18L37 15.4Z"/>
-        <path class="cat-whisker" d="M16.5 31.5L10.5 30.4M16.5 34.2L10.5 35M47.5 31.5L53.5 30.4M47.5 34.2L53.5 35"/>
-        <circle class="cat-cheek" cx="22.4" cy="34.2" r="2.3"/><circle class="cat-cheek" cx="41.6" cy="34.2" r="2.3"/>
-      </g>
-      <g class="cat-eyes">
-        <g class="cat-blink">
-          <ellipse class="cat-eye" cx="26" cy="29" rx="3.1" ry="3.7"/><ellipse class="cat-eye" cx="38" cy="29" rx="3.1" ry="3.7"/>
-          <circle class="cat-glint" cx="27.2" cy="27.5" r="1.15"/><circle class="cat-glint" cx="39.2" cy="27.5" r="1.15"/>
-          <circle class="cat-glint" cx="25.2" cy="30.6" r="0.5"/><circle class="cat-glint" cx="37.2" cy="30.6" r="0.5"/>
-        </g>
-        <path class="cat-eye-spiral cat-eye-l" d="${spiralPath(26, 29, 3.3)}"/><path class="cat-eye-spiral cat-eye-r" d="${spiralPath(38, 29, 3.3)}"/>
-      </g>
-      <path class="cat-nose" d="M31 32.7H33L32 33.9Z"/>
-      <path class="cat-mouth" d="M30 34.5Q31 35.9 32 34.7Q33 35.9 34 34.5"/>
-    </svg>
-  </a>`;
+// The egg the fox hatches from, and the fox. lodge.mjs runs the hatching; the
+// bottom half of the shell stays where it was.
+const EGG = `  <div class="egg" hidden aria-hidden="true">${fig("egg", "egg-whole")}${fig("egg-bottom", "egg-half")}${fig("egg-top", "egg-cap")}</div>`;
+const FOX = `  <div class="fox" hidden aria-hidden="true">${fig("fox", "fox-run")}${fig("kit", "fox-kit")}</div>`;
 
-// The egg the fox hatches from: speckled, with a crack that draws itself and
-// a top that comes away. lodge.mjs runs the hatching; the bottom half stays.
-const EGG = `  <div class="egg" hidden aria-hidden="true"><svg viewBox="0 0 40 50">
-    <g class="egg-bottom"><path d="M4.6 30C4.6 40 11 47.5 20 47.5C29 47.5 35.4 40 35.4 30L31 26.5L26.5 31L21.5 26L16.5 31.5L11.5 26.5L7.5 30.5Z"/></g>
-    <g class="egg-top"><path d="M4.6 30C4.6 16 11 2.5 20 2.5C29 2.5 35.4 16 35.4 30L31 26.5L26.5 31L21.5 26L16.5 31.5L11.5 26.5L7.5 30.5Z"/><circle class="speck" cx="14" cy="14" r="1.2"/><circle class="speck" cx="24" cy="10" r="0.9"/><circle class="speck" cx="27" cy="19" r="1.3"/><circle class="speck" cx="11" cy="23" r="0.8"/></g>
-    <circle class="speck" cx="17" cy="38" r="1"/><circle class="speck" cx="28" cy="36" r="0.8"/>
-    <path class="egg-shell" d="M4.6 30C4.6 16 11 2.5 20 2.5C29 2.5 35.4 16 35.4 30C35.4 40 29 47.5 20 47.5C11 47.5 4.6 40 4.6 30Z"/>
-    <path class="egg-crack" d="M4.6 30L7.5 30.5L11.5 26.5L16.5 31.5L21.5 26L26.5 31L31 26.5L35.4 30"/>
-  </svg></div>`;
-
-// The fox: the inner pages' own creature. Russet, not OrangeCat's orange; a
-// white-tipped brush. lodge.mjs sends him across a stage floor now and then.
-const FOX = `  <div class="fox" hidden aria-hidden="true"><svg viewBox="0 0 100 50">
-    <path class="fox-tail" d="M28 22C18 16 8 19 2.5 26C8 25 11 27.5 13.5 30C18 26.5 24 27 29 28Z"/><path class="fox-tip" d="M2.5 26C5 23.5 7.5 22.8 10 23.4C8.6 25.4 8 27 8.2 28.6C6.4 27.4 4.6 26.6 2.5 26Z"/>
-    <g class="fox-legs back"><path d="M33 31L27 44M36 32L33 45"/></g>
-    <path class="fox-body" d="M27 25C33 18 50 18 62 20C68 21 72 24 72 29C72 34 64 36 52 36C42 36 32 35 28 31Z"/>
-    <path class="fox-belly" d="M44 34.6C50 35.4 58 35.2 64 33.6C62 36 56 37 50 37C47 37 45 36 44 34.6Z"/>
-    <g class="fox-legs front"><path d="M64 33L71 44M60 34L62 45.5"/></g>
-    <path class="fox-head" d="M66 23C69 17 74 14 78 14L80 7L83.5 14.4L86.5 9.5L87.8 16.4C90 18 94 20.5 98 22.4C96 24.6 91 25.6 86 26C81 27 74 29 70 29Z"/>
-    <path class="fox-cheek" d="M86 26C91 25.6 96 24.6 98 22.4C95 25.8 90 28 84.6 28.2Z"/><circle class="fox-eye" cx="84.6" cy="19" r="0.95"/><circle class="fox-nose" cx="97.6" cy="22.6" r="1.1"/>
-  </svg></div>`;
+// Now and then a whale swims across the sky, and in fog something vast
+// passes behind the page. Fixed to the sky, behind every word.
+const SKY_LIFE = `  <div class="sky-life" aria-hidden="true"><div class="whale" hidden>${fig("whale")}</div><div class="fog-walker" hidden>${fig("fog-neck")}</div></div>`;
 
 const RABBIT_HOLE = `    <div class="rabbit-hole" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></div>`;
 
@@ -435,7 +379,8 @@ function shell({ title, description, path, body, nav, script, image }) {
 </head>
 <body>
   <canvas class="sky" aria-hidden="true"></canvas>
-  <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">${DEFS}<filter id="ripple"><feTurbulence type="fractalNoise" baseFrequency="0.006 0.09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter><filter id="ripple-soft"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.12" numOctaves="1" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
+${SKY_LIFE}
+  <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false"><filter id="ripple"><feTurbulence type="fractalNoise" baseFrequency="0.006 0.09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter><filter id="ripple-soft"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.12" numOctaves="1" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
   <a class="skip" href="#main">Skip to content</a>
   <header class="top" data-header>
     <div class="wrap">
@@ -1335,12 +1280,13 @@ if (isMain) {
     }
     // Pages for ventures that no longer exist must not linger.
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
-      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "studio", "hire", "og", "vendor", "partners"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
+      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "studio", "hire", "og", "vendor", "partners", "art"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
     cpSync(join(here, "styles.css"), join(DIST, "styles.css"));
     // Same rule, fewer generations — a favicon that cannot drift from the logo.
     writeFileSync(join(DIST, "logo-mark.svg"), MARK_FAVICON() + "\n");
     cpSync(join(here, "fonts"), join(DIST, "fonts"), { recursive: true });
+    cpSync(join(here, "art"), join(DIST, "art"), { recursive: true, filter: (f) => !f.endsWith(".json") });
     // @bitbaum/design-tokens — the same SSOT OrangeCat, Loki and Solon consume.
     const tokensDir = join(here, "..", "node_modules", "@bitbaum", "design-tokens");
     if (!existsSync(join(tokensDir, "tokens.css"))) {
