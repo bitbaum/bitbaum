@@ -179,26 +179,75 @@ if (rabbit && burrow) {
   }
 }
 
-// ── the fox ──────────────────────────────────────────────────────────────
-// On the inner pages, now and then, a fox lopes across the stage floor from
-// one curtain to the other: there, then gone. Only while the stage is on
-// screen, never under reduced motion.
+// ── the egg, and the fox ─────────────────────────────────────────────────
+// On the inner pages a speckled egg sits on the stage floor. While the stage
+// is on screen it wobbles, cracks, the top of the shell tumbles away, and a
+// fox kit shakes itself out, grows, looks about — and runs off. The empty
+// half-shell stays where it was: something has begun, and something is over.
+// After that, now and then, the grown fox lopes across the stage.
 const fox = document.querySelector(".fox");
+const egg = document.querySelector(".egg");
 const foxStage = document.querySelector("[data-lodge].stage-floored");
-if (fox && foxStage && !still) {
-  foxStage.append(fox);
-  let onScreen = false, timer = 0;
-  const lope = () => {
-    const w = foxStage.clientWidth, size = fox.offsetWidth || 110;
-    const ltr = Math.random() < 0.5;
-    fox.hidden = false;
-    fox.style.transform = `scaleX(${ltr ? 1 : -1})`;
-    const from = ltr ? -size : w + size, to = ltr ? w + size : -size;
-    const run = fox.animate([{ left: `${from}px` }, { left: `${to}px` }], { duration: (w / 330) * 1000, easing: "linear" });
-    run.onfinish = () => { fox.hidden = true; };
-  };
-  const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden) lope(); next(24000 + Math.random() * 22000); }, ms); };
-  new IntersectionObserver(([e]) => { const was = onScreen; onScreen = e.isIntersecting; if (onScreen && !was && !timer) next(2600 + Math.random() * 2000); }, { threshold: 0.3 }).observe(foxStage);
+if (fox && egg && foxStage) {
+  foxStage.append(egg, fox);
+  egg.hidden = false;
+  const eggX = () => foxStage.clientWidth * (phone() ? 0.78 : 0.72);
+  egg.style.left = `${eggX()}px`;
+  if (still) egg.classList.add("hatched");
+  else {
+    let onScreen = false, timer = 0, hatched = false;
+    const size = () => fox.offsetWidth || 104;
+    const lope = (fromX, dir) => {
+      const w = foxStage.clientWidth, sz = size();
+      const to = dir > 0 ? w + sz : -sz;
+      fox.hidden = false; fox.classList.remove("resting");
+      fox.style.transform = `scaleX(${dir})`;
+      const run = fox.animate([{ left: `${fromX}px` }, { left: `${to}px` }], { duration: (Math.abs(to - fromX) / 330) * 1000, easing: "cubic-bezier(.4,0,1,1)" });
+      run.onfinish = () => { fox.hidden = true; };
+    };
+    const hatch = () => {
+      hatched = true;
+      const x = eggX(), sz = size();
+      const top = egg.querySelector(".egg-top"), crack = egg.querySelector(".egg-crack");
+      const wobble = egg.animate([
+        { transform: "rotate(0)" }, { transform: "rotate(-9deg)", offset: 0.12 }, { transform: "rotate(7deg)", offset: 0.24 }, { transform: "rotate(0)", offset: 0.34 },
+        { transform: "rotate(0)", offset: 0.55 }, { transform: "rotate(-12deg)", offset: 0.66 }, { transform: "rotate(11deg)", offset: 0.78 }, { transform: "rotate(-5deg)", offset: 0.88 }, { transform: "rotate(0)" },
+      ], { duration: 2200, easing: "ease-in-out" });
+      wobble.onfinish = () => {
+        crack.animate([{ strokeDashoffset: 60 }, { strokeDashoffset: 0 }], { duration: 500, easing: "ease-out", fill: "forwards" });
+        setTimeout(() => {
+          const dir = x > foxStage.clientWidth / 2 ? 1 : -1;
+          top.classList.add("flying");
+          top.animate([
+            { transform: "translate(0, 0) rotate(0)", opacity: 1 },
+            { transform: `translate(${-dir * 14}px, -30px) rotate(${-dir * 50}deg)`, opacity: 1, offset: 0.45 },
+            { transform: `translate(${-dir * 26}px, 14px) rotate(${-dir * 150}deg)`, opacity: 0 },
+          ], { duration: 900, easing: "cubic-bezier(.2,.6,.5,1)", fill: "forwards" });
+          egg.classList.add("hatched");
+          // The kit: small, shaking off the shell, growing, looking about.
+          fox.hidden = false; fox.classList.add("resting");
+          fox.style.left = `${x - sz / 2 + 10}px`;
+          const born = fox.animate([
+            { transform: `scale(${dir * 0.2}, 0.2)`, opacity: 0 },
+            { transform: `scale(${dir * 0.4}, 0.4) translateY(-6px)`, opacity: 1, offset: 0.15 },
+            { transform: `scale(${dir * 0.45}, 0.42) rotate(-6deg)`, offset: 0.25 },
+            { transform: `scale(${dir * 0.45}, 0.42) rotate(6deg)`, offset: 0.33 },
+            { transform: `scale(${dir * 0.5}, 0.5)`, offset: 0.4 },
+            { transform: `scale(${dir * 0.85}, 0.85)`, offset: 0.62 },
+            { transform: `scale(${-dir * 0.9}, 0.9)`, offset: 0.72 },
+            { transform: `scale(${-dir * 0.9}, 0.9)`, offset: 0.8 },
+            { transform: `scale(${dir}, 1)` },
+          ], { duration: 2600, easing: "ease-out" });
+          born.onfinish = () => lope(x - sz / 2 + 10, dir);
+        }, 520);
+      };
+    };
+    const next = (ms) => { clearTimeout(timer); timer = setTimeout(() => { if (onScreen && !document.hidden) { const dir = Math.random() < 0.5 ? 1 : -1; lope(dir > 0 ? -size() : foxStage.clientWidth + size(), dir); } next(26000 + Math.random() * 22000); }, ms); };
+    new IntersectionObserver(([e]) => {
+      const was = onScreen; onScreen = e.isIntersecting;
+      if (onScreen && !was && !hatched) setTimeout(() => { if (onScreen && !hatched) { hatch(); next(30000); } }, 1800);
+    }, { threshold: 0.4 }).observe(foxStage);
+  }
 }
 
 // ── the cat ───────────────────────────────────────────────────────────────
