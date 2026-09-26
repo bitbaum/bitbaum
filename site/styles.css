@@ -1137,3 +1137,25 @@ footer::before { background-position: calc(var(--tile) / -2 + var(--fy, 0px)) 0,
    natural size before its stylesheet lands, nor a creature mid-leap. `clip`,
    not `hidden`: hidden on the root would break the sticky header. */
 html { overflow-x: clip; }
+
+/* ─── the plain in depth: near things lower and larger, far things small ── */
+.bleed-scene .fig-watch-block { left: 56%; width: 150px; bottom: -64px; }
+.bleed-scene .g-big { left: 61.5%; width: 54px; bottom: -80px; }
+.bleed-scene .g-small { left: 63.8%; width: 32px; bottom: -66px; }
+.rye-clump .rye { bottom: -170px; height: 210px; }
+.rye-clump .r1 { left: 88%; } .rye-clump .r2 { left: 90.4%; height: 176px; } .rye-clump .r3 { left: 92.6%; height: 196px; }
+@media (max-width: 700px) {
+  .bleed-scene .fig-watch-block { left: 22%; width: 74px; bottom: -18px; }
+}
+
+/* Following the rabbit: you fall through the wormhole. */
+.falling .falling-worm { position: absolute; left: var(--fx); top: var(--fy); width: 60vmax; height: 60vmax; margin: -30vmax 0 0 -30vmax; opacity: 0; animation: worm-fall 0.95s cubic-bezier(.55,0,.85,.5) forwards; }
+@keyframes worm-fall { 0% { opacity: 0; scale: 0.1; rotate: 0deg; } 30% { opacity: 1; } 100% { opacity: 1; scale: 4.5; rotate: -540deg; } }
+
+/* ─── the wormhole between chapters ───────────────────────────────────── */
+.wormhole-gap { display: grid; place-items: center; padding-block: clamp(2rem, 8vh, 6rem); overflow: hidden; }
+.wormhole-gap .wormhole { width: min(62vw, 460px); height: auto; animation: worm-turn 140s linear infinite; }
+.dark .wormhole-gap .wormhole { mix-blend-mode: screen; filter: none !important; }
+:root:not(.dark) .wormhole-gap .wormhole { opacity: 0.88; }
+@keyframes worm-turn { to { rotate: -360deg; } }
+@media (prefers-reduced-motion: reduce) { .wormhole-gap .wormhole { animation: none; } }

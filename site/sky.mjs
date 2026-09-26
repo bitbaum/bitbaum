@@ -277,11 +277,32 @@ function glowSprite(rgb) {
 }
 
 // ── the Little Prince, on B-612, looking up at a constellation ───────────
-function prince(ctx, x, y, h) {
-  const img = art("prince");
-  if (!img) return;
-  const w = h * (img.naturalWidth / img.naturalHeight);
-  ctx.drawImage(img, x - w / 2, y - h / 2, w, h);
+// Cut like the creatures (site/art-src/rigs.json → art/rig/prince.*): the
+// scarf flies from his neck and the back of his coat lifts, in gusts.
+const PRINCE_PARTS = [
+  { name: "coat", box: [27.234, 30.199, 27.66, 30.484], origin: [89.54, 9.19], a: [-5, 4], speed: 4.6, under: true },
+  { name: "scarf", box: [0, 12.251, 61.277, 25.356], origin: [89.76, 34.51], a: [-9, 7], speed: 3.9 },
+];
+function prince(ctx, x, y, h, t = 0) {
+  const body = art("rig/prince.body");
+  if (!body) { const img = art("prince"); if (img) { const w = h * (img.naturalWidth / img.naturalHeight); ctx.drawImage(img, x - w / 2, y - h / 2, w, h); } return; }
+  const w = h * (235 / 351), x0 = x - w / 2, y0 = y - h / 2;
+  // Wind comes in gusts: a slow swell with a quicker flutter riding on it.
+  const gust = (sp, ph) => still ? 0.5 : 0.5 + 0.5 * (0.65 * Math.sin(t * 0.001 * sp + ph) + 0.35 * Math.sin(t * 0.001 * sp * 2.7 + ph * 1.9));
+  const part = (p) => {
+    const img = art(`rig/prince.${p.name}`);
+    if (!img) return;
+    const [bx, by, bw, bh] = p.box;
+    const px = x0 + (w * bx) / 100, py = y0 + (h * by) / 100, pw = (w * bw) / 100, ph = (h * bh) / 100;
+    const ox = px + (pw * p.origin[0]) / 100, oy = py + (ph * p.origin[1]) / 100;
+    const k = gust(p.speed, p.name.length);
+    const ang = ((p.a[0] + (p.a[1] - p.a[0]) * k) * Math.PI) / 180;
+    ctx.save(); ctx.translate(ox, oy); ctx.rotate(ang); ctx.translate(-ox, -oy);
+    ctx.drawImage(img, px, py, pw, ph); ctx.restore();
+  };
+  PRINCE_PARTS.filter((p) => p.under).forEach(part);
+  ctx.drawImage(body, x0, y0, w, h);
+  PRINCE_PARTS.filter((p) => !p.under).forEach(part);
 }
 
 // ── the dandelion clock ───────────────────────────────────────────────────
@@ -314,6 +335,7 @@ const DAND = {
   bare: { head: [0.5, 0.1], foot: 0.5 },
 };
 let eaten = null, eatenCount = -1;
+const seedLaunch = new Array(SEEDS).fill(0);
 function dandelion(ctx, W, H, progress, t) {
   const phone = W < 700;
   const margin = Math.max(0, (W - 1280) / 2) + 48;
@@ -388,20 +410,29 @@ function dandelion(ctx, W, H, progress, t) {
     ctx.drawImage(eaten, x0, y0, w, tall);
     ctx.restore();
   }
-  // Each seed, once loose, lifts off from where it sat and rides the wind —
-  // left and up, turning slowly, rocking under its parachute.
+  // Scrolling only decides when a seed lets go. From then on it lives in its
+  // own time: it lifts off the head, rises on the warm air, rides the gusts,
+  // rocks under its parachute, and is gone in ten seconds or so. Scroll back
+  // and the seeds grow back.
   const night = palette.night, seedRgb = night ? "245, 243, 236" : palette.line;
   const w = clock ? tall * (clock.naturalWidth / clock.naturalHeight) : tall * 0.7;
   const hcx = -w * DAND.clock.foot + w * DAND.clock.head[0], hcy = -tall + tall * DAND.clock.head[1], R = w * DAND.clock.r;
-  for (const [i, f] of gone) {
-    if (f > 2.2) continue;
+  const loose = new Set(gone.map(([i]) => i));
+  for (let i = 0; i < SEEDS; i++) {
+    if (!loose.has(i)) { seedLaunch[i] = 0; continue; }
+    if (!seedLaunch[i]) seedLaunch[i] = t;
+    if (still) continue;
+    const age = (t - seedLaunch[i]) / 1000;
+    if (age > 12) continue;
     const ang = (i / SEEDS) * Math.PI * 2;
-    const ease = f * f * (0.6 + (i % 3) * 0.15);
-    const x = hcx + Math.cos(ang) * R * 0.7 - ease * W * (0.18 + (i % 5) * 0.04) + (still ? 0 : Math.sin(t * 0.002 + i * 1.7) * 8 * f);
-    const y = hcy + Math.sin(ang) * R * 0.7 - ease * H * (0.16 + (i % 4) * 0.05) - f * 10;
-    const rock = still ? 0 : Math.sin(t * 0.003 + i) * 0.35;
-    const fade = Math.min(1, f * 4) * Math.max(0, 1 - Math.max(0, f - 1.4) / 0.8);
-    pappus(ctx, x, y, Math.sin(rock) * 0.3, -1, R * 0.34, seedRgb, 0.9 * fade, !phone);
+    const sx = hcx + Math.cos(ang) * R * 0.66, sy = hcy + Math.sin(ang) * R * 0.66;
+    const lift = Math.min(1, age / 0.8);
+    const gust = Math.sin(t * 0.0006 + i * 0.7) * 0.5 + 0.5;
+    const x = sx + Math.cos(ang) * 6 * lift - age * (16 + (i % 5) * 7) * (0.6 + gust) - Math.sin(age * 0.9 + i) * 14;
+    const y = sy + Math.sin(ang) * 4 * lift - age * (11 + (i % 4) * 5) + Math.sin(age * 1.6 + i * 1.3) * 7 + Math.max(0, age - 7) * 4;
+    const rock = Math.sin(age * 2.1 + i) * 0.35;
+    const fade = Math.min(1, age * 3) * Math.max(0, 1 - Math.max(0, age - 9) / 3);
+    pappus(ctx, x, y, Math.sin(rock) * 0.35, -1, R * 0.36, seedRgb, 0.92 * fade, !phone);
   }
   ctx.restore();
 }
@@ -411,7 +442,7 @@ const canvas = document.querySelector("canvas.sky");
 if (canvas) {
   const ctx = canvas.getContext("2d");
   const phase = lunarPhase();
-  let contentLeft = 0;
+  let contentLeft = 0, wormhole = null;
   let W = 0, H = 0, dpr = 1, skyH = 0, stars = [], figures = [], milky = null, moon = null, moonR = 0;
   let shooting = null, nextShot = 0, lastDraw = 0, lastScroll = -1, raf = 0;
 
@@ -440,7 +471,8 @@ if (canvas) {
     const pick = rng(hash);
     const order = home ? ["dmt", ...all] : all.slice().sort(() => pick() - 0.5).slice(0, 3);
     // Large enough to read as a figure in the sky, never across the words.
-    const bond = phone ? 14 : Math.min(26, W / 56, (Math.max(0, (W - 1280) / 2) + 48) / 5.2);
+    // Big enough to read as figures in the night, not specks.
+    const bond = phone ? 17 : Math.max(24, Math.min(34, W / 44));
     contentLeft = Math.max(0, (W - 1280) / 2) + Math.min(48, Math.max(20, W * 0.05));
     // Open stretches of the page (not drawn scenes), in page coordinates.
     const open = [...document.querySelectorAll("main > section")]
@@ -454,13 +486,19 @@ if (canvas) {
       if (name === "dmt") return { name, x: W * (phone ? 0.3 : 0.5), y: H * (phone ? 0.14 : 0.13), bond: bond * 0.75, rot: -0.3 };
       const k = rest.indexOf(name);
       const docY = span ? at((k + 0.5 + (pick() - 0.5) * 0.4) / rest.length) : H * (1.5 + k);
-      const side = pick() < 0.5;
-      const x = phone ? W * (side ? 0.72 + pick() * 0.14 : 0.14 + pick() * 0.14) : side ? W - contentLeft * (0.3 + pick() * 0.4) : contentLeft * (0.3 + pick() * 0.4);
+      // Strictly alternating sides, so they never gather on one; each sits in
+      // its margin and, where the margin is narrow, reaches softly behind the
+      // edge of the words.
+      const side = (k + (hash & 1)) % 2 === 1;
+      const inset = Math.max(contentLeft * 0.5, bond * 2.6) + (pick() - 0.5) * bond;
+      const x = phone ? W * (side ? 0.74 : 0.26) + (pick() - 0.5) * W * 0.1 : side ? W - inset : inset;
       // A figure at sky height y sits mid-screen when its page point does.
       // …and never in the first screen, which belongs to the hero.
       const y = Math.max(H * 1.12, H / 2 + PARALLAX * (docY - H / 2));
-      return { name, x, y, bond: bond * (0.8 + pick() * 0.35), rot: (pick() - 0.5) * Math.PI * 1.4 };
+      return { name, x, y, bond: bond * (0.9 + pick() * 0.25), rot: (pick() - 0.5) * Math.PI * 1.4 };
     });
+    // One wormhole, on the home page, deep in the sky between two chapters.
+    wormhole = false && home && span ? { x: W * (phone ? 0.5 : 0.8), y: Math.max(H * 1.3, H / 2 + PARALLAX * (at(0.55) - H / 2)), r: phone ? W * 0.42 : Math.min(W * 0.2, 290) } : null;
     // Without motion the sky does not move, so only the hero's figure shows.
     if (!PARALLAX) figures = figures.slice(0, 1);
     moonR = phone ? 30 : Math.max(40, Math.min(72, W * 0.042));
@@ -521,7 +559,7 @@ if (canvas) {
       P[k] = [f.x + px * c - py * s, y0 + px * s + py * c];
     }
     const night = palette.night;
-    ctx.lineWidth = 0.9;
+    ctx.lineWidth = 1.1;
     ctx.strokeStyle = night ? "rgba(200, 212, 240, 0.26)" : `rgba(${palette.line}, 0.22)`;
     for (const [a, b, order] of m.bonds) {
       const [x1, y1] = P[a], [x2, y2] = P[b];
@@ -539,7 +577,7 @@ if (canvas) {
       const el = element(k), hetero = el !== "C";
       const tws = still ? 0.85 : 0.7 + 0.3 * Math.sin(t * 0.0017 + tw() * 6.28);
       const rgb = el === "N" ? palette.signal : night ? "250, 248, 240" : palette.line;
-      const core = hetero ? 2.1 : 1.4;
+      const core = hetero ? 2.6 : 1.8;
       if (night) {
         const before = ctx.globalAlpha;
         ctx.globalAlpha = before * 0.5 * tws;
@@ -656,6 +694,23 @@ if (canvas) {
     }
 
     sceneRects = [...document.querySelectorAll("section.bleed:not(.glass)")].map((el) => el.getBoundingClientRect());
+    // The wormhole turns inward, counter-clockwise like every spiral here;
+    // by night its black is the night itself, by day it is a dark portal
+    // open in the blue.
+    // Fetched only once it is nearly in view.
+    const wh = wormhole && wormhole.y - off < H * 2 && art("wormhole");
+    if (wh) {
+      const wy = wormhole.y - off, r = wormhole.r;
+      const v = veiled(wy);
+      if (wy > -r && wy < H + r && v > 0.02) {
+        ctx.save();
+        ctx.globalAlpha = v * (night ? 0.95 : 0.8);
+        if (night) ctx.globalCompositeOperation = "screen";
+        ctx.translate(wormhole.x, wy); ctx.rotate(still ? 0 : -t * 0.00005);
+        ctx.drawImage(wh, -r, -r, r * 2, r * 2);
+        ctx.restore();
+      }
+    }
     for (const f of figures) figure(f, off, t);
     const lsd = figures.find((f) => f.name === "lsd");
     if (lsd) {
@@ -664,7 +719,7 @@ if (canvas) {
       const room = W < 700 ? W * 0.3 : contentLeft - 16;
       const ph = Math.min(130, room * 1.3), py = lsd.y - off + lsd.bond * 7 + ph * 0.5;
       const pv = veiled(py) * veiled(lsd.y - off);
-      if (ph >= 60 && pv > 0.02 && py > -ph && py < H + ph) { ctx.globalAlpha = pv; prince(ctx, lsd.x, py, ph); ctx.globalAlpha = 1; }
+      if (ph >= 60 && pv > 0.02 && py > -ph && py < H + ph) { ctx.globalAlpha = pv; prince(ctx, lsd.x, py, ph, t); ctx.globalAlpha = 1; }
     }
     // On a phone there is no margin for it in the first screen; it rises into
     // view once the reader has moved on from the hero.
@@ -712,7 +767,7 @@ if (canvas) {
   };
 
   onArt = () => { layout(); draw(performance.now()); };
-  art("moon"); art("prince"); art("dandelion-flower"); art("dandelion-clock"); art("dandelion-bare");
+  art("moon"); art("prince"); art("rig/prince.body"); art("rig/prince.scarf"); art("rig/prince.coat"); art("dandelion-flower"); art("dandelion-clock"); art("dandelion-bare");
   layout();
   let lastW = innerWidth;
   addEventListener("resize", () => {

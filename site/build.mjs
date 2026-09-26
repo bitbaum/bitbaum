@@ -148,14 +148,14 @@ const DRAGONFLY = `<div class="dragonfly" hidden aria-hidden="true">${fig("drago
  * glass — the way Carroll printed Jabberwocky. Everything but the copy is
  * aria-hidden decoration; without JavaScript the floor and copy still stand.
  */
-function glassHero({ kicker, lines, lede, actions }) {
+function glassHero({ kicker, lines, lede, actions, burrowTo = ["/work/"] }) {
   const text = lines.join("<br>");
   return `    <section class="bleed bleed-under bleed-lodge glass" data-lodge data-cat-perch>
       <div class="lodge-floor" aria-hidden="true"></div>
       <canvas class="scene-canvas" data-scene="neuron" aria-hidden="true"></canvas>
       <div class="glass-horizon" aria-hidden="true"></div>
 ${HORIZON_LIFE}
-      <div class="floor-plane"><a class="burrow" href="/work/" aria-label="Follow the white rabbit — somewhere on this site" data-label="Follow the white rabbit &rarr;"><span class="burrow-mouth" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></span></a></div>
+      <div class="floor-plane"><a class="burrow" href="/work/" data-to="${esc(burrowTo.join(" "))}" aria-label="Follow the white rabbit — somewhere on this site" data-label="Follow the white rabbit &rarr;"><span class="burrow-mouth" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></span></a></div>
 ${RABBIT}
       ${DRAGONFLY}
       <div class="wrap bleed-body">
@@ -196,6 +196,10 @@ const FOX = `  <div class="fox" hidden aria-hidden="true">${fig("fox", "fox-run"
 // Now and then a whale swims across the sky, and in fog something vast
 // passes behind the page. Fixed to the sky, behind every word.
 const SKY_LIFE = `  <div class="sky-life" aria-hidden="true"><div class="whale" hidden>${fig("whale")}</div><div class="fog-walker" hidden>${fig("fog-neck")}</div></div>`;
+
+// Between two chapters, a wormhole: the painted vortex in open space, turning
+// inward and swelling as the reader falls past it (lodge.mjs).
+const WORMHOLE = `    <div class="wormhole-gap" aria-hidden="true">${fig("wormhole", "wormhole")}</div>`;
 
 const RABBIT_HOLE = `    <div class="rabbit-hole" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></div>`;
 
@@ -665,6 +669,9 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
   }).join("\n");
   const body = `  <main id="main" class="home-page">
 ${glassHero({
+    // The rabbit only leads somewhere worth landing: the pages every visitor
+    // should see, and the projects that are live and shown with a screenshot.
+    burrowTo: ["/work/", "/studio/", "/partners/", ...all.filter((v) => ["product", "pilot"].includes(v.stage) && v.shot).map((v) => `/${v.slug}/`)],
     kicker: "AI-native product studio &middot; Zürich",
     lines: ["One trunk.", "Many products."],
     lede: "We build software products — and the tools that let anyone build their own.",
@@ -702,7 +709,7 @@ ${tools}
       </div>
     </section>
 
-${RABBIT_HOLE}
+${WORMHOLE}
 
     <section class="section" id="work-preview">
       <div class="wrap">

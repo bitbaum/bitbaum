@@ -325,7 +325,8 @@ function seed(ctx, box, canvas) {
       ctx.restore();
       strokeTree(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.4 : 0.85})`, 2.4);
       spine(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.3 : 0.6})`, 2.4);
-      dome(ctx, W * (phone ? 0.2 : 0.91), horizon, phone ? 26 : Math.min(72, W * 0.05), still ? 0.4 : t * 0.00012);
+      // Far back on the horizon, small: distance is what makes the plain deep.
+      dome(ctx, W * (phone ? 0.86 : 0.955), horizon, phone ? 16 : Math.min(46, W * 0.03), still ? 0.4 : t * 0.00012);
       // The seed itself, and — once grown — the crown's tips come alive.
       glow(ctx, rootX, horizon, 10, "green", progress < 1 ? 1 : 0.4);
       if (progress > maxDepth) {
