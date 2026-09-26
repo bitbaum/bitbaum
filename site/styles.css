@@ -1286,3 +1286,26 @@ html { overflow-x: clip; }
 .rye-clump .r1 { left: 48%; } .rye-clump .r2 { left: 50.2%; } .rye-clump .r3 { left: 52.2%; }
 .rye-clump .rye { bottom: -118px; height: 150px; }
 .rye-clump .r1 { left: 76.5%; } .rye-clump .r2 { left: 78.2%; height: 128px; } .rye-clump .r3 { left: 79.6%; height: 140px; }
+
+/* ─── phones get the world too, composed for a narrow screen ──────────────
+   The plain on a phone lies above the words: the watch and its gears on the
+   left, the tree, the rye with its ergot on the right, the elephant crossing
+   the far ground. The whale and dragonfly come back, small, in their own sky. */
+@media (max-width: 700px) {
+  .bleed-scene .gear, .walker { display: block; }
+  .bleed-scene .g-big { left: 36%; width: 30px; bottom: -14px; }
+  .bleed-scene .g-small { left: 39.5%; width: 18px; bottom: -8px; }
+  .walker { width: 110px; }
+  .rye-clump { display: block; }
+  .rye-clump .rye { bottom: -22px; height: 96px; }
+  .rye-clump .r1 { left: 84%; } .rye-clump .r2 { left: 88%; height: 80px; } .rye-clump .r3 { left: 92%; height: 88px; }
+  .whale, .dragonfly { display: block !important; }
+  .whale[hidden], .dragonfly[hidden] { display: none !important; }
+  .glass .whale { top: 11vh; width: 56vw; opacity: 0.4; }
+  .dragonfly .fig { width: 46px; }
+}
+/* On a phone the picture lies above the words: the scrim only darkens where
+   the words are, and the scene above stays clear. */
+@media (max-width: 700px) {
+  .bleed-scene .bleed-scrim, .bleed-scene .bleed-scrim.strong { background: linear-gradient(to bottom, rgb(var(--veil) / 0) 0, rgb(var(--veil) / 0) 34%, rgb(var(--veil) / 0.72) 56%, rgb(var(--veil) / 0.8) 100%); -webkit-mask-image: none; mask-image: none; }
+}
