@@ -654,10 +654,9 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .pager { flex-wrap: wrap; }
   .pager a { min-height: 44px; display: inline-flex; align-items: center; }
   .pkg-links { align-items: center; gap: 0.9rem; }
-  .pkg-links a, .pkg-links span, footer nav a, .venture-facts a { display: inline-flex; align-items: center; min-height: 44px; }
+  .pkg-links a, .pkg-links span, .venture-facts a { display: inline-flex; align-items: center; min-height: 44px; }
   .pkg-controls { grid-template-columns: 1fr; }
   .pkg-guidance, .pkg-result { grid-column: 1; }
-  footer nav { gap: 0.1rem; }
   .uses .chips a, .uses .chips span, .chip { display: inline-flex; align-items: center; min-height: 44px; }
   .signup { grid-template-columns: 1fr; }
   .hero-cinema { min-height: 74vh; }
@@ -679,7 +678,11 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
 .foot-cols { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr); gap: clamp(1.75rem, 3vw, 3rem); padding-bottom: clamp(1.75rem, 3vw, 2.5rem); border-bottom: 1px solid var(--line); }
 .foot-brand .mark { color: var(--fg); }
 .foot-brand p { margin: 0.9rem 0 0; max-width: 34ch; line-height: 1.6; }
-footer nav { display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+/* 44px at EVERY width (fleet nav contract rule 3). It was a phone-only rule
+   in the 600px block, so on a tablet or desktop every footer link was a 22px
+   strip. The row pays for the height out of its gap, not the text size. */
+footer nav { display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
+footer nav a { display: inline-flex; align-items: center; min-height: 44px; }
 footer nav .label { margin: 0 0 0.35rem; font-size: 0.66rem; }
 footer a:not(.mark) { color: var(--fg-2); transition: color 120ms ease; }
 footer a:not(.mark):hover { color: var(--fg); }
