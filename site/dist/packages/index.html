@@ -66,12 +66,12 @@
   <main id="main">
     <section data-lodge class="stage stage-floored hero compact">
       <div class="wrap">
-        <span class="eyebrow">10 packages &middot; MIT &middot; 20 distinct adopters in the fleet</span>
+        <span class="eyebrow">12 packages &middot; MIT &middot; 22 distinct adopters in the fleet</span>
         <h1 class="display-1">The trunk.</h1>
         <p class="lede">Shared tools for different product needs. Each package page explains what it does, how it works, where to get it, and which apps list it as a dependency. Some are new and have no adopters yet.</p>
         <div class="pkg-controls" id="package-controls" hidden>
           <label>Find a package<input id="package-search" type="search" name="q" placeholder="Search packages, features, or adopters" autocomplete="off"></label>
-          <label>Category<select id="package-group"><option value="" data-description="Browse shared tools by the jobs they do across the studio.">All categories</option><option value="think" data-description="Call a model, and turn a sentence into a form that is already filled in.">Think</option><option value="reach" data-description="Mail and conversation, so a product can talk to a person or an agent under the same rules.">Reach someone</option><option value="show" data-description="Pages, lists, type, and writing that lives in the repository instead of a CMS.">Show the work</option><option value="hold" data-description="The quiet parts that keep a public endpoint from falling over.">Stay up</option><option value="value" data-description="A website can take a payment. The money goes to the person being paid, not into an account the website holds.">Get paid</option></select></label>
+          <label>Category<select id="package-group"><option value="" data-description="Browse shared tools by the jobs they do across the studio.">All categories</option><option value="think" data-description="Call a model, and turn a sentence into a form that is already filled in.">Think</option><option value="reach" data-description="Mail and conversation, so a product can talk to a person or an agent under the same rules.">Reach someone</option><option value="show" data-description="Pages, lists, type, and writing that lives in the repository instead of a CMS.">Show the work</option><option value="hold" data-description="The quiet parts that keep a public endpoint from falling over.">Stay up</option><option value="value" data-description="A website can take a payment. The money goes to the person being paid, not into an account the website holds.">Get paid</option><option value="other" data-description="Shared code that does not sit in a group yet.">Also</option></select></label>
           <label>Adoption<select id="package-adoption"><option value="">Any adoption</option><option value="adopted">Used by an app</option><option value="new">No app uses it yet</option></select></label>
           <label>Sort by<select id="package-sort"><option value="featured">Studio order</option><option value="name">Name</option><option value="adopters">Most used</option></select></label>
           <button type="button" class="clear" id="package-clear" hidden>Clear filters</button>
@@ -81,46 +81,46 @@
       </div>
     </section>
     <section class="section" aria-label="Shared packages">
-      <div class="wrap"><div class="grid pkg-grid" id="package-grid">      <a class="card text pkg-card" id="ai-kit" href="/packages/ai-kit/" data-package="ai-kit" data-group="think" data-adoption="adopted" data-adopters="14">
+      <div class="wrap"><div class="grid pkg-grid" id="package-grid">      <a class="card text pkg-card" id="ai-kit" href="/packages/ai-kit/" data-package="ai-kit" data-group="think" data-adoption="adopted" data-adopters="15">
         <div class="card-body">
-          <div class="card-top"><span class="card-name">ai-kit</span><span class="pkg-badges"><span class="pill pkg-category">Think</span><span class="pill pkg-version" aria-label="Latest npm version 1.11.0">npm&nbsp;v1.11.0</span><span class="pill" aria-label="14 apps use this package">14 apps</span></span></div>
+          <div class="card-top"><span class="card-name">ai-kit</span><span class="pkg-badges"><span class="pill pkg-category">Think</span><span class="pill pkg-version" aria-label="Latest npm version 1.18.0">npm&nbsp;v1.18.0</span><span class="pill" aria-label="15 apps use this package">15 apps</span></span></div>
           <span class="card-what">Which model to call, whether the vendor still serves it, and what to do when every one of them fails.</span>
         </div>
       </a>
       <a class="card text pkg-card" id="ai-forms" href="/packages/ai-forms/" data-package="ai-forms" data-group="think" data-adoption="adopted" data-adopters="6">
         <div class="card-body">
-          <div class="card-top"><span class="card-name">ai-forms</span><span class="pkg-badges"><span class="pill pkg-category">Think</span><span class="pill pkg-version" aria-label="Latest npm version 0.1.2">npm&nbsp;v0.1.2</span><span class="pill" aria-label="6 apps use this package">6 apps</span></span></div>
+          <div class="card-top"><span class="card-name">ai-forms</span><span class="pkg-badges"><span class="pill pkg-category">Think</span><span class="pill pkg-version" aria-label="Latest npm version 0.1.3">npm&nbsp;v0.1.3</span><span class="pill" aria-label="6 apps use this package">6 apps</span></span></div>
           <span class="card-what">Fill a form from prose, then refine it in conversation. Headless, so every app keeps its own look.</span>
         </div>
       </a>
-      <a class="card text pkg-card" id="mail-kit" href="/packages/mail-kit/" data-package="mail-kit" data-group="reach" data-adoption="adopted" data-adopters="11">
+      <a class="card text pkg-card" id="mail-kit" href="/packages/mail-kit/" data-package="mail-kit" data-group="reach" data-adoption="adopted" data-adopters="12">
         <div class="card-body">
-          <div class="card-top"><span class="card-name">mail-kit</span><span class="pkg-badges"><span class="pill pkg-category">Reach someone</span><span class="pill pkg-version" aria-label="Latest npm version 0.1.1">npm&nbsp;v0.1.1</span><span class="pill" aria-label="11 apps use this package">11 apps</span></span></div>
+          <div class="card-top"><span class="card-name">mail-kit</span><span class="pkg-badges"><span class="pill pkg-category">Reach someone</span><span class="pill pkg-version" aria-label="Latest npm version 0.1.1">npm&nbsp;v0.1.1</span><span class="pill" aria-label="12 apps use this package">12 apps</span></span></div>
           <span class="card-what">One email layer for every app. Never throws — it returns whether the mail was sent.</span>
         </div>
       </a>
-      <a class="card text pkg-card" id="threadkit" href="/packages/threadkit/" data-package="threadkit" data-group="reach" data-adoption="adopted" data-adopters="4">
+      <a class="card text pkg-card" id="threadkit" href="/packages/threadkit/" data-package="threadkit" data-group="reach" data-adoption="adopted" data-adopters="5">
         <div class="card-body">
-          <div class="card-top"><span class="card-name">threadkit</span><span class="pkg-badges"><span class="pill pkg-category">Reach someone</span><span class="pill pkg-version" aria-label="Latest npm version 0.1.1">npm&nbsp;v0.1.1</span><span class="pill" aria-label="4 apps use this package">4 apps</span></span></div>
+          <div class="card-top"><span class="card-name">threadkit</span><span class="pkg-badges"><span class="pill pkg-category">Reach someone</span><span class="pill pkg-version" aria-label="Latest npm version 0.1.1">npm&nbsp;v0.1.1</span><span class="pill" aria-label="5 apps use this package">5 apps</span></span></div>
           <span class="card-what">Message threads where permission is participation — not a role column. An AI obeys the same rules as a person.</span>
         </div>
       </a>
-      <a class="card text pkg-card" id="bip-kit" href="/packages/bip-kit/" data-package="bip-kit" data-group="show" data-adoption="adopted" data-adopters="10">
+      <a class="card text pkg-card" id="bip-kit" href="/packages/bip-kit/" data-package="bip-kit" data-group="show" data-adoption="adopted" data-adopters="12">
         <div class="card-body">
-          <div class="card-top"><span class="card-name">bip-kit</span><span class="pkg-badges"><span class="pill pkg-category">Show the work</span><span class="pill pkg-version" aria-label="Latest npm version 0.3.1">npm&nbsp;v0.3.1</span><span class="pill" aria-label="10 apps use this package">10 apps</span></span></div>
+          <div class="card-top"><span class="card-name">bip-kit</span><span class="pkg-badges"><span class="pill pkg-category">Show the work</span><span class="pill pkg-version" aria-label="Latest npm version 0.4.0">npm&nbsp;v0.4.0</span><span class="pill" aria-label="12 apps use this package">12 apps</span></span></div>
           <span class="card-what">Blog, roadmap and changelog from repo-authored markdown. Typed blocks, your design tokens on top.</span>
         </div>
       </a>
-      <a class="card text pkg-card" id="listkit" href="/packages/listkit/" data-package="listkit" data-group="show" data-adoption="adopted" data-adopters="4">
+      <a class="card text pkg-card" id="design-tokens" href="/packages/design-tokens/" data-package="design-tokens" data-group="show" data-adoption="adopted" data-adopters="5">
         <div class="card-body">
-          <div class="card-top"><span class="card-name">listkit</span><span class="pkg-badges"><span class="pill pkg-category">Show the work</span><span class="pill pkg-version" aria-label="Latest git version 0.1.0">git&nbsp;v0.1.0</span><span class="pill" aria-label="4 apps use this package">4 apps</span></span></div>
-          <span class="card-what">A list as a query: facets, a URL you can share, sorting that puts missing values last. No markup.</span>
+          <div class="card-top"><span class="card-name">design-tokens</span><span class="pkg-badges"><span class="pill pkg-category">Show the work</span><span class="pill pkg-version" aria-label="Latest npm version 1.1.0">npm&nbsp;v1.1.0</span><span class="pill" aria-label="5 apps use this package">5 apps</span></span></div>
+          <span class="card-what">One tokens.css behind the products, so a retheme is an edit to one file.</span>
         </div>
       </a>
-      <a class="card text pkg-card" id="design-tokens" href="/packages/design-tokens/" data-package="design-tokens" data-group="show" data-adoption="adopted" data-adopters="3">
+      <a class="card text pkg-card" id="listkit" href="/packages/listkit/" data-package="listkit" data-group="show" data-adoption="adopted" data-adopters="5">
         <div class="card-body">
-          <div class="card-top"><span class="card-name">design-tokens</span><span class="pkg-badges"><span class="pill pkg-category">Show the work</span><span class="pill pkg-version" aria-label="Latest npm version 1.1.0">npm&nbsp;v1.1.0</span><span class="pill" aria-label="3 apps use this package">3 apps</span></span></div>
-          <span class="card-what">One tokens.css behind the products, so a retheme is an edit to one file.</span>
+          <div class="card-top"><span class="card-name">listkit</span><span class="pkg-badges"><span class="pill pkg-category">Show the work</span><span class="pill pkg-version" aria-label="Latest git version 0.1.0">git&nbsp;v0.1.0</span><span class="pill" aria-label="5 apps use this package">5 apps</span></span></div>
+          <span class="card-what">A list as a query: facets, a URL you can share, sorting that puts missing values last. No markup.</span>
         </div>
       </a>
       <a class="card text pkg-card" id="sitekit" href="/packages/sitekit/" data-package="sitekit" data-group="show" data-adoption="adopted" data-adopters="2">
@@ -129,9 +129,9 @@
           <span class="card-what">A website as data — a closed set of section shapes, validated, with per-field provenance.</span>
         </div>
       </a>
-      <a class="card text pkg-card" id="limitkit" href="/packages/limitkit/" data-package="limitkit" data-group="hold" data-adoption="adopted" data-adopters="8">
+      <a class="card text pkg-card" id="limitkit" href="/packages/limitkit/" data-package="limitkit" data-group="hold" data-adoption="adopted" data-adopters="9">
         <div class="card-body">
-          <div class="card-top"><span class="card-name">limitkit</span><span class="pkg-badges"><span class="pill pkg-category">Stay up</span><span class="pill pkg-version" aria-label="Latest npm version 0.2.0">npm&nbsp;v0.2.0</span><span class="pill" aria-label="8 apps use this package">8 apps</span></span></div>
+          <div class="card-top"><span class="card-name">limitkit</span><span class="pkg-badges"><span class="pill pkg-category">Stay up</span><span class="pill pkg-version" aria-label="Latest npm version 0.2.0">npm&nbsp;v0.2.0</span><span class="pill" aria-label="9 apps use this package">9 apps</span></span></div>
           <span class="card-what">Rate limiting as a decision, not middleware. Bounded memory by construction, standard headers.</span>
         </div>
       </a>
@@ -139,6 +139,18 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">paykit</span><span class="pkg-badges"><span class="pill pkg-category">Get paid</span><span class="pill pkg-version" aria-label="Latest npm version 0.1.0">npm&nbsp;v0.1.0</span><span class="pill" aria-label="0 apps use this package">0 apps</span></span></div>
           <span class="card-what">Classify pasted Bitcoin receive strings and describe payment rails a site can show. It does not hold keys or verify settlement.</span>
+        </div>
+      </a>
+      <a class="card text pkg-card" id="chatkit" href="/packages/chatkit/" data-package="chatkit" data-group="other" data-adoption="adopted" data-adopters="3">
+        <div class="card-body">
+          <div class="card-top"><span class="card-name">chatkit</span><span class="pkg-badges"><span class="pill pkg-category">Also</span><span class="pill pkg-version" aria-label="Latest git version 0.1.0">git&nbsp;v0.1.0</span><span class="pill" aria-label="3 apps use this package">3 apps</span></span></div>
+          <span class="card-what">One chat for every product: a composer with a microphone that always works, a thread that does not fight the reader, messages with copy and retry, and LLM markdown — the fleet's chat standard as a package.</span>
+        </div>
+      </a>
+      <a class="card text pkg-card" id="speechkit" href="/packages/speechkit/" data-package="speechkit" data-group="other" data-adoption="adopted" data-adopters="1">
+        <div class="card-body">
+          <div class="card-top"><span class="card-name">speechkit</span><span class="pkg-badges"><span class="pill pkg-category">Also</span><span class="pill pkg-version" aria-label="Latest npm version 1.0.0">npm&nbsp;v1.0.0</span><span class="pill" aria-label="1 app use this package">1 app</span></span></div>
+          <span class="card-what">Measure how somebody spoke — pauses, rate, where they searched for a word, grammar a listener would notice — and say only what the evidence allows. Language-agnostic; no pronunciation score, on purpose.</span>
         </div>
       </a></div>
         <p class="empty" id="package-empty" hidden>No packages match those choices. <button type="button" class="linkish" data-package-clear>Clear filters</button> to see everything.</p>

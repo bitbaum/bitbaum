@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26T21:12:30.602Z",
+  "generatedAt": "2026-09-28T14:31:51.347Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -20,7 +20,7 @@
   ],
   "summary": {
     "projects": 35,
-    "live": 17,
+    "live": 16,
     "clients": 5,
     "inFlight": 0
   },
@@ -664,28 +664,6 @@
       }
     },
     {
-      "slug": "probe-loop3",
-      "name": "probe-loop3",
-      "what": "A one-page test website that Loki builds and ships by itself, to prove the loop works.",
-      "stack": null,
-      "layer": "next",
-      "status": "live",
-      "owner": "bitbaum",
-      "since": null,
-      "urls": {
-        "live": "https://probe-loop3.orangecat.ch",
-        "repo": "https://github.com/bitbaum/probe-loop3",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Autonomous coding agents often fail during the final delivery stages, making it hard to verify whether an end-to-end build, deploy, and ship pipeline actually functions autonomously.",
-        "solution": "A minimal test project used as a canary to exercise and prove Loki's autonomous generation and shipping capabilities.",
-        "mission": "Validate that an autonomous agent can independently build, deploy, and ship a live web application without human intervention.",
-        "vision": null
-      }
-    },
-    {
       "slug": "skif",
       "name": "Skif",
       "what": "Holistic safety for people and the places they live, Zürich first, without trading away privacy or freedom.\n\nFrom the owner:\n\nWho is this for, and who pays for it?\nYear one pays per booking: people in Zürich who want a calm, qualified person with them (a night out, getting home after unwanted attention, a high-exposure person such as a crypto founder, a family), and venues like nightclubs wanting staff who de-escalate. Later: households, buildings, workplaces and neighbourhood associations paying for assessments and interventions. Users: the protected person or place, the Protectors, and Operations.\n\nWhat do they do today instead, and what is bad about it?\nSecurity firms sell equipment, not outcomes: cloud cameras, CCTV, alarm subscriptions, now facial recognition, on the assumption that more surveillance means more safety. The data leaves the home, sits with a vendor and can be shared without the person deciding. Human protection is bouncers picked for size, or close protection that is costly, opaque and not bookable. Nobody measures whether it worked, and nobody says 'you don't need to buy anything'.\n\nWhat does this actually do for them?\nThe person first states what they value and their limits: a Safety Preference Profile with hard constraints (no facial recognition, no interior cameras, no cloud video, no automatic police sharing). Each recommendation is the most proportionate effective intervention within those limits, trade-offs shown, never one opaque score; 'buy nothing' is valid. Protectors are chosen for judgment and calm, not intimidation, and matching explains why. Everyone sees only what the job needs.\n\nAnything the build must use, or must avoid?\nFleet stack: Next.js App Router, strict TypeScript, Tailwind, zod, Drizzle + pg on the bitbaum box's Postgres, Vitest, pnpm. Sign-in is OrangeCat OIDC only, no users table (id_token.sub is identity). Modular monolith. Avoid: Supabase, microservices, an LLM as the matching/dispatch algorithm (it must be deterministic and explainable), trackers on sensitive pages, location or incident data outside our own DB. Payments: manual PAYMENT_PENDING behind an abstraction, never faked.\n\nWhat has to be true for the first version to be worth shipping?\nEnd to end with persisted data: customer signs in, sets privacy preferences, requests a service (e.g. Night Out); Ops sees approved Protectors ranked with reasons and assigns one; the Protector accepts, starts and completes; the customer rates respect, discretion and feeling of safety (not stars); the Protector files a report or incident; Ops sees the lifecycle. Plus a Safety Assessment saving a Safety Plan that respects hard constraints and can say 'nothing to buy'.",
@@ -793,6 +771,28 @@
         "solution": "A weatherproof capsule plus a web app that records the spot: a map pin, a photo of the place, notes, and the person it is meant for.",
         "mission": "Make sure something you put away on purpose can still be found by the person it was meant for.",
         "vision": "The ordinary way to leave something behind for later — and to still be able to find it."
+      }
+    },
+    {
+      "slug": "zurich-sublet-compliance-concierge-service",
+      "name": "Zurich Sublet Compliance & Concierge Service",
+      "what": "Comprehensive legal and operational support for Zurich tenants taking sabbaticals, travels, or temporary relocation. We prepare the complete Art. 262 OR notification dossier for your property management (Verwaltung), draft legally compliant sublease contracts with permitted furniture surcharges, and vet prospective subtenants.",
+      "stack": null,
+      "layer": "next",
+      "status": "prospect",
+      "owner": "bitbaum",
+      "since": "2026-09-28",
+      "urls": {
+        "live": "https://zurich-sublet-compliance-concierge-service.orangecat.ch",
+        "repo": "https://github.com/bitbaum/zurich-sublet-compliance-concierge-service",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
       }
     }
   ]
