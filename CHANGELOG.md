@@ -2,6 +2,14 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-09-30 — Start the shared studio portal and course pilot
+
+- Build a Bitbaum brief intake, request receipt and private customer/partner portal backed by Loki's scoped request API.
+- Keep free Loki self-service independent, with an explicit draft-preserving handoff. Studio offer and current capacity stay in hire.json; Rescue retains its assessment scope.
+- Add course evidence, separate studio approval, consented profile review and assigned-brief delivery. Availability determines public directory inclusion.
+- Write the first systems design lesson, exercise and capstone rubric. Further lessons and calibration remain in development.
+- Render the canonical roadmap and changelog through bip-kit. Release and the first real engagement remain subject to verification.
+
 ## 2026-09-30
 
 ### Recorded

@@ -748,7 +748,7 @@ main:has(> .dev-band:last-child) + footer { margin-top: 0; }
     linear-gradient(225deg, var(--bone) 25%, transparent 25%) calc(var(--tile) / -2) 0 / var(--tile) var(--tile),
     linear-gradient(315deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
     linear-gradient(45deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
-    var(--ink);
+    var(--fg);
   -webkit-mask-image: linear-gradient(to top, #000 35%, transparent 100%);
   mask-image: linear-gradient(to top, #000 35%, transparent 100%);
   opacity: 0.92;
@@ -766,7 +766,7 @@ footer::before {
     linear-gradient(225deg, var(--bone) 25%, transparent 25%) calc(var(--tile) / -2) 0 / var(--tile) var(--tile),
     linear-gradient(315deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
     linear-gradient(45deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
-    var(--ink);
+    var(--fg);
   opacity: 0.85;
 }
 
@@ -1380,3 +1380,33 @@ footer { padding-bottom: max(6rem, var(--section-tight)); }
   .scene-world .dragonfly { left: 76%; top: 65%; }
   .scene-world .hummingbird { left: 65%; top: 28%; }
 }
+
+/* Request forms and public records stay in normal flow on every viewport. */
+.portal-wrap { max-width: 58rem; }
+.portal-layout { display: grid; gap: var(--space-8, 2rem); grid-template-columns: minmax(0, 1fr); }
+.portal-stack, .portal-form { display: grid; gap: 1.25rem; min-width: 0; }
+.portal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 1.5rem; }
+.portal-card { border: 1px solid var(--line); background: var(--bg); padding: clamp(1rem, 4vw, 2rem); display: grid; gap: 1rem; min-width: 0; }
+.portal-card h2, .portal-card h3, .portal-form h3 { font-size: 1.35rem; line-height: 1.3; }
+.portal-field { display: grid; gap: .5rem; font-weight: 500; min-width: 0; }
+.portal-field input, .portal-field textarea, .portal-field select, .portal-card > input { box-sizing: border-box; width: 100%; min-width: 0; border: 1px solid var(--line); background: var(--bg); color: var(--fg); padding: .8rem; font: inherit; font-size: 1rem; border-radius: .25rem; }
+.portal-field textarea { resize: vertical; min-height: 8rem; }
+.portal-form .btn, .portal-card .btn { justify-self: start; white-space: normal; text-align: left; min-height: 2.75rem; max-width: 100%; }
+.portal-form button:disabled { opacity: .65; cursor: progress; }
+.portal-consent { display: flex; align-items: flex-start; gap: .75rem; }
+.portal-consent input { flex-shrink: 0; margin-top: .3rem; width: 1.2rem; height: 1.2rem; }
+.portal-error { color: var(--fg); border-left: 3px solid currentColor; padding-left: 1rem; }
+.portal-words { white-space: pre-wrap; overflow-wrap: anywhere; }
+.portal-history { border-top: 1px solid var(--line); padding-top: 1rem; }
+.portal-stack a, .portal-card p, .portal-card a, .portal-field span { overflow-wrap: anywhere; }
+.record { overflow-wrap: anywhere; line-height: 1.7; }
+.record h2 { font-size: 1.7rem; line-height: 1.3; margin: 2.5rem 0 1rem; }
+.record h3, .record h4 { font-size: 1.2rem; line-height: 1.4; margin: 1.75rem 0 .75rem; }
+.record p, .record ul, .record ol, .record pre { margin: 1rem 0; }
+.record ul, .record ol { padding-left: 1.5rem; }
+.record li { margin: .4rem 0; }
+.record a { text-decoration: underline; text-underline-offset: .15em; }
+.record pre, .record-table { max-width: 100%; overflow-x: auto; }
+.record table { border-collapse: collapse; width: 100%; min-width: 30rem; }
+.record th, .record td { padding: .75rem; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+@media (min-width: 56rem) { .portal-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }

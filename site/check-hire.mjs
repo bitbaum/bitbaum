@@ -167,25 +167,26 @@ say((vlast?.page ?? "") === "/loki/", `recording which product was asked about (
 say(/Could this run for our organisation\?/.test(vlast?.suggestion ?? ""), "carrying the question the visitor asked");
 await ctx2.close();
 
-// Partner applications use direct intake: a single note is enough to submit,
-// including without an address. They are never called approved or waitlisted.
+// Partner applications now have their own scoped studio receipt.
 const ctx3 = await browser.newContext({ viewport: { width: 390, height: 844 } });
 const p3 = await ctx3.newPage();
 let applications = 0, application = null;
-await p3.route("**/api/feedback", async (route) => {
-  applications++;
-  application = JSON.parse(route.request().postData() || "{}");
-  await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, claimUrl: "https://loki.orangecat.ch/claim-feedback?token=partner-test" }) });
+const cors = { "access-control-allow-origin": new URL(base).origin, "access-control-allow-methods": "GET, POST, OPTIONS", "access-control-allow-headers": "Content-Type" };
+await p3.route("**/api/studio-partners", (route) => route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, partners: [] }) }));
+await p3.route("**/api/studio-intake", async (route) => {
+  if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers: cors });
+  applications++; application = JSON.parse(route.request().postData() || "{}");
+  await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, id: "4a1bbf67-7ced-411b-9eec-9bdbb975115b", status: "course_in_progress" }) });
 });
-await p3.goto(base + "/partners/#join", { waitUntil: "networkidle" });
-await p3.waitForSelector("#join .ck-input");
-await p3.fill("#join .ck-input", "I build booking sites. My work is at https://builder.ch/work");
-await p3.press("#join .ck-input", "Enter");
-await p3.waitForTimeout(600);
-say(applications === 1 && application?.page === "/partners/", "one message submits one partner application from the partner page");
-say(application?.suggestion?.startsWith("Partner application") && !application?.contact, "the application keeps the work link and needs no email");
-say(/application is saved/i.test(await p3.innerText("#join")), "saved for review, without claiming approval");
-say((await p3.getByRole("link", { name: "Track this application" }).count()) === 1, "a saved application offers account tracking");
+await p3.goto(base + "/partners/#join", { waitUntil: "load" });
+await p3.waitForSelector("#studio-partner [name=changes]");
+await p3.fill("#studio-partner [name=changes]", "I build booking sites. My work is at https://builder.ch/work");
+await p3.click("#studio-partner button[type=submit]");
+await p3.getByRole("link", { name: "Open your portal" }).waitFor();
+say(applications === 1 && application?.kind === "partner", "one structured brief submits one partner application");
+say(application?.changes?.includes("https://builder.ch/work") && !application?.contact, "application keeps the work link and needs no email");
+say(/request is saved/i.test(await p3.innerText("#join")), "saved for course review, without claiming approval");
+say((await p3.getByRole("link", { name: "Open your portal" }).count()) === 1, "a saved application offers private guest tracking");
 await ctx3.close();
 
 await browser.close();
