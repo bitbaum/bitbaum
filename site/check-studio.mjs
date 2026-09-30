@@ -52,6 +52,7 @@ try {
     assert.equal(privateLink.search, ""); assert.ok(privateLink.hash.includes(sent[0].accessKey));
     const actions = [];
     let request = structuredClone(fixture);
+    let assignments = [];
     await page.route(`**/api/studio-portal/${id}`, (route) => {
       const req = route.request();
       if (req.method() === "OPTIONS") return route.fulfill({ status: 204, headers });
@@ -62,7 +63,7 @@ try {
         if (body.action === "accept_preview") { request.delivery.accepted = true; request.status.id = "accepted"; }
         return route.fulfill({ status: 200, headers, contentType: "application/json", body: JSON.stringify({ ok: true }) });
       }
-      return route.fulfill({ status: 200, headers, contentType: "application/json", body: JSON.stringify({ ok: true, request, assignments: [] }) });
+      return route.fulfill({ status: 200, headers, contentType: "application/json", body: JSON.stringify({ ok: true, request, assignments }) });
     });
     await page.goto(`${base}/portal/#id=${id}&key=${key}`, { waitUntil: "load" });
     await page.getByRole("heading", { name: "Preview version 2", exact: true }).waitFor();
@@ -92,6 +93,30 @@ try {
     assert.equal(assessment.version, course.version);
     assert.deepEqual(Object.keys(assessment.answers), course.modules.map((m) => m.id));
     assert.equal(await page.locator("#portal-propose_profile input[type=checkbox]").count(), 1);
+    await page.locator("#portal-propose_profile [name=name]").fill("A qualified builder");
+    await page.locator("#portal-propose_profile [name=headline]").fill("Booking systems with recoverable journeys");
+    await page.locator("#portal-propose_profile [name=url]").fill("https://github.com/bitbaum");
+    await page.locator("#portal-propose_profile [name=rate]").fill("Scope quoted directly");
+    const countBeforeConsent = actions.length;
+    await page.getByRole("button", { name: "Propose your public profile", exact: true }).click();
+    assert.equal(actions.length, countBeforeConsent);
+    await page.locator("#portal-propose_profile input[type=checkbox]").check();
+    await page.getByRole("button", { name: "Propose your public profile", exact: true }).click();
+    await page.waitForFunction(() => document.querySelector("#portal-propose_profile [name=name]")?.value === "");
+    assert.equal(actions.find((a) => a.action === "propose_profile").consent, true);
+    request.partner.approved = true; request.partner.coursePassed = true; request.status.id = "approved";
+    const assignedId = "9a4dbe4e-cba2-4ab2-8ad3-c855ad32907f";
+    assignments = [{ ...structuredClone(fixture), id: assignedId, target: "partner", delivery: { ...fixture.delivery, version: 4 } }];
+    await page.reload({ waitUntil: "load" });
+    await page.waitForSelector(`#portal-deliver_assignment-${assignedId}`);
+    await page.locator(`#portal-deliver_assignment-${assignedId} [name=previewUrl]`).fill("https://bitbaum.orangecat.ch/next-preview");
+    await page.locator(`#portal-deliver_assignment-${assignedId} [name=scope]`).fill("The assigned mobile booking flow");
+    await page.locator(`#portal-deliver_assignment-${assignedId} [name=summary]`).fill("Verification evidence and a usable handover");
+    await page.getByRole("button", { name: "Submit next preview", exact: true }).click();
+    await page.waitForFunction((assignedId) => document.querySelector(`#portal-deliver_assignment-${assignedId} [name=previewUrl]`)?.value === "", assignedId);
+    const delivered = actions.find((a) => a.action === "deliver_assignment");
+    assert.equal(delivered.requestId, assignedId); assert.equal(delivered.expectedVersion, 4);
+
     assert.deepEqual(errors, []);
     await context.close(); checks++;
   }

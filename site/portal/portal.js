@@ -44,7 +44,8 @@ function credential(raw) {
 const portalUrl = (access) => new URL(`/portal/#id=${access.id}&key=${access.key}`, location.origin).href;
 function remember(access) {
   save("bitbaum:portal:last", access);
-  const recent = read("bitbaum:portal:recent") ?? [];
+  const stored = read("bitbaum:portal:recent");
+  const recent = Array.isArray(stored) ? stored : [];
   save("bitbaum:portal:recent", [access, ...recent.filter((r) => r.id !== access.id)].slice(0, 10));
 }
 function intake(root) {
@@ -228,7 +229,8 @@ function portal(root) {
       catch { error.textContent = "Use the complete link including its private fragment."; error.hidden = false; }
     }); content.append(form);
     if (access) { const retry = el("button", { type: "button", class: "btn secondary", text: "Try this request again" }); retry.addEventListener("click", load); content.append(retry); }
-    const recent = (read("bitbaum:portal:recent") ?? []).map(credential).filter(Boolean);
+    const stored = read("bitbaum:portal:recent");
+    const recent = (Array.isArray(stored) ? stored : []).map(credential).filter(Boolean);
     if (recent.length) content.append(el("h2", { text: "Links saved in this browser session" }), ...recent.map((r) => link(`Open request ${r.id.slice(0, 8)}`, portalUrl(r), "btn secondary")));
     content.append(link("Send a new brief", "/hire/#website"), link("Apply as a partner", "/partners/#join")); root.replaceChildren(content);
   }

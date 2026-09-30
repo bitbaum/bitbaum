@@ -69,10 +69,12 @@ jobs:
           python3 -m http.server 8731 --directory site/dist &
           echo $! > /tmp/bitbaum-http.pid
           sleep 1
-          node site/check-theme.mjs http://127.0.0.1:8731
-          node site/check-responsive.mjs http://127.0.0.1:8731
-          node site/check-hire.mjs http://127.0.0.1:8731
-          node site/check-studio.mjs http://127.0.0.1:8731
+          failures=0
+          node site/check-theme.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-hire.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-studio.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
+          [ "$failures" -eq 0 ]
           kill "$(cat /tmp/bitbaum-http.pid)" || true
       - name: Commit refreshed source snapshots and generated site
         run: |
@@ -123,7 +125,9 @@ jobs:
         run: |
           python3 -m http.server 8731 --directory site/dist &
           sleep 1
-          node site/check-theme.mjs http://127.0.0.1:8731
-          node site/check-responsive.mjs http://127.0.0.1:8731
-          node site/check-hire.mjs http://127.0.0.1:8731
-          node site/check-studio.mjs http://127.0.0.1:8731
+          failures=0
+          node site/check-theme.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-hire.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-studio.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
+          [ "$failures" -eq 0 ]

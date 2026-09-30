@@ -1410,3 +1410,12 @@ footer { padding-bottom: max(6rem, var(--section-tight)); }
 .record table { border-collapse: collapse; width: 100%; min-width: 30rem; }
 .record th, .record td { padding: .75rem; border: 1px solid var(--line); text-align: left; vertical-align: top; }
 @media (min-width: 56rem) { .portal-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+
+/* Longer task links and enlarged text must not force the phone footer wide. */
+.foot-cols > *, footer nav { min-width: 0; }
+footer nav a { max-width: 100%; overflow-wrap: anywhere; }
+@media (max-width: 860px) { .foot-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+@media (max-width: 640px) {
+  .foot-cols { grid-template-columns: minmax(0, 1fr); }
+  .foot-cols nav:last-child { flex-direction: column; align-items: flex-start; }
+}

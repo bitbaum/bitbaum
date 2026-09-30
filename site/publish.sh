@@ -16,6 +16,7 @@ _box_env="${DEV_ROOT:-$HOME/dev}/loki/scripts/hetzner/_box-env.sh"
 [ -f "$_box_env" ] && . "$_box_env"
 BOX="${BOX:-${BOX_UBUNTU:-ubuntu@${HETZNER_IP:?set BOX or HETZNER_IP — the box address lives in loki scripts/hetzner/_box-env.sh}}}"
 node "$HERE/build.mjs" --check
+node "$HERE/check-studio-api.mjs"
 
 stamp="$(date -u +%Y%m%d-%H%M%S)"
 rsync -az --delete -e "ssh -o BatchMode=yes" "$HERE/dist/" "$BOX:/tmp/bitbaum-dist.$stamp/"
