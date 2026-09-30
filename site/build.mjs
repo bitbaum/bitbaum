@@ -656,7 +656,7 @@ function buildYourselfBand(all, hire, { heading = true } = {}) {
       <div class="wrap">
         ${heading ? `<div class="section-head">
           <div class="stack-head"><span class="eyebrow">${esc(hire?.availability?.shortLine ?? "The studio")}</span><h2 class="display-2">Build it yourself — with the same system.</h2></div>
-          <p class="lede">The studio is at capacity, but the tools it builds with are open to everyone. Loki, OrangeCat and Solon cover every part of an idea: making it, earning from it, and running it with other people.</p>
+          <p class="lede">The studio is at capacity. You can build independently with free Loki. If you need payment or collective decisions, explore OrangeCat or Solon; you choose which tools fit your work.</p>
         </div>` : ""}
         <div class="build-paths">
 ${paths.map(([slug, verb, line]) => {
@@ -741,7 +741,7 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
     {
       n: "01", key: "self", title: "Build it yourself",
       price: "Free to start", when: "Start now", open: true,
-      body: "Describe what you want. A fleet of AI agents builds it and you approve what ships — then sell it with OrangeCat and run it with others in Solon.",
+      body: "Describe what you want in free Loki. A fleet of AI agents helps you build it, and you review what ships. OrangeCat and Solon are optional when you need them.",
       cta: "Start with Loki", href: new URL("/commission", by("loki")?.url ?? "https://loki.orangecat.ch/").href,
     },
     {
@@ -798,7 +798,7 @@ ${pathCards}
 ${fullBleed({ scene: "seed", id: "build-yourself", body: `        <div class="bleed-copy">
           <span class="kicker">Build it yourself</span>
           <h2 class="headline-caps">Make it yourself.<br>Today.</h2>
-          <p class="bleed-lede">The studio is at capacity. Its tools are not: the same three products it builds with are open to you — to make something, earn from it, and run it with other people.</p>
+          <p class="bleed-lede">The studio is at capacity. Free Loki is open to you: build on your own, with no need to join every product. Explore OrangeCat or Solon when payment or collective decisions fit your work.</p>
           <div class="bleed-actions">
             <a class="btn-frame-accent" href="${esc(by("loki")?.url ?? "https://loki.orangecat.ch/")}">Start with Loki ${ARROW}</a>
             <a class="btn-frame" href="#tools">How the tools fit</a>
