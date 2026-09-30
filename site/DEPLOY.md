@@ -94,6 +94,12 @@ list as `/work/`, which is the rule that matters — the old hand-typed
 version quoted a host that had been retired for two days, counted one renamed
 organisation as two systems, and used two superseded product names.
 
+The waitlist uses the one-field chat intake in `site/chat/chat.tsx`, bundled
+as `/chat.js` with `/chatkit.css`. Partner applications use that same intake
+with a separate purpose. `/commission.json` is generated from the selected
+`commissioningOffer` and availability in `hire.json`; Loki reads it for the
+website-change brief. The public token grants write-only feedback intake.
+
 The public name is **Cato** and the address is **cato@orangecat.ch**. An
 earlier `mao@` address is the same person under a superseded handle and must
 not appear on any page.
@@ -127,6 +133,7 @@ node site/build.mjs --offline   # build from the snapshots (no network)
 node site/build.mjs --check     # exit 1 if site/dist/ is stale
 node site/check-claims.mjs      # truth gate against dist/ (or pass a live URL)
 node site/check-theme.mjs http://127.0.0.1:8731   # after serving dist/
+node site/check-responsive.mjs http://127.0.0.1:8731 # all pages, mobile/tablet/rotation/200% text
 node site/check-hire.mjs https://bitbaum.orangecat.ch
 site/publish.sh                 # --check, rsync dist to the box, prove every page answers
 ```
@@ -161,11 +168,11 @@ update the action when the workflow dependencies are next reviewed.
 
 `publish.sh` asserts those on `/packages/`. A Content-Security-Policy that
 blocks inline scripts is a follow-on once the remaining FOUC theme boot is
-hashed or moved; interactive modules already live at `/theme.mjs` and
-`/request.mjs`.
+hashed or moved; interactive modules already live at `/theme.mjs`,
+`/chat.js`, `/lodge.mjs` and `/creatures.mjs`.
 
 ---
 
 created_date: 2026-06-01
-last_modified_date: 2026-09-24
-last_modified_summary: Card SSOT and honest claims; redacted map.json; build≠publish; CI truth gates; Caddy header smoke checks.
+last_modified_date: 2026-09-30
+last_modified_summary: Current chat and commissioning assets; responsive and intake gates; published commissioning contract verification.
