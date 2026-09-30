@@ -2,11 +2,19 @@
 // worlds out of mobile copy, including after rotation and text enlargement.
 // Usage: node site/check-responsive.mjs <base-url>
 import { chromium } from "playwright";
-import { readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const base = process.argv[2];
 if (!base) throw new Error("usage: node site/check-responsive.mjs <base-url>");
+const widget = JSON.parse(readFileSync(new URL("./loki-feedback.json", import.meta.url), "utf8"));
+let isolatedWidgets = 0;
+// Geometry is local. Loading the real widget for 123+ page visits would
+// exhaust its live boot rate limit before check-widget tests that integration.
+const isolateWidget = (context) => context.route(`${widget.origin}/widget.js`, (route) => {
+  isolatedWidgets++;
+  return route.fulfill({ status: 200, contentType: "text/javascript", body: "" });
+});
 const routes = [];
 function walk(dir, prefix = "") {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -21,6 +29,7 @@ let checked = 0;
 try {
   for (const width of [320, 390, 768]) {
     const context = await browser.newContext({ viewport: { width, height: 844 }, reducedMotion: "reduce" });
+    await isolateWidget(context);
     const page = await context.newPage();
     page.on("pageerror", (e) => failures.push(`${width}px: ${e.message}`));
     for (const route of routes) {
@@ -58,6 +67,7 @@ try {
   }
   for (const route of ["/", "/hire/", "/partners/", "/packages/", "/diplodoctor/"]) {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
+    await isolateWidget(page.context());
     await page.goto(base + route, { waitUntil: "load" });
     await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
     if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)) failures.push(`200% text ${route}: horizontal overflow`);
@@ -66,6 +76,7 @@ try {
 } finally {
   await browser.close();
 }
+if (isolatedWidgets < checked) failures.push(`widget isolation did not cover every page (${isolatedWidgets}/${checked})`);
 if (failures.length) {
   for (const failure of failures) console.error(`FAIL ${failure}`);
   process.exit(1);
