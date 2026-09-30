@@ -13,9 +13,15 @@ const base = (process.argv[2] ?? "https://bitbaum.orangecat.ch").replace(/\/$/, 
 const say = (ok, message) => console.log(`${ok ? "PASS" : "FAIL"} ${message}`);
 const browser = await chromium.launch({ headless: true });
 let failed = false;
+let boot = null;
+const errors = [];
 try {
   const page = await browser.newPage({ viewport: { width: 375, height: 812 } });
-  const errors = [];
+  page.on("response", async (response) => {
+    if (new URL(response.url()).pathname !== "/api/widget-boot") return;
+    const body = await response.json().catch(() => ({}));
+    boot = { status: response.status(), active: body.active, theme: Boolean(body.theme) };
+  });
   page.on("pageerror", (error) => errors.push(error.message));
   page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
   const response = await page.goto(`${base}/`, { waitUntil: "domcontentloaded", timeout: 30_000 });
@@ -54,6 +60,7 @@ try {
   failed ||= errors.length > 0;
 } catch (error) {
   console.error(`FAIL ${error.message}`);
+  console.error(`Widget boot: ${JSON.stringify(boot)}${errors.length ? `; browser errors: ${errors.join(" | ")}` : ""}`);
   failed = true;
 } finally {
   await browser.close();
