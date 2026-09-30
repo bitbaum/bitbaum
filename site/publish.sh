@@ -28,7 +28,7 @@ ssh -o BatchMode=yes "$BOX" "set -e
   sudo find /opt/bitbaum/app -type f -exec chmod 644 {} +"
 
 fail=0
-for rel in "" work/ packages/ packages/paykit/ studio/ hire/ orangecat/ loki/ solon/ robots.txt sitemap.xml map.json og/studio.png theme.mjs request.mjs; do
+for rel in "" work/ packages/ packages/paykit/ studio/ hire/ partners/ orangecat/ loki/ solon/ robots.txt sitemap.xml map.json commission.json og/studio.png theme.mjs chat.js chatkit.css; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_ORIGIN/$rel")
   [ "$code" = "200" ] || { echo "$SITE_ORIGIN/$rel -> $code" >&2; fail=1; }
 done
@@ -47,8 +47,11 @@ grep -Fq "$widget_src" <<<"$home" || { echo "home page does not load the Loki wi
 widget_code=$(curl -s -o /dev/null -w '%{http_code}' "$widget_src")
 [ "$widget_code" = "200" ] || { echo "Loki widget script -> $widget_code" >&2; fail=1; }
 hire="$(curl -fsS "$SITE_ORIGIN/hire/")" || { echo "hire page unreachable" >&2; fail=1; }
-grep -q 'class="signup js-request"' <<<"$hire" || { echo "hire page has no request form" >&2; fail=1; }
-grep -q 'request.mjs' <<<"$hire" || { echo "hire page does not load request.mjs" >&2; fail=1; }
+grep -q 'data-intake' <<<"$hire" || { echo "hire page has no waitlist intake" >&2; fail=1; }
+grep -q '/chat.js' <<<"$hire" || { echo "hire page does not load the chat intake" >&2; fail=1; }
+grep -q '/commission?package=' <<<"$hire" || { echo "hire page has no website commissioning link" >&2; fail=1; }
+commission_json="$(curl -fsS "$SITE_ORIGIN/commission.json?publish=$stamp")" || { echo "commission.json unreachable" >&2; fail=1; }
+printf '%s' "$commission_json" | node -e 'const fs=require("node:fs"); const assert=require("node:assert/strict"); assert.deepEqual(JSON.parse(fs.readFileSync(0,"utf8")),JSON.parse(fs.readFileSync("site/dist/commission.json","utf8")))' || { echo "published commissioning terms differ from the generated contract" >&2; fail=1; }
 if grep -q 'mailto:' <<<"$hire"; then echo "hire page exposes a mailto again" >&2; fail=1; fi
 if grep -q 'manual steps between merge and deploy' <<<"$hire"; then echo "hire page still claims 0 manual deploy steps" >&2; fail=1; fi
 packages="$(curl -fsS "$SITE_ORIGIN/packages/?publish=$stamp")" || { echo "packages page unreachable" >&2; fail=1; }
@@ -65,7 +68,7 @@ actual_packages=$(grep -o 'data-package="[^"]*"' <<<"$packages" | wc -l | tr -d 
 grep -q 'data-package="paykit"' <<<"$packages" || { echo "packages page is missing the paykit card" >&2; fail=1; }
 grep -q 'distinct adopters in the fleet' <<<"$packages" || { echo "packages page missing unique-adopter eyebrow" >&2; fail=1; }
 if grep -q 'uses across the fleet' <<<"$packages"; then echo "packages page still sums dependency edges as uses" >&2; fail=1; fi
-for rel in packages-filter.mjs work-filter.mjs theme.mjs request.mjs vendor/listkit/index.js vendor/listkit/LICENSE; do
+for rel in packages-filter.mjs work-filter.mjs theme.mjs chat.js chatkit.css commission.json vendor/listkit/index.js vendor/listkit/LICENSE; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_ORIGIN/$rel?publish=$stamp")
   [ "$code" = "200" ] || { echo "$SITE_ORIGIN/$rel -> $code" >&2; fail=1; }
 done
