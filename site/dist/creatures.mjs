@@ -59,7 +59,7 @@ function creature(el, host, pick, { speed, hover, shy, curious }) {
 // and fades before it reaches the words. Its legs stride as it goes
 // (art.mjs), and scenes.mjs casts its long evening shadow on the sand.
 const walker = document.querySelector(".walker");
-const plain = walker?.closest("section");
+const plain = walker?.closest(".scene-world");
 if (walker && plain) {
   const LOOP = 95000;
   let raf = 0, visible = false, t0 = performance.now();
@@ -90,18 +90,18 @@ if (walker && plain) {
 
 if (!still) {
   const dragonfly = document.querySelector(".dragonfly");
-  const hero = dragonfly?.closest("section");
+  const hero = dragonfly?.closest(".scene-world");
   if (dragonfly && hero) {
     creature(dragonfly, hero, () => {
       const w = hero.clientWidth, h = num(hero, "--horizon", hero.clientHeight * 0.66);
       // On a phone the words fill the sky, so it hunts over the water instead.
-      if (w < 700) return [w * (0.15 + Math.random() * 0.7), h + 18 + Math.random() * 40];
+      if (w < 700) return [w * (0.15 + Math.random() * 0.7), h * (0.35 + Math.random() * 0.3)];
       return [w * (0.5 + Math.random() * 0.42), h - 30 - Math.random() * 150];
     }, { speed: 7, hover: () => 700 + Math.random() * 1800, shy: 90 });
   }
 
   const bird = document.querySelector(".hummingbird");
-  const plain = bird?.closest("section");
+  const plain = bird?.closest(".scene-world");
   if (bird && plain) {
     creature(bird, plain, () => {
       // Feed at the crown only once the tree has grown; before that, wait
@@ -146,7 +146,7 @@ for (const m of document.querySelectorAll(".shroom")) {
 // the far right, bouncing, turning, a little nearer as it goes, and away.
 const tumble = document.querySelector(".tumbleweed");
 if (tumble && !still) {
-  const plain = tumble.closest("section");
+  const plain = tumble.closest(".scene-world");
   let busy = false, visible = false;
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(plain);
   const roll = () => {

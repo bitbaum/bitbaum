@@ -12,6 +12,7 @@
     "check:claims": "node site/check-claims.mjs",
     "check:hire": "node site/check-hire.mjs",
     "check:theme": "node site/check-theme.mjs",
+    "check:responsive": "node site/check-responsive.mjs",
     "check:widget": "node site/check-widget.mjs"
   },
   "dependencies": {

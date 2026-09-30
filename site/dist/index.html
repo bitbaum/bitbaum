@@ -64,7 +64,8 @@
     </div>
   </header>
   <main id="main" class="home-page">
-    <section class="bleed bleed-under bleed-lodge glass" data-lodge data-cat-perch>
+    <section class="bleed bleed-under bleed-lodge glass" data-lodge>
+      <div class="scene-world" data-cat-perch>
       <div class="lodge-floor" aria-hidden="true"></div>
       <canvas class="scene-canvas" data-scene="neuron" aria-hidden="true"></canvas>
       <div class="glass-horizon" aria-hidden="true"></div>
@@ -73,6 +74,7 @@
       <div class="rabbit" aria-hidden="true"><div class="rabbit-hop"><span class="fig puppet fig-rabbit" data-rig='[{"poly":[[16,0],[50,0],[47,30],[30,32],[16,22]],"pivot":[40,30],"a":[0,7],"dur":4.6,"delay":0,"mode":"gesture"}]'><img class="pp-body" src="/art/rabbit.webp" width="152" height="257" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
       <div class="whale" hidden aria-hidden="true"><span class="fig puppet fig-whale" data-rig='[{"poly":[[62,0],[100,0],[100,72],[62,72]],"pivot":[64,46],"a":[-9,9],"dur":4.2,"delay":0,"mode":"swing"},{"poly":[[13,55],[30,52],[56,92],[50,100],[24,100],[13,70]],"pivot":[28,54],"a":[-8,6],"dur":4.2,"delay":-2.1,"mode":"swing"}]'><img class="pp-body" src="/art/whale.webp" width="582" height="242" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
       <div class="dragonfly" hidden aria-hidden="true"><span class="fig puppet fig-dragonfly" data-rig='[{"poly":[[0,0],[46.5,0],[46.5,62],[0,62]],"pivot":[47,24],"a":[-8,8],"dur":0.12,"delay":0,"mode":"swing"},{"poly":[[53.5,0],[100,0],[100,62],[53.5,62]],"pivot":[53,24],"a":[8,-8],"dur":0.12,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/dragonfly.webp" width="404" height="255" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
+      </div>
       <div class="wrap bleed-body">
         <div class="bleed-copy rise">
           <span class="kicker">AI-native product studio &middot; Zürich</span>
@@ -93,7 +95,7 @@
         <span class="kicker quiet">Start a project</span>
         <h2 class="headline-caps section-title">How do you want it built?</h2>
         <div class="paths">
-          <a class="path" href="https://loki.orangecat.ch" data-path="self">
+          <a class="path" href="https://loki.orangecat.ch/commission" data-path="self">
             <span class="path-n">01</span>
             <span class="path-title">Build it yourself</span>
             <span class="path-meta"><span class="path-price">Free to start</span><span class="path-when open">Start now</span></span>
@@ -119,12 +121,10 @@
     </section>
 
     <section class="bleed bleed-scene" id="build-yourself">
+      <div class="scene-world">
       <canvas class="scene-canvas" data-scene="seed" aria-hidden="true"></canvas>
-      <div class="horizon-life" aria-hidden="true"><img class="fig fig-watch-block" src="/art/watch-block.webp" width="337" height="273" alt="" loading="lazy" decoding="async" draggable="false"><img class="fig fig-gear-l gear g-big" src="/art/gear-l.webp" width="298" height="300" alt="" loading="lazy" decoding="async" draggable="false"><img class="fig fig-gear-s gear g-small" src="/art/gear-s.webp" width="173" height="180" alt="" loading="lazy" decoding="async" draggable="false"></div>
-      <div class="walker" aria-hidden="true"><span class="fig puppet fig-elephant" data-rig='[{"poly":[[4,56],[24,56],[24,100],[2,100]],"pivot":[20,54],"a":[-9,9],"dur":1.8,"delay":0,"mode":"swing"},{"poly":[[24,57],[35,57],[36,100],[24,100]],"pivot":[29,55],"a":[9,-9],"dur":1.8,"delay":0,"mode":"swing"},{"poly":[[35,57],[52,57],[52,100],[35,100]],"pivot":[41,55],"a":[9,-9],"dur":1.8,"delay":0,"mode":"swing"},{"poly":[[55,57],[78,57],[78,100],[55,100]],"pivot":[62,54],"a":[-9,9],"dur":1.8,"delay":0,"mode":"swing"},{"poly":[[79,52],[100,52],[100,78],[79,78]],"pivot":[84,50],"a":[-5,6],"dur":3.4,"delay":-1,"mode":"swing"}]'><img class="pp-body" src="/art/elephant.webp" width="276" height="560" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
-      <div class="tumbleweed" hidden aria-hidden="true"><img class="fig fig-tumbleweed" src="/art/tumbleweed.webp" width="252" height="260" alt="" loading="lazy" decoding="async" draggable="false"></div>
-      <div class="horizon-life rye-clump" aria-hidden="true"><img class="fig fig-rye-a rye r1" src="/art/rye-a.webp" width="256" height="328" alt="" loading="lazy" decoding="async" draggable="false"><img class="fig fig-rye-c rye r2" src="/art/rye-c.webp" width="186" height="274" alt="" loading="lazy" decoding="async" draggable="false"><img class="fig fig-rye-b rye r3" src="/art/rye-b.webp" width="142" height="272" alt="" loading="lazy" decoding="async" draggable="false"></div>
       <div class="hummingbird" hidden aria-hidden="true"><span class="fig puppet fig-hummingbird" data-rig='[{"poly":[[0,0],[52,0],[54,52],[30,52],[0,30]],"pivot":[46,44],"a":[-24,14],"dur":0.09,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/hummingbird.webp" width="297" height="264" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
+      </div>
       <div class="bleed-scrim" aria-hidden="true"></div>
       <div class="wrap bleed-body">
         <div class="bleed-copy">
@@ -233,7 +233,9 @@
     </section>
 
     <section class="bleed bleed-scene" id="studio">
+      <div class="scene-world">
       <canvas class="scene-canvas" data-scene="rings" aria-hidden="true"></canvas>
+      </div>
       <div class="bleed-scrim" aria-hidden="true"></div>
       <div class="wrap bleed-body">
         <div class="bleed-copy">
@@ -249,7 +251,9 @@
     </section>
 
     <section class="bleed bleed-scene" id="join">
+      <div class="scene-world">
       <canvas class="scene-canvas" data-scene="mycelium" aria-hidden="true"></canvas>
+      </div>
       <div class="bleed-scrim strong" aria-hidden="true"></div>
       <div class="wrap bleed-body">
         <div class="bleed-copy">
@@ -328,6 +332,7 @@
         <nav aria-label="The studio">
           <h2 class="label">The studio</h2>
           <a href="/hire/">Engagements and rates</a>
+          <a href="https://loki.orangecat.ch/commission?package=rescue" rel="noopener">Change an existing website</a>
           <a href="/hire/#waitlist">Join the waitlist</a>
         </nav>
       </div>
@@ -357,6 +362,7 @@
       <nav aria-label="The studio">
         <h2 class="label">The studio</h2>
         <a href="/hire/">Engagements and rates</a>
+          <a href="https://loki.orangecat.ch/commission?package=rescue" rel="noopener">Change an existing website</a>
           <a href="/hire/#waitlist">Join the waitlist</a>
       </nav>
       <div class="menu-theme"><span class="label">Theme and weather</span><div class="theme" role="group" aria-label="Colour theme">
@@ -382,7 +388,6 @@
   <script type="module" src="/theme.mjs"></script>
   <script type="module" src="/nav.mjs"></script>
   <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" data-label="OrangeCat &rarr;"><span class="fig puppet fig-cat" data-rig='[{"poly":[[0,50],[36,50],[34,100],[0,100]],"pivot":[33,86],"a":[-8,7],"dur":2.8,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/cat.webp" width="228" height="266" alt="" loading="lazy" decoding="async" draggable="false"></span></a>
-
   <script type="module" src="/sky.mjs"></script>
   <script type="module" src="/lodge.mjs"></script>
   <script type="module" src="/warp.mjs"></script>

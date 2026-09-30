@@ -27,8 +27,10 @@
     ],
     "prompt": "Hello. What would you like the studio to build? A sentence is enough, and it does not need to be polished — add when you need it and an email if you would like a reply."
   },
+  "commissioningOffer": "rescue",
   "offers": [
     {
+      "id": "fractional-cto",
       "name": "Fractional CTO",
       "price": "CHF 2,400",
       "unit": "per day",
@@ -36,6 +38,7 @@
       "what": "Minimum three months. We own architecture, the deploy pipeline, the review bar, security posture and the technical side of hiring — for teams that need those decisions made without a full-time salary attached to them."
     },
     {
+      "id": "build-sprint",
       "name": "Build sprint",
       "price": "from CHF 18,000",
       "unit": "",
@@ -43,6 +46,7 @@
       "what": "Fixed price, fixed scope. A defined product or module delivered running in production, with tests and a pipeline. Change requests are re-quoted rather than quietly absorbed."
     },
     {
+      "id": "rescue",
       "name": "Rescue",
       "price": "CHF 6,500",
       "unit": "",

@@ -246,11 +246,12 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
 // here: every word goes to the studio's inbox (POST /api/feedback) as written.
 const EMAIL = /[^\s<>(),;:"']+@[^\s<>(),;:"']+\.[a-z]{2,}/i;
 
-function Intake({ cfg, prompt, about }: { cfg: Config; prompt: string; about: () => string }) {
+function Intake({ cfg, prompt, about, purpose = "waitlist" }: { cfg: Config; prompt: string; about: () => string; purpose?: "waitlist" | "partner" }) {
   const [messages, setMessages] = useState<ChatMessageData[]>([
     { id: "hello", role: "assistant", content: prompt },
   ]);
   const [sending, setSending] = useState(false);
+  const [claimUrl, setClaimUrl] = useState("");
   const first = useRef("");
   const replyTo = useRef("");
   const pending = useRef<{ text: string; kept: ChatMessageData[] } | null>(null);
@@ -264,9 +265,10 @@ function Intake({ cfg, prompt, about }: { cfg: Config; prompt: string; about: ()
     const found = text.match(EMAIL)?.[0] ?? "";
     const isFirst = !first.current;
     const topic = about();
+    const label = purpose === "partner" ? "Partner application" : "Waitlist";
     const suggestion = isFirst
-      ? `Waitlist — from the website${topic ? `\nEngagement: ${topic}` : ""}\n\n${text}`
-      : `Waitlist, follow-up to: “${first.current.slice(0, 300)}”\n\n${text}`;
+      ? `${label} — from the website${topic ? `\nEngagement: ${topic}` : ""}\n\n${text}`
+      : `${label}, follow-up to: “${first.current.slice(0, 300)}”\n\n${text}`;
     try {
       const res = await fetch(`${cfg.origin}/api/feedback`, {
         method: "POST",
@@ -281,11 +283,15 @@ function Intake({ cfg, prompt, about }: { cfg: Config; prompt: string; about: ()
         }),
       });
       if (!res.ok) throw new Error(String(res.status));
+      const result = await res.json().catch(() => ({})) as { claimUrl?: string };
+      if (isFirst && result.claimUrl?.startsWith(`${cfg.origin}/claim-feedback?token=`)) setClaimUrl(result.claimUrl);
       pending.current = null;
       if (isFirst) first.current = text;
       const newAddress = found && !replyTo.current;
       if (found) replyTo.current = found;
-      if (isFirst && found)
+      if (isFirst && purpose === "partner")
+        say(`Your application is saved for the studio to review.${found ? ` The reply will go to ${found}.` : " Where should the reply go? An email address is enough, or attach the application to your account below."} Add anything else here; approval is reviewed by a person.`);
+      else if (isFirst && found)
         say(`You are on the waitlist. A person reads this and will write to ${found} when a slot opens — nothing automated goes out. Anything to add, just say it here.`);
       else if (isFirst)
         say("You are on the waitlist, and a person will read it. Where should the reply go? An email address is enough — or leave it, and add anything else you like.");
@@ -323,7 +329,7 @@ function Intake({ cfg, prompt, about }: { cfg: Config; prompt: string; about: ()
       />
       <Composer
         onSend={(text) => send(text)}
-        placeholder={first.current ? "Add anything, or your email…" : "What would you like to build? Your own words…"}
+        placeholder={first.current ? "Add anything, or your email…" : purpose === "partner" ? "Who you are, what you build, and a link to your work…" : "What would you like to build? Your own words…"}
         sending={sending}
         voice={{
           transcribe: async (audio) => {
@@ -337,6 +343,7 @@ function Intake({ cfg, prompt, about }: { cfg: Config; prompt: string; about: ()
           },
         }}
       />
+      {claimUrl && <div className="chat-links"><a className="chat-link" href={claimUrl}>Track {purpose === "partner" ? "this application" : "this request"} →</a></div>}
     </div>
   );
 }
@@ -349,7 +356,7 @@ for (const el of document.querySelectorAll<HTMLElement>("[data-intake]")) {
     a.addEventListener("click", () => (topic = a.dataset.engagement ?? "")),
   );
   el.textContent = "";
-  createRoot(el).render(<Intake cfg={cfg} prompt={el.dataset.prompt ?? ""} about={() => topic} />);
+  createRoot(el).render(<Intake cfg={cfg} prompt={el.dataset.prompt ?? ""} about={() => topic} purpose={el.dataset.purpose === "partner" ? "partner" : "waitlist"} />);
 }
 
 for (const el of document.querySelectorAll<HTMLElement>("[data-chat]")) {

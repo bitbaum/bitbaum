@@ -535,6 +535,11 @@ a.card-name:hover { color: var(--accent); }
 .work-count { margin: 0 0 1rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-3); }
 .work-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
 @media (max-width: 1023px) {
+  main { overflow-wrap: anywhere; }
+  .bleed-copy, .venture-hero .wrap, .venture-depth .wrap, .section-head { grid-template-columns: minmax(0, 1fr); }
+  .bleed-copy > *, .venture-hero .wrap > *, .venture-depth .wrap > *, .section-head > *, .build-path > * { min-width: 0; max-width: 100%; }
+  .btn, .btn-frame, .btn-frame-accent, .pill { max-width: 100%; min-width: 0; white-space: normal; text-align: center; }
+  .btn, .btn-frame, .btn-frame-accent { padding-block: 0.75rem; }
   .work-layout { grid-template-columns: 1fr; }
   .work-side { position: static; max-height: none; overflow: visible; }
   .work-filters-box { border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--bg-raised); }
@@ -1312,3 +1317,66 @@ html { overflow-x: clip; }
 
 /* The waitlist intake: the chat card, a little narrower, so it reads as a note. */
 .intake-mount { max-width: 46rem; margin-top: clamp(1.75rem, 3vw, 2.5rem); }
+
+/* Artwork owns space; prose never has to dodge it. Scene coordinates are
+   relative to this world, including after text enlargement and rotation. */
+.scene-world { position: absolute; inset: 0; overflow: clip; isolation: isolate; }
+.scene-world .scene-canvas { inset: 0; width: 100%; height: 100%; }
+.art-stage { position: relative; isolation: isolate; overflow: clip; height: clamp(200px, 24vw, 280px); }
+.art-ground { position: absolute; inset: auto 0 0; height: 100px; background: linear-gradient(to bottom, transparent, rgb(var(--veil) / 0.35) 40%, rgb(var(--veil) / 0.1)); }
+.art-ground::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: 48px; height: 1px; background: linear-gradient(to right, transparent, rgb(var(--line-rgb) / 0.3), transparent); }
+.art-stage .guest-owl { top: auto; bottom: 48px; right: 25%; }
+.art-stage .guest-owl::after { content: ""; position: absolute; left: -20%; right: -20%; bottom: 0; height: 2px; background: rgb(var(--line-rgb) / 0.4); }
+.art-stage .guest-horse { left: 48%; bottom: 48px; }
+.art-stage .horse-stand { left: 0; }
+.art-stage .guest-unicorn, .art-stage .guest-stand { bottom: 48px; }
+.art-stage .guest-art-diplodocus { width: clamp(100px, 18vw, 180px); }
+.art-stage .guest-art-elephant { width: clamp(64px, 10vw, 100px); }
+.art-stage .guest-snail, .art-stage .guest-scarab { bottom: 48px; }
+.art-stage .cat-floor { bottom: 48px; }
+.art-stage .fox, .art-stage .egg { bottom: 48px; }
+footer { padding-bottom: max(6rem, var(--section-tight)); }
+.cat-footer { bottom: 16px; }
+.art-collection { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; gap: clamp(1rem, 4vw, 3rem); max-width: 42rem; padding-block: 3rem 4rem; }
+.art-collection:has(> :nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.art-collection:has(> :only-child) { grid-template-columns: 1fr; max-width: 20rem; }
+.art-object { position: relative; display: flex; align-items: end; justify-content: center; min-width: 0; border-bottom: 1px solid rgb(var(--line-rgb) / 0.2); }
+.art-object > .fig { position: relative; inset: auto; transform: none; width: auto; height: auto; max-height: 180px; max-width: 100%; margin-bottom: -1px; }
+.art-object .fig-gear-l, .art-object .fig-gear-s { max-height: 80px; }
+.website-brief-door { margin-top: 2rem; max-width: 48rem; padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--line-2); border-radius: var(--radius); background: rgb(var(--veil) / 0.4); }
+.website-brief-door .lede { margin-block: 1rem 1.5rem; }
+
+@media (max-width: 1023px) {
+  .bleed:has(> .scene-world) { display: flex; flex-direction: column; min-height: 0; height: auto; }
+  .bleed > .scene-world { position: relative; inset: auto; order: 2; flex: none; width: 100%; height: clamp(290px, 88vw, 430px); }
+  .bleed > .bleed-body { order: 1; flex: none; min-height: 0; height: auto; padding-block: 3.5rem 1.5rem; }
+  .bleed-under > .bleed-body { padding-top: 5.5rem; }
+  .bleed .bleed-copy, .bleed .bleed-lede { width: 100%; max-width: 100%; }
+  .bleed > .bleed-scrim { display: none; }
+  .scene-world .lodge-floor, .scene-world .floor-plane { height: 90px; --tile: 58px; }
+  .scene-world .rabbit { width: 48px; }
+  .scene-world .burrow { width: 120px; height: 120px; margin: -60px 0 0 -60px; left: 48%; }
+  .scene-world .whale { top: 12px; width: 50%; }
+  .scene-world .dragonfly .fig { width: 32px; }
+  .glass .riders { animation: none; left: 12%; opacity: 1; }
+  .glass .windmill { left: 84%; width: 28px; }
+  .scene-world .foreground .fig-fern { height: 130px; right: 5%; }
+  .scene-world .foreground .fig-fiddlehead { height: 80px; right: 36%; }
+  .scene-world .fig-fog-giant { width: 90px; left: 18%; }
+  .scene-world .deer-deep { width: 44px; left: 38%; bottom: -8px !important; }
+  .art-stage { margin-top: 0; height: 220px; }
+  .art-stage .guest-art-diplodocus { left: 48%; width: 120px; }
+  .art-stage .guest-art-elephant { width: 70px; }
+  .art-stage .guest-horse, .art-stage .guest-unicorn { left: 55%; }
+  .art-collection { padding-block: 2rem 3rem; }
+  .art-object > .fig { max-height: 125px; }
+  .art-object .fig-gear-l, .art-object .fig-gear-s { max-height: 45px; }
+  .stage.hero, .venture-hero.stage { padding-bottom: var(--section-tight); }
+  .stage-floored::after { display: none; }
+  .stage.stage-floored { -webkit-mask-image: none; mask-image: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene-world .dragonfly, .scene-world .hummingbird { display: block !important; }
+  .scene-world .dragonfly { left: 76%; top: 65%; }
+  .scene-world .hummingbird { left: 65%; top: 28%; }
+}
