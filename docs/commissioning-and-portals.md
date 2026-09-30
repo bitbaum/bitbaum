@@ -1,39 +1,96 @@
-# Website commissioning and Bitbaum's next product step
+# Bitbaum studio, independent tools and the partner network
 
-Status: product proposal, 30 September 2026. The website brief and direct partner application are the first steps; the portal options below are not implemented portals.
+Updated 30 September 2026 after the product owner's clarification. Confirmed requirements are distinguished from recommendations and observed code. Implementation progress belongs in [ROADMAP.md](../ROADMAP.md); completed changes belong in [CHANGELOG.md](../CHANGELOG.md).
 
-## The customer door
+## Confirmed requirements
 
-A website address and the customer's own description of the desired changes are enough to start a request. Bitbaum links to Loki's `/commission` page. The customer can either start a private Loki project with the existing build-and-review pipeline or save a request for the Bitbaum studio to review. The brief survives sign-in and failed submission. A successful studio submission offers a claim link into Loki's existing request tracking.
+- Loki is a standalone tool people can use for free to do their own work. Studio engagement prices, including CHF 6,500, belong to Bitbaum's human services, not Loki's website-change tool.
+- Bitbaum presents its studio prices and actual capacity clearly. The studio is currently at capacity. Visitors should also have a route to an approved partner and a route to do the work themselves with Loki.
+- A studio request starts with the website URL and desired changes. Bitbaum owns that front door and commercial context. Loki may supply execution and intake infrastructure without becoming the studio's storefront.
+- Partners are approved by the studio after completing the studio's systems-design course. The course still needs development. Completion is a prerequisite for studio review, not automatic approval.
+- Course and customer/partner portal work must be recorded, visible in the development plan, and started soon. Their unfinished status must remain clear.
+- Products should work together without requiring everyone to participate in every product. Connecting OrangeCat, Solon or a Loki workspace must be relevant to the person's task and explicit.
+- New information must survive a conversation: capture requirements, distinguish decisions from proposals, create work with acceptance criteria, and record verified outcomes.
+- Existing artwork is retained and placed across the growing site in grounded compositions that do not overlap mobile copy or controls.
 
-The commercial offer and capacity have one producer: `site/hire.json`. The generated `commission.json` exposes the currently selected offer and availability to Loki. The published CHF 6,500 Rescue currently covers a two-week assessment, local setup, CI tests and ranked risks. It does not currently promise every requested redesign or integration for that price. Saving a request neither charges the customer nor confirms scope or timing. Changing that package into a fixed-price website rebuild would be a separate commercial decision, with its deliverables and exclusions written into the same source.
+## Three visitor paths
 
-A public URL provides reference material. It does not provide source-code ownership, access to private content or integrations, or permission to replace the original production site. Loki develops a separate version, records missing access in its project and presents a preview and verification evidence for review.
-
-## Three options
-
-| Option | What Bitbaum becomes | Benefit | Cost or constraint |
+| Path | Entry | Delivery | Commercial context |
 | --- | --- | --- | --- |
-| **1. Shared project workspace — recommended** | The public studio and partner front door, with customer and partner views over the same Loki projects | One brief, status, preview, conversation and review history; can grow without duplicating project records | Requires project-scoped membership and clear responsibilities before partners can access customer work |
-| 2. Customer portal first, managed studio only | A studio with a private place for customers to brief, review and approve work | Smallest operating model; a clear customer journey | Partner applications and delivery remain separate operational work until demand justifies a partner view |
-| 3. Partner marketplace with separate portals | A directory and commissioning marketplace that matches customers to independent builders | Partners can take more work and maintain their own offers | Needs proven partner supply, matching, disputes, availability and contract handling; listing unapproved partners or promising automated matching would be premature |
+| Do it yourself | Bitbaum links to Loki; people may also arrive directly on Loki | The visitor uses the independent tool | Free tool access is separate from studio services; execution resources are described by Loki's own rules |
+| Hire an approved partner | Bitbaum's partner area and a project brief | An approved independent partner | The partner's agreed scope and quote; CHF 6,500 is not their default price |
+| Hire the studio | Bitbaum's studio intake | Bitbaum | Published studio offer, scope and availability; currently a waitlist |
 
-## Recommended sequence
+The two-field brief can share implementation, but each destination owns its next action. Preserve a brief through an explicit handoff. Studio prices must not become the default meaning of a Loki project. Never suggest a partner is available before an approved partner can actually accept the work.
 
-1. Make the brief reliable: URL and desired changes, a receipt, recovery after failure, and visible progress. Use the existing Loki project, repository and run identities throughout.
-2. Add the customer workspace around that project: current stage, next action, preview, review notes, agreed scope and approvals. Explain what is waiting for the customer. A queued run or successful agent turn must not be presented as a verified deployment.
-3. Make partner review operational: submitted → needs information → approved or declined. Keep application material private. A person approves the partner; only approved public profiles appear in the directory. Today's direct application uses the existing studio inbox and request tracking, not a new approval system.
-4. Add the partner view after the studio has real assignments: assigned briefs, permission-limited project access, availability and delivery handover. Reuse Loki's existing Crew and project permissions where suitable; do not grant broad access to a customer's personal workspace.
-5. Add commercial records once the delivery flow is proven: agreed scope, change requests, invoices or payment references, and reviewable approvals. The current partner model remains independent: customers contract and pay the partner directly, and the studio takes no cut.
+Current prices, scope and capacity are produced by [site/hire.json](../site/hire.json), not this document. The existing CHF 6,500 offer describes Rescue assessment work. Redefining it as a bounded website rebuild remains a separate commercial decision; the clarification did not specify new deliverables.
 
-## Decisions to explore before building a portal
+## Code observations
 
-- Is the first customer buying a human-managed Bitbaum engagement or using Loki directly? The two doors can share a brief, but ownership of delivery and commercial terms must stay explicit.
-- Which partner work is actually needed: leads, delivery assignments, or both? Start from applications and real customer requests rather than creating a marketplace before there is supply.
-- Who can approve scope, access a preview and authorize publication? Define those permissions per project before exposing partner access.
-- What should the customer see when a build is blocked on source access, integrations, capacity or an approval? Make those states visible and actionable.
-- Does the CHF 6,500 package remain a rescue assessment, or become a bounded website-change package? Decide its deliverables before changing the public promise.
+Observed on repository main branches on 30 September 2026, not guarantees of readiness.
 
-## Artwork as the site grows
+| Area | Evidence | Implication |
+| --- | --- | --- |
+| Website brief | Loki's commission page and WebsiteCommissionForm combine self-serve and studio modes and load the studio offer | Move studio intake/pricing to Bitbaum; keep Loki's independent brief focused on self-service |
+| Studio intake and partner applications | Bitbaum's site/build.mjs uses existing intake; site/check-hire.mjs covers submission and tracking | Reuse receipt/recovery infrastructure rather than creating another inbox |
+| Partner supply | site/partners.json is empty | No approved partners are listed; establish qualification and genuine availability before promising a hire |
+| Course and partner track | [Loki's roadmap](https://github.com/bitbaum/loki/blob/main/ROADMAP.md) already lists the academy and partner track; no academy or partner-application implementation was found in src/ | The idea was recorded, but course and approval workflow are unbuilt; studio qualification belongs to Bitbaum |
+| Project permissions | [Loki memberships](https://github.com/bitbaum/loki/blob/main/src/db/schema/project-memberships.ts) include editor, client, viewer and one-project invitations | Useful portal foundation; client is read-only today, so delivery approval needs its own narrow action, not editor rights |
+| Human delivery | Loki already has Crew assignments and share-link delivery | Investigate reusing bounded assignment flows; a guest recipient need not enter the whole operator workspace |
+| Development records | [Repository record contract](https://github.com/bitbaum/loki/blob/main/docs/architecture/building-in-public-records.md) reads root ROADMAP.md and CHANGELOG.md; [bip-kit](https://github.com/bitbaum/bip-kit) supplies loaders/renderers | Render canonical records rather than maintaining another handwritten list |
+| Bitbaum records | Before this update there were no root records or generated roadmap/changelog pages; the map snapshot contained test notes | Repair the profile/repository join, then render proper studio records |
+| Integrations | [OrangeCat's contract](https://github.com/bitbaum/orangecat/blob/main/src/config/ecosystem.ts) uses explicit handoffs; [Solon authentication](https://github.com/bitbaum/solon/blob/main/src/lib/auth/index.ts) uses OrangeCat recognition | Independence is not uniform today. Review that dependency before promising standalone Solon participation |
 
-Mobile scenes occupy their own space below copy. Page guests use a dedicated stage with a floor; small compositions in `site/art-placement.mjs` live in the normal page flow. Keep existing assets and give new objects a page and a grounded composition rather than putting them over headings or buttons. The responsive browser gate covers all generated pages at phone and tablet widths, rotation and enlarged text.
+## Portal options
+
+Proposals only; this document does not implement a portal.
+
+| Option | Shape | Reason and tradeoff |
+| --- | --- | --- |
+| **1. One Bitbaum portal with customer and partner views — recommended** | One engagement/history, different customer, partner and reviewer permissions | Share brief, preview and acceptance records. Reuse Loki project/assignment APIs where they fit while keeping the studio experience on Bitbaum |
+| 2. Separate customer and partner applications | Two applications with explicit shared contracts | Useful if workflows become different products; more identity, deployment and permission work before the first complete engagement |
+| 3. Studio-branded guest project links first | Bitbaum opens narrowly scoped project/review links; fuller portal follows | Fastest delivery validation, but qualification, training and commercial scope still need a coherent studio surface |
+
+Start option 1 with one complete engagement, not a large dashboard: brief, receipt, status, next action, preview, changes and approval. Partners see assigned work, required access and handover. Studio reviewers see application evidence, course completion and approval.
+
+Navigation should describe the task: projects, messages, previews and approvals. Optional actions may offer Loki self-service, OrangeCat publication/funding or Solon governance, explaining the consequence before leaving the studio.
+
+## Ownership and access
+
+| Record/action | Proposed owner | Boundary |
+| --- | --- | --- |
+| Offers, capacity, engagement scope | Bitbaum | Studio business facts are not copied into Loki pricing |
+| Qualification, course progress, studio approval | Bitbaum | Evidence stays private; only approved, consenting profiles appear publicly |
+| Technical project, repository, runs, preview evidence | Loki | Reference the canonical project ID; do not duplicate the technical project |
+| Public profile, funding/economic activity | OrangeCat when requested | A private engagement is not automatically public |
+| Collective decisions/governance | Solon when appropriate | An ordinary brief, course completion or delivery approval needs no governance organisation or vote |
+| Public roadmap/changelog | Each owning repository via the existing record contract | The website renders records rather than maintaining another copy |
+
+Shared identity grants no cross-product access by itself. Grant explicit customer, partner and reviewer actions per engagement/project. A customer approving a preview must not gain agent-execution or credential access. Connecting a product is separate from signing in. Audit actual login and execution paths before promising a particular account journey.
+
+First run a bounded feasibility spike: one Bitbaum-branded customer/guest view reading one Loki project and recording one delivery review. Verify scope, revocation and approval boundaries before choosing framework or backend placement. Reuse APIs that fit, adding missing capabilities at their owner. Bitbaum currently has a static generator; a stateful portal requires an application service, not just a link or an empty dashboard.
+
+## Course and studio approval
+
+The studio owns the course. Proposed curriculum: problem definition/constraints; data and system boundaries; identities, permissions and privacy; integrations and recoverable failures; testing, accessibility and observability; deployment/rollback; operating a system; customer handover and explaining tradeoffs.
+
+Teach transferable systems design. Studio products can provide examples; learning must not require participating in every product.
+
+Begin with one practical module and a capstone rubric before building a full learning platform. A candidate demonstrates a working system, a clear design, meaningful verification and usable handover. Course completion and studio approval are distinct events.
+
+Proposed states: submitted, course in progress, course complete, studio review, approved, declined or more information needed. Review records include reasons and next actions. Qualification and current availability are different facts; neither follows from merely sending a message.
+
+## Work packets
+
+Acceptance criteria and priority live in [ROADMAP.md](../ROADMAP.md).
+
+| Work | Owning codebase | First result |
+| --- | --- | --- |
+| Correct the three visitor paths | Bitbaum + Loki | Studio intake on Bitbaum; free self-serve brief on Loki; honest partner availability |
+| Publish development records | Bitbaum + existing bip-kit/Loki seam | Correct profile/repository join and public roadmap/changelog |
+| Portal feasibility and customer flow | Bitbaum + Loki project APIs | Brief → receipt → next action → preview → review, with access/revocation checks |
+| First course module/assessment | Bitbaum | Transferable practical lesson and pilot capstone rubric |
+| Qualification and delivery | Bitbaum + bounded Loki assignments | Course evidence → studio review → approved profile → permitted assignment |
+| Optional integrations | Relevant source/destination products | Preserved context/consent and a useful path when an integration is declined |
+
+Completed work links implementation and verification in the changelog. Public development records do not publish customer briefs, code, contact details or qualification evidence. Open questions include portal service placement, assessment details, existing-candidate handling and any revised studio deliverables; none is silently decided here.
