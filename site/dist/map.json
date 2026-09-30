@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-28T14:31:51.347Z",
+  "generatedAt": "2026-09-30T14:55:04.756Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -789,9 +789,9 @@
         "solon": null
       },
       "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
+        "problem": "Subletting in Switzerland requires strict compliance with Art. 262 OR, landlord consent, and capped furniture markups. Mistakes can cause immediate lease termination or legal claims from subtenants.",
+        "solution": "Prepares complete Art. 262 OR notification dossiers for property managers, drafts legally sound contracts with compliant furniture surcharges, and vets prospective subtenants.",
+        "mission": "Enable Zurich tenants to temporarily leave their homes without the risk of lease termination or legal disputes under Swiss tenancy law.",
         "vision": null
       }
     }

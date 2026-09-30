@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-28T14:31:51.347Z",
+  "generatedAt": "2026-09-30T14:55:04.756Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -492,8 +492,12 @@
       ],
       "changelog": [
         {
+          "date": "2026-09-29",
+          "done": "Nothing runs on your quota unasked. Every agent run Loki used to start\nThe feedback button no longer parks on a line of words. On Loki's own"
+        },
+        {
           "date": "2026-09-28",
-          "done": "An owner's own report starts the fix. Tracking a report you left on your\nA builder can actually dispatch. A collaborator with the builder role\nClient is a role. The roster can now say who the project is FOR: a\nHand a project over. The owner can hand a project to any member from the\nA refused feedback run retries itself. When the runner refuses a\nWatch the fix. A shipped feedback item's button opens the live page and\nRoadmap and changelog come from the repository. ROADMAP.md and\nAsk Loki for a second opinion in the widget: \"is this right, should it\nThe Feedback inbox is one surface again, and a project link by id works.\nAny refused feedback run gets one automatic second attempt — not only\nA …"
+          "done": "An owner's own report starts the fix. Tracking a report you left on your\nA builder can actually dispatch. A collaborator with the builder role\nClient is a role. The roster can now say who the project is FOR: a\nHand a project over. The owner can hand a project to any member from the\nA refused feedback run retries itself. When the runner refuses a\nWatch the fix. A shipped feedback item's button opens the live page and\nRoadmap and changelog come from the repository. ROADMAP.md and\nAsk Loki for a second opinion in the widget: \"is this right, should it\nA working Claude is no longer reported as silent. Loki decides whether\nA silent agent is routed around, not retried into. When an agent opened,\nT…"
         },
         {
           "date": "2026-09-26",
@@ -566,10 +570,6 @@
         {
           "date": "2026-06-29",
           "done": "Build / Pause selected on Control project rail — bulk-select checkboxes kick or pause\nLoki multi-dispatch — multiple projects selected + a command fans out (concurrency cap 3).\nScreenshot → dispatch — scoped screenshot + implement/default ask routes to dispatch"
-        },
-        {
-          "date": "2026-06-29",
-          "done": "Fleet kick. Start building on Control (or \"develop all my projects\" in Loki) proactively\nnudge-idle cron now targets users with autopilot on (!= off); the legacy next_best"
         }
       ],
       "records": {
@@ -780,6 +780,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-09-30",
+          "done": "Signing in from Solon or Loki looks like it. The sign-in screen now says \"Continue to Solon\" beside the form, explains that it is one account with one password, and its back link returns you to the app you came from instead of OrangeCat's home page.\nSigning in to Solon and Loki with an email you added later. If you added or changed your email after creating your account (including an account you started without one), OrangeCat told the other app you had no email, and Solon turned you away. It now sends the email your account has."
+        },
+        {
           "date": "2026-09-28",
           "done": "Sign in without a password. On the sign-in screen, choose \"Email me a sign-in code instead\": type your email, get a six-digit code, enter it. New here? The same code creates your account. Solon's sign-in uses it too, and so does Loki's \"Sign in with OrangeCat\".\nWhat you can do here, on one page. Every thing this place can do, in plain words, with an example, the three steps, and a Start button — at /what-you-can-do, from the sidebar, the footer, the create page and How it works.\nSay where your public money should go. Of the money you owe the public, how would you divide it between your locality, your region and your nation? Nobody asks. Now you can say it — and see what the people of your p…"
         },
@@ -854,10 +858,6 @@
         {
           "date": "2026-07-09",
           "done": "Peer-to-peer Bitcoin loans. Lend and borrow directly: offers, obligations, and payment handoffs — no bank in the middle."
-        },
-        {
-          "date": "2026-07-08",
-          "done": "Funding transparency you control. Per-entity controls over how much of your funding picture is public — transparency by choice."
         }
       ],
       "records": {
@@ -1263,6 +1263,14 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-09-30",
+          "done": "Every everyday page in plain words, with the details one click away.\nDecisions, in plain words. The pages where members suggest things and\nSign in the usual way: email and password. \"Sign in\" and \"Create an\nThe deep side: a whitepaper, questions and answers, and a blog.\nWhat Places covers, counted from the data, at /places/coverage: for\nJoining, in plain words. The join page now looks like the rest of Solon\nSigning in when your OrangeCat account got its email later. Solon said\nTax estimates on 31 December. A year's tariffs and multipliers ended a"
+        },
+        {
+          "date": "2026-09-29",
+          "done": "Switzerland, as the official register has it. Every canton, district\nEach Zürich commune's tax multiplier, every year since 2021, from the\n**Federal and Zürich income-tax tariffs, and the canton's own multiplier,\nA new kind of body: charter city. A city with its own charter, founded"
+        },
         {
           "date": "2026-09-28",
           "done": "An organization says what kind of body it is, and where. Founding now\nOne body, two records: bind an organization to its OrangeCat organisation.\nWhat you can do — the map. /what-you-can-do lists everything Solon does\nPublic roadmap and changelog. /roadmap and /changelog render this\nWho decides: one person, everyone, or elected delegates. Profiles used\nFounding chooses how the organization decides. Every organization\nFounding no longer says a Bitcoin key is required. The signed-out"
@@ -2093,6 +2101,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-09-30",
+          "done": "Warm-up: how much Zurich German do you already understand? Eight lines from the everyday situations in two minutes, with no grade and no level. The lines get harder while you keep up and easier after a miss, and after each answer you see the word the line turns on. The result names the situations you already follow and the one worth starting with, and your answers feed practice so the first session starts at the gaps. A reader who also gets the between-the-lines questions is offered the site in Swiss German, once. Offered on the home page, on the dashboard until done and on the practice page; stored only in the browser.\nHeidi answers what you wrote last. After three answers about «Le Bilan»…"
+        },
+        {
           "date": "2026-09-26",
           "done": "Five new kinds of question — and a reason after every answer. Practice now also asks what somebody means, which reply fits, which sentence says exactly the German, what time or price was said, and what a word means in its sentence. The pool grew from 1,451 questions to 1,793, the objectively marked ones from 246 to 588. After each of these: the word the answer turned on, and one sentence on why — in all seven languages. (#143)\nA home page you can read in a minute. The home page now says what Heidi is in two columns — with a cow in front of the Alps beside it — and leads in through three steps: situations, practice, chat. About 250 words instead of 440. The menu opens on a click, shows every…"
         },
@@ -2552,7 +2564,7 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-09-28T13:48:19.845Z"
+          "at": "2026-09-29T13:48:16.181Z"
         },
         "lastLog": {
           "date": "2026-09-15",
@@ -3144,28 +3156,6 @@
       },
       "roadmap": [
         {
-          "title": "Evaluate the AOZ pilot against observed outcomes",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Collect an agreed baseline before comparing incidents, relocations and mediation effort",
-              "done": false
-            },
-            {
-              "title": "Link observed conflict outcomes to explainable matching factors when sufficient data exist",
-              "done": false
-            },
-            {
-              "title": "Track rule-acknowledgement coverage on the staff dashboard",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/aoz-begleitung/blob/209c4d19cee1ddd1cab78cf991d7c50c69a3664c/docs/ROADMAP.md"
-        },
-        {
           "title": "Support multiple organisations through configuration",
           "line": null,
           "status": "active",
@@ -3182,6 +3172,28 @@
             },
             {
               "title": "Verify tenant isolation before self-service onboarding",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/aoz-begleitung/blob/209c4d19cee1ddd1cab78cf991d7c50c69a3664c/docs/ROADMAP.md"
+        },
+        {
+          "title": "Evaluate the AOZ pilot against observed outcomes",
+          "line": null,
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Collect an agreed baseline before comparing incidents, relocations and mediation effort",
+              "done": false
+            },
+            {
+              "title": "Link observed conflict outcomes to explainable matching factors when sufficient data exist",
+              "done": false
+            },
+            {
+              "title": "Track rule-acknowledgement coverage on the staff dashboard",
               "done": false
             }
           ],
@@ -4081,8 +4093,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-09-28T04:00:20.539Z"
+          "outcome": "error",
+          "at": "2026-09-30T04:00:18.765Z"
         },
         "lastLog": {
           "date": "2026-09-28",
@@ -4539,8 +4551,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-09-28T04:01:48.475Z"
+          "outcome": "error",
+          "at": "2026-09-30T04:01:49.413Z"
         },
         "lastLog": {
           "date": "2026-09-28",
@@ -4899,12 +4911,58 @@
         "solon": null
       },
       "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
+        "problem": "Subletting in Switzerland requires strict compliance with Art. 262 OR, landlord consent, and capped furniture markups. Mistakes can cause immediate lease termination or legal claims from subtenants.",
+        "solution": "Prepares complete Art. 262 OR notification dossiers for property managers, drafts legally sound contracts with compliant furniture surcharges, and vets prospective subtenants.",
+        "mission": "Enable Zurich tenants to temporarily leave their homes without the risk of lease termination or legal disputes under Swiss tenancy law.",
         "vision": null
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Build the tenant intake flow and furniture surcharge calculation engine",
+          "line": null,
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [],
+          "source": null
+        },
+        {
+          "title": "Build the Art. 262 OR property management dossier generator",
+          "line": null,
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [],
+          "source": null
+        },
+        {
+          "title": "Develop the prospective subtenant screening and document intake portal",
+          "line": null,
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [],
+          "source": null
+        },
+        {
+          "title": "Build the legally compliant sublease contract generation service",
+          "line": null,
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [],
+          "source": null
+        },
+        {
+          "title": "Implement the Verwaltung response tracking and approval workflow dashboard",
+          "line": null,
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [],
+          "source": null
+        }
+      ],
       "changelog": [
         {
           "date": "2026-09-28",
@@ -4912,7 +4970,7 @@
         }
       ],
       "records": {
-        "roadmap": null,
+        "roadmap": "goals",
         "changelog": "dev_log",
         "source": {
           "roadmap": null,
@@ -4923,8 +4981,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-09-28T11:43:15.371Z"
+          "outcome": "error",
+          "at": "2026-09-30T04:00:32.457Z"
         },
         "lastLog": {
           "date": "2026-09-28",
