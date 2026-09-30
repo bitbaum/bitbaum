@@ -33,6 +33,10 @@ host being up as evidence that a product is ready or generally available.
   is configured in [`site/loki-feedback.json`](site/loki-feedback.json). The
   publish check opens the live widget from Bitbaum's allowed origin.
 
+The studio's implementation plan is [ROADMAP.md](ROADMAP.md), and completed
+changes are in [CHANGELOG.md](CHANGELOG.md). Product boundaries, portal options
+and course/partner requirements are in [the delivery plan](docs/commissioning-and-portals.md).
+
 ## Build and verify
 
 The site is static HTML and CSS in `site/dist/`. Install the pinned workspace
