@@ -75,7 +75,7 @@ try {
       const boxes = [...document.querySelectorAll("header *, main *, footer *")].filter((el) => {
         const r = el.getBoundingClientRect();
         return r.width && r.right > innerWidth + 1 && getComputedStyle(el).visibility !== "hidden";
-      }).slice(-12).map((el) => `${el.tagName}.${el.className}: ${el.textContent.slice(0, 35)}`);
+      }).slice(-12).map((el) => `${el.tagName}.${el.className}(${Math.round(el.getBoundingClientRect().left)}..${Math.round(el.getBoundingClientRect().right)}, parent ${Math.round(el.parentElement.getBoundingClientRect().width)}): ${el.textContent.slice(0, 25)}`);
       return boxes.length ? boxes : ["No visible box identified"];
     });
     if (enlargedOverflow.length) failures.push(`200% text ${route}: horizontal overflow (${enlargedOverflow.join("; ")})`);

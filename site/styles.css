@@ -1419,3 +1419,10 @@ footer nav a { max-width: 100%; overflow-wrap: anywhere; }
   .foot-cols { grid-template-columns: minmax(0, 1fr); }
   .foot-cols nav:last-child { flex-direction: column; align-items: flex-start; }
 }
+@media (max-width: 640px) {
+  .foot-cols nav:last-child { grid-column: auto; width: 100%; max-width: 100%; }
+  .foot-cols nav:last-child .label { flex-basis: auto; }
+  footer nav a { display: block; align-self: stretch; width: 100%; white-space: normal; }
+  .price { flex-wrap: wrap; }
+  .price-unit { max-width: 100%; }
+}

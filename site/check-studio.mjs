@@ -41,14 +41,14 @@ try {
     await page.waitForSelector("#studio-website");
     assert.equal(await page.inputValue("#studio-website [name=changes]"), fixture.changes);
     await page.locator("#studio-website button[type=submit]").click();
-    await page.getByRole("link", { name: "Open your portal" }).waitFor();
+    await page.locator("[data-studio-intake]").getByRole("link", { name: "Open your portal", exact: true }).waitFor();
     assert.equal(sent.length, 2);
     assert.deepEqual(sent[0], sent[1]);
     assert.equal(sent[0].kind, "website"); assert.equal(sent[0].target, "studio");
     assert.equal(sent[0].offerId, "rescue"); assert.equal(sent[0].contact, "");
     assert.match(sent[0].accessKey, /^spt_[A-Za-z0-9_-]{43}$/);
     assert.equal("userId" in sent[0] || "projectId" in sent[0], false);
-    const privateLink = new URL(await page.getByRole("link", { name: "Open your portal" }).getAttribute("href"));
+    const privateLink = new URL(await page.locator("[data-studio-intake]").getByRole("link", { name: "Open your portal", exact: true }).getAttribute("href"));
     assert.equal(privateLink.search, ""); assert.ok(privateLink.hash.includes(sent[0].accessKey));
     const actions = [];
     let request = structuredClone(fixture);

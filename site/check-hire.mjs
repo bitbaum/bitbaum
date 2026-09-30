@@ -182,11 +182,11 @@ await p3.goto(base + "/partners/#join", { waitUntil: "load" });
 await p3.waitForSelector("#studio-partner [name=changes]");
 await p3.fill("#studio-partner [name=changes]", "I build booking sites. My work is at https://builder.ch/work");
 await p3.click("#studio-partner button[type=submit]");
-await p3.getByRole("link", { name: "Open your portal" }).waitFor();
+await p3.locator("#join [data-studio-intake]").getByRole("link", { name: "Open your portal", exact: true }).waitFor();
 say(applications === 1 && application?.kind === "partner", "one structured brief submits one partner application");
 say(application?.changes?.includes("https://builder.ch/work") && !application?.contact, "application keeps the work link and needs no email");
-say(/request is saved/i.test(await p3.innerText("#join")), "saved for course review, without claiming approval");
-say((await p3.getByRole("link", { name: "Open your portal" }).count()) === 1, "a saved application offers private guest tracking");
+say((await p3.getByRole("heading", { name: "Your request is saved", exact: true }).count()) === 1, "saved for course review, without claiming approval");
+say((await p3.locator("#join [data-studio-intake]").getByRole("link", { name: "Open your portal", exact: true }).count()) === 1, "a saved application offers private guest tracking");
 await ctx3.close();
 
 await browser.close();
