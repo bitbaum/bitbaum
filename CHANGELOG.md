@@ -8,7 +8,9 @@ Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADM
 - Keep free Loki self-service independent, with an explicit draft-preserving handoff. Studio offer and current capacity stay in hire.json; Rescue retains its assessment scope.
 - Add course evidence, separate studio approval, consented profile review and assigned-brief delivery. Availability determines public directory inclusion.
 - Write the first systems design lesson, exercise and capstone rubric. Further lessons and calibration remain in development.
-- Render the canonical roadmap and changelog through bip-kit. Release and the first real engagement remain subject to verification.
+- Render the canonical roadmap and changelog through bip-kit, and resolve the studio repository through its canonical project ID.
+- Verify the scoped backend in Loki's full CI, including PostgreSQL isolation, revocation, assignment and retry tests. Bitbaum's browser journeys and 135 responsive checks pass, including rotation and enlarged text; the narrow-screen footer and price wrapping are corrected.
+- Production release is gated on the backend migration and API availability. The first real engagement and reviewer calibration remain pilot work.
 
 ## 2026-09-30
 

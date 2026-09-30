@@ -57,7 +57,7 @@ Navigation should describe the task: projects, messages, previews and approvals.
 
 ## Ownership and access
 
-| Record/action | Proposed owner | Boundary |
+| Record/action | Owner | Boundary |
 | --- | --- | --- |
 | Offers, capacity, engagement scope | Bitbaum | Studio business facts are not copied into Loki pricing |
 | Qualification, course progress, studio approval | Bitbaum | Evidence stays private; only approved, consenting profiles appear publicly |
@@ -68,7 +68,7 @@ Navigation should describe the task: projects, messages, previews and approvals.
 
 Shared identity grants no cross-product access by itself. Grant explicit customer, partner and reviewer actions per engagement/project. A customer approving a preview must not gain agent-execution or credential access. Connecting a product is separate from signing in. Audit actual login and execution paths before promising a particular account journey.
 
-The first implementation is a bounded portal: one Bitbaum-branded customer/guest view reading one Loki project and recording one delivery review. Verify scope, revocation and approval boundaries before choosing framework or backend placement. Reuse APIs that fit, adding missing capabilities at their owner. Bitbaum currently has a static generator; a stateful portal requires an application service, not just a link or an empty dashboard.
+The accepted implementation is a bounded portal: a Bitbaum-branded guest view reads one request and records one delivery review. An optional internal Loki project reference grants no project access. Bitbaum retains its static generator and browser views; Loki provides the stateful API and database. Scope, revocation and approval boundaries are verified with database tests before release.
 
 ## Course and studio approval
 
@@ -93,7 +93,7 @@ Acceptance criteria and priority live in [ROADMAP.md](../ROADMAP.md).
 | Qualification and delivery | Bitbaum + bounded Loki assignments | Course evidence → studio review → approved profile → permitted assignment |
 | Optional integrations | Relevant source/destination products | Preserved context/consent and a useful path when an integration is declined |
 
-Completed work links implementation and verification in the changelog. Public development records do not publish customer briefs, code, contact details or qualification evidence. Open questions include portal service placement, assessment details, existing-candidate handling and any revised studio deliverables; none is silently decided here.
+Completed work links implementation and verification in the changelog. Public development records do not publish customer briefs, code, contact details or qualification evidence. Portal service placement is decided above. Open questions include assessment calibration, existing-candidate handling and any revised studio deliverables; none is silently decided here.
 
 ## Implementation and remaining proof
 
@@ -105,4 +105,4 @@ The course is a pilot: one written lesson, one exercise, six capstone evidence d
 
 Canonical roadmap and changelog pages use bip-kit and the repository records. A missing repository URL in a studio project is resolved through the existing serve-register join rather than a broad database update by name.
 
-Release requires database isolation/revocation/retry tests, browser tests of intake and versioned review, mobile layout regression and the normal repository CI/deployment gates. A working local view alone is not deployment evidence. The first real partner review and customer engagement remain pilot work after release.
+Loki's full CI passed on commit 75bf9e5, including all 303 unit test files and real PostgreSQL isolation, revocation and retry tests. Bitbaum's paired CI passed intake and versioned review journeys at three widths, theme checks and 135 responsive checks including rotation and enlarged text. Production release still requires the normal repository deployment gates, the additive migration and a read-only API availability check before Bitbaum publishes the views. A working local view or green PR alone is not deployment evidence. The first real partner review and customer engagement remain pilot work after release.
