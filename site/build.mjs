@@ -27,6 +27,7 @@ import { MARK_HEADER, MARK_FAVICON } from "./brand-mark.mjs";
 import { createPackagePages } from "./packages-page.mjs";
 import { publicMap } from "./public-map.mjs";
 import { fig, ART_NAMES } from "./art.mjs";
+import { PAGE_ART } from "./art-placement.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildSync } from "esbuild";
@@ -103,7 +104,9 @@ function fullBleed({ scene, id, under = false, strong = false, body, cast }) {
   const life = SCENE_LIFE[cast ?? scene] ?? "";
   if (!SCENES.includes(scene)) throw new Error(`scene ${scene} is not one of ${SCENES.join(", ")} (site/scenes.mjs)`);
   return `    <section class="bleed bleed-scene${under ? " bleed-under" : ""}"${id ? ` id="${esc(id)}"` : ""}${under ? " data-lodge" : ""}>
+      <div class="scene-world">
       <canvas class="scene-canvas" data-scene="${scene}" aria-hidden="true"></canvas>${life ? `\n${life}` : ""}
+      </div>
       <div class="bleed-scrim${strong ? " strong" : ""}" aria-hidden="true"></div>
       <div class="wrap bleed-body">
 ${body}
@@ -119,11 +122,7 @@ ${body}
 // diplodocus (both doors), mushrooms, a fern unrolling, and something vast
 // passing in the fog behind. A dream of a past that never happened.
 const SCENE_LIFE = {
-  seed: `      <div class="horizon-life" aria-hidden="true">${fig("watch-block")}${fig("gear-l", "gear g-big")}${fig("gear-s", "gear g-small")}</div>
-      <div class="walker" aria-hidden="true">${fig("elephant")}</div>
-      <div class="tumbleweed" hidden aria-hidden="true">${fig("tumbleweed")}</div>
-      <div class="horizon-life rye-clump" aria-hidden="true">${fig("rye-a", "rye r1")}${fig("rye-c", "rye r2")}${fig("rye-b", "rye r3")}</div>
-      <div class="hummingbird" hidden aria-hidden="true">${fig("hummingbird")}</div>`,
+  seed: `      <div class="hummingbird" hidden aria-hidden="true">${fig("hummingbird")}</div>`,
   // Links sit in the scene, so this container is not aria-hidden; the two
   // doors carry their own labels and the rest is decorative.
   // The home meadow is the herd's: the two doors and one cluster of
@@ -153,7 +152,8 @@ const DRAGONFLY = `<div class="dragonfly" hidden aria-hidden="true">${fig("drago
  */
 function glassHero({ kicker, lines, lede, actions, burrowTo = ["/work/"] }) {
   const text = lines.join("<br>");
-  return `    <section class="bleed bleed-under bleed-lodge glass" data-lodge data-cat-perch>
+  return `    <section class="bleed bleed-under bleed-lodge glass" data-lodge>
+      <div class="scene-world" data-cat-perch>
       <div class="lodge-floor" aria-hidden="true"></div>
       <canvas class="scene-canvas" data-scene="neuron" aria-hidden="true"></canvas>
       <div class="glass-horizon" aria-hidden="true"></div>
@@ -162,6 +162,7 @@ ${HORIZON_LIFE}
 ${RABBIT}
 ${WHALE}
       ${DRAGONFLY}
+      </div>
       <div class="wrap bleed-body">
         <div class="bleed-copy rise">
           <span class="kicker">${kicker}</span>
@@ -252,6 +253,7 @@ const AVATARS = {
   "/studio/": ["story", "scarab"],
   "/partners/": ["story", "horse"],
   "/hire/": ["story", "owl"],
+  "/packages/": ["story", "owl"],
 };
 function story(path) {
   if (path === "/work/") return STORIES.fox();
@@ -366,6 +368,16 @@ function pill(v) {
 
 // ── page chrome ─────────────────────────────────────────────────────────────
 function shell({ title, description, path, body, nav, script, image }) {
+  // Guests get a stage of their own after the opening section. Text can grow,
+  // fonts can enlarge, and a phone can rotate without a creature sitting on it.
+  if (path !== "/") {
+    const guest = story(path).replace(/(<div class="guest[^"]*") hidden/g, "$1");
+    body = body.replace("</section>", `</section>\n    <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>${guest}</div>`);
+  }
+  const collection = PAGE_ART[path];
+  if (collection) {
+    body = body.replace("</main>", `    <div class="wrap art-collection" aria-hidden="true" data-art-collection>${collection.map((name) => `<div class="art-object">${fig(name)}</div>`).join("")}</div>\n  </main>`);
+  }
   // A link to this site is how almost anyone arrives, so the card a share
   // renders is part of the page: a venture shows its own screenshot, every
   // other page the studio card (site/og.mjs).
@@ -407,7 +419,7 @@ function shell({ title, description, path, body, nav, script, image }) {
   const sections = [
     ["Explore", [["/work/", "The work"], ["/partners/", "Partners"], ["/studio/", "About bitbaum"], [ARTICLES, "Writing ↗"]]],
     ["Build with us", [["/partners/#join", "Become a partner"], ["/packages/", "Packages (for developers)"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"]]],
-    ["The studio", [[HIRE, "Engagements and rates"], [`${HIRE}#waitlist`, "Join the waitlist"]]],
+    ["The studio", [[HIRE, "Engagements and rates"], ["https://loki.orangecat.ch/commission?package=rescue", "Change an existing website"], [`${HIRE}#waitlist`, "Join the waitlist"]]],
   ];
   const sectionLinks = (links) =>
     links.map(([href, t]) => `<a href="${esc(href)}"${cur(href)}${href.startsWith("http") ? ' rel="noopener"' : ""}>${esc(t)}</a>`).join("\n          ");
@@ -516,7 +528,6 @@ ${sections.map(([title, links]) => `      <nav aria-label="${esc(title)}">
   <script type="module" src="/theme.mjs"><\/script>
   <script type="module" src="/nav.mjs"><\/script>
 ${CAT}
-${path === "/" ? "" : story(path)}
   <script type="module" src="/sky.mjs"><\/script>
   <script type="module" src="/lodge.mjs"><\/script>
   <script type="module" src="/warp.mjs"><\/script>
@@ -722,7 +733,7 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
       n: "01", key: "self", title: "Build it yourself",
       price: "Free to start", when: "Start now", open: true,
       body: "Describe what you want. A fleet of AI agents builds it and you approve what ships — then sell it with OrangeCat and run it with others in Solon.",
-      cta: "Start with Loki", href: by("loki")?.url ?? "https://loki.orangecat.ch/",
+      cta: "Start with Loki", href: new URL("/commission", by("loki")?.url ?? "https://loki.orangecat.ch/").href,
     },
     {
       n: "02", key: "partner", title: "Hire a partner",
@@ -912,9 +923,9 @@ ${steps.map(([t, b], i) => `          <li><span class="path-n">0${i + 1}</span><
         <div class="ask-copy">
           <span class="kicker quiet">Become a partner</span>
           <h2 class="headline-caps section-title">Show us what you build.</h2>
-          <p class="lede">Tell the chat who you are, what you build and where your work lives. When you are ready, send it to the studio — one email field, no form.</p>
+          <p class="lede">Tell us who you are, what you build and where your work lives. One message sends your application to the studio for review. An email address is optional; you can track the application with a Loki account.</p>
         </div>
-        ${chatMount({ title: "", starters: ["I want to become a partner builder", "What do partners need to show?", "How do partners get paid?"] })}
+        ${intakeMount("Who are you, what do you build, and where can the studio see your work? Write it or say it here — your words go straight to the studio for review.", "partner")}
       </div>
     </section>
   </main>`;
@@ -1120,9 +1131,9 @@ export function studioPage(all, packages, origin, readings) {
 
 /** The waitlist, as a conversation (site/chat/chat.tsx, Intake). One field,
  * typed or spoken, and nothing refused. Without JavaScript it says so. */
-function intakeMount(prompt) {
-  return `        <div class="chat-mount intake-mount" data-intake data-origin="${esc(LOKI_FEEDBACK.origin)}" data-token="${esc(LOKI_FEEDBACK.token)}" data-prompt="${esc(prompt)}">
-          <p class="caption">The waitlist needs JavaScript to reach the studio. <a class="textlink" href="/work/">Browse every project</a> in the meantime.</p>
+function intakeMount(prompt, purpose = "waitlist") {
+  return `        <div class="chat-mount intake-mount" data-intake data-purpose="${esc(purpose)}" data-origin="${esc(LOKI_FEEDBACK.origin)}" data-token="${esc(LOKI_FEEDBACK.token)}" data-prompt="${esc(prompt)}">
+          <p class="caption">${purpose === "partner" ? "Applications need" : "The waitlist needs"} JavaScript to reach the studio. <a class="textlink" href="/work/">Browse every project</a> in the meantime.</p>
         </div>`;
 }
 
@@ -1173,6 +1184,11 @@ ${hire.offers.map((o) => `          <a class="card text" href="#waitlist" data-e
               <div class="pkg-links"><span>Request this &rarr;</span></div>
             </div>
           </a>`).join("\n")}
+        </div>
+        <div class="website-brief-door">
+          <h3 class="display-3">Have a website you want to change?</h3>
+          <p class="lede">Enter its address and describe the changes in Loki. That is enough to open a project or send the studio a request. The ${esc(hire.offers.find((o) => o.id === hire.commissioningOffer)?.name ?? "Rescue")} package keeps its published scope; implementation is agreed before work starts.</p>
+          <a class="btn primary" href="https://loki.orangecat.ch/commission?package=${esc(hire.commissioningOffer)}">Describe your changes ${ARROW}</a>
         </div>
       </div>
     </section>
@@ -1277,6 +1293,11 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   for (const p of shown) files.set(`packages/${p.slug}/index.html`, packagePage(p, cfg, all, shown));
   files.set("studio/index.html", studioPage(all, packages, origin, readings));
   files.set("hire/index.html", hirePage(all, cfg, hire, packages, origin));
+  const commissioningOffer = hire.offers.find((o) => o.id === hire.commissioningOffer);
+  if (!commissioningOffer) throw new Error("hire.commissioningOffer must name a published offer");
+  // Public commissioning contract. Rates/capacity are authored only in hire.json;
+  // Loki reads this view. The token is the same public write-only widget token.
+  files.set("commission.json", JSON.stringify({ version: 1, origin: SITE, availability: hire.availability, offer: commissioningOffer, feedbackToken: LOKI_FEEDBACK.token }, null, 2) + "\n");
   for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all, cfg, hire?.contact?.email));
   files.set("map.json", JSON.stringify(publicMap(map), null, 2) + "\n");
   // Every page the build writes is in the sitemap, because the sitemap is

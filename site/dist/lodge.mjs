@@ -164,7 +164,7 @@ if (holes.length && !still) {
 const rabbit = document.querySelector(".rabbit");
 const burrow = document.querySelector(".burrow");
 if (rabbit && burrow) {
-  const hero = burrow.closest("section");
+  const hero = burrow.closest(".scene-world") ?? burrow.closest("section");
   const seat = () => {
     const h = hero.getBoundingClientRect(), b = burrow.getBoundingClientRect();
     const w = rabbit.offsetWidth || 84;
@@ -215,7 +215,10 @@ if (rabbit && burrow) {
     const wander = () => {
       if (busy || !onScreen || document.hidden) return;
       busy = true;
-      const target = Math.max(-170, Math.min(40, pos + (Math.random() - 0.5) * 220)), d = Math.sign(target - pos) || 1;
+      const seatX = parseFloat(rabbit.style.left) || 0;
+      const minX = -Math.max(0, seatX - 12);
+      const maxX = Math.min(40, hero.clientWidth - seatX - rabbit.offsetWidth - 12);
+      const target = Math.max(minX, Math.min(maxX, pos + (Math.random() - 0.5) * 220)), d = Math.sign(target - pos) || 1;
       const hops = Math.max(1, Math.round(Math.abs(target - pos) / 42)), step = (target - pos) / hops;
       face(d);
       const frames = [];
@@ -270,14 +273,19 @@ if (burrow) {
 // After that, now and then, the grown fox runs across the stage.
 const fox = document.querySelector(".fox");
 const egg = document.querySelector(".egg");
-const foxStage = document.querySelector("[data-lodge].stage-floored");
+const foxStage = document.querySelector("[data-art-stage]");
 if (fox && egg && foxStage) {
   foxStage.append(egg, fox);
   egg.hidden = false;
   const eggX = () => foxStage.clientWidth * (phone() ? 0.8 : 0.72);
   egg.style.left = `${eggX()}px`;
   const cap = egg.querySelector(".egg-cap");
-  if (still) { egg.classList.add("hatched"); cap.hidden = true; }
+  if (still) {
+    egg.classList.add("hatched"); cap.hidden = true;
+    fox.hidden = false;
+    fox.style.left = `${foxStage.clientWidth * 0.5}px`;
+    fox.classList.add("resting");
+  }
   else {
     let onScreen = false, timer = 0, hatched = false;
     const runW = () => fox.offsetWidth || 150;
@@ -362,8 +370,7 @@ if (cat) {
   const spots = [];
   // (The tree is not a seat: a painted kitten on a line-drawn branch looked
   // pasted on. It sits on floors, peeks from curtains, or waits by the footer.)
-  for (const s of document.querySelectorAll(".stage-floored")) spots.push(["floor", s]);
-  if (!phone()) for (const s of document.querySelectorAll("[data-lodge]")) spots.push(["peek", s]);
+  for (const s of document.querySelectorAll("[data-art-stage]")) spots.push(["floor", s]);
   const foot = document.querySelector("footer");
   if (foot) spots.push(["footer", foot]);
   if (spots.length) {
@@ -483,7 +490,7 @@ if (!still && matchMedia("(pointer: fine)").matches) {
 // floor and hazy; near is large and low. Each only moves while its stage is
 // on screen; under reduced motion each simply stays where it is.
 const guest = document.querySelector(".guest");
-const stageFloor = document.querySelector("[data-lodge].stage-floored");
+const stageFloor = document.querySelector("[data-art-stage]");
 if (guest && stageFloor) {
   stageFloor.append(guest);
   guest.hidden = false;

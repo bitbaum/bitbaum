@@ -167,6 +167,27 @@ say((vlast?.page ?? "") === "/loki/", `recording which product was asked about (
 say(/Could this run for our organisation\?/.test(vlast?.suggestion ?? ""), "carrying the question the visitor asked");
 await ctx2.close();
 
+// Partner applications use direct intake: a single note is enough to submit,
+// including without an address. They are never called approved or waitlisted.
+const ctx3 = await browser.newContext({ viewport: { width: 390, height: 844 } });
+const p3 = await ctx3.newPage();
+let applications = 0, application = null;
+await p3.route("**/api/feedback", async (route) => {
+  applications++;
+  application = JSON.parse(route.request().postData() || "{}");
+  await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, claimUrl: "https://loki.orangecat.ch/claim-feedback?token=partner-test" }) });
+});
+await p3.goto(base + "/partners/#join", { waitUntil: "networkidle" });
+await p3.waitForSelector("#join .ck-input");
+await p3.fill("#join .ck-input", "I build booking sites. My work is at https://builder.ch/work");
+await p3.press("#join .ck-input", "Enter");
+await p3.waitForTimeout(600);
+say(applications === 1 && application?.page === "/partners/", "one message submits one partner application from the partner page");
+say(application?.suggestion?.startsWith("Partner application") && !application?.contact, "the application keeps the work link and needs no email");
+say(/application is saved/i.test(await p3.innerText("#join")), "saved for review, without claiming approval");
+say((await p3.getByRole("link", { name: "Track this application" }).count()) === 1, "a saved application offers account tracking");
+await ctx3.close();
+
 await browser.close();
 console.log(fail ? `\n${fail} FAILED` : "\nall intake checks passed");
 process.exit(fail ? 1 : 0);

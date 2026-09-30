@@ -65,6 +65,8 @@ jobs:
           echo $! > /tmp/bitbaum-http.pid
           sleep 1
           node site/check-theme.mjs http://127.0.0.1:8731
+          node site/check-responsive.mjs http://127.0.0.1:8731
+          node site/check-hire.mjs http://127.0.0.1:8731
           kill "$(cat /tmp/bitbaum-http.pid)" || true
       - name: Commit refreshed source snapshots and generated site
         run: |

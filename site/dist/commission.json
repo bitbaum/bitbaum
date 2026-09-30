@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "origin": "https://bitbaum.orangecat.ch",
+  "availability": {
+    "state": "closed",
+    "shortLine": "Studio engagements are at capacity.",
+    "line": "The studio is at capacity. The rates below are current, and the waitlist is how you hear first when a slot opens.",
+    "cta": "Join the waitlist"
+  },
+  "offer": {
+    "id": "rescue",
+    "name": "Rescue",
+    "price": "CHF 6,500",
+    "unit": "",
+    "shape": "Two weeks, fixed",
+    "what": "An inherited codebase nobody understands. You get a written assessment, a working local setup, CI that actually runs the tests, and a ranked list of what breaks first — whether or not we work together afterwards."
+  },
+  "feedbackToken": "fcw_a182d39f6ef4ec8d616ef58e4ca5a693"
+}
