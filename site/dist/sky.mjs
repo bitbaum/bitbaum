@@ -55,6 +55,25 @@ function art(name) {
 // pins it. The choice is written to <html data-weather> so the page (and
 // lodge.mjs, which sends things through the fog) can follow it.
 export const WEATHERS = ["clear", "clouds", "wind", "mist", "rain", "snow"];
+// What each weather does to the sky — the one table every drawing reads.
+// Nothing below tests a weather by name; a new weather is a new row here.
+//   day / night  the sky's gradient, top to horizon
+//   sun          how much of the sun shows by day (0 = none, the overcast)
+//   moon, stars  the same by night
+//   clouds       how many painted clouds drift [desktop, phone]
+//   tone         how bright the clouds are drawn (1 = as painted)
+//   wind         extra drift, px/s, for clouds and the trees' sway
+//   fall         what falls: "rain", "snow" or nothing
+//   fog          the fog banks (styles.css reads data-weather for these)
+export const WX = {
+  clear:  { day: ["#5f8fb8", "#a9c6d6", "#eadcc0", "#f3cf98"], night: ["#02030a", "#050815", "#0a0d18"], sun: 1,    moon: 1,    stars: 1,    clouds: [1, 1], tone: 1,    wind: 0,  fall: null,   fog: 0 },
+  clouds: { day: ["#7d97ab", "#adbfc9", "#d8d5cb", "#e6d8bf"], night: ["#030409", "#070a12", "#0c0f18"], sun: 0.5,  moon: 0.7,  stars: 0.5,  clouds: [5, 3], tone: 0.92, wind: 0,  fall: null,   fog: 0 },
+  wind:   { day: ["#6a95ba", "#b0c9d6", "#e7dcc4", "#f1d2a2"], night: ["#02030a", "#050815", "#0a0d18"], sun: 0.9,  moon: 1,    stars: 0.9,  clouds: [3, 2], tone: 1,    wind: 40, fall: null,   fog: 0 },
+  mist:   { day: ["#b7c1c8", "#c9cfd1", "#dcd9d1", "#e4ddd0"], night: ["#0b0e16", "#121620", "#191c26"], sun: 0.25, moon: 0.35, stars: 0.15, clouds: [0, 0], tone: 1,    wind: 0,  fall: null,   fog: 1 },
+  rain:   { day: ["#5c6b78", "#8a959e", "#b6b7b2", "#c8c1b3"], night: ["#04050b", "#080b14", "#0e1118"], sun: 0,    moon: 0.3,  stars: 0.2,  clouds: [4, 3], tone: 0.6,  wind: 15, fall: "rain", fog: 0 },
+  snow:   { day: ["#98a4b2", "#c2c9d0", "#e1e0db", "#ebe5d9"], night: ["#070a12", "#0f131d", "#161a25"], sun: 0.15, moon: 0.6,  stars: 0.4,  clouds: [3, 2], tone: 0.85, wind: 0,  fall: "snow", fog: 0 },
+};
+export const wx = () => WX[WEATHER] ?? WX.clear;
 export let WEATHER = (() => {
   const pinned = new URLSearchParams(location.search).get("weather");
   if (WEATHERS.includes(pinned)) return pinned;
@@ -636,14 +655,16 @@ if (canvas) {
   function paintBase(off) {
     const ctx = bctx, night = palette.night;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const bg = ctx.createLinearGradient(0, 0, 0, H);
-    if (night) { bg.addColorStop(0, "#02030a"); bg.addColorStop(0.6, "#050815"); bg.addColorStop(1, "#0a0d18"); }
-    // Dalí's day: a clear, slightly cool sky that warms to a luminous horizon.
-    else { bg.addColorStop(0, "#5f8fb8"); bg.addColorStop(0.45, "#a9c6d6"); bg.addColorStop(0.8, "#eadcc0"); bg.addColorStop(1, "#f3cf98"); }
+    const bg = ctx.createLinearGradient(0, 0, 0, H), w = wx();
+    // Night, or Dalí's day: a clear, slightly cool sky that warms to a
+    // luminous horizon — or the overcast the weather table says.
+    const stops = night ? w.night : w.day, at = night ? [0, 0.6, 1] : [0, 0.45, 0.8, 1];
+    stops.forEach((c, i) => bg.addColorStop(at[i], c));
     ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
-    // Dawn and dusk (theme "local time"): a warm band low in the sky.
+    // Dawn and dusk (theme "local time"): a warm band low in the sky — under a
+    // clear sky; an overcast shows little of it.
     const light = root.dataset.theme === "auto" ? root.dataset.light : "";
-    if (light === "dawn" || light === "dusk") {
+    if ((light === "dawn" || light === "dusk") && w.sun > 0.4) {
       const warm = ctx.createLinearGradient(0, H * 0.35, 0, H);
       warm.addColorStop(0, "rgba(255, 150, 90, 0)"); warm.addColorStop(1, light === "dusk" ? "rgba(236, 120, 80, 0.38)" : "rgba(255, 176, 130, 0.3)");
       ctx.fillStyle = warm; ctx.fillRect(0, 0, W, H);
@@ -654,7 +675,7 @@ if (canvas) {
       for (const s of stars) {
         const y = s.y - off;
         if (s.s > 1.1 || y < -2 || y > H + 2) continue;
-        ctx.fillStyle = `rgba(${s.rgb}, ${0.35 + s.s * 0.3})`;
+        ctx.fillStyle = `rgba(${s.rgb}, ${(0.35 + s.s * 0.3) * w.stars})`;
         ctx.fillRect(s.x, y, s.s, s.s);
       }
     }
@@ -677,8 +698,10 @@ if (canvas) {
     const mx = W * (phone ? 0.82 : 0.86), my = H * (phone ? 0.15 : 0.2) - off * 0.9 + ease * H * 0.06;
     const grow = 1 + ease * 0.35;
     if (my < -moonR * 3) return;
+    const w = wx();
     if (night) {
-      if (!moon) return;
+      if (!moon || w.moon <= 0) return;
+      ctx.save(); ctx.globalAlpha = w.moon;
       const lit = 0.5 - 0.5 * Math.cos(phase * Math.PI * 2), R = moonR * grow;
       const halo = ctx.createRadialGradient(mx, my, R * 0.95, mx, my, R * 3.2);
       halo.addColorStop(0, `rgba(${Math.round(220 + ease * 35)}, ${Math.round(225 - ease * 40)}, ${Math.round(240 - ease * 110)}, ${0.1 * lit + 0.02 + ease * 0.06})`); halo.addColorStop(1, "rgba(220, 200, 160, 0)");
@@ -686,10 +709,13 @@ if (canvas) {
       ctx.save();
       if (ease > 0.01) ctx.filter = `sepia(${(ease * 0.55).toFixed(2)}) saturate(${(1 + ease * 0.8).toFixed(2)})`;
       ctx.drawImage(moon, mx - R, my - R, R * 2, R * 2);
-      ctx.restore();
+      ctx.restore(); ctx.restore();
       return;
     }
-    {
+    // The sun: full under a clear sky; under cloud a pale disc with little
+    // glow; under rain, none at all.
+    if (w.sun > 0) {
+      ctx.save(); ctx.globalAlpha = w.sun;
       const sr = moonR * 0.9 * grow;
       const glow = ctx.createRadialGradient(mx, my, 0, mx, my, sr * 7);
       const g = Math.round(244 - ease * 70), b = Math.round(214 - ease * 120);
@@ -697,11 +723,12 @@ if (canvas) {
       glow.addColorStop(0.4, `rgba(255, ${g - 18}, ${b - 34}, ${0.16 + ease * 0.14})`); glow.addColorStop(1, "rgba(255, 200, 150, 0)");
       ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(mx, my, sr * 7, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = `rgba(255, ${Math.round(250 - ease * 60)}, ${Math.round(236 - ease * 120)}, 0.96)`; ctx.beginPath(); ctx.arc(mx, my, sr, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
     }
     const dayMoon = (phase > 0.12 && phase < 0.42) || (phase > 0.58 && phase < 0.88);
     const dmx = W * (phone ? 0.58 : 0.66), dmy = H * 0.1;
-    if (dayMoon && moon && dmy > -moonR * 2) {
-      ctx.globalAlpha = 0.55;
+    if (dayMoon && moon && dmy > -moonR * 2 && w.sun >= 0.5) {
+      ctx.globalAlpha = 0.55 * w.sun;
       const R2 = moonR * 0.62;
       ctx.drawImage(moon, dmx - R2, dmy - R2, R2 * 2, R2 * 2);
       ctx.globalAlpha = 1;
@@ -711,7 +738,7 @@ if (canvas) {
   function draw(t) {
     const off = scrollY * PARALLAX;
     const night = palette.night;
-    const key = `${Math.round(off * 2)}|${night}|${W}x${H}`;
+    const key = `${Math.round(off * 2)}|${night}|${WEATHER}|${W}x${H}`;
     if (key !== baseKey) { paintBase(off); baseKey = key; }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.drawImage(base, 0, 0);
@@ -792,20 +819,24 @@ if (canvas) {
   // capped; all of it holds still for reduced motion.
   function weather(t) {
     const dt = Math.min(0.05, (t - (weather.last || t)) / 1000); weather.last = t;
-    const phone = W < 700, windy = WEATHER === "wind" ? 1 : 0;
+    const phone = W < 700, w = wx();
     // Clouds: the painted ones, drifting at their own heights and speeds —
-    // many under "clouds", a few wisps otherwise, none in snow or rain's dark.
-    const nClouds = WEATHER === "clouds" ? (phone ? 3 : 5) : WEATHER === "wind" || WEATHER === "rain" ? (phone ? 2 : 3) : WEATHER === "clear" ? 1 : 0;
-    if (clouds.length !== nClouds) clouds = [...Array(nClouds)].map((_, i) => ({ img: `cloud-${(i % 4) + 1}`, x: Math.random() * W, y: H * (0.06 + Math.random() * 0.34), s: 0.55 + Math.random() * 0.7, v: 6 + Math.random() * 10 }));
+    // as many, and as bright, as the weather table says.
+    const nClouds = w.clouds[phone ? 1 : 0];
+    // On a phone the first screen is words: clouds keep to the band above
+    // them, and are smaller, so nothing drifts across the copy.
+    const cloudY = () => H * (phone ? 0.03 + Math.random() * 0.1 : 0.06 + Math.random() * 0.34);
+    if (clouds.length !== nClouds) clouds = [...Array(nClouds)].map((_, i) => ({ img: `cloud-${(i % 4) + 1}`, x: Math.random() * W, y: cloudY(), s: (phone ? 0.4 : 0.55) + Math.random() * (phone ? 0.4 : 0.7), v: 6 + Math.random() * 10 }));
     for (const c of clouds) {
       const img = art(c.img);
       if (!img) continue;
-      const w = Math.min(W * 0.55, 420) * c.s, h = w * (img.naturalHeight / img.naturalWidth);
-      if (!still) c.x -= (c.v + windy * 40) * dt;
-      if (c.x < -w) { c.x = W + w * 0.2; c.y = H * (0.06 + Math.random() * 0.34); }
-      ctx.globalAlpha = palette.night ? 0.28 : WEATHER === "rain" ? 0.95 : 0.85;
-      if (palette.night || WEATHER === "rain") ctx.filter = palette.night ? "brightness(0.5) saturate(0.4)" : "brightness(0.75) saturate(0.5)";
-      ctx.drawImage(img, c.x, c.y, w, h);
+      const cw = Math.min(W * 0.55, 420) * c.s, h = cw * (img.naturalHeight / img.naturalWidth);
+      if (!still) c.x -= (c.v + w.wind) * dt;
+      if (c.x < -cw) { c.x = W + cw * 0.2; c.y = cloudY(); }
+      ctx.globalAlpha = palette.night ? 0.28 : w.tone < 1 ? 0.95 : 0.85;
+      if (palette.night) ctx.filter = "brightness(0.5) saturate(0.4)";
+      else if (w.tone < 1) ctx.filter = `brightness(${w.tone.toFixed(2)}) saturate(0.5)`;
+      ctx.drawImage(img, c.x, c.y, cw, h);
       ctx.filter = "none"; ctx.globalAlpha = 1;
     }
     if (still) return;
@@ -819,10 +850,10 @@ if (canvas) {
         ctx.globalAlpha = pulse * 0.8; ctx.drawImage(glowSprite("190, 240, 140"), m.x - 5, m.y - 5, 10, 10); ctx.globalAlpha = 1;
       }
     }
-    if (WEATHER !== "rain" && WEATHER !== "snow") return;
-    const want = WEATHER === "rain" ? (phone ? 70 : 140) : (phone ? 60 : 110);
+    if (!w.fall) return;
+    const want = w.fall === "rain" ? (phone ? 70 : 140) : (phone ? 60 : 110);
     if (drops.length !== want) drops = [...Array(want)].map(() => ({ x: Math.random() * W, y: Math.random() * H, v: 0.6 + Math.random() * 0.8, s: Math.random() }));
-    if (WEATHER === "rain") {
+    if (w.fall === "rain") {
       ctx.strokeStyle = palette.night ? "rgba(190, 205, 230, 0.28)" : "rgba(70, 90, 110, 0.3)"; ctx.lineWidth = 1;
       ctx.beginPath();
       for (const d of drops) {

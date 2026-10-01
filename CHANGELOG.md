@@ -2,6 +2,12 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-10-01 — The sky obeys the weather
+
+- One table in `site/sky.mjs` (`WX`) says what each weather does: the sky's gradient by day and night, how much sun, moon and stars show, how many clouds and how bright, what falls, how hard the wind blows. Everything that draws reads it; nothing tests a weather by name any more. Rain is an overcast with no sun, mist veils it, snow dims the stars.
+- Quixote and Sancho ride out of the haze: small and far first, nearer and larger as they come toward the mill, instead of sliding along a line.
+- On a phone the clouds keep to the band above the first screen's words.
+
 ## 2026-10-01 — One door
 
 - The studio's intake is one field, typed or spoken, on /hire/ and /partners/: no form, nothing refused for its shape. A website in the text makes a studio request; on /partners/ the message is the application; anything else is asked one question and joins the waitlist. Every request gives the visitor its private portal link; follow-ups go to the same record; a retry reuses the same receipt.
