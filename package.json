@@ -13,11 +13,13 @@
     "check:hire": "node site/check-hire.mjs",
     "check:theme": "node site/check-theme.mjs",
     "check:responsive": "node site/check-responsive.mjs",
-    "check:widget": "node site/check-widget.mjs"
+    "check:widget": "node site/check-widget.mjs",
+    "check:studio": "node site/check-studio.mjs"
   },
   "dependencies": {
     "@bitbaum/chatkit": "github:bitbaum/chatkit#v0.1.0",
     "@bitbaum/design-tokens": "1.1.0",
+    "bip-kit": "^0.5.1",
     "listkit": "github:bitbaum/listkit#69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

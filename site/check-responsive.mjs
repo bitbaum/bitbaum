@@ -70,7 +70,15 @@ try {
     await isolateWidget(page.context());
     await page.goto(base + route, { waitUntil: "load" });
     await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
-    if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)) failures.push(`200% text ${route}: horizontal overflow`);
+    const enlargedOverflow = await page.evaluate(() => {
+      if (document.documentElement.scrollWidth <= innerWidth + 1) return [];
+      const boxes = [...document.querySelectorAll("header *, main *, footer *")].filter((el) => {
+        const r = el.getBoundingClientRect();
+        return r.width && r.right > innerWidth + 1 && getComputedStyle(el).visibility !== "hidden";
+      }).slice(-12).map((el) => `${el.tagName}.${el.className}(${Math.round(el.getBoundingClientRect().left)}..${Math.round(el.getBoundingClientRect().right)}, parent ${Math.round(el.parentElement.getBoundingClientRect().width)}): ${el.textContent.slice(0, 25)}`);
+      return boxes.length ? boxes : ["No visible box identified"];
+    });
+    if (enlargedOverflow.length) failures.push(`200% text ${route}: horizontal overflow (${enlargedOverflow.join("; ")})`);
     await page.close();
   }
 } finally {

@@ -1,0 +1,37 @@
+{
+  "version": "pilot-v1",
+  "title": "Bitbaum systems design pilot",
+  "pilot": true,
+  "modules": [
+    {
+      "id": "problem-constraints",
+      "title": "Problem and constraints",
+      "prompt": "Choose one real customer journey. Describe who needs it, the present failure, a measurable outcome and the constraints. Identify what the project will deliberately leave out."
+    },
+    {
+      "id": "boundaries-data",
+      "title": "Boundaries and data",
+      "prompt": "Name each component, its owner and the data crossing its boundary. Explain what is stored, where it is stored, and how a customer can export or remove it."
+    },
+    {
+      "id": "auth-privacy",
+      "title": "Permissions and privacy",
+      "prompt": "Show the customer, partner and reviewer permissions. Include one negative test proving that an unrelated customer cannot read or change the request."
+    },
+    {
+      "id": "integrations-failure",
+      "title": "Integrations and failure",
+      "prompt": "Identify one external dependency. Show what happens on a timeout, a duplicate submission and an unavailable dependency, including how the person can recover."
+    },
+    {
+      "id": "testing-accessibility",
+      "title": "Testing and accessibility",
+      "prompt": "Provide a runnable check command and evidence for the main journey at 320px and desktop width. Include keyboard navigation, labels and an error-and-retry path."
+    },
+    {
+      "id": "deploy-handover",
+      "title": "Deployment and handover",
+      "prompt": "Show a reproducible deployment, a preview, rollback steps and a short handover. Identify unresolved dependencies and the person responsible for each one."
+    }
+  ]
+}

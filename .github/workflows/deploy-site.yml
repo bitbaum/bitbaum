@@ -1,11 +1,15 @@
 name: Deploy Bitbaum site
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
     paths:
       - '.github/workflows/deploy-site.yml'
       - 'site/**'
+      - 'ROADMAP.md'
+      - 'CHANGELOG.md'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'pnpm-workspace.yaml'
@@ -14,7 +18,7 @@ on:
     types: [package-registry-updated]
 
 concurrency:
-  group: bitbaum-site-main
+  group: bitbaum-site-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -22,6 +26,7 @@ permissions:
 
 jobs:
   build-and-deploy:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -64,9 +69,12 @@ jobs:
           python3 -m http.server 8731 --directory site/dist &
           echo $! > /tmp/bitbaum-http.pid
           sleep 1
-          node site/check-theme.mjs http://127.0.0.1:8731
-          node site/check-responsive.mjs http://127.0.0.1:8731
-          node site/check-hire.mjs http://127.0.0.1:8731
+          failures=0
+          node site/check-theme.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-hire.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-studio.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
+          [ "$failures" -eq 0 ]
           kill "$(cat /tmp/bitbaum-http.pid)" || true
       - name: Commit refreshed source snapshots and generated site
         run: |
@@ -94,3 +102,32 @@ jobs:
         run: bash site/publish.sh
       - name: Hire form gate (live)
         run: node site/check-hire.mjs https://bitbaum.orangecat.ch
+
+  preview-check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install chromium --with-deps
+      - run: pnpm test
+      - run: node site/build.mjs --offline
+      - run: node site/build.mjs --offline --check
+      - name: Verify studio journeys and mobile geometry
+        run: |
+          python3 -m http.server 8731 --directory site/dist &
+          sleep 1
+          failures=0
+          node site/check-theme.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-hire.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-studio.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
+          [ "$failures" -eq 0 ]

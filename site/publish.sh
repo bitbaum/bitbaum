@@ -16,6 +16,7 @@ _box_env="${DEV_ROOT:-$HOME/dev}/loki/scripts/hetzner/_box-env.sh"
 [ -f "$_box_env" ] && . "$_box_env"
 BOX="${BOX:-${BOX_UBUNTU:-ubuntu@${HETZNER_IP:?set BOX or HETZNER_IP — the box address lives in loki scripts/hetzner/_box-env.sh}}}"
 node "$HERE/build.mjs" --check
+node "$HERE/check-studio-api.mjs"
 
 stamp="$(date -u +%Y%m%d-%H%M%S)"
 rsync -az --delete -e "ssh -o BatchMode=yes" "$HERE/dist/" "$BOX:/tmp/bitbaum-dist.$stamp/"
@@ -28,7 +29,7 @@ ssh -o BatchMode=yes "$BOX" "set -e
   sudo find /opt/bitbaum/app -type f -exec chmod 644 {} +"
 
 fail=0
-for rel in "" work/ packages/ packages/paykit/ studio/ hire/ partners/ orangecat/ loki/ solon/ robots.txt sitemap.xml map.json commission.json og/studio.png theme.mjs chat.js chatkit.css; do
+for rel in "" work/ packages/ packages/paykit/ studio/ hire/ partners/ portal/ academy/ roadmap/ changelog/ portal.js orangecat/ loki/ solon/ robots.txt sitemap.xml map.json commission.json og/studio.png theme.mjs chat.js chatkit.css; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_ORIGIN/$rel")
   [ "$code" = "200" ] || { echo "$SITE_ORIGIN/$rel -> $code" >&2; fail=1; }
 done
@@ -49,7 +50,7 @@ widget_code=$(curl -s -o /dev/null -w '%{http_code}' "$widget_src")
 hire="$(curl -fsS "$SITE_ORIGIN/hire/")" || { echo "hire page unreachable" >&2; fail=1; }
 grep -q 'data-intake' <<<"$hire" || { echo "hire page has no waitlist intake" >&2; fail=1; }
 grep -q '/chat.js' <<<"$hire" || { echo "hire page does not load the chat intake" >&2; fail=1; }
-grep -q '/commission?package=' <<<"$hire" || { echo "hire page has no website commissioning link" >&2; fail=1; }
+grep -q 'data-studio-intake' <<<"$hire" || { echo "hire page has no studio website intake" >&2; fail=1; }
 commission_json="$(curl -fsS "$SITE_ORIGIN/commission.json?publish=$stamp")" || { echo "commission.json unreachable" >&2; fail=1; }
 printf '%s' "$commission_json" | node -e 'const fs=require("node:fs"); const assert=require("node:assert/strict"); assert.deepEqual(JSON.parse(fs.readFileSync(0,"utf8")),JSON.parse(fs.readFileSync("site/dist/commission.json","utf8")))' || { echo "published commissioning terms differ from the generated contract" >&2; fail=1; }
 if grep -q 'mailto:' <<<"$hire"; then echo "hire page exposes a mailto again" >&2; fail=1; fi

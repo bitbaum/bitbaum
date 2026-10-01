@@ -25,7 +25,7 @@ The two-field brief can share implementation, but each destination owns its next
 
 Current prices, scope and capacity are produced by [site/hire.json](../site/hire.json), not this document. The existing CHF 6,500 offer describes Rescue assessment work. Redefining it as a bounded website rebuild remains a separate commercial decision; the clarification did not specify new deliverables.
 
-## Code observations
+## Initial code observations before implementation
 
 Observed on repository main branches on 30 September 2026, not guarantees of readiness.
 
@@ -43,7 +43,7 @@ Observed on repository main branches on 30 September 2026, not guarantees of rea
 
 ## Portal options
 
-Proposals only; this document does not implement a portal.
+Option 1 was accepted on 30 September 2026. Bitbaum owns the portal views and course; Loki supplies a bounded request API and signed-in reviewer view. The alternatives remain as context for later changes, not open decisions.
 
 | Option | Shape | Reason and tradeoff |
 | --- | --- | --- |
@@ -57,7 +57,7 @@ Navigation should describe the task: projects, messages, previews and approvals.
 
 ## Ownership and access
 
-| Record/action | Proposed owner | Boundary |
+| Record/action | Owner | Boundary |
 | --- | --- | --- |
 | Offers, capacity, engagement scope | Bitbaum | Studio business facts are not copied into Loki pricing |
 | Qualification, course progress, studio approval | Bitbaum | Evidence stays private; only approved, consenting profiles appear publicly |
@@ -68,7 +68,7 @@ Navigation should describe the task: projects, messages, previews and approvals.
 
 Shared identity grants no cross-product access by itself. Grant explicit customer, partner and reviewer actions per engagement/project. A customer approving a preview must not gain agent-execution or credential access. Connecting a product is separate from signing in. Audit actual login and execution paths before promising a particular account journey.
 
-First run a bounded feasibility spike: one Bitbaum-branded customer/guest view reading one Loki project and recording one delivery review. Verify scope, revocation and approval boundaries before choosing framework or backend placement. Reuse APIs that fit, adding missing capabilities at their owner. Bitbaum currently has a static generator; a stateful portal requires an application service, not just a link or an empty dashboard.
+The accepted implementation is a bounded portal: a Bitbaum-branded guest view reads one request and records one delivery review. An optional internal Loki project reference grants no project access. Bitbaum retains its static generator and browser views; Loki provides the stateful API and database. Scope, revocation and approval boundaries are verified with database tests before release.
 
 ## Course and studio approval
 
@@ -93,4 +93,16 @@ Acceptance criteria and priority live in [ROADMAP.md](../ROADMAP.md).
 | Qualification and delivery | Bitbaum + bounded Loki assignments | Course evidence → studio review → approved profile → permitted assignment |
 | Optional integrations | Relevant source/destination products | Preserved context/consent and a useful path when an integration is declined |
 
-Completed work links implementation and verification in the changelog. Public development records do not publish customer briefs, code, contact details or qualification evidence. Open questions include portal service placement, assessment details, existing-candidate handling and any revised studio deliverables; none is silently decided here.
+Completed work links implementation and verification in the changelog. Public development records do not publish customer briefs, code, contact details or qualification evidence. Portal service placement is decided above. Open questions include assessment calibration, existing-candidate handling and any revised studio deliverables; none is silently decided here.
+
+## Implementation and remaining proof
+
+The approved first slice uses a Bitbaum browser view backed by Loki's PostgreSQL request records. Website briefs and partner applications receive a 256-bit private request link, carried in the URL fragment and sent to the API as a bearer credential. No ecosystem account is required for these guest views. Project linkage is an internal reference and grants no execution, project membership or credential access.
+
+Customers see their brief, current offer snapshot, status, next action, visible history and the current preview's scope. Acceptance records an exact delivery version; a revision clears that acceptance. Partners can submit revised evidence, propose a consenting profile, maintain availability and deliver only assigned briefs. A signed-in studio owner reviews course evidence, separately approves or declines the application, and reviews profile publication. Each action has an idempotent retry identifier. Guest access can be revoked.
+
+The course is a pilot: one written lesson, one exercise, six capstone evidence dimensions and a review rubric. Full lessons, teaching examples and assessment calibration remain work. Passing the course does not automatically approve a partner. Existing direct customer/partner contracts and no-cut model are retained; no payment or revenue-share feature is introduced.
+
+Canonical roadmap and changelog pages use bip-kit and the repository records. A missing repository URL in a studio project is resolved through the existing serve-register join rather than a broad database update by name.
+
+Loki's full CI passed on commit 75bf9e5, including all 303 unit test files and real PostgreSQL isolation, revocation and retry tests. Bitbaum's paired CI passed intake and versioned review journeys at three widths, theme checks and 135 responsive checks including rotation and enlarged text. Production release still requires the normal repository deployment gates, the additive migration and a read-only API availability check before Bitbaum publishes the views. A working local view or green PR alone is not deployment evidence. The first real partner review and customer engagement remain pilot work after release.

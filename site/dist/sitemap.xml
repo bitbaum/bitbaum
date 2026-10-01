@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://bitbaum.orangecat.ch/</loc></url>
+  <url><loc>https://bitbaum.orangecat.ch/academy/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/aoz-housing/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/botsmann/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/camille-boulangerie/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/causius/</loc></url>
+  <url><loc>https://bitbaum.orangecat.ch/changelog/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/datacat/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/diplodoctor/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/evig/</loc></url>
@@ -28,9 +30,11 @@
   <url><loc>https://bitbaum.orangecat.ch/packages/threadkit/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/partners/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/petvity/</loc></url>
+  <url><loc>https://bitbaum.orangecat.ch/portal/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/printcraft/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/reparaturbonus-zh/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/revamp-info/</loc></url>
+  <url><loc>https://bitbaum.orangecat.ch/roadmap/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/s-ink/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/sbb-fundbuero/</loc></url>
   <url><loc>https://bitbaum.orangecat.ch/skif/</loc></url>
