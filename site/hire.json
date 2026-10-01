@@ -10,7 +10,7 @@
     "cta": "Join the waitlist"
   },
   "waitlist": {
-    "lede": "Say what you want built, in your own words — typed or spoken. When a slot opens, the list is worked in the order it was joined.",
+    "lede": "One message, typed or spoken, is the whole request. It opens a private portal where replies, status and previews appear — no account needed. When a slot opens, the list is worked in the order it was joined.",
     "promises": [
       {
         "title": "A reply from a person",
@@ -25,7 +25,7 @@
         "what": "Write the same way asking to be removed, and the record is deleted. There is no account to close, because there was never one to open."
       }
     ],
-    "prompt": "Hello. What would you like the studio to build? A sentence is enough, and it does not need to be polished — add when you need it and an email if you would like a reply."
+    "prompt": "Hello. What would you like done? If it is about a website that exists, paste its address and say what should change; if it is something new, just describe it. A sentence is enough — and your email if you would like a reply."
   },
   "commissioningOffer": "rescue",
   "offers": [

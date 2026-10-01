@@ -56,10 +56,9 @@ const CONTRIBUTING = "https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.
 const HIRE = "/hire/";
 const COURSE = JSON.parse(readFileSync(join(here, "course", "course.json"), "utf8"));
 const PORTAL_SCRIPT = '<script type="module" src="/portal.js"></script>';
-function studioIntakeMount(kind, hire) {
-  const offer = hire?.offers.find((o) => o.id === hire.commissioningOffer);
-  return `<div class="portal-card" data-studio-intake data-kind="${kind}" data-api-origin="${esc(LOKI_FEEDBACK.origin)}" data-offer-id="${esc(offer?.id)}" data-offer-summary="${esc(offer ? `${offer.name} · ${offer.price} · ${offer.shape}. ${offer.what} ${hire.availability.line} Scope and any additional development are agreed in writing before work starts.` : "")}"><noscript><p>This form needs JavaScript. <a href="/academy/">Read the pilot course</a> or <a href="/work/">browse the work</a>.</p></noscript></div>`;
-}
+// The one place "build it yourself" leads: Loki's free brief. Every door on
+// the site uses this, so the free tool is never three different addresses.
+const LOKI_START = "https://loki.orangecat.ch/commission";
 
 const ARTICLES = "https://orangecat.ch/articles";
 
@@ -427,7 +426,7 @@ function shell({ title, description, path, body, nav, script, image }) {
   const sections = [
     ["Explore", [["/work/", "The work"], ["/partners/", "Partners"], ["/studio/", "About bitbaum"], ["/roadmap/", "Roadmap"], ["/changelog/", "Changelog"], [ARTICLES, "Writing ↗"]]],
     ["Build with us", [["/partners/#join", "Become a partner"], ["/academy/", "Systems design pilot"], ["/portal/", "Open your portal"], ["/packages/", "Packages (for developers)"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"]]],
-    ["The studio", [[HIRE, "Engagements and rates"], [`${HIRE}#website`, "Change an existing website"], [`${HIRE}#waitlist`, "Join the waitlist"]]],
+    ["The studio", [[HIRE, "Engagements and rates"], [`${HIRE}#waitlist`, "Join the waitlist"], [LOKI_START, "Build it yourself (free Loki)"]]],
   ];
   const sectionLinks = (links) =>
     links.map(([href, t]) => `<a href="${esc(href)}"${cur(href)}${href.startsWith("http") ? ' rel="noopener"' : ""}>${esc(t)}</a>`).join("\n          ");
@@ -731,8 +730,11 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
       </div>
     </section>`;
   const by = (slug) => ventureBySlug.get(slug);
-  const studioOffer = (hire?.offers ?? [])[0];
-  const studioFrom = studioOffer ? `From ${esc(studioOffer.price)}${studioOffer.unit ? ` ${esc(studioOffer.unit)}` : ""}` : "Published rates";
+  // The cheapest fixed price and the day rate, both published — "from X per
+  // day" alone read as the entry price when the fixed Rescue is the smaller sum.
+  const fixed = (hire?.offers ?? []).filter((o) => !o.unit).sort((a, b) => parseInt(a.price.replace(/\D/g, ""), 10) - parseInt(b.price.replace(/\D/g, ""), 10))[0];
+  const daily = (hire?.offers ?? []).find((o) => o.unit);
+  const studioFrom = fixed && daily ? `${esc(fixed.price)} fixed, or ${esc(daily.price)} ${esc(daily.unit)}` : fixed ? `From ${esc(fixed.price)}` : daily ? `From ${esc(daily.price)} ${esc(daily.unit)}` : "Published rates";
   const studioOpen = hire?.availability?.state !== "closed";
   // "How do you want it built?" — the one decision on the page, cheapest first.
   // The studio is not a separate world: it is the third answer, honestly
@@ -742,12 +744,12 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
       n: "01", key: "self", title: "Build it yourself",
       price: "Free to start", when: "Start now", open: true,
       body: "Describe what you want in free Loki. A fleet of AI agents helps you build it, and you review what ships. OrangeCat and Solon are optional when you need them.",
-      cta: "Start with Loki", href: new URL("/commission", by("loki")?.url ?? "https://loki.orangecat.ch/").href,
+      cta: "Start with Loki", href: LOKI_START,
     },
     {
       n: "02", key: "partner", title: "Hire a partner",
-      price: "Their own rates", when: "Course pilot · applications open", open: false,
-      body: "Independent builders, approved by the studio, who work with the same tools and set their own prices. Once listed, you hire them directly.",
+      price: "Their own quote", when: "Applications open · none approved yet", open: false,
+      body: "Independent builders who pass the studio's systems design course and are approved by hand. You hire and pay them directly; the first will be listed here once approved.",
       cta: "Meet the partners", href: "/partners/",
     },
     {
@@ -800,7 +802,7 @@ ${fullBleed({ scene: "seed", id: "build-yourself", body: `        <div class="bl
           <h2 class="headline-caps">Make it yourself.<br>Today.</h2>
           <p class="bleed-lede">The studio is at capacity. Free Loki is open to you: build on your own, with no need to join every product. Explore OrangeCat or Solon when payment or collective decisions fit your work.</p>
           <div class="bleed-actions">
-            <a class="btn-frame-accent" href="${esc(by("loki")?.url ?? "https://loki.orangecat.ch/")}">Start with Loki ${ARROW}</a>
+            <a class="btn-frame-accent" href="${LOKI_START}">Start with Loki ${ARROW}</a>
             <a class="btn-frame" href="#tools">How the tools fit</a>
           </div>
         </div>` })}
@@ -843,10 +845,10 @@ ${fullBleed({ scene: "rings", id: "studio", body: `        <div class="bleed-cop
 ${fullBleed({ scene: "mycelium", id: "join", strong: true, body: `        <div class="bleed-copy">
           <span class="kicker">Partners</span>
           <h2 class="headline-caps">Build here.</h2>
-          <p class="bleed-lede">Approved builders take the work the studio cannot — with the same tools, under their own name, at their own price. The customer hires them directly.</p>
+          <p class="bleed-lede">Builders who pass the studio's systems design course and are approved take the work the studio cannot — under their own name, at their own price. Applications are open; none is listed yet.</p>
           <div class="bleed-actions">
             <a class="btn-frame-accent" href="/partners/#join">Become a partner ${ARROW}</a>
-            <a class="btn-frame" href="/partners/">Meet the partners</a>
+            <a class="btn-frame" href="/partners/">How it works</a>
           </div>
         </div>` })}
 
@@ -877,15 +879,15 @@ ${fullBleed({ scene: "mycelium", cast: "partners", under: true, strong: true, bo
         </div>` })}
     <section class="section" id="partners"><div class="wrap">
       <span class="kicker quiet">Available partners</span><h2 class="headline-caps section-title">Hire a partner.</h2>
-      <div class="portal-grid" data-partner-directory data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>The directory needs JavaScript to check current availability. <a href="${HIRE}#website">Send a brief</a> or <a href="https://loki.orangecat.ch/commission">use free Loki</a>.</p></noscript></div>
+      <div class="portal-grid" data-partner-directory data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>The directory needs JavaScript to check current availability. <a href="${HIRE}#waitlist">Send the studio a brief</a> or <a href="${LOKI_START}">use free Loki</a>.</p></noscript></div>
       <p class="caption">Partners are independent. Customers contract with and pay the partner directly. The studio takes no cut. Loki, OrangeCat and Solon are optional tools.</p>
     </div></section>
     <section class="section" id="how"><div class="wrap"><span class="kicker quiet">Qualification</span><h2 class="headline-caps section-title">Learn. Demonstrate. Get reviewed.</h2>
       <ol class="steps"><li><span class="path-n">01</span><span class="step-title">Study the studio pilot</span><p>Start with the <a href="/academy/">first systems design lesson and capstone rubric</a>. The full course is still being developed.</p></li><li><span class="path-n">02</span><span class="step-title">Submit working evidence</span><p>Your private application holds a preview, source and answers for the six design dimensions. The studio can request revisions or record a course pass.</p></li><li><span class="path-n">03</span><span class="step-title">Receive studio approval</span><p>Course pass is a prerequisite, not automatic partner approval. An approved, consenting profile appears only after publication review and while availability is current.</p></li></ol>
     </div></section>
-    <section class="section" id="join"><div class="wrap portal-layout"><div><span class="kicker quiet">Become a partner</span><h2 class="headline-caps section-title">Show what you build.</h2><p class="lede">Your application opens a private portal for course evidence, review reasons, profile proposals and assigned briefs. No ecosystem account is required.</p><p><a class="textlink" href="/academy/">Read the pilot course and rubric</a></p></div>${studioIntakeMount("partner")}</div></section>
+    <section class="section" id="join"><div class="wrap portal-layout"><div><span class="kicker quiet">Become a partner</span><h2 class="headline-caps section-title">Show what you build.</h2><p class="lede">Write it or say it — who you are, what you build, where the studio can see your work. One message opens a private application where the course evidence, review reasons and, later, assigned briefs live. No account needed.</p><p><a class="textlink" href="/academy/">Read the pilot course and rubric first</a></p></div>${intakeMount({ purpose: "partner", prompt: "Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application, and the pilot course is the next step." })}</div></section>
   </main>`;
-  return shell({ title: "Partners — bitbaum", description: "Hire an approved independent partner, or apply through Bitbaum's systems design pilot.", path: "/partners/", body, nav: "/partners/", script: PORTAL_SCRIPT });
+  return shell({ title: "Partners — bitbaum", description: "Hire an approved independent partner, or apply through Bitbaum's systems design pilot.", path: "/partners/", body, nav: "/partners/", script: CHAT_SCRIPT + PORTAL_SCRIPT });
 }
 
 export function portalPage() {
@@ -1094,11 +1096,13 @@ export function studioPage(all, packages, origin, readings) {
 // that is cross-origin safe, rate-limited, deduped, notified AND triaged in a
 // real UI (/feedback). The token is public ON PURPOSE (widget_tokens schema).
 
-/** The waitlist, as a conversation (site/chat/chat.tsx, Intake). One field,
- * typed or spoken, and nothing refused. Without JavaScript it says so. */
-function intakeMount(prompt, purpose = "waitlist") {
-  return `        <div class="chat-mount intake-mount" data-intake data-purpose="${esc(purpose)}" data-origin="${esc(LOKI_FEEDBACK.origin)}" data-token="${esc(LOKI_FEEDBACK.token)}" data-prompt="${esc(prompt)}">
-          <p class="caption">${purpose === "partner" ? "Applications need" : "The waitlist needs"} JavaScript to reach the studio. <a class="textlink" href="/work/">Browse every project</a> in the meantime.</p>
+/** The studio's one door, as a conversation (site/chat/chat.tsx, Intake):
+ * one field, typed or spoken, nothing refused. A studio request or a partner
+ * application becomes a private record on Loki with its own portal link.
+ * Without JavaScript it says so. */
+function intakeMount({ prompt, purpose = "studio", offerId = "" }) {
+  return `        <div class="chat-mount intake-mount" data-intake data-purpose="${esc(purpose)}" data-origin="${esc(LOKI_FEEDBACK.origin)}" data-token="${esc(LOKI_FEEDBACK.token)}" data-offer-id="${esc(offerId)}" data-prompt="${esc(prompt)}">
+          <p class="caption">${purpose === "partner" ? "Applications need" : "The waitlist needs"} JavaScript to reach the studio. <a class="textlink" href="/academy/">Read the pilot course</a> or <a class="textlink" href="/work/">browse every project</a> in the meantime.</p>
         </div>`;
 }
 
@@ -1149,11 +1153,6 @@ ${hire.offers.map((o) => `          <a class="card text" href="#waitlist" data-e
               <div class="pkg-links"><span>Request this &rarr;</span></div>
             </div>
           </a>`).join("\n")}
-        </div>
-        <div class="website-brief-door" id="website">
-          <h3 class="display-3">Have a website you want to change?</h3>
-          <p class="lede">Enter its address and describe the changes here. Your brief opens a private Bitbaum portal. Choose the studio waitlist or an independent approved partner; their quotes are separate. The published Rescue package retains its assessment scope. Additional implementation is agreed before work starts.</p>
-          ${studioIntakeMount("website", hire)}
         </div>
       </div>
     </section>
@@ -1213,7 +1212,7 @@ ${hire.waitlist.promises.map((w) => `          <article class="card text">
             </div>
           </article>`).join("\n")}
         </div>
-${intakeMount(hire.waitlist.prompt)}
+${intakeMount({ prompt: hire.waitlist.prompt, offerId: hire.commissioningOffer })}
       </div>
     </section>
   </main>`;

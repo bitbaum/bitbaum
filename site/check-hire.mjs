@@ -44,6 +44,9 @@ const say = (ok, m) => {
 };
 
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+// The live widget keeps a connection open, so "networkidle" never comes; the
+// checks wait for the page's own input instead.
+await ctx.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
 const page = await ctx.newPage();
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
@@ -63,7 +66,7 @@ await page.route("**/api/feedback", async (route) => {
 const fill = async (sel, v) => page.fill(sel, v);
 
 // ── /hire/ ──────────────────────────────────────────────────────────────────
-await page.goto(base + "/hire/", { waitUntil: "networkidle" });
+await page.goto(base + "/hire/", { waitUntil: "load" });
 say(errors.length === 0, `no page errors${errors.length ? ": " + errors[0] : ""}`);
 
 const html = await page.content();
@@ -79,20 +82,34 @@ say((await page.$$(`${W} .ck-input`)).length === 1, "the waitlist is one field")
 say((await page.$$(`${W} .ck-mic`)).length === 1, "with a microphone");
 say((await page.$$(`${W} form, ${W} input[type=email], ${W} select`)).length === 0, "and no form fields to fill");
 
-// the engagement a reader clicked reaches the payload, and a vague line with
-// no email is kept, not refused
+// The one door routes by what was written, never by what was filled in.
+// A line with no website and no email is kept: one question, then the
+// studio's waitlist (Loki's inbox) — the engagement a reader clicked travels
+// with it, and no address is invented.
+let intakes = 0, intake = null;
+const cors = { "access-control-allow-origin": new URL(base).origin, "access-control-allow-methods": "GET, POST, OPTIONS", "access-control-allow-headers": "Content-Type, Authorization" };
+await page.route("**/api/studio-intake", async (route) => {
+  if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers: cors });
+  intakes++; intake = JSON.parse(route.request().postData() || "{}");
+  await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, id: "4a1bbf67-7ced-411b-9eec-9bdbb975115b", status: "waitlisted" }) });
+});
 await page.click('[data-engagement="Rescue"]');
 await page.fill(`${W} .ck-input`, "an app");
 await page.press(`${W} .ck-input`, "Enter");
+await page.waitForTimeout(400);
+say(posts === 0 && intakes === 0, "a line without a site is not sent anywhere yet");
+say(/website that already exists/i.test(await page.innerText(`${W} .ck-thread`)), "it asks the one question: is there a site?");
+await page.fill(`${W} .ck-input`, "no, something new");
+await page.press(`${W} .ck-input`, "Enter");
 await page.waitForTimeout(600);
-say(posts === 1, `one message makes exactly one request, however short (${posts})`);
+say(posts === 1 && intakes === 0, `"something new" joins the waitlist in one request (${posts})`);
 say(/^fcw_/.test(last?.token ?? ""), "it carries the widget token");
 say((last?.suggestion ?? "").includes("Engagement: Rescue"), "the engagement is recorded");
-say((last?.suggestion ?? "").includes("an app"), "the words are recorded as written");
+say((last?.suggestion ?? "").includes("an app") && (last?.suggestion ?? "").includes("something new"), "both lines are recorded as written");
 say(!last?.contact, "no address is invented");
 say((last?.page ?? "") === "/hire/", `the page is recorded (${last?.page})`);
 const asked = await page.innerText(`${W} .ck-thread`);
-say(/on the waitlist/i.test(asked) && /where should the reply go/i.test(asked), "the visitor is told it is kept, and asked once where to reply");
+say(/on the studio waitlist/i.test(asked) && /reply by email/i.test(asked), "the visitor is told it is kept, and that an email is optional");
 
 // an email given afterwards becomes the reply address
 await page.fill(`${W} .ck-input`, "someone@example.com please");
@@ -102,26 +119,37 @@ say(posts === 2, `the follow-up is kept too (${posts})`);
 say(last?.contact === "someone@example.com", `the address is recorded (${last?.contact})`);
 say((last?.suggestion ?? "").includes("an app"), "tied to the first message");
 
-// a failure keeps the words and can be retried
-await page.reload({ waitUntil: "networkidle" });
+// a website in the text makes a studio request with a private portal
+await page.reload({ waitUntil: "load" });
 await page.waitForSelector(`${W} .ck-input`, { timeout: 10000 }).catch(() => {});
-await page.unroute("**/api/feedback");
-await page.route("**/api/feedback", (r) => r.abort());
-await page.fill(`${W} .ck-input`, "We have an inherited Rails app nobody understands. ops@example.com");
+await page.fill(`${W} .ck-input`, "Make booking easier on phones at www.example-gym.ch, reply to ops@example.com");
+await page.press(`${W} .ck-input`, "Enter");
+const portal = page.locator(W).getByRole("link", { name: "Open your portal →", exact: true });
+await portal.waitFor({ timeout: 5000 }).catch(() => {});
+say(intakes === 1 && intake?.kind === "website" && intake?.target === "studio", `a website in the text opens a studio request (${intakes})`);
+say(intake?.website === "www.example-gym.ch" && intake?.offerId === "rescue", `the address and the published offer travel with it (${intake?.website})`);
+say(intake?.contact === "ops@example.com" && intake?.company === "", "the email is the reply address, the honeypot stays empty");
+say(/^spt_[A-Za-z0-9_-]{43}$/.test(intake?.accessKey ?? "") && (await portal.count()) === 1 && (await portal.getAttribute("href")).includes(intake?.accessKey), "and the visitor holds the only key to the private portal");
+
+// a failure keeps the words and can be retried, with the same receipt
+await page.reload({ waitUntil: "load" });
+await page.waitForSelector(`${W} .ck-input`, { timeout: 10000 }).catch(() => {});
+await page.unroute("**/api/studio-intake");
+let tries = 0; const bodies = [];
+await page.route("**/api/studio-intake", async (route) => {
+  if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers: cors });
+  tries++; bodies.push(JSON.parse(route.request().postData() || "{}"));
+  if (tries === 1) return route.abort();
+  await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, id: "4a1bbf67-7ced-411b-9eec-9bdbb975115b", status: "waitlisted" }) });
+});
+await page.fill(`${W} .ck-input`, "We have an inherited Rails app at legacy.example.ch nobody understands.");
 await page.press(`${W} .ck-input`, "Enter");
 await page.waitForTimeout(600);
 const failed = await page.innerText(`${W} .ck-thread`);
 say(/did not reach us/i.test(failed) && /Rails app/.test(failed), "a failed request says so and keeps the words");
-await page.unroute("**/api/feedback");
-posts = 0;
-await page.route("**/api/feedback", async (route) => {
-  posts++;
-  last = JSON.parse(route.request().postData() || "{}");
-  await route.fulfill({ status: 200, contentType: "application/json", body: "{\"ok\":true}" });
-});
 await page.locator(W).getByRole("button", { name: /try again|retry/i }).first().click().catch(() => {});
-await page.waitForTimeout(600);
-say(posts === 1 && last?.contact === "ops@example.com", `retry sends it (${posts}, ${last?.contact})`);
+await page.locator(W).getByRole("link", { name: "Open your portal →", exact: true }).waitFor({ timeout: 5000 }).catch(() => {});
+say(tries === 2 && bodies[0].requestId === bodies[1].requestId && bodies[0].accessKey === bodies[1].accessKey, `retry sends the same receipt again, never a second request (${tries})`);
 await ctx.close();
 
 // ── a venture page asks by chat, and a person is one field away ─────────────
@@ -129,6 +157,7 @@ await ctx.close();
 // the Cat and Loki answer at once, and "Send to a person" posts the whole
 // conversation to the same inbox — still recording which product it was about.
 const ctx2 = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+await ctx2.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
 const p2 = await ctx2.newPage();
 let vposts = 0;
 let vlast = null;
@@ -150,7 +179,7 @@ await p2.route("**/api/feedback", async (route) => {
   vlast = JSON.parse(route.request().postData() || "{}");
   await route.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify({ ok: true }) });
 });
-await p2.goto(base + "/loki/", { waitUntil: "networkidle" });
+await p2.goto(base + "/loki/", { waitUntil: "load" });
 say((await p2.$$("form.js-request")).length === 0, "a venture page has no request form any more");
 await p2.waitForSelector("#ask .ck-input", { timeout: 10000 }).catch(() => {});
 say((await p2.$$("#ask .ck-input")).length === 1, "a venture page has the chat");
@@ -169,9 +198,10 @@ await ctx2.close();
 
 // Partner applications now have their own scoped studio receipt.
 const ctx3 = await browser.newContext({ viewport: { width: 390, height: 844 } });
+await ctx3.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
 const p3 = await ctx3.newPage();
 let applications = 0, application = null;
-const cors = { "access-control-allow-origin": new URL(base).origin, "access-control-allow-methods": "GET, POST, OPTIONS", "access-control-allow-headers": "Content-Type" };
+// (cors headers declared above, for the /hire/ door)
 await p3.route("**/api/studio-partners", (route) => route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, partners: [] }) }));
 await p3.route("**/api/studio-intake", async (route) => {
   if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers: cors });
@@ -179,14 +209,17 @@ await p3.route("**/api/studio-intake", async (route) => {
   await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, id: "4a1bbf67-7ced-411b-9eec-9bdbb975115b", status: "course_in_progress" }) });
 });
 await p3.goto(base + "/partners/#join", { waitUntil: "load" });
-await p3.waitForSelector("#studio-partner [name=changes]");
-await p3.fill("#studio-partner [name=changes]", "I build booking sites. My work is at https://builder.ch/work");
-await p3.click("#studio-partner button[type=submit]");
-await p3.locator("#join [data-studio-intake]").getByRole("link", { name: "Open your portal", exact: true }).waitFor();
-say(applications === 1 && application?.kind === "partner", "one structured brief submits one partner application");
-say(application?.changes?.includes("https://builder.ch/work") && !application?.contact, "application keeps the work link and needs no email");
-say((await p3.getByRole("heading", { name: "Your request is saved", exact: true }).count()) === 1, "saved for course review, without claiming approval");
-say((await p3.locator("#join [data-studio-intake]").getByRole("link", { name: "Open your portal", exact: true }).count()) === 1, "a saved application offers private guest tracking");
+await p3.waitForSelector("#join .ck-input", { timeout: 10000 }).catch(() => {});
+say((await p3.$$("#join .ck-input")).length === 1 && (await p3.$$("#join .ck-mic")).length === 1 && (await p3.$$("#join form, #join select")).length === 0, "a partner applies in one field with a microphone, not a form");
+await p3.fill("#join .ck-input", "I build booking sites. My work is at https://builder.ch/work");
+await p3.press("#join .ck-input", "Enter");
+const application_ = p3.locator("#join").getByRole("link", { name: "Open your application →", exact: true });
+await application_.waitFor({ timeout: 5000 }).catch(() => {});
+say(applications === 1 && application?.kind === "partner", "one message submits one partner application");
+say(application?.website === "https://builder.ch/work" && application?.changes?.includes("I build booking sites") && !application?.contact, "the work link is the website, the words are kept, and no email is needed");
+const told = await p3.innerText("#join .ck-thread");
+say(/pilot course/i.test(told) && /separate/i.test(told) && !/approved\b(?! are)/i.test(told.replace(/being approved are separate/i, "")), "it names the course as the next step and does not claim approval");
+say((await application_.count()) === 1 && (await application_.getAttribute("href")).includes("/portal/#id="), "a saved application offers its private portal");
 await ctx3.close();
 
 await browser.close();
