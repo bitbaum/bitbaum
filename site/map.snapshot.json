@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-01T12:33:05.204Z",
+  "generatedAt": "2026-10-01T14:32:09.148Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -4090,7 +4090,7 @@
           "title": "Release the shared portal",
           "line": "Ship the verified backend before exposing the Bitbaum views.",
           "status": "planned",
-          "progress": 60,
+          "progress": 80,
           "targetDate": null,
           "milestones": [
             {
@@ -4110,8 +4110,8 @@
               "done": false
             },
             {
-              "title": "Notify the studio when a request or application is created (today the portal path persists and tells no one)",
-              "done": false
+              "title": "Notify the studio when a request or application is created (loki #1002: push, Telegram and an alert on every studio request and guest action)",
+              "done": true
             }
           ],
           "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
@@ -4147,6 +4147,10 @@
         {
           "date": "2026-10-01",
           "done": "The studio's intake is one field, typed or spoken, on /hire/ and /partners/: no form, nothing refused for its shape. A website in the text makes a studio request; on /partners/ the message is the application; anything else is asked one question and joins the waitlist. Every request gives the visitor its private portal link; follow-ups go to the same record; a retry reuses the same receipt.\nThe three paths say true things everywhere: the free tool is one address, the studio shows its fixed price and its day rate, and partners read \"applications open · none approved yet\" with the systems design course named as the step before review.\nThe browser checks drive the conversation instead of the forms; 135 responsive checks still pass."
+        },
+        {
+          "date": "2026-10-01",
+          "done": "One table in site/sky.mjs (WX) says what each weather does: the sky's gradient by day and night, how much sun, moon and stars show, how many clouds and how bright, what falls, how hard the wind blows. Everything that draws reads it; nothing tests a weather by name any more. Rain is an overcast with no sun, mist veils it, snow dims the stars.\nQuixote and Sancho ride out of the haze: small and far first, nearer and larger as they come toward the mill, instead of sliding along a line.\nOn a phone the clouds keep to the band above the first screen's words."
         },
         {
           "date": "2026-09-30",
