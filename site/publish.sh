@@ -50,7 +50,11 @@ widget_code=$(curl -s -o /dev/null -w '%{http_code}' "$widget_src")
 hire="$(curl -fsS "$SITE_ORIGIN/hire/")" || { echo "hire page unreachable" >&2; fail=1; }
 grep -q 'data-intake' <<<"$hire" || { echo "hire page has no waitlist intake" >&2; fail=1; }
 grep -q '/chat.js' <<<"$hire" || { echo "hire page does not load the chat intake" >&2; fail=1; }
-grep -q 'data-studio-intake' <<<"$hire" || { echo "hire page has no studio website intake" >&2; fail=1; }
+grep -q 'data-intake data-purpose="studio"' <<<"$hire" || { echo "hire page has no studio door" >&2; fail=1; }
+grep -q 'data-offer-id="rescue"' <<<"$hire" || { echo "hire page's door does not carry the published offer" >&2; fail=1; }
+partners="$(curl -fsS "$SITE_ORIGIN/partners/")" || { echo "partners page unreachable" >&2; fail=1; }
+grep -q 'data-intake data-purpose="partner"' <<<"$partners" || { echo "partners page has no application door" >&2; fail=1; }
+grep -q '/chat.js' <<<"$partners" || { echo "partners page does not load the chat intake" >&2; fail=1; }
 commission_json="$(curl -fsS "$SITE_ORIGIN/commission.json?publish=$stamp")" || { echo "commission.json unreachable" >&2; fail=1; }
 printf '%s' "$commission_json" | node -e 'const fs=require("node:fs"); const assert=require("node:assert/strict"); assert.deepEqual(JSON.parse(fs.readFileSync(0,"utf8")),JSON.parse(fs.readFileSync("site/dist/commission.json","utf8")))' || { echo "published commissioning terms differ from the generated contract" >&2; fail=1; }
 if grep -q 'mailto:' <<<"$hire"; then echo "hire page exposes a mailto again" >&2; fail=1; fi
