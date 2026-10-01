@@ -1091,10 +1091,18 @@ body::after {
 footer::before { background-position: calc(var(--tile) / -2 + var(--fy, 0px)) 0, calc(var(--tile) / -2 + var(--fy, 0px)) 0, var(--fy, 0px) 0, var(--fy, 0px) 0; }
 
 /* ─── Quixote and Sancho ride at the windmill ─────────────────────────── */
-.glass .riders { position: absolute; bottom: -2px; left: 58%; display: flex; align-items: flex-end; gap: 6px; animation: ride 80s linear infinite; }
+.glass .riders { position: absolute; bottom: -2px; left: 58%; display: flex; align-items: flex-end; gap: 6px; transform-origin: 50% 100%; animation: ride 80s linear infinite; }
 .glass .riders .fig-sancho { width: 76px; }
 .glass .riders .fig-quixote { width: 122px; }
-@keyframes ride { 0% { left: 52%; opacity: 0; } 6% { opacity: 1; } 90% { opacity: 1; } 100% { left: 68%; opacity: 0; } }
+/* Out of the haze, far off and small; nearer and larger as they ride toward
+   the mill, and a little lower on the plain — the way distance reads. */
+@keyframes ride {
+  0% { left: 50%; opacity: 0; scale: 0.42; translate: 0 -1px; filter: blur(0.9px) brightness(1.12) saturate(0.55); }
+  8% { opacity: 1; }
+  60% { scale: 0.78; translate: 0 2px; filter: blur(0.3px) brightness(1.05) saturate(0.8); }
+  92% { opacity: 1; }
+  100% { left: 69%; opacity: 0; scale: 1.08; translate: 0 6px; filter: none; }
+}
 
 /* ─── rye with ergot: a clump growing on the plain, not floating ─────── */
 .rye-clump { z-index: 2; }
@@ -1105,10 +1113,16 @@ footer::before { background-position: calc(var(--tile) / -2 + var(--fy, 0px)) 0,
   .glass .riders { gap: 3px; }
   .glass .riders .fig-sancho { width: 38px; }
   .glass .riders .fig-quixote { width: 58px; }
-  @keyframes ride { 0% { left: 34%; opacity: 0; } 6% { opacity: 1; } 90% { opacity: 1; } 100% { left: 58%; opacity: 0; } }
+  @keyframes ride {
+    0% { left: 30%; opacity: 0; scale: 0.45; translate: 0 -1px; filter: blur(0.7px) brightness(1.1) saturate(0.6); }
+    8% { opacity: 1; }
+    60% { scale: 0.8; translate: 0 1px; filter: blur(0.2px); }
+    92% { opacity: 1; }
+    100% { left: 60%; opacity: 0; scale: 1.05; translate: 0 4px; filter: none; }
+  }
   .rye-clump { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .glass .riders { animation: none; left: 66%; } }
+@media (prefers-reduced-motion: reduce) { .glass .riders { animation: none; left: 66%; scale: 0.9; } }
 
 /* The windmill: tower and sails painted apart, so the sails truly turn about
    the hub on the roof — slowly, as in a dream with little wind. */
