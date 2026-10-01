@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-30T15:57:07.373Z",
+  "generatedAt": "2026-10-01T12:20:13.073Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -48,9 +48,35 @@
       },
       "roadmap": [
         {
+          "title": "Partner track",
+          "line": "bitbaum owns the systems design course and partner approval. Loki supplies scoped application and assigned-delivery infrastructure; qualification does not enrol a partner in the whole ecosystem. OrangeCat or Solon handoffs remain optional and require their own purpose and consent.",
+          "status": "in progress",
+          "progress": 25,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Request-scoped application evidence, separate course review and studio approval with visible reasons; bitbaum owns the course and public profile consent",
+              "done": true
+            },
+            {
+              "title": "The candidate build is an ordinary project with an approval control in Control",
+              "done": false
+            },
+            {
+              "title": "Self-serve \"Go live\" for a tenant's site through the existing runner channel",
+              "done": false
+            },
+            {
+              "title": "The not-approved path: the docs and scripts to run the stack yourself",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
           "title": "Capacity you can read",
           "line": "The numbers that decide when the next wall is hit, published on the System page and in this file, so \"when do we need more\" is a reading, not a guess.",
-          "status": "in progress",
+          "status": "planned",
           "progress": 0,
           "targetDate": null,
           "milestones": [
@@ -76,7 +102,7 @@
         {
           "title": "Tenancy on the box",
           "line": "One Linux user, one clone root, one runner service and one credential file per builder account. The shared cloud builder is one user with one set of keys today, which is why it is restricted to eligible accounts.",
-          "status": "in progress",
+          "status": "planned",
           "progress": 0,
           "targetDate": null,
           "milestones": [
@@ -95,102 +121,6 @@
             {
               "title": "Per-tenant CPU, memory and network limits",
               "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Fleet command center",
-          "line": "The web control plane coordinates fleets of AI agents across projects, with one-button autopilot: pause all, or build all.",
-          "status": "in progress",
-          "progress": 100,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Agents drain each project's queue, then pick the next-best task",
-              "done": true
-            },
-            {
-              "title": "Per-project pause / resume / direct-send, with per-project autopilot overrides",
-              "done": true
-            },
-            {
-              "title": "Handoff between agent sessions with truthful status on every card",
-              "done": true
-            },
-            {
-              "title": "Multi-user foundation: GitHub OAuth, organizations, team invites, agent tokens",
-              "done": true
-            }
-          ],
-          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Fleet Runner desktop app",
-          "line": "The desktop app owns the agent terminals, agent launching and state sync on your computer — the same React tree the web serves.",
-          "status": "in progress",
-          "progress": 100,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Tray icon, OS notifications on agent idle, embedded session watcher",
-              "done": true
-            },
-            {
-              "title": "One tag push produces installers for Linux, macOS and Windows",
-              "done": true
-            },
-            {
-              "title": "Auto-update through the GitHub release feed",
-              "done": true
-            }
-          ],
-          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "The feedback loop, end to end",
-          "line": "A visitor's note on any fleet site becomes a pull request, a deploy, and a walkthrough of the change on the live page.",
-          "status": "in progress",
-          "progress": 100,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "One script tag puts a feedback button on any site; reports land in a per-project inbox",
-              "done": true
-            },
-            {
-              "title": "One click dispatches an agent; the fix ledger follows the PR to merge and deploy",
-              "done": true
-            },
-            {
-              "title": "The owner's own note starts the build straight from the site",
-              "done": true
-            },
-            {
-              "title": "\"Watch the fix\": a narrated cursor walks the owner through the change on the live page; a step it cannot show is filed back as a report",
-              "done": true
-            },
-            {
-              "title": "Failed runs say why in one sentence",
-              "done": true
-            }
-          ],
-          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "OrangeCat project handoff",
-          "line": "A signed \"Build it with Loki\" link carries a public brief into Loki's guided project setup.",
-          "status": "in progress",
-          "progress": 100,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Loki asks for project context before agent work begins",
-              "done": true
-            },
-            {
-              "title": "Linking is optional and never publishes private work by itself",
-              "done": true
             }
           ],
           "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
@@ -221,9 +151,13 @@
           "title": "Bring your own key, metered by default",
           "line": "The builder pays their model vendor directly and pays Loki for the platform; every run records the tokens it spent, per tenant, from day one.",
           "status": "planned",
-          "progress": 0,
+          "progress": 25,
           "targetDate": null,
           "milestones": [
+            {
+              "title": "Loki's own chat runs on your key when you paste one in Settings",
+              "done": true
+            },
             {
               "title": "Tokens per run per tenant recorded and shown on the run",
               "done": false
@@ -240,48 +174,22 @@
           "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
         },
         {
-          "title": "Partner track",
-          "line": "Learner, then candidate (build one real project), then partner (a tenant on the box, allowed to register client sites). Approval and revenue-share rules are decided on Solon; payouts flow through OrangeCat.",
-          "status": "planned",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "partner_status on the account and a partner_applications record with the reason, shown either way",
-              "done": false
-            },
-            {
-              "title": "The candidate build is an ordinary project with an approval control in Control",
-              "done": false
-            },
-            {
-              "title": "Self-serve \"Go live\" for a tenant's site through the existing runner channel",
-              "done": false
-            },
-            {
-              "title": "The not-approved path: the docs and scripts to run the stack yourself",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
-        },
-        {
           "title": "Signed installers and native channels",
           "line": "Make Fleet Runner trivial to install on every platform, including for builders who never open a terminal.",
           "status": "planned",
-          "progress": 0,
+          "progress": 33,
           "targetDate": null,
           "milestones": [
+            {
+              "title": "Headless CLI install path for servers and CI runners",
+              "done": true
+            },
             {
               "title": "Apple-signed and notarized macOS builds, and a signed Windows executable",
               "done": false
             },
             {
               "title": "Homebrew tap, winget, and a .deb apt repository",
-              "done": false
-            },
-            {
-              "title": "Headless CLI install path for servers and CI runners",
               "done": false
             }
           ],
@@ -291,15 +199,15 @@
           "title": "Remote control channel",
           "line": "Web and mobile become genuine remote control surfaces, not eventually-consistent dashboards.",
           "status": "planned",
-          "progress": 0,
+          "progress": 33,
           "targetDate": null,
           "milestones": [
             {
-              "title": "The local app opens an authenticated outbound WebSocket when remote control is on",
-              "done": false
+              "title": "When your computer is offline, its work waits in a visible queue instead of going somewhere else",
+              "done": true
             },
             {
-              "title": "Falls back to the existing queue when the local app is offline",
+              "title": "The local app opens an authenticated outbound WebSocket when remote control is on",
               "done": false
             },
             {
@@ -317,7 +225,7 @@
           "targetDate": null,
           "milestones": [
             {
-              "title": "Push notifications for Beacon mode and Mission checkpoints",
+              "title": "Push notifications when an agent needs you",
               "done": false
             },
             {
@@ -325,7 +233,7 @@
               "done": false
             },
             {
-              "title": "Voice capture for the autopilot intent ladder",
+              "title": "Voice capture for commands and approvals",
               "done": false
             }
           ],
@@ -369,17 +277,17 @@
         },
         {
           "title": "The academy",
-          "line": "A systems-design course whose only exercise is the candidate build, whose textbook is the fleet's own agent-facing docs, and whose last module is how to run the stack yourself.",
+          "line": "The studio-owned transferable course is developed in bitbaum. Loki provides optional building tools and the application evidence API; course content and teaching priorities remain in the studio roadmap.",
           "status": "later",
-          "progress": 0,
+          "progress": 50,
           "targetDate": null,
           "milestones": [
             {
-              "title": "/academy with enrolment creating a learner record",
-              "done": false
+              "title": "bitbaum hosts the initial /academy/ lesson and capstone rubric; its portal records evidence without requiring a Loki account",
+              "done": true
             },
             {
-              "title": "Five modules: the three planes, the feedback loop, tokens to ui-*, shipping, running it yourself",
+              "title": "Follow bitbaum's course expansion and assessment calibration after the first pilot reviews",
               "done": false
             }
           ],
@@ -477,14 +385,191 @@
         },
         {
           "title": "Physical robotic fleets",
-          "line": "The same control patterns — autonomy dial, handoff, queues, visibility, override — on a different execution substrate.",
+          "line": "The same control patterns — an on/off autopilot, approvals, handoff, queues, visibility, override — on a different execution substrate.",
           "status": "later",
           "progress": 0,
           "targetDate": null,
           "milestones": [
             {
-              "title": "Per-fleet autonomy on the same dial: Manual → Queue → Beacon → Continuous → Mission",
+              "title": "Per-fleet autopilot behind the same approval gate",
               "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Change a website from its address",
+          "line": "Enter an existing website and say what should change, in plain words. The brief survives signing in and becomes one project, and sending it starts the build.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Message Loki from any AI app",
+          "line": "Loki is an MCP server: claude.ai, ChatGPT, Claude Code and Cursor can ask it questions, list projects and approvals, and — with a separate permission — act. It signs in with your OrangeCat account or an agent token.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Watch it work",
+          "line": "A project's run as a readable thread: what the agent was asked, each step it took, what it is doing right now in one line, and its handoff at the end.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "One account through OrangeCat",
+          "line": "Sign up with OrangeCat and the same account opens OrangeCat, Loki and Solon. An existing Loki account links to it with one click; GitHub, Google, X and email sign-in still work.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Roles, hand-over and invites",
+          "line": "Invite anyone into a project by email, with or without an account. A builder can run agents, a client follows the work, and the owner can hand the whole project to another member.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Approvals from Telegram",
+          "line": "Decide on Loki's proposed actions with one tap in Telegram, and give standing approval to small, reversible ones such as an event in your own calendar.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Found a Solon organization from a project",
+          "line": "Loki prepares the link with the project filled in; the owner signs with their own wallet on Solon, and the project is attributed to that organization only with their consent.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Take a site down",
+          "line": "A site Loki built can be taken offline, put behind a password, or removed. The plan shows exactly what will happen before the button exists, and the permanent options are typed, not clicked.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Crew",
+          "line": "Hand work to people, not only agents. An assignment is a draft until you hand it over; the person answers through a link with no account, and a fee can be set in bitcoin, payable to their own OrangeCat profile.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Fleet command center",
+          "line": "The web control plane coordinates fleets of AI agents across projects, with one-button autopilot: pause all, or build all.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Agents drain each project's queue, then pick the next-best task",
+              "done": true
+            },
+            {
+              "title": "Per-project pause / resume / direct-send, with per-project autopilot overrides",
+              "done": true
+            },
+            {
+              "title": "Handoff between agent sessions with truthful status on every card",
+              "done": true
+            },
+            {
+              "title": "Multi-user foundation: sign-in through OrangeCat (or GitHub, Google, X, email), organizations, team invites, agent tokens",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Fleet Runner desktop app",
+          "line": "The desktop app owns the agent terminals, agent launching and state sync on your computer — the same React tree the web serves.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Tray icon, OS notifications on agent idle, embedded session watcher",
+              "done": true
+            },
+            {
+              "title": "One tag push produces installers for Linux, macOS (Apple silicon) and Windows",
+              "done": true
+            },
+            {
+              "title": "Auto-update through the GitHub release feed",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "The feedback loop, end to end",
+          "line": "A visitor's note on any fleet site becomes a pull request, a deploy, and a walkthrough of the change on the live page.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "One script tag puts a feedback button on any site; reports land in a per-project inbox",
+              "done": true
+            },
+            {
+              "title": "One click dispatches an agent; the fix ledger follows the PR to merge and deploy",
+              "done": true
+            },
+            {
+              "title": "The owner's own note starts the build straight from the site",
+              "done": true
+            },
+            {
+              "title": "\"Watch the fix\": a narrated cursor walks the owner through the change on the live page; a step it cannot show is filed back as a report",
+              "done": true
+            },
+            {
+              "title": "Failed runs say why in one sentence",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "OrangeCat project handoff",
+          "line": "A signed \"Build it with Loki\" link carries a public brief into Loki's guided project setup.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Loki asks for project context before agent work begins",
+              "done": true
+            },
+            {
+              "title": "Linking is optional and never publishes private work by itself",
+              "done": true
             }
           ],
           "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
@@ -492,84 +577,84 @@
       ],
       "changelog": [
         {
+          "date": "2026-09-30",
+          "done": "Change a website from its address. Enter an existing website and say, in plain words, what should change. Your brief survives signing in, becomes one project, and the build starts; the brief tells the agent to keep what already works, test on phone and desktop, and show you a preview (#987).\nEvery essay's reading time is its own. Five essays in Thoughts showed \"6 min\" whatever their length; they now show the time their text takes."
+        },
+        {
+          "date": "2026-09-30",
+          "done": "Asking Loki to change your website stays free and self-service. Old links to the paid request form now lead to the bitbaum studio, and a brief you already wrote is carried through sign-in.\nA studio request gets its own private link. Someone who asks the bitbaum studio for work can follow that one request, accept a specific preview version, and receive the delivery from the partner assigned to it, without getting access to anything else in Loki.\nCourse evidence and partner approval are separate steps that the studio reviews, and a partner's public profile is published only with their consent. The pilot course and the commercial offer belong to bitbaum (#995)."
+        },
+        {
           "date": "2026-09-29",
-          "done": "Nothing runs on your quota unasked. Every agent run Loki used to start\nThe feedback button no longer parks on a line of words. On Loki's own"
+          "done": "Sign up with OrangeCat. Creating a Loki account now creates an OrangeCat account, the one account that also opens OrangeCat and Solon. A Loki-only password is still there if you prefer one, and an existing account sees one \"Connect OrangeCat\" button that links the two (#977).\nWatch reads like a chat. Your request sits on one side, the agent's answer on the other, and while it works one plain line says what it is doing right now; the raw screen folds away behind \"Show screen\" (#975, #976).\nWhen an agent is out of quota, the next one is one tap away. Watch offers \"Try\" with the next agent that still has quota, and a new run skips an agent that just ran out (#975).\nThe Telegram agent understands screenshots and videos you send it (#965, #982–#986).\nNothing runs on your quota unasked. Every agent run Loki used to start on its own — a refused feedback run retried, a refused project run retried on another provider, a queued Implement re-sent by the cron — is now off unless the box sets LOKI_AUTO_DISPATCH=1. A failed row stays Failed with its Retry and provider buttons; the choice to spend Claude, Codex or Antigravity is yours each time. Runs you start yourself are unchanged.\nThe feedback button no longer parks on a line of words. On Loki's own sign-in page at phone width the bottom band is all buttons, and the first slot up the edge without a control was the \"or sign in\" divider, so the launcher sat on it. Words now count as occupied: the launcher prefers an empty slot, still takes words over any control, and a sign-in fixture in the browser test pins it. Verified live afterwards: the one free spot on that page was the divider rule beside those words, straddling the card's edge, so Loki's own auth pages (sign-in, sign-up, invites, setup) now carry no launcher at all — the person there has nothing to report yet, and it returns on the next page."
         },
         {
           "date": "2026-09-28",
-          "done": "An owner's own report starts the fix. Tracking a report you left on your\nA builder can actually dispatch. A collaborator with the builder role\nClient is a role. The roster can now say who the project is FOR: a\nHand a project over. The owner can hand a project to any member from the\nA refused feedback run retries itself. When the runner refuses a\nWatch the fix. A shipped feedback item's button opens the live page and\nRoadmap and changelog come from the repository. ROADMAP.md and\nAsk Loki for a second opinion in the widget: \"is this right, should it\nA working Claude is no longer reported as silent. Loki decides whether\nA silent agent is routed around, not retried into. When an agent opened,\nT…"
+          "done": "An owner's own report starts the fix. Tracking a report you left on your own site tells Loki who you are — the one thing the anonymous widget could not — and the fix starts on the spot, landing you in the Feedback inbox where Watch lives. On My feedback, a report on a project you own carries \"Implement\" and \"Open in Feedback\" instead of \"waiting for the maintainer\"; everyone else is told nothing more is needed from them.\nA builder can actually dispatch. A collaborator with the builder role (\"can run agents\") was refused with \"Project not found\" the moment they pressed a dispatch button, because dispatch looked the project up by its owner. It now asks who may edit; the work still runs in the owner's tenant.\nClient is a role. The roster can now say who the project is FOR: a client follows the project and every fix and is who the builder answers to, without being able to spend the owner's runner. Editors are shown as \"Builder\".\nHand a project over. The owner can hand a project to any member from the members panel; it runs in the new owner's tenant from then on and the old owner keeps a builder's seat. This is the button the studio uses to hand a finished project to the person it was built for.\nA refused feedback run retries itself. When the runner refuses a feedback run at its last step — the agent answered with a usage-limit wall, or opened and never started generating — Loki makes the second attempt a person would have made, routed around the spent provider, once. The row says \"Retried automatically\" while the second run moves. Failures that need a person (dead credentials, a workspace missing on the builder) still stop and say so. Superseded the next day: automatic retries are off by default since 2026-09-29, so a failed run waits for you to press Retry (#978).\nWatch the fix. A shipped feedback item's button opens the live page and walks you through the change: a cursor moves to each part, a caption says why it is there, and links that stay on the page are really clicked. A step the walkthrough cannot show says so on screen and is filed back as a report on the project, so a fix that is not really live comes back into the loop (#951).\nRoadmap and changelog come from the repository. ROADMAP.md and CHANGELOG.md at a project's root are read into the fleet map, and every fleet site's /roadmap and /changelog render that record. Audited the same day: the map's roadmaps were mostly one machine-seeded placeholder per project with no steps done, its changelogs were run notes, four sites kept local copies instead, and two had no pages at all.\nAsk Loki for a second opinion in the widget: \"is this right, should it change, how would you make the site better?\" — about a picked element, the page, or the whole site. Every suggestion has a \"Request this\" button (#950).\nMessage Loki from any AI app. Loki now works as a connector for claude.ai, ChatGPT, Claude Code and Cursor: you can ask it questions, see your projects and waiting approvals, and, with a separate permission, approve or start work. You sign in with your OrangeCat account (#965).\nWatch it work. Each project has a page that shows its latest run as a readable thread: what the agent was asked, each step it took, the last lines on its screen, and its handoff at the end (#963).\n\"Make it happen\" keeps going without you. Setting up a project now runs on the server, so locking your phone or leaving the page no longer stops it, pressing twice never starts a second agent, and your brief is saved even if the AI model fails (#954, #956).\nA project's own roadmap is no longer behind the PIN. The PIN now covers only personal goals. Before anything is built, the project page shows one card with one button, and the Plan tab leads with the roadmap (#962).\nControl never shows an empty box. A project with no agent running says so in words, with one next step, and the builder chip names which machine is online (#957).\nA working Claude is no longer reported as silent. Loki decides whether a dispatched Claude started by reading Claude's own status file for the project folder. When the runner and Claude spelled that folder differently (a symlink, a trailing slash) the file was never found and a working Claude was reported as \"produced no response\". The folder is now compared by its real path. A freshly launched Claude also has any opening dialog closed before the prompt goes in, as a running one already did, and a failure with no known cause now quotes the last lines Claude's screen showed.\nA silent agent is routed around, not retried into. When an agent opened, took the prompt and never answered, Loki's automatic retry went straight back to the same agent and failed the same way (Petvity, twice in a row). That silence now counts as the provider being unable to answer, so the retry runs on the next provider in your order, and the row says \"The agent opened but never answered\" instead of telling you to check that the builder is online.\nThe Feedback inbox is one surface again, and a project link by id works. Landing from \"Implement\" on /feedback?project=<id> printed \"Nothing waiting on you for 5936f8fb-…\" — the page filtered by project name and showed the reader the id. The filter now accepts a name or an id, an empty project view says what is shipped and offers \"Show all projects\" / \"Open <project>\", the three stat cards became one quiet line, project and source filters share the Control inbox's chip, sections use the inbox primitives, and a failed row has one primary button (Retry) with Watch beside it. A render harness (scripts/preview/) now screenshots the page at phone and desktop widths in both themes before it ships.\nAny refused feedback run gets one automatic second attempt — not only the usage-limit and no-generation cases. Only commands the runner could not read, dead credentials and a missing workspace still stop and say so. Superseded on 2026-09-29: automatic retries are now off by default (#978).\nA green \"Live\" chip no longer opens the website. It read as \"watch it live\" and landed on a homepage with no idea where to look. The chip is now a status (\"Shipped · confirm\") and the button beside it is the walkthrough (#951).\nFailed runs say why. Instead of the word \"Retry\" printed above a Retry button, a failed row gives one plain sentence from the run's error: out of quota, could not open the repository, ran too long, no session, crashed (#951).\nHiding the widget is visible and reversible. The choice is offered in the panel, says how to undo it, and #loki, Loki.show() and the host's own Report control all bring it back (#950)."
         },
         {
           "date": "2026-09-26",
-          "done": "Say what to change on your own site, and it gets built. Loki's \"Open\nEvery site deploy looks at the page on a phone before and after, and\nNew sites skip ports something already listens on; a private site's\nQuiet runs stop claiming \"working\". A run shows Working only with\nA Claude dialog no longer holds runner updates; repeating an owner note\nHeader controls are 44px at every pointer on the public pages (#934)."
+          "done": "Say what to change on your own site, and it gets built. Loki's \"Open your site\" link carries an owner pass; a note left through the widget on your own site starts the fix instead of waiting in the inbox (#937).\nEvery site deploy looks at the page on a phone before and after, and rolls back if it got worse (#943).\nNew sites skip ports something already listens on; a private site's deploy is actually gated on its CI instead of passing open (#946, #948).\nQuiet runs stop claiming \"working\". A run shows Working only with evidence of a live agent producing output (#935).\nA Claude dialog no longer holds runner updates; repeating an owner note retries it (#939).\nHeader controls are 44px at every pointer on the public pages (#934).\nYour own Groq key gets your own limits. Loki's chat used to trim the context it sent to fit the shared free tier even when you had pasted your own Groq key; it now uses the room your key actually has (#945)."
         },
         {
           "date": "2026-09-25",
-          "done": "Power Loki with your own model: paste a key in Settings and Loki uses your\nImplement starts in its own lane instead of waiting behind the project's\nA project's story leads: Loki asks why the project exists, and a pasted\nThe composer is one component across chat, terminal and Control (#899).\nA deploy never kills a working agent: the drain waits up to six hours,\nThe widget launcher finds a free slot on every host page and never sits\nThe project header says what the project is, with truthful cloud\nA deploy-failed fix heals once a later deploy of main ships it (#932)."
+          "done": "Power Loki with your own model: paste a key in Settings and Loki uses your best model for its own chat (#921).\nImplement starts in its own lane instead of waiting behind the project's open run, and it no longer walks into an agent Loki just watched run out of quota (#900, #909).\nA project's story leads: Loki asks why the project exists, and a pasted document is never cut (#906).\nThe composer is one component across chat, terminal and Control (#899).\nA deploy never kills a working agent: the drain waits up to six hours, then leaves the old code running (#902). One OOM-killed child no longer stops the runner and every agent in it (#908). A runner restart closes the runs its sessions were serving (#917).\nThe widget launcher finds a free slot on every host page and never sits on the page's own controls (#918, #882).\nThe project header says what the project is, with truthful cloud presence and one door to take it public (#912, #915).\nA deploy-failed fix heals once a later deploy of main ships it (#932).\nToday and Control agree on what is running, and setting up a site no longer overwrites the next step you wrote for the project (#924).\nLoki answers instead of asking \"which project?\" when you have no projects yet (#925).\nNothing in the background spends the shared free AI allowance. The daily Frontier digest, the daily feedback digest, the weekly events scout and the second-model check on finished runs are gone; the daily email is now built from the record without a model, and the written report stays one button away (#897)."
         },
         {
           "date": "2026-09-24",
-          "done": "Chat mode in the widget: a chat the Cat and Loki both live in, on any\nInvite anyone into a project by email, account or not (#872).\nSigned actor-status read for Cat on OrangeCat (#886).\nTerminal panes follow the grid, with an expandable full-width pane and one\nPublic pages show who is signed in and let them sign out (#870)."
+          "done": "Chat mode in the widget: a chat the Cat and Loki both live in, on any site that opts in (#879).\nInvite anyone into a project by email, account or not (#872).\nSigned actor-status read for Cat on OrangeCat (#886).\nTerminal panes follow the grid, with an expandable full-width pane and one composer (#887).\nPublic pages show who is signed in and let them sign out (#870)."
+        },
+        {
+          "date": "2026-09-23",
+          "done": "The terminal says where an agent will run — \"Cloud builder\" or \"Your computer\" — and starting one there no longer changes the project's default. The download, quickstart and handoff pages now describe the same two choices (#866)."
         },
         {
           "date": "2026-09-22",
-          "done": "The front door says what needs you. Today leads with the one thing\nProject flags: raise, edit and clear a flag; flags say how old they are\nRepository moves are noticed and fixed without asking (#860).\nStage is a real vocabulary, and \"active\" stops meaning \"a row exists\"\nA project page leads with what is wrong, not with what the machine is\nThe OrangeCat link said \"Connected\" when only a row existed; it now says\nThe account page said things that were not true (#850, #853).\nThe backfill starved every project past the first few (#854, #856)."
+          "done": "Loki can look further before it answers. A question that needs several lookups gets up to five rounds of them instead of two, and Loki stops early rather than repeating the same lookup or proposing the same action twice (#865).\nThe front door says what needs you. Today leads with the one thing waiting on a person, and \"needs you\" means the same thing everywhere (#855, #863).\nProject flags: raise, edit and clear a flag; flags say how old they are and expire (#833, #847).\nRepository moves are noticed and fixed without asking (#860).\nStage is a real vocabulary, and \"active\" stops meaning \"a row exists\" (#843).\nA project page leads with what is wrong, not with what the machine is doing; the health panel is readable and shows the problem it was opened for (#836, #837, #861).\nThe OrangeCat link said \"Connected\" when only a row existed; it now says whether the link works and offers a way back (#841, #842).\nThe account page said things that were not true (#850, #853).\nThe backfill starved every project past the first few (#854, #856)."
         },
         {
-          "date": "2026-08-14",
-          "done": "The terminal tab strip names its agents. Each tab now shows the project it\nLaunching an agent from the terminal's empty state. A tab with nothing in\nDeep links that match no tab say so. /terminal?tab=X for a tab that does\nThe agent badge had no data to render. Pane topology was read from a\nDefault-named tabs can be resolved at all. Matching an agent to its tab by\nThe runner version label stopped drifting. The box reported a version\nFleet Runner 0.8.12. The pane-id join runs on the operator's own machine,\nThoughts: \"You Cannot Direct What You Cannot Name.\" Why an unnamed tab is"
+          "date": "2026-09-20",
+          "done": "Loki asks before it builds from one sentence. A project that arrives from OrangeCat's \"Build it with Loki\" button gets five short questions — who it is for, what they do today, what it does for them, what it must use, what makes the first version worth shipping. Every question can be skipped, and your answers are stored in your own words (#799).\nThe menu follows the work. Three sections, each answering one question: Now (what needs me?), Fleet (what is my fleet doing?) and Command (how do I act on it?); private pages stay behind the PIN, and the catch-all \"More\" menu is gone (#797)."
         },
         {
-          "date": "2026-08-07",
-          "done": "A learning phase on the roadmap. Loki grades every agent run against\nAn internal self-improvement plan (docs/self-improvement-plan.md) —\nThoughts: \"The Fleet Learns From What It Reads, Not What It Does.\" The\nAgents were never asked for the evidence they were graded on. The fleet's\nA blank evidence field no longer costs a model call to detect. A\nA regression test pins the two together: a field the gate can reject you for\nThe measurement phase did its job and cancelled work: prompt optimisation"
+          "date": "2026-09-18",
+          "done": "Loki is open source again, under the MIT licence. It had been under a restrictive licence since June; the Terms now say the same thing. The name and logo are not covered by the licence (#791).\nControl says what a dispatch will do before you send it: which agent, which model, which machine, and what the last run on that project cost (#794)."
         },
         {
-          "date": "2026-07-23",
-          "done": "OrangeCat fund-to-build integration. Loki and its sibling product\nThe public surface is filled in. New /blog, /docs, /changelog, and\nThe fleet dispatches on purpose. Hosted-runner dispatch is now a single\nPrompts is one filterable grid, and Settings moved to a left-rail\nFrontier reads like ranked editorial judgment rather than a raw feed.\nThe agent install command pointed at a dead host. loki-agent\nPinned LC_ALL=C in the deploy schema-drift check so a locale-sorted comm"
+          "date": "2026-09-17",
+          "done": "Found a Solon organization from a project. Loki prepares the link with the project filled in; you sign with your own wallet on Solon, and the project is attributed to that organization only with your consent (#759).\nApprove from Telegram with one tap, and give standing approval to small things that are easy to undo, such as an event in your own calendar (#761).\nSwitch to an agent that still has quota in one tap, and the choice is remembered for the next run instead of going back to the agent that ran out (#757)."
         },
         {
-          "date": "2026-07-22",
-          "done": "/agents is a fleet coordination cockpit. The page was a dead two-pane\nLoki knows the economy. Ask about what people need and Loki now pulls\nOrangeCat funding events land in the project timeline. Money moving on the\nA founder revenue card + sustainability gates. /system shows real MRR and\nEach project's README and docs/ feed fleet knowledge. The RAG layer now\nThe feedback widget grew teeth. It's dogfooded on Loki's own public\nDiagrams respect your theme and your motion settings. The essay SVGs are\nDeploys stop killing working agents. The box-runner restart now drains\nCloud dispatch prep no longer dies on an ESM-only SDK import, and box"
+          "date": "2026-09-15",
+          "done": "A third AI provider for Loki's chat. Google's Gemini joins Groq and OpenRouter, and it is the only one of the three that Loki does not share with other apps, so it is less likely to run out when they do (#714).\nA project can run on the hosted runner, which needs no Claude account of yours and ends every task in a pull request (#718).\nEvery registered project has a public page with its purpose, roadmap and changelog (#737)."
         },
         {
-          "date": "2026-07-17",
-          "done": "Every called-out issue is fixable in one click. Security risks, broken\nThe health score is derived, not typed. The hand-set \"N/10\" maturity\nActivity stops ignoring the repo. Profiles fetch recent GitHub commits\nThe floating Loki bubble is a context-aware assistant. On a project page\nProjects now has one clear job. /projects is the portfolio for finding and\nProject pages are mobile-first working profiles. Purpose, product context,\nControl stays operational. Its expanded project view keeps run context, agent,\nProject memory follows profile and plan changes. Creation, import, rename,"
+          "date": "2026-09-14",
+          "done": "A public map of every project the studio runs: what it is for, whether it is up, and what last moved. Loki reads the same map when you ask about the fleet (#698)."
         },
         {
-          "date": "2026-07-16",
-          "done": "Chat, Control, and Terminal are one project workspace. Moving between the\nLoki starts threads only when a message is sent. Empty database threads no\nLoki owns its handoff files. New handoffs live under\nDispatch status follows the run through completion. Loki now distinguishes\nMobile workspace height and handoff controls. Loki and Terminal composers"
+          "date": "2026-09-13",
+          "done": "The product takes the name Loki, everywhere it used to carry its old name (#695)."
         },
         {
-          "date": "2026-07-08",
-          "done": "Public pricing page at /pricing. Four tiers (Free / Personal / Pro / Team)\nEssay — Every Ship, One Bridge. Where agent work runs (your laptop, a box\nShare links are now public URLs. A project's shareable dossier link was built\nNo test data on the public landing. A leftover dogfood project could surface in\nCorrect web address in the download page (was a stale, unregistered domain).\nDeploy reliability. A slow-to-stop app process can no longer roll back a healthy"
+          "date": "2026-09-11",
+          "done": "A site can be taken down. Take it offline, put it behind a password, or remove it, and take its OrangeCat listing back down. The plan shows exactly what will happen before the button appears, and the permanent options must be typed, not clicked (#657, #661, #667).\nThe feedback inbox follows each fix to the live site. A fix ledger tracks a report from the agent's pull request through merge and deploy, and the inbox is grouped by who is waiting on whom (#639).\nShip fixes automatically, per project, if you opt in. Loki merges only the pull request its own run opened, once its checks pass (#656).\nLoki's chat shows its work: answers stream in, there is a Stop button, and each lookup appears as it runs, with what it found (#665).\nA new site merges its own green pull requests, so a fix reaches the live site without anyone clicking merge (#612).\n\"Build it with Loki\" on OrangeCat builds on arrival instead of stopping at a second form (#618).\nWhere a project runs is a setting you choose, not a guess. Cloud is the default, \"This computer\" is a per-project choice, and when your computer is offline its work waits in a visible queue instead of going elsewhere (#615).\nFleet Runner runs every agent itself, in terminals it owns; the old terminal multiplexer it used to drive is gone (#624, #630)."
         },
         {
-          "date": "2026-07-03",
-          "done": "Workspace addressing begins (Stage 2). The runner now reports WHICH workspace\nRun ledger (Stage 1 of the execution-substrate redesign). Every hop of a run's"
+          "date": "2026-09-02",
+          "done": "Speak your feedback. Visitors can now talk to the feedback button instead of typing (#462)."
         },
         {
-          "date": "2026-07-03",
-          "done": "Changelog garbage gate. Failure text can no longer land as health: good (the\nComposer Send never fails silently — an empty-state no-op now surfaces an error\nDispatch acks: first ack wins and nothing falls on the floor. The ack endpoint\nDead-credential canary. When a dispatch verify fails and the agent's transcript\nDispatch authority framing — agents refused legitimate dispatches as suspected"
+          "date": "2026-08-26",
+          "done": "Crew: hand work to people, not only agents. An assignment is a draft until you hand it over; the person answers through a link with no account, and a fee can be set in bitcoin, payable to their own OrangeCat profile (#391)."
         },
         {
-          "date": "2026-07-03",
-          "done": "Full project pages. Clicking a project now opens /projects/[id] — a real,"
+          "date": "2026-08-23",
+          "done": "Feedback gets its own inbox. Every project's reports in one place, grouped by what needs you, what is in progress and what shipped, with a notice when new feedback arrives (#335)."
         },
         {
-          "date": "2026-07-02",
-          "done": "Dispatched prompts no longer vanish into boot dialogs. On a fresh clone the\nDispatched prompts actually submit. Big prompts (with context blocks) were still\nBox agents now read as Working. The runtime pusher synthesizes the\nCloud runtime state can no longer freeze on a laptop snapshot. With no\nDeploys can't hang silently. The restart ssh once hung 47 minutes after a\nRuns close again: every queued dispatch now carries the handoff exit-contract."
-        },
-        {
-          "date": "2026-07-02",
-          "done": "Autopilot scheduler saw zero users. The nudge-idle cron only counted users with an\nStale runs are reaped on the clock, with truthful durations. The run reaper only\nThe Control hero tells the truth. \"Building\" used to mean \"the autopilot toggle is\nRun-outcome streaks are clickable. The ✓/✗ glyph row on each project card now\nBox-runner journal noise cut ~40k lines/day — poller status logs on state change"
-        },
-        {
-          "date": "2026-07-02",
-          "done": "Login with OrangeCat (identity bridge Part A) — OIDC sign-in against orangecat.ch;\nPublish to OrangeCat + changelog→wall promote (bridge Part C) — opt-in per project;"
-        },
-        {
-          "date": "2026-06-29",
-          "done": "Build / Pause selected on Control project rail — bulk-select checkboxes kick or pause\nLoki multi-dispatch — multiple projects selected + a command fans out (concurrency cap 3).\nScreenshot → dispatch — scoped screenshot + implement/default ask routes to dispatch"
+          "date": "2026-08-15",
+          "done": "Try Loki without an account. A sandboxed demo lets you create projects and move around freely, while anything that would leave the demo is refused (#290).\nThe free AI allowance is shared fairly. Each active person gets a share of the day's free tier, so the first busy user cannot spend it all before lunch (#303)."
         }
       ],
       "records": {
@@ -781,15 +866,15 @@
       "changelog": [
         {
           "date": "2026-09-30",
-          "done": "Signing in from Solon or Loki looks like it. The sign-in screen now says \"Continue to Solon\" beside the form, explains that it is one account with one password, and its back link returns you to the app you came from instead of OrangeCat's home page.\nSigning in to Solon and Loki with an email you added later. If you added or changed your email after creating your account (including an account you started without one), OrangeCat told the other app you had no email, and Solon turned you away. It now sends the email your account has."
+          "done": "Every FAQ answer has its own link. Open a question on /faq and share the address: /faq#is-orangecat-free-to-use opens straight at that answer. The page no longer needs its scripts to open a question, and search engines now read the questions and answers directly.\nSigning in from Solon or Loki looks like it. The sign-in screen now says \"Continue to Solon\" beside the form, explains that it is one account with one password, and its back link returns you to the app you came from instead of OrangeCat's home page.\nSigning in to Solon and Loki with an email you added later. If you added or changed your email after creating your account (including an account you started without one), OrangeCat told the other app you had no email, and Solon turned you away. It now sends the email your account has."
         },
         {
           "date": "2026-09-28",
-          "done": "Sign in without a password. On the sign-in screen, choose \"Email me a sign-in code instead\": type your email, get a six-digit code, enter it. New here? The same code creates your account. Solon's sign-in uses it too, and so does Loki's \"Sign in with OrangeCat\".\nWhat you can do here, on one page. Every thing this place can do, in plain words, with an example, the three steps, and a Start button — at /what-you-can-do, from the sidebar, the footer, the create page and How it works.\nSay where your public money should go. Of the money you owe the public, how would you divide it between your locality, your region and your nation? Nobody asks. Now you can say it — and see what the people of your p…"
+          "done": "Sign in without a password. On the sign-in screen, choose \"Email me a sign-in code instead\": type your email, get a six-digit code, enter it. New here? The same code creates your account. Solon's sign-in uses it too, and so does Loki's \"Sign in with OrangeCat\".\nWhat you can do here, on one page. Every thing this place can do, in plain words, with an example, the three steps, and a Start button — at /what-you-can-do, from the sidebar, the footer, the create page and How it works.\nSay where your public money should go. Of the money you owe the public, how would you divide it between your locality, your region and your nation? Nobody asks. Now you can say it — and see what the people of your place would choose.\nNew essay: Where the Wall Is. One Hetzner box runs the whole studio today. The piece gives the order in which it stops being enough, what fixes each wall, and why the only one that costs real money is tokens, not servers.\nOrganisations know what kind of body they are, and where. The kinds of collective — circle, family, association, cooperative, collective, company, guild, DAO, town, network state, local fund — are now one list shared with Solon, and an organisation can say where it belongs (country, region, locality) and what it legally is.\nA shorter sidebar, one page for your things, a door on Home. The sidebar had fifteen kinds of thing behind four chevrons. Now it has six lines. Everything you made or joined is one page, My things, and Home starts with a box: say what you want and your Cat drafts it.\nRoadmap and changelog now come from the fleet's canonical record. ROADMAP.md and CHANGELOG.md at the repository root are the record; the fleet map ingests them and /roadmap and /changelog render what the map holds. The local copies the pages used to read are gone."
         },
         {
           "date": "2026-09-20",
-          "done": "Bring a Claude key straight to Cat. Anthropic is now wired directly, so a Claude key works on its own instead of having to go through OpenRouter. Getting a key from any provider is one click. And there is finally one page explaining what actually powers Cat.\nCat keeps more of your conversation. Cat's instructions are larger than the free tier allows in one go, so some are trimmed on every message. It was trimming your conversation before the generic advice. Now it is the other way round.\nCat keeps its footing when the free tier runs short. When Cat's instructions do not fit the free tier, some are trimmed. Two of the ones it trimmed early were the ones telling it how to answer someone havin…"
+          "done": "Bring a Claude key straight to Cat. Anthropic is now wired directly, so a Claude key works on its own instead of having to go through OpenRouter. Getting a key from any provider is one click. And there is finally one page explaining what actually powers Cat.\nCat keeps more of your conversation. Cat's instructions are larger than the free tier allows in one go, so some are trimmed on every message. It was trimming your conversation before the generic advice. Now it is the other way round.\nCat keeps its footing when the free tier runs short. When Cat's instructions do not fit the free tier, some are trimmed. Two of the ones it trimmed early were the ones telling it how to answer someone having a hard time. Those are now the last things it will ever give up.\nCat on a phone, fixed end to end. A pass over every screen of Cat and AI settings on a small screen. The box you type in stayed put, replies stopped showing their own formatting marks, and the navigation bar stopped being see-through.\nPrices are real; the checkout is deliberately shut. You can now read exactly what Cat costs on every route. You cannot pay us yet, on purpose: OrangeCat is not a registered company, so it must not take money. Paying other people was never affected."
         },
         {
           "date": "2026-09-19",
@@ -1264,60 +1349,64 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-01",
+          "done": "Basel-Landschaft, Schwyz, Uri and Obwalden on the map and in /compare. Uri and Obwalden tax income at one flat rate; Basel-Landschaft's tariff is a formula, which Solon now reads as the law writes it; Schwyz's communes have a tariff of their own. All four match the Federal Tax Administration's calculator to the franc. An estimate now shows the cantonal and the communal tax as two lines instead of one. (#244)\nVaud, Schaffhausen, Nidwalden and Glarus on the map and in /compare. These cantons round a couple's divided income to the hundred francs before the tariff applies, and Vaud cuts its cantonal tax by a share its tax law sets each year (5 % from 2026), which the Federal Tax Administration's tables do not carry; Solon keeps that share by hand, citing the law. All four match the Federal Tax Administration's calculator to the franc, Vaud in all its communes. (#243)\nTicino and Fribourg on the map and in /compare. Ticino's tariff states the tax at each step, and in a few places that differs from what its rates alone would give; Fribourg's tariff gives average rates rather than marginal ones. Solon now reads both as the cantons publish them, and both match the Federal Tax Administration's calculator to the franc: two communes each, single and married, at four incomes, for 2025 and 2026. (#242)\nFour more cantons on the map and in /compare: Aargau, Solothurn, Graubünden and Neuchâtel. These cantons tax a married couple as if each earned half their joint income (splitting), which Solon could not express before, so their communes were grey. Their figures now come from the Federal Tax Administration like the others, and each was checked against its tax calculator to the franc: two communes per canton, single and married, at three incomes, for 2025 and 2026. Glarus, Nidwalden, Schaffhausen, Geneva, Thurgau, St. Gallen and Appenzell Innerrhoden also split, but do not match the calculator yet, so they stay grey rather than show a wrong figure. (#241)\nA map of what tax would cost you, commune by commune. /places now opens on a map of every Swiss commune, coloured from the lowest tax to the highest for your income and household. Until you enter yours, it shows an example income of CHF 100'000 and says so. Type an address, a place or a postcode into one box to jump there; tap a commune for its tax, how it ranks and a link to its page, and add up to four to a comparison. The same communes are a sortable list beside the map, and on phones the list comes first. Your income stays in your browser. An address you type goes from your browser straight to swisstopo's geo.admin.ch to be found, and Solon never sees it; the note under the box says so. Communes whose figures are not recorded yet are grey. (#240)\nTax figures for every commune at once, for the map. A new public endpoint, /api/v1/places/map, gives every commune on the map with the tax figures that apply to it, so the map can colour each one by what you would pay at your income. The estimate runs in your browser, exactly as on /compare: your income is never sent. (#239)\nCommune boundaries, for the coming map. Solon now imports the outline of every Swiss commune from swisstopo's official boundaries and publishes them as one small file (about 220 KB) that a map can check before drawing. A new edition each year replaces the old one on its own. The map on /places that uses them comes next, in dark and light. (#238)\nVery high incomes in Vaud. Vaud limits its cantonal and communal income tax together to 30 % of taxable income. Solon did not, so a single person in Lausanne earning CHF 777,777 was shown about CHF 15,800 too much. Solon now applies the limit as the canton's law and the Federal Tax Administration's calculator do. (#245)\nNo federal tax below CHF 25. The federal tax is not levied when it would be less than CHF 25; Solon showed the small amount anyway (CHF 3 for a couple at CHF 30,000). It now shows nothing, as the calculator does. (#244)\nTax figures at incomes that are not round. The calculator rounds taxable income down to the hundred francs before applying a tariff (in every canton but Solothurn and Graubünden, and federally), and Solon did not, so an income such as CHF 87,654 came out a few francs off. Solon now rounds as the calculator does, and the checks include such incomes. (#243)\nFederal tax at very high incomes. Above CHF 793,400 the federal tax is 11.5% of the whole income. Solon approximated this and showed CHF 1.40 too much; it now reads the tariff as published and matches exactly. The same correction applies to Graubünden's top rate (CHF 2.20). (#242)"
+        },
+        {
           "date": "2026-09-30",
-          "done": "Every everyday page in plain words, with the details one click away.\nDecisions, in plain words. The pages where members suggest things and\nSign in the usual way: email and password. \"Sign in\" and \"Create an\nThe deep side: a whitepaper, questions and answers, and a blog.\nWhat Places covers, counted from the data, at /places/coverage: for\nJoining, in plain words. The join page now looks like the rest of Solon\nSigning in when your OrangeCat account got its email later. Solon said\nTax estimates on 31 December. A year's tariffs and multipliers ended a"
+          "done": "Compare places in six more cantons. /compare now estimates income tax in every commune of Bern, Lucerne, Zug, Basel-Stadt, Appenzell Ausserrhoden and Jura, not only Zürich. Each canton was checked against the Federal Tax Administration's own calculator and matches it to the franc. Ticino and the cantons that tax couples by splitting their income follow. (#236)\nCompare places: what tax would cost you in each. /compare puts up to four places side by side. Enter your taxable income and household, and it shows the yearly tax in each, the difference to the cheapest, and the tax rates behind it (federal, cantonal and communal), each with its source. Your income never leaves your browser: it is not in the link and Solon never receives it. When this year's figures are not all published yet, the comparison uses the latest complete year and says so. Every place page links to it, and it sits in the Places menu. For now it covers the Canton of Zürich's communes; elsewhere it says which figure is missing.\nPlaces in the header: find a place by name or postcode. /places finds any recorded place by its name or postcode and lists every level of a country (cantons, communes, city districts…) with how many places each has. A postcode that spans several communes shows each one with its share of the addresses, and you pick yours. The same search is open to other apps at /api/v1/places. Places took Platform's spot in the header; Platform's pages are in the footer.\nPlaces know their postcodes. Solon now reads swisstopo's official directory of localities, so a Swiss postcode leads to the commune it lies in. When a postcode spans several communes (1,223 of 3,190 do), Solon lists each with its share of the addresses instead of guessing. Liechtenstein's communes and two commune-free areas in the same directory are left out on purpose; the import lists them.\nPlace search without accents, amounts in Swiss formats. \"zurich\", \"Zuerich\" and \"Zürich\" now all find Zürich, and \"neuchatel\" finds Neuchâtel. Compared amounts read the Swiss way in every language (\"CHF 13’050\", or \"13 050 CHF\" in French) instead of the German \"13.050 CHF\". (#235)\nEvery everyday page in plain words, with the details one click away. The dashboard, the record and each organization's page now use the same layout as the rest of Solon and say what happened in a sentence (\"The Cat joined as an AI agent.\", \"Agreed.\", \"Only people can vote on this, not AI agents.\") instead of outcome: APPROVED · electorate: ALL_MEMBERS. Money reads in bitcoin, not satoshis. Everything exact (addresses, identifiers, the raw entry, the data links) is still there under \"Technical details\". The build now fails if one of these pages shows a stored code. (#226)\nDecisions, in plain words. The pages where members suggest things and vote now look like the rest of Solon and speak plainly: \"Suggest something\", \"Start the vote\", \"Agreed\", \"Turned down\", and the rules of a vote as a sentence (\"All members vote; at least 50% of them must take part, and more than half must agree.\") instead of codes like SIMPLE_MAJORITY · quorum 50% · electorate ALL_MEMBERS. Topics read \"How money is shared\" or \"Spending money\" instead of \"Allocation policy\" or \"Treasury spend\". Error messages say what happened and what to do The menu says \"Suggest something\" in every language, a finished vote says \"Result\" instead of \"Result so far (weighted)\", and each decision's page has its own title in the browser tab. (#224, #225)\nSign in the usual way: email and password. \"Sign in\" and \"Create an account\" now open the sign-in screen straight away, with email and password, an emailed code, Google or GitHub. No more typing your email on one page to find the password on the next. You come back to the page you were on. (#223)\nThe deep side: a whitepaper, questions and answers, and a blog. /whitepaper explains how Solon works in full technical detail and says plainly what is built and what is only designed. /faq answers the first questions people ask, plain ones first and technical ones last. /blog follows the work as it happens. All three are markdown files in the repository, rendered with bip-kit, the kit our products share. (#227)\nWhat Places covers, counted from the data, at /places/coverage: for each country, how many places each level holds, how many of them have each figure the tax estimate needs, and when each source was last fetched. A missing figure shows as a low count, not as silence. Place pages no longer claim to be untranslated in German, French, Italian and Russian. (#220)\nAppenzell Ausserrhoden's tax rates are no longer held back as implausible. Its canton and commune multipliers (330%–420%) were above the import's sanity limit of 300%, so they would have shown as \"not recorded\". The limit is now 600%, above every multiplier Switzerland publishes (the highest is Lungern's 525%). (#237)\nSolon no longer opens a database connection per query. In production every query started its own connection pool, so a busy page could use up the connections the server's apps share. There is now one pool, as intended.\nJoining, in plain words. The join page now looks like the rest of Solon and says what is going on without technical terms: who can join, how new members get in (a member suggests you, the members vote), and what you can do meanwhile. It no longer shows the name of a server setting to visitors; an organization nobody can join is now reported to whoever runs Solon instead. OrangeCat's founder can now take its first seat. (#222)\nSigning in when your OrangeCat account got its email later. Solon said \"Add an email to continue\" to accounts that had one, and \"Sign in again\" led straight back to the same page. OrangeCat now tells Solon the email your account has. If sign-in ever does stop, the page is in your language, says what to do, and every button on it works. (#221)\nTax estimates on 31 December. A year's tariffs and multipliers ended a day early, so an estimate on the last day of the year came out incomplete, and a commune that merged away looked gone the day before it did. Every period now ends on the day after its last day, as the rest of Solon counts time. (#219)"
         },
         {
           "date": "2026-09-29",
-          "done": "Switzerland, as the official register has it. Every canton, district\nEach Zürich commune's tax multiplier, every year since 2021, from the\n**Federal and Zürich income-tax tariffs, and the canton's own multiplier,\nA new kind of body: charter city. A city with its own charter, founded"
+          "done": "Switzerland, as the official register has it. Every canton, district and commune, with the mergers since 2021 (the old communes stay, marked as ended, and point to the one they joined), and the City of Zürich's districts and statistical quarters, each with a page at its place in the chain: /places/switzerland/zurich/bezirk-zurich/zurich/kreis-7/witikon. Everything comes from the Federal Statistical Office and the city's open data, with the source kept for every row. Taxes, postcodes and the map come next. (#215)\nEach Zürich commune's tax multiplier, every year since 2021, from the canton's own statistics. A commune whose school communities levy different rates (Uster, Turbenthal) shows none rather than a wrong one, until the address decides which applies. (#216)\nFederal and Zürich income-tax tariffs, and the canton's own multiplier, every year since 2021, from the Federal Tax Administration. Together with the commune multipliers they give the same income tax as the administration's own calculator for the City of Zürich and Küsnacht (checked at CHF 100,000, single and married; church tax and the CHF 24 personal tax are not counted yet). (#217)\nA new kind of body: charter city. A city with its own charter, founded by agreement with the state that hosts it — or proposed, before that agreement. Like a town, it cannot be founded without a place; picking it suggests elected delegates to decide. Same word as on OrangeCat. (#214)"
         },
         {
           "date": "2026-09-28",
-          "done": "An organization says what kind of body it is, and where. Founding now\nOne body, two records: bind an organization to its OrangeCat organisation.\nWhat you can do — the map. /what-you-can-do lists everything Solon does\nPublic roadmap and changelog. /roadmap and /changelog render this\nWho decides: one person, everyone, or elected delegates. Profiles used\nFounding chooses how the organization decides. Every organization\nFounding no longer says a Bitcoin key is required. The signed-out"
+          "done": "An organization says what kind of body it is, and where. Founding now asks the one question it never asked: what ARE you — a circle, a family, an association, a cooperative, a collective, a company, a guild, a DAO, a town, a network state or a local fund. The list is the same one OrangeCat uses (bitbaum/orangecat packages/collective-kinds), so the word here is the word there. A town or a local fund cannot be founded without a place (country, region, locality); everything else may name one. Picking a kind suggests how it decides; the founder can still choose otherwise. The organization page names the kind, the place and — when it is more than informal — the legal status.\nOne body, two records: bind an organization to its OrangeCat organisation. Give its OrangeCat address at founding; OrangeCat confirms the founder owns it, and its kind and place fill in what was left blank. The wallet lives there, the decisions live here, and the page links across.\nWhat you can do — the map. /what-you-can-do lists everything Solon does in plain words, with an example, three steps and a start for each, and opens with a box: type the question you want decided and a proposal is drafted from it. Linked from the footer.\nPublic roadmap and changelog. /roadmap and /changelog render this repository's ROADMAP.md and CHANGELOG.md through the fleet map, without signing in, and are linked from the footer.\nWho decides: one person, everyone, or elected delegates. Profiles used to vary only how votes were counted; every member always voted. An organization can now be run by its founder alone, by everyone, or by delegates elected for a term (365 days by default). Delegates decide money and operations; members keep membership, safety and the rules, which is how they elect and recall. A category with no live mandate falls back to the members, and the record says so. (#195)\nFounding chooses how the organization decides. Every organization founded so far became a town meeting silently. The founder now picks a governance profile at founding, the choice is bound into the signed text, and the organization page names it (\"Association (Verein)\", not an id). (#194)\nFounding no longer says a Bitcoin key is required. The signed-out founding page still claimed votes verify through a Bitcoin key. A key is optional; the page now says so, and says what a key adds. (#196)"
         },
         {
           "date": "2026-09-25",
-          "done": "Solon's own sign-up and sign-in. /sign-up and /sign-in in Solon's\nUse cases, the ideas behind Solon, a new era, and the platform. /for\nFive languages. English, German (Swiss spelling), French, Italian and\nA new front door. Full-screen photographs, one statement and one action\nEvery header control is a 44px touch target. Sixteen controls in the\nPhone layouts no longer scroll sideways, and the mobile menu opens. Both"
+          "done": "Solon's own sign-up and sign-in. /sign-up and /sign-in in Solon's design, in all five languages: email first, then Google, GitHub or an existing OrangeCat account. One account underneath for Solon, OrangeCat and Loki. The header's Sign in remembers the page you were on. (#191)\nUse cases, the ideas behind Solon, a new era, and the platform. /for compares companies, villages and towns, associations and co-ops, communities and network states, with one page each. /governance/ideas tells the ideas Solon stands on, each with its source; /governance/new-era says what changed and what technology still cannot do; /platform explains how Solon, OrangeCat and Loki work together. A four-panel menu describes every page in one line. (#190)\nFive languages. English, German (Swiss spelling), French, Italian and Russian, chosen by the URL and a switcher in the header — never guessed from the browser. Pages not yet translated say so in the reader's language. (#189)\nA new front door. Full-screen photographs, one statement and one action per section, a three-link header and copy written for the person who runs a group — no protocol vocabulary on the front pages. New /hire (free for pilot groups in beta) and /credits. (#188)\nEvery header control is a 44px touch target. Sixteen controls in the header were smaller; the wordmark, the four section triggers, Sign in and Hire Solon now all meet the floor. (#193)\nPhone layouts no longer scroll sideways, and the mobile menu opens. Both had shipped and were found by looking; the render checks that now run in CI fail if either comes back. (#188)"
         },
         {
           "date": "2026-09-24",
-          "done": "Govern with one click — Bitcoin is optional. A seat no longer needs a\nThe site no longer claims every vote is Bitcoin-signed. The home page,\nDependency updates that had been dropped are back, and minor updates"
+          "done": "Govern with one click — Bitcoin is optional. A seat no longer needs a wallet. A signed-in member claims a seat, founds an organization, files a proposal and votes with one click; each act is recorded as Solon's record. Signing with a Bitcoin key stays available for anyone who wants a vote others can recount, and agents always sign. Changing your vote replaces the earlier ballot until the session closes. (#184)\nThe site no longer claims every vote is Bitcoin-signed. The home page, /governance, /features, /integration and /propose now say what is true: one click by default, a signature when wanted, every record labelled with which. (#187)\nDependency updates that had been dropped are back, and minor updates arrive grouped so it cannot recur. (#185)"
         },
         {
           "date": "2026-09-20",
-          "done": "A link that carries context lands on a form that kept it. OrangeCat's\nA rules change shows whether it was decided. Every pull request touching\nLoki's plane is Execution, not Engineering. The footer and the ecosystem"
+          "done": "A link that carries context lands on a form that kept it. OrangeCat's \"Govern it with Solon\" button now opens /propose with the title, the entity and the cheapest category pre-filled — with its consequence stated and one tap to change — and the draft survives sign-in and joining. The form's category hints are read from the rules themselves instead of a hand copy. (#172)\nA rules change shows whether it was decided. Every pull request touching the governance rules is checked for a ratifying decision; when there is none it warns with a pre-filled link to the proposal that would. It records; it never blocks. (#172)\nLoki's plane is Execution, not Engineering. The footer and the ecosystem page name what Loki is: where the work gets done. (#173)"
         },
         {
           "date": "2026-09-17",
-          "done": "Anyone may found an organization. The only way to create one used to be\nGovernance, taught from the product's own code. Five pages —\nThe approval floor is visible. On the Approval tab, an option rated\nA localization that was never wired up is gone. Four dictionaries shipped"
+          "done": "Anyone may found an organization. The only way to create one used to be a database migration. Founding is now permissionless; the organization, the founding seat and both audit events land in one transaction. One identity holds one seat per organization, and an organization is attributed to a Loki project only through a grant Loki signed — never because the names match. (#166)\nGovernance, taught from the product's own code. Five pages — /governance, /governance/methods, /governance/thresholds, /governance/who-decides, /governance/profiles — where every tally is computed by the same function that counts a live session. (#168)\nThe approval floor is visible. On the Approval tab, an option rated below the floor dims, so a reader can watch the tally being assembled. (#169)\nA localization that was never wired up is gone. Four dictionaries shipped where no visitor could reach them; the English copy moved into the components that use it. (#170)"
         },
         {
           "date": "2026-09-14",
-          "done": "Value routing to originators. originator_share v1: 10% of a product's\nOne signature step for claiming a seat and filing a proposal. (#165)\nFleetCrown is now called Loki everywhere on the site. (#157)"
+          "done": "Value routing to originators. originator_share v1: 10% of a product's net revenue, by default, to the originators of the code it is built from — equal per originator, monthly, in Bitcoin, on a public ledger. The split is deterministic and anyone can recount it; every later version needs an approved allocation-policy vote. (#164)\nOne signature step for claiming a seat and filing a proposal. (#165)\nFleetCrown is now called Loki everywhere on the site. (#157)"
         },
         {
           "date": "2026-09-07",
-          "done": "Green pull requests merge and deploy themselves through the fleet's\nNode, React, Next, Vitest and other dependencies updated. (#140–#153)"
+          "done": "Green pull requests merge and deploy themselves through the fleet's shared sweep instead of a stale local copy, and the sweep no longer stalls on workflow changes. (#154, #155)\nNode, React, Next, Vitest and other dependencies updated. (#140–#153)"
         },
         {
           "date": "2026-09-05",
-          "done": "Design tokens come from the published package @bitbaum/design-tokens"
+          "done": "Design tokens come from the published package @bitbaum/design-tokens instead of a git tag, so Solon, OrangeCat and Loki share one source. (#139)"
         },
         {
           "date": "2026-09-02",
-          "done": "Prisma replaced by Drizzle — the fleet has one ORM. Migration history\nOne package manager (pnpm) across the fleet. (#137)\nMoved to the bitbaum organization, and verify made honest again."
+          "done": "Prisma replaced by Drizzle — the fleet has one ORM. Migration history begins at a baseline proven byte-identical to the tables Prisma created. (#136)\nOne package manager (pnpm) across the fleet. (#137)\nMoved to the bitbaum organization, and verify made honest again. (#135)"
         },
         {
           "date": "2026-08-31",
-          "done": "The footer promised pages only the navigation could keep. Footer and\nA formatter (Prettier) with format:check in verify; TypeScript 6; CI and"
+          "done": "The footer promised pages only the navigation could keep. Footer and navigation now render one list. (#122)\nA formatter (Prettier) with format:check in verify; TypeScript 6; CI and the deploy follow the box to Node 24. (#123, #133, #134)"
         },
         {
           "date": "2026-08-25",
-          "done": "Feedback from any page. The Loki feedback widget loads site-wide, so a"
+          "done": "Feedback from any page. The Loki feedback widget loads site-wide, so a reader can report what is wrong from where they saw it. (#114)"
         },
         {
           "date": "2026-08-15",
-          "done": "Six ways to decide, one way to prove it. Single choice, consent,\nFrom reader to member to vote. /join binds a key to an identity,\nTreasury honesty. The treasury report says whether every source\nThe Townsism thesis Solon is an organ of, published at /why and in\nOne visual language across OrangeCat, Loki and Solon, from a shared"
+          "done": "Earlier history, in one entry. The spine of the product shipped in this week:\nSix ways to decide, one way to prove it. Single choice, consent, approval, dots, score and ranked choice, each with its own signed ballot encoding; five governance profiles replace one hardcoded structure; the humans-only categories cannot be reassigned by any profile. (#92)\nFrom reader to member to vote. /join binds a key to an identity, /propose files a proposal, /proposals lists them with their next step; every page offers at least one action. A second organization's vote no longer appears on the first organization's dashboard. (#90)\nTreasury honesty. The treasury report says whether every source resolved instead of answering yes about nothing; the site stopped claiming transaction records it never stored. Still watch-only. (#88)\nThe Townsism thesis Solon is an organ of, published at /why and in docs/TOWNSISM.md. (#87)\nOne visual language across OrangeCat, Loki and Solon, from a shared token package; orange calls to action fixed to meet contrast. (#77–#93)"
         }
       ],
       "records": {
@@ -1957,11 +2046,7 @@
       "changelog": [
         {
           "date": "2026-06-16",
-          "done": "Fewer clicks, faster paths.\nLogin and registration respect callbackUrl again — checkout and deep links return to the right place after sign-in.\nMarketplace checkout loads listings on the server; no double spinner from session + API waterfall.\nDashboard has persistent quick navigation; lean layout without floating assistants on task pages.\nLegacy /shop/product/:uuid redirects to the marketplace listing when a match exists.\nIT-Hilfe request: describe the problem immediately; AI assist collapsed by default.\nAdmin sidebar auto-expands the active group — one fewer click per visit."
-        },
-        {
-          "date": "2026-06-16",
-          "done": "Shop unified into marketplace.\n/shop, /shop/search, /shop/category/..., and /shop/product/... now redirect into the canonical marketplace.\nNavigation, sitemap, chatbot suggestions, and shop URL helpers no longer generate new /shop links.\nevig listings are consistently marked by explicit flag or staff email; other sellers use neutral labeling.\nPayrexx-backed payments now stop in production with a setup message until a Payrexx account is configured."
+          "done": "Homepage and marketplace hierarchy realigned.\nHomepage CTAs moved from device donation to refurbished purchasing and repair discovery.\nMarketplace mega menu now prioritizes shop, community listings, technician search, and help requests before supply/contribution paths.\nIT-Hilfe hub now starts with technician and workshop discovery instead of the request form.\nBlog rationale documents the business, design, and engineering decision behind the new information hierarchy."
         },
         {
           "date": "2026-06-16",
@@ -1969,7 +2054,11 @@
         },
         {
           "date": "2026-06-16",
-          "done": "Homepage and marketplace hierarchy realigned.\nHomepage CTAs moved from device donation to refurbished purchasing and repair discovery.\nMarketplace mega menu now prioritizes shop, community listings, technician search, and help requests before supply/contribution paths.\nIT-Hilfe hub now starts with technician and workshop discovery instead of the request form.\nBlog rationale documents the business, design, and engineering decision behind the new information hierarchy."
+          "done": "Shop unified into marketplace.\n/shop, /shop/search, /shop/category/..., and /shop/product/... now redirect into the canonical marketplace.\nNavigation, sitemap, chatbot suggestions, and shop URL helpers no longer generate new /shop links.\nevig listings are consistently marked by explicit flag or staff email; other sellers use neutral labeling.\nPayrexx-backed payments now stop in production with a setup message until a Payrexx account is configured."
+        },
+        {
+          "date": "2026-06-16",
+          "done": "Fewer clicks, faster paths.\nLogin and registration respect callbackUrl again — checkout and deep links return to the right place after sign-in.\nMarketplace checkout loads listings on the server; no double spinner from session + API waterfall.\nDashboard has persistent quick navigation; lean layout without floating assistants on task pages.\nLegacy /shop/product/:uuid redirects to the marketplace listing when a match exists.\nIT-Hilfe request: describe the problem immediately; AI assist collapsed by default.\nAdmin sidebar auto-expands the active group — one fewer click per visit."
         },
         {
           "date": "2026-06-15",
@@ -2082,7 +2171,7 @@
         },
         {
           "title": "Heidi Pro",
-          "line": "Unlimited chat, certificates and more, for anyone who wants to move faster.",
+          "line": "Unlimited chat and more, for anyone who wants to move faster.",
           "status": "later",
           "progress": null,
           "targetDate": null,
@@ -2101,28 +2190,32 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-01",
+          "done": "Practice asks «isch or hät?» A new question kind sorts four verbs by their auxiliary in the past («er [isch | hät] gange»), with a new grammar topic «isch gange, hät gmacht» in all seven languages. The trap it targets: sitting and standing take «si» («Ich bi ghocket»), where German in Germany says «hat gesessen». Ten boards, each mixing both auxiliaries; the investor page now says sixteen kinds of question.\nPages say what is true today. Recounted on 1 October and corrected: investors (156 merged PRs not 119; 1047 tests in 130 files not 842 in 103; 2,482 practice questions not 1,876; 261 words not 226; streaks, weekly goal, Teams, certificates and sync moved from \"next\" to built), white paper (2,482 questions in both languages — EN said 1,761, DE 1876; 261 words and 20 grammar topics, not 226 and 19; the refusal register lives in the tests, not on the roadmap), organisations (care scenes hold 120 lines, not \"around sixty\"), contribute (390 lines, not 140), and settings/portal/about (what an account does now; saved words sync; images are free). Dead copy in lib/config/landing.ts and two unrendered dictionary keys removed.\nEvery verb has its forms, and the modal verbs have a topic. Only 4 of 48 verbs had forms. Now 87 verbs (35 new: fahre, wohne, wele, wärde, iistiige, chündige…) show a table: ich, du, er, one plural row for mir/ihr/si, and the past with its auxiliary («isch gange», «hät gmacht»), each beside the German form. Every form passes the dialect check. New grammar topic «cha, mues, wott» for the modal verbs, in all seven languages, with its own test. Form questions went from 13 to 348, and the question pool from 2,028 to 2,482.\nThe dialect check catches Standard German. It only knew other dialects' forms, so plain Standard German passed («Ich habe heute keine Zeit»). A leaks list in the Zurich pack now names about 100 Standard German words Zurich German never uses, plus the -ung ending, each with the Zurich form. It found and we fixed leaks on the site itself: «Sit wenn» → «Sit wänn», «Bis morn denn» → «dänn», «drei» → «drüü», «viel» → «vill», «neu» → «nöi». Words that are also Zurich (will = weil, gern, Achtung) stay allowed; German quoted in «…» in grammar notes is exempt.\nEvery word has an example sentence. 121 of the 226 words opened with no sentence at all; each now has a short one written for Heidi, with its German, passed by the Zurich dialect check. The false friends get sentences that rule out the misleading reading («Mir müend springe, s Tram chunt»). The sentences also feed practice: the pool grows from 1,876 to 2,028 questions (119 more translations, 33 more «pick the sentence»).\nListening lab designed (HEIDI.md), not built. Swiss German audio with a dialect transcript exists only under research or non-commercial licences, or behind learner podcasts' paywalls. The design records the sources, the watch-then-answer flow and the data model, and names what unblocks it: recordings by a native Zurich speaker of dialogues written from the scenes.\n«Learn these 10 words» now asks all ten. The session held eight questions balanced by kind, so two of the ten named words never came up. A session on named words now seats each word once first and grows to fit (at most 30); the usual mix fills any seats left.\nThe vocabulary page says what to learn next. It used to print every word with up to seventeen scene links: 23,217 px on a phone, with no hint which word mattered or whether you knew it. It now opens with the ten words that pay off most and one button to practise exactly those, then the full list in the same order, at 5,532 px on a phone."
+        },
+        {
           "date": "2026-09-30",
-          "done": "Warm-up: how much Zurich German do you already understand? Eight lines from the everyday situations in two minutes, with no grade and no level. The lines get harder while you keep up and easier after a miss, and after each answer you see the word the line turns on. The result names the situations you already follow and the one worth starting with, and your answers feed practice so the first session starts at the gaps. A reader who also gets the between-the-lines questions is offered the site in Swiss German, once. Offered on the home page, on the dashboard until done and on the practice page; stored only in the browser.\nHeidi answers what you wrote last. After three answers about «Le Bilan»…"
+          "done": "Tests for 17 of the 19 grammar topics. Before, only «Kein Präteritum» had enough markable questions for a test. 107 new «which sentence says exactly this?» questions cover the subjunctive, short pronouns, participles, verb order, direction words, articles before names, «wo» clauses, possession, the imperative and the indefinite article, each with its own lesson where the existing ones did not fit (wish, clitic, modal-past, direction, name-role). The practice pool grows from 1,761 to 1,876 questions.\nAsk Heidi why, from any question. Under each answer in practice and the warm-up, «Heidi fragen, warum» sends the question, the right answer and your own when it differed, and opens the chat over the exercise. Before, the only buttons there were about the word in general, and asking about your answer meant leaving the exercise.\nFixed: questions that needed no Zurich German, and a card in English. «Which article?» is now asked only where the Zurich article differs from the German one (s Tram, s Billett, s Grosi, s Säckli, d Chilbi); for «s Ässe» it was enough to know «das Essen». The practice pool shrinks from 1,793 to 1,761 questions accordingly.\nFixed: white in dark mode. The floating «Üben | Heidi fragen» pill and the header avatar were white slabs on dark pages, and the dimming behind dialogs, sheets and open menus was a white haze. They stay dark now, and the overlay audit fails on any light fixed element in dark mode.\nFixed: menus did not show over the chat. On /chat the header's menus opened below the bottom of the screen and behind the conversation list, on a computer, in light and dark. A stylesheet rule made the header position: static there, which switched its z-index off and anchored its menus to the page; and its layer (30) tied with the conversation list, which comes later in the page. The header is positioned again, sits on its own layer (45) above anything a page uses, and a source test holds the scale. A new overlay audit opens every expandable control on six pages at two widths in light and dark and fails if a panel is missing, empty, covered or see-through; CI runs it after the build.\n«Mein Bereich» starts with what today asks of you. A «Heute» panel on top: the streak, how many questions and kept words are due, «Jetzt üben» and «Mit Heidi chatten», and the weekly goal. It replaces the streak card, the due count further down and the chat button at the end of the page.\nQuestions come back before you forget them. Every question now has its own date to return: tomorrow after a first right answer, then after 3, 7, 16 and 35 days, and back to tomorrow after a miss. A sitting starts with the questions that are due, then brings new ones; a question you answered recently waits its turn. Before, a question answered right once never came back on purpose, and only the words you kept had a schedule.\nPractise in one tap, from any page. Bottom right, next to \"Heidi fragen\", there is now \"Üben\". One tap opens practice for the page you are on: on a situation its sentences and words, on a grammar topic that topic, anywhere else everything mixed. Closing goes back to the same page at the same scroll position. It used to take two taps and two scrolls: the button under a situation, then \"Losgehen\" below the fold on the practice page.\nFixed: a \"test\" of two questions. A test on «Bsitz andersume» had two questions, whatever the timer said, because the topic has only two that can be marked. A scope now offers a test only with at least ten; below that it is practised. The situations and \"everything\" keep their tests.\nFixed: questions you could answer without Zurich German. For «Annas Schwester kommt auch noch», the wrong answers named another person, dropped the sister or said \"nicht\", so matching the German found the right one. They now keep Anna and her sister and differ only in who comes, which is what «de Anna ihri» says. The same for «Herrn Meiers Zimmer» and the two «wo» questions, whose wrong answers now read «wo» as \"where\". The explanation for possession no longer talks about «wo» relative clauses; that is its own lesson now.\nExercises get their own screen, like an app. Practice, the test and the warm-up no longer run as a box in the middle of a page. \"Losgehen\" opens a screen with only the exercise: a close button and a progress bar on top, the question in the middle, and the answer buttons in a bar at the bottom where the thumb is. No header, no footer, and nothing above the question that can push it around. The test's clock sits in the top bar.\nFixed: on a phone the page jumped after every answer. The next question landed somewhere else on the screen and you had to scroll back. Above the question, the streak card and \"What to work on\" grew with each answer, and iOS Safari has no scroll anchoring, so the whole page moved. Practice, the test, the warm-up and the home-page chat now run full screen on a phone, like an app, and each new question starts at the top. \"Minimise\" puts the task back into the page with its answers or conversation intact; \"Continue full screen\" reopens it.\nWarm-up: how much Zurich German do you already understand? Eight lines from the everyday situations in two minutes, with no grade and no level. The lines get harder while you keep up and easier after a miss, and after each answer you see the word the line turns on. The result names the situations you already follow and the one worth starting with, and your answers feed practice so the first session starts at the gaps. A reader who also gets the between-the-lines questions is offered the site in Swiss German, once. Offered on the home page, on the dashboard until done and on the practice page; stored only in the browser.\nHeidi answers what you wrote last. After three answers about «Le Bilan», someone asked «Pire» and got a fourth «Le Bilan» sentence, twice: the model was handed the whole conversation as one list with nothing marking the question. The newest message now stands apart from the history, a lone word is a question about that word, and Heidi's past turns carry the sentence she actually wrote. Against the live model: 4 of 6 runs wrong before, none after.\n«New conversation» where you need it. On a phone it sits in a toolbar right above the chat instead of only inside the side menu; in the floating chat it is an icon beside expand and close instead of an underlined link that wrapped. The side menu now closes with Escape.\nFixed: the phone keyboard pushed the chat's header off the screen. Both chats now size themselves to what the keyboard leaves visible, and the full-screen chat no longer opens the keyboard by itself on a phone.\nSwiss German, all the way through. Schwiizerdütsch is now first in the language menu, the footer and settings. With the site in Swiss German, Heidi explains in Züridütsch in saved conversations too. They used to keep the language they were started in, so a thread begun in German kept German explanations under «Erklärige uf Züridütsch». Suggestion labels («Wärmer», «Chürzer») and tones now come from the dictionary instead of appearing as the model's English («warmer», «shorter», «bridge»). The translation under a suggestion is in the reader's language, and a Swiss German reader gets none under a dialect line. Against the live model: English translations in 2 of 2 answers that carried translations before, in none of 4 after.\nFixed: «Chat» showed the conversation you had just left. Signed in, the first message moves the address to the saved conversation without reloading, and the menu's «Chat» link then re-rendered that same page — the next message went into the old conversation. «Chat» now always opens an empty one."
         },
         {
           "date": "2026-09-26",
-          "done": "Five new kinds of question — and a reason after every answer. Practice now also asks what somebody means, which reply fits, which sentence says exactly the German, what time or price was said, and what a word means in its sentence. The pool grew from 1,451 questions to 1,793, the objectively marked ones from 246 to 588. After each of these: the word the answer turned on, and one sentence on why — in all seven languages. (#143)\nA home page you can read in a minute. The home page now says what Heidi is in two columns — with a cow in front of the Alps beside it — and leads in through three steps: situations, practice, chat. About 250 words instead of 440. The menu opens on a click, shows every…"
+          "done": "Five new kinds of question — and a reason after every answer. Practice now also asks what somebody means, which reply fits, which sentence says exactly the German, what time or price was said, and what a word means in its sentence. The pool grew from 1,451 questions to 1,793, the objectively marked ones from 246 to 588. After each of these: the word the answer turned on, and one sentence on why — in all seven languages. (#143)\nA home page you can read in a minute. The home page now says what Heidi is in two columns — with a cow in front of the Alps beside it — and leads in through three steps: situations, practice, chat. About 250 words instead of 440. The menu opens on a click, shows every page with one line about it, and closes with Escape or a click outside; on a phone it opens as a full page with large tiles and the chat at the top. (#141)\nMore grammar, more words — and a real rule for the -li. Seven new grammar topics, 62 new words (164 → 226 entries), and the -li topic now says how the form is built instead of that it \"often means nothing small\". Every new example passes the same Zurich check as the rest; practice has 1451 questions instead of 1233. (#142)\nThe strongest model your key can use. Bring your own API key: paste it, Heidi checks it at once and lists the models it can reach, with the strongest preselected. Ten providers instead of five; the check no longer costs anything; when it fails you see what the provider says. The key stays only in your browser, as before.\nThe dialects, documented from the literature. Every dialect page now shows forms that identify the region — each with its source — and links the region's grammars and dictionaries. Corrected: «het», «nid», «goht» and «stoht» are not markers of other regions; the atlas records them inside the canton of Zurich too. The «Which one is Zurich?» exercise now only asks about forms that are certainly not Zurich German."
         },
         {
           "date": "2026-09-25",
-          "done": "A say belongs to Solon. The open votes and comments on the roadmap and changelog are gone again. A voice is a right someone holds — it comes through Solon, with an account and a seat in Heidi's organisation. The roadmap and the changelog are for reading again; pointing at anything on any page still goes through the feedback widget. What was submitted so far stays stored and is listed on the privacy page.\nHeidi for Teams. A group can now be a team: whoever created it chooses the focus and sees who is secure in which situations. Every member decides for themselves whether to show their progress, and can take it back at any time; what is shown is the standing per situation and the number of ce…"
+          "done": "A say belongs to Solon. The open votes and comments on the roadmap and changelog are gone again. A voice is a right someone holds — it comes through Solon, with an account and a seat in Heidi's organisation. The roadmap and the changelog are for reading again; pointing at anything on any page still goes through the feedback widget. What was submitted so far stays stored and is listed on the privacy page.\nHeidi for Teams. A group can now be a team: whoever created it chooses the focus and sees who is secure in which situations. Every member decides for themselves whether to show their progress, and can take it back at any time; what is shown is the standing per situation and the number of certificates — never which lines, or what anyone got wrong.\nYour progress on every device, and a certificate per situation. Signed in, you can switch on «Progress on every device» in settings: practice, streak and saved words are then the same on phone and laptop. Switched off — the default — everything stays in your browser. Whoever understands a situation securely can have a certificate issued for it, on its own page anyone with the link can check — without your name.\nFive new situations, and every one deeper. At the doctor's, at the municipal office, in the laundry room, at an apéro — and when «no» does not mean no. 19 situations with 390 lines in all, up from 14 with 140. Every translation is now also checked for Swiss Standard German: «das Velo», not «das Fahrrad».\nHave your say on the roadmap and on every change. Every roadmap item could be marked as needed or not and commented on, with no account needed; only what you wrote was stored, with a random key your browser kept. Withdrawn the same day — see «A say belongs to Solon» above.\nWhere is this message from? On the dialect page you can paste a message you received. Heidi shows which forms come from where, what Zurich says instead, and what the words mean. Too little text says so — Heidi does not guess. Corrected: «nid» was labelled an eastern Swiss form; it is Bernese and central Swiss.\nStreaks and a weekly goal. Your area now shows how many days in a row you have practised, your best run, and a weekly goal you choose (1 to 7 days, 3 by default). One missed day is bridged automatically. All of it stays in your browser."
         },
         {
           "date": "2026-09-22",
-          "done": "Two new exercise kinds, and typing that is deliberately not marked.\nTyping, in the two self-marked kinds. The reveal button used to be the only control, so the retrieval could be skipped entirely. There is now an optional field to write the answer in first, and nothing compares it to the pack's — the two are shown one above the other with no verdict. Grading typed dialect would mean judging spelling in a variety that has none.\nThe reference section became navigable, and practice became addressable. /grammar was one document four screens long with every topic expanded; it is now an index grouped into two bands — the topics a sentence does not survive, and the ones it survives while you do no…"
+          "done": "Two new exercise kinds, and typing that is deliberately not marked.\npick — a real pack sentence with one word cut out and four real words offered. It exists because of a measurement rather than a hunch: the twenty-six function words produced six questions between them, since they carry no article and no paradigm and only the matching grid could see them. They are the words the vocabulary page argues buy the most comprehension. Function-word questions went 6 → 32; the pool went 195 → 221.\nWhat makes it markable is the German printed underneath: several options produce a grammatical sentence, and exactly one makes it mean that. The distractors are filtered so no candidate's own gloss appears in the bridge — without that rule the generator offers nüme against a line containing \"nicht mehr\" and marks a defensible answer wrong.\nTyping, in the two self-marked kinds. The reveal button used to be the only control, so the retrieval could be skipped entirely. There is now an optional field to write the answer in first, and nothing compares it to the pack's — the two are shown one above the other with no verdict. Grading typed dialect would mean judging spelling in a variety that has none.\nA bug found by the new tests rather than by looking: pick located its word case-insensitively and then asked blank() to remove it, which matched case-sensitively — so mir was found in «Mir händ …», reported present, and left standing in an item that claimed to have a gap. Blanking now folds case, which is also right on its own terms: a word at the start of a sentence is the same word.\nThe reference section became navigable, and practice became addressable. /grammar was one document four screens long with every topic expanded; it is now an index grouped into two bands — the topics a sentence does not survive, and the ones it survives while you do not — with a page per topic at /grammar/<topic>. Each topic page carries what a section could not: a practice session about that topic alone, the scene lines where it actually occurs, and previous/next within its band. /vocabulary gained a filter over both languages, jump links, a scoped session per group, and the scenes each word is said in. Every scene now practises itself.\nThe mechanism under all three is one thing: ?topic=, ?scene= and ?group= on /practice, filtering the existing pool. Nothing new is generated. It works because ItemSource already recorded where each question came from — the field built to make a wrong answer traceable turned out to make a pool addressable.\nTwo new exercise kinds. match (four words, four meanings) and gaptext (a four-line passage from a scene with three words lifted out and offered back). The word bank is what makes a passage objectively markable in a variety with no settled spelling: the learner chooses rather than spells. A word-order exercise was considered and refused — this variety tolerates more than one order, and calling a valid alternative wrong would be the §6 failure in a new place.\nThe system now knows what you keep getting wrong. A learner model in the browser, beside the kept words: a miss rate per topic, scene, word group and rule, which reorders every sitting so the weak half leads and names the two or three areas worth going back to. No number is ever shown — no percentage, no level, no streak. The diagnosis points at the material, never at the person. It is declared on /privacy and deletable from /settings, along with the seen-history, which had been undeclared since the exercises shipped.\nThe first smoothing was wrong and a test caught it: missed/(asked+1) let one wrong answer out of one outrank a topic missed nine times out of twenty. The rate is now shrunk by sample size instead.\nExercise kinds became modules. lib/domain/practice/kinds/, one file per kind plus a registry. Adding match had touched five places, one of which was a bug shipped in the same commit as the feature. The registry's contract test immediately found a second: two cloze items generated from one topic could share an id, so answering one marked the other asked and one of the two was never served again.\nAnd enough material that the questions stop repeating, which was the complaint and was arithmetic rather than scheduling. A second situations domain (everyday), the short words no correspondence rescues, and paradigms for si, gah and cho — each built only from forms the packs already publish. Practice items 67 → 195, scenes 6 → 14, lines 60 → 140, vocabulary 48 → 83, grammar topics 8 → 11. Article questions went 3 → 24.\nTwo smaller corrections found on the way: the pack spelled Chunnsch in its showcase and Chunsch in a grammar example, which is exactly what the orthography note promises not to do; and four places still linked /grammar#<topic> after topics became pages — including the chat's own grammar button, the product's main loop."
         },
         {
           "date": "2026-09-21",
-          "done": "Situations, and the sales claim that had nothing behind it. /situations is a third axis beside the variety and the locale: domain — where you need this. The first pack is care and nursing homes, six scenes from a shift (handover, the morning, pain, meals, the evening, visitors) with sixty lines, each carrying its Standard German, a direction (hear or say) and the grammar topic it turns on. Twenty-seven of them became practice items and the pack's question count went from forty to sixty-seven."
+          "done": "Situations, and the sales claim that had nothing behind it. /situations is a third axis beside the variety and the locale: domain — where you need this. The first pack is care and nursing homes, six scenes from a shift (handover, the morning, pain, meals, the evening, visitors) with sixty lines, each carrying its Standard German, a direction (hear or say) and the grammar topic it turns on. Twenty-seven of them became practice items and the pack's question count went from forty to sixty-seven.\nThe reason it was built now is a fault rather than a plan. /organisations had been telling care homes that Heidi \"practises the sentences that are actually said on your ward\" since the page shipped, while the product held forty-eight words and none of them was said on a ward. That is a claim with nothing behind it, on a live page, which is the one thing sectors.ts says in its own header it must never do. The sentence has been replaced with what is actually there, and the row now links to the scenes so a reader can judge them directly — a sector with proof links to it, one without shows no link, and the asymmetry is deliberate.\nThree things hold the content honest. Every line passes the deterministic variety gate at the generation threshold, so a Bernese form fails the build rather than reaching a learner who could not detect it — and that gate was proven by mutating a line to güet and watching it fail, not by the suite being green. Every line names the source that vouches for its lexis, while the arrangement stays ours, because example sentences have to be written for this product rather than lifted from resources that are non-commercial. And a pack declares whether a native speaker has read it: care says no, and the pages print that above the lines rather than below them. It flips when a named person has read every line.\nlib/situations/display.ts is very nearly the identity function and exists anyway, for the reason lib/variety/display.ts exists: the pull request that adds an English note to a scene is a reasonable pull request, and this is what stops it rendering in Russian."
         },
         {
           "date": "2026-09-20",
-          "done": "Practice got a second attempt, and the page now argues for itself. A missed question used to reveal its answer and move on — a test with feedback, and never a second chance to produce the thing. It now comes back three questions later, once, labelled as the second attempt. Rawson & Dunlosky (2011) is the reason: the durable gain comes from retrieving something correctly more than once, not from having seen it; Butler & Roediger (2008) is the sharper case for the three multiple-choice item kinds, where choosing a lure can leave the learner holding it unless something corrects them. The gap of three questions is ours, and is written down as a judgement rather than a finding.\n/practice explain…"
+          "done": "Practice got a second attempt, and the page now argues for itself. A missed question used to reveal its answer and move on — a test with feedback, and never a second chance to produce the thing. It now comes back three questions later, once, labelled as the second attempt. Rawson & Dunlosky (2011) is the reason: the durable gain comes from retrieving something correctly more than once, not from having seen it; Butler & Roediger (2008) is the sharper case for the three multiple-choice item kinds, where choosing a lure can leave the learner holding it unless something corrects them. The gap of three questions is ours, and is written down as a judgement rather than a finding.\nThe schedule hears the FIRST answer only. A word got right a minute after being revealed has not been retrieved, and grading it twice would advance the very interval the spacing exists to protect.\nThe first version of the guard was wrong in a way reading it did not show: it refused to requeue an item already in the QUEUE, but a requeued item leaves the queue to become the current question, so a second miss put it back again. Found by driving a whole session wrong on purpose — eight questions became thirteen and would have kept going. The rule is now stated on what decides it, and a test pins the worst case at exactly twice the session size.\n/practice explains its own design, with the papers. Seven claims, each linking to the study behind it, on the page the design belongs to rather than on /method — the person reading has just been told they got something wrong and is entitled to know whether the thing telling them knows anything. The interleaving row states the meta-analysis's moderator instead of suppressing it, and the row about the three-question gap says the number is ours. Every citation carries the same guarantee the research page already had: a test refuses a row that cites nothing, and refuses a locale that cites something different for the same sentence.\nThe dialect pages gained the structure they were describing. Three branches of Alemannic, each carrying the pair of forms that draws its line — Kind inside Low Alemannic, Chind outside — with the two areas that genuinely straddle a line carrying no branch at all rather than a tidier falsehood. The area pages also list where each dialect can be heard, from a register whose rows have carried an atlas id since the first commit without any page following the join.\nEssays, because the question people actually arrive with — why a country this small has this many dialects, and why the big neighbour lost its own — is an argument with sources rather than a form or a map. Typed blocks rather than Markdown, so a page cannot render a type size the design system does not have, and translation is explicitly not required: an essay exists in the languages somebody wrote it in, a reader in another is told which one they are getting, and the sitemap's hreflang names only real translations.\nEvery page is now measured for overflow rather than screenshotted. pnpm run audit:responsive drives every route in every language at four phone widths in both themes, with a browser that has been used, and fails on an element that leaves the viewport or whose content is wider than itself. It was written after the third report of a page scrolling sideways on a phone, each of which had been fixed one page at a time. /portal with eleven ordinary kept words measured 516px wide in a 360px viewport.\n---"
         },
         {
           "date": "2026-09-18",
@@ -2130,31 +2223,31 @@
         },
         {
           "date": "2026-09-17",
-          "done": "The spoken channel. Heidi reads an answer aloud, and says what she is speaking with every time: no browser anywhere ships a Zurich voice, de-CH is Swiss Standard German, and lib/voice/variety.ts refuses to report any synthesiser as dialect at all. The variety gate, which has judged generated text since #52, now judges sound.\nCorrections became a setting, with three rules above it that no setting can switch on: never spelling (Zurich German has no correct one), never pronunciation (the correction path receives no audio, so a score would be invented), and never the forms in a transcript — recognition writes Standard German whatever was said, so flagging them corrects the machine and bills it …"
+          "done": "The spoken channel. Heidi reads an answer aloud, and says what she is speaking with every time: no browser anywhere ships a Zurich voice, de-CH is Swiss Standard German, and lib/voice/variety.ts refuses to report any synthesiser as dialect at all. The variety gate, which has judged generated text since #52, now judges sound.\nCorrections became a setting, with three rules above it that no setting can switch on: never spelling (Zurich German has no correct one), never pronunciation (the correction path receives no audio, so a score would be invented), and never the forms in a transcript — recognition writes Standard German whatever was said, so flagging them corrects the machine and bills it to the learner.\nWhere to hear it (/listen): fifty Swiss podcasts, stations, channels, programmes, series and films, each labelled with what is actually spoken and what that label rests on. Half of Swiss broadcasting is Standard German by format, which is the trap a learner cannot see. Kept alive by a link sweep with three verdicts, because a Cloudflare challenge is not a dead link.\nThe explanation arrives as it is written (#67) — the answer streams rather than appearing whole."
         },
         {
           "date": "2026-09-15",
-          "done": "Heidi is on every page, with an account menu; the reference pages became\nThe chat box got one accessible name, and a test that checks (#65)\nDictation moved onto a chain through transcribe() in @bitbaum/ai-kit\nSigned in, the locale root IS the dashboard (#61); the reference pages folded\nThe vocabulary that actually blocks a sentence (#59); what Swiss German is,\nA kept word comes back in a sentence it was not found in (#56)\nA middleware rewrite behind Caddy dialled TLS at an http socket and took the\nGrammar got a place an answer can link to (#54); any word became askable, not\nSwiss Standard German became an output with its own gate (#52) — the\nThe answer proposes what to do next (#51); the da…"
+          "done": "Heidi is on every page, with an account menu; the reference pages became places that hand work to the assistant rather than pages to read; /technology published what the field can actually do with this language, with the numbers (#66)\nThe chat box got one accessible name, and a test that checks (#65)\nDictation moved onto a chain through transcribe() in @bitbaum/ai-kit rather than one fetch at one vendor with one key (#63, #64)\nSigned in, the locale root IS the dashboard (#61); the reference pages folded into one panel (#60)\nThe vocabulary that actually blocks a sentence (#59); what Swiss German is, and a page per dialect area (#58); every dialect area on a map that says which claim it is making (#57)\nA kept word comes back in a sentence it was not found in (#56)\nA middleware rewrite behind Caddy dialled TLS at an http socket and took the site down for signed-in visitors with every test green (#55)\nGrammar got a place an answer can link to (#54); any word became askable, not just the ones Heidi chose to gloss (#53)\nSwiss Standard German became an output with its own gate (#52) — the product had only ever produced the spoken half, which quietly set people up to send a chat message to an insurance company\nThe answer proposes what to do next (#51); the dashboard asks you something rather than showing you a list (#50)\nStart means start (#49); the chat got a room of its own (#48)\nA shared group link can be opened by the person it was sent to (#47)"
         },
         {
           "date": "2026-09-14",
-          "done": "One renderer for every surface — groups had been storing full answers and\nOne label per control, not a visible one and a hidden twin (#46)\nThe home fold became the tool rather than a picture of it (#44)\nai-kit ^0.15.0 → ^1.8.0, and the cast that was waiting on it deleted (#42)\nThe evidence became the argument rather than a page beside it (#40);\nThe headline promises an order in every language, not just four (#38)\nMIT licence (#37); five things the site said that a person would not (#36)"
+          "done": "One renderer for every surface — groups had been storing full answers and rendering them as plain paragraphs since the day they shipped (#45)\nOne label per control, not a visible one and a hidden twin (#46)\nThe home fold became the tool rather than a picture of it (#44)\nai-kit ^0.15.0 → ^1.8.0, and the cast that was waiting on it deleted (#42)\nThe evidence became the argument rather than a page beside it (#40); citations you can follow (#39)\nThe headline promises an order in every language, not just four (#38)\nMIT licence (#37); five things the site said that a person would not (#36)"
         },
         {
           "date": "2026-09-13",
-          "done": "FleetCrown renamed to Loki (#35)\nA hero that demonstrates instead of claiming (#34)\nThe checker was a page nobody could use, and stopped being one (#33)\nPrefetch on intent rather than on arrival (#32); the page stopped competing\nGroups: humans and Heidi in one thread, on a real database (#29)\nA personal space, rather than a document about one (#28)"
+          "done": "FleetCrown renamed to Loki (#35)\nA hero that demonstrates instead of claiming (#34)\nThe checker was a page nobody could use, and stopped being one (#33)\nPrefetch on intent rather than on arrival (#32); the page stopped competing with itself on a slow connection (#31)\nGroups: humans and Heidi in one thread, on a real database (#29)\nA personal space, rather than a document about one (#28)"
         },
         {
           "date": "2026-09-12",
-          "done": "Heidi got a face, and the tool got the first screen (#27)\nDictation, five times. It never started and said \"listening\" forever\nEvery public endpoint had been running with no rate limit (#16)\nBring your own model, and Heidi can read a screenshot (#14)\nA produce turn with no dialect line left nothing to send (#13)\nA conversation, not a form with a mode switch (#12) — the switch was the\nThe seventh dictionary was missing a key and main was red (#19)"
+          "done": "Heidi got a face, and the tool got the first screen (#27)\nDictation, five times. It never started and said \"listening\" forever (#15); it did not actually dictate (#17); silence came back as a sentence somebody never said (#21); it fell back only when the recogniser went quiet and not when it errored (#24); and a browser that cannot dictate now says so once rather than every time (#26)\nEvery public endpoint had been running with no rate limit (#16)\nBring your own model, and Heidi can read a screenshot (#14)\nA produce turn with no dialect line left nothing to send (#13)\nA conversation, not a form with a mode switch (#12) — the switch was the bug: people arrive with a problem, not with a decision about which of our tools to use\nThe seventh dictionary was missing a key and main was red (#19)"
         },
         {
           "date": "2026-09-11",
-          "done": "Sign in with OrangeCat; Heidi keeps no users table of its own (#11)\nRussian, a grouped language menu, and a stated scope for Swiss German (#9)\nA real multilingual portal, German first (#7)\nA truncated model answer is salvaged rather than thrown away (#6)\nThe taught language became data, not code (#5) — the variety pack, which\nCI is never cancelled on main, because the deploy gate reads it (#10)"
+          "done": "Sign in with OrangeCat; Heidi keeps no users table of its own (#11)\nRussian, a grouped language menu, and a stated scope for Swiss German (#9)\nA real multilingual portal, German first (#7)\nA truncated model answer is salvaged rather than thrown away (#6)\nThe taught language became data, not code (#5) — the variety pack, which is why everything since has been a pack edit rather than a rewrite\nCI is never cancelled on main, because the deploy gate reads it (#10)"
         },
         {
           "date": "2026-09-10",
-          "done": "Scaffolded; the scaffold could not install as shipped, and was fixed (#1)\nLanding page, bespoke design tokens, the Zurich purity validator, a health\nSitemap, robots, OG image, full metadata (#3)\nAn interactive Zurich-purity check page (#4)"
+          "done": "Scaffolded; the scaffold could not install as shipped, and was fixed (#1)\nLanding page, bespoke design tokens, the Zurich purity validator, a health route (#2)\nSitemap, robots, OG image, full metadata (#3)\nAn interactive Zurich-purity check page (#4)"
         }
       ],
       "records": {
@@ -2905,15 +2998,15 @@
       "changelog": [
         {
           "date": "2026-09-26",
-          "done": "The world view is a globe. The atlas opens on a globe you can turn, painted by the same USGS data as the flat map. (#120)\nTask-flow criteria, measured. Every tool page now answers first, has one header and one empty state, and the flows a reader actually runs are measured after each deploy — 20 of 20 task runs completed with no dead ends. (#117, #121)\nQuality scores for every dataset. /data/quality holds each dataset to six written criteria — completeness, correctness, provenance, freshness, link health, consistency — with pure checks in the build and network checks every six hours. Fixed what the first run found. (#116)\nEvery producer capacity names its own unit. A capacity figure no longe…"
+          "done": "The world view is a globe. The atlas opens on a globe you can turn, painted by the same USGS data as the flat map. (#120)\nTask-flow criteria, measured. Every tool page now answers first, has one header and one empty state, and the flows a reader actually runs are measured after each deploy — 20 of 20 task runs completed with no dead ends. (#117, #121)\nQuality scores for every dataset. /data/quality holds each dataset to six written criteria — completeness, correctness, provenance, freshness, link health, consistency — with pure checks in the build and network checks every six hours. Fixed what the first run found. (#116)\nEvery producer capacity names its own unit. A capacity figure no longer inherits a unit from its neighbour. (#122)\nTouch targets and an early paste. Breadcrumbs and reader tabs are 44px on a phone; the careers sidebar sits above Ask; the X-ray keeps a portfolio you pasted before the page finished loading. (#119)\nShin-Etsu Quartz and MetOx are back to unverified. Two producer rows had been marked sourced without a page that names the company and the material. (#118)\nAn accepted lead says so. The desk no longer shows \"not yet reviewed\" on a lead that was accepted. (#115)"
         },
         {
           "date": "2026-09-25",
-          "done": "Check a pasted key with its vendor. Bring your own API key: Substrata asks the vendor which models the key can use and lets you pick from them, instead of guessing. (#114)\nUnreviewed leads expire. A sweep lead nobody reviews within 30 days leaves the queue at read time and is listed at /data/freshness/expired, so a stale queue means the expiry is broken, not that nobody looked. (#113)\nThe country panel has numbers. Measured resources, producers, export restrictions, sanctions and ranked peers for every country the map draws. (#107)\nOne canvas, one bar, one panel. The atlas became a 50m vector map painted by USGS data, with supply chains drawn as a flow. (#106)\nUSGS world production and rese…"
+          "done": "Check a pasted key with its vendor. Bring your own API key: Substrata asks the vendor which models the key can use and lets you pick from them, instead of guessing. (#114)\nUnreviewed leads expire. A sweep lead nobody reviews within 30 days leaves the queue at read time and is listed at /data/freshness/expired, so a stale queue means the expiry is broken, not that nobody looked. (#113)\nThe country panel has numbers. Measured resources, producers, export restrictions, sanctions and ranked peers for every country the map draws. (#107)\nOne canvas, one bar, one panel. The atlas became a 50m vector map painted by USGS data, with supply chains drawn as a flow. (#106)\nUSGS world production and reserves per country, and a choropleth API the map paints from. (#105)\nOne shell for every page. A grouped sidebar, an icon rail on tablets, four tabs and \"More\" on phones, and a ⌘K palette — signed in or not. (#103)\nNo orphan role label, and the figures table lays out by the panel's width. (#112)\nOne queue per engine. The research engines each have exactly one Postgres queue; the model picker in Ask is usable on a phone. (#111)\nThe world is framed in what the sheet leaves visible, and the feedback launcher stays off the panel. (#110)\nEmpty blocks are omitted; a resource states its absence once, not per block. (#109)\nThe unreadable country diagram is gone; the map counts the countries it actually draws. (#108)\nAsk sits in the phone top bar, and \"Sign in\" replaced a dot. A structural test now fails on overlapping chrome. (#104)"
         },
         {
           "date": "2026-09-24",
-          "done": "Reader-initiated news updates. You can ask for the news on a bottleneck to be refreshed; AI drafting happens only on your own key. (#102)\nReader views. Five doors — for equity investors, policy, science, careers, learning — each collecting the existing screens, plus a freshness page that breaks the build on stale data and a shared page header. (#96)\nDependency rows as graph edges. 26 sourced dependency rows, pinned home listings, and a minimum move on every series. (#94)\nDated, sourced number series per bottleneck. Lead times, prices, capacity, output, backlogs and trade volumes at /data/series, as CSV, with desk alerts on a move. (#92)\nOpen roles from public job boards, with the skills and…"
+          "done": "Reader-initiated news updates. You can ask for the news on a bottleneck to be refreshed; AI drafting happens only on your own key. (#102)\nReader views. Five doors — for equity investors, policy, science, careers, learning — each collecting the existing screens, plus a freshness page that breaks the build on stale data and a shared page header. (#96)\nDependency rows as graph edges. 26 sourced dependency rows, pinned home listings, and a minimum move on every series. (#94)\nDated, sourced number series per bottleneck. Lead times, prices, capacity, output, backlogs and trade volumes at /data/series, as CSV, with desk alerts on a move. (#92)\nOpen roles from public job boards, with the skills and training each bottleneck asks for. (#91)\nPortfolio X-ray and scenarios over a sourced dependency layer. (#88)\nAsk on any AI, fast, with one-click verification of a claim. (#89)\nThe science pipeline: stages, live paper and grant feeds, and who is doing the work. (#87)\nAI-drafted events from sweep leads, reviewed in one click, accepted straight into git. (#85)\nExposure screen, tickers from SEC and OpenFIGI, and SEC filings on the desk. (#84)\nA desk you control: filters, read/save/hide, rails and sweep settings. (#81)\nSearch: one grouped index with instant results, typo tolerance and highlights. (#79)\nCompany profiles that say what the company holds and why it matters. (#78)\nA context-aware assistant with tool calling over the corpus, streamed. (#77)\nFigure: every number links its source or explains its computation. (#76)\nA live news feed on your rails, with a way to refresh it. (#75)\nSUSS Karlsruhe Advanced Packaging center, accepted as an event at /review. (#90)\nReaders first. Background jobs draw from a capped, reserved slice of the free AI budget so a reader is never queued behind a cron. (#93)\nAsk plans the obvious lookups before the model and makes one call for a page question; it walks on from a free link that shows nothing in 9 seconds. (#98, #100)\nNews stays fresh on a smaller footprint; producer sourcing runs every six hours. (#97, #101)\nNo solo framing. Judgements are Substrata's and open to challenge. (#82)\nEvery number on the public pages opens to its source, rule or estimate. (#80)\nA plan outranks the page-only shortcut, and half-converted citation markers are mended. (#99)\nDependency rows are labelled \"sourced\", not \"filing\" — the rows include annual reports and company blogs. (#95)\nOne drafting run at a time, and a draft that looks like an already-accepted event is flagged. (#86)"
         },
         {
           "date": "2026-09-21",
@@ -3203,19 +3296,19 @@
       "changelog": [
         {
           "date": "2026-09-07",
-          "done": "A client keeps their own admin facts (/portal/unterlagen): health\nRenewals say so before they lapse (#213): 60 days out, on the staff\nThe audit trail became readable (#211, #214). 120 sites wrote to it and\nEinsatzplätze work end to end (#181, #183): a coach publishes, a client\nAI form assist for a listing — paste an advert, correct it. Permit route\nLIEGENSCHAFTEN, a fourth staff role: running the buildings is not a care\nPlacements and matches explain themselves. The reasoning composed for\nEach board opens on the viewer's own half, and the message inbox is\nThe dashboard names who has been waiting for an answer, which review\nA client's team may only name people who could do that job (#206).\nT…"
+          "done": "Three weeks in which the product stopped being only about who lives where.\nA client keeps their own admin facts (/portal/unterlagen): health insurance with its renewal date, the health professionals they see, and their residence permit — type and expiry only, never case details. Betreuung checks them in a queue at /approvals. Extending an insurance every six months used to mean writing to your Betreuerin and waiting; the facts lived in her inbox rather than in the profile of the person they belong to (#212).\nRenewals say so before they lapse (#213): 60 days out, on the staff dashboard, in the approval queue, and on the client's own page. In-app rather than by email, because staff notifications had no configured recipient.\nThe audit trail became readable (#211, #214). 120 sites wrote to it and nothing read it — including the record of one staff member opening another's view, whose reviewability is the safeguard for that feature. /audit for the system-wide view, plus a per-record \"Änderungsverlauf\" on a client and on a flat.\nEinsatzplätze work end to end (#181, #183): a coach publishes, a client applies, and the board carries the first real vacancy. Listing prose is machine-translated into the offered portal languages, while the permit sentence never is (#184).\nAI form assist for a listing — paste an advert, correct it. Permit route and publication are excluded on purpose: a model must not assert an authorisation route (#187).\nLIEGENSCHAFTEN, a fourth staff role: running the buildings is not a care domain (#196, #197).\nPlacements and matches explain themselves. The reasoning composed for every placement was stored and never shown (#208); the ranking of the match list is not the score printed on the card, and now says so (#209).\nEach board opens on the viewer's own half, and the message inbox is gated — both message surfaces had no permission check at all (#191, #192).\nThe dashboard names who has been waiting for an answer, which review dates have slipped, and whether an interpreter can still be arranged (#205, #207).\nA client's team may only name people who could do that job (#206).\nThe person is a Klient\\*in; \"Bewohner\" is reserved for who lives in a flat (#200).\nNobody could create a client. The intake form never asked for socialStyle, which the schema required — every submission failed and took the form with it (#199).\nIds stopped matching their own validator at the Drizzle move: .cuid() accepted 70 of 2000 generated ids, so most rows could not be edited (#186).\nA work-permit refusal reached nobody and destroyed the form it refused (#183).\nThe compatibility engine had a finding and withheld it — a demanding, low-tolerance client was flagged internally and never mentioned to whoever was placing them (#210).\nA CLOSED building advertised free beds (#180); the placement page crossed the demo boundary (#178); \"Aktiv\" meant two different things eight lines apart (#175); an intake placeholder produced clients who could never sign in (#177).\nOne package manager for the fleet: pnpm (#179). @bitbaum/ai-kit and the AI form package come from npm, leaving no git dependencies (#176, #188). Mail goes through @bitbaum/mail-kit (#195).\nverify and CI were running different bundles; a test now pins that CI runs every check verify names (#189, #190)."
         },
         {
           "date": "2026-08-19",
-          "done": "Workflow feedback for launch. Portal layout shows URL-driven success/error toasts (e.g. missing account, chore created). Activity category filters and staff integration board show empty states with a clear reset. Transfer request list links back to open requests when a status tab is empty.\nStaff admin URL feedback. Layout-wide toasts after placements, check-ins, incidents, and spot changes — pathname-scoped so ?created=true means the right message on the right page. Resident learning page confirms saved evidence and offers empty states with next steps.\nFleet AI provider for all surfaces. Staff chat and form assist now use Groq → OpenRouter (OpenAI-compatible API). Anthropic removed. Same ke…"
+          "done": "Previously filed under \"Unreleased\" while every item below was already live — a public changelog saying \"not yet released\" about shipped behaviour is worse than saying nothing.\nWorkflow feedback for launch. Portal layout shows URL-driven success/error toasts (e.g. missing account, chore created). Activity category filters and staff integration board show empty states with a clear reset. Transfer request list links back to open requests when a status tab is empty.\nStaff admin URL feedback. Layout-wide toasts after placements, check-ins, incidents, and spot changes — pathname-scoped so ?created=true means the right message on the right page. Resident learning page confirms saved evidence and offers empty states with next steps.\nFleet AI provider for all surfaces. Staff chat and form assist now use Groq → OpenRouter (OpenAI-compatible API). Anthropic removed. Same keys as other OrangeCat apps on the box.\nResident portal i18n (expenses, profile, transfer, preferences). 181 new dictionary keys; buildExpenseLabels, buildProfileLabels, buildTransferLabels, buildPreferencesLabels and related helpers in lib/i18n/portal-surfaces.ts. Remaining portal pages and dashboard cards no longer read PORTAL_LABELS for resident copy.\nPublic positioning now matches the expanded product. The public narrative no longer treats the software as only a placement or housing tool. It is framed through four operational pillars: Stability, Capability, Participation and Guidance.\nInfrastructure SSOT. Production is Postgres on Hetzner (aoz_wohnen on bitbaum). Docs, .env.example and src/lib/db.ts describe that host. A leftover laptop .env pointing at Neon is not the database. i18n dictionaries stay on the resident portal; staff UI stays German.\nResident portal chrome. Header keeps brand, a compact language select, and an account dropdown (Profil, Einstellungen, Hilfe, Abmelden). Destinations moved into a collapsible left sidebar on desktop and the same accordion in the mobile Mehr sheet. Wohnung and Mitbewohner pages are gone from the menu — they had no profiles behind the names; old bookmarks redirect to Übersicht.\nAOZ and WG are different surfaces of the same product. On AOZ/AOZH the portal pins Übersicht, Melden, Regeln, Hilfe — not chores/expenses/votes. Login opens on the code first; email stays the other door. Matching opens in compact Top-3 mode.\nStaff roles are no longer one ADMIN blob. Betreuung, Sozialarbeit, Jobcoach and Freiwilligenarbeit each have a permission set; ADMIN survives only so existing rows and live JWTs resolve, and cannot be assigned to anyone new. What it used to grant now lives on two separate axes — scope (whose files may I open) and isSystemAdmin (may I reconfigure the product). Nav, invites, export/import and the algorithm page follow it. Existing JWTs keep working. (Liegenschaften joined later — see 2026-09-07.)\nComplete languages are offered before a native speaker vouches. A locale reaches the picker once every string is translated — Arabic, Ukrainian and Russian cleared that bar alongside German, English and French. Farsi, Tigrinya, Turkish, Albanian and Somali are in the repo and stay hidden until finished. Help, report and rules chrome are translated; the signed Hausordnung body stays German.\nThe org rule catalog now IS the signed AOZ Hausordnung. The in-app AOZ tier of the rule book was rewritten against the official two-page Hausordnung every resident signs on paper (Stand Januar 2026). Materially corrected rules: visiting hours are 08:00–22:00 with no overnight guests (previously \"with permission\"), pets are not permitted (previously \"with permission\"), quiet hours now include the midday rest 12:00–13:00 and Sundays/holidays. Amended rules bump their version, so every resident is asked to re-acknowledge exactly the wording that changed — nobody stays bound to text they never saw.\nReal contact channels replace invented ones. The portal help page and every \"contact us\" fallback now carry the channels from the signed document — Bewirtschaftung 044 415 67 31 / bewirtschaftung@aoz.ch (office hours 09:00–11:00, 14:00–16:00) and the out-of-hours emergency number 044 415 63 30 — sourced from a single new config (src/lib/config/organization.ts) instead of numbers hardcoded in labels.\nPublic roadmap and changelog routes. Blog already existed; roadmap and changelog are now first-class public pages too, so product direction and shipped changes are readable from the site itself.\nIntegration research framework. docs/INTEGRATION-RESEARCH-FRAMEWORK.md defines the broader scientific basis beyond housing alone: stability, capability, participation and guidance.\nNew blog post on the four-pillar model. The public blog now explains why the product expanded beyond pure housing operations.\nNew AOZ rules covering the previously missing Hausordnung sections: keys and entrance doors, unattended cooking, waste & recycling (Züri-Säcke, ERZ), daily airing, care of property & repairs, staff access & appointments, reachability & absence.\n\"Sanktionen und Konsequenzen\" section on the portal rule book — the enforcement ladder (warning → termination) is shown with the rules it enforces.\nCatalog guard test pinning the Hausordnung coverage and the non-negotiable rules (src/lib/config/tests/house-rules.test.ts).\nThis changelog, the roadmap and the engineering blog.\nLearning records on the resident profile — language tests, courses, informal learning, qualifications. Residents can add their own; Sozialarbeit and Jobcoach see a queue (/learning) and missing Deutsch tests.\nRoom-level matching. Placement scores the Zimmer, not only the Wohnung average, and the fast-place action uses that bed.\nShort intake as the default: sleep, noise, directional cleanliness, smoking, languages, mobility first; the rest behind \"Weitere Angaben\".\nGebäudecode on housing units — enough to group a Standort without a Building CRUD.\nPilot evidence on the staff dashboard: baseline vs now for the mission KPIs.\nCare team on the resident file and in the portal: Wohnen/Betreuung, Sozialarbeit, Jobcoach — one named person per seat.\nCare workspace on the resident file: appointments (Zurich wall-clock) and catalog-driven work attributes per domain. Adding a field is a line in CARE_ATTRIBUTE_CATALOG, not a migration. Residents see team + upcoming appointments.\nLearning achievements in the portal: completed tests, courses, qualifications, volunteering and community-service hours, plus language activity offers next to existing Aktivitäten."
         },
         {
           "date": "2026-08-13",
-          "done": "The live instance switched to REAL mode: one actual shared flat\nReports route to the desk that can act on them: maintenance reports land\nOne account, two roles: email+password credentials live on Account,\nAdmin megamenu navigation (#41)."
+          "done": "The live instance switched to REAL mode: one actual shared flat (the pilot flat) under the wg brand, with the demo doors kept alongside via prefix-scoped daily reset (#37–#39, #43–#44).\nReports route to the desk that can act on them: maintenance reports land on the maintenance board, conflicts on the incident ladder — residents still see one merged list (#43).\nOne account, two roles: email+password credentials live on Account, optionally linked to both a staff and a resident identity (#40, #42).\nAdmin megamenu navigation (#41)."
         },
         {
           "date": "2026-05-28",
-          "done": "Compatibility-based placement: config-driven resident/housing factors,\nStaff admin (residents, housing, placements, incidents, matching,\nJest + Playwright suites, mobile-first design system, German (Swiss) UI."
+          "done": "Compatibility-based placement: config-driven resident/housing factors, directional cleanliness model, weighted scoring with blocking conflicts.\nStaff admin (residents, housing, placements, incidents, matching, maintenance) and resident portal (preferences, roommates, chores, reports, transfers).\nJest + Playwright suites, mobile-first design system, German (Swiss) UI."
         }
       ],
       "records": {
@@ -3822,27 +3915,192 @@
         "mission": "Bitbaum is a solo-founder AI product studio: multiple vertical SaaS products on shared infrastructure, each profitable within 12 months, each owning a specific niche.",
         "vision": "Build multiple AI-powered products that solve real problems, with a shared infrastructure and a focus on profitability."
       },
-      "roadmap": [],
+      "roadmap": [
+        {
+          "title": "Separate the free tool from studio services",
+          "line": "Give visitors routes to independent Loki self-service, an approved partner, or the studio waitlist.",
+          "status": "in progress",
+          "progress": 20,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Record that studio engagement prices belong to Bitbaum, while Loki is a standalone free tool",
+              "done": true
+            },
+            {
+              "title": "Put the studio URL/change intake on Bitbaum with its current offer and capacity",
+              "done": false
+            },
+            {
+              "title": "Remove studio pricing/submission from Loki's self-serve brief; retain an optional external studio link",
+              "done": false
+            },
+            {
+              "title": "Preserve the brief through an explicit self-serve handoff and sign-in",
+              "done": false
+            },
+            {
+              "title": "Offer only approved partners with real availability; provide an honest path while the directory is empty",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Make studio development traceable",
+          "line": "Course, portal and product decisions should survive conversations and become visible work.",
+          "status": "in progress",
+          "progress": 40,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Add canonical repository roadmap and changelog",
+              "done": true
+            },
+            {
+              "title": "Separate confirmed requirements, code evidence and architecture proposals",
+              "done": true
+            },
+            {
+              "title": "Repair Bitbaum's profile/repository join so the map reads these records instead of test notes",
+              "done": false
+            },
+            {
+              "title": "Render and link public roadmap/changelog pages using the existing building-in-public contract",
+              "done": false
+            },
+            {
+              "title": "Reconcile studio-owned course/approval work on Loki's roadmap with Bitbaum ownership",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Prove the first portal engagement",
+          "line": "Start one Bitbaum-branded customer flow with access to only that engagement and no mandatory cross-product participation.",
+          "status": "in progress",
+          "progress": 20,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Record the shared portal recommendation and two alternatives",
+              "done": true
+            },
+            {
+              "title": "Verify scoped Loki API/guest access, revocation and a narrow delivery-review action before choosing service placement",
+              "done": false
+            },
+            {
+              "title": "Build brief, receipt, status, next action, preview and change-request views",
+              "done": false
+            },
+            {
+              "title": "Record delivery approval without customer agent-execution or credential access",
+              "done": false
+            },
+            {
+              "title": "Verify customers and assigned partners cannot access unrelated projects",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Start the systems-design course",
+          "line": "Develop a studio-owned course through one transferable practical module and reviewed capstone before a full learning platform.",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Write the first lesson, exercise and assessment rubric",
+              "done": false
+            },
+            {
+              "title": "Pilot problem definition, system boundaries and a working capstone",
+              "done": false
+            },
+            {
+              "title": "Extend to permissions, integrations, testing, accessibility, deployment, rollback and handover",
+              "done": false
+            },
+            {
+              "title": "Record course completion as evidence for studio review, not automatic approval",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Operate partner qualification and assignment",
+          "line": "Application, course completion, studio approval and availability are separate states with useful next actions.",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Add private application/qualification records with review reasons",
+              "done": false
+            },
+            {
+              "title": "Give reviewers course-evidence review and explicit approve/decline/request-information actions",
+              "done": false
+            },
+            {
+              "title": "Publish only approved, consenting partner profiles and maintain real availability",
+              "done": false
+            },
+            {
+              "title": "Give assigned partners only the brief, resources and handover access they need",
+              "done": false
+            },
+            {
+              "title": "Preserve the current commercial model unless its owner explicitly changes it",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Connect products when the task needs it",
+          "line": "Keep public discovery/funding, private execution and collective governance optional and understandable at the handoff.",
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Test standalone studio and Loki journeys without OrangeCat publication or Solon membership",
+              "done": false
+            },
+            {
+              "title": "Test requested handoffs preserve identity, project context and explicit consent",
+              "done": false
+            },
+            {
+              "title": "Review authentication dependencies before promising standalone participation in every product",
+              "done": false
+            },
+            {
+              "title": "Add broader matching or marketplace features after actual engagements establish the need",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        }
+      ],
       "changelog": [
         {
-          "date": "2026-08-15",
-          "done": "Smoke probe task (ignore) acknowledged; working directory is empty and not a git repo, no code changes made."
-        },
-        {
-          "date": "2026-08-15",
-          "done": "Smoke probe task (ignore) acknowledged; working directory is not a git repo, no code changes made."
-        },
-        {
-          "date": "2026-07-14",
-          "done": "Smoke probe task (ignore) acknowledged; no working directory is a git repo here, no code changes made."
+          "date": "2026-09-30",
+          "done": "Added the studio roadmap and delivery plan. Recorded free, independent Loki access; studio-only engagement prices; course completion before studio partner approval; and optional product participation. Course, portal and intake-placement corrections remain planned.\nMobile artwork has grounded spaces away from copy. All 123 responsive page/viewport checks passed, including rotation and enlarged text.\nPartner applications use a direct message and tracking receipt. Submission records interest for review; it does not confer approval."
         }
       ],
       "records": {
-        "roadmap": null,
-        "changelog": "dev_log",
+        "roadmap": "repo",
+        "changelog": "repo",
         "source": {
-          "roadmap": null,
-          "changelog": null
+          "roadmap": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md",
+          "changelog": "https://github.com/bitbaum/bitbaum/blob/HEAD/CHANGELOG.md"
         }
       },
       "next": null,
@@ -3850,7 +4108,7 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-09-16T10:30:22.552Z"
+          "at": "2026-09-30T16:22:38.617Z"
         },
         "lastLog": {
           "date": "2026-08-15",
@@ -4061,6 +4319,10 @@
       "roadmap": [],
       "changelog": [
         {
+          "date": "2026-10-01",
+          "done": "Verified main (66b238f) is healthy — tsc clean, Deploy green, no open PRs, zero TODOs; re-surfaced the still-pending blocker instead of picking a task (loop brake after ≥2 no-ops)."
+        },
+        {
           "date": "2026-09-28",
           "done": "Second consecutive no-op — the same blocker (2026-09-26-deploy-hetzner-ip-and-pr-signoff.md) is still pending and appears resolved (PR #1 merged, Deploy green, last run 36270726246); nothing new on main, no open PRs; awaiting operator confirmation and direction, no task picked."
         },
@@ -4094,11 +4356,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-09-30T04:00:18.765Z"
+          "at": "2026-10-01T04:00:35.243Z"
         },
         "lastLog": {
-          "date": "2026-09-28",
-          "done": "Second consecutive no-op — the same blocker (2026-09-26-deploy-hetzner-ip-and-pr-signoff.md) is still pending and appears resolved (PR #1 merged, Deploy green, last run 36270726246); nothing new on main, no open PRs; awaiting operator confirmation and direction, no task picked."
+          "date": "2026-10-01",
+          "done": "Verified main (66b238f) is healthy — tsc clean, Deploy green, no open PRs, zero TODOs; re-surfaced the still-pending blocker instead of picking a task (loop brake after ≥2 no-ops)."
         }
       }
     },
@@ -4519,6 +4781,10 @@
       "roadmap": [],
       "changelog": [
         {
+          "date": "2026-10-01",
+          "done": "Escalation cleared without a code change: the two failed runs died on provider usage limits before any agent ran, not on the repo; re-verified origin/main 1f5402d (tsc clean, lint clean, 32 files / 179 tests pass, Auto-merge workflow green, no blockers, no open PRs, no roadmap, no swallowed catches or stub UI) — third consecutive no-op, stopped per the awaiting_user brake: no high-impact work remains, the Definition-of-done flow is fully wired, founder picks the next direction."
+        },
+        {
           "date": "2026-09-28",
           "done": "No-op: origin/main is still 1f5402d, identical to the previous run's verified tree (tsc/lint clean, 179/179 tests, Deploy green), with no blockers, open PRs, roadmap or human message; this is the second consecutive no-op, so it stopped per the loop brake (low-value loop, need human direction)."
         },
@@ -4552,11 +4818,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-09-30T04:01:49.413Z"
+          "at": "2026-10-01T04:00:21.526Z"
         },
         "lastLog": {
-          "date": "2026-09-28",
-          "done": "No-op: origin/main is still 1f5402d, identical to the previous run's verified tree (tsc/lint clean, 179/179 tests, Deploy green), with no blockers, open PRs, roadmap or human message; this is the second consecutive no-op, so it stopped per the loop brake (low-value loop, need human direction)."
+          "date": "2026-10-01",
+          "done": "Escalation cleared without a code change: the two failed runs died on provider usage limits before any agent ran, not on the repo; re-verified origin/main 1f5402d (tsc clean, lint clean, 32 files / 179 tests pass, Auto-merge workflow green, no blockers, no open PRs, no roadmap, no swallowed catches or stub UI) — third consecutive no-op, stopped per the awaiting_user brake: no high-impact work remains, the Definition-of-done flow is fully wired, founder picks the next direction."
         }
       }
     },
@@ -4965,6 +5231,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-01",
+          "done": "Built the furniture surcharge engine (config-driven, pure, 11 node:test cases) and a /calculator page that shows a tenant the highest defensible monthly sublet rent under Art. 262 OR, verified via type-check, tests, build and live next start, and opened PR #2 on branch feat/surcharge-calculator with CI green, awaiting the repo auto-merge sweep."
+        },
+        {
           "date": "2026-09-28",
           "done": "Replaced the starter placeholder with a config-driven landing site (services, process, Art. 262 OR legal basis, FAQ, enquiry CTA), verified via type-check, build and a live pnpm start, and merged it as PR #1 with CI green."
         }
@@ -4982,11 +5252,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-09-30T04:00:32.457Z"
+          "at": "2026-10-01T04:00:48.970Z"
         },
         "lastLog": {
-          "date": "2026-09-28",
-          "done": "Replaced the starter placeholder with a config-driven landing site (services, process, Art. 262 OR legal basis, FAQ, enquiry CTA), verified via type-check, build and a live pnpm start, and merged it as PR #1 with CI green."
+          "date": "2026-10-01",
+          "done": "Built the furniture surcharge engine (config-driven, pure, 11 node:test cases) and a /calculator page that shows a tenant the highest defensible monthly sublet rent under Art. 262 OR, verified via type-check, tests, build and live next start, and opened PR #2 on branch feat/surcharge-calculator with CI green, awaiting the repo auto-merge sweep."
         }
       }
     }
