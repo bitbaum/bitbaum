@@ -58,6 +58,7 @@ const browser = await pw.chromium.launch();
 // ── no flash: the decision happens in <head>, before the stylesheet ─────────
 {
   const ctx = await browser.newContext();
+  await ctx.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
   const page = await ctx.newPage();
   await page.goto(base + "/", { waitUntil: "domcontentloaded" });
   const head = await page.$eval("head", (h) => h.innerHTML);
@@ -71,9 +72,10 @@ const browser = await pw.chromium.launch();
 // Zurich at noon is day and at midnight is night, whatever the OS prefers.
 for (const [hour, expectDark] of [[12, false], [0, true]]) {
   const ctx = await browser.newContext({ colorScheme: expectDark ? "light" : "dark", timezoneId: "Europe/Zurich" });
+  await ctx.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
   const page = await ctx.newPage();
   await page.clock.setFixedTime(new Date(`2026-06-21T${String(hour).padStart(2, "0")}:30:00+02:00`));
-  await page.goto(base + "/", { waitUntil: "networkidle" });
+  await page.goto(base + "/", { waitUntil: "load" });
   const isDark = await page.$eval("html", (h) => h.classList.contains("dark"));
   say(isDark === expectDark, `at ${hour}:30 local time the page is ${expectDark ? "night (dark)" : "day (light)"} by default`);
 
@@ -92,8 +94,9 @@ for (const [hour, expectDark] of [[12, false], [0, true]]) {
 // ── an explicit choice wins, and survives navigation ───────────────────────
 {
   const ctx = await browser.newContext({ colorScheme: "dark" });
+  await ctx.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
   const page = await ctx.newPage();
-  await page.goto(base + "/", { waitUntil: "networkidle" });
+  await page.goto(base + "/", { waitUntil: "load" });
   await page.click('[data-set-theme="light"]');
   await page.waitForTimeout(150);
   say(!(await page.$eval("html", (h) => h.classList.contains("dark"))), "choosing light overrides a dark system");
@@ -101,7 +104,7 @@ for (const [hour, expectDark] of [[12, false], [0, true]]) {
     await page.$eval('[data-set-theme="light"]', (b) => b.getAttribute("aria-pressed") === "true"),
     "and the control says which state is active",
   );
-  await page.goto(base + "/packages/", { waitUntil: "networkidle" });
+  await page.goto(base + "/packages/", { waitUntil: "load" });
   say(!(await page.$eval("html", (h) => h.classList.contains("dark"))), "the choice survives navigation");
 
   const ratio = await page.evaluate(() => {
@@ -119,9 +122,10 @@ for (const [hour, expectDark] of [[12, false], [0, true]]) {
 // ── "local time" hands control back to the sky ────────────────────────────
 {
   const ctx = await browser.newContext({ colorScheme: "light", timezoneId: "Europe/Zurich" });
+  await ctx.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
   const page = await ctx.newPage();
   await page.clock.setFixedTime(new Date("2026-06-21T23:30:00+02:00"));
-  await page.goto(base + "/", { waitUntil: "networkidle" });
+  await page.goto(base + "/", { waitUntil: "load" });
   await page.click('[data-set-theme="light"]');
   await page.waitForTimeout(150);
   say(!(await page.$eval("html", (h) => h.classList.contains("dark"))), "light can be chosen at night");

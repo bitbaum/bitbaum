@@ -2,6 +2,12 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-10-01 — One door
+
+- The studio's intake is one field, typed or spoken, on /hire/ and /partners/: no form, nothing refused for its shape. A website in the text makes a studio request; on /partners/ the message is the application; anything else is asked one question and joins the waitlist. Every request gives the visitor its private portal link; follow-ups go to the same record; a retry reuses the same receipt.
+- The three paths say true things everywhere: the free tool is one address, the studio shows its fixed price and its day rate, and partners read "applications open · none approved yet" with the systems design course named as the step before review.
+- The browser checks drive the conversation instead of the forms; 135 responsive checks still pass.
+
 ## 2026-09-30 — Start the shared studio portal and course pilot
 
 - Build a Bitbaum brief intake, request receipt and private customer/partner portal backed by Loki's scoped request API.

@@ -11,6 +11,9 @@ Give visitors routes to independent Loki self-service, an approved partner, or t
 - [x] Remove studio pricing/submission from Loki's self-serve brief; retain an optional external studio link
 - [x] Preserve the brief through an explicit self-serve handoff and sign-in
 - [x] Offer only approved partners with real availability; provide an honest path while the directory is empty
+- [x] One door: the waitlist, the website brief and the partner application are a single free-form field, typed or spoken, that refuses nothing and hands back a private portal link
+- [ ] Let the words be structured by a model on Loki (address, email, kind, engagement) so the one question the intake still asks disappears
+- [ ] Give a new-build idea without a website its own request kind on Loki, so it lands in the portal rather than the inbox
 
 ### Make studio development traceable
 Course, portal and product decisions should survive conversations and become visible work.
@@ -52,8 +55,9 @@ Application, course completion, studio approval and availability are separate st
 Ship the verified backend before exposing the Bitbaum views.
 - [x] Pass Loki's full CI, including real PostgreSQL isolation, revocation and retry tests
 - [x] Pass Bitbaum's intake, portal, theme and 135 responsive browser checks
-- [ ] Verify the additive production migration and deployed Loki API
+- [x] Verify the additive production migration and deployed Loki API (loki #995 is live; /api/studio-intake answers)
 - [ ] Deploy the Bitbaum views through the API availability gate and verify the public pages
+- [ ] Notify the studio when a request or application is created (today the portal path persists and tells no one)
 
 ## Later
 
