@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-01T12:20:13.073Z",
+  "generatedAt": "2026-10-01T12:33:05.204Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -3920,7 +3920,7 @@
           "title": "Separate the free tool from studio services",
           "line": "Give visitors routes to independent Loki self-service, an approved partner, or the studio waitlist.",
           "status": "in progress",
-          "progress": 20,
+          "progress": 75,
           "targetDate": null,
           "milestones": [
             {
@@ -3929,18 +3929,30 @@
             },
             {
               "title": "Put the studio URL/change intake on Bitbaum with its current offer and capacity",
-              "done": false
+              "done": true
             },
             {
               "title": "Remove studio pricing/submission from Loki's self-serve brief; retain an optional external studio link",
-              "done": false
+              "done": true
             },
             {
               "title": "Preserve the brief through an explicit self-serve handoff and sign-in",
-              "done": false
+              "done": true
             },
             {
               "title": "Offer only approved partners with real availability; provide an honest path while the directory is empty",
+              "done": true
+            },
+            {
+              "title": "One door: the waitlist, the website brief and the partner application are a single free-form field, typed or spoken, that refuses nothing and hands back a private portal link",
+              "done": true
+            },
+            {
+              "title": "Let the words be structured by a model on Loki (address, email, kind, engagement) so the one question the intake still asks disappears",
+              "done": false
+            },
+            {
+              "title": "Give a new-build idea without a website its own request kind on Loki, so it lands in the portal rather than the inbox",
               "done": false
             }
           ],
@@ -3950,7 +3962,7 @@
           "title": "Make studio development traceable",
           "line": "Course, portal and product decisions should survive conversations and become visible work.",
           "status": "in progress",
-          "progress": 40,
+          "progress": 100,
           "targetDate": null,
           "milestones": [
             {
@@ -3963,15 +3975,15 @@
             },
             {
               "title": "Repair Bitbaum's profile/repository join so the map reads these records instead of test notes",
-              "done": false
+              "done": true
             },
             {
               "title": "Render and link public roadmap/changelog pages using the existing building-in-public contract",
-              "done": false
+              "done": true
             },
             {
               "title": "Reconcile studio-owned course/approval work on Loki's roadmap with Bitbaum ownership",
-              "done": false
+              "done": true
             }
           ],
           "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
@@ -3980,7 +3992,7 @@
           "title": "Prove the first portal engagement",
           "line": "Start one Bitbaum-branded customer flow with access to only that engagement and no mandatory cross-product participation.",
           "status": "in progress",
-          "progress": 20,
+          "progress": 83,
           "targetDate": null,
           "milestones": [
             {
@@ -3988,19 +4000,23 @@
               "done": true
             },
             {
-              "title": "Verify scoped Loki API/guest access, revocation and a narrow delivery-review action before choosing service placement",
-              "done": false
+              "title": "Verify scoped Loki API/guest access, revocation and a narrow delivery-review action for the accepted shared backend",
+              "done": true
             },
             {
               "title": "Build brief, receipt, status, next action, preview and change-request views",
-              "done": false
+              "done": true
             },
             {
               "title": "Record delivery approval without customer agent-execution or credential access",
-              "done": false
+              "done": true
             },
             {
               "title": "Verify customers and assigned partners cannot access unrelated projects",
+              "done": true
+            },
+            {
+              "title": "Complete the first real engagement through brief, preview, revision and exact-version acceptance",
               "done": false
             }
           ],
@@ -4010,12 +4026,12 @@
           "title": "Start the systems-design course",
           "line": "Develop a studio-owned course through one transferable practical module and reviewed capstone before a full learning platform.",
           "status": "planned",
-          "progress": 0,
+          "progress": 40,
           "targetDate": null,
           "milestones": [
             {
               "title": "Write the first lesson, exercise and assessment rubric",
-              "done": false
+              "done": true
             },
             {
               "title": "Pilot problem definition, system boundaries and a working capstone",
@@ -4027,6 +4043,10 @@
             },
             {
               "title": "Record course completion as evidence for studio review, not automatic approval",
+              "done": true
+            },
+            {
+              "title": "Calibrate the rubric with a real candidate and reviewer before expanding the course",
               "done": false
             }
           ],
@@ -4036,27 +4056,61 @@
           "title": "Operate partner qualification and assignment",
           "line": "Application, course completion, studio approval and availability are separate states with useful next actions.",
           "status": "planned",
-          "progress": 0,
+          "progress": 83,
           "targetDate": null,
           "milestones": [
             {
               "title": "Add private application/qualification records with review reasons",
-              "done": false
+              "done": true
             },
             {
               "title": "Give reviewers course-evidence review and explicit approve/decline/request-information actions",
-              "done": false
+              "done": true
             },
             {
               "title": "Publish only approved, consenting partner profiles and maintain real availability",
-              "done": false
+              "done": true
             },
             {
-              "title": "Give assigned partners only the brief, resources and handover access they need",
-              "done": false
+              "title": "Give assigned partners only their assigned briefs and delivery actions; grant no technical project access by default",
+              "done": true
             },
             {
               "title": "Preserve the current commercial model unless its owner explicitly changes it",
+              "done": true
+            },
+            {
+              "title": "Complete the first studio-reviewed qualification and consenting directory publication",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Release the shared portal",
+          "line": "Ship the verified backend before exposing the Bitbaum views.",
+          "status": "planned",
+          "progress": 60,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Pass Loki's full CI, including real PostgreSQL isolation, revocation and retry tests",
+              "done": true
+            },
+            {
+              "title": "Pass Bitbaum's intake, portal, theme and 135 responsive browser checks",
+              "done": true
+            },
+            {
+              "title": "Verify the additive production migration and deployed Loki API (loki #995 is live; /api/studio-intake answers)",
+              "done": true
+            },
+            {
+              "title": "Deploy the Bitbaum views through the API availability gate and verify the public pages",
+              "done": false
+            },
+            {
+              "title": "Notify the studio when a request or application is created (today the portal path persists and tells no one)",
               "done": false
             }
           ],
@@ -4066,12 +4120,12 @@
           "title": "Connect products when the task needs it",
           "line": "Keep public discovery/funding, private execution and collective governance optional and understandable at the handoff.",
           "status": "later",
-          "progress": 0,
+          "progress": 25,
           "targetDate": null,
           "milestones": [
             {
               "title": "Test standalone studio and Loki journeys without OrangeCat publication or Solon membership",
-              "done": false
+              "done": true
             },
             {
               "title": "Test requested handoffs preserve identity, project context and explicit consent",
@@ -4091,8 +4145,16 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-01",
+          "done": "The studio's intake is one field, typed or spoken, on /hire/ and /partners/: no form, nothing refused for its shape. A website in the text makes a studio request; on /partners/ the message is the application; anything else is asked one question and joins the waitlist. Every request gives the visitor its private portal link; follow-ups go to the same record; a retry reuses the same receipt.\nThe three paths say true things everywhere: the free tool is one address, the studio shows its fixed price and its day rate, and partners read \"applications open · none approved yet\" with the systems design course named as the step before review.\nThe browser checks drive the conversation instead of the forms; 135 responsive checks still pass."
+        },
+        {
           "date": "2026-09-30",
           "done": "Added the studio roadmap and delivery plan. Recorded free, independent Loki access; studio-only engagement prices; course completion before studio partner approval; and optional product participation. Course, portal and intake-placement corrections remain planned.\nMobile artwork has grounded spaces away from copy. All 123 responsive page/viewport checks passed, including rotation and enlarged text.\nPartner applications use a direct message and tracking receipt. Submission records interest for review; it does not confer approval."
+        },
+        {
+          "date": "2026-09-30",
+          "done": "Build a Bitbaum brief intake, request receipt and private customer/partner portal backed by Loki's scoped request API.\nKeep free Loki self-service independent, with an explicit draft-preserving handoff. Studio offer and current capacity stay in hire.json; Rescue retains its assessment scope.\nAdd course evidence, separate studio approval, consented profile review and assigned-brief delivery. Availability determines public directory inclusion.\nWrite the first systems design lesson, exercise and capstone rubric. Further lessons and calibration remain in development.\nRender the canonical roadmap and changelog through bip-kit, and resolve the studio repository through its canonical project ID.\nVerify the scoped backend in Loki's full CI, including PostgreSQL isolation, revocation, assignment and retry tests. Bitbaum's browser journeys and 135 responsive checks pass, including rotation and enlarged text; the narrow-screen footer and price wrapping are corrected.\nProduction release is gated on the backend migration and API availability. The first real engagement and reviewer calibration remain pilot work."
         }
       ],
       "records": {
