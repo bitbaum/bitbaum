@@ -14,7 +14,8 @@
     "check:theme": "node site/check-theme.mjs",
     "check:responsive": "node site/check-responsive.mjs",
     "check:widget": "node site/check-widget.mjs",
-    "check:studio": "node site/check-studio.mjs"
+    "check:studio": "node site/check-studio.mjs",
+    "check:cast": "node site/check-cast.mjs"
   },
   "dependencies": {
     "@bitbaum/chatkit": "github:bitbaum/chatkit#v0.1.0",

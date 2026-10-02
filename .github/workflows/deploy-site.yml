@@ -74,6 +74,7 @@ jobs:
           node site/check-hire.mjs http://127.0.0.1:8731 || failures=1
           node site/check-studio.mjs http://127.0.0.1:8731 || failures=1
           node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-cast.mjs http://127.0.0.1:8731 || failures=1
           [ "$failures" -eq 0 ]
           kill "$(cat /tmp/bitbaum-http.pid)" || true
       - name: Commit refreshed source snapshots and generated site
@@ -130,4 +131,5 @@ jobs:
           node site/check-hire.mjs http://127.0.0.1:8731 || failures=1
           node site/check-studio.mjs http://127.0.0.1:8731 || failures=1
           node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-cast.mjs http://127.0.0.1:8731 || failures=1
           [ "$failures" -eq 0 ]
