@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-02T04:48:28.966Z",
+  "generatedAt": "2026-10-02T11:26:22.600Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -865,6 +865,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-02",
+          "done": "Explain a transaction by telling your Cat what it was for. Say \"the 0.002 that came in on Tuesday was the laptop for Amina\" and the Cat, after you confirm, saves it as your note on that transaction. If the wallet publishes its ledger, the note appears there publicly, and it counts toward the wallet's transparency score. Ask the Cat about your wallets and it now lists the recent transactions that still have no note, and the score as the ledger page computes it.\nA fund's page shows where to check where its money went. When a cause, research or project page's receiving wallet is fully public and publishes its ledger, the page now says \"This fund publishes its ledger\" and links to it: every transaction, read from the chain, with the owner's note on what each was for. Funds that have not opted in show nothing new.\nA project owner can see their project wallet's transactions. The transaction history checked only who created the wallet row, so the owner of a project wallet could be refused their own history. It now uses the same owner check as every other wallet action."
+        },
+        {
           "date": "2026-09-30",
           "done": "Every FAQ answer has its own link. Open a question on /faq and share the address: /faq#is-orangecat-free-to-use opens straight at that answer. The page no longer needs its scripts to open a question, and search engines now read the questions and answers directly.\nSigning in from Solon or Loki looks like it. The sign-in screen now says \"Continue to Solon\" beside the form, explains that it is one account with one password, and its back link returns you to the app you came from instead of OrangeCat's home page.\nSigning in to Solon and Loki with an email you added later. If you added or changed your email after creating your account (including an account you started without one), OrangeCat told the other app you had no email, and Solon turned you away. It now sends the email your account has."
         },
@@ -939,10 +943,6 @@
         {
           "date": "2026-07-13",
           "done": "Cat-first, and payable on publish. Your Cat is the front door, and publishing something payable is a guided, one-link step."
-        },
-        {
-          "date": "2026-07-09",
-          "done": "Peer-to-peer Bitcoin loans. Lend and borrow directly: offers, obligations, and payment handoffs — no bank in the middle."
         }
       ],
       "records": {
@@ -4144,6 +4144,14 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-10-02",
+          "done": "site/cast.json names every painted or drawn element once; the build finds each one on the pages it renders and writes the register (dist/cast.json, docs/CAST.md — what is where, how it moves, what shows on phones). It refuses to build when an element is on no page or a painting belongs to no entry. The first run found one: the hummingbird avatar was assigned to a venture that does not exist, so it was on no page — it now lives on Camille's bakery.\nsite/check-cast.mjs opens every page at phone and desk width and proves each element is in the DOM, loaded and sized where the register says; it runs in CI with the other checks.\nQuixote and Sancho ride into the plain toward the mill — near and large first, then up and away, smaller and hazier — instead of along the horizon line.\nThe header steps aside while the reader reads down and returns on the first scroll up; never while the menu is open."
+        },
+        {
+          "date": "2026-10-02",
+          "done": "New page, /map/: every project drawn as a loop, meaning work that recurs and still needs a person in it. Four layers: the rails (OrangeCat, Solon, Loki and the shared packages), the constraints (Substrata), professionals in the loop, and loops in the world. Each loop names who stays in it and what routine part it aims to retire.\nThe loops live in site/overrides.json (loops). The build fails if a loop cites a project the site does not show, if a project is in two loops, or if a shown project is in none, so a new project cannot reach /work/ without someone deciding what it is for.\nA loop with no project is drawn as a gap and claims nothing. Allocating money is the first: named, not built, and explicitly not advice.\nDiplodoctor and Causius now describe their own plans: a licensed clinician, or a licensed lawyer, stays in the loop and owns the result. Both remain \"not built\".\n138 responsive checks pass, including the new page."
+        },
         {
           "date": "2026-10-01",
           "done": "The studio's intake is one field, typed or spoken, on /hire/ and /partners/: no form, nothing refused for its shape. A website in the text makes a studio request; on /partners/ the message is the application; anything else is asked one question and joins the waitlist. Every request gives the visitor its private portal link; follow-ups go to the same record; a retry reuses the same receipt.\nThe three paths say true things everywhere: the free tool is one address, the studio shows its fixed price and its day rate, and partners read \"applications open · none approved yet\" with the systems design course named as the step before review.\nThe browser checks drive the conversation instead of the forms; 135 responsive checks still pass."
