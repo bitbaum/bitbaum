@@ -625,6 +625,16 @@ a.card-name:hover { color: var(--accent); }
 footer { border-top: 1px solid var(--line); padding: clamp(3rem, 5vw, 4.5rem) 0 clamp(2rem, 3vw, 2.75rem); margin-top: var(--section); color: var(--fg-3); font-size: 0.9rem; }
 footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
 
+/* ─── the map (/map/, site/loops.mjs) ────────────────────────────────── */
+.loop-layer .wrap { display: grid; gap: 1.75rem; }
+.loop .card-what, .loop .card-story { margin: 0; }
+.loop .label { display: block; margin-bottom: 0.15rem; }
+.loop-ventures { list-style: none; margin: 0.6rem 0 0; padding: 0.6rem 0 0; border-top: 1px solid var(--line); display: grid; gap: 0.4rem; }
+.loop-ventures li { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; min-width: 0; }
+.loop-ventures a { color: var(--fg); border-bottom: 1px solid var(--line-2); overflow-wrap: anywhere; }
+.loop-ventures a:hover { border-color: var(--fg-3); }
+.loop-gap { border-style: dashed; }
+
 
 
 
