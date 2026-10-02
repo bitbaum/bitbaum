@@ -37,7 +37,21 @@ matchMedia("(min-width: 900px)").addEventListener("change", (m) => {
   if (m.matches) setOpen(false);
 });
 
-// The header is quiet at the very top and solid once the page moves.
-const onScroll = () => header?.classList.toggle("scrolled", window.scrollY > 8);
+// The header is quiet at the very top and solid once the page moves — and
+// while the reader reads down past the first screen it steps aside; the
+// first scroll back up returns it. A little hysteresis so a wobble on a
+// phone does not flicker it.
+let lastY = window.scrollY, anchorY = lastY, lastDown = false;
+const onScroll = () => {
+  const y = window.scrollY;
+  header?.classList.toggle("scrolled", y > 8);
+  const down = y > lastY;
+  if (down !== lastDown) { anchorY = lastY; lastDown = down; }
+  const moved = Math.abs(y - anchorY);
+  if (y < 160) header?.classList.remove("away");
+  else if (down && moved > 24) header?.classList.add("away");
+  else if (!down && moved > 12) header?.classList.remove("away");
+  lastY = y;
+};
 onScroll();
 window.addEventListener("scroll", onScroll, { passive: true });

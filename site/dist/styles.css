@@ -152,6 +152,13 @@ img { max-width: 100%; display: block; }
    it every frame is the most expensive thing a phone could be asked to do here. */
 .top { position: sticky; top: 0; z-index: 30; height: var(--nav-h); background: linear-gradient(to bottom, rgb(var(--veil) / 0.72), rgb(var(--veil) / 0.38)); border-bottom: 1px solid transparent; transition: border-color 160ms ease, background 160ms ease; }
 .top.scrolled, .menu-open .top { background: rgb(var(--veil) / 0.62); border-bottom-color: var(--line); }
+/* Reading down, the header steps out of the way (the art gets the screen);
+   the first scroll back up brings it straight back. Never while the menu is
+   open, never above the first screen. */
+.top { transition: border-color 160ms ease, background 160ms ease, translate 260ms ease; }
+.top.away { translate: 0 -100%; }
+.menu-open .top.away { translate: 0 0; }
+@media (prefers-reduced-motion: reduce) { .top { transition: none; } }
 .top .wrap { height: 100%; display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.5rem); }
 .mark { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 44px; font-weight: 600; letter-spacing: -0.02em; font-size: 1.05rem; }
 .mark svg { width: 22px; height: 25px; color: var(--fg); }
@@ -1104,14 +1111,17 @@ footer::before { background-position: calc(var(--tile) / -2 + var(--fy, 0px)) 0,
 .glass .riders { position: absolute; bottom: -2px; left: 58%; display: flex; align-items: flex-end; gap: 6px; transform-origin: 50% 100%; animation: ride 80s linear infinite; }
 .glass .riders .fig-sancho { width: 76px; }
 .glass .riders .fig-quixote { width: 122px; }
-/* Out of the haze, far off and small; nearer and larger as they ride toward
-   the mill, and a little lower on the plain — the way distance reads. */
+/* They ride into the plain toward the mill: near and large first, low on the
+   sand below the horizon, then up and away to the right — smaller, higher,
+   hazier — until they are a speck beside the mill. A path in depth, not a
+   walk along the horizon line. */
 @keyframes ride {
-  0% { left: 50%; opacity: 0; scale: 0.42; translate: 0 -1px; filter: blur(0.9px) brightness(1.12) saturate(0.55); }
-  8% { opacity: 1; }
-  60% { scale: 0.78; translate: 0 2px; filter: blur(0.3px) brightness(1.05) saturate(0.8); }
-  92% { opacity: 1; }
-  100% { left: 69%; opacity: 0; scale: 1.08; translate: 0 6px; filter: none; }
+  0% { left: 34%; opacity: 0; scale: 1.25; translate: 0 44px; filter: none; }
+  7% { opacity: 1; }
+  45% { scale: 0.86; translate: 0 22px; filter: brightness(1.03) saturate(0.9); }
+  80% { scale: 0.5; translate: 0 6px; filter: blur(0.35px) brightness(1.08) saturate(0.7); }
+  95% { opacity: 1; }
+  100% { left: 75%; opacity: 0; scale: 0.34; translate: 0 0; filter: blur(0.8px) brightness(1.14) saturate(0.55); }
 }
 
 /* ─── rye with ergot: a clump growing on the plain, not floating ─────── */
@@ -1124,15 +1134,15 @@ footer::before { background-position: calc(var(--tile) / -2 + var(--fy, 0px)) 0,
   .glass .riders .fig-sancho { width: 38px; }
   .glass .riders .fig-quixote { width: 58px; }
   @keyframes ride {
-    0% { left: 30%; opacity: 0; scale: 0.45; translate: 0 -1px; filter: blur(0.7px) brightness(1.1) saturate(0.6); }
-    8% { opacity: 1; }
-    60% { scale: 0.8; translate: 0 1px; filter: blur(0.2px); }
-    92% { opacity: 1; }
-    100% { left: 60%; opacity: 0; scale: 1.05; translate: 0 4px; filter: none; }
+    0% { left: 30%; opacity: 0; scale: 1.2; translate: 0 18px; filter: none; }
+    7% { opacity: 1; }
+    50% { scale: 0.8; translate: 0 8px; }
+    95% { opacity: 1; }
+    100% { left: 72%; opacity: 0; scale: 0.4; translate: 0 0; filter: blur(0.6px) brightness(1.1) saturate(0.6); }
   }
   .rye-clump { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .glass .riders { animation: none; left: 66%; scale: 0.9; } }
+@media (prefers-reduced-motion: reduce) { .glass .riders { animation: none; left: 60%; scale: 0.7; translate: 0 12px; } }
 
 /* The windmill: tower and sails painted apart, so the sails truly turn about
    the hub on the roof — slowly, as in a dream with little wind. */

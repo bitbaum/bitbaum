@@ -1,0 +1,921 @@
+{
+  "entries": [
+    {
+      "id": "riders",
+      "title": "Quixote and Sancho, riding to the windmill",
+      "art": [
+        "sancho",
+        "quixote"
+      ],
+      "marker": "class=\"riders\"",
+      "selector": ".glass .riders",
+      "layer": "hero · horizon-life",
+      "motion": "css ride (into the plain, in depth) + mesh warp",
+      "visible": "immediate",
+      "phone": "smaller"
+    },
+    {
+      "id": "windmill",
+      "title": "The windmill, sails turning",
+      "art": [
+        "windmill-tower",
+        "windmill-sails"
+      ],
+      "marker": "fig windmill",
+      "selector": ".glass .windmill",
+      "layer": "hero · horizon-life",
+      "motion": "css sails-turn",
+      "visible": "immediate",
+      "phone": "smaller"
+    },
+    {
+      "id": "rabbit",
+      "title": "The White Rabbit by the burrow",
+      "art": [
+        "rabbit"
+      ],
+      "marker": "class=\"rabbit\"",
+      "selector": ".glass .rabbit",
+      "layer": "hero · floor",
+      "motion": "lodge.mjs: frets, dives, wanders",
+      "visible": "immediate",
+      "phone": "smaller"
+    },
+    {
+      "id": "burrow",
+      "title": "The burrow (Loki spiral) — the rabbit hole",
+      "art": [],
+      "marker": "class=\"burrow\"",
+      "selector": ".glass .burrow",
+      "layer": "hero · floor-plane",
+      "motion": "css inward",
+      "visible": "immediate",
+      "phone": "smaller",
+      "door": "a page from data-to"
+    },
+    {
+      "id": "whale",
+      "title": "The flying whale",
+      "art": [
+        "whale"
+      ],
+      "marker": "class=\"whale\"",
+      "selector": ".glass .whale",
+      "layer": "hero · sky",
+      "motion": "lodge.mjs swim, after the hero has been seen",
+      "visible": "eventually",
+      "phone": "shown"
+    },
+    {
+      "id": "dragonfly",
+      "title": "The dragonfly",
+      "art": [
+        "dragonfly"
+      ],
+      "marker": "class=\"dragonfly\"",
+      "selector": ".glass .dragonfly",
+      "layer": "hero",
+      "motion": "creatures.mjs, with depth",
+      "visible": "eventually",
+      "phone": "shown"
+    },
+    {
+      "id": "hummingbird",
+      "title": "The hummingbird at the seed tree",
+      "art": [
+        "hummingbird"
+      ],
+      "marker": "class=\"hummingbird\"",
+      "selector": "#build-yourself .hummingbird",
+      "layer": "home seed scene",
+      "motion": "creatures.mjs, orbits the crown",
+      "visible": "eventually",
+      "phone": "shown"
+    },
+    {
+      "id": "wormhole",
+      "title": "The wormhole between chapters",
+      "art": [
+        "wormhole"
+      ],
+      "marker": "wormhole-gap",
+      "selector": ".wormhole-gap .fig-wormhole",
+      "layer": "home · in flow",
+      "motion": "css worm-turn",
+      "visible": "immediate",
+      "phone": "smaller"
+    },
+    {
+      "id": "fog-giant",
+      "title": "The giant in the fog",
+      "art": [
+        "fog-giant"
+      ],
+      "marker": "fig-fog-giant",
+      "selector": ".fig-fog-giant",
+      "layer": "partners hero · horizon-life",
+      "motion": "still, in haze",
+      "visible": "immediate",
+      "phone": "smaller"
+    },
+    {
+      "id": "deer-deep",
+      "title": "The deer, far off",
+      "art": [
+        "deer"
+      ],
+      "marker": "deer-deep",
+      "selector": ".deer-deep",
+      "layer": "partners hero · horizon-life",
+      "motion": "mesh warp",
+      "visible": "immediate",
+      "phone": "smaller"
+    },
+    {
+      "id": "ferns",
+      "title": "Fern and fiddlehead in the foreground",
+      "art": [
+        "fern",
+        "fiddlehead"
+      ],
+      "marker": "fig-fiddlehead",
+      "selector": ".foreground .fig-fern",
+      "layer": "partners hero · foreground",
+      "motion": "css sway",
+      "visible": "immediate",
+      "phone": "hidden"
+    },
+    {
+      "id": "fog-walker",
+      "title": "Something vast walking in the fog",
+      "art": [
+        "fog-neck"
+      ],
+      "marker": "fog-walker",
+      "selector": ".sky-life .fog-walker",
+      "layer": "every page · sky-life (fixed)",
+      "motion": "lodge.mjs pass(), only in mist",
+      "visible": "eventually",
+      "phone": "hidden"
+    },
+    {
+      "id": "cat",
+      "title": "The OrangeCat, roaming",
+      "art": [
+        "cat"
+      ],
+      "marker": "class=\"cat\"",
+      "selector": "a.cat",
+      "layer": "every page · floor stage or footer (moved by JS)",
+      "motion": "lodge.mjs: breathes, leans, pounces",
+      "visible": "eventually",
+      "phone": "smaller",
+      "door": "/orangecat/"
+    },
+    {
+      "id": "egg-fox",
+      "title": "The egg that hatches a fox",
+      "art": [
+        "egg",
+        "egg-bottom",
+        "egg-top",
+        "fox"
+      ],
+      "marker": "class=\"egg\"",
+      "selector": ".art-stage .egg, .egg",
+      "layer": "art stage (work, loki)",
+      "motion": "lodge.mjs hatch, fox runs in depth",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "kit",
+      "title": "The fox kit",
+      "art": [
+        "kit"
+      ],
+      "marker": "fig-kit",
+      "selector": ".fig-kit",
+      "layer": "art stage · guest (stand) / with the fox",
+      "motion": "mesh warp, flips",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "owl",
+      "title": "The owl on its perch",
+      "art": [
+        "owl",
+        "owl-fly"
+      ],
+      "marker": "guest-owl",
+      "selector": ".guest-owl",
+      "layer": "art stage · guest",
+      "motion": "lodge.mjs flight",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "horse",
+      "title": "The white horse",
+      "art": [
+        "horse",
+        "horse-run"
+      ],
+      "marker": "guest-horse",
+      "selector": ".guest-horse",
+      "layer": "art stage · guest",
+      "motion": "lodge.mjs gallop",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "unicorn",
+      "title": "The unicorn",
+      "art": [
+        "unicorn"
+      ],
+      "marker": "guest-unicorn",
+      "selector": ".guest-unicorn",
+      "layer": "art stage · guest",
+      "motion": "fades from the pointer",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "snail",
+      "title": "The snail",
+      "art": [
+        "snail"
+      ],
+      "marker": "guest-snail",
+      "selector": ".guest-snail",
+      "layer": "art stage · guest",
+      "motion": "lodge.mjs crawl",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "moth",
+      "title": "The moth",
+      "art": [
+        "moth"
+      ],
+      "marker": "fig-moth",
+      "selector": ".fig-moth",
+      "layer": "art stage · guest (story or flutter)",
+      "motion": "lodge.mjs flutter",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "scarab",
+      "title": "The scarab rolling the sun",
+      "art": [
+        "scarab",
+        "sunball"
+      ],
+      "marker": "guest-scarab",
+      "selector": ".guest-scarab",
+      "layer": "art stage · guest",
+      "motion": "lodge.mjs roll",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "stand-cow",
+      "title": "Heidi's cow",
+      "art": [
+        "cow"
+      ],
+      "marker": "guest-art-cow",
+      "selector": ".guest-art-cow",
+      "layer": "art stage · guest (stand)",
+      "motion": "mesh warp, flips",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "stand-diplodocus",
+      "title": "The diplodocus",
+      "art": [
+        "diplodocus"
+      ],
+      "marker": "guest-art-diplodocus",
+      "selector": ".guest-art-diplodocus",
+      "layer": "art stage · guest (stand)",
+      "motion": "mesh warp, flips",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "stand-deer",
+      "title": "The deer, standing",
+      "art": [
+        "deer"
+      ],
+      "marker": "guest-art-deer",
+      "selector": ".guest-art-deer",
+      "layer": "art stage · guest (stand)",
+      "motion": "mesh warp, flips",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "stand-elephant",
+      "title": "The elephant",
+      "art": [
+        "elephant"
+      ],
+      "marker": "guest-art-elephant",
+      "selector": ".guest-art-elephant",
+      "layer": "art stage · guest (stand)",
+      "motion": "mesh warp, flips",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "stand-rabbit",
+      "title": "The rabbit, standing",
+      "art": [
+        "rabbit"
+      ],
+      "marker": "guest-art-rabbit",
+      "selector": ".guest-art-rabbit",
+      "layer": "art stage · guest (stand)",
+      "motion": "mesh warp, flips",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "stand-cat",
+      "title": "The cat, standing",
+      "art": [
+        "cat"
+      ],
+      "marker": "guest-art-cat",
+      "selector": ".guest-art-cat",
+      "layer": "art stage · guest (stand)",
+      "motion": "mesh warp, flips",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "flutter-dragonfly",
+      "title": "The dragonfly, following the pointer",
+      "art": [
+        "dragonfly"
+      ],
+      "marker": "guest-art-dragonfly",
+      "selector": ".guest-art-dragonfly",
+      "layer": "art stage · guest (flutter)",
+      "motion": "lodge.mjs flutter with depth",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "flutter-hummingbird",
+      "title": "The hummingbird, following the pointer",
+      "art": [
+        "hummingbird"
+      ],
+      "marker": "guest-art-hummingbird",
+      "selector": ".guest-art-hummingbird",
+      "layer": "art stage · guest (flutter)",
+      "motion": "lodge.mjs flutter with depth",
+      "visible": "eventually",
+      "phone": "smaller"
+    },
+    {
+      "id": "drift-whale",
+      "title": "The whale crossing the stage sky",
+      "art": [
+        "whale"
+      ],
+      "marker": "guest-art-whale",
+      "selector": ".guest-art-whale",
+      "layer": "art stage · guest (drift)",
+      "motion": "lodge.mjs drift every 26 s",
+      "visible": "eventually",
+      "phone": "shown"
+    },
+    {
+      "id": "mushrooms",
+      "title": "Mushrooms",
+      "art": [
+        "mushroom-1",
+        "mushrooms-2",
+        "mushrooms-3"
+      ],
+      "marker": "fig-mushroom-1",
+      "selector": ".art-collection .fig-mushrooms-2",
+      "layer": "page collection",
+      "motion": "still",
+      "visible": "immediate",
+      "phone": "shown"
+    },
+    {
+      "id": "prince",
+      "title": "The Little Prince, looking up",
+      "art": [
+        "prince"
+      ],
+      "marker": "fig-prince",
+      "selector": ".art-collection .fig-prince",
+      "layer": "page collection (studio); also drawn in the sky under the LSD constellation",
+      "motion": "mesh warp (scarf, coat)",
+      "visible": "immediate",
+      "phone": "shown"
+    },
+    {
+      "id": "dandelions",
+      "title": "The dandelion — flower, clock, bare",
+      "art": [
+        "dandelion-flower",
+        "dandelion-clock",
+        "dandelion-bare"
+      ],
+      "marker": "fig-dandelion-",
+      "selector": ".art-collection [class*=fig-dandelion]",
+      "layer": "page collection; also drawn in the sky, thinning as the reader scrolls",
+      "motion": "still (page); canvas (sky)",
+      "visible": "immediate",
+      "phone": "shown"
+    },
+    {
+      "id": "clockwork",
+      "title": "The watch and its gears",
+      "art": [
+        "watch-block",
+        "watch",
+        "gear-l",
+        "gear-s"
+      ],
+      "marker": "fig-gear-l",
+      "selector": ".art-collection .fig-gear-l",
+      "layer": "page collection",
+      "motion": "still",
+      "visible": "immediate",
+      "phone": "shown"
+    },
+    {
+      "id": "watch",
+      "title": "The soft watch",
+      "art": [
+        "watch"
+      ],
+      "marker": "fig-watch\"",
+      "selector": ".art-collection .fig-watch",
+      "layer": "page collection",
+      "motion": "still",
+      "visible": "immediate",
+      "phone": "shown"
+    },
+    {
+      "id": "rye",
+      "title": "Rye with ergot",
+      "art": [
+        "rye-a",
+        "rye-b",
+        "rye-c"
+      ],
+      "marker": "fig-rye-a",
+      "selector": ".art-collection .fig-rye-a",
+      "layer": "page collection",
+      "motion": "still",
+      "visible": "immediate",
+      "phone": "shown"
+    },
+    {
+      "id": "tumbleweed",
+      "title": "The tumbleweed",
+      "art": [
+        "tumbleweed"
+      ],
+      "marker": "fig-tumbleweed",
+      "selector": ".art-collection .fig-tumbleweed",
+      "layer": "page collection",
+      "motion": "still",
+      "visible": "immediate",
+      "phone": "shown"
+    },
+    {
+      "id": "windmill-still",
+      "title": "The windmill, as a painting",
+      "art": [
+        "windmill"
+      ],
+      "marker": "fig-windmill\"",
+      "selector": ".art-collection .fig-windmill",
+      "layer": "page collection",
+      "motion": "still",
+      "visible": "immediate",
+      "phone": "shown"
+    },
+    {
+      "id": "fog-neck-still",
+      "title": "The fog creature, as a painting",
+      "art": [
+        "fog-neck"
+      ],
+      "marker": "art-object\"><img class=\"fig fig-fog-neck",
+      "selector": ".art-collection .fig-fog-neck",
+      "layer": "page collection",
+      "motion": "still",
+      "visible": "immediate",
+      "phone": "shown"
+    },
+    {
+      "id": "sky",
+      "title": "The sky: stars, Milky Way, moon lit to tonight's phase, sun by day, clouds, weather, molecule constellations, the Little Prince, the dandelion",
+      "art": [
+        "moon",
+        "cloud-1",
+        "cloud-2",
+        "cloud-3",
+        "cloud-4"
+      ],
+      "marker": "class=\"sky\"",
+      "selector": "canvas.sky",
+      "layer": "every page · fixed canvas behind everything",
+      "motion": "sky.mjs; weather from the WX table",
+      "visible": "canvas",
+      "phone": "shown (no prince, no dandelion, fewer clouds)"
+    },
+    {
+      "id": "neuron-tree",
+      "title": "The neuron tree with the Giger spine",
+      "art": [],
+      "marker": "data-scene=\"neuron\"",
+      "selector": "canvas[data-scene=neuron]",
+      "layer": "hero scene canvas",
+      "motion": "scenes.mjs: sways with the wind",
+      "visible": "canvas",
+      "phone": "shown"
+    },
+    {
+      "id": "seed-plain",
+      "title": "The seed plain with the Fuller dome",
+      "art": [],
+      "marker": "data-scene=\"seed\"",
+      "selector": "canvas[data-scene=seed]",
+      "layer": "scene canvas",
+      "motion": "scenes.mjs",
+      "visible": "canvas",
+      "phone": "shown"
+    },
+    {
+      "id": "rings",
+      "title": "The rings",
+      "art": [],
+      "marker": "data-scene=\"rings\"",
+      "selector": "canvas[data-scene=rings]",
+      "layer": "scene canvas",
+      "motion": "scenes.mjs",
+      "visible": "canvas",
+      "phone": "shown"
+    },
+    {
+      "id": "mycelium",
+      "title": "The Giger grove and its biomechanical mushrooms",
+      "art": [],
+      "marker": "data-scene=\"mycelium\"",
+      "selector": "canvas[data-scene=mycelium]",
+      "layer": "scene canvas",
+      "motion": "scenes.mjs",
+      "visible": "canvas",
+      "phone": "shown"
+    },
+    {
+      "id": "lodge",
+      "title": "The Lodge: green curtains and the chevron floor",
+      "art": [],
+      "marker": "lodge-floor",
+      "selector": ".lodge-floor",
+      "layer": "hero",
+      "motion": "floor glides on scroll (--fy); curtains drawn by lodge.mjs",
+      "visible": "immediate",
+      "phone": "smaller (no curtains)"
+    },
+    {
+      "id": "rabbit-hole",
+      "title": "The rabbit-hole spirals",
+      "art": [],
+      "marker": "class=\"rabbit-hole\"",
+      "selector": ".rabbit-hole",
+      "layer": "home · in flow",
+      "motion": "lodge.mjs",
+      "visible": "immediate",
+      "phone": "shown"
+    }
+  ],
+  "pages": {
+    "/": [
+      "riders",
+      "windmill",
+      "rabbit",
+      "burrow",
+      "whale",
+      "dragonfly",
+      "hummingbird",
+      "wormhole",
+      "fog-walker",
+      "cat",
+      "sky",
+      "neuron-tree",
+      "seed-plain",
+      "rings",
+      "mycelium",
+      "lodge",
+      "rabbit-hole"
+    ],
+    "/work/": [
+      "fog-walker",
+      "cat",
+      "egg-fox",
+      "kit",
+      "rye",
+      "sky"
+    ],
+    "/map/": [
+      "fog-walker",
+      "cat",
+      "scarab",
+      "sky"
+    ],
+    "/partners/": [
+      "fog-giant",
+      "deer-deep",
+      "ferns",
+      "fog-walker",
+      "cat",
+      "horse",
+      "mushrooms",
+      "sky",
+      "mycelium"
+    ],
+    "/portal/": [
+      "fog-walker",
+      "cat",
+      "horse",
+      "sky"
+    ],
+    "/academy/": [
+      "fog-walker",
+      "cat",
+      "scarab",
+      "sky"
+    ],
+    "/roadmap/": [
+      "fog-walker",
+      "cat",
+      "unicorn",
+      "sky"
+    ],
+    "/changelog/": [
+      "fog-walker",
+      "cat",
+      "scarab",
+      "sky"
+    ],
+    "/packages/": [
+      "fog-walker",
+      "cat",
+      "owl",
+      "clockwork",
+      "sky"
+    ],
+    "/packages/ai-kit/": [
+      "fog-walker",
+      "cat",
+      "horse",
+      "sky"
+    ],
+    "/packages/bip-kit/": [
+      "fog-walker",
+      "cat",
+      "egg-fox",
+      "kit",
+      "sky"
+    ],
+    "/packages/mail-kit/": [
+      "fog-walker",
+      "cat",
+      "horse",
+      "sky"
+    ],
+    "/packages/limitkit/": [
+      "fog-walker",
+      "cat",
+      "scarab",
+      "sky"
+    ],
+    "/packages/ai-forms/": [
+      "fog-walker",
+      "cat",
+      "horse",
+      "sky"
+    ],
+    "/packages/design-tokens/": [
+      "fog-walker",
+      "cat",
+      "moth",
+      "sky"
+    ],
+    "/packages/listkit/": [
+      "fog-walker",
+      "cat",
+      "unicorn",
+      "sky"
+    ],
+    "/packages/threadkit/": [
+      "fog-walker",
+      "cat",
+      "scarab",
+      "sky"
+    ],
+    "/packages/chatkit/": [
+      "fog-walker",
+      "cat",
+      "moth",
+      "sky"
+    ],
+    "/packages/sitekit/": [
+      "fog-walker",
+      "cat",
+      "unicorn",
+      "sky"
+    ],
+    "/packages/speechkit/": [
+      "fog-walker",
+      "cat",
+      "snail",
+      "sky"
+    ],
+    "/packages/paykit/": [
+      "fog-walker",
+      "cat",
+      "unicorn",
+      "sky"
+    ],
+    "/studio/": [
+      "fog-walker",
+      "cat",
+      "scarab",
+      "prince",
+      "dandelions",
+      "sky"
+    ],
+    "/hire/": [
+      "fog-walker",
+      "cat",
+      "owl",
+      "sky",
+      "rings"
+    ],
+    "/orangecat/": [
+      "fog-walker",
+      "cat",
+      "stand-cat",
+      "sky"
+    ],
+    "/loki/": [
+      "fog-walker",
+      "cat",
+      "egg-fox",
+      "kit",
+      "sky"
+    ],
+    "/heidi/": [
+      "fog-walker",
+      "cat",
+      "stand-cow",
+      "sky"
+    ],
+    "/solon/": [
+      "fog-walker",
+      "cat",
+      "owl",
+      "sky"
+    ],
+    "/revamp-info/": [
+      "fog-walker",
+      "cat",
+      "stand-elephant",
+      "sky"
+    ],
+    "/evig/": [
+      "fog-walker",
+      "cat",
+      "unicorn",
+      "watch",
+      "tumbleweed",
+      "sky"
+    ],
+    "/datacat/": [
+      "fog-walker",
+      "cat",
+      "stand-cat",
+      "sky"
+    ],
+    "/petvity/": [
+      "fog-walker",
+      "cat",
+      "kit",
+      "sky"
+    ],
+    "/substrata/": [
+      "fog-walker",
+      "cat",
+      "moth",
+      "dandelions",
+      "sky"
+    ],
+    "/surf-your-life/": [
+      "fog-walker",
+      "cat",
+      "drift-whale",
+      "windmill-still",
+      "sky"
+    ],
+    "/botsmann/": [
+      "fog-walker",
+      "cat",
+      "horse",
+      "sky"
+    ],
+    "/aoz-housing/": [
+      "fog-walker",
+      "cat",
+      "snail",
+      "sky"
+    ],
+    "/kivvi/": [
+      "fog-walker",
+      "cat",
+      "scarab",
+      "sky"
+    ],
+    "/vitareba/": [
+      "fog-walker",
+      "cat",
+      "stand-deer",
+      "sky"
+    ],
+    "/s-ink/": [
+      "fog-walker",
+      "cat",
+      "flutter-dragonfly",
+      "sky"
+    ],
+    "/wild-spirit/": [
+      "fog-walker",
+      "cat",
+      "stand-deer",
+      "fog-neck-still",
+      "sky"
+    ],
+    "/skif/": [
+      "fog-walker",
+      "cat",
+      "horse",
+      "sky"
+    ],
+    "/sbb-fundbuero/": [
+      "fog-walker",
+      "cat",
+      "stand-rabbit",
+      "sky"
+    ],
+    "/reparaturbonus-zh/": [
+      "fog-walker",
+      "cat",
+      "scarab",
+      "sky"
+    ],
+    "/printcraft/": [
+      "fog-walker",
+      "cat",
+      "moth",
+      "sky"
+    ],
+    "/camille-boulangerie/": [
+      "fog-walker",
+      "cat",
+      "flutter-hummingbird",
+      "sky"
+    ],
+    "/diplodoctor/": [
+      "fog-walker",
+      "cat",
+      "stand-diplodocus",
+      "sky"
+    ],
+    "/causius/": [
+      "fog-walker",
+      "cat",
+      "owl",
+      "sky"
+    ]
+  }
+}

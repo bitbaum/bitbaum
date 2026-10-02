@@ -10,6 +10,13 @@ Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADM
 - Diplodoctor and Causius now describe their own plans: a licensed clinician, or a licensed lawyer, stays in the loop and owns the result. Both remain "not built".
 - 138 responsive checks pass, including the new page.
 
+## 2026-10-02 — The cast is accounted for
+
+- `site/cast.json` names every painted or drawn element once; the build finds each one on the pages it renders and writes the register (`dist/cast.json`, `docs/CAST.md` — what is where, how it moves, what shows on phones). It refuses to build when an element is on no page or a painting belongs to no entry. The first run found one: the hummingbird avatar was assigned to a venture that does not exist, so it was on no page — it now lives on Camille's bakery.
+- `site/check-cast.mjs` opens every page at phone and desk width and proves each element is in the DOM, loaded and sized where the register says; it runs in CI with the other checks.
+- Quixote and Sancho ride into the plain toward the mill — near and large first, then up and away, smaller and hazier — instead of along the horizon line.
+- The header steps aside while the reader reads down and returns on the first scroll up; never while the menu is open.
+
 ## 2026-10-01 — The sky obeys the weather
 
 - One table in `site/sky.mjs` (`WX`) says what each weather does: the sky's gradient by day and night, how much sun, moon and stars show, how many clouds and how bright, what falls, how hard the wind blows. Everything that draws reads it; nothing tests a weather by name any more. Rain is an overcast with no sun, mist veils it, snow dims the stars.
