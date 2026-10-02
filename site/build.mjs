@@ -15,7 +15,7 @@
 // proof register. This repo owns presentation only: overrides.json says the
 // stage a venture is at, its field tags, its one line and its story.
 //
-// Pages: /  /work/  /<slug>/  /packages/  /studio/  — static HTML in site/dist/,
+// Pages: /  /work/  /map/  /<slug>/  /packages/  /studio/  — static HTML in site/dist/,
 // served by Caddy's file_server with clean directory URLs.
 //
 //   node site/build.mjs            fetch the sources, write site/dist/
@@ -25,6 +25,7 @@
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { MARK_HEADER, MARK_FAVICON } from "./brand-mark.mjs";
 import { createPackagePages } from "./packages-page.mjs";
+import { createLoopsPage } from "./loops.mjs";
 import { publicMap } from "./public-map.mjs";
 import { fig, ART_NAMES } from "./art.mjs";
 import { renderRecord } from "./record-html.mjs";
@@ -424,7 +425,7 @@ function shell({ title, description, path, body, nav, script, image }) {
   // One map of the site, rendered twice: as the phone menu and as the footer.
   // Two hand-kept lists drift; this cannot.
   const sections = [
-    ["Explore", [["/work/", "The work"], ["/partners/", "Partners"], ["/studio/", "About bitbaum"], ["/roadmap/", "Roadmap"], ["/changelog/", "Changelog"], [ARTICLES, "Writing ↗"]]],
+    ["Explore", [["/work/", "The work"], ["/map/", "The map"], ["/partners/", "Partners"], ["/studio/", "About bitbaum"], ["/roadmap/", "Roadmap"], ["/changelog/", "Changelog"], [ARTICLES, "Writing ↗"]]],
     ["Build with us", [["/partners/#join", "Become a partner"], ["/academy/", "Systems design pilot"], ["/portal/", "Open your portal"], ["/packages/", "Packages (for developers)"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"]]],
     ["The studio", [[HIRE, "Engagements and rates"], [`${HIRE}#waitlist`, "Join the waitlist"], [LOKI_START, "Build it yourself (free Loki)"]]],
   ];
@@ -565,6 +566,7 @@ ${img}        <div class="card-body">
 }
 
 const { pkgCard, packagesPage, packagePage, shownPackages } = createPackagePages({ esc, shell });
+const loopsPage = createLoopsPage({ esc, shell, pill, ARROW });
 
 // ── the work: one grid, two facets ──────────────────────────────────────────
 //
@@ -1229,6 +1231,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   const files = new Map();
   files.set("index.html", homePage(all, packages, cfg, origin, readings, hire));
   files.set("work/index.html", workPage(all, cfg));
+  files.set("map/index.html", loopsPage(all, cfg, packages));
   files.set("partners/index.html", partnersPage());
   files.set("portal/index.html", portalPage());
   files.set("academy/index.html", academyPage());
@@ -1340,7 +1343,7 @@ if (isMain) {
     }
     // Pages for ventures that no longer exist must not linger.
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
-      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "studio", "hire", "og", "vendor", "partners", "art", "portal", "academy", "roadmap", "changelog"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
+      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "map", "studio", "hire", "og", "vendor", "partners", "art", "portal", "academy", "roadmap", "changelog"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
     cpSync(join(here, "styles.css"), join(DIST, "styles.css"));
     // Same rule, fewer generations — a favicon that cannot drift from the logo.

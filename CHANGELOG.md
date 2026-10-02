@@ -2,6 +2,14 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-10-02 — The map
+
+- New page, /map/: every project drawn as a loop, meaning work that recurs and still needs a person in it. Four layers: the rails (OrangeCat, Solon, Loki and the shared packages), the constraints (Substrata), professionals in the loop, and loops in the world. Each loop names who stays in it and what routine part it aims to retire.
+- The loops live in `site/overrides.json` (`loops`). The build fails if a loop cites a project the site does not show, if a project is in two loops, or if a shown project is in none, so a new project cannot reach /work/ without someone deciding what it is for.
+- A loop with no project is drawn as a gap and claims nothing. Allocating money is the first: named, not built, and explicitly not advice.
+- Diplodoctor and Causius now describe their own plans: a licensed clinician, or a licensed lawyer, stays in the loop and owns the result. Both remain "not built".
+- 138 responsive checks pass, including the new page.
+
 ## 2026-10-01 — The sky obeys the weather
 
 - One table in `site/sky.mjs` (`WX`) says what each weather does: the sky's gradient by day and night, how much sun, moon and stars show, how many clouds and how bright, what falls, how hard the wind blows. Everything that draws reads it; nothing tests a weather by name any more. Rain is an overcast with no sun, mist veils it, snow dims the stars.
