@@ -10,6 +10,13 @@ Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADM
 - Diplodoctor and Causius now describe their own plans: a licensed clinician, or a licensed lawyer, stays in the loop and owns the result. Both remain "not built".
 - 138 responsive checks pass, including the new page.
 
+## 2026-10-02 — Grounded, and the floor is black again
+
+- The chevron floor is bone on ink in both modes. Its base colour was the foreground — white by night — so in dark mode the Red Room floor was a white slab.
+- The owl's perch was a line in mid-air; its painted branch now reaches in from beyond the stage's edge.
+- The fox and the cat meet: when the fox runs the floor the cat turns to face it, the fox leaps over, the cat startles and watches it go.
+- On phones the riders ride too — they had been pinned still beside the rabbit and the burrow, which is what crowded the first screen. A short receding path right of the burrow, toward the mill.
+
 ## 2026-10-02 — The cast is accounted for
 
 - `site/cast.json` names every painted or drawn element once; the build finds each one on the pages it renders and writes the register (`dist/cast.json`, `docs/CAST.md` — what is where, how it moves, what shows on phones). It refuses to build when an element is on no page or a painting belongs to no entry. The first run found one: the hummingbird avatar was assigned to a venture that does not exist, so it was on no page — it now lives on Camille's bakery.
