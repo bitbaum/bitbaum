@@ -296,10 +296,20 @@ if (fox && egg && foxStage) {
       // Across the floor AND toward us: from the back of the floor, small,
       // to its front edge, full size — a run through depth, not along a line.
       fox.style.transform = "";
-      const go = fox.animate([
-        { left: `${fromX}px`, transform: `translateY(-48px) scale(${dir * 0.55}, 0.55)` },
-        { left: `${to}px`, transform: `translateY(6px) scale(${dir * 1.1}, 1.1)` },
-      ], { duration: (Math.abs(to - fromX) / 380) * 1000, easing: "cubic-bezier(.4,0,.9,.9)" });
+      const duration = (Math.abs(to - fromX) / 380) * 1000;
+      const pose = (t, lift = 0) => `translateY(${(-48 + 54 * t - lift).toFixed(1)}px) scale(${(dir * (0.55 + 0.55 * t)).toFixed(3)}, ${(0.55 + 0.55 * t).toFixed(3)})`;
+      const frames = [{ left: `${fromX}px`, transform: pose(0), offset: 0 }];
+      // If the cat sits on this floor, the fox leaps over it — and tells the
+      // cat when, so it can turn, startle and watch it go.
+      const catEl = foxStage.querySelector(".cat-floor");
+      const catX = catEl ? catEl.offsetLeft : null;
+      const at = catX === null ? null : (catX - fromX) / (to - fromX);
+      if (at !== null && at > 0.12 && at < 0.88) {
+        frames.push({ transform: pose(at - 0.07), offset: at - 0.07 }, { transform: pose(at, 74), offset: at, easing: "ease-in" }, { transform: pose(at + 0.07), offset: at + 0.07 });
+        foxStage.dispatchEvent(new CustomEvent("fox-run", { detail: { at: at * duration, dir } }));
+      }
+      frames.push({ left: `${to}px`, transform: pose(1), offset: 1 });
+      const go = fox.animate(frames, { duration, easing: "cubic-bezier(.4,0,.9,.9)" });
       go.onfinish = () => { fox.hidden = true; };
     };
     const hatch = () => {
@@ -385,6 +395,24 @@ if (cat) {
     host.append(cat);
     cat.hidden = false;
     const body = cat.querySelector(".fig");
+    // The fox runs this floor now and then: the cat turns to face it coming,
+    // startles as it leaps over, then turns to watch it go — and settles.
+    if (kind === "floor" && !still) host.addEventListener("fox-run", (e) => {
+      const { at, dir } = e.detail;
+      const face = (toward) => cat.style.setProperty("--face", String(toward));
+      setTimeout(() => face(dir > 0 ? -1 : 1), Math.max(0, at - 900));
+      setTimeout(() => {
+        body?.animate([
+          { transform: "translate(0, 0) scale(1, 1)" },
+          { transform: "translate(0, 4px) scale(1.12, 0.82)", offset: 0.15 },
+          { transform: "translate(0, -30px) scale(0.92, 1.12)", offset: 0.45 },
+          { transform: "translate(0, 0) scale(1.06, 0.9)", offset: 0.7 },
+          { transform: "translate(0, 0) scale(1, 1)" },
+        ], { duration: 900, easing: "ease-out" });
+        setTimeout(() => face(dir > 0 ? 1 : -1), 450);
+      }, Math.max(0, at - 120));
+      setTimeout(() => face(1), at + 3200);
+    });
     if (!still && matchMedia("(pointer: fine)").matches && body) {
       // It leans toward the pointer, a few degrees — enough to feel watched —
       // and if the pointer lingers near, it crouches and pounces, then goes

@@ -755,7 +755,9 @@ main:has(> .dev-band:last-child) + footer { margin-top: 0; }
    The look: film noir with a Lynch floor. Grain over the whole page, deep
    blacks — so the only colour is the work itself (product screenshots) and
    bitbaum's green, which means signal. Under the hero, the chevron floor — a
-   precise system laid down in the dark, which is what we build. */
+   precise system laid down in the dark, which is what we build. Bone on ink
+   in BOTH modes: its base was the foreground colour once, which is white by
+   night, and the Red Room floor turned into a white slab. */
 .lodge-floor, .stage-floored::after {
   --bone: #ebe5d8; --ink: #0a0a0a; --tile: 72px;
   position: absolute; left: -30%; right: -30%; bottom: 0; height: 32vh;
@@ -765,7 +767,7 @@ main:has(> .dev-band:last-child) + footer { margin-top: 0; }
     linear-gradient(225deg, var(--bone) 25%, transparent 25%) calc(var(--tile) / -2) 0 / var(--tile) var(--tile),
     linear-gradient(315deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
     linear-gradient(45deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
-    var(--fg);
+    var(--ink);
   -webkit-mask-image: linear-gradient(to top, #000 35%, transparent 100%);
   mask-image: linear-gradient(to top, #000 35%, transparent 100%);
   opacity: 0.92;
@@ -783,7 +785,7 @@ footer::before {
     linear-gradient(225deg, var(--bone) 25%, transparent 25%) calc(var(--tile) / -2) 0 / var(--tile) var(--tile),
     linear-gradient(315deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
     linear-gradient(45deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
-    var(--fg);
+    var(--ink);
   opacity: 0.85;
 }
 
@@ -971,7 +973,7 @@ body::after {
 .glass:not([data-perched]) .cat-tree { opacity: 0; }
 .cat-tree .fig { animation: cat-breathe 4.2s ease-in-out infinite, cheshire 18s ease-in-out infinite; }
 @keyframes cheshire { 0%, 52%, 100% { opacity: 1; } 66%, 84% { opacity: 0.08; } }
-.cat-floor { left: var(--cat-x); bottom: 18px; transform: translateX(-50%); }
+.cat-floor { left: var(--cat-x); bottom: 18px; transform: translateX(-50%) scaleX(var(--face, 1)); transition: transform 0.35s ease; }
 .cat-footer { left: var(--cat-x); top: -64px; transform: translateX(-50%); }
 .cat-peek { right: calc(var(--curtain) - 28px); top: var(--cat-y); transform: rotate(-14deg); }
 
@@ -1134,11 +1136,11 @@ footer::before { background-position: calc(var(--tile) / -2 + var(--fy, 0px)) 0,
   .glass .riders .fig-sancho { width: 38px; }
   .glass .riders .fig-quixote { width: 58px; }
   @keyframes ride {
-    0% { left: 30%; opacity: 0; scale: 1.2; translate: 0 18px; filter: none; }
+    0% { left: 64%; opacity: 0; scale: 0.85; translate: 0 10px; filter: none; }
     7% { opacity: 1; }
-    50% { scale: 0.8; translate: 0 8px; }
+    50% { scale: 0.62; translate: 0 6px; }
     95% { opacity: 1; }
-    100% { left: 72%; opacity: 0; scale: 0.4; translate: 0 0; filter: blur(0.6px) brightness(1.1) saturate(0.6); }
+    100% { left: 81%; opacity: 0; scale: 0.38; translate: 0 0; filter: blur(0.6px) brightness(1.1) saturate(0.6); }
   }
   .rye-clump { display: none; }
 }
@@ -1150,7 +1152,7 @@ footer::before { background-position: calc(var(--tile) / -2 + var(--fy, 0px)) 0,
 .windmill .wm-tower { position: relative; width: 100%; }
 .windmill .wm-sails { position: absolute; left: 0.6%; top: -20.6%; width: 160%; max-width: none; animation: sails-turn 18s linear infinite; }
 @keyframes sails-turn { to { rotate: -360deg; } }
-@media (max-width: 700px) { .glass .windmill { left: 86%; width: 34px; } }
+@media (max-width: 700px) { .glass .windmill { left: 90%; width: 34px; } }
 @media (prefers-reduced-motion: reduce) { .windmill .wm-sails { animation: none; rotate: -18deg; } }
 
 /* Nothing may ever make the page scroll sideways — not a painted figure at its
@@ -1226,6 +1228,7 @@ html { overflow-x: clip; }
 .guest-scarab .sunball { display: block; width: 42%; filter: drop-shadow(0 0 10px rgb(255 214 120 / 0.55)); }
 @media (max-width: 700px) {
   .guest-owl { width: 60px; top: 30%; }
+  .art-stage .guest-owl { right: auto; left: -14px; bottom: 38%; }
   .guest-owl .owl-flying { width: 96px; }
   .guest-horse { width: 80px; bottom: 56px; }
   .guest-horse .horse-gallop { width: 94px; }
@@ -1359,8 +1362,9 @@ html { overflow-x: clip; }
 .art-stage { position: relative; isolation: isolate; overflow: clip; height: clamp(200px, 24vw, 280px); }
 .art-ground { position: absolute; inset: auto 0 0; height: 100px; background: linear-gradient(to bottom, transparent, rgb(var(--veil) / 0.35) 40%, rgb(var(--veil) / 0.1)); }
 .art-ground::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: 48px; height: 1px; background: linear-gradient(to right, transparent, rgb(var(--line-rgb) / 0.3), transparent); }
-.art-stage .guest-owl { top: auto; bottom: 48px; right: 25%; }
-.art-stage .guest-owl::after { content: ""; position: absolute; left: -20%; right: -20%; bottom: 0; height: 2px; background: rgb(var(--line-rgb) / 0.4); }
+/* The owl's painted branch reaches in from beyond the stage's edge — the tree
+   it grows from is off-stage, so nothing hangs in the air. */
+.art-stage .guest-owl { top: auto; bottom: 42%; right: auto; left: -26px; }
 .art-stage .guest-horse { left: 48%; bottom: 48px; }
 .art-stage .horse-stand { left: 0; }
 .art-stage .guest-unicorn, .art-stage .guest-stand { bottom: 48px; }
@@ -1392,7 +1396,8 @@ footer { padding-bottom: max(6rem, var(--section-tight)); }
   .scene-world .burrow { width: 120px; height: 120px; margin: -60px 0 0 -60px; left: 48%; }
   .scene-world .whale { top: 12px; width: 50%; }
   .scene-world .dragonfly .fig { width: 32px; }
-  .glass .riders { animation: none; left: 12%; opacity: 1; }
+  /* They ride on phones too — a short path, right of the burrow, receding toward the mill. */
+  .glass .riders { left: 70%; }
   .glass .windmill { left: 84%; width: 28px; }
   .scene-world .foreground .fig-fern { height: 130px; right: 5%; }
   .scene-world .foreground .fig-fiddlehead { height: 80px; right: 36%; }
