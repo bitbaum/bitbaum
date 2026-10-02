@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-01T14:32:09.148Z",
+  "generatedAt": "2026-10-02T04:48:28.966Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 35,
     "live": 16,
     "clients": 5,
-    "inFlight": 0
+    "inFlight": 1
   },
   "projects": [
     {
@@ -577,6 +577,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-01",
+          "done": "A studio brief, a partner application or a reply on one now reaches a person. Each one announces itself the way feedback does: a push, a Telegram message and an alert pointing at the review view. Until now the request was saved and nobody was told, which is the opposite of \"a person will reply\".\nThe website chat no longer narrates its own rules. A fallback model had answered a visitor with \"Stage used: beta. No URLs written.\" under the real answer; those lines are dropped before the reply is shown.\nA paused widget token cannot transcribe voice any more than it can chat."
+        },
+        {
           "date": "2026-09-30",
           "done": "Change a website from its address. Enter an existing website and say, in plain words, what should change. Your brief survives signing in, becomes one project, and the build starts; the brief tells the agent to keep what already works, test on phone and desktop, and show you a preview (#987).\nEvery essay's reading time is its own. Five essays in Thoughts showed \"6 min\" whatever their length; they now show the time their text takes."
         },
@@ -651,10 +655,6 @@
         {
           "date": "2026-08-23",
           "done": "Feedback gets its own inbox. Every project's reports in one place, grouped by what needs you, what is in progress and what shipped, with a notice when new feedback arrives (#335)."
-        },
-        {
-          "date": "2026-08-15",
-          "done": "Try Loki without an account. A sandboxed demo lets you create projects and move around freely, while anything that would leave the demo is refused (#290).\nThe free AI allowance is shared fairly. Each active person gets a share of the day's free tier, so the first busy user cannot spend it all before lunch (#303)."
         }
       ],
       "records": {
@@ -4847,6 +4847,10 @@
       "roadmap": [],
       "changelog": [
         {
+          "date": "2026-10-02",
+          "done": "Replan for escalation rung 3: the three \"failed\" runs (09-29..10-01) died on provider usage limits before the prompt reached an agent, not on the repo; re-verified origin/main 1f5402d (tsc clean, eslint clean, 32 files / 179 tests pass, no blockers, no open PRs, no roadmap, clean tree) and stopped per the loop-protection brake (no-op count >= 2) instead of inventing T2 churn."
+        },
+        {
           "date": "2026-10-01",
           "done": "Escalation cleared without a code change: the two failed runs died on provider usage limits before any agent ran, not on the repo; re-verified origin/main 1f5402d (tsc clean, lint clean, 32 files / 179 tests pass, Auto-merge workflow green, no blockers, no open PRs, no roadmap, no swallowed catches or stub UI) — third consecutive no-op, stopped per the awaiting_user brake: no high-impact work remains, the Definition-of-done flow is fully wired, founder picks the next direction."
         },
@@ -4881,14 +4885,14 @@
       },
       "next": null,
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
           "outcome": "error",
           "at": "2026-10-01T04:00:21.526Z"
         },
         "lastLog": {
-          "date": "2026-10-01",
-          "done": "Escalation cleared without a code change: the two failed runs died on provider usage limits before any agent ran, not on the repo; re-verified origin/main 1f5402d (tsc clean, lint clean, 32 files / 179 tests pass, Auto-merge workflow green, no blockers, no open PRs, no roadmap, no swallowed catches or stub UI) — third consecutive no-op, stopped per the awaiting_user brake: no high-impact work remains, the Definition-of-done flow is fully wired, founder picks the next direction."
+          "date": "2026-10-02",
+          "done": "Replan for escalation rung 3: the three \"failed\" runs (09-29..10-01) died on provider usage limits before the prompt reached an agent, not on the repo; re-verified origin/main 1f5402d (tsc clean, eslint clean, 32 files / 179 tests pass, no blockers, no open PRs, no roadmap, clean tree) and stopped per the loop-protection brake (no-op count >= 2) instead of inventing T2 churn."
         }
       }
     },
@@ -5297,6 +5301,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-02",
+          "done": "Built the Art. 262 OR consent-request generator (/dossier): pure validated domain + German letter template + print-to-PDF page reusing the surcharge engine, 12 new tests, verified via pnpm verify and live next start; PR #3 on feat/dossier-generator (https://github.com/bitbaum/zurich-sublet-compliance-concierge-service/pull/3)."
+        },
+        {
           "date": "2026-10-01",
           "done": "Built the furniture surcharge engine (config-driven, pure, 11 node:test cases) and a /calculator page that shows a tenant the highest defensible monthly sublet rent under Art. 262 OR, verified via type-check, tests, build and live next start, and opened PR #2 on branch feat/surcharge-calculator with CI green, awaiting the repo auto-merge sweep."
         },
@@ -5317,12 +5325,12 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-10-01T04:00:48.970Z"
+          "outcome": "success",
+          "at": "2026-10-02T04:04:45.790Z"
         },
         "lastLog": {
-          "date": "2026-10-01",
-          "done": "Built the furniture surcharge engine (config-driven, pure, 11 node:test cases) and a /calculator page that shows a tenant the highest defensible monthly sublet rent under Art. 262 OR, verified via type-check, tests, build and live next start, and opened PR #2 on branch feat/surcharge-calculator with CI green, awaiting the repo auto-merge sweep."
+          "date": "2026-10-02",
+          "done": "Built the Art. 262 OR consent-request generator (/dossier): pure validated domain + German letter template + print-to-PDF page reusing the surcharge engine, 12 new tests, verified via pnpm verify and live next start; PR #3 on feat/dossier-generator (https://github.com/bitbaum/zurich-sublet-compliance-concierge-service/pull/3)."
         }
       }
     }
