@@ -51,6 +51,9 @@ for (const [width, device] of [[390, "phone"], [1280, "desk"]]) {
       const info = await page.evaluate(([sel, phone]) => {
         const el = document.querySelector(sel);
         if (!el) return { missing: true };
+        // Measure where the element LIVES, not where its motion has it this
+        // frame: a tumbleweed mid-roll is rightly off the page for a moment.
+        for (const a of el.getAnimations({ subtree: true })) a.cancel();
         const cs = getComputedStyle(el);
         const r = el.getBoundingClientRect();
         const imgs = [...(el.matches("img") ? [el] : el.querySelectorAll("img"))];

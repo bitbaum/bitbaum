@@ -77,7 +77,20 @@
       "layer": "hero",
       "motion": "creatures.mjs, with depth",
       "visible": "eventually",
-      "phone": "shown"
+      "phone": "hidden"
+    },
+    {
+      "id": "elephant-walker",
+      "title": "The long-legged elephant crossing the plain",
+      "art": [
+        "elephant"
+      ],
+      "marker": "class=\"walker\"",
+      "selector": "#build-yourself .walker",
+      "layer": "home seed scene · plain",
+      "motion": "creatures.mjs: walks in depth toward us, legs striding (mesh warp)",
+      "visible": "eventually",
+      "phone": "hidden"
     },
     {
       "id": "hummingbird",
@@ -409,8 +422,8 @@
       ],
       "marker": "fig-mushroom-1",
       "selector": ".art-collection .fig-mushrooms-2",
-      "layer": "page collection",
-      "motion": "still",
+      "layer": "page ground strip",
+      "motion": "breathe; spores on a tap",
       "visible": "immediate",
       "phone": "shown"
     },
@@ -422,7 +435,7 @@
       ],
       "marker": "fig-prince",
       "selector": ".art-collection .fig-prince",
-      "layer": "page collection (studio); also drawn in the sky under the LSD constellation",
+      "layer": "page ground strip (studio); also drawn in the sky under the LSD constellation",
       "motion": "mesh warp (scarf, coat)",
       "visible": "immediate",
       "phone": "shown"
@@ -437,8 +450,8 @@
       ],
       "marker": "fig-dandelion-",
       "selector": ".art-collection [class*=fig-dandelion]",
-      "layer": "page collection; also drawn in the sky, thinning as the reader scrolls",
-      "motion": "still (page); canvas (sky)",
+      "layer": "page ground strip; also drawn in the sky, thinning as the reader scrolls",
+      "motion": "sways (strip); canvas (sky)",
       "visible": "immediate",
       "phone": "shown"
     },
@@ -453,8 +466,8 @@
       ],
       "marker": "fig-gear-l",
       "selector": ".art-collection .fig-gear-l",
-      "layer": "page collection",
-      "motion": "still",
+      "layer": "page ground strip",
+      "motion": "the gears turn, each its own way",
       "visible": "immediate",
       "phone": "shown"
     },
@@ -466,7 +479,7 @@
       ],
       "marker": "fig-watch\"",
       "selector": ".art-collection .fig-watch",
-      "layer": "page collection",
+      "layer": "page ground strip",
       "motion": "still",
       "visible": "immediate",
       "phone": "shown"
@@ -481,8 +494,8 @@
       ],
       "marker": "fig-rye-a",
       "selector": ".art-collection .fig-rye-a",
-      "layer": "page collection",
-      "motion": "still",
+      "layer": "page ground strip",
+      "motion": "sways",
       "visible": "immediate",
       "phone": "shown"
     },
@@ -494,8 +507,8 @@
       ],
       "marker": "fig-tumbleweed",
       "selector": ".art-collection .fig-tumbleweed",
-      "layer": "page collection",
-      "motion": "still",
+      "layer": "page ground strip",
+      "motion": "rolls through, now and then",
       "visible": "immediate",
       "phone": "shown"
     },
@@ -507,7 +520,7 @@
       ],
       "marker": "fig-windmill\"",
       "selector": ".art-collection .fig-windmill",
-      "layer": "page collection",
+      "layer": "page ground strip",
       "motion": "still",
       "visible": "immediate",
       "phone": "shown"
@@ -520,7 +533,7 @@
       ],
       "marker": "art-object\"><img class=\"fig fig-fog-neck",
       "selector": ".art-collection .fig-fog-neck",
-      "layer": "page collection",
+      "layer": "page ground strip",
       "motion": "still",
       "visible": "immediate",
       "phone": "shown"
@@ -617,6 +630,7 @@
       "burrow",
       "whale",
       "dragonfly",
+      "elephant-walker",
       "hummingbird",
       "wormhole",
       "fog-walker",

@@ -10,6 +10,13 @@ Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADM
 - Diplodoctor and Causius now describe their own plans: a licensed clinician, or a licensed lawyer, stays in the loop and owns the result. Both remain "not built".
 - 138 responsive checks pass, including the new page.
 
+## 2026-10-02 — Every piece has a place
+
+- Nothing is retired: every painting is somewhere, on the ground, one or two to a screen. The inner pages' creatures stand on the Lynch floor in perspective — the same floor as the hero's — and the hero keeps no second floor of its own when a stage follows.
+- A page's objects (the soft watch and its gears, the rye, the tumbleweed, the mushrooms, the Little Prince, the dandelions, the windmill, the fog creature) stand at the page's foot with their feet on the footer's chevron band, where the cat waits — not in a grid of pictures. The gears turn, the rye and dandelions sway, the mushrooms breathe, the tumbleweed rolls through now and then.
+- The long-legged elephant crosses the plain again on the "build it yourself" screen (desk only).
+- Phones keep each screen to one or two things: the plain is the tree, the dome and the hummingbird; the hero's one flying thing is the whale.
+
 ## 2026-10-02 — Grounded, and the floor is black again
 
 - The chevron floor is bone on ink in both modes. Its base colour was the foreground — white by night — so in dark mode the Red Room floor was a white slab.
