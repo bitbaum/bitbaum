@@ -890,6 +890,8 @@ body::after {
 .glass .fig-sancho { left: 76%; width: 76px; }
 .glass .fig-quixote { left: 81.5%; width: 122px; }
 .glass .fig-windmill { left: 88.6%; width: 96px; transform-origin: 50% 100%; }
+/* A phone's plain keeps to the tree, the dome and one bird; the elephant and the dragonfly have the desk. */
+@media (max-width: 700px) { .glass .dragonfly, .bleed-scene .walker { display: none; } }
 .glass .horizon-life { opacity: 0.94; }
 
 /* The plain: Dalí's watch melting over its stone, spilled clockwork, the
@@ -1322,8 +1324,8 @@ html { overflow-x: clip; }
   .rye-clump { display: block; }
   .rye-clump .rye { bottom: -22px; height: 96px; }
   .rye-clump .r1 { left: 84%; } .rye-clump .r2 { left: 88%; height: 80px; } .rye-clump .r3 { left: 92%; height: 88px; }
-  .whale, .dragonfly { display: block !important; }
-  .whale[hidden], .dragonfly[hidden] { display: none !important; }
+  .whale { display: block !important; }
+  .whale[hidden] { display: none !important; }
   .glass .whale { top: 11vh; width: 56vw; opacity: 0.4; }
   .dragonfly .fig { width: 46px; }
 }
@@ -1360,8 +1362,26 @@ html { overflow-x: clip; }
 .scene-world { position: absolute; inset: 0; overflow: clip; isolation: isolate; }
 .scene-world .scene-canvas { inset: 0; width: 100%; height: 100%; }
 .art-stage { position: relative; isolation: isolate; overflow: clip; height: clamp(200px, 24vw, 280px); }
-.art-ground { position: absolute; inset: auto 0 0; height: 100px; background: linear-gradient(to bottom, transparent, rgb(var(--veil) / 0.35) 40%, rgb(var(--veil) / 0.1)); }
-.art-ground::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: 48px; height: 1px; background: linear-gradient(to right, transparent, rgb(var(--line-rgb) / 0.3), transparent); }
+/* The ground every creature and object stands on: the Lynch floor, in
+   perspective, fading into the distance — the same floor as the hero's, so an
+   inner page is a room of the same house. Figures stand 48px up, on the
+   floor, never on a line in the air. */
+.art-ground {
+  --bone: #ebe5d8; --ink: #0a0a0a; --tile: 46px;
+  position: absolute; inset: auto -25% 0; height: 150px; z-index: 0; pointer-events: none;
+  transform-origin: 50% 100%; transform: perspective(320px) rotateX(58deg); opacity: 0.6;
+  background:
+    linear-gradient(135deg, var(--bone) 25%, transparent 25%) calc(var(--tile) / -2) 0 / var(--tile) var(--tile),
+    linear-gradient(225deg, var(--bone) 25%, transparent 25%) calc(var(--tile) / -2) 0 / var(--tile) var(--tile),
+    linear-gradient(315deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
+    linear-gradient(45deg, var(--bone) 25%, transparent 25%) 0 0 / var(--tile) var(--tile),
+    var(--ink);
+  -webkit-mask-image: linear-gradient(to top, #000 25%, transparent 100%); mask-image: linear-gradient(to top, #000 25%, transparent 100%);
+}
+:root:not(.dark) .art-ground { opacity: 0.5; }
+/* When a stage with its own floor follows the hero, the hero keeps no floor
+   of its own: one floor to a room, with the creature standing on it. */
+.stage-floored:has(+ .art-stage)::after { display: none; }
 /* The owl's painted branch reaches in from beyond the stage's edge — the tree
    it grows from is off-stage, so nothing hangs in the air. */
 .art-stage .guest-owl { top: auto; bottom: 42%; right: auto; left: -26px; }
@@ -1375,11 +1395,27 @@ html { overflow-x: clip; }
 .art-stage .fox, .art-stage .egg { bottom: 48px; }
 footer { padding-bottom: max(6rem, var(--section-tight)); }
 .cat-footer { bottom: 16px; }
-.art-collection { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; gap: clamp(1rem, 4vw, 3rem); max-width: 42rem; padding-block: 3rem 4rem; }
+/* A page's objects stand together at its foot, their feet on the footer's
+   chevron floor — the one floor the page already has, where the cat waits —
+   not in a grid of pictures. Each moves the way it would. */
+.art-collection { position: relative; isolation: isolate; overflow: clip visible; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; gap: clamp(1rem, 4vw, 3rem); max-width: 42rem; padding-block: 2.5rem 0; margin-bottom: 0; }
+/* `~`, not `+`: a page script can sit between main and the footer. */
+main:has(> .art-collection:last-child) ~ footer { margin-top: 0; }
 .art-collection:has(> :nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .art-collection:has(> :only-child) { grid-template-columns: 1fr; max-width: 20rem; }
-.art-object { position: relative; display: flex; align-items: end; justify-content: center; min-width: 0; border-bottom: 1px solid rgb(var(--line-rgb) / 0.2); }
-.art-object > .fig { position: relative; inset: auto; transform: none; width: auto; height: auto; max-height: 180px; max-width: 100%; margin-bottom: -1px; }
+.art-object { position: relative; z-index: 1; display: flex; align-items: end; justify-content: center; min-width: 0; }
+.art-object > .fig { position: relative; inset: auto; transform: none; width: auto; height: auto; max-height: 180px; max-width: 100%; transform-origin: 50% 100%; }
+/* Things that turn or roll turn about their centre; things that sway, about their root. */
+.art-object.turning > .fig, .art-object.rolling > .fig { transform-origin: 50% 50%; }
+.art-object.turning > .fig { animation: turn 60s linear infinite; }
+.art-object.turning.reverse > .fig { animation-duration: 34s; animation-direction: reverse; }
+.art-object.swaying > .fig { animation: sway 7s ease-in-out infinite alternate; }
+.art-object.swaying.slow > .fig { animation-duration: 9.5s; }
+.art-object.swaying.quick > .fig { animation-duration: 5.8s; }
+/* The tumbleweed rolls through its strip, in from the left and away to the right, now and then. */
+.art-object.rolling > .fig { animation: tumble 26s linear infinite; }
+@keyframes tumble { 0% { translate: -160% 0; rotate: 0deg; opacity: 0; } 6% { opacity: 1; } 94% { opacity: 1; } 100% { translate: 160% 0; rotate: 1080deg; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .art-object > .fig { animation: none !important; } }
 .art-object .fig-gear-l, .art-object .fig-gear-s { max-height: 80px; }
 .website-brief-door { margin-top: 2rem; max-width: 48rem; padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--line-2); border-radius: var(--radius); background: rgb(var(--veil) / 0.4); }
 .website-brief-door .lede { margin-block: 1rem 1.5rem; }
@@ -1415,8 +1451,7 @@ footer { padding-bottom: max(6rem, var(--section-tight)); }
   .stage.stage-floored { -webkit-mask-image: none; mask-image: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .scene-world .dragonfly, .scene-world .hummingbird { display: block !important; }
-  .scene-world .dragonfly { left: 76%; top: 65%; }
+  .scene-world .hummingbird { display: block !important; }
   .scene-world .hummingbird { left: 65%; top: 28%; }
 }
 

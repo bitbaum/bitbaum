@@ -30,6 +30,16 @@ import { publicMap } from "./public-map.mjs";
 import { fig, ART_NAMES } from "./art.mjs";
 import { renderRecord } from "./record-html.mjs";
 import { PAGE_ART } from "./art-placement.mjs";
+// How each object in a page's ground strip moves (styles.css): gears turn,
+// rye and dandelions sway, mushrooms breathe, the tumbleweed rolls through.
+// Everything else stands still, as a painting does.
+const COLLECTION_MOTION = {
+  "gear-l": "turning", "gear-s": "turning reverse",
+  "rye-a": "swaying", "rye-b": "swaying slow", "rye-c": "swaying quick",
+  "mushroom-1": "shroom", "mushrooms-2": "shroom s2", "mushrooms-3": "shroom s3",
+  "dandelion-flower": "swaying slow", "dandelion-clock": "swaying", "dandelion-bare": "swaying quick",
+  tumbleweed: "rolling",
+};
 
 // ── the cast ────────────────────────────────────────────────────────────────
 // site/cast.json names every painted or drawn element once. The register of
@@ -178,7 +188,11 @@ ${body}
 // diplodocus (both doors), mushrooms, a fern unrolling, and something vast
 // passing in the fog behind. A dream of a past that never happened.
 const SCENE_LIFE = {
-  seed: `      <div class="hummingbird" hidden aria-hidden="true">${fig("hummingbird")}</div>`,
+  // The plain, by day or night: the hummingbird at the crown, and far off the
+  // long-legged elephant crossing toward us (creatures.mjs walks it in depth;
+  // phones keep the plain to the tree and the dome).
+  seed: `      <div class="hummingbird" hidden aria-hidden="true">${fig("hummingbird")}</div>
+      <div class="walker" aria-hidden="true">${fig("elephant")}</div>`,
   // Links sit in the scene, so this container is not aria-hidden; the two
   // doors carry their own labels and the rest is decorative.
   // The home meadow is the herd's: the two doors and one cluster of
@@ -431,7 +445,7 @@ function shell({ title, description, path, body, nav, script, image }) {
   }
   const collection = PAGE_ART[path];
   if (collection) {
-    body = body.replace("</main>", `    <div class="wrap art-collection" aria-hidden="true" data-art-collection>${collection.map((name) => `<div class="art-object">${fig(name)}</div>`).join("")}</div>\n  </main>`);
+    body = body.replace("</main>", `    <div class="wrap art-collection" aria-hidden="true" data-art-collection>${collection.map((name) => `<div class="art-object${COLLECTION_MOTION[name] ? ` ${COLLECTION_MOTION[name]}` : ""}">${fig(name)}</div>`).join("")}</div>\n  </main>`);
   }
   // A link to this site is how almost anyone arrives, so the card a share
   // renders is part of the page: a venture shows its own screenshot, every
