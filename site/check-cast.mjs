@@ -37,7 +37,9 @@ for (const [width, device] of [[390, "phone"], [1280, "desk"]]) {
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
   for (const [path, ids] of Object.entries(register.pages)) {
-    await page.goto(`${base}${path}?weather=clear`, { waitUntil: "load" });
+    // Not "load": a slow third-party asset must not read as a lost painting. Each
+    // painting's own pixels are awaited below.
+    await page.goto(`${base}${path}?weather=clear`, { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(500);
     const docW = await page.evaluate(() => document.documentElement.scrollWidth);
     for (const id of ids) {
