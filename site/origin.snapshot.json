@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-10-02T09:42:57.314Z",
+  "generatedAt": "2026-10-05T10:21:48.616Z",
   "org": "bitbaum",
   "proofs": {
-    "manifests": 22,
+    "manifests": 25,
     "firstStampedAt": "2026-09-14T01:46:51Z",
-    "latestStampedAt": "2026-10-02T09:41:58Z",
-    "anchored": 21,
+    "latestStampedAt": "2026-10-05T10:20:47Z",
+    "anchored": 24,
     "pending": 1,
     "dir": "https://github.com/bitbaum/fleet/tree/main/proofs/origin"
   },
-  "privateRepos": 4,
+  "privateRepos": 6,
   "repos": [
     {
       "repo": "bitbaum/.github",
@@ -25,8 +25,8 @@
       "commits": 4,
       "stamped": {
         "head": "36fa9868fa17c442184401e79e66fa14f5465f8f",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-15T08:37:46Z",
@@ -37,8 +37,38 @@
       },
       "swh": {
         "snapshot": "swh:1:snp:90f741abdbe72988830350898dc30eaad6b3bfad",
-        "date": "2026-09-30T09:38:46.649000+00:00",
+        "date": "2026-10-05T10:20:55.417000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2F.github"
+      }
+    },
+    {
+      "repo": "bitbaum/accountkit",
+      "url": "https://github.com/bitbaum/accountkit",
+      "description": "One account menu for every bitbaum product: who is signed in, where to go, how to sign out. Works with any sign-in library; styled from @bitbaum/design-tokens.",
+      "createdAt": "2026-10-02T12:28:08Z",
+      "firstCommit": {
+        "sha": "ee093407047fd21352161cd5796f0c70fa227a59",
+        "date": "2026-10-02T12:28:10Z",
+        "author": "catomean",
+        "originator": "Cato"
+      },
+      "commits": 3,
+      "stamped": {
+        "head": "b6af2684d50ea53b7134c8138b48d39eddc0610b",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
+        "anchored": null
+      },
+      "firstStampedAt": "2026-10-03T09:05:32Z",
+      "provenSince": {
+        "at": "2026-10-03T09:05:32Z",
+        "block": 969736,
+        "manifest": "2026-10-03T090532Z.json"
+      },
+      "swh": {
+        "snapshot": "swh:1:snp:1677c2c1abe985302ce65e05caefec8160110bb8",
+        "date": "2026-10-03T09:05:37.575000+00:00",
+        "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Faccountkit"
       }
     },
     {
@@ -55,8 +85,8 @@
       "commits": 43,
       "stamped": {
         "head": "f5689bbdf60c1e4ab0651d828c6478ee94ecdd64",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -67,7 +97,7 @@
       },
       "swh": {
         "snapshot": "swh:1:snp:54d2bcd12efc2d9f97b214e00bdbc6228e28d06a",
-        "date": "2026-09-29T03:06:26.162000+00:00",
+        "date": "2026-10-04T09:43:34.963000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fai-forms"
       }
     },
@@ -82,11 +112,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 75,
+      "commits": 78,
       "stamped": {
-        "head": "a4aab78b65ea7e2c85263f029bbdf536eb43c181",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "9510350083fde96c302cc6d2079f0f4b5da38e05",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -112,11 +142,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 582,
+      "commits": 588,
       "stamped": {
-        "head": "46b962a35d32c95583beab29c0dc64a242e04bfb",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "85cbfa992ac2b6910e60e3f7ca83b3535c53e160",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-16T08:32:46Z",
@@ -145,8 +175,8 @@
       "commits": 35,
       "stamped": {
         "head": "55d9deec4bce0c4ec33605d19d5dd2ba0674418f",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -157,7 +187,7 @@
       },
       "swh": {
         "snapshot": "swh:1:snp:87feb7cbe750aa02c3c4335e59784604b7047601",
-        "date": "2026-10-02T09:42:13.701000+00:00",
+        "date": "2026-10-04T09:43:24.780000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fbiaslens"
       }
     },
@@ -175,8 +205,8 @@
       "commits": 36,
       "stamped": {
         "head": "c02ef51dc1f21aba4f46db348490a8dd2f2a5f55",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -202,11 +232,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 178,
+      "commits": 186,
       "stamped": {
-        "head": "de6014fd62801d36e57e3e7a2c5465a99a14bb47",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "466756f13d17e339f1ecb2eff40cc6e52a83d564",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -232,11 +262,11 @@
         "author": "George",
         "originator": "Cato"
       },
-      "commits": 640,
+      "commits": 641,
       "stamped": {
-        "head": "b168f130fd8c3de939acf4d48f5ae3ea276aa56b",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "fa36db7fc8f02310abf3936dbe1b741499e7f295",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -246,8 +276,8 @@
         "manifest": "2026-09-14T014651Z.json"
       },
       "swh": {
-        "snapshot": "swh:1:snp:998cebd1ee2bafbfe64db9acc13b52a87ac94161",
-        "date": "2026-09-30T09:38:35.072000+00:00",
+        "snapshot": "swh:1:snp:595ace4a54187f4d66eccbe54bfe2551c0dc9033",
+        "date": "2026-10-05T10:20:55.448000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fbotsmann"
       }
     },
@@ -265,8 +295,8 @@
       "commits": 26,
       "stamped": {
         "head": "a821980370939b6f655fa285edceae17d4813eb6",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -277,7 +307,7 @@
       },
       "swh": {
         "snapshot": "swh:1:snp:2429355cf3e635c76373a3b45232f016a712f40d",
-        "date": "2026-10-01T10:04:21.280000+00:00",
+        "date": "2026-10-05T10:20:55.459000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fbotsmann-blog-content"
       }
     },
@@ -295,8 +325,8 @@
       "commits": 3,
       "stamped": {
         "head": "8c4afd7dbe4a60b51c1bf300646511a4b4d2ce83",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -325,8 +355,8 @@
       "commits": 31,
       "stamped": {
         "head": "8f8169fd1c4bd422f4ece7854a26df2d6ca712d1",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -352,11 +382,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 4,
+      "commits": 6,
       "stamped": {
-        "head": "3cb5e80e897c389bc220b36e238a2a7f4e9e190c",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "33c93550566ec3b032b046ccb7de3e6bcb8bc885",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -382,11 +412,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 4,
+      "commits": 7,
       "stamped": {
-        "head": "76935480b9c1352120f67b24de04477c5529660b",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "d0f276f09a7a08b733298e2fa727606536c94519",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-25T08:46:33Z",
@@ -415,8 +445,8 @@
       "commits": 10,
       "stamped": {
         "head": "a239866425c17fee83f28fc3052c7885ffd6b4b2",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -427,7 +457,7 @@
       },
       "swh": {
         "snapshot": "swh:1:snp:b6ba309827b1b1331ec4a92c293bcba6e138bfea",
-        "date": "2026-09-27T09:12:19.448000+00:00",
+        "date": "2026-10-04T09:43:24.744000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fcrewless"
       }
     },
@@ -442,11 +472,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 156,
+      "commits": 158,
       "stamped": {
-        "head": "94120446f185abe4992925893024098a88aab073",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "f93b1aa267a3649a50ba62d7d2908d9dae185819",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -456,8 +486,8 @@
         "manifest": "2026-09-14T014651Z.json"
       },
       "swh": {
-        "snapshot": "swh:1:snp:b489d50d903336665799651dda50bcd36d072e3c",
-        "date": "2026-09-29T09:46:11.537000+00:00",
+        "snapshot": "swh:1:snp:93e001c1bc8f4d4cde35b1c0e8c67a49c2d06e0d",
+        "date": "2026-10-03T09:05:48.865000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fdatacat"
       }
     },
@@ -475,8 +505,8 @@
       "commits": 47,
       "stamped": {
         "head": "c93f7b2662b25284c6a45729c1b71047e21c81fe",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -505,8 +535,8 @@
       "commits": 7,
       "stamped": {
         "head": "87c79a6a1d844096a733cd79ec9175dbbb71f439",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -532,11 +562,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 137,
+      "commits": 141,
       "stamped": {
-        "head": "d410d215218207825268978c34801a096d3277ef",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "2b1527295259ff6ac557faf854795db65a3fb0cb",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -562,11 +592,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 2700,
+      "commits": 2702,
       "stamped": {
-        "head": "bbd25803b60c8d81101be6b2abbcb075ca0a7787",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "273a63398d102fc608722ef097206146f251f47c",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -595,8 +625,8 @@
       "commits": 40,
       "stamped": {
         "head": "45d15c1da97148b7cb0923dc1e8d8826d8fe8e6c",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -622,11 +652,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 195,
+      "commits": 204,
       "stamped": {
-        "head": "3fd7684eec0e6a5b0e9adc8fb45c9d1610b59711",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "fdfcf2693a8c9c797b8b317ada6599ebcb0fa180",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -636,8 +666,8 @@
         "manifest": "2026-09-14T014651Z.json"
       },
       "swh": {
-        "snapshot": "swh:1:snp:6f494b339e55ddd49f28822c9e91b073cec5d837",
-        "date": "2026-09-30T09:38:37.779000+00:00",
+        "snapshot": "swh:1:snp:f511d4e9a9572701185b0d8afa9b3b8d74bfd3a3",
+        "date": "2026-10-04T09:43:24.795000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Ffleet"
       }
     },
@@ -655,8 +685,8 @@
       "commits": 20,
       "stamped": {
         "head": "0a295d73a382578d58d778f741e559cb9fdc3acb",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -685,8 +715,8 @@
       "commits": 9,
       "stamped": {
         "head": "e16385d224f8beb66bb5442b59b145ac5c435160",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-30T09:38:26Z",
@@ -708,11 +738,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 161,
+      "commits": 163,
       "stamped": {
-        "head": "e4c659d9007c777eec17fe6389fccd335a79baac",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "45eb13c251ad776eeb60dbf46942af816c31c835",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -741,8 +771,8 @@
       "commits": 15,
       "stamped": {
         "head": "b7088e3564ada97e4a93d55a170b84ee23ad9cca",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -753,7 +783,7 @@
       },
       "swh": {
         "snapshot": "swh:1:snp:b2917c318db12edb31bbe2d94c8e9eff45f37709",
-        "date": "2026-09-28T09:41:41.605000+00:00",
+        "date": "2026-10-03T09:05:47.745000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fhire"
       }
     },
@@ -768,11 +798,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 982,
+      "commits": 983,
       "stamped": {
-        "head": "5729c5bb84352945421f6a8a53356b49d2020875",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "b60b2f191199e9fd70a8491bc4a1d4ab32f6e8a1",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -785,6 +815,62 @@
         "snapshot": "swh:1:snp:1bcd0895cfa2114566348862f84f40a3daedb417",
         "date": "2026-10-02T09:42:13.720000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fhirnli"
+      }
+    },
+    {
+      "repo": "bitbaum/hochhinhouse",
+      "url": "https://github.com/bitbaum/hochhinhouse",
+      "description": null,
+      "createdAt": "2026-10-03T15:55:36Z",
+      "firstCommit": {
+        "sha": "bd10dcd46605cfb68d64e759ae3bc8047f8b6036",
+        "date": "2026-10-03T15:55:36Z",
+        "author": "catomean",
+        "originator": "Cato"
+      },
+      "commits": 1,
+      "stamped": {
+        "head": "bd10dcd46605cfb68d64e759ae3bc8047f8b6036",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
+        "anchored": null
+      },
+      "firstStampedAt": "2026-10-04T09:43:17Z",
+      "provenSince": {
+        "at": "2026-10-04T09:43:17Z",
+        "block": 969969,
+        "manifest": "2026-10-04T094317Z.json"
+      },
+      "swh": null
+    },
+    {
+      "repo": "bitbaum/hochhinhouse-party",
+      "url": "https://github.com/bitbaum/hochhinhouse-party",
+      "description": null,
+      "createdAt": "2026-10-03T05:42:53Z",
+      "firstCommit": {
+        "sha": "014ec1939708abfd17f7fb9cce188e3d84386fc9",
+        "date": "2026-10-03T05:42:53Z",
+        "author": "catomean",
+        "originator": "Cato"
+      },
+      "commits": 1,
+      "stamped": {
+        "head": "014ec1939708abfd17f7fb9cce188e3d84386fc9",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
+        "anchored": null
+      },
+      "firstStampedAt": "2026-10-03T09:05:32Z",
+      "provenSince": {
+        "at": "2026-10-03T09:05:32Z",
+        "block": 969736,
+        "manifest": "2026-10-03T090532Z.json"
+      },
+      "swh": {
+        "snapshot": "swh:1:snp:e0a0a0ede8ee16d790a3c504b7655e0b45e2f50a",
+        "date": "2026-10-04T09:43:35.013000+00:00",
+        "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fhochhinhouse-party"
       }
     },
     {
@@ -801,8 +887,8 @@
       "commits": 39,
       "stamped": {
         "head": "5ec8f5dc8349474bd5a135aeb03db4f89a783322",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -812,8 +898,8 @@
         "manifest": "2026-09-14T014651Z.json"
       },
       "swh": {
-        "snapshot": "swh:1:snp:d1d1ca0e5d9e1663f11c7dc5837ec362b7caf82a",
-        "date": "2026-09-23T08:31:39.891000+00:00",
+        "snapshot": "swh:1:snp:af98f1134d93eb291737865c93dc262af9cbbcc8",
+        "date": "2026-10-03T09:05:47.854000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fivy-portal"
       }
     },
@@ -831,8 +917,8 @@
       "commits": 687,
       "stamped": {
         "head": "5f2004e03fc82194abd84bec0589c26bd25531ee",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -861,8 +947,8 @@
       "commits": 21,
       "stamped": {
         "head": "9e0643ac30a94621344569537bd428749fb61372",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -872,8 +958,8 @@
         "manifest": "2026-09-14T014651Z.json"
       },
       "swh": {
-        "snapshot": "swh:1:snp:829f598cdd51dbefc8ad3e37f23d0075d07a3517",
-        "date": "2026-09-29T09:46:10.303000+00:00",
+        "snapshot": "swh:1:snp:84d1bd13c480628384603d39a8a56387d5c6e266",
+        "date": "2026-10-04T09:43:34.970000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Flimitkit"
       }
     },
@@ -888,11 +974,11 @@
         "author": "Cato",
         "originator": "Cato"
       },
-      "commits": 3,
+      "commits": 4,
       "stamped": {
-        "head": "84728cc7a6a47122974ad07260303f6c4e51840b",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "c519d389b99d22f74bf9c092a603fe27061857cc",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -903,7 +989,7 @@
       },
       "swh": {
         "snapshot": "swh:1:snp:4d479186ba57e0d791a2c139a8a33090734db029",
-        "date": "2026-09-21T09:57:19.832000+00:00",
+        "date": "2026-10-03T09:05:47.823000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Flistkit"
       }
     },
@@ -918,11 +1004,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 2819,
+      "commits": 2849,
       "stamped": {
-        "head": "d856ce2b832f4d7bfb07f2c6cf56f7a969ed4763",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "e44504dd72cb47389541936faa70d22fd7ae2301",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -932,8 +1018,8 @@
         "manifest": "2026-09-14T014651Z.json"
       },
       "swh": {
-        "snapshot": "swh:1:snp:9b89dfde04feab0e68f1a2fd51fddb15f9236be1",
-        "date": "2026-10-01T10:04:21.227000+00:00",
+        "snapshot": "swh:1:snp:544e4a046314b4e94557bc62a3a75920b83b1cd6",
+        "date": "2026-10-04T09:43:34.965000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Floki"
       }
     },
@@ -951,8 +1037,8 @@
       "commits": 2,
       "stamped": {
         "head": "0758e472f574d9a6a3fcfb8eba53acc648e364b5",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -962,8 +1048,8 @@
         "manifest": "2026-09-14T014651Z.json"
       },
       "swh": {
-        "snapshot": "swh:1:snp:9e0bbebcf96f06ed5de782713b97f7ddbf75f35e",
-        "date": "2026-09-26T08:32:57.939000+00:00",
+        "snapshot": "swh:1:snp:0358808ff9380c6c73dd5c991962a8cae66dde2c",
+        "date": "2026-10-05T10:21:05.826000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Floki-releases"
       }
     },
@@ -981,8 +1067,8 @@
       "commits": 8,
       "stamped": {
         "head": "adc31b76c6c1e9f66dff721c9e4248a69526d3d1",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1008,11 +1094,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 3062,
+      "commits": 3076,
       "stamped": {
-        "head": "5d287d9b4d8919ef0f4d2ea38b844f06a86ad861",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "90e27858de592a593799dc089d685c699f907be2",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1041,8 +1127,8 @@
       "commits": 3,
       "stamped": {
         "head": "43d1bbc77f5fa757fd8545a3142a0f9258841775",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-24T08:24:19Z",
@@ -1053,7 +1139,7 @@
       },
       "swh": {
         "snapshot": "swh:1:snp:8ce41e57790991b80d429571189610d12858760c",
-        "date": "2026-09-30T09:38:45.366000+00:00",
+        "date": "2026-10-04T09:43:24.763000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fpaykit"
       }
     },
@@ -1068,11 +1154,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 421,
+      "commits": 423,
       "stamped": {
-        "head": "cf6912e957c01f7e5613f673c271bb46a1fd436c",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "e736e80e5845f4f57b9d5d1dba3b9b257b57c49d",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1101,8 +1187,8 @@
       "commits": 87,
       "stamped": {
         "head": "41a677c27a51f63d476d489baf6a99e86dd87a7d",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1112,8 +1198,8 @@
         "manifest": "2026-09-14T014651Z.json"
       },
       "swh": {
-        "snapshot": "swh:1:snp:2c0db94bc9353a174f118f1b48650e4fa9ea0bfb",
-        "date": "2026-09-25T08:46:37.852000+00:00",
+        "snapshot": "swh:1:snp:8bcbaf11d111bd0010b7093035e1337e2a243beb",
+        "date": "2026-10-03T09:05:37.583000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fprintcraft"
       }
     },
@@ -1131,8 +1217,8 @@
       "commits": 147,
       "stamped": {
         "head": "15d0fcf9597967e2607eb8d13d4a82c5c50b8be6",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1161,8 +1247,8 @@
       "commits": 37,
       "stamped": {
         "head": "fbb0be51ee7f67b62698eebb8b1d3df5f457cdb5",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1173,7 +1259,7 @@
       },
       "swh": {
         "snapshot": "swh:1:snp:8125462322e5905425be4b4b8c736703accb17d6",
-        "date": "2026-10-01T10:04:11.016000+00:00",
+        "date": "2026-10-03T09:05:47.780000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fs-ink"
       }
     },
@@ -1191,8 +1277,8 @@
       "commits": 100,
       "stamped": {
         "head": "ef3500480c5f534e3494786764b8f4279aecf3f1",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1221,8 +1307,8 @@
       "commits": 23,
       "stamped": {
         "head": "4e2a8bed3d8f2d60ccaf84ffd872f3e2506f17d0",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1248,11 +1334,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 38,
+      "commits": 46,
       "stamped": {
-        "head": "1f5402d6f7348317a110b2e9b85fa8ab12574cf7",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "06d7190792d445cae8156378092245f439b28a0b",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-25T08:46:33Z",
@@ -1278,11 +1364,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 217,
+      "commits": 220,
       "stamped": {
-        "head": "68d07037b18d38024f70fe9cd922c1e632f742b1",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "b948f9c440a04f2ce7960e0da84ac8870de4c273",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1311,8 +1397,8 @@
       "commits": 4,
       "stamped": {
         "head": "6b7d98a832bf6406642440fe0e69c95c8d520fe1",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-26T08:32:48Z",
@@ -1321,7 +1407,11 @@
         "block": 968666,
         "manifest": "2026-09-26T083248Z.json"
       },
-      "swh": null
+      "swh": {
+        "snapshot": "swh:1:snp:180871c7db2a3103dc2707490a6772badb466153",
+        "date": "2026-10-04T09:43:35.026000+00:00",
+        "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fspeechkit"
+      }
     },
     {
       "repo": "bitbaum/substrata",
@@ -1334,11 +1424,11 @@
         "author": "Mao Nakamoto",
         "originator": "Cato"
       },
-      "commits": 132,
+      "commits": 142,
       "stamped": {
-        "head": "0e5626d92105bbbd84ef51ffd0b69b2a8e307ca0",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "fdd341588b9c0b9aec4401e7063b8e7c048b5481",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1364,11 +1454,11 @@
         "author": "catomean",
         "originator": "Cato"
       },
-      "commits": 581,
+      "commits": 583,
       "stamped": {
-        "head": "17f2a6cf73a2d037fee35d61607d478ea1d8a01a",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "head": "285f43658ecc3189d845eef185ba3b4bc7c9e982",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1378,8 +1468,8 @@
         "manifest": "2026-09-14T014651Z.json"
       },
       "swh": {
-        "snapshot": "swh:1:snp:cf6bcd97363423daf2ac22aecbd0e10d290c9e69",
-        "date": "2026-10-01T10:04:21.272000+00:00",
+        "snapshot": "swh:1:snp:6ba7a56fb10921f531bafbcf5d53889c1fe26d6f",
+        "date": "2026-10-03T09:05:37.545000+00:00",
         "url": "https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https%3A%2F%2Fgithub.com%2Fbitbaum%2Fsurf-your-life"
       }
     },
@@ -1397,8 +1487,8 @@
       "commits": 31,
       "stamped": {
         "head": "f7a8c04a27821ae3d2422850421c6a46ceb6b96c",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1427,8 +1517,8 @@
       "commits": 65,
       "stamped": {
         "head": "0b20c950f5e2de2adebf08e81562a058aa5ccbbc",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1457,8 +1547,8 @@
       "commits": 476,
       "stamped": {
         "head": "6defd5b8ad3f793e81a4f9aa983c60d260dcca39",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-14T01:46:51Z",
@@ -1487,8 +1577,8 @@
       "commits": 29,
       "stamped": {
         "head": "b893473e704b0f3f68f7f1b0327852cdec3281ae",
-        "at": "2026-10-02T09:41:58Z",
-        "manifest": "2026-10-02T094158Z.json",
+        "at": "2026-10-05T10:20:47Z",
+        "manifest": "2026-10-05T102047Z.json",
         "anchored": null
       },
       "firstStampedAt": "2026-09-16T08:32:46Z",

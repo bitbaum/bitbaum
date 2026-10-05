@@ -742,16 +742,22 @@
       "unicorn",
       "sky"
     ],
+    "/packages/chatkit/": [
+      "fog-walker",
+      "cat",
+      "moth",
+      "sky"
+    ],
     "/packages/threadkit/": [
       "fog-walker",
       "cat",
       "scarab",
       "sky"
     ],
-    "/packages/chatkit/": [
+    "/packages/accountkit/": [
       "fog-walker",
       "cat",
-      "moth",
+      "scarab",
       "sky"
     ],
     "/packages/sitekit/": [
