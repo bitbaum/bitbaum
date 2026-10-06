@@ -30,7 +30,7 @@ RevampIT the organization is the physical engine: its refurb inventory flows int
 |-------|-----------|
 | Framework | Next.js 16 App Router, React 18, TypeScript 5, Tailwind 3.4 |
 | Database | PostgreSQL 17 self-hosted + Drizzle; ~130 TABLE_NAMES constants as DB SSOT |
-| Auth | NextAuth v5 + @auth/pg-adapter; staff detection by @revamp-it.ch domain |
+| Auth | Sign in with OrangeCat via `@bitbaum/accountkit` (OrangeCat offers Google, GitHub and email); the app's own email + password kept as a secondary option (2026-10-02); NextAuth v5 + @auth/pg-adapter; staff detection by @revamp-it.ch domain |
 | Search / media | Meilisearch; Cloudflare R2 images; Upstash Redis rate limiting |
 | AI | HIRN cascade: Groq → OpenRouter → Ollama |
 | Testing | 7,500+ Jest tests / 500+ suites, Playwright E2E, Swiss-umlaut lint |

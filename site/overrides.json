@@ -64,8 +64,8 @@
           "The Cat: an AI agent that lists what you offer, messages, books, remembers and pays \u2014 each action behind your permission.",
           "Products, services, projects, causes, events and groups, all published from one profile.",
           "Companions with memory, direct messages and a timeline \u2014 the social layer value moves through.",
-          "Run the Cat on a free daily allowance, top up in sats, bring your own key, or use a local model.",
-          "Sign in with OrangeCat \u2014 the identity Loki and Solon already accept."
+          "Run the Cat on a free daily allowance, bring your own key, or use a local model.",
+          "Sign in with OrangeCat \u2014 one account for nine of the studio's other apps, Loki and Solon among them."
         ],
         "connects": "The Cat hands builds to Loki and files proposals to Solon. What it may spend is not a setting we control: it is a policy decided in Solon, and OrangeCat re-checks every vote signature before it applies one."
       }
@@ -89,8 +89,8 @@
         "does": [
           "One composer: type or speak a request and it lands in the right project \u2014 or simply gets answered.",
           "Control: every project, live session, queue and approval in one view, with autonomy set per project.",
-          "Claude Code, Codex, Gemini, Grok, Cursor and more behind one adapter, so no vendor owns your workflow.",
-          "Build on a shared cloud builder, or on your own machine with Fleet Runner and the desktop app.",
+          "Claude Code, Codex, Antigravity, Grok, Cursor and OpenClaw behind one adapter, so no vendor owns your workflow.",
+          "Build on a shared cloud builder, or on your own machine with the Fleet Runner desktop app.",
           "Ships to production: the deploy pipeline behind every product in this stack, Loki included.",
           "A feedback widget that turns what visitors report into work \u2014 the one on this page files into Loki."
         ],
@@ -116,7 +116,7 @@
           "Propose, decide, carry out: a question in plain words, one-click votes, and a published result with every vote behind it.",
           "Rules the group chooses \u2014 who votes, how votes are counted, how many must agree: pick one, approval, dots, score or ranked.",
           "One click by default, a signature when wanted, and every record says which. A seat no longer needs a Bitcoin wallet.",
-          "Red lines only people can vote on: who may join, and the rules themselves.",
+          "Red lines only people can vote on: who may join, aid payments, safety, and the rules themselves.",
           "Rules freeze when a vote opens, so past decisions stay explainable; the record is append-only and anyone can recount it.",
           "A governance agent that writes proposals up, reminds members and follows the money \u2014 it proposes, people decide. Being built with the first pilot groups."
         ],
@@ -211,7 +211,7 @@
       ],
       "order": 1,
       "for": "AOZ, Z\u00fcrich",
-      "story": "Shared-living management with a placement engine for refugee housing: compatibility matching across 38 factors, incidents, maintenance, and a resident portal for expenses, rules and votes. Running as a pilot on a real shared flat. AOZ is not a customer; the product exists to show what one would get."
+      "story": "Sits beside an organisation's case-management system in refugee accommodation: one inbox for staff, places to go (jobs, internships, volunteering), housing with explainable matching across 23 scored factors, living together, and a resident portal in six languages. It holds real data only, with no demo world. AOZ is not a customer; the product exists to show what one would get."
     },
     "kivvi": {
       "name": "kivvi",
@@ -255,7 +255,7 @@
         "Public sector"
       ],
       "order": 1,
-      "story": "Report a lost item bound to the real journey from Swiss open transport data, so staff can look while the train is still moving. Items reported within thirty minutes are mostly recovered; after a day, mostly not. A concept on mock data \u2014 not affiliated with SBB, built to show them."
+      "story": "Report a lost item bound to the real journey from Swiss open transport data, so staff can look while the train is still moving. A concept on mock data \u2014 not affiliated with SBB, built to show them."
     },
     "reparaturbonus-zh": {
       "name": "Reparaturbonus",
@@ -266,7 +266,7 @@
         "Circular economy"
       ],
       "order": 2,
-      "story": "Find a workshop, start the repair, claim the CHF 100. A concept for the City of Z\u00fcrich's repair bonus, built to apply with."
+      "story": "Find a workshop, start the repair, claim the bonus. A concept for the City of Z\u00fcrich's repair bonus, built to apply with."
     },
     "heidi": {
       "name": "Heidi",
@@ -361,7 +361,7 @@
     "stack": {
       "eyebrow": "The stack",
       "headline": "Do the work. Get paid for it. Decide the rules together.",
-      "lede": "Three products, one loop. Loki gets work done with a fleet of AI agents. OrangeCat lets any person, pseudonym or agent earn from it, settled in Bitcoin. Solon is where the rules binding both are proposed, signed and checked. Together they are how more than one person \u2014 and more than one agent \u2014 can build here and be treated fairly."
+      "lede": "Three products, one loop. Loki gets work done with a fleet of AI agents. OrangeCat lets any person, pseudonym or agent earn from it, settled in Bitcoin. Solon is where the rules binding both are proposed, voted on and checked. Together they are how more than one person \u2014 and more than one agent \u2014 can build here and be treated fairly."
     },
     "ask": {
       "eyebrow": "Chat",
@@ -430,7 +430,7 @@
       "what": "Message threads where permission is participation \u2014 not a role column. An AI obeys the same rules as a person.",
       "why": "A chat that special-cases the assistant becomes a second permissions system. The assistant sees things the person cannot, or the person sees the assistant's notes. Both are bugs.",
       "how": "A thread is a set of participants. Unread is per person. An AI can be a participant, and it sees exactly what its participation allows, which is the same rule as everyone else. No markup, no transport: the app keeps those.",
-      "fits": "OrangeCat, Heidi and Vita already share a conversation this way. It is how a person and an agent inhabit one room, which is the shape Loki dispatches and OrangeCat will live in."
+      "fits": "OrangeCat, Heidi and Vita already share a conversation this way. It is how a person and an agent inhabit one room."
     },
     "bip-kit": {
       "group": "show",
@@ -444,14 +444,14 @@
       "what": "A website as data \u2014 a closed set of section shapes, validated, with per-field provenance.",
       "why": "A generated site that cannot say where each sentence came from will eventually say something nobody wrote. The second generator was about to ship that.",
       "how": "Sections are a closed union, checked before render. One set of React renderers draws them. Every field can carry where it came from, so a page can show that a line was supplied rather than invented.",
-      "fits": "Loki can stand up a site because the site is data. sitekit is that data. design-tokens is what it looks like. bip-kit is the long writing inside it."
+      "fits": "A generated site is data, and sitekit is that data: Camille and Substrata render through it. design-tokens is what it looks like. bip-kit is the long writing inside it."
     },
     "design-tokens": {
       "group": "show",
       "what": "One tokens.css behind the products, so a retheme is an edit to one file.",
       "why": "Color, type and radius were being copied into each app and then drifting. A retheme meant a hunt. Dark mode meant a second hunt.",
       "how": "Primitives, then semantic names, as CSS custom properties. Tailwind points at the variables and holds no literal color of its own. A product themes by overriding the variables, not by forking the components.",
-      "fits": "It is why the studio can look like one studio. OrangeCat, Loki and Solon share it. A package that draws a page is expected to use these tokens rather than invent a palette."
+      "fits": "It is why the studio can look like one studio. Loki, Solon and this site share it. A package that draws a page is expected to use these tokens rather than invent a palette."
     },
     "listkit": {
       "group": "show",
@@ -499,7 +499,7 @@
           },
           {
             "title": "Decisions",
-            "human": "Members vote, with signatures anyone can recount.",
+            "human": "Members vote with one click, or sign a vote anyone can recount.",
             "retires": "Decisions nobody can check after the fact.",
             "ventures": [
               "solon"

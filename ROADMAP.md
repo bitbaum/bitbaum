@@ -56,7 +56,7 @@ Ship the verified backend before exposing the Bitbaum views.
 - [x] Pass Loki's full CI, including real PostgreSQL isolation, revocation and retry tests
 - [x] Pass Bitbaum's intake, portal, theme and 135 responsive browser checks
 - [x] Verify the additive production migration and deployed Loki API (loki #995 is live; /api/studio-intake answers)
-- [ ] Deploy the Bitbaum views through the API availability gate and verify the public pages
+- [x] Deploy the Bitbaum views through the API availability gate and verify the public pages (`site/check-studio-api.mjs` passes against production; /hire/, /partners/ and /portal/ answer)
 - [x] Notify the studio when a request or application is created (loki #1002: push, Telegram and an alert on every studio request and guest action)
 
 ## Later

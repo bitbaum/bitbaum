@@ -13,13 +13,13 @@ host being up as evidence that a product is ready or generally available.
 
 ## What the site shows
 
-- The homepage features the two flagship projects and a short package
-  selection. The full catalogue lives at `/work/`; all shared packages live at
+- The homepage features the three flagship projects (OrangeCat, Loki and
+  Solon) and a short package selection. The full catalogue lives at `/work/`; all shared packages live at
   `/packages/`.
 - Project readiness is maintained in [`site/overrides.json`](site/overrides.json).
   Its stages distinguish public beta products, pilots, development, concepts,
-  and projects that are not built. In particular, Solon is in development;
-  Skif and Causius are not built.
+  and projects that are not built. In particular, Solon is a public beta,
+  Skif is in development, and Causius and Diplodoctor are not built.
 - Project and package records, package versions and observed adopters are
   sourced from the Loki fleet map and Fleet registers. Editorial descriptions
   and the homepage selections are reviewed here. The build fails if a selected
@@ -65,19 +65,3 @@ local serving, and the deployment process. Changes under `site/` are built,
 checked and published by [the deploy workflow](.github/workflows/deploy-site.yml)
 after they reach `main`. A successful local build alone does not change the
 public site.
-
-## CI/CD observations
-
-The latest successful publish, [run 35972429669](https://github.com/bitbaum/bitbaum/actions/runs/35972429669),
-took 2m01s end to end. The largest measured steps were the public publish and
-smoke checks (30s), Playwright browser/dependency setup (21s), the live hire
-form browser check (18s), the claims gate (13s), and the theme browser check
-(8s). The earlier site deploy, [run 35971822830](https://github.com/bitbaum/bitbaum/actions/runs/35971822830),
-took 1m34s. These are measured runs, not an SLA.
-
-The claims gate currently checks each public repository's licence through
-GitHub's API; it took 13s in the latest run. Batch or cache that evidence only
-if it becomes a material part of deploy latency. GitHub also emitted a
-non-blocking warning that `actions/cache@v4` declares Node 20 and is being
-forced to Node 24. The deploy succeeded; review the action version during the
-next workflow maintenance pass.

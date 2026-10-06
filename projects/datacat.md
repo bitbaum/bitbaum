@@ -20,6 +20,7 @@ Universal AI-powered data ingestion and form-builder platform: drag-drop form bu
 | Framework | Next.js 15.3, React 19, TypeScript, Tailwind, Zustand |
 | Database | Prisma + PostgreSQL; tRPC API routes |
 | Queues | Redis + Bull |
+| Auth | Sign in with OrangeCat via `@bitbaum/accountkit` (OrangeCat offers Google, GitHub and email); the app's own email + password kept as a secondary option (2026-10-02); next-auth v4 |
 | AI | GPT-4 Vision primary; Google Vision / AWS Textract / Tesseract.js failover |
 | Deployment | Self-hosted Hetzner; frontend/ only (backend/ legacy, undeployed) |
 | Known debt | Backend has zero tests (test script exits 1) |
