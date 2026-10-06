@@ -2,6 +2,14 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-10-06 — Facts brought up to date
+
+- OrangeCat no longer offers "top up in sats": its checkout is switched off until the company is registered, so the page lists only what works today. "Sign in with OrangeCat" now says what it is: the account nine of the studio's other apps accept.
+- Loki names its six agent adapters as the code does (Antigravity, not Gemini; OpenClaw added), and Fleet Runner is the desktop app, not a second thing.
+- Solon's red lines list all four humans-only categories, and the map and the stack say members vote with one click or sign — not that every vote is signed.
+- AOZ Begleitung is described as it now is: real data only, 23 scored matching factors (it said 38), a resident portal in six languages.
+- Removed an unsourced recovery-rate claim from the Fundbüro concept and the fixed bonus amount from the Reparaturbonus concept. design-tokens no longer names OrangeCat as an adopter; sitekit names the two sites that render through it.
+
 ## 2026-10-02 — The map
 
 - New page, /map/: every project drawn as a loop, meaning work that recurs and still needs a person in it. Four layers: the rails (OrangeCat, Solon, Loki and the shared packages), the constraints (Substrata), professionals in the loop, and loops in the world. Each loop names who stays in it and what routine part it aims to retire.

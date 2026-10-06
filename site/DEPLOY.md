@@ -34,7 +34,7 @@ it will not publish from an old snapshot when a source is unavailable. Local
 offline builds may use the committed snapshots, so a developer can still work
 without network access.
 
-The home page features the two flagship projects and the three packages named
+The home page features the three flagship projects in `home.flagshipProjects` and the three packages named
 in `home.featuredPackages`. Its build fails if a selected item disappears from
 the source registers. `/work/` contains the full staged project catalogue and
 `/packages/` contains every registered package. The Loki feedback widget is
@@ -145,7 +145,7 @@ two builds, including the pinned listkit browser modules, and so `--check`
 can fail when the sources moved and the site did not. Main-branch changes to
 the site or its workflow run tests, claims/theme gates, rebuild from current
 Loki/Fleet sources, commit updated snapshots and generated pages, then publish
-to Hetzner, verify the public routes, and run the hire form gate. Fleet
+to Hetzner, verify the public routes, and run the hire intake gate. Fleet
 dispatches a refresh when its derived package registry changes, pinned to the
 exact Fleet commit that produced the new register. Run `Deploy Bitbaum site`
 manually from Actions to retry a failed publish; ordinary site changes also

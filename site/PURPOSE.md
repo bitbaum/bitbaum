@@ -57,8 +57,8 @@ for a list of gaps (the fleet registers publish those, not this page).
 ## What each page is for
 
 - **`/`** — a short introduction, the current waitlist route, Loki as the
-  self-serve option for urgent agent-assisted work, the OrangeCat/Loki flagship
-  products, three selected packages, and stage counts linking to `/work/`.
+  self-serve option for urgent agent-assisted work, the OrangeCat, Loki and
+  Solon flagship products, three selected packages, and stage counts linking to `/work/`.
   The complete work catalogue and package list have their own pages.
 - **`/work/`** — all projects that have an editorial profile, filtered by
   readiness stage and field. “Not built” is a real stage, not a roadmap promise.
@@ -76,15 +76,17 @@ for a list of gaps (the fleet registers publish those, not this page).
   the headline says no engagement is starting right now, so the page sells a
   place in the queue rather than a start date. That also makes the list a
   demand signal — who wants what, at these prices, is worth knowing before
-  capacity opens. Written in the company's voice, never one person's. The form
-  posts to Loki's `POST /api/feedback` with a public write-only widget token
-  (`fcw_…`), which rate-limits, dedupes and files each request into the feedback
-  inbox so a person can triage it. The form is the only door: no mailbox and no
-  `mailto` are rendered. On failure the page tells the visitor to retry or open
-  an issue on GitHub. **`node site/check-hire.mjs <base-url>` pins all of
-  this in a real browser** — rates present, no first-person voice, honeypot
-  silent, engagement carried into the signup, and a recoverable failure path.
-  Run it against the live URL after publishing.
+  capacity opens. Written in the company's voice, never one person's. The door
+  is one field, typed or spoken, that posts to Loki's studio intake
+  (`POST /api/studio-intake`): it files a waitlist entry or a studio request,
+  hands back a private portal link (`/portal/`), and refuses nothing for its
+  shape. No mailbox and no `mailto` are rendered. On failure the visitor's
+  words stay on the page and "Try again" resends them under the same receipt. **`node site/check-hire.mjs
+  <base-url>` pins this in a real browser** — rates present, no first-person
+  voice, one field with a microphone, engagement carried into the request, and a
+  recoverable failure path; `node site/check-studio-api.mjs` checks the
+  deployed intake API without creating a request.
+  Run both against the live URL after publishing.
 - **`/studio/`** — the thesis and the rules, for the reader who wants the why.
 
 ## How people arrive — the part that actually matters
@@ -132,8 +134,8 @@ Read weekly, once they can be read:
   agents. A referrer is the only evidence a link sent someone here;
 - **waitlist signups, and which engagement they name** — the point of showing
   rates beside a closed door is that joining is a costly-enough signal to be
-  worth counting: triage in Loki's `/feedback` inbox (source page `/hire/`),
-  filtered by engagement line in the suggestion body;
+  worth counting: triage in Loki's studio requests (status `waitlisted`), which
+  carry the engagement the reader clicked;
 - package-README referrals (referrer `npmjs.com` or `github.com`);
 - stars and downloads in `fleet/registers/readings.json`.
 
@@ -151,5 +153,5 @@ Measurement is no longer one of these: this host writes its own access log
 ---
 
 created_date: 2026-09-15
-last_modified_date: 2026-09-24
-last_modified_summary: Hire door is Loki /api/feedback (not newsletter/mailto); map.json is a redacted agent catalogue; measurement via feedback inbox.
+last_modified_date: 2026-10-06
+last_modified_summary: Hire door is Loki's studio intake with a private portal link (one field, typed or spoken); homepage flagships are OrangeCat, Loki and Solon.
