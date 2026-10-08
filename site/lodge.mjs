@@ -564,9 +564,31 @@ if (guest && stageFloor) {
   }
 
   if (kind === "stand") {
-    // Stands in the floor's depth, alive through its mesh; now and then it
-    // turns to face the other way and settles again.
-    every(19000, () => { const f = guest.querySelector(".fig"); if (f) f.animate([{ scale: "1 1" }, { scale: "-1 1", offset: 0.1 }, { scale: "-1 1", offset: 0.85 }, { scale: "1 1" }], { duration: 9000, easing: "ease-in-out" }); });
+    // Grazes its way along the floor: a slow walk to a spot, a rest, a turn,
+    // a slow walk back — alive through its mesh the whole time. Slow enough
+    // that the walk is noticed only by someone who stays, which is the point.
+    const f = guest.querySelector(".fig");
+    const SPEED = 7; // px per second
+    // Wall-clock, not frames: a background tab or a slow device must not
+    // stretch a rest into minutes or a walk into a crawl.
+    let x = 0, target = 0, face = 1, restUntil = 0, last = performance.now();
+    const pick = (t) => { const span = W() * 0.16; target = -span + Math.random() * span * 2; restUntil = t + 6000 + Math.random() * 14000; };
+    pick(last);
+    const tick = (t) => {
+      const dt = Math.min(0.5, (t - last) / 1000); last = t;
+      if (onScreen && !still) {
+        if (t < restUntil) { /* resting */ }
+        else if (Math.abs(target - x) < 1) pick(t);
+        else {
+          const dir = Math.sign(target - x);
+          if (dir !== face && f) { face = dir; f.animate([{ scale: `${-dir} 1` }, { scale: `${dir} 1` }], { duration: 1600, easing: "ease-in-out", fill: "forwards" }); }
+          x += dir * SPEED * dt;
+        }
+        guest.style.translate = `${x.toFixed(1)}px 0`;
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
   }
 
   if (kind === "flutter") {
@@ -670,7 +692,9 @@ if (guest && stageFloor) {
         u += dt / 46;
         if (u > 1.08) u = -0.05;
         const w = W(), d = Math.max(0, Math.min(1, u));
-        const x = w * (0.08 + d * 0.72), y = -d * -0.0 + (1 - d) * -46, s = 0.55 + d * 0.6;
+        // Far is small, near is large; the ground stays the ground (a few px
+        // higher at the far side is all the floor's perspective allows).
+        const x = w * (0.08 + d * 0.72), y = (1 - d) * -8, s = 0.55 + d * 0.6;
         guest.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${s.toFixed(3)})`;
         guest.style.opacity = Math.max(0, Math.min(1, u / 0.05, (1.05 - u) / 0.06)).toFixed(3);
         ball.style.rotate = `${(u * 2200).toFixed(1)}deg`;

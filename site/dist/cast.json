@@ -127,7 +127,7 @@
       "marker": "fig-fog-giant",
       "selector": ".fig-fog-giant",
       "layer": "partners hero · horizon-life",
-      "motion": "still, in haze",
+      "motion": "paces, far off in the fog (css giant-pace)",
       "visible": "immediate",
       "phone": "smaller"
     },
@@ -140,7 +140,7 @@
       "marker": "deer-deep",
       "selector": ".deer-deep",
       "layer": "partners hero · horizon-life",
-      "motion": "mesh warp",
+      "motion": "comes toward us across the far meadow over minutes (css deer-approach) + mesh warp",
       "visible": "immediate",
       "phone": "smaller"
     },
@@ -291,7 +291,7 @@
       "marker": "guest-scarab",
       "selector": ".guest-scarab",
       "layer": "art stage · guest",
-      "motion": "lodge.mjs roll",
+      "motion": "lodge.mjs: rolls the sun toward us along the ground",
       "visible": "eventually",
       "phone": "smaller"
     },
@@ -304,7 +304,7 @@
       "marker": "guest-art-cow",
       "selector": ".guest-art-cow",
       "layer": "art stage · guest (stand)",
-      "motion": "mesh warp, flips",
+      "motion": "grazes along the floor, turns, rests (lodge.mjs) + mesh warp",
       "visible": "eventually",
       "phone": "smaller"
     },
@@ -317,7 +317,7 @@
       "marker": "guest-art-diplodocus",
       "selector": ".guest-art-diplodocus",
       "layer": "art stage · guest (stand)",
-      "motion": "mesh warp, flips",
+      "motion": "grazes along the floor, turns, rests (lodge.mjs) + mesh warp",
       "visible": "eventually",
       "phone": "smaller"
     },
@@ -330,7 +330,7 @@
       "marker": "guest-art-deer",
       "selector": ".guest-art-deer",
       "layer": "art stage · guest (stand)",
-      "motion": "mesh warp, flips",
+      "motion": "grazes along the floor, turns, rests (lodge.mjs) + mesh warp",
       "visible": "eventually",
       "phone": "smaller"
     },
@@ -343,7 +343,7 @@
       "marker": "guest-art-elephant",
       "selector": ".guest-art-elephant",
       "layer": "art stage · guest (stand)",
-      "motion": "mesh warp, flips",
+      "motion": "grazes along the floor, turns, rests (lodge.mjs) + mesh warp",
       "visible": "eventually",
       "phone": "smaller"
     },
@@ -356,7 +356,7 @@
       "marker": "guest-art-rabbit",
       "selector": ".guest-art-rabbit",
       "layer": "art stage · guest (stand)",
-      "motion": "mesh warp, flips",
+      "motion": "grazes along the floor, turns, rests (lodge.mjs) + mesh warp",
       "visible": "eventually",
       "phone": "smaller"
     },
@@ -369,7 +369,7 @@
       "marker": "guest-art-cat",
       "selector": ".guest-art-cat",
       "layer": "art stage · guest (stand)",
-      "motion": "mesh warp, flips",
+      "motion": "grazes along the floor, turns, rests (lodge.mjs) + mesh warp",
       "visible": "eventually",
       "phone": "smaller"
     },

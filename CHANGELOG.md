@@ -10,6 +10,13 @@ Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADM
 - Diplodoctor and Causius now describe their own plans: a licensed clinician, or a licensed lawyer, stays in the loop and owns the result. Both remain "not built".
 - 138 responsive checks pass, including the new page.
 
+## 2026-10-02 — They move the way they would
+
+- The standing animals (Heidi's cow, the diplodocus, the elephant, the deer, the rabbit, the cat and the kit) graze along their floor: a slow walk to a spot, a rest, a turn, a slow walk back.
+- On the partners' meadow the deer comes toward us over minutes and the giant in the fog paces.
+- The scarab rolls the sun along the ground; its far start no longer floats.
+- The stylesheet and scripts lose the hooks of a plain that no page emits any more (the old gears, rye clump, cow and diplodocus doors, the cat's perch, the scene tumbleweed).
+
 ## 2026-10-02 — Every piece has a place
 
 - Nothing is retired: every painting is somewhere, on the ground, one or two to a screen. The inner pages' creatures stand on the Lynch floor in perspective — the same floor as the hero's — and the hero keeps no second floor of its own when a stage follows.
