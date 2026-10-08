@@ -172,6 +172,24 @@ function portal(root) {
     const stored = read("bitbaum:portal:recent");
     const recent = (Array.isArray(stored) ? stored : []).map(credential).filter(Boolean);
     if (recent.length) content.append(el("h2", { text: "Links saved in this browser session" }), ...recent.map((r) => link(`Open request ${r.id.slice(0, 8)}`, portalUrl(r), "btn secondary")));
+    // Lost the link entirely: the address given with the request gets a fresh
+    // one (the old link dies). The studio answers the same either way, so an
+    // address nobody gave us learns nothing here.
+    const again = el("form", { id: "portal-recover-mail", class: "portal-form" });
+    again.append(el("h2", { text: "Lost the link?" }));
+    const mail = field(again, "email", "The email you gave with the request", { type: "email", max: 200 });
+    const trap = field(again, "company", "Leave this field empty", { required: false });
+    trap.parentElement.hidden = true; trap.tabIndex = -1; trap.autocomplete = "off";
+    again.append(button("Send me a new link"));
+    const told = el("p", { role: "status", class: "caption", hidden: true }); again.append(told);
+    again.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const send = again.querySelector("button[type=submit]"); if (send.disabled) return; send.disabled = true;
+      try { const data = await api(root.dataset.apiOrigin, "/api/studio-recover", { body: { email: mail.value.trim(), company: trap.value } }); told.textContent = data.message ?? "If that address belongs to a request, a fresh link is on its way to it."; }
+      catch (err) { told.textContent = err.message; }
+      finally { told.hidden = false; send.disabled = false; }
+    });
+    content.append(again);
     content.append(link("Send a new brief", "/hire/#waitlist"), link("Apply as a partner", "/partners/#join")); root.replaceChildren(content);
   }
   window.addEventListener("hashchange", () => {

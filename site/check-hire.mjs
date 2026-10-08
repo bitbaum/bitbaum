@@ -109,7 +109,7 @@ say((last?.suggestion ?? "").includes("an app") && (last?.suggestion ?? "").incl
 say(!last?.contact, "no address is invented");
 say((last?.page ?? "") === "/hire/", `the page is recorded (${last?.page})`);
 const asked = await page.innerText(`${W} .ck-thread`);
-say(/on the studio waitlist/i.test(asked) && /reply by email/i.test(asked), "the visitor is told it is kept, and that an email is optional");
+say(/on the studio waitlist/i.test(asked) && /goes to your inbox as well/i.test(asked), "the visitor is told it is kept, and that an email is optional");
 
 // an email given afterwards becomes the reply address
 await page.fill(`${W} .ck-input`, "someone@example.com please");

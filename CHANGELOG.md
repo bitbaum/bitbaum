@@ -10,6 +10,10 @@ Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADM
 - Diplodoctor and Causius now describe their own plans: a licensed clinician, or a licensed lawyer, stays in the loop and owns the result. Both remain "not built".
 - 138 responsive checks pass, including the new page.
 
+## 2026-10-08 — The private link cannot be lost
+
+- A studio request or partner application has no account; its private link is the key. Now the link also goes to the email given — at the start, or added later in the same conversation — and the portal page has "Lost the link?": the address you gave gets a fresh link to every open request under it, and the old one stops working (Loki `/api/studio-recover`).
+
 ## 2026-10-02 — They move the way they would
 
 - The standing animals (Heidi's cow, the diplodocus, the elephant, the deer, the rabbit, the cat and the kit) graze along their floor: a slow walk to a spot, a rest, a turn, a slow walk back.
