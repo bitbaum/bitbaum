@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T15:00:21.543Z",
+  "generatedAt": "2026-10-08T16:26:19.276Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 39,
     "live": 16,
     "clients": 5,
-    "inFlight": 6
+    "inFlight": 5
   },
   "projects": [
     {
@@ -595,7 +595,11 @@
       "changelog": [
         {
           "date": "2026-10-08",
-          "done": "Share a fix's walkthrough with anyone. \"Watch the fix\" now has a Share button, in Loki's inbox and on the walkthrough's last card. The link opens the live site and plays the same walkthrough there — the real page, not a recording — in plain words: the change shown on the page, without the code reasoning, the pull request, or the reporter's words and screenshot. Everyone who opens it sees the same story, and passing it around does not spend your AI budget once per viewer.\nA cleaner last card. The walkthrough ends on one short question and one decision — \"Looks right — confirm\" — with Share beside it, Replay and the code change as quiet links underneath, and close as an × in the corner. It no longer repeats the agent's change log, and a summary is no longer cut off at an abbreviation (\"…checks incl.\")."
+          "done": "A studio request or partner application mails its private link to the address given — at intake, or when the address is added later through the portal. The link is the only credential, so until now a closed tab was a lost request.\n\"Send my link again\" (POST /api/studio-recover): the address you gave us gets a fresh link to every open request under it, and the old link stops working. The answer is the same whether or not the address is known."
+        },
+        {
+          "date": "2026-10-08",
+          "done": "\"Not quite\" — and \"Show me\" first. A walkthrough's last card now has \"Not quite\": say (or speak) what is still wrong, and Loki starts the fix again with your words. Or press Show me first: Loki redraws the live page the way you described it — on your screen only, nothing saved — and \"Build this\" sends your words together with what the preview showed. Undo puts the page back exactly. The person who reported it can say \"Not quite\" too; their words go to your inbox.\nFinished fixes keep their walkthrough. Watch the fix and Share now stay on a fix after you confirm it, so you can show it to someone later.\nCopy page link on the last card copies the page's own address, for sharing the site without a walkthrough.\nShare a fix's walkthrough with anyone. \"Watch the fix\" now has a Share button, in Loki's inbox and on the walkthrough's last card. The link opens the live site and plays the same walkthrough there — the real page, not a recording — in plain words: the change shown on the page, without the code reasoning, the pull request, or the reporter's words and screenshot. Everyone who opens it sees the same story, and passing it around does not spend your AI budget once per viewer.\nA cleaner last card. The walkthrough ends on one short question and one decision — \"Looks right — confirm\" — with Share beside it, Replay and the code change as quiet links underneath, and close as an × in the corner. It no longer repeats the agent's change log, and a summary is no longer cut off at an abbreviation (\"…checks incl.\")."
         },
         {
           "date": "2026-10-07",
@@ -668,10 +672,6 @@
         {
           "date": "2026-09-14",
           "done": "A public map of every project the studio runs: what it is for, whether it is up, and what last moved. Loki reads the same map when you ask about the fleet (#698)."
-        },
-        {
-          "date": "2026-09-13",
-          "done": "The product takes the name Loki, everywhere it used to carry its old name (#695)."
         }
       ],
       "records": {
@@ -684,7 +684,7 @@
       },
       "next": null,
       "now": {
-        "openRuns": 4,
+        "openRuns": 5,
         "lastRun": {
           "outcome": "partial",
           "at": "2026-10-07T14:16:02.186Z"
@@ -721,7 +721,7 @@
           "title": "Share and fund anything",
           "line": "Make every eligible public entity easy to share and support in Bitcoin, including for people without an OrangeCat account.",
           "status": "in progress",
-          "progress": 40,
+          "progress": 43,
           "targetDate": null,
           "milestones": [
             {
@@ -743,6 +743,14 @@
             {
               "title": "A transparency score computed from what is observable in that ledger, never from what anyone claims about themselves.",
               "done": true
+            },
+            {
+              "title": "Decide where money paid to you goes, in order — a share for taxes first, then a debt, rent or insurance — with each payment landing in the first wallet still behind. {#money-routes}",
+              "done": true
+            },
+            {
+              "title": "The tax line suggested from Solon's tax figures for your own commune, instead of a percentage you type.",
+              "done": false
             }
           ],
           "source": "https://github.com/bitbaum/orangecat/blob/HEAD/ROADMAP.md"
@@ -801,7 +809,7 @@
           "title": "The investor portal {#investor-rooms}",
           "line": "One link an investor can judge a project from, without a call or anyone's word: what it is, whether it is real and moving, why it exists, what it promised and delivered, the founder's story and the documents — generated from the product's own records wherever a system can count it. Each person gets their own link and the owner sees who opened what. Product plan: docs/features/investor-portal.md; decision: docs/architecture/adr/ADR-0012-a-project-has-a-room-for-its-investors.md.",
           "status": "in progress",
-          "progress": 36,
+          "progress": 42,
           "targetDate": null,
           "milestones": [
             {
@@ -818,6 +826,10 @@
             },
             {
               "title": "Evidence the room generates: key facts, weekly shipping pace from the public repository, what shipped, the roadmap and why the product exists — from the product's own records, each with its source. {#room-evidence}",
+              "done": true
+            },
+            {
+              "title": "A deck made in the room: a first draft generated from the room and the product's record (nothing invented), every slide editable, proof slides bound to live data, presented full screen, linkable per slide, printable to PDF. {#room-deck}",
               "done": true
             },
             {
@@ -987,7 +999,7 @@
       "changelog": [
         {
           "date": "2026-10-08",
-          "done": "Partners now have one home: bitbaum. OrangeCat's partners page listed an OrangeCat guild that was never founded, so it showed an empty list while bitbaum had the real one. It now takes you straight to bitbaum's partners (https://bitbaum.orangecat.ch/partners/), where independent engineers apply and the studio approves who is listed.\nWallets for taxes and for paying back debt. Two new purposes when you add a wallet: Taxes — money set aside for the tax you owe — and Debt repayment — money going back to someone you owe. Like rent or medical wallets, they appear on your profile with their purpose.\nEvery payment remembers what it was worth when it arrived. When a payment to you is confirmed, OrangeCat now records the Bitcoin price at that moment in Swiss francs, euros, dollars and pounds. If no trustworthy price is available at that moment, it records nothing rather than a guess.\nThe investor room shows the evidence itself. Open a room and the first screen now answers \"is it real, and is it moving\": when the product went live, how many changes shipped in the last 30 days, how many were merged to the main branch since it started, and where the roadmap stands — each with its source, generated from the product's public repository and its own records rather than typed by anyone. Below: why the product exists (problem, solution, mission, vision), a week-by-week shipping chart with what recently shipped, and the roadmap by now / next / later. A row of links jumps between sections, a new room's outline asks for the risks, and the page tells the reader plainly that the owner sees what is opened. {#room-evidence}\nA product's own investor page leads into its room. Heidi's /investors password now opens Heidi's investor room here. {#room-door}\nAn investor room on every project. The owner of a project now has a private page for the investors they choose: a headline, the story in sections (the problem, what was built, proof, market, business model, team, roadmap, the ask), dated numbers with how to check each, the deck, documents, and the project's build record from Loki. Each person gets their own link — no account, no password — that says who it is for, and the owner sees, per person, when they opened the room and what they opened inside it. A link can be switched off at any time; its history stays. Open it with \"Investor room\" in the bar at the top of your project's page. {#room-links}\nWho opened what, counted honestly. The first time each person opens their link to an investor room, the owner gets a notification (and an email, which can be turned off). Link previews don't count: pasting a link into WhatsApp, Telegram, Slack or iMessage makes the app fetch the page for its preview card, and those fetches are no longer counted as someone opening it — in investor rooms and on profile claim links, where they were. Nor is the owner's own preview. {#room-opens}\n\"Came in\" on Your money counts each sale once, at what it was worth. From the first sale, a sale would have been counted twice — once as the payment and once as the order — and a year of income converted at today's Bitcoin price, so the income and the tax estimate built on it would both have been off. Each payment now counts once, valued at the price recorded when it arrived. A payment that arrived before prices were recorded is valued at today's rate, and the page says how many were.\nA payment that timed out is no longer recorded as failed. When your wallet doesn't answer in time, the Send screen already tells you the payment may still go through. OrangeCat's private record of the send now says the same: \"unconfirmed\", not \"failed\", because the money may have moved."
+          "done": "Partners now have one home: bitbaum. OrangeCat's partners page listed an OrangeCat guild that was never founded, so it showed an empty list while bitbaum had the real one. It now takes you straight to bitbaum's partners (https://bitbaum.orangecat.ch/partners/), where independent engineers apply and the studio approves who is listed.\nDecide where money paid to you goes, in order. On Your money, under \"Where your money goes\", list your wallets in the order they should be covered: a share of everything that comes in (taxes first, say 25%), then amounts to fill — once, like paying back a debt, or every month, like rent or health insurance. When someone pays you, the whole payment goes to the first line still behind, and the page shows how far each line has got and where the next payment will land. OrangeCat never holds the money: the payer's wallet pays that wallet directly, and with no rule, payments land where they always did. {#money-routes}\nA deck, made in the room. In your investor room, open Deck and generate a first draft from what the room and your product already say: the problem, the solution, live proof that it is real and moving, your own sections, the numbers, the roadmap and the ask — one claim per slide, nothing invented. Then edit any slide (its layout, words, figures, order), choose dark or light and your accent colour, and present it full screen with speaker notes. Investors open it from the room's Open the deck, swipe or arrow through it, link to a single slide, and save it as a PDF with real text. The proof slides read live data every time the deck is opened, so its numbers are never stale; opening the deck counts like any other open. {#room-deck}\nWallets for taxes and for paying back debt. Two new purposes when you add a wallet: Taxes — money set aside for the tax you owe — and Debt repayment — money going back to someone you owe. Like rent or medical wallets, they appear on your profile with their purpose.\nEvery payment remembers what it was worth when it arrived. When a payment to you is confirmed, OrangeCat now records the Bitcoin price at that moment in Swiss francs, euros, dollars and pounds. If no trustworthy price is available at that moment, it records nothing rather than a guess.\nThe investor room shows the evidence itself. Open a room and the first screen now answers \"is it real, and is it moving\": when the product went live, how many changes shipped in the last 30 days, how many were merged to the main branch since it started, and where the roadmap stands — each with its source, generated from the product's public repository and its own records rather than typed by anyone. Below: why the product exists (problem, solution, mission, vision), a week-by-week shipping chart with what recently shipped, and the roadmap by now / next / later. A row of links jumps between sections, a new room's outline asks for the risks, and the page tells the reader plainly that the owner sees what is opened. {#room-evidence}\nA product's own investor page leads into its room. Heidi's /investors password now opens Heidi's investor room here. {#room-door}\nAn investor room on every project. The owner of a project now has a private page for the investors they choose: a headline, the story in sections (the problem, what was built, proof, market, business model, team, roadmap, the ask), dated numbers with how to check each, the deck, documents, and the project's build record from Loki. Each person gets their own link — no account, no password — that says who it is for, and the owner sees, per person, when they opened the room and what they opened inside it. A link can be switched off at any time; its history stays. Open it with \"Investor room\" in the bar at the top of your project's page. {#room-links}\nWho opened what, counted honestly. The first time each person opens their link to an investor room, the owner gets a notification (and an email, which can be turned off). Link previews don't count: pasting a link into WhatsApp, Telegram, Slack or iMessage makes the app fetch the page for its preview card, and those fetches are no longer counted as someone opening it — in investor rooms and on profile claim links, where they were. Nor is the owner's own preview. {#room-opens}\n\"Came in\" on Your money counts each sale once, at what it was worth. From the first sale, a sale would have been counted twice — once as the payment and once as the order — and a year of income converted at today's Bitcoin price, so the income and the tax estimate built on it would both have been off. Each payment now counts once, valued at the price recorded when it arrived. A payment that arrived before prices were recorded is valued at today's rate, and the page says how many were.\nA payment that timed out is no longer recorded as failed. When your wallet doesn't answer in time, the Send screen already tells you the payment may still go through. OrangeCat's private record of the send now says the same: \"unconfirmed\", not \"failed\", because the money may have moved."
         },
         {
           "date": "2026-10-07",
@@ -1814,6 +1826,10 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-10-08",
+          "done": "A studio request or partner application has no account; its private link is the key. Now the link also goes to the email given — at the start, or added later in the same conversation — and the portal page has \"Lost the link?\": the address you gave gets a fresh link to every open request under it, and the old one stops working (Loki /api/studio-recover)."
+        },
         {
           "date": "2026-10-02",
           "done": "site/cast.json names every painted or drawn element once; the build finds each one on the pages it renders and writes the register (dist/cast.json, docs/CAST.md — what is where, how it moves, what shows on phones). It refuses to build when an element is on no page or a painting belongs to no entry. The first run found one: the hummingbird avatar was assigned to a venture that does not exist, so it was on no page — it now lives on Camille's bakery.\nsite/check-cast.mjs opens every page at phone and desk width and proves each element is in the DOM, loaded and sized where the register says; it runs in CI with the other checks.\nQuixote and Sancho ride into the plain toward the mill — near and large first, then up and away, smaller and hazier — instead of along the horizon line.\nThe header steps aside while the reader reads down and returns on the first scroll up; never while the menu is open."
@@ -4673,10 +4689,10 @@
       },
       "next": "site PR bitbaum/derhochhinhousepartyrenner-ch-refresh-…#1 green and unmerged — needs Register site (slug derhochhinhousepartyrenner-ch-refresh-68e1f4947961419d-18eaadda) to seed deploy + auto-merge.",
       "now": {
-        "openRuns": 1,
+        "openRuns": 0,
         "lastRun": {
           "outcome": "timeout",
-          "at": "2026-10-07T05:15:51.046Z"
+          "at": "2026-10-08T07:46:40.820Z"
         },
         "lastLog": {
           "date": "2026-10-04",
@@ -4839,6 +4855,10 @@
       "changelog": [
         {
           "date": "2026-10-08",
+          "done": "From the owner's watch-mode journey (Home → Chi siamo → Team → back Home to call), added a one-tap call button to the header on every page (phone icon on mobile, number in the green bar on desktop) with the full wordmark kept down to 320px, in PR #3 on fix/journey-review."
+        },
+        {
+          "date": "2026-10-08",
           "done": "Addressed the \"where is all the content/design\" feedback: migrated all 9 reference pages in it/de/fr/en into typed content, rebuilt the home page (team-photo hero, trust band, services, Club banner, history timeline, reviews, visit+map), verified 115/115 browser checks incl. 0 axe WCAG 2.1 AA violations on all 40 pages; PR #2 green and auto-merged."
         },
         {
@@ -4854,16 +4874,16 @@
           "changelog": null
         }
       },
-      "next": null,
+      "next": "PR #3 open, CI pending; separate pre-existing finding: wordmark clipped at 768px (1px it, 15px fr) on the live site",
       "now": {
         "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-10-08T11:50:35.874Z"
+          "at": "2026-10-08T16:16:42.822Z"
         },
         "lastLog": {
           "date": "2026-10-08",
-          "done": "Addressed the \"where is all the content/design\" feedback: migrated all 9 reference pages in it/de/fr/en into typed content, rebuilt the home page (team-photo hero, trust band, services, Club banner, history timeline, reviews, visit+map), verified 115/115 browser checks incl. 0 axe WCAG 2.1 AA violations on all 40 pages; PR #2 green and auto-merged."
+          "done": "From the owner's watch-mode journey (Home → Chi siamo → Team → back Home to call), added a one-tap call button to the header on every page (phone icon on mobile, number in the green bar on desktop) with the full wordmark kept down to 320px, in PR #3 on fix/journey-review."
         }
       }
     },
@@ -5828,10 +5848,10 @@
       },
       "next": null,
       "now": {
-        "openRuns": 1,
+        "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-10-08T06:04:16.339Z"
+          "outcome": "partial",
+          "at": "2026-10-08T07:46:28.229Z"
         },
         "lastLog": {
           "date": "2026-10-08",
