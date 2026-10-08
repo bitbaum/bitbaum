@@ -181,7 +181,7 @@ function portal(root) {
     const trap = field(again, "company", "Leave this field empty", { required: false });
     trap.parentElement.hidden = true; trap.tabIndex = -1; trap.autocomplete = "off";
     again.append(button("Send me a new link"));
-    const told = el("p", { role: "status", class: "caption", hidden: true }); again.append(told);
+    const told = el("p", { role: "status", hidden: true }); again.append(told);
     again.addEventListener("submit", async (event) => {
       event.preventDefault();
       const send = again.querySelector("button[type=submit]"); if (send.disabled) return; send.disabled = true;

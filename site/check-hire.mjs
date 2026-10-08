@@ -122,7 +122,7 @@ say((last?.suggestion ?? "").includes("an app"), "tied to the first message");
 // a website in the text makes a studio request with a private portal
 await page.reload({ waitUntil: "load" });
 await page.waitForSelector(`${W} .ck-input`, { timeout: 10000 }).catch(() => {});
-await page.fill(`${W} .ck-input`, "Make booking easier on phones at www.example-gym.ch, reply to ops@example.com");
+await page.fill(`${W} .ck-input`, "Make booking easier on phones at www.example-gym.ch. Reply to ops@example.com");
 await page.press(`${W} .ck-input`, "Enter");
 const portal = page.locator(W).getByRole("link", { name: "Open your portal →", exact: true });
 await portal.waitFor({ timeout: 5000 }).catch(() => {});

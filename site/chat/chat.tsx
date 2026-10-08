@@ -257,7 +257,9 @@ type Access = { id: string; key: string };
 type IntakeCfg = Config & { purpose: Purpose; offerId: string; prompt: string; topic: () => string };
 
 const siteIn = (text: string) => {
-  const found = text.replace(EMAIL, " ").match(SITE)?.[0] ?? "";
+  // An address ends a sentence more often than not: the full stop, comma or
+  // bracket after it is the sentence's, not the address's.
+  const found = (text.replace(EMAIL, " ").match(SITE)?.[0] ?? "").replace(/[.,;:!?)\]]+$/, "");
   // "e.g." and "i.e." are not websites.
   return found && !/^(e\.g|i\.e)\b/i.test(found) ? found : "";
 };
