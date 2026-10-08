@@ -305,7 +305,7 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
     setMessages((prev) => [...prev, { id: `${Date.now()}-a`, role: "assistant", content, failed }]);
   const where = () => (cfg.purpose === "partner" ? "application" : "portal");
   const askReply = (email: string) =>
-    email ? ` The reply will go to ${email}.` : " If you would like the reply by email, write the address here — optional; the link above works without one.";
+    email ? ` The link is on its way to ${email} too, so it cannot be lost.` : " Write your email here and the link goes to your inbox as well — optional; the link above works without one.";
 
   // A studio request on Loki, kept idempotent: a retry reuses the same ids.
   const open = async (body: Record<string, unknown>, email: string) => {
@@ -333,8 +333,14 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
     const s = stage.current;
     try {
       if (s.kind === "portal") {
-        await post(`${cfg.origin}/api/studio-portal/${s.access.id}`, { action: "message", body: text.slice(0, 2000), mutationId: crypto.randomUUID() }, s.access.key);
-        say(email && !replyTo.current ? `Added — the reply will go to ${email}.` : "Added to your request. The studio sees it in the same place.");
+        // An address given now becomes the reply address, and the private
+        // link goes to it — the way back if this tab is ever closed.
+        if (email && email !== replyTo.current)
+          await post(`${cfg.origin}/api/studio-portal/${s.access.id}`, { action: "set_contact", contact: email.slice(0, 200), mutationId: crypto.randomUUID() }, s.access.key);
+        const rest = text.replace(email, "").replace(/^[\s,.;:—-]+|[\s,.;:—-]+$/g, "");
+        if (rest.length > 1 || !email)
+          await post(`${cfg.origin}/api/studio-portal/${s.access.id}`, { action: "message", body: text.slice(0, 2000), mutationId: crypto.randomUUID() }, s.access.key);
+        say(email && email !== replyTo.current ? `Thank you — the reply will go to ${email}, and the private link is on its way there too.` : "Added to your request. The studio sees it in the same place.");
       } else if (s.kind === "waitlist") {
         await note(`Waitlist, follow-up to: “${s.first.slice(0, 300)}”\n\n${text}`, email);
         say(email && !replyTo.current ? `Thank you — the reply will go to ${email}.` : "Added to your note.");

@@ -60,7 +60,29 @@ try {
     await page.getByText("Added to your request", { exact: false }).waitFor();
     assert.equal(follow.length, 1); assert.equal(follow[0].auth, `Bearer ${sent[0].accessKey}`);
     assert.equal(follow[0].body.action, "message"); assert.equal(follow[0].body.body, "Also the opening hours are wrong.");
+    // An address given later becomes the reply address (and Loki mails the link to it).
+    await page.fill("#waitlist .ck-input", "ops@example.com");
+    await page.press("#waitlist .ck-input", "Enter");
+    await page.getByText("the private link is on its way there too", { exact: false }).waitFor();
+    assert.equal(follow.length, 2); assert.equal(follow[1].body.action, "set_contact"); assert.equal(follow[1].body.contact, "ops@example.com");
     await page.unroute(`**/api/studio-portal/${id}`);
+    // The portal page offers a way back without the link: the address given
+    // asks for a fresh one, and the answer gives nothing away.
+    const recovers = [];
+    await page.route("**/api/studio-recover", (route) => {
+      if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers });
+      recovers.push(JSON.parse(route.request().postData()));
+      return route.fulfill({ status: 200, headers, contentType: "application/json", body: JSON.stringify({ ok: true, sent: true, message: "If that address belongs to a request, a fresh link is on its way to it." }) });
+    });
+    await page.goto(`${base}/portal/`, { waitUntil: "load" });
+    await page.evaluate(() => { try { sessionStorage.clear(); } catch {} });
+    await page.goto(`${base}/portal/`, { waitUntil: "load" });
+    await page.waitForSelector("#portal-recover-mail");
+    await page.locator("#portal-recover-mail [name=email]").fill("ops@example.com");
+    await page.getByRole("button", { name: "Send me a new link", exact: true }).click();
+    await page.getByText("a fresh link is on its way", { exact: false }).waitFor();
+    assert.equal(recovers.length, 1); assert.equal(recovers[0].email, "ops@example.com"); assert.equal(recovers[0].company, "");
+    await page.unroute("**/api/studio-recover");
     const actions = [];
     let request = structuredClone(fixture);
     let assignments = [];
