@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T16:26:19.276Z",
+  "generatedAt": "2026-10-12T16:09:13.198Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 39,
     "live": 16,
     "clients": 5,
-    "inFlight": 5
+    "inFlight": 3
   },
   "projects": [
     {
@@ -151,11 +151,19 @@
           "title": "Bring your own key, metered by default",
           "line": "The builder pays their model vendor directly and pays Loki for the platform; every run records the tokens it spent, per tenant, from day one.",
           "status": "planned",
-          "progress": 25,
+          "progress": 50,
           "targetDate": null,
           "milestones": [
             {
               "title": "Loki's own chat runs on your key when you paste one in Settings",
+              "done": true
+            },
+            {
+              "title": "Several providers per account, in your own order; the composer's picker shows your models first and links to adding a key",
+              "done": true
+            },
+            {
+              "title": "Passes paid in Bitcoin: the Billing tab shows the pass, its end date, the Buy button and the ledger; the operator grants, extends and revokes from System → Plans",
               "done": true
             },
             {
@@ -219,9 +227,9 @@
         },
         {
           "title": "Mobile fleet control",
-          "line": "Native iOS and Android apps on the remote control channel, made for steering and approval rather than authoring.",
+          "line": "Native iOS and Android apps on the remote control channel, made for steering and approval rather than authoring. No-screen mode (shipped) is the web form of this; a native shell is what it needs if the browser suspends the page when the screen locks.",
           "status": "planned",
-          "progress": 0,
+          "progress": 33,
           "targetDate": null,
           "milestones": [
             {
@@ -234,7 +242,7 @@
             },
             {
               "title": "Voice capture for commands and approvals",
-              "done": false
+              "done": true
             }
           ],
           "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
@@ -392,6 +400,40 @@
           "milestones": [
             {
               "title": "Per-fleet autopilot behind the same approval gate",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "No-screen mode",
+          "line": "Run the fleet with the phone in a pocket: one tap opens the microphone, the briefing is read aloud, twelve spoken commands approve, dispatch, pause and resume through the seams the screen uses, and what changes — a run finishing, a failure, a new approval — is announced unasked.",
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The briefing, the approval list and the failure list composed from one snapshot, pure and tested",
+              "done": true
+            },
+            {
+              "title": "An explicit grammar for the twelve commands; anything else is a question for Loki",
+              "done": true
+            },
+            {
+              "title": "Announcements between turns from a twenty-second poll, bounded to five per poll",
+              "done": true
+            },
+            {
+              "title": "The headphone button as the only button, through the media session",
+              "done": true
+            },
+            {
+              "title": "Pleasant for an hour: a studio voice with the phone's as fallback, a music bed the phone composes, a tone before each kind of news, talk-over, coalesced and varied sentences, \"details\" and an only-what-needs-me mode",
+              "done": true
+            },
+            {
+              "title": "Verified on a locked iPhone in a pocket for an hour",
               "done": false
             }
           ],
@@ -594,84 +636,84 @@
       ],
       "changelog": [
         {
-          "date": "2026-10-08",
-          "done": "A studio request or partner application mails its private link to the address given — at intake, or when the address is added later through the portal. The link is the only credential, so until now a closed tab was a lost request.\n\"Send my link again\" (POST /api/studio-recover): the address you gave us gets a fresh link to every open request under it, and the old link stops working. The answer is the same whether or not the address is known."
+          "date": "2026-10-12",
+          "done": "No download for an account that has the cloud builder. Opened on a second computer, Loki said Fleet Runner was not connected “on this computer” and offered one fix: download the desktop app. “This computer” is the one machine where your account’s desktop app runs, so from any other device that offer was a trap — and the account’s cloud builder was online the whole time. Now the card under a dispatch says “Run it in the cloud” (one tap, the work moves), the empty terminal says “Use the cloud builder”, and the Control banner says plainly that there is nothing to install. The download is offered only to accounts whose cloud builder is private.\nThe Terminal no longer says \"start it\" to a builder that is down. A deep link to a project with no session read “isn’t running on Cloud builder — start it, and it opens here” while the chip beside it said the cloud builder was offline. Now that screen says the builder is offline and what happens to the work, and the start offer waits for a builder that can take it.\nThe cloud builder's pulse is public. /api/health/builder answers 200 while the shared cloud builder is connected and 503 when it is not, so the box watchdog and the fleet sweep alert on it the way they already alert on a dead site. It was offline all night on 2026-10-11 and only a chip inside a signed-in page knew. Each deploy now prints the builder's state and its last journal lines into the CI log, and the feedback queue says “Cloud builder offline” instead of “Watch shows why” when that is the case.\nThe Mac download is not damaged. macOS says the app “is damaged and can’t be opened” because the build is not yet signed by Apple, and right-click → Open does not clear it. /download now leads with the .zip and one Terminal line that installs, clears the refusal and launches it. Signed builds need an Apple Developer account (USD 99 a year); the pipeline is ready for the certificate.\nA Suggestions page. The \"Build next\" row on the Loki start screen only knew about code. The new page under Now reads every front Loki keeps records on — Build, Business, Goals, People, Money, Habits — and offers one thing to do per fact: the report nobody fixed, the delivery waiting on your yes, the goal due Friday at 40%, the subscription renewing Tuesday, the friend you have not spoken to in forty days, the twelve-day streak not checked off yet. Every card says which record it came from.\nTwo answers, no typing. \"Do it\" hands the ask to Loki, already written and already scoped to the project, or opens the one place only you can do it (checking off a habit, accepting a delivery). \"Not now\" puts it away for a month, with an undo. What you put away stays away on the start screen and on Control too.\nIt keeps score, from records. Taken this week, days in a row, taken in all — counted from the decisions you actually made, never estimated.\nPrivate fronts stay private. People, Money and Habits are read only while your PIN zone is unlocked; locked, the page says so and offers the unlock."
         },
         {
-          "date": "2026-10-08",
-          "done": "\"Not quite\" — and \"Show me\" first. A walkthrough's last card now has \"Not quite\": say (or speak) what is still wrong, and Loki starts the fix again with your words. Or press Show me first: Loki redraws the live page the way you described it — on your screen only, nothing saved — and \"Build this\" sends your words together with what the preview showed. Undo puts the page back exactly. The person who reported it can say \"Not quite\" too; their words go to your inbox.\nFinished fixes keep their walkthrough. Watch the fix and Share now stay on a fix after you confirm it, so you can show it to someone later.\nCopy page link on the last card copies the page's own address, for sharing the site without a walkthrough.\nShare a fix's walkthrough with anyone. \"Watch the fix\" now has a Share button, in Loki's inbox and on the walkthrough's last card. The link opens the live site and plays the same walkthrough there — the real page, not a recording — in plain words: the change shown on the page, without the code reasoning, the pull request, or the reporter's words and screenshot. Everyone who opens it sees the same story, and passing it around does not spend your AI budget once per viewer.\nA cleaner last card. The walkthrough ends on one short question and one decision — \"Looks right — confirm\" — with Share beside it, Replay and the code change as quiet links underneath, and close as an × in the corner. It no longer repeats the agent's change log, and a summary is no longer cut off at an abbreviation (\"…checks incl.\")."
+          "date": "2026-10-12",
+          "done": "Work sent to the cloud starts again. Since 22:25 UTC on 2026-10-11 the cloud builder stopped itself a few seconds after every start — 220 times — so every cloud dispatch waited in the queue. The form-filling window added to Fleet Runner that evening belongs to the desktop app, and the cloud builder, which runs the same code without a screen, tried to load it at start-up. It now loads only when a form arrives, which only happens on a computer. A new check fails the build if anything the cloud builder loads ever needs the desktop app again. Fleet Runner 0.8.42."
         },
         {
-          "date": "2026-10-07",
-          "done": "Your site gets a consultation before it gets rebuilt. On \"Start from a website\", naming your own site now opens a free consultation first: Loki reads the live page the way a new visitor and Google do, and says in plain words what is costing you visitors right now, what is worth fixing, and what is already right — each with the proof it saw, and how Google shows you today. Every finding is a fix you keep or drop; \"Build a new version — 5 fixes\" builds exactly those, with anything you add in your own words. It spends no AI and needs no account.\nWatch the fix tells the whole story. The walkthrough now plays in chapters, about a minute long: the report and its screenshot, what was actually wrong, the change shown live on the page, why it was done that way, what else was considered and who it helps. Back, Pause and Next set the pace. It reads the story from a short design note the agent now writes into every fix's pull request.\nThe person who reported it can watch too. On \"My feedback\", a fix that is live offers \"Watch your fix\": their own words, the change shown on the page, and one plain sentence about what changed for them — no pull requests and no technical reasoning.\nThe roadmap and the changelog link to each other. A {#id} on a ROADMAP.md step and on the CHANGELOG.md line that delivered it now links them: each step on /roadmap names the changelog days that shipped it, and each line on /changelog names the step it delivered. One model for every fleet site (bip-kit 0.6.0); OrangeCat and Solon show the same links.\nFleet profiles no longer print the link tokens. /fleet/orangecat showed \"Events, end to end {#events}\" once OrangeCat started linking its records; every fleet profile strips them now.\nA wrapped roadmap step is read whole. A step written over two lines lost its second line, so Solon's roadmap published \"…redirect into the\" without \"first organization\", and the lost line could be taken as the goal's one-line summary.\nThe walkthrough's caption stays on top. On a phone, the site's own tab bar and floating buttons could cover the \"Watch the fix\" caption and its \"Looks right\" button (Substrata at 390px). The caption now sits above everything on the page and rises clear of a bottom tab bar."
+          "date": "2026-10-11",
+          "done": "Every agent Loki sends into a bitbaum repo is now told what already exists. Alongside the project's own profile, the dispatch carries the studio's rules: read fleet's AGENTS.md, STACK.md and SHARED.md first, start a new product from the fleet app template, use the shared packages (each with its one-line purpose and install command) instead of writing another health route, model call or set of security headers, keep the security bar, and count work as done only once it is merged, deployed and checked live.\nThe package list and the stack are read from bitbaum/fleet when the agent is sent, so they are never a copy kept in Loki. If GitHub is slow or down, the dispatch goes ahead with the last saved list.\nRepositories outside the bitbaum org get nothing extra."
         },
         {
-          "date": "2026-10-05",
-          "done": "Your own copy of an open-source project. On /take, pick OrangeCat, Loki, Solon, evig, Substrata or Heidi and say what your copy is for. Loki's agents copy the code into a project of your own, keep the licence and the credit, and give it your name and look. GitHub Actions are switched off on every copy before anything is imported (#1043, #1047).\nInspired by, not a copy of. On /change, \"Make my own, inspired by it\" starts an independent site that takes only ideas from an address you admire: layout, structure, interaction and mood (#1038).\nThe Terminal on a phone. Attach a photo or a file, swipe to scroll, one bar instead of stacked rows, and suggested next steps read from what is on the screen. A screenshot reaches the agent as the image itself, and the feedback tool sits in the Terminal's header instead of over the terminal (#1042, #1044, #1045, #1046, #1048)."
+          "date": "2026-10-11",
+          "done": "New sites start with accounts, three languages and strict security. Both ways Loki creates a site — \"Make it happen\" with the Next.js starter, and a new site on the box — now produce the same app: the bitbaum starter. People can create an account with a password, a sign-in link or a passkey (and with OrangeCat once the site is registered there), add two-factor sign-in, and use it in English, German or French. It ships with strict security headers, a health check, tests and the pipeline that deploys each change.\nA new site gets its own database. Its accounts live in a database made for it on the server, with its secrets generated there and never shown."
         },
         {
-          "date": "2026-10-03",
-          "done": "Watch mode. Open your site from Loki (\"Open your site\") and a pill at the top says Loki is watching. When something on the page breaks — an error, or a request that fails — Loki files it with the steps that led there and starts the fix; the pill says Loki is fixing it, with a link to follow. A button that does nothing when tapped three times counts as broken too, and Report on the pill files anything else that looks wrong, with the same steps attached. What you type is never recorded, Pause stops it, and visitors are never watched.\nLoki's chat answers first. A message that sounds like work no longer gets \"Which project?\" over a wall of buttons — it gets an answer, with \"Run this on a project…\" underneath for when you meant it.\nTalk, follow-ups and 👎. A hands-free voice conversation, suggested next questions under an answer, and a thumbs-down that files the bad answer as feedback.\nThe feedback inbox is one view: Needs you · Under way · Shipped, with every report laid out the same way."
+          "date": "2026-10-11",
+          "done": "\"Build next\" on the Loki start screen. Under \"What are we working on?\" there is now a row of things you could build, picked from your own records: visitor reports nobody has fixed, a project with code but no live site, the next step your last session left, a goal stuck at zero, an idea from your sticky notes, and needs people have posted on OrangeCat (the ones closest to what you already build come first). Each one names why it is there.\nOne tap starts the work. Tapping a suggestion for one of your projects sends it to an agent on that project. A new idea opens the new-project form already filled in, which leads straight into a kickoff. \"Other ideas\" shows the next set. With nothing set up yet, you get first builds that each end in something live: your own site, a page for your offer, a booking page.\nLoki pushes to get it built. Ask \"what should I build?\" and Loki answers from the same list, recommends one thing and why, scopes the smallest first version, and ends with the exact line that starts it."
         },
         {
-          "date": "2026-10-01",
-          "done": "A studio brief, a partner application or a reply on one now reaches a person. Each one announces itself the way feedback does: a push, a Telegram message and an alert pointing at the review view. Until now the request was saved and nobody was told, which is the opposite of \"a person will reply\".\nThe website chat no longer narrates its own rules. A fallback model had answered a visitor with \"Stage used: beta. No URLs written.\" under the real answer; those lines are dropped before the reply is shown.\nA paused widget token cannot transcribe voice any more than it can chat."
+          "date": "2026-10-11",
+          "done": "Visual fixes get a verdict too. A layout, a colour, a thing that overlapped: page text could not say whether the fix worked, so those were the ones still sent to your eyes. Now, when text cannot tell, Loki takes a phone-sized picture of the live page — scrolled to what the reporter pointed at — and asks a vision model the same question. The card says which it did: \"Loki read /pricing\" or \"Loki looked at a picture of /pricing\".\nYou see what Loki saw. When even the picture cannot settle it, the picture is on the card, under the reason, so \"It worked / Not fixed\" can usually be answered right there. Tap it for the whole page; it is also in every row's details.\nA server with no browser says so on the card, in words, instead of a silent \"cannot tell\"."
         },
         {
-          "date": "2026-09-30",
-          "done": "Change a website from its address. Enter an existing website and say, in plain words, what should change. Your brief survives signing in, becomes one project, and the build starts; the brief tells the agent to keep what already works, test on phone and desktop, and show you a preview (#987).\nEvery essay's reading time is its own. Five essays in Thoughts showed \"6 min\" whatever their length; they now show the time their text takes."
+          "date": "2026-10-11",
+          "done": "The evening plan now actually arrives. The 19:00 proposal for the night shipped yesterday, but its timer only reached the server when someone ran a setup command there by hand, so no plan was made. Every deploy now installs the scheduled jobs itself, and a test fails if that ever stops.\nFix checks have their browser. The picture Loki takes of a live page needs a browser on the server. The deploy installs it too, so the first visual fix gets a real verdict instead of \"no browser\"."
         },
         {
-          "date": "2026-09-30",
-          "done": "Asking Loki to change your website stays free and self-service. Old links to the paid request form now lead to the bitbaum studio, and a brief you already wrote is carried through sign-in.\nA studio request gets its own private link. Someone who asks the bitbaum studio for work can follow that one request, accept a specific preview version, and receive the delivery from the partner assigned to it, without getting access to anything else in Loki.\nCourse evidence and partner approval are separate steps that the studio reviews, and a partner's public profile is published only with their consent. The pilot course and the commercial offer belong to bitbaum (#995)."
+          "date": "2026-10-11",
+          "done": "A finished change comes with proof. Agents now report shipped work as the live link first, screenshots of the real deployed page (phone first), and a plain list of what was and was not checked. pnpm run ship:report produces it: it confirms the site is running the shipped build and photographs the page, instead of announcing a merge and hoping.\nLoki remembers how you use \"Build next\". Each time the row is shown, tapped, or rotated past is recorded, and Loki reads it back: ask \"how am I using Build next?\" and it says what gets tapped and what it keeps offering for nothing — and it uses the same record when you ask what to build, so it leads with the kind of suggestion you actually take."
         },
         {
-          "date": "2026-09-29",
-          "done": "Sign up with OrangeCat. Creating a Loki account now creates an OrangeCat account, the one account that also opens OrangeCat and Solon. A Loki-only password is still there if you prefer one, and an existing account sees one \"Connect OrangeCat\" button that links the two (#977).\nWatch reads like a chat. Your request sits on one side, the agent's answer on the other, and while it works one plain line says what it is doing right now; the raw screen folds away behind \"Show screen\" (#975, #976).\nWhen an agent is out of quota, the next one is one tap away. Watch offers \"Try\" with the next agent that still has quota, and a new run skips an agent that just ran out (#975).\nThe Telegram agent understands screenshots and videos you send it (#965, #982–#986).\nNothing runs on your quota unasked. Every agent run Loki used to start on its own — a refused feedback run retried, a refused project run retried on another provider, a queued Implement re-sent by the cron — is now off unless the box sets LOKI_AUTO_DISPATCH=1. A failed row stays Failed with its Retry and provider buttons; the choice to spend Claude, Codex or Antigravity is yours each time. Runs you start yourself are unchanged.\nThe feedback button no longer parks on a line of words. On Loki's own sign-in page at phone width the bottom band is all buttons, and the first slot up the edge without a control was the \"or sign in\" divider, so the launcher sat on it. Words now count as occupied: the launcher prefers an empty slot, still takes words over any control, and a sign-in fixture in the browser test pins it. Verified live afterwards: the one free spot on that page was the divider rule beside those words, straddling the card's edge, so Loki's own auth pages (sign-in, sign-up, invites, setup) now carry no launcher at all — the person there has nothing to report yet, and it returns on the next page."
+          "date": "2026-10-10",
+          "done": "Unfunded keys save. A key the vendor recognises but cannot bill yet — no credits, a spending limit reached — used to be refused as a bad key. It is now saved with the vendor's own words and the link to its billing page, and Loki uses it the moment the vendor does. The first real xAI key pasted into Settings hit exactly this wall.\nWhat your keys spend. Each key's row in Settings → AI shows today's and the last thirty days' tokens and calls, and links to the vendor's credits and spending cap. Tokens, not francs: the vendor's meter is the bill.\nScale, written down. docs/architecture/models-and-money.md says why the free pool is a tasting menu, why your own key is the path that scales to a billion builders, and what a pass pays for."
         },
         {
-          "date": "2026-09-28",
-          "done": "An owner's own report starts the fix. Tracking a report you left on your own site tells Loki who you are — the one thing the anonymous widget could not — and the fix starts on the spot, landing you in the Feedback inbox where Watch lives. On My feedback, a report on a project you own carries \"Implement\" and \"Open in Feedback\" instead of \"waiting for the maintainer\"; everyone else is told nothing more is needed from them.\nA builder can actually dispatch. A collaborator with the builder role (\"can run agents\") was refused with \"Project not found\" the moment they pressed a dispatch button, because dispatch looked the project up by its owner. It now asks who may edit; the work still runs in the owner's tenant.\nClient is a role. The roster can now say who the project is FOR: a client follows the project and every fix and is who the builder answers to, without being able to spend the owner's runner. Editors are shown as \"Builder\".\nHand a project over. The owner can hand a project to any member from the members panel; it runs in the new owner's tenant from then on and the old owner keeps a builder's seat. This is the button the studio uses to hand a finished project to the person it was built for.\nA refused feedback run retries itself. When the runner refuses a feedback run at its last step — the agent answered with a usage-limit wall, or opened and never started generating — Loki makes the second attempt a person would have made, routed around the spent provider, once. The row says \"Retried automatically\" while the second run moves. Failures that need a person (dead credentials, a workspace missing on the builder) still stop and say so. Superseded the next day: automatic retries are off by default since 2026-09-29, so a failed run waits for you to press Retry (#978).\nWatch the fix. A shipped feedback item's button opens the live page and walks you through the change: a cursor moves to each part, a caption says why it is there, and links that stay on the page are really clicked. A step the walkthrough cannot show says so on screen and is filed back as a report on the project, so a fix that is not really live comes back into the loop (#951).\nRoadmap and changelog come from the repository. ROADMAP.md and CHANGELOG.md at a project's root are read into the fleet map, and every fleet site's /roadmap and /changelog render that record. Audited the same day: the map's roadmaps were mostly one machine-seeded placeholder per project with no steps done, its changelogs were run notes, four sites kept local copies instead, and two had no pages at all.\nAsk Loki for a second opinion in the widget: \"is this right, should it change, how would you make the site better?\" — about a picked element, the page, or the whole site. Every suggestion has a \"Request this\" button (#950).\nMessage Loki from any AI app. Loki now works as a connector for claude.ai, ChatGPT, Claude Code and Cursor: you can ask it questions, see your projects and waiting approvals, and, with a separate permission, approve or start work. You sign in with your OrangeCat account (#965).\nWatch it work. Each project has a page that shows its latest run as a readable thread: what the agent was asked, each step it took, the last lines on its screen, and its handoff at the end (#963).\n\"Make it happen\" keeps going without you. Setting up a project now runs on the server, so locking your phone or leaving the page no longer stops it, pressing twice never starts a second agent, and your brief is saved even if the AI model fails (#954, #956).\nA project's own roadmap is no longer behind the PIN. The PIN now covers only personal goals. Before anything is built, the project page shows one card with one button, and the Plan tab leads with the roadmap (#962).\nControl never shows an empty box. A project with no agent running says so in words, with one next step, and the builder chip names which machine is online (#957).\nA working Claude is no longer reported as silent. Loki decides whether a dispatched Claude started by reading Claude's own status file for the project folder. When the runner and Claude spelled that folder differently (a symlink, a trailing slash) the file was never found and a working Claude was reported as \"produced no response\". The folder is now compared by its real path. A freshly launched Claude also has any opening dialog closed before the prompt goes in, as a running one already did, and a failure with no known cause now quotes the last lines Claude's screen showed.\nA silent agent is routed around, not retried into. When an agent opened, took the prompt and never answered, Loki's automatic retry went straight back to the same agent and failed the same way (Petvity, twice in a row). That silence now counts as the provider being unable to answer, so the retry runs on the next provider in your order, and the row says \"The agent opened but never answered\" instead of telling you to check that the builder is online.\nThe Feedback inbox is one surface again, and a project link by id works. Landing from \"Implement\" on /feedback?project=<id> printed \"Nothing waiting on you for 5936f8fb-…\" — the page filtered by project name and showed the reader the id. The filter now accepts a name or an id, an empty project view says what is shipped and offers \"Show all projects\" / \"Open <project>\", the three stat cards became one quiet line, project and source filters share the Control inbox's chip, sections use the inbox primitives, and a failed row has one primary button (Retry) with Watch beside it. A render harness (scripts/preview/) now screenshots the page at phone and desktop widths in both themes before it ships.\nAny refused feedback run gets one automatic second attempt — not only the usage-limit and no-generation cases. Only commands the runner could not read, dead credentials and a missing workspace still stop and say so. Superseded on 2026-09-29: automatic retries are now off by default (#978).\nA green \"Live\" chip no longer opens the website. It read as \"watch it live\" and landed on a homepage with no idea where to look. The chip is now a status (\"Shipped · confirm\") and the button beside it is the walkthrough (#951).\nFailed runs say why. Instead of the word \"Retry\" printed above a Retry button, a failed row gives one plain sentence from the run's error: out of quota, could not open the repository, ran too long, no session, crashed (#951).\nHiding the widget is visible and reversible. The choice is offered in the panel, says how to undo it, and #loki, Loki.show() and the host's own Report control all bring it back (#950)."
+          "date": "2026-10-10",
+          "done": "Autopilot overnight, with a budget. While you sleep, Loki builds from your feedback — one fix per project, your own notes first — reads one site that has not been read this week and files what it finds, and files away reports nobody started in 21 days with the reason on the row. The limit is a number of runs a night, in Settings → When an agent finishes (default 4, 0 keeps the filing and stops the building). A project paused on Control is left alone. The idle nudge that woke three projects a night on a generic \"next best\" guess is retired: a run with no brief is where the queue of things nobody asked for came from.\nThe morning note. /feedback opens with one line on what the night did and what it spent where the runner reported a price; the same line arrives on Telegram and push. Nothing when the night did nothing.\nFeedback on a phone. The question — how many need you — leads the page; the pickers are one quiet line; the numbers close it.\nLoki reads the page. The widget's Watch measured — small type, tiny targets, missing names — and said so on every page while the page in front of you said nothing first. It now also reads each page once per visit as a first-time visitor on a phone (purpose, hierarchy, content, fit, function) and says at most three things, each quoting the page, or nothing. Same \"Fix this\". Essay: /thoughts/loki-reads-the-page.\nWhich model are you. Loki's chat says what it is running on from its own prompt, in one sentence, instead of a tool round and a referral to Settings.\nShare on OrangeCat. Every Thoughts essay's share bar leads with OrangeCat: one tap opens the composer there, prefilled, on the reader's own account.\n\"Back in 30 minutes.\" Say it to Loki and the next screen you open — Control, or the chat — leads with what happened while you were away: what needs you, what went live, what finished and what still runs, each line a link to where it is acted on. One tap and it is gone. Nothing is recorded during the absence; the summary is read from what moved.\nFewer things thrown together. A feedback row's context is one sentence that wraps like one; the pickers are words, not boxes; \"Pointed at\" reads as a sentence; the thumbs-down form in the chat is part of the thread, not a second dialog; a review files the screenshot it judged with its first finding, so you read the finding beside the picture."
         },
         {
-          "date": "2026-09-26",
-          "done": "Say what to change on your own site, and it gets built. Loki's \"Open your site\" link carries an owner pass; a note left through the widget on your own site starts the fix instead of waiting in the inbox (#937).\nEvery site deploy looks at the page on a phone before and after, and rolls back if it got worse (#943).\nNew sites skip ports something already listens on; a private site's deploy is actually gated on its CI instead of passing open (#946, #948).\nQuiet runs stop claiming \"working\". A run shows Working only with evidence of a live agent producing output (#935).\nA Claude dialog no longer holds runner updates; repeating an owner note retries it (#939).\nHeader controls are 44px at every pointer on the public pages (#934).\nYour own Groq key gets your own limits. Loki's chat used to trim the context it sent to fit the shared free tier even when you had pasted your own Groq key; it now uses the room your key actually has (#945)."
+          "date": "2026-10-10",
+          "done": "A model call is bounded by silence, not by a stopwatch. A 30-second cap on the whole call killed the first real turn on a user's own key: grok-4.7 thought for longer than that before its first word. Now a vendor may take up to 90 seconds to say anything on your own key, may stream for up to five minutes, and is only cut off when it goes silent for 30 seconds — and the sentence you get says which of those happened.\nYour model failed? One tap answers on the free models. Under such a turn a button sends the same words on Loki's free chain, for that turn only. Loki never switches silently: your key failing is the one thing you need to see.\nEvery key action says what it did. Adding a key reads \"xAI · grok-4.7 added. Loki starts here now. Testing it…\" and then \"Answered in 1.3 s — ‘Hello, I'm Grok.’\": a real, tiny turn on the key, timed, so \"added\" is backed by an answer. A Test button on each row repeats it; changing, re-ordering and removing say what changed.\nScreens that lay out on a phone. The model picker's rows were being squeezed in the bottom sheet and overlapped; a key's row in Settings wrapped its model name letter by letter. Both fixed; \"xAI\" is no longer shown as \"XAI\".\nNo more \"update password?\" The key field is masked but is not a password field, so the browser stops offering to save your API key as the site's login.\nYour words appear as you speak. Press the mic and the words scroll in as they are heard, one line, dimmed while the server transcribes and replaced by its words when they land. The checkmark still ends the take. Where the phone's recogniser cannot run, the wave stays and the recording is untouched. (chatkit 0.7.0.)"
         },
         {
-          "date": "2026-09-25",
-          "done": "Power Loki with your own model: paste a key in Settings and Loki uses your best model for its own chat (#921).\nImplement starts in its own lane instead of waiting behind the project's open run, and it no longer walks into an agent Loki just watched run out of quota (#900, #909).\nA project's story leads: Loki asks why the project exists, and a pasted document is never cut (#906).\nThe composer is one component across chat, terminal and Control (#899).\nA deploy never kills a working agent: the drain waits up to six hours, then leaves the old code running (#902). One OOM-killed child no longer stops the runner and every agent in it (#908). A runner restart closes the runs its sessions were serving (#917).\nThe widget launcher finds a free slot on every host page and never sits on the page's own controls (#918, #882).\nThe project header says what the project is, with truthful cloud presence and one door to take it public (#912, #915).\nA deploy-failed fix heals once a later deploy of main ships it (#932).\nToday and Control agree on what is running, and setting up a site no longer overwrites the next step you wrote for the project (#924).\nLoki answers instead of asking \"which project?\" when you have no projects yet (#925).\nNothing in the background spends the shared free AI allowance. The daily Frontier digest, the daily feedback digest, the weekly events scout and the second-model check on finished runs are gone; the daily email is now built from the record without a model, and the written report stays one button away (#897)."
+          "date": "2026-10-10",
+          "done": "Models, compared. /models lists every provider you can bring — OpenRouter, Anthropic, OpenAI, Google, xAI, DeepSeek, Mistral, Groq, Together, Cerebras — with who they are, what they are known for, what they give away, and their newest models with live prices per million tokens and context, read from OpenRouter's public catalogue and refreshed on a button. A table sorts them by what decides a bill. Add to Loki opens Settings with the provider chosen; Use chooses the model too.\nThe free pool, in plain words. The models Loki uses at no charge are shared by everyone here and rationed per person; when a day's allowance is spent it is spent for everyone. The capacity counters now sit behind one line instead of twelve cards. Your own key does not draw on the pool.\nA second provider. With one key connected, Settings says why a second matters: Auto gets a choice when the first is slow or out of credit, and you can compare two models on the same question."
         },
         {
-          "date": "2026-09-24",
-          "done": "Chat mode in the widget: a chat the Cat and Loki both live in, on any site that opts in (#879).\nInvite anyone into a project by email, account or not (#872).\nSigned actor-status read for Cat on OrangeCat (#886).\nTerminal panes follow the grid, with an expandable full-width pane and one composer (#887).\nPublic pages show who is signed in and let them sign out (#870)."
+          "date": "2026-10-10",
+          "done": "Nothing runs at night that you have not seen. Every evening Loki shows tonight's plan with names and a price on it — which fixes, which site, how many of your runs, and what it would cost going by your own last runs — and asks for one tap: Approve or Reject, on Control, on Telegram and under Approvals. A plan left undecided expires at 02:30 and the morning note says nothing was built. Before this, the night decided for you; the plan was only visible the morning after.\nAllow it in advance, for as long as you say. Settings → Autopilot: \"Nights run without asking\" for a week, a month or three months, optionally under a dollar cap a night. Under an allowance the evening message says \"runs without asking until …\"; a night over the cap asks again.\nFree things stay free. Filing away reports nobody started in three weeks and moving stuck rows to the cloud spend nothing, undo in one tap, and happen with or without a yes. The evening plan and the morning note are assembled from counts — no model is called to write them.\nThe late-night \"go to sleep, autopilot has it\" strip on Control is replaced by the Tonight card, which shows the plan instead of offering a switch."
         },
         {
-          "date": "2026-09-23",
-          "done": "The terminal says where an agent will run — \"Cloud builder\" or \"Your computer\" — and starting one there no longer changes the project's default. The download, quickstart and handoff pages now describe the same two choices (#866)."
+          "date": "2026-10-10",
+          "done": "The owner's launcher is one thing, always in one place. On your own site it was two: \"Loki · watching\" in a corner with a ◎ beside it, and a \"Loki is watching\" bar at the top that took over whenever the corner was busy — on a phone, every scroll. Now the launcher never hides and never fades for the owner, the ◎ is its other half (there whether watching or paused), and the bar appears only on a page that hides the launcher outright — carrying the same ◎.\nShow Loki this screen. ◎ now offers This screen beside tapping an element: it marks what is on screen right now, the way a screenshot would frame it, and the conversation opens with it attached — say what you would change, ask Loki, or build it."
         },
         {
-          "date": "2026-09-22",
-          "done": "Loki can look further before it answers. A question that needs several lookups gets up to five rounds of them instead of two, and Loki stops early rather than repeating the same lookup or proposing the same action twice (#865).\nThe front door says what needs you. Today leads with the one thing waiting on a person, and \"needs you\" means the same thing everywhere (#855, #863).\nProject flags: raise, edit and clear a flag; flags say how old they are and expire (#833, #847).\nRepository moves are noticed and fixed without asking (#860).\nStage is a real vocabulary, and \"active\" stops meaning \"a row exists\" (#843).\nA project page leads with what is wrong, not with what the machine is doing; the health panel is readable and shows the problem it was opened for (#836, #837, #861).\nThe OrangeCat link said \"Connected\" when only a row existed; it now says whether the link works and offers a way back (#841, #842).\nThe account page said things that were not true (#850, #853).\nThe backfill starved every project past the first few (#854, #856)."
+          "date": "2026-10-10",
+          "done": "The whole landscape on /models. Every chat model in OpenRouter's public catalogue — about 460 from 60 labs, Kimi, GLM, Qwen, Llama and MiniMax among them — with open weights marked, an intelligence index, the price in and out, context, when it was listed, and every way to run it through Loki. Filter by open weights, free to try, sees images, reasoning, lab or a price ceiling; sort by best value, smartest, cheapest, newest or longest context; the filters are the URL, so a view is a link. Use switches a model on a key you hold; Add key opens Settings with the vendor and model chosen. \"Check for new models\" names what appeared since the last read.\nThe Chinese labs directly. Moonshot (Kimi), Z.ai (GLM), Alibaba (Qwen) and MiniMax can be connected with their own keys, not only through a router — and Fireworks as a host for open models.\nA model on your own machine. Point Loki at Ollama or LM Studio behind a tunnel (Tailscale Funnel, cloudflared, ngrok) and it thinks for free, with your data staying on your laptop. The recipe is on the store; Loki checks the address, lists the models it finds, and only ever connects over https to a public address."
         },
         {
-          "date": "2026-09-20",
-          "done": "Loki asks before it builds from one sentence. A project that arrives from OrangeCat's \"Build it with Loki\" button gets five short questions — who it is for, what they do today, what it does for them, what it must use, what makes the first version worth shipping. Every question can be skipped, and your answers are stored in your own words (#799).\nThe menu follows the work. Three sections, each answering one question: Now (what needs me?), Fleet (what is my fleet doing?) and Command (how do I act on it?); private pages stay behind the PIN, and the catch-all \"More\" menu is gone (#797)."
+          "date": "2026-10-10",
+          "done": "A greeting never spends a frontier model. With your own keys, every turn is judged light, standard or heavy before a model is chosen, and Auto picks the cheapest model that is good enough: a cheap one for lookups and captures, the best value for ordinary asks, the smartest you have for code, strategy and anything you ask to be thought about carefully. The footer says which turn it was and why.\nYour stance. Thrifty, Balanced or Best — how far up Auto may reach. Even Best sends the small things to the cheap pick.\nYour picks. On /models and in Settings → AI you see the three models Auto chose and why, change any of them to another your keys reach, and hand it back with \"Loki decides\". The composer's Auto row names the two ends: which model takes the light turns and which the heavy ones."
         },
         {
-          "date": "2026-09-18",
-          "done": "Loki is open source again, under the MIT licence. It had been under a restrictive licence since June; the Terms now say the same thing. The name and logo are not covered by the licence (#791).\nControl says what a dispatch will do before you send it: which agent, which model, which machine, and what the last run on that project cost (#794)."
+          "date": "2026-10-10",
+          "done": "A finding being fixed is not noticed again. Until now Loki's watch mode forgot its own remarks the moment the tab closed: the next visit noticed the same missing heading or the same tiny text, offered \"Fix this\" again, and pressing it commissioned the same work twice — the words of each filing carried the watched steps, so nothing matched. Now a finding carries a key, \"Fix this\" files it with the note, and the next visit looks before it speaks: a finding whose fix is building, in line or on its way is left to Your changes; one the owner closed is left alone; one that was fixed and is back says so — \"Loki noticed, again\" — with Fix again.\nEvery card says where its fix is. A remark from earlier reads \"Being fixed · Building\", \"Needs you\" or \"Fixed 10 Oct\" under the finding, linked to the live page or to Loki, and follows the fix as it moves while the panel is open.\nPressing \"Fix this\" twice, in two tabs or on two days, now lands on the same row in Loki, with the second press counted rather than built again."
         },
         {
-          "date": "2026-09-17",
-          "done": "Found a Solon organization from a project. Loki prepares the link with the project filled in; you sign with your own wallet on Solon, and the project is attributed to that organization only with your consent (#759).\nApprove from Telegram with one tap, and give standing approval to small things that are easy to undo, such as an event in your own calendar (#761).\nSwitch to an agent that still has quota in one tap, and the choice is remembered for the next run instead of going back to the agent that ran out (#757)."
+          "date": "2026-10-10",
+          "done": "Every report now reads as one paragraph. What the state is, in one bold sentence (\"The fix is live on /pricing.\", \"An agent is working on it — 4 min so far.\", \"The attempt failed: the agent ran out of quota.\"); the report; where and when; then what happens now (\"Look at it, then say whether it worked.\" / \"Nothing to do; it starts by itself.\"). Before, a status word and a row of buttons left all of that to you.\nEvery button is a verb that names where it goes. \"See the fix on the site\" (the live page, with Loki's walkthrough), \"Watch in Terminal\" and \"Agent's chat\" (this run's session, live), \"It worked\" / \"Not fixed\", \"Build it\", \"Try again\", \"File away\", \"Show on the public strip\". The unexplained star and arrow icons are gone.\nEach lens says what it means in one line under the strip: Needs you waits for one decision from you per row; Under way is agents and deploys at work; Done is fixes you confirmed."
         },
         {
-          "date": "2026-09-15",
-          "done": "A third AI provider for Loki's chat. Google's Gemini joins Groq and OpenRouter, and it is the only one of the three that Loki does not share with other apps, so it is less likely to run out when they do (#714).\nA project can run on the hosted runner, which needs no Claude account of yours and ends every task in a pull request (#718).\nEvery registered project has a public page with its purpose, roadmap and changelog (#737)."
+          "date": "2026-10-10",
+          "done": "Loki decides each report before you see it. The page opens with the count (\"6 decisions\"), and every card leads with the one tap Loki recommends and why: \"Confirm · free — live on /pricing; the agent reported success and the deploy went through.\" \"Build · one agent run — a visitor's report on /contact; the project can take a run.\" \"File away · free — nobody started this in 25 days.\" Tap to agree. \"Something else\" opens the full row for the reader who disagrees.\nOne button for all of them, and it says what it spends before you tap: \"Do all 6 · starts 5 runs, confirms 1, files 2 away\".\nThe scope sits beside the number. \"6 decisions · substrata ▾\" — the project picker is part of the heading, so the count it changes is the one next to it. Agents at work, fixes you confirmed and reports filed away are three collapsed lines under the queue."
         },
         {
-          "date": "2026-09-14",
-          "done": "A public map of every project the studio runs: what it is for, whether it is up, and what last moved. Loki reads the same map when you ask about the fleet (#698)."
+          "date": "2026-10-10",
+          "done": "\"Confirm it worked\" is gone. You could not know whether a fix worked without going to look, so the page was asking you to assert what Loki should have checked. Now, once a fix is live, Loki reads the live page against the report. If the page shows the change, the card says \"Close it\" with what Loki saw (\"The footer now reads © 2026\"). If the change is not there, it says \"Try again\" and why. If text cannot tell — layout, colour, a flow — the card leads with \"See it on the site\" (the walkthrough) and \"It worked / Not fixed\" sit right beside it. \"Do all\" leaves those for your eyes and says how many.\nOne page read per shipped fix, a couple per visit, on your AI budget, only when you open the page — never from a timer."
         }
       ],
       "records": {
@@ -684,14 +726,14 @@
       },
       "next": null,
       "now": {
-        "openRuns": 5,
+        "openRuns": 3,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-10-07T14:16:02.186Z"
+          "outcome": "error",
+          "at": "2026-10-12T13:08:02.530Z"
         },
         "lastLog": {
-          "date": "2026-10-07",
-          "done": "Hosted dispatch (Hermes) — no file changes — Fix this visitor feedback on loki."
+          "date": "2026-10-12",
+          "done": "Hosted dispatch (Hermes) FAILED — The owner of loki asked for this change while looking at their live site. Make … — Command failed: hermes -z Engineering standards (apply to ALL projects — hold every change to these):"
         }
       }
     },
@@ -759,7 +801,7 @@
           "title": "Events, end to end {#events}",
           "line": "Run a real night on OrangeCat — \"electronic music night at Espresso Bar in Landquart on Friday\" — from the first sentence to the last guest through the door, and pay the people who made it happen. The plan and how it was tested: docs/features/events-end-to-end.md.",
           "status": "in progress",
-          "progress": 90,
+          "progress": 91,
           "targetDate": null,
           "milestones": [
             {
@@ -799,7 +841,11 @@
               "done": true
             },
             {
-              "title": "Tickets paid with Twint, bank or PayPal, and paid tickets without an account (waits on \"More rails\"). {#event-fiat-tickets}",
+              "title": "Guests without an account buy a paid ticket with their name and Bitcoin. {#event-paid-guests}",
+              "done": true
+            },
+            {
+              "title": "Tickets paid with Twint, bank or PayPal (waits on \"More rails\"). {#event-fiat-tickets}",
               "done": false
             }
           ],
@@ -998,6 +1044,18 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-12",
+          "done": "One wrong letter no longer loses anything. Type cqto and you get Cato; lki finds Loki, bitcon finds Bitcoin, farmhuose finds Farmhouse, setings takes you to Settings. Every word may carry one slip from four letters and two from eight — a wrong key, a missing, doubled or swapped letter — and a short word that matches nothing may still be a longer name with a letter dropped. Exact names still come first, and what matched is marked even when it was misspelled. When nothing matches, Discover asks \"Did you mean …?\" with the closest real name.\nDiscover is a page you can finish. One search field and one row of kinds — each with how many there are — then what was just listed, then a row of each kind: projects, things to buy, services, events, causes, people. Every card has the same parts in the same places: picture or initial, what kind of thing it is, the name, two lines, and the one fact that matters (the price, the goal, the date and place). It ends with the count of everything here and a way to list yours. It used to open on fifteen tabs and a sidebar of filters, several of which never filtered anything.\nSearch finds what you meant. Type two letters and it finds names that start with them (\"lo\" finds Loki); get a letter wrong and it still finds it (\"lokii\", \"bitcon\"); accents don't matter (\"zurich\" finds Zürich). Exact and leading title matches come first. The words you typed are marked in every result.\nA project with nothing raised yet says \"Be the first to back this\" on profiles, instead of a bold \"No funds yet\".\n\"What it solves\" asks which problem is yours instead of listing all twelve. Pick For you or For everyone, then the problem that sounds like you; its answer and the one thing to do next appear beside it (under it, on a phone). The same twelve answers, a sixth of the reading at a time.\nSigning in looks like the front page. The same mark drawing itself, the same depth behind it.\nA project without a picture shows its initial, not a generic target icon, on profiles.\nThe thing you typed whole comes before the longer thing that starts with it. Searching \"lki\" put \"Loki — Capability Layer for a Permissionless Economy\" above the project named Loki; a name matched end to end now ranks first. And in the quick search, a page you misspelled (\"setings\") comes before a listing that only mentions the word somewhere in its description, so Enter opens Settings.\nSettings → Usage only says what it knows. The free-pool card said \"nothing used yet — full allowance available\" when it simply had no reading — next to a counter showing you had already sent a message. It now says \"No reading yet\", shows when each number was read, and says \"Used up\" when a provider has refused for the day, even if its headers still look healthy. Plans that can't be bought yet say \"Not open yet\" instead of \"Activating\", the Cat Credits card no longer points you to a top-up that is closed, and the explanations no longer credit Supporters who can't exist yet or give a reason for the midnight-UTC reset that isn't true.\nA shared project link shows the project. It used to preview as the creator's face — Loki's page showed Cato — or as a broken image when the creator had none. Now the card carries the project's own mark or initial, its name, one line on what it is, and who is behind it.\nDiscover's people are people who have shown up. On the day the new Discover went live, its \"Just listed\" row was four untouched accounts with generated names and its People count was mostly the same. A person now appears once they have a name of their own, a bio or a picture, and \"Just listed\" shows listings, not sign-ups. The count of people on the front page follows. Those accounts still work and still open by link.\nSearch marks the words you typed, not letters inside other words. Searching \"lo\" marked the middle of \"technological\"; now only words that start with what you typed are marked, which is how the search matches them.\nOne keystroke opens one search box. The header carries the search twice (a bar on wide screens, an icon on phones), and each answered ⌘K, so two dialogs opened on top of each other.\nListings made with a test integration key stay off every public list.\nA listing with a broken picture shows its initial instead of breaking the page.\nTest listings no longer appear on Discover. The first card there was a listing titled \"TEST Session — TEST fixture — safe to delete\". Listings whose title marks them as tests are now left out of Discover, its counts, search and the sitemap."
+        },
+        {
+          "date": "2026-10-11",
+          "done": "Buy a paid ticket without an account. On a paid event, a visitor who isn't signed in types their name and pays in Bitcoin, straight to the organizer's wallet. When the payment lands, the page that opens is the ticket: the QR for the door, the time and place. Close the tab before paying and coming back shows the same request, not a new one. The door list shows them by name; a paid ticket can't be given back from its page, and the organizer refunds it another way and records it, since there is no wallet on record to send Bitcoin back to. {#event-paid-guests}\nOrangeCat has one mark now, and it is a cat made of one line. A coil wound inward, two ears on its outer turn — Loki's spiral wearing the cat. It is the same mark in the header, in the browser tab, on the home screen when you install the app, and on every link preview. Until today those were three different drawings, and the tab icon was not an image at all: the file behind it was a web page, so most browsers showed nothing.\nThe front page opens like a product, not a pricing page. One statement, the mark drawing itself above it, two actions, and real numbers underneath — how many projects are raising, how many people are here, how many studio products are live — counted the same way the directory counts them.\nThe studio is on the front page. OrangeCat, Loki and Solon with their own faces, and under them every product built on this stack that is live, each one a door to its page. The same list, grouped by layer, now closes the stack page at /ecosystem.\nA studio product's own page looks like that product. Loki's project page wears Loki's mark, says it is live, when it last moved, opens its site, and leads to its sibling products.\nThe front page fits a phone, and a studio product's page opens the product. The line above the headline ran off the right edge of a phone screen; it now shows one phrase there. Loki's page here showed Loki's face but no way to open Loki; it now has the button.\nListing pages open again on phones. Since earlier today, a public product, service or event page with a \"Buy\" bar at the bottom loaded and then switched to \"Something went wrong\". The bar asked the browser for something while the page was still being built on the server; it now waits until it reaches the browser.\nA seller can no longer hide their own reviews, and a buyer can no longer smuggle words past moderation. Writing to the database directly, a seller could create a back-dated account record that took over their profile and showed an empty track record; a buyer could put arbitrary text where only yes/no answers belong, where hiding the review could not reach it. The server now sets when an account record was created, accepts only the questions OrangeCat asks, and computes each review's and reply's fingerprint itself.\nTrack records count cancellations. A seller's track record said \"N paid deals\" including ones later cancelled, without saying so. It now lists cancelled deals next to refunded ones."
+        },
+        {
+          "date": "2026-10-09",
+          "done": "Ask your Cat about the people you follow. \"What did people I follow post about Lightning this week?\" now searches only the people you follow — their public posts and listings, newest first — instead of all of OrangeCat. Nothing they keep private is ever included.\nWatch a person, or a topic among the people you follow. Tell your Cat \"tell me when @alice posts\" (optionally \"…about Lightning\"), or \"tell me when anyone I follow posts about Bitcoin education\", and you get a notification for each new public post until you cancel it — never twice for the same post. It works under a post too: \"@cat watch her posts for me\"."
+        },
+        {
           "date": "2026-10-08",
           "done": "Partners now have one home: bitbaum. OrangeCat's partners page listed an OrangeCat guild that was never founded, so it showed an empty list while bitbaum had the real one. It now takes you straight to bitbaum's partners (https://bitbaum.orangecat.ch/partners/), where independent engineers apply and the studio approves who is listed.\nDecide where money paid to you goes, in order. On Your money, under \"Where your money goes\", list your wallets in the order they should be covered: a share of everything that comes in (taxes first, say 25%), then amounts to fill — once, like paying back a debt, or every month, like rent or health insurance. When someone pays you, the whole payment goes to the first line still behind, and the page shows how far each line has got and where the next payment will land. OrangeCat never holds the money: the payer's wallet pays that wallet directly, and with no rule, payments land where they always did. {#money-routes}\nA deck, made in the room. In your investor room, open Deck and generate a first draft from what the room and your product already say: the problem, the solution, live proof that it is real and moving, your own sections, the numbers, the roadmap and the ask — one claim per slide, nothing invented. Then edit any slide (its layout, words, figures, order), choose dark or light and your accent colour, and present it full screen with speaker notes. Investors open it from the room's Open the deck, swipe or arrow through it, link to a single slide, and save it as a PDF with real text. The proof slides read live data every time the deck is opened, so its numbers are never stale; opening the deck counts like any other open. {#room-deck}\nWallets for taxes and for paying back debt. Two new purposes when you add a wallet: Taxes — money set aside for the tax you owe — and Debt repayment — money going back to someone you owe. Like rent or medical wallets, they appear on your profile with their purpose.\nEvery payment remembers what it was worth when it arrived. When a payment to you is confirmed, OrangeCat now records the Bitcoin price at that moment in Swiss francs, euros, dollars and pounds. If no trustworthy price is available at that moment, it records nothing rather than a guess.\nThe investor room shows the evidence itself. Open a room and the first screen now answers \"is it real, and is it moving\": when the product went live, how many changes shipped in the last 30 days, how many were merged to the main branch since it started, and where the roadmap stands — each with its source, generated from the product's public repository and its own records rather than typed by anyone. Below: why the product exists (problem, solution, mission, vision), a week-by-week shipping chart with what recently shipped, and the roadmap by now / next / later. A row of links jumps between sections, a new room's outline asks for the risks, and the page tells the reader plainly that the owner sees what is opened. {#room-evidence}\nA product's own investor page leads into its room. Heidi's /investors password now opens Heidi's investor room here. {#room-door}\nAn investor room on every project. The owner of a project now has a private page for the investors they choose: a headline, the story in sections (the problem, what was built, proof, market, business model, team, roadmap, the ask), dated numbers with how to check each, the deck, documents, and the project's build record from Loki. Each person gets their own link — no account, no password — that says who it is for, and the owner sees, per person, when they opened the room and what they opened inside it. A link can be switched off at any time; its history stays. Open it with \"Investor room\" in the bar at the top of your project's page. {#room-links}\nWho opened what, counted honestly. The first time each person opens their link to an investor room, the owner gets a notification (and an email, which can be turned off). Link previews don't count: pasting a link into WhatsApp, Telegram, Slack or iMessage makes the app fetch the page for its preview card, and those fetches are no longer counted as someone opening it — in investor rooms and on profile claim links, where they were. Nor is the owner's own preview. {#room-opens}\n\"Came in\" on Your money counts each sale once, at what it was worth. From the first sale, a sale would have been counted twice — once as the payment and once as the order — and a year of income converted at today's Bitcoin price, so the income and the tax estimate built on it would both have been off. Each payment now counts once, valued at the price recorded when it arrived. A payment that arrived before prices were recorded is valued at today's rate, and the page says how many were.\nA payment that timed out is no longer recorded as failed. When your wallet doesn't answer in time, the Send screen already tells you the payment may still go through. OrangeCat's private record of the send now says the same: \"unconfirmed\", not \"failed\", because the money may have moved."
         },
@@ -1064,18 +1122,6 @@
         {
           "date": "2026-09-07",
           "done": "Payments stopped being sent to wallets that cannot receive. New users were routed to a wallet with no way to accept money, and a send-only wallet connection took the whole receiving path down with it."
-        },
-        {
-          "date": "2026-07-31",
-          "done": "Spending caps for Cat, and payments any machine can make. Two guardrails-and-rails updates: hard Bitcoin spending limits on Cat payment actions, and a documented API loop so any agent or script can discover, buy, and verify settlement."
-        },
-        {
-          "date": "2026-07-29",
-          "done": "Your Cat learns from real outcomes. Cat now sees what actually happened to what you created together — published, funded, settled — and grounds its advice in those outcomes instead of guesses."
-        },
-        {
-          "date": "2026-07-22",
-          "done": "Discover, sharper and searchable. Find what matters by meaning, not just keywords — and let search engines find it too."
         }
       ],
       "records": {
@@ -1086,16 +1132,16 @@
           "changelog": "https://github.com/bitbaum/orangecat/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": "(1) FOUNDER — seven apps on this box share ONE OpenRouter key (fingerprint match on /opt/*/app/.env); OrangeCat's own key is on a DIFFERENT account, while two unused keys named \"OrangeCat Prod 2026-06-10\" / \"OrangeCat Production\" sit on the account at openrouter.ai/workspaces/default/keys. HAZARD: \"OrangeCat Prod 2026-06-10\" is deployed on evig, kivvi and sbb-fundbuero — rotating it by name breaks three client apps, not OrangeCat. (2) CEREBRAS_API_KEY in /opt/orangecat/app/.env activates a third link with no deploy (probed: /v1/models answers 403). (3) ADR-0008 D4 computer use: gate DONE, executor needs a sandboxed browser per user. (4) Migrate OrangeCat onto ai-kit's chain/meter — it hand-rolled parallel copies of both.\ndone-latest: #1006 corrects #1005 — I wrote three vendors FROM MEMORY into the file about model rot; probing found GitHub Models RETIRED (410, github_models_retirement_brownout) and Google's OpenAI-compat /models 404. Only Cerebras answers. REJECTED_VENDORS records why, so nobody re-adds them.\ndone-also: measured, not assumed — Groq's link carries 1 prior exchange on a create-intent turn (6115-tok selected prompt + 1024 reply reserve vs 8000 TPM), 4 on light chat. Prompt weight is DIFFUSE: 17 sections, largest 713 tok, 12 sections to reach 90% — so a \"prompt diet\" is a twelve-section rewrite, not one cut. cat_messages.tool_calls migration applied and PostgREST knows the column (200 vs 400 control).\nci: green through #1005. Every PR mutation-tested; mutation found 3 real defects a green suite hid.",
+      "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
           "outcome": "timeout",
-          "at": "2026-08-29T14:50:24.514Z"
+          "at": "2026-10-12T08:04:56.148Z"
         },
         "lastLog": {
-          "date": "2026-09-12",
-          "done": "Cat frontier + free-AI reliability. ~20 PRs merged (#982, #985..#1006). ADR-0008 D1 (ask the MODEL not the provider — BYOK/local keys get the tool loop), D2 (local models ACT), D3 (capability-gate.ts — a capability is a ROW; a denial names WHICH term refused), D5 (chip labels derived from CAT_ACTIONS). ADR-0007 D6 (promotion drafts, never posts). Then the reliability thread: #1000 the free chain's FIRST LINK had never worked (Groq step offered a registry-METERED model, so every free user 402'd on our own paywall and fell through to OpenRouter — 49 of 55 prod messages came from OpenRouter, ONE from Groq); #1003 the health report now runs on a clock (it had TWO callers, both requiring a human to ask); #1004 one catalogue check for the whole chain, via ai-kit; #1005/#1006 independent free vendor buckets, inert until keyed."
+          "date": "2026-10-12",
+          "done": "Hosted dispatch (Hermes) — no file changes — lets work on improving orangecat. what should we build next"
         }
       }
     },
@@ -1491,6 +1537,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-08",
+          "done": "What /compare shows, as data. /api/v1/places/compare?p= returns, for any place, the facts its tax model reads and the model itself — everything needed to estimate the tax there. It takes no income and computes nothing: the estimate runs wherever the income is, so Solon still never learns what anyone earns. OrangeCat uses it to suggest the tax share in a person's money rule. Listed on the integration page. [#261]"
+        },
+        {
           "date": "2026-10-07",
           "done": "The roadmap and the changelog point at each other. Each roadmap step that shipped now links to the days in /changelog that delivered it, and each changelog entry that delivered a step names it, linked back to /roadmap. A goal's steps are drawn as a trail, filled where done. The links come from the fleet's shared building-in-public kit (bip-kit 0.6.0), so OrangeCat's pages carry the same ones. {#records-public}"
         },
@@ -1880,11 +1930,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-10-08T11:53:41.539Z"
+          "at": "2026-10-12T11:49:07.031Z"
         },
         "lastLog": {
-          "date": "2026-08-15",
-          "done": "Smoke probe task (ignore) acknowledged; working directory is empty and not a git repo, no code changes made."
+          "date": "2026-10-12",
+          "done": "Searched all 37 ~/dev checkouts (none contain the fix(site) commits) and found them on GitHub in bitbaum/bitbaum (321b5b8f), which is not cloned on the box; ~/dev/bitbaum is an empty non-git folder."
         }
       }
     },
@@ -2066,15 +2116,15 @@
           "targetDate": null,
           "milestones": [
             {
-              "title": "Every public page states \"Verein in Gründung\" instead of a recognised status",
+              "title": "Every public page states \"Verein in Gründung\" instead of a recognised status {#verein-in-gruendung}",
               "done": true
             },
             {
-              "title": "Donation-receipt claims and invented UIDs removed from the site",
+              "title": "Donation-receipt claims and invented UIDs removed from the site {#no-false-receipts}",
               "done": true
             },
             {
-              "title": "The \"not a charity\" line removed — it contradicted the legal page",
+              "title": "The \"not a charity\" line removed — it contradicted the legal page {#not-a-charity}",
               "done": true
             },
             {
@@ -2100,7 +2150,7 @@
               "done": true
             },
             {
-              "title": "evig technicians live on IT-Hilfe: post a request, receive offers from technicians nearby, choose one",
+              "title": "evig technicians live on IT-Hilfe: post a request, receive offers from technicians nearby, choose one {#evig-technicians}",
               "done": true
             },
             {
@@ -2108,11 +2158,11 @@
               "done": true
             },
             {
-              "title": "Division wordmarks, nav entries, footer column and division pages derive from one list",
+              "title": "Division wordmarks, nav entries, footer column and division pages derive from one list {#divisions-one-list}",
               "done": true
             },
             {
-              "title": "Homepage states the five pillars instead of a donation funnel",
+              "title": "Homepage states the five pillars instead of a donation funnel {#five-pillars}",
               "done": true
             }
           ],
@@ -2138,11 +2188,11 @@
               "done": true
             },
             {
-              "title": "Audited one-click \"publish without QC\" path — the listing then carries no Prüfsiegel and buyers see the untested state",
+              "title": "Audited one-click \"publish without QC\" path — the listing then carries no Prüfsiegel and buyers see the untested state {#qc-skip}",
               "done": true
             },
             {
-              "title": "Vier-Augen-Prinzip in final QA with an audited solo override",
+              "title": "Vier-Augen-Prinzip in final QA with an audited solo override {#four-eyes}",
               "done": true
             },
             {
@@ -2164,11 +2214,11 @@
           "targetDate": null,
           "milestones": [
             {
-              "title": "Per-category factors from ADEME/ARCEP open data, guarded by a test that rejects uncited numbers",
+              "title": "Per-category factors from ADEME/ARCEP open data, guarded by a test that rejects uncited numbers {#co2-open-data}",
               "done": true
             },
             {
-              "title": "Public methodology page with formula, sources and limits",
+              "title": "Public methodology page with formula, sources and limits {#co2-methodology}",
               "done": true
             },
             {
@@ -2198,7 +2248,7 @@
               "done": true
             },
             {
-              "title": "Public roadmap page rendering the fleet's canonical record",
+              "title": "Public roadmap page rendering the fleet's canonical record {#public-roadmap}",
               "done": true
             }
           ],
@@ -2503,6 +2553,30 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-11",
+          "done": "The roadmap says when each step shipped.\nEach finished step on /roadmap links to the release on /changelog that delivered it, and the changelog covers everything since June instead of stopping at 0.1.4. {#public-roadmap}"
+        },
+        {
+          "date": "2026-10-09",
+          "done": "Sign in with OrangeCat.\n\"Mit OrangeCat anmelden\" is the first way in on the login and registration pages; the password form is one click behind it, and an existing account can connect OrangeCat from the profile. An account made through OrangeCat gets no password-reset link, because it has no password here (#523, #526, #534).\nThe homepage says what evig solves — concrete problems, for one person and for everyone — instead of describing itself (#536).\nThe site stopped claiming a workshop, partners, donation receipts and an evig.ch address that evig does not have (#531).\nDates in forms read in words, and Hirn offers suggested replies in every chat (#545, #546).\nOn a phone, choosing a source file for a protocol opens the file browser instead of a camera-app chooser (#537).\nNext.js 16.3.8 closes a critical remote-code-execution hole in image generation and a request-forgery hole in image optimisation (#527)."
+        },
+        {
+          "date": "2026-09-28",
+          "done": "A public roadmap, and the record behind it.\n/roadmap shows what evig is building, read from the same ROADMAP.md and CHANGELOG.md the fleet map reads (#522). {#public-roadmap}\nThe contact address is cato@orangecat.ch instead of a personal mailbox (#511).\nNavigation targets are 44px tall, and the Hirn button no longer sits under the cookie banner (#510).\nEvery page sends the five baseline security headers; the payment throttle no longer trusts a header the caller writes (#492, #493).\nBlog articles render through typed blocks; database content was rendered without a sanitiser (#466). Changing a slug no longer deletes seven of the eight translations (#464).\nMail goes out through Resend; the old SMTP credential had died and mail was silently lost (#448, #449).\n/api/health/ai reports whether the AI actually answers, instead of calling an unobserved AI \"healthy\"; \"Rate-Limit erreicht\" now appears only when it is true (#452, #463)."
+        },
+        {
+          "date": "2026-08-26",
+          "done": "Three divisions, five pillars, and what did not work.\nevig is stated as three divisions — computers, technicians, ai — from one list that drives the wordmarks, the navigation, the footer and the division pages (#300, #389). {#divisions-one-list}\nevig repairs became evig technicians: post a request, get offers from technicians nearby, choose one; evig stopped asking for printers (#382). {#evig-technicians}\nThe homepage states the five pillars instead of a donation funnel, and no longer says the same thing three times (#381, #385). {#five-pillars}\nThe \"not a charity\" line is gone — it contradicted the legal page; evig architecture and evig health moved to their own projects (#379). {#not-a-charity}\nThe donate buttons funded another organisation; they fund evig now, and two navigation entries that went nowhere were removed (#388).\nThe address printed on the site did not receive mail; it does now (#376).\nInvoices charged the pre-2024 VAT rate; one rate is used everywhere (#368). Paid marketplace listings no longer stay reserved forever, and the order page stopped showing a CHF 0.00 service fee (#369, #373).\nEight dialogs trap focus and close with Escape (#372).\nMoney routes require the finance permission, cron routes deny by default, and a vote is cast by whoever proves it rather than whoever types an email address (#305, #322, #358). The one live decision can be voted on again (#308).\nStaff can fill the category form from a sentence and then change it by talking to it (#279)."
+        },
+        {
+          "date": "2026-07-28",
+          "done": "Revamp-IT becomes evig.\nNew name, identity and canonical address: evig.orangecat.ch (#247, #248, #256).\nEvery page says what is true: evig is a Verein in Gründung, not a recognised non-profit. {#verein-in-gruendung}\nThe invented track record, metrics and testimonials are gone, and so are the donation-receipt and charity claims evig cannot make yet. {#no-false-receipts}\nThe physical store address, opening hours and Revamp-IT's projects and social accounts were removed — evig is not Revamp-IT.\nFeedback goes through the fleet's embeddable widget."
+        },
+        {
+          "date": "2026-07-17",
+          "done": "Checked before it is sold.\nA device whose required test fails cannot reach the shop; staff can still publish without QC in one audited click, and the listing then carries no Prüfsiegel so buyers see it is untested. {#qc-skip}\nFinal QA keeps the four-eyes rule, with an audited one-click solo override. {#four-eyes}\nEvery CO₂ figure comes from per-category ADEME open data, minus 15% for refurbishment, floored at 5 kg; categories without a defensible factor show no claim. {#co2-open-data}\nThe methodology is public at /transparenz/co2 and linked under \"Über uns\". {#co2-methodology}\nRemoving a listing returns the device to the pipeline, and the pipeline shows what is live in the shop."
+        },
+        {
           "date": "2026-06-16",
           "done": "Homepage and marketplace hierarchy realigned.\nHomepage CTAs moved from device donation to refurbished purchasing and repair discovery.\nMarketplace mega menu now prioritizes shop, community listings, technician search, and help requests before supply/contribution paths.\nIT-Hilfe hub now starts with technician and workshop discovery instead of the request form.\nBlog rationale documents the business, design, and engineering decision behind the new information hierarchy."
         },
@@ -2647,6 +2721,10 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-10-09",
+          "done": "One row of buttons under an answer instead of three: suggested replies first, then the «What now?» moves and the «Learn from this» chips, de-duplicated and capped at five (lib/domain/chat/row.ts). The grammar link — the one button that opens a page instead of sending a message — keeps its place when the replies fill the row. Styled as chatkit's reply buttons; one role=\"group\" named by chat.moves.title.\nSuggested replies: when Heidi asks something back or the next step is obvious, two to four replies sit under the latest answer, written by the model in the reader's language; one tap sends it like the composer. From @bitbaum/chatkit 0.6 (REPLIES_INSTRUCTION, extractReplies, ChatReplies). The block rides after the JSON answer and is taken out server-side, so it never reaches the stream, storage, copy or speech. Not in groups, where there is no one person whose voice a reply would be.\nA new scene under «Alltag i Züri»: «Mit einem Bünzli» — the word, and the neighbour it names. Fifteen lines you hear (the rule, the precedent, the warning, and what people say about a Bünzli) and seven you say back, in the order that actually ends the exchange: thank them, ask where it is written, say it will not happen again. Every line passes the Zurich gate; no native speaker has read it yet, and the page says so.\n«Bünzli» is in the vocabulary as casual slang, with its register, so a learner finds out it is affectionate about a third party and an insult to somebody's face."
+        },
         {
           "date": "2026-10-08",
           "done": "The investor page is the door to Heidi's investor room on OrangeCat: the password leads into the room, where each investor can also have a link of their own. Its text and numbers are still written, and checked, in investors.ts, and the room is filled from it."
@@ -3467,6 +3545,14 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-12",
+          "done": "Two more ways to shade the globe. The legend's picker now offers Historical trend (each country's production change between the two years USGS prints) and Risk heat-map (how many export restrictions the OECD inventory records on the resource, per country), beside Production volumes and Reserves. Trade flows and environmental impact zones are listed as not yet available: no sourced figures for them are on file. (#177)\nEvery chain, read six ways. The panel beside a chain now has six tabs: Overview, Markets, Research, Money, People and Policy. Each says what the chain means from that side, in sentences built from the records, then the few figures that carry it, the records behind it, and the page that holds all of it. Markets names the listed makers by ticker and what a stop would reach; Research, how far along each way around it is; Money, whether money is the constraint at all; People, the work it needs and where to train for it; Policy, the rules that touch it and the restrictions on its raw material. A tab is a link, so a reading can be shared, and it stays chosen as you walk the chain. (#176)\nA fuller description of each chain. The overview now leads with why the thing binds, the grade that actually ships, the four tests behind its severity score in words, and what has happened to it. (#176)\nProducer sites on the globe. Pick a resource on the world view and every mine, smelter and refinery the USGS Minerals Yearbook lists for it appears where it is: about a thousand locations in 37 countries, placed from GeoNames. A solid dot is the facility or its town; an open ring means only the province is known. Click one and the globe flies in and the panel lists who operates what there, at what capacity, with both sources. (#175)\nA chain, laid over the Earth. \"On the globe\" on any chain draws it across the world: one line from where each input is made to where the step that needs it is made, with a light running the way material moves, and numbered labels that match the list beside it. EUV scanners: optics from Germany and tin from China, Peru and Indonesia into the Netherlands, then on to foundries and packaging in Taiwan. (#175)\nWhat you can do, by reader. Every chain now ends with one row each for equity investors, commodity traders, industry teams, job seekers and learners, each built from the records and linking to the page that serves them. (#174; folded into the six readings in #176, each naming the reader it serves most)\nThe globe says where. Picking a resource labels its largest producers in place (\"Australia · 32%\") and turns to face them; a clicked country is reached by a flight that lands with a ring. (#174)\nClearer headings, no tiny text on the map. The map is titled \"Global Resource Map – Location, Production, and Supply-Chain Connections\"; on the chain diagram the column headings are larger and bold and the \"Made by\" headings lighter; no label on the map is below 12px; the sidebar's Explore heading says what is inside. (#177)\nThe chain is a route, not a hub. The diagram now shows every step two levels up and down — for leading-edge foundries, quartz and polysilicon into wafers, scanners, helium, neon and photoresist, into the foundries, into packaging — left to right in the order material moves. Makers sit inside the bottleneck they build. (#175)\nThe chain reads in plain words. A maker opens beside the diagram instead of leaving the map, and the panel says in sentences what the chain tells us. (#173)\nNo line runs through the makers. The old diagram drew the bottleneck's connector straight through the cards of its part suppliers. (#175)"
+        },
+        {
+          "date": "2026-10-09",
+          "done": "Answer Ask in one tap. When an answer asks you something back, or the next step is obvious, two to four replies appear under it; tapping one sends it as your next question. (#167)\nThe front page says what it is, then shows it. One line, one sentence, one button; the three worst constraints right now; five doors as rows; the three newest checked events; the counts; a line for anyone who can fix a row; how live the sweep is. On a phone it was twenty screens (18,686px) — thirteen problem cards, two chip clouds, two event lists, the latest rule — every piece true and nothing said first. What left it is still on the site: the chips are the filters on Bottlenecks, the latest rule tops Policy, unchecked finds lead News, and the problem cards' copy stays for the role views.\nOne row of buttons under an answer. The suggested replies and the questions built from the records Ask read now sit in a single row, replies first, nothing offered twice, at most five — instead of two rows under the same answer.\nA short reply is a question. \"No\" or \"OK\" used to vanish from the Ask box without being sent; two characters now send, and anything not sent stays in the box. (#167)"
+        },
+        {
           "date": "2026-10-06",
           "done": "News leads with what was just found. /events is now News: the newest sweep finds of the last 14 days first, each marked not yet checked, then the checked events grouped by month with their source named. (#153)\nAnyone can pull fresh news. \"Update news now\" on News searches the web for the bottlenecks searched longest ago — signed out, no AI — and says plainly when the last search is more than a day old. (#153)\n\"On this page\" for long pages. A list of the page's own sections beside the content, or a strip under the top bar on a phone, marking where you are. (#153)\nNo more tenders or kitchen worktops in the news. A government scanner contract and \"quartz surface products\" no longer pass as news about high-purity quartz. (#153, #154)\nAsk no longer rewrites a correct answer. A figure written into a field name (net_pressure_90d) counts as evidence, saving a model call. The chat components now come from npm. (#150)"
         },
@@ -3537,14 +3623,6 @@
         {
           "date": "2026-08-31",
           "done": "TypeScript 6, ESLint 10, Node 24 in CI and on the box, a formatter, and sitekit 0.3.0 for a fix this repo could not make. (#11, #12, #13, #15, #16)"
-        },
-        {
-          "date": "2026-08-29",
-          "done": "Link previews render for real. (#10)"
-        },
-        {
-          "date": "2026-08-27",
-          "done": "Substrata starts as its own firm: the site, the feedback widget so it stays maintainable without a developer, CI, and sitekit as the site model and renderer. (#1)"
         }
       ],
       "records": {
@@ -3555,16 +3633,16 @@
           "changelog": "https://github.com/bitbaum/substrata/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": null,
+      "next": "PR #177 CI running",
       "now": {
         "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-10-07T16:08:02.353Z"
+          "at": "2026-10-12T13:58:47.056Z"
         },
         "lastLog": {
-          "date": "2026-10-07",
-          "done": "/bottlenecks now opens with a lede saying what it is for, a \"Tightest right now\" strip of the three hardest-binding verified constraints, and stage jump links above the table — PR https://github.com/bitbaum/substrata/pull/165, CI verify green."
+          "date": "2026-10-12",
+          "done": "Atlas feedback (H1, chain heading hierarchy, 12px floor, Explore subtitle, trend and export-restriction risk shadings) pushed as PR #177."
         }
       }
     },
@@ -4266,7 +4344,10 @@
       "next": null,
       "now": {
         "openRuns": 0,
-        "lastRun": null,
+        "lastRun": {
+          "outcome": "error",
+          "at": "2026-10-11T21:45:44.479Z"
+        },
         "lastLog": null
       }
     },
@@ -4419,6 +4500,10 @@
       "roadmap": [],
       "changelog": [
         {
+          "date": "2026-10-12",
+          "done": "Verified repo state and ran all checks — BiasLens at main b1f6c68, all green."
+        },
+        {
           "date": "2026-07-17",
           "done": "Added GET /api/claims/[id]/verify — the DB-backed twin of the POST route that loads a claim's stored Evidence via a new shared Prisma singleton and scores it with the existing pure scorer, realizing the \"scores are functions of stored evidence\" principle; added a vitest `@/*` alias config so route handlers are testable, 3 DB-free route tests, and verified end-to-end against local Postgres (seeded 2-supports/1-contradicts -> supported @ 0.67; missing id -> 404)."
         },
@@ -4451,12 +4536,12 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-08-16T15:14:30.343Z"
+          "outcome": "timeout",
+          "at": "2026-10-12T08:25:59.233Z"
         },
         "lastLog": {
-          "date": "2026-07-17",
-          "done": "Added GET /api/claims/[id]/verify — the DB-backed twin of the POST route that loads a claim's stored Evidence via a new shared Prisma singleton and scores it with the existing pure scorer, realizing the \"scores are functions of stored evidence\" principle; added a vitest `@/*` alias config so route handlers are testable, 3 DB-free route tests, and verified end-to-end against local Postgres (seeded 2-supports/1-contradicts -> supported @ 0.67; missing id -> 404)."
+          "date": "2026-10-12",
+          "done": "Hosted dispatch (Hermes) — no file changes — On BiasLens, do the next step the last session left: \"commit: 0d46066\". Ship it…"
         }
       }
     },
@@ -4555,40 +4640,314 @@
       },
       "roadmap": [
         {
-          "title": "Define the first law-oriented product workflow",
+          "title": "Read a letter and say what it wants {#read}",
+          "line": "A letter in, a case file out: the deadline, each thing asked for, a full",
+          "status": "in progress",
+          "progress": 73,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Intake by pasted text or a photo of the letter {#intake}",
+              "done": true
+            },
+            {
+              "title": "The case file: deadline, checklist, translations, draft reply {#case-file}",
+              "done": true
+            },
+            {
+              "title": "Cases kept in the browser, with export and import {#export}",
+              "done": true
+            },
+            {
+              "title": "Analysis through the fleet's shared model chain, with a rate limit {#shared-models}",
+              "done": true
+            },
+            {
+              "title": "Your own model: connect a key, checked, strongest model preselected {#own-model}",
+              "done": true
+            },
+            {
+              "title": "The interface and the analysis in English, German and French {#languages}",
+              "done": true
+            },
+            {
+              "title": "Letters of several pages, photographed in order {#pages}",
+              "done": true
+            },
+            {
+              "title": "The deadline shown with the sentence of the letter it was read from {#deadline-source}",
+              "done": true
+            },
+            {
+              "title": "Shared model keys set on the host, and the first real letter analysed there",
+              "done": false
+            },
+            {
+              "title": "A set of real letters with known answers, to measure how often the deadline is right",
+              "done": false
+            },
+            {
+              "title": "Letters that arrive as a PDF",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Private by construction {#privacy}",
+          "line": "The model reads what a letter asks for; it does not need to know who it is",
+          "status": "in progress",
+          "progress": 57,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Personal details replaced in the browser before a letter is sent {#anonymise}",
+              "done": true
+            },
+            {
+              "title": "Details covered on page photos before they are sent {#anonymise-photos}",
+              "done": true
+            },
+            {
+              "title": "An anonymised case file to hand to a helper {#anonymise-export}",
+              "done": true
+            },
+            {
+              "title": "A strict content security policy and security headers {#security}",
+              "done": true
+            },
+            {
+              "title": "Read the text of a photographed page in the browser, so photos are anonymised automatically too",
+              "done": false
+            },
+            {
+              "title": "Model providers that contractually do not train on or retain what they are sent",
+              "done": false
+            },
+            {
+              "title": "An independent security review before the first real users",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Say what Causius is, in one place {#identity}",
+          "line": "Problem, solution, mission and vision live in the Loki project profile and are",
+          "status": "in progress",
+          "progress": 25,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Roadmap and changelog kept in this repository and rendered from the fleet map {#records}",
+              "done": true
+            },
+            {
+              "title": "Problem, solution, mission and vision filled in on the Loki profile",
+              "done": false
+            },
+            {
+              "title": "An OrangeCat profile, so the project can be found and funded",
+              "done": false
+            },
+            {
+              "title": "A Solon organisation, so its rules can be decided in the open",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Matters worked by an agent {#matters}",
+          "line": "A matter is anything legal to be handled. The agent researches, records",
+          "status": "in progress",
+          "progress": 67,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Sign in with OrangeCat; one account across the fleet {#sign-in}",
+              "done": true
+            },
+            {
+              "title": "Matters stored on our host, each sealed with its own key (AES-256-GCM) {#sealed-matters}",
+              "done": true
+            },
+            {
+              "title": "The agent: web research with sources, deadlines, tasks, facts, drafts, approvals {#agent}",
+              "done": true
+            },
+            {
+              "title": "Every personal detail, and the account name, hidden from the model {#agent-privacy}",
+              "done": true
+            },
+            {
+              "title": "Documents added to a matter: PDF and text, only the text kept {#documents}",
+              "done": true
+            },
+            {
+              "title": "Check domain names with the registries before founding on a name {#domains}",
+              "done": true
+            },
+            {
+              "title": "Deadline reminders by e-mail",
+              "done": false
+            },
+            {
+              "title": "Bring a quick-check letter into a matter in one step",
+              "done": false
+            },
+            {
+              "title": "Keys only the owner holds, so the operator cannot open a matter",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "The fleet's design and a technical narrative {#site}",
           "line": null,
-          "status": "active",
+          "status": "in progress",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Built on @bitbaum/design-tokens, in the grammar Solon and Loki use {#design}",
+              "done": true
+            },
+            {
+              "title": "Platform, Security and Ecosystem pages; the fleet read from the fleet map {#narrative}",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Helpers you can actually reach {#helpers}",
+          "line": "Legal assistants and licensed lawyers offer their help as services on OrangeCat",
+          "status": "planned",
+          "progress": 20,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The rules: who may give legal advice, and who may be pseudonymous {#helper-rules}",
+              "done": true
+            },
+            {
+              "title": "Helpers listed from their OrangeCat services, by jurisdiction, area and language, under a name or a pseudonym",
+              "done": false
+            },
+            {
+              "title": "A lawyer's identity held privately and shown to a client when they engage them",
+              "done": false
+            },
+            {
+              "title": "A lawyer's admission checked against the public bar register before the label",
+              "done": false
+            },
+            {
+              "title": "Hand a case to a helper from the case page, sharing only what you choose",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Decide the marketplace rules in the open {#governance}",
+          "line": "Who is admitted, what a label requires and how a dispute is settled are",
+          "status": "planned",
           "progress": 0,
           "targetDate": null,
           "milestones": [
             {
-              "title": "Decide the intended reader and concrete problem",
+              "title": "Admission and labelling rules adopted by a recorded vote",
               "done": false
             },
             {
-              "title": "Specify evidence and review requirements before presenting legal answers",
-              "done": false
-            },
-            {
-              "title": "Replace the scaffold with one bounded, testable user journey",
+              "title": "A dispute between a person and a helper has a written path",
               "done": false
             }
           ],
-          "source": "https://github.com/bitbaum/causius/blob/3cb5e80e897c389bc220b36e238a2a7f4e9e190c/app/page.tsx"
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "A matter shared with a helper {#rooms}",
+          "line": null,
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A shared matter: the person, their helper and the agent in one thread, the helper seeing only what is shared",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Legal existence {#existence}",
+          "line": null,
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Found a company or an association: documents prepared by the agent, filed on approval",
+              "done": false
+            },
+            {
+              "title": "Register a domain on approval, through a registrar connected to OrangeCat payments",
+              "done": false
+            },
+            {
+              "title": "Contracts signed by the parties, obligations tracked, payment held in escrow on OrangeCat",
+              "done": false
+            },
+            {
+              "title": "The law cited from Solon as versioned data, rule by rule",
+              "done": false
+            },
+            {
+              "title": "Law firms running Causius on models inside their own walls",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "More than letters {#beyond}",
+          "line": null,
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Forms filled from the facts already in the case",
+              "done": false
+            },
+            {
+              "title": "Guides per jurisdiction for the most common procedures",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
         }
       ],
       "changelog": [
         {
-          "date": "2026-09-10",
-          "done": "Replaced the developer placeholder with an explicit day-zero page and a path to define the first product workflow. Causius remains a scaffold, not a delivered legal service.\nSource: https://github.com/bitbaum/causius/commit/e9a1823a23d3cf8087a280a6ac7a2cdbf39df7fe"
+          "date": "2026-10-11",
+          "done": "Matters, worked by an agent. Sign in with your OrangeCat account and open a matter: Causius researches what applies and cites it, records deadlines and tasks, drafts documents, and proposes anything that would leave the matter (sending, filing, signing, paying) for you to approve. {#matters}\nSealed on our host. Each matter is encrypted with its own key; the database alone holds no name, message, deadline or document. Your account name is always among the words hidden from the model. {#sealed-matters}\nDocuments in a matter. Add a PDF or a text file; only its text is kept, encrypted. {#documents}\nDomain names checked with the registries. Before recommending a name for something you are founding, the agent asks the registries whether its domains are registered. {#domains}\nOne account across the fleet. \"Create an account\" opens OrangeCat's screen; the same account opens OrangeCat, Solon and Loki, and the account menu links to them. {#sign-in}\nThe fleet's look, and the story behind it. Causius now wears the shared design of OrangeCat, Loki and Solon, with new pages on how it is built, how it keeps matters private, and where it sits in the fleet. {#narrative}\nYour details never reach the model. Before a letter is sent, your browser replaces names, addresses, AHV and IBAN numbers, phone numbers, e-mail addresses, dates of birth and reference numbers with placeholders. You see every replacement, can add words of your own, and can preview exactly what is sent. The real values go back into the result on your device. {#anonymise}\nCover details on a photo. Black out your name and address on each page before it is sent; what is under the box is removed from the image. {#anonymise-photos}\nAn anonymised case file for helpers. Export a case with your details replaced, to hand to a legal assistant or a lawyer. {#anonymise-export}\nA strict security policy. The browser runs only scripts the page vouches for, sends data only to Causius, and refuses framing. {#security}\nEnglish pages answered with an error. Every page now lives under its language (/en, /de, /fr), and / opens in your browser's language.\nCausius speaks English, German and French. The whole interface, and what an analysis says about your letter, in the language you choose in the header. German follows Swiss spelling. [#7] {#languages}\nLetters of several pages. Photograph up to four pages in order. Photos are made smaller in your browser before they are sent, so a phone picture is no longer too large. [#7] {#pages}\nThe deadline shows its source. Under the reply date is the sentence of the letter it was read from, to compare with your own copy. A date the letter does not state is never worked out for you. [#7] {#deadline-source}\nYou are told before you start. The intake page says whether the free models are on, and whether they can read photos, before you add a letter. [#7] {#shared-models}"
+        },
+        {
+          "date": "2026-10-10",
+          "done": "Causius reads a letter. Paste an official letter or add a photo of it and get a case: the deadline with the days left, each thing asked of you as a checklist, the letter in the languages you chose, and a draft reply to fill in. [#7] {#intake} {#case-file}\nYour case stays with you. Cases are kept in your browser only. Export one as a file to hand to a helper or move to another device, and import it again. [#7] {#export}\nYour own model. Connect an API key from one of ten providers. The key is checked as you paste it, the strongest model it can use is preselected, and it is kept in your browser only. [#7] {#own-model}\nFree shared models, fairly shared. Without a key, letters are read by the fleet's shared free models, a few per hour per visitor. A photo goes only to a model that can read one. [#7] {#shared-models}\nHelpers, and an honest line between them. What a legal assistant may do, what only a licensed lawyer may do, and who may work under a pseudonym. Nobody is listed yet, and the page says so. [#7] {#helper-rules}\nRoadmap and changelog. Both are kept in the repository and shown on the site from the fleet map. [#7] {#records}"
         }
       ],
       "records": {
-        "roadmap": "goals",
-        "changelog": "dev_log",
+        "roadmap": "repo",
+        "changelog": "repo",
         "source": {
-          "roadmap": null,
-          "changelog": null
+          "roadmap": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md",
+          "changelog": "https://github.com/bitbaum/causius/blob/HEAD/CHANGELOG.md"
         }
       },
       "next": "Follow the canonical roadmap for planned work.",
@@ -4692,7 +5051,7 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "timeout",
-          "at": "2026-10-08T07:46:40.820Z"
+          "at": "2026-10-10T05:15:24.996Z"
         },
         "lastLog": {
           "date": "2026-10-04",
@@ -4854,6 +5213,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-10",
+          "done": "Fixed the brand name being cut off on tablets (768–790px, 15px in French, 1px in Italian on the live site) by holding the full-size wordmark back to lg, verified with no clipping in it/de/fr/en every 16px from 768 to 1280, in PR #4 (green)."
+        },
+        {
           "date": "2026-10-08",
           "done": "From the owner's watch-mode journey (Home → Chi siamo → Team → back Home to call), added a one-tap call button to the header on every page (phone icon on mobile, number in the green bar on desktop) with the full wordmark kept down to 320px, in PR #3 on fix/journey-review."
         },
@@ -4874,16 +5237,16 @@
           "changelog": null
         }
       },
-      "next": "PR #3 open, CI pending; separate pre-existing finding: wordmark clipped at 768px (1px it, 15px fr) on the live site",
+      "next": "PR #4 open and green, awaiting merge and deploy",
       "now": {
         "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-10-08T16:16:42.822Z"
+          "at": "2026-10-10T04:17:59.935Z"
         },
         "lastLog": {
-          "date": "2026-10-08",
-          "done": "From the owner's watch-mode journey (Home → Chi siamo → Team → back Home to call), added a one-tap call button to the header on every page (phone icon on mobile, number in the green bar on desktop) with the full wordmark kept down to 320px, in PR #3 on fix/journey-review."
+          "date": "2026-10-10",
+          "done": "Fixed the brand name being cut off on tablets (768–790px, 15px in French, 1px in Italian on the live site) by holding the full-size wordmark back to lg, verified with no clipping in it/de/fr/en every 16px from 768 to 1280, in PR #4 (green)."
         }
       }
     },
@@ -5211,6 +5574,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-10",
+          "done": "Verified the deployed preview end to end (36/36 journeys, layout/contrast at 3 viewports × light/dark) and corrected the hero's mic promise, shipped as PR bitbaum/orangecat-2#3 with CI green; filed the voice-capture decision as a blocker."
+        },
+        {
           "date": "2026-10-08",
           "done": "Built roadmap step 2 — the dual-track entry chooser (website / thoughts tabs) with client-side validation and real hand-offs to live Loki (/change#brief draft restore, /loki?q prefill through sign-in), shipped as PR bitbaum/orangecat-2#2 with CI green."
         },
@@ -5232,11 +5599,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-10-08T04:07:49.893Z"
+          "at": "2026-10-10T04:03:46.418Z"
         },
         "lastLog": {
-          "date": "2026-10-08",
-          "done": "Built roadmap step 2 — the dual-track entry chooser (website / thoughts tabs) with client-side validation and real hand-offs to live Loki (/change#brief draft restore, /loki?q prefill through sign-in), shipped as PR bitbaum/orangecat-2#2 with CI green."
+          "date": "2026-10-10",
+          "done": "Verified the deployed preview end to end (36/36 journeys, layout/contrast at 3 viewports × light/dark) and corrected the hero's mic promise, shipped as PR bitbaum/orangecat-2#3 with CI green; filed the voice-capture decision as a blocker."
         }
       }
     },
@@ -5476,6 +5843,10 @@
       "roadmap": [],
       "changelog": [
         {
+          "date": "2026-10-09",
+          "done": "Audited skif main: nothing in rules 0-8; no code changes made."
+        },
+        {
           "date": "2026-10-05",
           "done": "In Loki (bitbaum/loki#1048, feat/terminal-feedback, closes #1037), the feedback tool now works on the Terminal page: the widget loads with its floating button hidden and opens from a Feedback button in the terminal header, proven in a real-browser fixture."
         },
@@ -5556,16 +5927,16 @@
           "changelog": null
         }
       },
-      "next": "bitbaum/loki#1048 open, CI pending; not started: asking questions about a screenshot in the feedback widget",
+      "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
           "outcome": "partial",
-          "at": "2026-10-05T17:09:56.475Z"
+          "at": "2026-10-09T09:31:48.802Z"
         },
         "lastLog": {
-          "date": "2026-10-05",
-          "done": "In Loki (bitbaum/loki#1048, feat/terminal-feedback, closes #1037), the feedback tool now works on the Terminal page: the widget loads with its floating button hidden and opens from a Feedback button in the terminal header, proven in a real-browser fixture."
+          "date": "2026-10-09",
+          "done": "Audited skif main: nothing in rules 0-8; no code changes made."
         }
       }
     },
@@ -6025,6 +6396,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-09",
+          "done": "Re-checked main (acafb3e; tsc clean, 36/36 tests, no open PRs/issues/blockers, no human message since 2026-10-05) and kept the session blocked instead of inventing work."
+        },
+        {
           "date": "2026-10-07",
           "done": "Re-checked main (tsc clean, 36/36 tests, no open PRs/issues/blockers, no human message since the 2026-10-05 handoff) and kept the session blocked instead of inventing work."
         },
@@ -6066,11 +6441,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "partial",
-          "at": "2026-10-07T05:00:13.626Z"
+          "at": "2026-10-09T05:02:00.313Z"
         },
         "lastLog": {
-          "date": "2026-10-07",
-          "done": "Re-checked main (tsc clean, 36/36 tests, no open PRs/issues/blockers, no human message since the 2026-10-05 handoff) and kept the session blocked instead of inventing work."
+          "date": "2026-10-09",
+          "done": "Re-checked main (acafb3e; tsc clean, 36/36 tests, no open PRs/issues/blockers, no human message since 2026-10-05) and kept the session blocked instead of inventing work."
         }
       }
     }
