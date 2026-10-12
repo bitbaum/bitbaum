@@ -26,19 +26,40 @@ function publicProject(p) {
     layer: p.layer ?? null,
     status: p.status,
     owner: p.owner,
+    client: p.client ?? null,
     since: p.since ?? null,
     urls: p.urls ?? {},
     identity: publicIdentity(p.slug, p.identity),
   };
 }
 
-/** Strip ops fields; keep catalogue facts agents need. */
+/**
+ * Client work reaches the published map only with the client's consent
+ * (Loki records it; `client.consentedAt`). An entry from before that field
+ * existed is judged by its layer, so an old snapshot cannot leak one.
+ */
+function shownPublicly(p) {
+  const client = "client" in p ? p.client != null : p.layer === "client";
+  return !client || Boolean(p.client?.consentedAt);
+}
+
+/** Strip ops fields and unconsented client work; keep catalogue facts agents need. */
 export function publicMap(map) {
+  const projects = (map.projects ?? []).filter(shownPublicly);
+  const hidden = (map.projects ?? []).length - projects.length;
+  // The counts must not say what the list leaves out.
+  const summary = map.summary
+    ? {
+        ...map.summary,
+        projects: Math.max(0, (map.summary.projects ?? 0) - hidden),
+        clients: projects.filter((p) => p.client?.consentedAt).length,
+      }
+    : null;
   return {
     generatedAt: map.generatedAt ?? null,
     thesis: map.thesis ?? null,
     pillars: map.pillars ?? [],
-    summary: map.summary ?? null,
-    projects: (map.projects ?? []).map(publicProject),
+    summary,
+    projects: projects.map(publicProject),
   };
 }

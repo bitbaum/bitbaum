@@ -343,6 +343,25 @@ if (!/^(report|chat|watch)(,(report|chat|watch))*$/.test(LOKI_FEEDBACK.modes ?? 
 }
 
 // ── the ventures: register facts + presentation + what they are built from ──
+/**
+ * Client work: built for a real person or organisation, paid or not. It is
+ * shown only with the client's consent, which Loki records on the project and
+ * publishes on the map as `client: { consentedAt }` (Loki
+ * docs/architecture/client-work-consent.md). Loki already leaves unconsented
+ * client work off the public map; this is the second lock, for snapshots taken
+ * before that rule and for an override that knows more than the map does.
+ */
+export function isClientWork(o, p) {
+  if (o?.client === true) return true;
+  if (!p) return false;
+  if ("client" in p) return p.client !== null && p.client !== undefined;
+  return p.layer === "client";
+}
+
+export function hasConsent(p) {
+  return Boolean(p?.client?.consentedAt);
+}
+
 export function ventures(map, cfg, origin, packages) {
   const byRepo = new Map((origin?.repos ?? []).map((r) => [r.repo.split("/")[1], r]));
   const alias = cfg.adopterAliases ?? {};
@@ -407,11 +426,17 @@ export function ventures(map, cfg, origin, packages) {
     const o = cfg.overrides?.[p.slug];
     if (!o?.what || !o.stage) continue;
     seen.add(p.slug);
-    out.push(build({ ...o, slug: p.slug }, p));
+    const client = isClientWork(o, p);
+    // Client work is the client's before it is ours to show: no recorded
+    // consent on the map entry, no page.
+    if (client && !hasConsent(p)) continue;
+    out.push({ ...build({ ...o, slug: p.slug }, p), client });
   }
   for (const x of cfg.extras ?? []) {
     if (seen.has(x.slug) || !x.what || !x.stage) continue;
-    out.push(build(x));
+    // An extra has no map entry, so nowhere for consent to come from.
+    if (x.client === true) continue;
+    out.push({ ...build(x), client: false });
   }
   // The stage order is owned by overrides.json alongside its labels, filters
   // and definitions. The pager follows the same sequence as the work grid.
@@ -967,7 +992,25 @@ export function recordPage(kind) {
 }
 
 
-export function workPage(all, cfg) {
+// Client work, apart from the studio's own. Every card here is something its
+// client agreed to have shown; without that agreement it is not on the site.
+function clientSection(clients) {
+  if (!clients.length) return "";
+  return `    <section class="section client-work" id="clients">
+      <div class="wrap">
+        <div class="prose">
+          <span class="kicker quiet">Client work</span>
+          <h2>Built for others, shown with their agreement.</h2>
+          <p>Work done for a person or an organisation stays theirs. It appears here only once they have agreed to be shown.</p>
+        </div>
+        <div class="grid">
+${clients.map((v) => card(v)).join("\n")}
+        </div>
+      </div>
+    </section>`;
+}
+
+export function workPage(all, cfg, clients = []) {
   const body = `  <main id="main">
     <section data-lodge class="stage stage-floored hero compact work-hero"><div class="wrap">
       <span class="eyebrow">The work</span>
@@ -975,6 +1018,7 @@ export function workPage(all, cfg) {
       <p class="lede">Products and pilots in use, concepts built to show what is possible, and ideas named but not built — each labelled honestly. Filters live in the address bar, so a filtered view is a link you can send.</p>
     </div></section>
 ${workSection(all, cfg)}
+${clientSection(clients)}
   </main>`;
   return shell({
     title: "The work — bitbaum",
@@ -1288,10 +1332,14 @@ ${intakeMount({ prompt: hire.waitlist.prompt, offerId: hire.commissioningOffer }
 
 // ── build ───────────────────────────────────────────────────────────────────
 export function render({ map, packages, origin, readings, cfg, hire }) {
-  const all = ventures(map, cfg, origin, packages);
+  const shownVentures = ventures(map, cfg, origin, packages);
+  // The studio's own work and client work never share a list: client work is
+  // shown only with consent, in its own section and its own pager.
+  const all = shownVentures.filter((v) => !v.client);
+  const clients = shownVentures.filter((v) => v.client);
   const files = new Map();
   files.set("index.html", homePage(all, packages, cfg, origin, readings, hire));
-  files.set("work/index.html", workPage(all, cfg));
+  files.set("work/index.html", workPage(all, cfg, clients));
   files.set("map/index.html", loopsPage(all, cfg, packages));
   files.set("partners/index.html", partnersPage());
   files.set("portal/index.html", portalPage());
@@ -1332,6 +1380,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   // Loki reads this view. The token is the same public write-only widget token.
   files.set("commission.json", JSON.stringify({ version: 1, origin: SITE, availability: hire.availability, offer: commissioningOffer, feedbackToken: LOKI_FEEDBACK.token, course: COURSE }, null, 2) + "\n");
   for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all, cfg, hire?.contact?.email));
+  for (const v of clients) files.set(`${v.slug}/index.html`, venturePage(v, clients, cfg, hire?.contact?.email));
   files.set("map.json", JSON.stringify(publicMap(map), null, 2) + "\n");
   // Every page the build writes is in the sitemap, because the sitemap is
   // derived from the same map of files — a page cannot exist and be missing.
@@ -1347,7 +1396,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("warp.mjs", readFileSync(join(here, "warp.mjs"), "utf8"));
   const register = castRegister(files);
   files.set("cast.json", JSON.stringify(register, null, 2) + "\n");
-  return { all, files, castDoc: castDoc(register) };
+  return { all: shownVentures, files, castDoc: castDoc(register) };
 }
 
 const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];

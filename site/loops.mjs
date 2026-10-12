@@ -11,6 +11,8 @@
 //   - a loop may only cite a venture the site actually shows;
 //   - every shown venture sits in exactly one loop, so a new project cannot
 //     appear on /work/ without someone deciding what it is for.
+// Client work is not the studio's to file: it is never in a loop (see
+// isClientWork in build.mjs).
 // A loop with no venture is allowed and is rendered as a gap. That is the
 // point of drawing the map: the empty slot is visible, and nothing is claimed
 // for it.
@@ -26,6 +28,7 @@ export function loopMap(all, cfg) {
       ventures: (loop.ventures ?? []).map((slug) => {
         const v = bySlug.get(slug);
         if (!v) throw new Error(`loops: "${loop.title}" cites "${slug}", which the site does not show`);
+        if (v.client) throw new Error(`loops: "${slug}" is client work — it is shown in its own section, never in the loops`);
         if (placed.has(slug)) throw new Error(`loops: "${slug}" is in both "${placed.get(slug)}" and "${loop.title}"`);
         placed.set(slug, loop.title);
         return v;

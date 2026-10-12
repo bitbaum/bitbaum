@@ -211,7 +211,8 @@
       ],
       "order": 1,
       "for": "AOZ, Z\u00fcrich",
-      "story": "Shared-living management with a placement engine for refugee housing: compatibility matching across 38 factors, incidents, maintenance, and a resident portal for expenses, rules and votes. Running as a pilot on a real shared flat. AOZ is not a customer; the product exists to show what one would get."
+      "story": "Shared-living management with a placement engine for refugee housing: compatibility matching across 38 factors, incidents, maintenance, and a resident portal for expenses, rules and votes. Running as a pilot on a real shared flat. AOZ is not a customer; the product exists to show what one would get.",
+      "client": true
     },
     "kivvi": {
       "name": "kivvi",
@@ -222,7 +223,8 @@
       ],
       "order": 2,
       "for": "Revamp-IT",
-      "story": "An ERP where every device keeps its history \u2014 donation, repair, refurbishment, resale. In production at Revamp-IT, run as a favour, not a contract."
+      "story": "An ERP where every device keeps its history \u2014 donation, repair, refurbishment, resale. In production at Revamp-IT, run as a favour, not a contract.",
+      "client": true
     },
     "vitareba": {
       "name": "Vita",
@@ -233,7 +235,8 @@
       ],
       "order": 3,
       "for": "one clinic, Z\u00fcrich",
-      "story": "Patient portal and clinician console for a metabolic-psychiatry and longevity practice. One real clinic uses it; nobody pays for it yet."
+      "story": "Patient portal and clinician console for a metabolic-psychiatry and longevity practice. One real clinic uses it; nobody pays for it yet.",
+      "client": true
     },
     "s-ink": {
       "name": "S.Ink",
@@ -245,7 +248,8 @@
       ],
       "order": 4,
       "for": "S.Ink, Z\u00fcrich",
-      "story": "The studio's own site: artists, work, booking. Built and hosted as a favour."
+      "story": "The studio's own site: artists, work, booking. Built and hosted as a favour.",
+      "client": true
     },
     "sbb-fundbuero": {
       "name": "Nordbahn Fundb\u00fcro",
@@ -266,7 +270,8 @@
         "Circular economy"
       ],
       "order": 2,
-      "story": "Find a workshop, start the repair, claim the CHF 100. A concept for the City of Z\u00fcrich's repair bonus, built to apply with."
+      "story": "Find a workshop, start the repair, claim the CHF 100. A concept for the City of Z\u00fcrich's repair bonus, built to apply with.",
+      "client": true
     },
     "heidi": {
       "name": "Heidi",
@@ -287,7 +292,8 @@
         "Local business"
       ],
       "order": 4,
-      "story": "Turn separate photos into one shared scene. A concept waiting for its first user."
+      "story": "Turn separate photos into one shared scene. A concept waiting for its first user.",
+      "client": true
     },
     "camille-boulangerie": {
       "name": "Camille",
@@ -343,7 +349,8 @@
       "order": 5,
       "for": "Annushka, Z\u00fcrich",
       "story": "Works, events and a way to book a sitting for a painter from Ukraine in Z\u00fcrich. Built and hosted as a favour.",
-      "_why": "static site plus a dead :4030 api; does not fit an apps.conf row"
+      "_why": "static site plus a dead :4030 api; does not fit an apps.conf row",
+      "client": true
     }
   ],
   "packages_lede": "Shared tools for different product needs. Each package page explains what it does, how it works, where to get it, and which apps list it as a dependency. Some are new and have no adopters yet.",
@@ -551,7 +558,6 @@
             "retires": "Care that starts only when someone finds an appointment.",
             "ventures": [
               "diplodoctor",
-              "vitareba",
               "surf-your-life"
             ]
           },
@@ -600,8 +606,6 @@
             "retires": "Usable things ending up as waste, or lost for good.",
             "ventures": [
               "evig",
-              "kivvi",
-              "reparaturbonus-zh",
               "sbb-fundbuero"
             ]
           },
@@ -610,7 +614,6 @@
             "human": "A caseworker, a teacher, a neighbour.",
             "retires": "Newcomers left alone with forms and a language they cannot yet hear.",
             "ventures": [
-              "aoz-housing",
               "heidi"
             ]
           },
@@ -635,14 +638,12 @@
             "human": "The owner approves every change.",
             "retires": "Waiting on an agency to fix a typo.",
             "ventures": [
-              "s-ink",
-              "wild-spirit",
-              "printcraft",
               "camille-boulangerie"
             ]
           }
         ]
       }
     ]
-  }
+  },
+  "_client": "\"client\": true marks work built for a real person or organisation, paid or not. It is shown only when Loki's map carries the client's recorded consent (client.consentedAt), and then in its own Client work section and never in the loops. The copy stays here so the page is ready the day they agree. An extra cannot carry consent: link the project in Loki."
 }
