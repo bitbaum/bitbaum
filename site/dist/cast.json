@@ -841,7 +841,7 @@
     "/datacat/": [
       "fog-walker",
       "cat",
-      "stand-cat",
+      "flutter-dragonfly",
       "sky"
     ],
     "/petvity/": [
@@ -867,36 +867,6 @@
     "/botsmann/": [
       "fog-walker",
       "cat",
-      "horse",
-      "sky"
-    ],
-    "/aoz-housing/": [
-      "fog-walker",
-      "cat",
-      "snail",
-      "sky"
-    ],
-    "/kivvi/": [
-      "fog-walker",
-      "cat",
-      "scarab",
-      "sky"
-    ],
-    "/vitareba/": [
-      "fog-walker",
-      "cat",
-      "stand-deer",
-      "sky"
-    ],
-    "/s-ink/": [
-      "fog-walker",
-      "cat",
-      "flutter-dragonfly",
-      "sky"
-    ],
-    "/wild-spirit/": [
-      "fog-walker",
-      "cat",
       "stand-deer",
       "fog-neck-still",
       "sky"
@@ -911,18 +881,6 @@
       "fog-walker",
       "cat",
       "stand-rabbit",
-      "sky"
-    ],
-    "/reparaturbonus-zh/": [
-      "fog-walker",
-      "cat",
-      "scarab",
-      "sky"
-    ],
-    "/printcraft/": [
-      "fog-walker",
-      "cat",
-      "moth",
       "sky"
     ],
     "/camille-boulangerie/": [

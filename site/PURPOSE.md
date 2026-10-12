@@ -102,8 +102,13 @@ A page nobody reaches helps nobody. In leverage order:
 
 ## What this site must never say
 
-- **"Client."** There are none. `client-app` in the hosting register is a
-  provisioning fact; publicly those are *pilots* and *concepts*.
+- **Client work nobody agreed to show.** Work built for a real person or
+  organisation, paid or not, is theirs. It appears only once Loki's map
+  carries their recorded consent (`client.consentedAt`), and then in its own
+  "Client work" section on `/work/`, never in the venture grid, the loops, the
+  home page or the counts. An override for it is marked `"client": true` and
+  waits there, ready, until they agree. `build.mjs` (`isClientWork`) and
+  `public-map.mjs` both enforce it, so a stale snapshot cannot leak one.
 - **"Live" or "released" as a maturity claim.** Public services are labelled
   beta; pilots, development, concepts, and not-built work keep their own stage.
 - **A start date, or any implication of capacity there isn't.** Rates ARE

@@ -19,9 +19,9 @@
     }
   ],
   "summary": {
-    "projects": 39,
+    "projects": 32,
     "live": 16,
-    "clients": 5,
+    "clients": 0,
     "inFlight": 3
   },
   "projects": [
@@ -33,6 +33,7 @@
       "layer": "execution",
       "status": "live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": "https://loki.orangecat.ch",
@@ -55,6 +56,7 @@
       "layer": "economic",
       "status": "live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": "https://orangecat.ch",
@@ -77,6 +79,7 @@
       "layer": "governance",
       "status": "live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": "https://solon.orangecat.ch",
@@ -99,6 +102,7 @@
       "layer": "product",
       "status": "live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": "https://bitbaum.orangecat.ch",
@@ -121,6 +125,7 @@
       "layer": "product",
       "status": "live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": "https://datacat.orangecat.ch",
@@ -143,6 +148,7 @@
       "layer": "product",
       "status": "live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": "https://evig.orangecat.ch",
@@ -165,6 +171,7 @@
       "layer": "product",
       "status": "live",
       "owner": "bitbaum",
+      "client": null,
       "since": "2026-09-10",
       "urls": {
         "live": "https://heidi.orangecat.ch",
@@ -187,6 +194,7 @@
       "layer": "product",
       "status": "live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": "https://petvity.orangecat.ch",
@@ -209,6 +217,7 @@
       "layer": "product",
       "status": "live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": "https://revamp-info.orangecat.ch",
@@ -231,6 +240,7 @@
       "layer": "product",
       "status": "live",
       "owner": "bitbaum",
+      "client": null,
       "since": "2026-08-27",
       "urls": {
         "live": "https://substrata.orangecat.ch",
@@ -253,6 +263,7 @@
       "layer": "product",
       "status": "live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": "https://surf-your-life.orangecat.ch",
@@ -268,138 +279,6 @@
       }
     },
     {
-      "slug": "wild-spirit",
-      "name": "Annushka Wild Spirit Art",
-      "what": null,
-      "stack": null,
-      "layer": "product",
-      "status": "live",
-      "owner": "bitbaum",
-      "since": null,
-      "urls": {
-        "live": "https://annushka.orangecat.ch",
-        "repo": "https://github.com/bitbaum/annushka",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
-        "vision": null
-      }
-    },
-    {
-      "slug": "aoz-housing",
-      "name": "aoz-begleitung",
-      "what": "Refugee housing placement",
-      "stack": null,
-      "layer": "client",
-      "status": "live",
-      "owner": "AOZ",
-      "since": "2026-08-13",
-      "urls": {
-        "live": "https://aoz.orangecat.ch",
-        "repo": "https://github.com/bitbaum/aoz-begleitung",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Frequent conflicts between incompatible roommates, staff time wasted mediating disputes, resident stress, and high turnover in problematic units",
-        "solution": "Compatibility-based matching, capturing preferences, calculating compatibility, recommending placements, and tracking outcomes",
-        "mission": "Reduce housing conflicts and improve wellbeing through compatibility-based placement for vulnerable populations, prioritizing human dignity, harm reduction, transparency, and privacy.",
-        "vision": "Become the standard for refugee housing placement, providing a safe and harmonious living environment for all residents."
-      }
-    },
-    {
-      "slug": "kivvi",
-      "name": "kivvi",
-      "what": "AI-first ERP for Swiss SMEs",
-      "stack": null,
-      "layer": "client",
-      "status": "live",
-      "owner": "RevampIT",
-      "since": null,
-      "urls": {
-        "live": "https://kivvi.orangecat.ch",
-        "repo": "https://github.com/bitbaum/kivvi",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Generic ERPs do not fit the needs of secondhand businesses, leading to operational drag and limiting their ability to scale their impact.",
-        "solution": "Kivvi provides a native ERP system for secondhand businesses, handling intake, condition grading, repair workflows, and impact tracking, with a focus on automation and compliance with Swiss law and regulations.",
-        "mission": "Kivvi exists to solve the problem of generic ERPs not fitting the needs of secondhand businesses, providing a system that understands the unique workflows of these businesses.",
-        "vision": "To become the operating system for the circular economy, enabling businesses to scale their impact."
-      }
-    },
-    {
-      "slug": "reparaturbonus-zh",
-      "name": "reparaturbonus-zh",
-      "what": null,
-      "stack": null,
-      "layer": "client",
-      "status": "unverified",
-      "owner": "Stadt Zürich?",
-      "since": null,
-      "urls": {
-        "live": "https://reparaturbonus.orangecat.ch",
-        "repo": "https://github.com/bitbaum/reparaturbonus-zh",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Residents in Zurich often discard broken items instead of repairing them, contributing to waste and pollution",
-        "solution": "The Reparaturbonus Zürich platform provides a convenient way for residents to find certified repair shops and utilize government-subsidized bonus codes to make repair a more attractive option",
-        "mission": "To encourage a repair culture in Zurich by providing a platform for residents to find certified repair shops and utilize government-subsidized bonus codes.",
-        "vision": "To become a leading platform for promoting a circular economy in Zurich by making repair a viable and attractive option for residents."
-      }
-    },
-    {
-      "slug": "s-ink",
-      "name": "sink",
-      "what": null,
-      "stack": null,
-      "layer": "client",
-      "status": "live",
-      "owner": "S-Ink",
-      "since": null,
-      "urls": {
-        "live": "https://sinktattoo.com",
-        "repo": "https://github.com/bitbaum/s-ink",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
-        "vision": null
-      }
-    },
-    {
-      "slug": "vitareba",
-      "name": "vitareba",
-      "what": "Patient and practitioner tools for Vita’s metabolic psychiatry and systemic longevity clinic in Zürich.",
-      "stack": null,
-      "layer": "client",
-      "status": "live",
-      "owner": "clinic",
-      "since": null,
-      "urls": {
-        "live": "https://vitareba.orangecat.ch",
-        "repo": "https://github.com/bitbaum/vitareba",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Patients need a seamless way to track their daily data, and clinicians need instant visibility into patient needs.",
-        "solution": "The VitaReBa platform provides a user-friendly interface for patients to track their daily data and for clinicians to access patient information.",
-        "mission": "To provide frictionless daily data collection for patients and instant clarity on patient needs for clinicians.",
-        "vision": "To enable clinicians to know exactly which patients need attention and for patients to see the value of daily check-ins."
-      }
-    },
-    {
       "slug": "camille-boulangerie",
       "name": "camille-boulangerie",
       "what": null,
@@ -407,6 +286,7 @@
       "layer": "demo",
       "status": "demo",
       "owner": "bitbaum",
+      "client": null,
       "since": "2026-08-19",
       "urls": {
         "live": "https://camille.orangecat.ch",
@@ -429,6 +309,7 @@
       "layer": "demo",
       "status": "demo",
       "owner": "-",
+      "client": null,
       "since": null,
       "urls": {
         "live": "https://sbbfundbuero.orangecat.ch",
@@ -451,6 +332,7 @@
       "layer": "next",
       "status": "not live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": null,
@@ -473,6 +355,7 @@
       "layer": "next",
       "status": "validating",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": "https://botsmann.orangecat.ch",
@@ -495,6 +378,7 @@
       "layer": "next",
       "status": "validating",
       "owner": "bitbaum",
+      "client": null,
       "since": "2026-09-10",
       "urls": {
         "live": "https://causius.orangecat.ch",
@@ -517,6 +401,7 @@
       "layer": "next",
       "status": "not live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": null,
@@ -539,6 +424,7 @@
       "layer": "next",
       "status": "prospect",
       "owner": "bitbaum",
+      "client": null,
       "since": "2026-09-10",
       "urls": {
         "live": "https://diplodoctor.orangecat.ch",
@@ -561,6 +447,7 @@
       "layer": "next",
       "status": "prospect",
       "owner": "bitbaum",
+      "client": null,
       "since": "2026-10-07",
       "urls": {
         "live": "https://farmaciadelparco.orangecat.ch",
@@ -583,6 +470,7 @@
       "layer": "next",
       "status": "prospect",
       "owner": "bitbaum",
+      "client": null,
       "since": "2026-09-26",
       "urls": {
         "live": "https://farmhouse.orangecat.ch",
@@ -605,6 +493,7 @@
       "layer": "next",
       "status": "not live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": null,
@@ -627,6 +516,7 @@
       "layer": "next",
       "status": "not live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": null,
@@ -649,6 +539,7 @@
       "layer": "next",
       "status": "not live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": null,
@@ -671,6 +562,7 @@
       "layer": "next",
       "status": "prospect",
       "owner": "bitbaum",
+      "client": null,
       "since": "2026-10-07",
       "urls": {
         "live": "https://orangecat-2.orangecat.ch",
@@ -693,6 +585,7 @@
       "layer": "next",
       "status": "not live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": null,
@@ -715,6 +608,7 @@
       "layer": "next",
       "status": "not live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": null,
@@ -730,28 +624,6 @@
       }
     },
     {
-      "slug": "printcraft",
-      "name": "printcraft",
-      "what": "Scene composer for physical art — photos to print",
-      "stack": null,
-      "layer": "next",
-      "status": "prospect",
-      "owner": "-",
-      "since": null,
-      "urls": {
-        "live": "https://printcraft.orangecat.ch",
-        "repo": "https://github.com/bitbaum/printcraft",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Creating unique, custom artwork for physical print surfaces is time-consuming and requires significant design expertise",
-        "solution": "PrintCraft uses AI-generated illustrations to create custom artwork, allowing users to input their preferences and generate high-quality artwork",
-        "mission": "PrintCraft solves the problem of creating unique, custom artwork for physical print surfaces, making it accessible to individuals and businesses.",
-        "vision": "PrintCraft aims to become a leading platform for custom artwork generation, providing high-quality, tailored illustrations for various print surfaces."
-      }
-    },
-    {
       "slug": "skif",
       "name": "Skif",
       "what": "Holistic safety for people and the places they live, Zürich first, without trading away privacy or freedom.\n\nFrom the owner:\n\nWho is this for, and who pays for it?\nYear one pays per booking: people in Zürich who want a calm, qualified person with them (a night out, getting home after unwanted attention, a high-exposure person such as a crypto founder, a family), and venues like nightclubs wanting staff who de-escalate. Later: households, buildings, workplaces and neighbourhood associations paying for assessments and interventions. Users: the protected person or place, the Protectors, and Operations.\n\nWhat do they do today instead, and what is bad about it?\nSecurity firms sell equipment, not outcomes: cloud cameras, CCTV, alarm subscriptions, now facial recognition, on the assumption that more surveillance means more safety. The data leaves the home, sits with a vendor and can be shared without the person deciding. Human protection is bouncers picked for size, or close protection that is costly, opaque and not bookable. Nobody measures whether it worked, and nobody says 'you don't need to buy anything'.\n\nWhat does this actually do for them?\nThe person first states what they value and their limits: a Safety Preference Profile with hard constraints (no facial recognition, no interior cameras, no cloud video, no automatic police sharing). Each recommendation is the most proportionate effective intervention within those limits, trade-offs shown, never one opaque score; 'buy nothing' is valid. Protectors are chosen for judgment and calm, not intimidation, and matching explains why. Everyone sees only what the job needs.\n\nAnything the build must use, or must avoid?\nFleet stack: Next.js App Router, strict TypeScript, Tailwind, zod, Drizzle + pg on the bitbaum box's Postgres, Vitest, pnpm. Sign-in is OrangeCat OIDC only, no users table (id_token.sub is identity). Modular monolith. Avoid: Supabase, microservices, an LLM as the matching/dispatch algorithm (it must be deterministic and explainable), trackers on sensitive pages, location or incident data outside our own DB. Payments: manual PAYMENT_PENDING behind an abstraction, never faked.\n\nWhat has to be true for the first version to be worth shipping?\nEnd to end with persisted data: customer signs in, sets privacy preferences, requests a service (e.g. Night Out); Ops sees approved Protectors ranked with reasons and assigns one; the Protector accepts, starts and completes; the customer rates respect, discretion and feeling of safety (not stars); the Protector files a report or incident; Ops sees the lifecycle. Plus a Safety Assessment saving a Safety Plan that respects hard constraints and can say 'nothing to buy'.",
@@ -759,6 +631,7 @@
       "layer": "next",
       "status": "prospect",
       "owner": "bitbaum",
+      "client": null,
       "since": "2026-09-24",
       "urls": {
         "live": "https://skif.orangecat.ch",
@@ -781,6 +654,7 @@
       "layer": "next",
       "status": "not live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": null,
@@ -803,6 +677,7 @@
       "layer": "next",
       "status": "not live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": null,
@@ -825,6 +700,7 @@
       "layer": "next",
       "status": "prospect",
       "owner": "bitbaum",
+      "client": null,
       "since": "2026-10-02",
       "urls": {
         "live": "https://xhiva.orangecat.ch",
@@ -847,6 +723,7 @@
       "layer": "next",
       "status": "not live",
       "owner": "bitbaum",
+      "client": null,
       "since": null,
       "urls": {
         "live": null,
@@ -869,6 +746,7 @@
       "layer": "next",
       "status": "prospect",
       "owner": "bitbaum",
+      "client": null,
       "since": "2026-09-28",
       "urls": {
         "live": "https://zurich-sublet-compliance-concierge-service.orangecat.ch",
