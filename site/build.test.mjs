@@ -62,6 +62,8 @@ test("client work is shown only with consent, and never beside the studio's own"
   const pub = publicMap({ ...map, summary: { projects: 4, clients: 3 } });
   assert.deepEqual(pub.projects.map((p) => p.slug), ["ours", "agreed"]);
   assert.deepEqual(pub.summary, { projects: 2, clients: 1 });
+  // What the map cannot tell, the overrides can.
+  assert.deepEqual(publicMap(map, new Set(["ours"])).projects.map((p) => p.slug), ["agreed"]);
 
   const { loopMap } = await import("./loops.mjs");
   assert.throws(

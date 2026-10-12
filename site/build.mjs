@@ -1381,7 +1381,11 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("commission.json", JSON.stringify({ version: 1, origin: SITE, availability: hire.availability, offer: commissioningOffer, feedbackToken: LOKI_FEEDBACK.token, course: COURSE }, null, 2) + "\n");
   for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all, cfg, hire?.contact?.email));
   for (const v of clients) files.set(`${v.slug}/index.html`, venturePage(v, clients, cfg, hire?.contact?.email));
-  files.set("map.json", JSON.stringify(publicMap(map), null, 2) + "\n");
+  const clientSlugs = new Set([
+    ...Object.entries(cfg.overrides ?? {}).filter(([, o]) => o.client === true).map(([slug]) => slug),
+    ...(cfg.extras ?? []).filter((x) => x.client === true).map((x) => x.slug),
+  ]);
+  files.set("map.json", JSON.stringify(publicMap(map, clientSlugs), null, 2) + "\n");
   // Every page the build writes is in the sitemap, because the sitemap is
   // derived from the same map of files — a page cannot exist and be missing.
   const pages = [...files.keys()].filter((f) => f.endsWith("index.html")).map((f) => `${SITE}/${f.replace(/index\.html$/, "")}`).sort();

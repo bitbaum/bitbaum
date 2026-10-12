@@ -19,7 +19,7 @@
     }
   ],
   "summary": {
-    "projects": 34,
+    "projects": 32,
     "live": 16,
     "clients": 0,
     "inFlight": 3
@@ -276,29 +276,6 @@
         "solution": "A health portal providing daily check-ins, symptom tracking, and progress analysis, with AI-powered insights for practitioners.",
         "mission": "To give clients a structured way to track their recovery and practitioners the visibility to intervene early, run evidence-based programs, and analyze progress.",
         "vision": "To become a comprehensive health portal for burnout/Long-COVID reintegration and longevity, with AI analysis of structured and unstructured data."
-      }
-    },
-    {
-      "slug": "wild-spirit",
-      "name": "Annushka Wild Spirit Art",
-      "what": null,
-      "stack": null,
-      "layer": "product",
-      "status": "live",
-      "owner": "bitbaum",
-      "client": null,
-      "since": null,
-      "urls": {
-        "live": "https://annushka.orangecat.ch",
-        "repo": "https://github.com/bitbaum/annushka",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
-        "vision": null
       }
     },
     {
@@ -644,29 +621,6 @@
         "solution": null,
         "mission": "Provide information about the Prime Tower to its audience.",
         "vision": null
-      }
-    },
-    {
-      "slug": "printcraft",
-      "name": "printcraft",
-      "what": "Scene composer for physical art — photos to print",
-      "stack": null,
-      "layer": "next",
-      "status": "prospect",
-      "owner": "-",
-      "client": null,
-      "since": null,
-      "urls": {
-        "live": "https://printcraft.orangecat.ch",
-        "repo": "https://github.com/bitbaum/printcraft",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Creating unique, custom artwork for physical print surfaces is time-consuming and requires significant design expertise",
-        "solution": "PrintCraft uses AI-generated illustrations to create custom artwork, allowing users to input their preferences and generate high-quality artwork",
-        "mission": "PrintCraft solves the problem of creating unique, custom artwork for physical print surfaces, making it accessible to individuals and businesses.",
-        "vision": "PrintCraft aims to become a leading platform for custom artwork generation, providing high-quality, tailored illustrations for various print surfaces."
       }
     },
     {

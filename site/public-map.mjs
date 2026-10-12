@@ -36,16 +36,18 @@ function publicProject(p) {
 /**
  * Client work reaches the published map only with the client's consent
  * (Loki records it; `client.consentedAt`). An entry from before that field
- * existed is judged by its layer, so an old snapshot cannot leak one.
+ * existed is judged by its layer, and `clientSlugs` (overrides marked
+ * `"client": true`) catches what the map itself cannot tell, so an old
+ * snapshot cannot leak one.
  */
-function shownPublicly(p) {
-  const client = "client" in p ? p.client != null : p.layer === "client";
+function shownPublicly(p, clientSlugs) {
+  const client = clientSlugs.has(p.slug) || ("client" in p ? p.client != null : p.layer === "client");
   return !client || Boolean(p.client?.consentedAt);
 }
 
 /** Strip ops fields and unconsented client work; keep catalogue facts agents need. */
-export function publicMap(map) {
-  const projects = (map.projects ?? []).filter(shownPublicly);
+export function publicMap(map, clientSlugs = new Set()) {
+  const projects = (map.projects ?? []).filter((p) => shownPublicly(p, clientSlugs));
   const hidden = (map.projects ?? []).length - projects.length;
   // The counts must not say what the list leaves out.
   const summary = map.summary
