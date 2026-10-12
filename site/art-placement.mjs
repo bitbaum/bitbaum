@@ -9,4 +9,7 @@ export const PAGE_ART = {
   "/evig/": ["tumbleweed", "watch"],
   "/surf-your-life/": ["windmill"],
   "/wild-spirit/": ["fog-neck"],
+  // Client pages appear only with consent, so the fog creature also needs a
+  // studio page it is always on.
+  "/botsmann/": ["fog-neck"],
 };

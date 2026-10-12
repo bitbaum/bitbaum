@@ -299,7 +299,7 @@ const AVATARS = {
   "/heidi/": ["stand", "cow"],                 // Swiss German: a Swiss cow
   "/diplodoctor/": ["stand", "diplodocus"],    // its name
   "/orangecat/": ["stand", "cat"],             // its name
-  "/datacat/": ["stand", "cat"],
+  "/datacat/": ["flutter", "dragonfly"],       // the cat is OrangeCat's; also S.Ink's, once shown
   "/loki/": ["story", "fox"],                  // the trickster, hatching
   "/solon/": ["story", "owl"],                 // wisdom, for deciding together
   "/causius/": ["story", "owl"],               // law
@@ -315,7 +315,7 @@ const AVATARS = {
   "/reparaturbonus-zh/": ["story", "scarab"],
   "/surf-your-life/": ["drift", "whale"],      // breath, and calm
   "/skif/": ["story", "horse"],                // a guardian
-  "/botsmann/": ["story", "horse"],
+  "/botsmann/": ["stand", "deer"],              // also Vita's and Annushka's, once shown
   "/sbb-fundbuero/": ["stand", "rabbit"],      // late, and still looking
   "/camille-boulangerie/": ["flutter", "hummingbird"],  // nectar, for a bakery
   "/revamp-info/": ["stand", "elephant"],      // Hirnli, the brain; an elephant never forgets
