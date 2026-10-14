@@ -4,6 +4,9 @@ Strategic planning repository for the bitbaum AI product studio.
 
 @~/.claude/CLAUDE.md
 
+Org rules are [bitbaum/fleet AGENTS.md](https://github.com/bitbaum/fleet/blob/main/AGENTS.md): packages by default (say why if you skip one), search through `@bitbaum/searchkit`, chat through `@bitbaum/chatkit`, shared names and the identity contract. Read that file. Do not restate it here.
+
+
 ## Mission
 
 bitbaum builds AI-native products on shared open infrastructure so more than one person can ship here and be treated fairly. This repo is the strategic single source of truth — keeping vision, financial targets, and product decisions consistent across simultaneous builds.
