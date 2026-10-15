@@ -1468,4 +1468,5 @@ footer nav a { max-width: 100%; overflow-wrap: anywhere; }
 [data-private] { margin-top: 2rem; }
 .private-form { max-width: 26rem; }
 .private-grid { margin-top: 1rem; }
+.private-grid .card-what { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .private-grid .textlink { margin-top: .5rem; overflow-wrap: anywhere; }
