@@ -81,6 +81,7 @@
               <label class="filter-search">Search<input id="work-search" type="search" placeholder="Product, purpose or address" autocomplete="off"></label>
               <div class="filter-group"><span class="label">Stage</span><div class="chips vertical">
                 <button type="button" class="chip" data-facet="stage" data-value="product" aria-pressed="false" title="Public beta services. Check each product page for its current scope and access.">Products<span class="chip-n">11</span></button>
+                <button type="button" class="chip" data-facet="stage" data-value="pilot" aria-pressed="false" title="Built for a real organisation and in real use. No commercial terms — a working answer, offered first.">Pilots<span class="chip-n">1</span></button>
                 <button type="button" class="chip" data-facet="stage" data-value="development" aria-pressed="false" title="A public surface exists, but the system is still being built and is not ready to rely on.">In development<span class="chip-n">1</span></button>
                 <button type="button" class="chip" data-facet="stage" data-value="concept" aria-pressed="false" title="Built to apply with, before anyone asked. Working demos on public or mock data.">Concepts<span class="chip-n">2</span></button>
                 <button type="button" class="chip" data-facet="stage" data-value="next" aria-pressed="false" title="Named, not built. Listed so the list is honest.">Not built<span class="chip-n">2</span></button>
@@ -91,7 +92,7 @@
                 <button type="button" class="chip" data-facet="field" data-value="health" aria-pressed="false">Health<span class="chip-n">3</span></button>
                 <button type="button" class="chip" data-facet="field" data-value="public-sector" aria-pressed="false">Public sector<span class="chip-n">1</span></button>
                 <button type="button" class="chip" data-facet="field" data-value="circular-economy" aria-pressed="false">Circular economy<span class="chip-n">1</span></button>
-                <button type="button" class="chip" data-facet="field" data-value="local-business" aria-pressed="false">Local business<span class="chip-n">1</span></button>
+                <button type="button" class="chip" data-facet="field" data-value="local-business" aria-pressed="false">Local business<span class="chip-n">2</span></button>
                 <button type="button" class="chip" data-facet="field" data-value="knowledge" aria-pressed="false">Knowledge<span class="chip-n">6</span></button>
               </div></div>
               <label class="filter-sort">Sort by<select id="work-sort"><option value="studio">Studio order</option><option value="name">Name</option><option value="newest">Newest</option></select></label>
@@ -99,6 +100,7 @@
               <details class="stage-help"><summary>What the stages mean</summary>
                 <dl class="legend">
                   <div><dt>Products</dt><dd>Public beta services. Check each product page for its current scope and access.</dd></div>
+                  <div><dt>Pilots</dt><dd>Built for a real organisation and in real use. No commercial terms — a working answer, offered first.</dd></div>
                   <div><dt>In development</dt><dd>A public surface exists, but the system is still being built and is not ready to rely on.</dd></div>
                   <div><dt>Concepts</dt><dd>Built to apply with, before anyone asked. Working demos on public or mock data.</dd></div>
                   <div><dt>Not built</dt><dd>Named, not built. Listed so the list is honest.</dd></div>
@@ -108,7 +110,7 @@
           </details>
         </aside>
         <div class="work-main">
-          <p class="work-count"><span id="work-count">16 of 16</span> projects</p>
+          <p class="work-count"><span id="work-count">17 of 17</span> projects</p>
           <div class="grid work-grid" id="work-grid">
       <a class="card" href="/orangecat/" data-stage="product" data-tags="infrastructure ai-agents" data-name="OrangeCat" data-host="orangecat.ch" data-since="2025-04-02T14:37:17Z">
         <div class="shot"><img src="/shots/orangecat.jpg" alt="OrangeCat — screenshot" loading="lazy" width="1280" height="800"></div>
@@ -196,6 +198,14 @@
           <div class="card-top"><span class="card-name">Botsmann</span><span class="pill ">validating</span></div>
           <span class="card-what">Private AI professionals</span>
           <span class="card-by">by bitbaum studio</span>
+        </div>
+      </a>
+      <a class="card" href="/s-ink/" data-stage="pilot" data-tags="local-business" data-name="S.Ink" data-host="sinktattoo.com" data-since="2026-08-06T10:58:15Z">
+        <div class="shot"><img src="/shots/s-ink.jpg" alt="S.Ink — screenshot" loading="lazy" width="1280" height="800"></div>
+        <div class="card-body">
+          <div class="card-top"><span class="card-name">S.Ink</span><span class="pill beta">beta</span></div>
+          <span class="card-what">A tattoo studio, online</span>
+          <span class="card-by">by bitbaum studio · for S.Ink, Zürich</span>
         </div>
       </a>
       <a class="card" href="/skif/" data-stage="development" data-tags="" data-name="Skif" data-host="skif.orangecat.ch" data-since="2026-09-24T20:20:04Z">

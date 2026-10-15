@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-15T16:08:26.775Z",
+  "generatedAt": "2026-10-15T16:42:27.883Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -21,7 +21,7 @@
   "summary": {
     "projects": 28,
     "live": 12,
-    "clients": 0,
+    "clients": 1,
     "inFlight": 0
   },
   "projects": [
@@ -638,7 +638,7 @@
       "changelog": [
         {
           "date": "2026-10-15",
-          "done": "Loki tells you when WhatsApp and the Telegram chat stop being read. The gateway behind them died on Oct 8 and nothing noticed for a week. Now a check every ten minutes raises an alert and one Telegram message when it is down, and another when it is back.\nTurn on notifications on your phone. Settings → Notifications now has an \"On this phone\" card: turn them on, send yourself a test, turn them off. It says plainly when a browser cannot (on iPhone: add Loki to the Home Screen first) or has blocked them. Until today the server could send a push but no screen offered a phone the choice, so a new report on your site reached no device at all.\nThe server hands out its own push key. A phone used to subscribe against a key baked in at build time, which a build could lose or get stale; it now asks the server for the same key the server signs with, so the two cannot disagree."
+          "done": "Chat does more, with less ceremony. From WhatsApp or Telegram you can now say \"add dentist Friday 3pm\" and it is booked without a second tap (events you ask for have no guests, so there is nothing to protect), ask \"what's on this week\", add a reminder or a note, and forward a screenshot, photo or voice note that implies one of those. Sending email stays off by design: Loki writes the draft, you send it. The chat skill now installs itself on the box when it changes, so it can no longer drift from the app.\nLoki tells you when WhatsApp and the Telegram chat stop being read. The gateway behind them died on Oct 8 and nothing noticed for a week. Now a check every ten minutes raises an alert and one Telegram message when it is down, and another when it is back.\nTurn on notifications on your phone. Settings → Notifications now has an \"On this phone\" card: turn them on, send yourself a test, turn them off. It says plainly when a browser cannot (on iPhone: add Loki to the Home Screen first) or has blocked them. Until today the server could send a push but no screen offered a phone the choice, so a new report on your site reached no device at all.\nThe server hands out its own push key. A phone used to subscribe against a key baked in at build time, which a build could lose or get stale; it now asks the server for the same key the server signs with, so the two cannot disagree."
         },
         {
           "date": "2026-10-14",
@@ -2858,7 +2858,7 @@
         "problem": "Pet owners need a single place to monitor their pet's daily wellness and manage the full care journey",
         "solution": "Petvity provides a platform for pet owners to manage multi-species pet profiles, track physical and emotional health KPIs, and connect with vets and sitters",
         "mission": "Petvity gives pet owners a single place to monitor their pet's daily wellness, connect with local vets and sitters, and manage the full care journey.",
-        "vision": "Long-term vision: digital twins (IoT sensors, cameras, emotional state) as part of the same ecosystem as VitaReBa and Surf Your Life."
+        "vision": "Long-term vision: digital twins (IoT sensors, cameras, emotional state) as part of the same ecosystem as Vita and Surf Your Life."
       },
       "roadmap": [
         {
@@ -3818,18 +3818,20 @@
       }
     },
     {
-      "slug": "wild-spirit",
-      "name": "Annushka Wild Spirit Art",
+      "slug": "s-ink",
+      "name": "sink",
       "what": null,
       "stack": null,
-      "layer": "product",
+      "layer": "client",
       "status": "live",
-      "owner": "bitbaum",
-      "client": null,
+      "owner": "S-Ink",
+      "client": {
+        "consentedAt": "2026-10-15T16:33:03.619Z"
+      },
       "since": null,
       "urls": {
-        "live": "https://annushka.orangecat.ch",
-        "repo": "https://github.com/bitbaum/annushka",
+        "live": "https://sinktattoo.com",
+        "repo": "https://github.com/bitbaum/s-ink",
         "orangecat": null,
         "solon": null
       },
@@ -3841,36 +3843,28 @@
       },
       "roadmap": [
         {
-          "title": "Replace placeholder artwork context with artist-confirmed material",
+          "title": "Complete artist-confirmed contact context",
           "line": null,
           "status": "active",
           "progress": 0,
           "targetDate": null,
           "milestones": [
             {
-              "title": "Reshoot artwork where clutter or shadow obscures the piece",
+              "title": "Obtain the artist’s confirmed social handles before publishing links",
               "done": false
             },
             {
-              "title": "Obtain titles from the artist; publish dimensions or prices only when supplied",
-              "done": false
-            },
-            {
-              "title": "Have French, Italian and Ukrainian copy reviewed by native readers",
+              "title": "Add a location only after the artist confirms what should be public",
               "done": false
             }
           ],
-          "source": "https://github.com/bitbaum/annushka/blob/f469f0593b0992ca81ffd0c3cfc6b1c80029886f/README.md"
+          "source": "https://github.com/bitbaum/s-ink/blob/b02e1a6beb734c6992e7238e87d97891975995b5/README.md"
         }
       ],
       "changelog": [
         {
-          "date": "2026-09-11",
-          "done": "Rephrased visitor feedback (\"header stays clear/wide while scrolling, should minimize or go away\") is the same complaint already fixed by PR #1 (https://github.com/bitbaum/annushka/pull/1, commit 7163b13, branch fix/masthead-hide-on-scroll): masthead now tucks away past its own height on scroll-down and returns instantly on scroll-up. PR is OPEN, checks green (verify: pass), mergeStateStatus CLEAN — no new commit needed this run."
-        },
-        {
-          "date": "2026-09-11",
-          "done": "Fixed the visitor's masthead feedback — header now tucks away (slide up, transition) once scrolled past its own height, and reappears instantly on scroll-up, guarded against hiding while the phone menu sheet is open and against hiding a focused link; committed on branch fix/masthead-hide-on-scroll (7163b13) and opened PR https://github.com/catomean/annushka/pull/1 — verified locally with Playwright (tucks/returns correctly) and full test suite (47/47)."
+          "date": "2026-08-07",
+          "done": "Added an on-site enquiry form so visitors can send tattoo ideas and reference photos without opening a mail client.\nSource: https://github.com/bitbaum/s-ink/commit/fbea2a15aec5a286b4529cb3baed172a8bf62fdb"
         }
       ],
       "records": {
@@ -3881,16 +3875,13 @@
           "changelog": null
         }
       },
-      "next": "PR #1 awaits auto-merge/deploy. After it merges and CI deploys, verify live at https://annushka.orangecat.ch/en/: scroll down should make the header slide out of view (no longer wide/present), scroll up should bring it back instantly; also spot-check the mobile burger menu still opens.",
+      "next": "Follow the canonical roadmap for planned work.",
       "now": {
         "openRuns": 0,
-        "lastRun": {
-          "outcome": "success",
-          "at": "2026-09-11T08:09:32.905Z"
-        },
+        "lastRun": null,
         "lastLog": {
-          "date": "2026-09-11",
-          "done": "Rephrased visitor feedback (\"header stays clear/wide while scrolling, should minimize or go away\") is the same complaint already fixed by PR #1 (https://github.com/bitbaum/annushka/pull/1, commit 7163b13, branch fix/masthead-hide-on-scroll): masthead now tucks away past its own height on scroll-down and returns instantly on scroll-up. PR is OPEN, checks green (verify: pass), mergeStateStatus CLEAN — no new commit needed this run."
+          "date": "2026-08-07",
+          "done": "Added an on-site enquiry form so visitors can send tattoo ideas and reference photos without opening a mail client.\nSource: https://github.com/bitbaum/s-ink/commit/fbea2a15aec5a286b4529cb3baed172a8bf62fdb"
         }
       }
     },
@@ -4523,6 +4514,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-15",
+          "done": "Accounts of your own. You no longer need an OrangeCat account to use Causius. Register with an email address and a password, a sign-in link or a passkey; add two-step codes if you like. \"Sign in with OrangeCat\" stays as one button for people who have an account there, and matters you started that way are still yours. {#accounts}"
+        },
+        {
           "date": "2026-10-14",
           "done": "A look of its own: ink on paper. Causius is light by default, deep ink-indigo on warm paper, with headlines set like an inscription; dark mode follows your device or the switch in the header, and your choice is kept in this browser. Amber and red stay for deadlines and problems only. {#look}\nMuch less to read. The home page went from about a thousand words to about two hundred and forty: what it is, how it works, why it is private, who can help. What is real today and the identity statement moved to the platform page; the quick check, the case page, the helpers page and the security page were cut by a quarter to a third. {#less-to-read}\nHeader and footer are easier to hit. Language, theme and footer links are all at least 44 by 44 pixels, and nothing runs off the edge of a phone. {#nav-contract}"
         },
@@ -4660,7 +4655,7 @@
     {
       "slug": "diplodoctor",
       "name": "Diplodoctor",
-      "what": "The project creates a health platform that lets users store and manage their own medical records while providing AI‑driven clinical reasoning. An integrated AI companion, Diplodoc, reviews a patient’s history and alerts them when a legal restriction prevents a particular treatment, explaining the relevant law and its implications. By combining telemedicine with medical tourism and being built on the existing Vita clinic portal, the service can be deployed by individual practices to offer transparent, compliant care across borders.\n\nFrom the owner:\n\nWhat does this actually do for them?\nA health platform: home diagnostics, a 24/7 AI doctor that introduces itself as Diplodoc, and a doctor-in-the-loop marketplace so a licensed clinician stands behind the AI. Vitareba, a Zürich clinic, is the credibility engine and first reference customer; Diplodoctor is the platform, in its own entity.",
+      "what": "The project creates a health platform that lets users store and manage their own medical records while providing AI‑driven clinical reasoning. An integrated AI companion, Diplodoc, reviews a patient’s history and alerts them when a legal restriction prevents a particular treatment, explaining the relevant law and its implications. By combining telemedicine with medical tourism and being built on the existing Vita clinic portal, the service can be deployed by individual practices to offer transparent, compliant care across borders.\n\nFrom the owner:\n\nWhat does this actually do for them?\nA health platform: home diagnostics, a 24/7 AI doctor that introduces itself as Diplodoc, and a doctor-in-the-loop marketplace so a licensed clinician stands behind the AI. Vita, a Zürich clinic, is the credibility engine and first reference customer; Diplodoctor is the platform, in its own entity.",
       "stack": null,
       "layer": "next",
       "status": "prospect",
