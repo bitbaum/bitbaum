@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-15T12:51:27.187Z",
+  "generatedAt": "2026-10-15T16:08:26.775Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -730,7 +730,7 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-10-15T06:12:29.823Z"
+          "at": "2026-10-15T13:55:10.027Z"
         },
         "lastLog": {
           "date": "2026-10-12",

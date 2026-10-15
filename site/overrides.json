@@ -38,7 +38,8 @@
   ],
   "_adopterAliases": "The package registry names adopters by REPOSITORY, which is not always the venture's slug (the Hirnli app lives in bitbaum/hirnli while the register row is revamp-info). Map repo -> slug here so 'what uses this package' can link. An adopter with no venture page renders as plain text \u2014 which is honest: it is a real adopter the site does not show.",
   "adopterAliases": {
-    "hirnli": "revamp-info"
+    "hirnli": "revamp-info",
+    "sink": "s-ink"
   },
   "overrides": {
     "orangecat": {
@@ -260,6 +261,18 @@
       "tags": [],
       "order": 3,
       "story": "Looks at the whole of a life: you, the people you love, your home, your accounts, your privacy and your good name. It suggests the most proportionate step. Sometimes that is a calm, qualified person beside you, often a small change, sometimes nothing at all."
+    },
+    "s-ink": {
+      "name": "S.Ink",
+      "what": "A tattoo studio, online",
+      "url": "https://sinktattoo.com",
+      "stage": "pilot",
+      "tags": [
+        "Local business"
+      ],
+      "order": 4,
+      "for": "S.Ink, Z\u00fcrich",
+      "story": "The studio's own site: artists, work, booking. Built and hosted as a favour."
     }
   },
   "extras": [],

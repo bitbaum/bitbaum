@@ -115,6 +115,7 @@ const CONTRIBUTING = "https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.
 const HIRE = "/hire/";
 const COURSE = JSON.parse(readFileSync(join(here, "course", "course.json"), "utf8"));
 const PORTAL_SCRIPT = '<script type="module" src="/portal.js"></script>';
+const PRIVATE_SCRIPT = '<script type="module" src="/private.js"></script>';
 // The one place "build it yourself" leads: Loki's free brief. Every door on
 // the site uses this, so the free tool is never three different addresses.
 const LOKI_START = "https://loki.orangecat.ch/commission";
@@ -671,6 +672,7 @@ ${stages.map(([, st]) => `                  <div><dt>${esc(st.plural)}</dt><dd>$
 ${all.map((v) => card(v, true)).join("\n")}
           </div>
           <p class="empty" id="work-empty" hidden>Nothing at that intersection yet. <button type="button" class="linkish" data-clear>Clear the filter</button> to see everything.</p>
+          <p class="private-door"><a class="textlink" href="/private/">Client work not yet public — private projects, with the access code ${ARROW}</a></p>
         </div>
       </div>
     </section>`;
@@ -953,6 +955,10 @@ ${fullBleed({ scene: "mycelium", cast: "partners", under: true, strong: true, bo
 export function portalPage() {
   return shell({ title: "Your project portal — bitbaum", description: "Follow your private Bitbaum brief, partner application and preview review.", path: "/portal/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Your private request</span><h1 class="headline-caps section-title">Project portal.</h1><div data-studio-portal data-api-origin="${esc(LOKI_FEEDBACK.origin)}" data-course="${esc(JSON.stringify(COURSE))}"><p>Opening your request…</p><noscript><p>The private portal needs JavaScript. Keep the complete link from your receipt and open it in a browser with JavaScript enabled.</p></noscript></div></div></section></main>`, script: PORTAL_SCRIPT });
 }
+export function privatePage() {
+  return shell({ title: "Private projects — bitbaum", description: "Client work shown only with the studio's access code.", path: "/private/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Client work</span><h1 class="headline-caps section-title">Private projects.</h1><p class="lede">Work built for clients who have not agreed to be shown in public. It stays here, behind the studio's access code, until they do.</p><div data-private data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>Private projects need JavaScript to open.</p></noscript></div></div></section></main>`, script: PRIVATE_SCRIPT });
+}
+
 export function academyPage() {
   const lesson = renderRecord(readFileSync(join(here, "course", "first-lesson.md"), "utf8"));
   return shell({ title: "Systems design pilot — bitbaum", description: "The first Bitbaum lesson, practical capstone and review rubric. The full course is in development.", path: "/academy/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Studio-owned course · pilot</span><h1 class="headline-caps section-title">Design a system people can use.</h1><p class="lede">One practical lesson and a capstone rubric begin the course. More lessons and teaching examples are being developed in public. Passing the course and becoming a studio-approved partner are separate decisions.</p><div class="record">${lesson}<h2>Submit evidence for each dimension</h2>${COURSE.modules.map((m) => `<h3>${esc(m.title)}</h3><p>${esc(m.prompt)}</p>`).join("\n")}</div><div class="bleed-actions quiet-actions"><a class="btn primary" href="/partners/#join">Start a partner application ${ARROW}</a><a class="btn secondary" href="/portal/">Resume your application</a><a class="textlink" href="/roadmap/">Follow course development</a></div></div></section></main>` });
@@ -1296,6 +1302,8 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("roadmap/index.html", recordPage("roadmap"));
   files.set("changelog/index.html", recordPage("changelog"));
   files.set("portal.js", readFileSync(join(here, "portal", "portal.js"), "utf8"));
+  files.set("private/index.html", privatePage());
+  files.set("private.js", readFileSync(join(here, "private", "private.js"), "utf8"));
   files.set("packages/index.html", packagesPage(packages, cfg, all));
   files.set("packages-filter.mjs", readFileSync(join(here, "packages-filter.mjs"), "utf8"));
   files.set("work-filter.mjs", readFileSync(join(here, "work-filter.mjs"), "utf8"));
@@ -1409,7 +1417,7 @@ if (isMain) {
     writeFileSync(join(here, "..", "docs", "CAST.md"), castMd);
     // Pages for ventures that no longer exist must not linger.
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
-      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "map", "studio", "hire", "og", "vendor", "partners", "art", "portal", "academy", "roadmap", "changelog"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
+      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "map", "studio", "hire", "og", "vendor", "partners", "art", "portal", "private", "academy", "roadmap", "changelog"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
     cpSync(join(here, "styles.css"), join(DIST, "styles.css"));
     // Same rule, fewer generations — a favicon that cannot drift from the logo.

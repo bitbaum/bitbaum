@@ -1462,3 +1462,10 @@ footer nav a { max-width: 100%; overflow-wrap: anywhere; }
   .price { flex-wrap: wrap; }
   .price-unit { max-width: 100%; }
 }
+
+/* Private projects: the door on the work page, and the code form. */
+.private-door { margin: 2rem 0 0; color: var(--fg-3); }
+[data-private] { margin-top: 2rem; }
+.private-form { max-width: 26rem; }
+.private-grid { margin-top: 1rem; }
+.private-grid .textlink { margin-top: .5rem; overflow-wrap: anywhere; }

@@ -693,6 +693,12 @@
       "flutter-dragonfly",
       "sky"
     ],
+    "/private/": [
+      "fog-walker",
+      "cat",
+      "horse",
+      "sky"
+    ],
     "/packages/": [
       "fog-walker",
       "cat",
