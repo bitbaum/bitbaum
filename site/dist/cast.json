@@ -678,18 +678,19 @@
       "fog-walker",
       "cat",
       "scarab",
+      "fog-neck-still",
       "sky"
     ],
     "/roadmap/": [
       "fog-walker",
       "cat",
-      "unicorn",
+      "stand-deer",
       "sky"
     ],
     "/changelog/": [
       "fog-walker",
       "cat",
-      "scarab",
+      "flutter-dragonfly",
       "sky"
     ],
     "/packages/": [
@@ -760,10 +761,22 @@
       "unicorn",
       "sky"
     ],
+    "/packages/searchkit/": [
+      "fog-walker",
+      "cat",
+      "horse",
+      "sky"
+    ],
     "/packages/threadkit/": [
       "fog-walker",
       "cat",
       "scarab",
+      "sky"
+    ],
+    "/packages/geo-kit/": [
+      "fog-walker",
+      "cat",
+      "owl",
       "sky"
     ],
     "/packages/sitekit/": [
@@ -870,37 +883,6 @@
       "horse",
       "sky"
     ],
-    "/aoz-housing/": [
-      "fog-walker",
-      "cat",
-      "snail",
-      "sky"
-    ],
-    "/kivvi/": [
-      "fog-walker",
-      "cat",
-      "scarab",
-      "sky"
-    ],
-    "/vitareba/": [
-      "fog-walker",
-      "cat",
-      "stand-deer",
-      "sky"
-    ],
-    "/s-ink/": [
-      "fog-walker",
-      "cat",
-      "flutter-dragonfly",
-      "sky"
-    ],
-    "/wild-spirit/": [
-      "fog-walker",
-      "cat",
-      "stand-deer",
-      "fog-neck-still",
-      "sky"
-    ],
     "/skif/": [
       "fog-walker",
       "cat",
@@ -911,18 +893,6 @@
       "fog-walker",
       "cat",
       "stand-rabbit",
-      "sky"
-    ],
-    "/reparaturbonus-zh/": [
-      "fog-walker",
-      "cat",
-      "scarab",
-      "sky"
-    ],
-    "/printcraft/": [
-      "fog-walker",
-      "cat",
-      "moth",
       "sky"
     ],
     "/camille-boulangerie/": [

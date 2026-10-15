@@ -8,5 +8,5 @@ export const PAGE_ART = {
   "/substrata/": ["dandelion-bare", "dandelion-clock"],
   "/evig/": ["tumbleweed", "watch"],
   "/surf-your-life/": ["windmill"],
-  "/wild-spirit/": ["fog-neck"],
+  "/academy/": ["fog-neck"],
 };

@@ -29,7 +29,11 @@ const targets = [];
 for (const p of map.projects) {
   const o = cfg.overrides?.[p.slug] ?? {};
   const url = o.url ?? p.urls?.live;
-  if (url && o.shot !== false && (o.what ?? p.what)) targets.push({ slug: p.slug, url });
+  // Only ventures the site shows: an override `what` is the decision to show
+  // one. The register's own `what` used to count too, so every hosted client
+  // site (farmaciadelparco, annushka, …) was photographed and committed to
+  // this public repository.
+  if (url && o.shot !== false && o.what) targets.push({ slug: p.slug, url });
 }
 for (const x of cfg.extras ?? []) if (x.url && x.shot !== false) targets.push({ slug: x.slug, url: x.url });
 const only = process.argv[2];
