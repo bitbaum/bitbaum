@@ -38,9 +38,7 @@
   ],
   "_adopterAliases": "The package registry names adopters by REPOSITORY, which is not always the venture's slug (the Hirnli app lives in bitbaum/hirnli while the register row is revamp-info). Map repo -> slug here so 'what uses this package' can link. An adopter with no venture page renders as plain text \u2014 which is honest: it is a real adopter the site does not show.",
   "adopterAliases": {
-    "aoz-begleitung": "aoz-housing",
-    "hirnli": "revamp-info",
-    "sink": "s-ink"
+    "hirnli": "revamp-info"
   },
   "overrides": {
     "orangecat": {
@@ -202,51 +200,6 @@
       "order": 10,
       "story": "Considered counsel from AI specialists in law, health, research and more \u2014 private by construction. Validating whether people want this, before building more of it."
     },
-    "aoz-housing": {
-      "name": "AOZ Begleitung",
-      "what": "Beyond housing",
-      "stage": "pilot",
-      "tags": [
-        "Public sector"
-      ],
-      "order": 1,
-      "for": "AOZ, Z\u00fcrich",
-      "story": "Shared-living management with a placement engine for refugee housing: compatibility matching across 38 factors, incidents, maintenance, and a resident portal for expenses, rules and votes. Running as a pilot on a real shared flat. AOZ is not a customer; the product exists to show what one would get."
-    },
-    "kivvi": {
-      "name": "kivvi",
-      "what": "The operating system for the circular economy",
-      "stage": "pilot",
-      "tags": [
-        "Circular economy"
-      ],
-      "order": 2,
-      "for": "Revamp-IT",
-      "story": "An ERP where every device keeps its history \u2014 donation, repair, refurbishment, resale. In production at Revamp-IT, run as a favour, not a contract."
-    },
-    "vitareba": {
-      "name": "Vita",
-      "what": "A clinic, with its patients in the loop",
-      "stage": "pilot",
-      "tags": [
-        "Health"
-      ],
-      "order": 3,
-      "for": "one clinic, Z\u00fcrich",
-      "story": "Patient portal and clinician console for a metabolic-psychiatry and longevity practice. One real clinic uses it; nobody pays for it yet."
-    },
-    "s-ink": {
-      "name": "S.Ink",
-      "what": "A tattoo studio, online",
-      "url": "https://sinktattoo.com",
-      "stage": "pilot",
-      "tags": [
-        "Local business"
-      ],
-      "order": 4,
-      "for": "S.Ink, Z\u00fcrich",
-      "story": "The studio's own site: artists, work, booking. Built and hosted as a favour."
-    },
     "sbb-fundbuero": {
       "name": "Nordbahn Fundb\u00fcro",
       "what": "Lost on the train, while you are still on it",
@@ -256,17 +209,6 @@
       ],
       "order": 1,
       "story": "Report a lost item bound to the real journey from Swiss open transport data, so staff can look while the train is still moving. Items reported within thirty minutes are mostly recovered; after a day, mostly not. A concept on mock data \u2014 not affiliated with SBB, built to show them."
-    },
-    "reparaturbonus-zh": {
-      "name": "Reparaturbonus",
-      "what": "Repair instead of replace \u2014 the City of Z\u00fcrich's bonus, as it should work",
-      "stage": "concept",
-      "tags": [
-        "Public sector",
-        "Circular economy"
-      ],
-      "order": 2,
-      "story": "Find a workshop, start the repair, claim the CHF 100. A concept for the City of Z\u00fcrich's repair bonus, built to apply with."
     },
     "heidi": {
       "name": "Heidi",
@@ -278,16 +220,6 @@
       ],
       "order": 3,
       "story": "Understand what was said, then write back in it. Sign in, practise in a group, and Heidi answers in the conversation when you name her."
-    },
-    "printcraft": {
-      "name": "PrintCraft",
-      "what": "Bring people together. In art.",
-      "stage": "concept",
-      "tags": [
-        "Local business"
-      ],
-      "order": 4,
-      "story": "Turn separate photos into one shared scene. A concept waiting for its first user."
     },
     "camille-boulangerie": {
       "name": "Camille",
@@ -308,7 +240,7 @@
       ],
       "order": 1,
       "shot": false,
-      "story": "Named, not built. The plan: home diagnostics, an AI doctor available around the clock, and a doctor-in-the-loop marketplace, so a licensed clinician stands behind every answer the AI gives. Vitareba, a Z\u00fcrich clinic, is the intended first reference."
+      "story": "Named, not built. The plan: home diagnostics, an AI doctor available around the clock, and a doctor-in-the-loop marketplace, so a licensed clinician stands behind every answer the AI gives."
     },
     "causius": {
       "name": "Causius",
@@ -330,22 +262,7 @@
       "story": "Looks at the whole of a life: you, the people you love, your home, your accounts, your privacy and your good name. It suggests the most proportionate step. Sometimes that is a calm, qualified person beside you, often a small change, sometimes nothing at all."
     }
   },
-  "extras": [
-    {
-      "slug": "wild-spirit",
-      "name": "Annushka",
-      "what": "A painter, shown",
-      "url": "https://annushka.orangecat.ch",
-      "stage": "pilot",
-      "tags": [
-        "Local business"
-      ],
-      "order": 5,
-      "for": "Annushka, Z\u00fcrich",
-      "story": "Works, events and a way to book a sitting for a painter from Ukraine in Z\u00fcrich. Built and hosted as a favour.",
-      "_why": "static site plus a dead :4030 api; does not fit an apps.conf row"
-    }
-  ],
+  "extras": [],
   "packages_lede": "Shared tools for different product needs. Each package page explains what it does, how it works, where to get it, and which apps list it as a dependency. Some are new and have no adopters yet.",
   "home": {
     "flagshipProjects": [
@@ -551,7 +468,6 @@
             "retires": "Care that starts only when someone finds an appointment.",
             "ventures": [
               "diplodoctor",
-              "vitareba",
               "surf-your-life"
             ]
           },
@@ -600,8 +516,6 @@
             "retires": "Usable things ending up as waste, or lost for good.",
             "ventures": [
               "evig",
-              "kivvi",
-              "reparaturbonus-zh",
               "sbb-fundbuero"
             ]
           },
@@ -610,7 +524,6 @@
             "human": "A caseworker, a teacher, a neighbour.",
             "retires": "Newcomers left alone with forms and a language they cannot yet hear.",
             "ventures": [
-              "aoz-housing",
               "heidi"
             ]
           },
@@ -635,9 +548,6 @@
             "human": "The owner approves every change.",
             "retires": "Waiting on an agency to fix a typo.",
             "ventures": [
-              "s-ink",
-              "wild-spirit",
-              "printcraft",
               "camille-boulangerie"
             ]
           }

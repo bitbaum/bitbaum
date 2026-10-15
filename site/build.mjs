@@ -303,16 +303,9 @@ const AVATARS = {
   "/loki/": ["story", "fox"],                  // the trickster, hatching
   "/solon/": ["story", "owl"],                 // wisdom, for deciding together
   "/causius/": ["story", "owl"],               // law
-  "/aoz-housing/": ["story", "snail"],         // carries its home with it
   "/evig/": ["story", "unicorn"],              // evig: forever
   "/petvity/": ["stand", "kit"],               // pets
-  "/vitareba/": ["stand", "deer"],             // a gentle clinic
-  "/wild-spirit/": ["stand", "deer"],
-  "/s-ink/": ["flutter", "dragonfly"],         // the classic tattoo motif
-  "/printcraft/": ["flutter", "moth"],
   "/substrata/": ["story", "moth"],            // drawn to the light of progress
-  "/kivvi/": ["story", "scarab"],              // the original recycler
-  "/reparaturbonus-zh/": ["story", "scarab"],
   "/surf-your-life/": ["drift", "whale"],      // breath, and calm
   "/skif/": ["story", "horse"],                // a guardian
   "/botsmann/": ["story", "horse"],
@@ -322,6 +315,10 @@ const AVATARS = {
   "/studio/": ["story", "scarab"],
   "/partners/": ["story", "horse"],
   "/hire/": ["story", "owl"],
+  // Their old homes were client pilots, which are not shown until the client
+  // agrees (Loki: docs/architecture/client-work-consent.md).
+  "/roadmap/": ["stand", "deer"],
+  "/changelog/": ["flutter", "dragonfly"],
   "/packages/": ["story", "owl"],
 };
 function story(path) {
@@ -1332,7 +1329,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   // Loki reads this view. The token is the same public write-only widget token.
   files.set("commission.json", JSON.stringify({ version: 1, origin: SITE, availability: hire.availability, offer: commissioningOffer, feedbackToken: LOKI_FEEDBACK.token, course: COURSE }, null, 2) + "\n");
   for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all, cfg, hire?.contact?.email));
-  files.set("map.json", JSON.stringify(publicMap(map), null, 2) + "\n");
+  files.set("map.json", JSON.stringify(publicMap(map, new Set(all.map((v) => v.slug))), null, 2) + "\n");
   // Every page the build writes is in the sitemap, because the sitemap is
   // derived from the same map of files — a page cannot exist and be missing.
   const pages = [...files.keys()].filter((f) => f.endsWith("index.html")).map((f) => `${SITE}/${f.replace(/index\.html$/, "")}`).sort();

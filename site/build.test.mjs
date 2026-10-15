@@ -29,5 +29,10 @@ test("the map places every shown venture in exactly one loop", async () => {
 
   assert.throws(() => loopMap(all, cfg([["a"]])), /no loop for b/);
   assert.throws(() => loopMap(all, cfg([["a", "b"], ["b"]])), /"b" is in both/);
-  assert.throws(() => loopMap(all, cfg([["a", "b", "ghost"]])), /does not show/);
+  // A venture the site does not show (client work Loki withholds) is left
+  // out of its loop instead of failing the build and freezing the old pages.
+  assert.deepEqual(
+    loopMap(all, cfg([["a", "b", "ghost"]]))[0].loops[0].ventures.map((v) => v.slug),
+    ["a", "b"],
+  );
 });

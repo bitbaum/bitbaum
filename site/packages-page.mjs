@@ -51,12 +51,21 @@ export function uniqueAdopterCount(packages) {
 }
 
 export function createPackagePages({ esc, shell }) {
+  // An adopter the site does not show is counted, never named: it is often
+  // client work, which stays private until the client agrees (Loki,
+  // docs/architecture/client-work-consent.md). It used to render as its
+  // repository name, which published every client's name on this page.
   function pkgAdopters(p, ventureBySlug, alias) {
-    return (p.adopterNames ?? []).map((a) => {
-      if (a === "bitbaum") return `<a href="/">bitbaum</a>`;
+    let unnamed = 0;
+    const shown = (p.adopterNames ?? []).flatMap((a) => {
+      if (a === "bitbaum") return [`<a href="/">bitbaum</a>`];
       const v = ventureBySlug.get(alias[a] ?? a);
-      return v ? `<a href="/${esc(v.slug)}/">${esc(v.name)}</a>` : `<span>${esc(a)}</span>`;
+      if (v) return [`<a href="/${esc(v.slug)}/">${esc(v.name)}</a>`];
+      unnamed += 1;
+      return [];
     });
+    if (unnamed) shown.push(`<span>${unnamed} ${unnamed === 1 ? "private project" : "private projects"}</span>`);
+    return shown;
   }
 
   function pkgPill(p) {
