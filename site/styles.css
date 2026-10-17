@@ -255,6 +255,17 @@ img { max-width: 100%; display: block; }
 .ask-section { border-top: 1px solid var(--line); }
 .ask { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(1.75rem, 5vw, 5rem); align-items: start; }
 .ask-copy { display: grid; gap: 1rem; justify-items: start; }
+/* The chat floats on The Starry Night (starry.mjs): ask the night sky. The card
+   keeps its own ground, so nothing written in it sits on the painting. */
+.ask-sky { position: relative; margin: 0; padding: clamp(1.25rem, 4vw, 2.75rem); border-radius: var(--radius); overflow: hidden; background: #13244d; isolation: isolate; }
+.ask-sky .starry { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; display: block; }
+.ask-sky .ask-chat { position: relative; }
+.ask-sky .chat-card { background: rgb(var(--veil) / 0.93); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+/* Anything the chat shows before it loads sits on the night sky: moonlight, not ink. */
+.ask-sky .chat-mount > .caption, .ask-sky .chat-mount > .caption .textlink { color: #e8eefb; }
+.ask-sky .chat-mount > .caption .textlink { border-bottom-color: rgb(232 238 251 / 0.5); }
+.ask-sky figcaption { margin-top: 0.9rem; color: #e8eefb; font-size: 0.75rem; letter-spacing: 0.02em; text-shadow: 0 1px 2px rgb(0 0 0 / 0.6); }
+.ask-sky figcaption cite { font-style: italic; }
 
 /* ─── the front door, Solon's way ─────────────────────────────────────────
    Full-screen scenes, each with one statement and one way forward; big
@@ -281,7 +292,7 @@ img { max-width: 100%; display: block; }
 .kicker { font-size: 0.74rem; font-weight: 600; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-2); }
 .kicker.quiet { color: var(--fg-3); }
 .headline-caps { margin: 0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.005em; line-height: 0.98; text-wrap: balance; }
-.section-title { margin-top: 1rem; font-size: clamp(2.2rem, 5vw, 3.9rem); color: var(--fg); }
+.section-title { margin-top: 1rem; font-size: clamp(1.9rem, 3.8vw, 3rem); color: var(--fg); }
 .btn-frame, .btn-frame-accent { display: inline-flex; align-items: center; justify-content: center; gap: 0.7rem; min-height: 48px; padding: 0 1.75rem; font-size: 0.76rem; font-weight: 700; letter-spacing: var(--tracking-caps); text-transform: uppercase; transition: background 140ms ease, color 140ms ease, border-color 140ms ease; }
 .btn-frame { color: var(--fg); border: 2px solid currentColor; }
 .btn-frame:hover { color: var(--bg); background: var(--fg); border-color: var(--fg); }
@@ -366,6 +377,10 @@ img { max-width: 100%; display: block; }
    look comes from chatkit.css over the design tokens; this only frames it. */
 .chat-card { display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; padding: clamp(1rem, 2.5vw, 1.5rem); border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--bg-raised); }
 .chat-card .ck-thread-wrap { max-height: min(60vh, 32rem); }
+/* chatkit's quiet ink is the shared --text-muted, which on these cards read 1.4:1
+   (light) and 2.7:1 (dark) for "Copy" and "Try again". The site's own measured
+   tertiary holds AA on both. */
+.chat-card { --ck-muted: var(--fg-3); }
 .chat-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
 .chat-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.9rem; border: 1px solid var(--line-2); border-radius: var(--radius); color: var(--fg); font-size: 0.9rem; }
 .chat-link:first-child { border-color: var(--fg); }
@@ -1177,8 +1192,8 @@ html { overflow-x: clip; }
 @keyframes worm-fall { 0% { opacity: 0; scale: 0.1; rotate: 0deg; } 30% { opacity: 1; } 100% { opacity: 1; scale: 4.5; rotate: -540deg; } }
 
 /* ─── the wormhole between chapters ───────────────────────────────────── */
-.wormhole-gap { display: grid; place-items: center; padding-block: clamp(2rem, 8vh, 6rem); overflow: hidden; }
-.wormhole-gap .wormhole { width: min(62vw, 460px); height: auto; animation: worm-turn 140s linear infinite; }
+.wormhole-gap { display: grid; place-items: center; padding-block: clamp(1rem, 3vh, 2rem); overflow: hidden; }
+.wormhole-gap .wormhole { width: min(46vw, 300px); height: auto; animation: worm-turn 140s linear infinite; }
 .dark .wormhole-gap .wormhole { mix-blend-mode: screen; filter: none !important; }
 :root:not(.dark) .wormhole-gap .wormhole { opacity: 0.88; }
 @keyframes worm-turn { to { rotate: -360deg; } }
