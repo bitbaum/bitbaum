@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-15T16:57:37.211Z",
+  "generatedAt": "2026-10-17T16:42:05.114Z",
   "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
   "pillars": [
     {
@@ -637,6 +637,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-17",
+          "done": "Answering a package update no longer makes it vanish. On Approvals, after you press Update, Not now or Stay on this version, the card now stays as a \"Just done\" line saying what Loki did (merged, merging when tests pass, snoozed until a date, or why it could not), with a link to the pull request. A new \"Answered recently\" list keeps the last two weeks of answers, with where each one stands now."
+        },
+        {
           "date": "2026-10-15",
           "done": "Chat does more, with less ceremony. From WhatsApp or Telegram you can now say \"add dentist Friday 3pm\" and it is booked without a second tap (events you ask for have no guests, so there is nothing to protect), ask \"what's on this week\", add a reminder or a note, and forward a screenshot, photo or voice note that implies one of those. Sending email stays off by design: Loki writes the draft, you send it. The chat skill now installs itself on the box when it changes, so it can no longer drift from the app.\nLoki tells you when WhatsApp and the Telegram chat stop being read. The gateway behind them died on Oct 8 and nothing noticed for a week. Now a check every ten minutes raises an alert and one Telegram message when it is down, and another when it is back.\nTurn on notifications on your phone. Settings → Notifications now has an \"On this phone\" card: turn them on, send yourself a test, turn them off. It says plainly when a browser cannot (on iPhone: add Loki to the Home Screen first) or has blocked them. Until today the server could send a push but no screen offered a phone the choice, so a new report on your site reached no device at all.\nThe server hands out its own push key. A phone used to subscribe against a key baked in at build time, which a build could lose or get stale; it now asks the server for the same key the server signs with, so the two cannot disagree."
         },
@@ -711,10 +715,6 @@
         {
           "date": "2026-10-10",
           "done": "Nothing runs at night that you have not seen. Every evening Loki shows tonight's plan with names and a price on it — which fixes, which site, how many of your runs, and what it would cost going by your own last runs — and asks for one tap: Approve or Reject, on Control, on Telegram and under Approvals. A plan left undecided expires at 02:30 and the morning note says nothing was built. Before this, the night decided for you; the plan was only visible the morning after.\nAllow it in advance, for as long as you say. Settings → Autopilot: \"Nights run without asking\" for a week, a month or three months, optionally under a dollar cap a night. Under an allowance the evening message says \"runs without asking until …\"; a night over the cap asks again.\nFree things stay free. Filing away reports nobody started in three weeks and moving stuck rows to the cloud spend nothing, undo in one tap, and happen with or without a yes. The evening plan and the morning note are assembled from counts — no model is called to write them.\nThe late-night \"go to sleep, autopilot has it\" strip on Control is replaced by the Tonight card, which shows the plan instead of offering a switch."
-        },
-        {
-          "date": "2026-10-10",
-          "done": "The owner's launcher is one thing, always in one place. On your own site it was two: \"Loki · watching\" in a corner with a ◎ beside it, and a \"Loki is watching\" bar at the top that took over whenever the corner was busy — on a phone, every scroll. Now the launcher never hides and never fades for the owner, the ◎ is its other half (there whether watching or paused), and the bar appears only on a page that hides the launcher outright — carrying the same ◎.\nShow Loki this screen. ◎ now offers This screen beside tapping an element: it marks what is on screen right now, the way a screenshot would frame it, and the conversation opens with it attached — say what you would change, ask Loki, or build it."
         }
       ],
       "records": {
@@ -730,7 +730,7 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-10-15T13:55:10.027Z"
+          "at": "2026-10-17T11:30:24.187Z"
         },
         "lastLog": {
           "date": "2026-10-12",
@@ -2737,6 +2737,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-15",
+          "done": "Heidi has its own accounts on @bitbaum/accountkit/auth (better-auth): email and password, passkeys and two-step codes, with «Continue with OrangeCat» as one option rather than the only way in. People whose first way in was OrangeCat keep the OrangeCat actor id as their id (legacyIdentityProvider), so every existing group, conversation and certificate stays theirs without a data migration. next-auth is gone; existing sessions end once."
+        },
+        {
           "date": "2026-10-12",
           "done": "The vocabulary search runs on @bitbaum/searchkit, the fleet's one search, instead of a hand-rolled substring match: one slip forgiven from four letters, two from eight, the start of a word while typing, accents and umlauts folded, both the dialect word and its German meaning searched. Results come best match first (the learning order breaks ties) with what matched marked; the «guessable» heading is not drawn while a query reorders the list.\nThe dialect spelling rule stays ours, as searchkit's normalize: ie read as i, doubled letters as one (lib/domain/vocabulary/search.ts). On another writer's spelling plus one slip (schribe for schriibe, slipped) it is the difference between 0.24 and 0.91 found first. search.test.ts runs every generated one-slip misspelling of every word (~9,700) and holds success@1 ≥ 0.90, success@3 ≥ 0.96; the misses are short words the rule leaves at three letters (vill → vil) and slips that land on another listed word (cho for scho)."
         },
@@ -2811,10 +2815,6 @@
         {
           "date": "2026-09-11",
           "done": "Sign in with OrangeCat; Heidi keeps no users table of its own (#11)\nRussian, a grouped language menu, and a stated scope for Swiss German (#9)\nA real multilingual portal, German first (#7)\nA truncated model answer is salvaged rather than thrown away (#6)\nThe taught language became data, not code (#5) — the variety pack, which is why everything since has been a pack edit rather than a rewrite\nCI is never cancelled on main, because the deploy gate reads it (#10)"
-        },
-        {
-          "date": "2026-09-10",
-          "done": "Scaffolded; the scaffold could not install as shipped, and was fixed (#1)\nLanding page, bespoke design tokens, the Zurich purity validator, a health route (#2)\nSitemap, robots, OG image, full metadata (#3)\nAn interactive Zurich-purity check page (#4)"
         }
       ],
       "records": {
@@ -3220,16 +3220,16 @@
           "changelog": "https://github.com/bitbaum/petvity/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": "Follow the canonical roadmap for planned work.",
+      "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-10-14T18:53:35.662Z"
+          "outcome": "success",
+          "at": "2026-10-17T09:59:33.563Z"
         },
         "lastLog": {
-          "date": "2026-09-15",
-          "done": "Unified repeated forms and directory handlers, adopted the shared rate limiter, and removed lint warnings. This is a repository change record; it does not assert that every pet-care workflow has been verified in production.\nSource: https://github.com/bitbaum/petvity/commit/18776a42518ea430cb4aeb5f89a9b4a319dd18a5"
+          "date": "2026-10-17",
+          "done": "Raised the /de homepage hero's under-12px text (\"↔ stabil\" and the other mock-card lines, plus the eyebrow) to 14px; PR https://github.com/bitbaum/petvity/pull/113 has green CI."
         }
       }
     },
@@ -3655,16 +3655,16 @@
           "changelog": "https://github.com/bitbaum/substrata/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": "PR #177 CI running",
+      "next": null,
       "now": {
         "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-10-12T13:58:47.056Z"
+          "at": "2026-10-17T10:27:21.132Z"
         },
         "lastLog": {
-          "date": "2026-10-12",
-          "done": "Atlas feedback (H1, chain heading hierarchy, 12px floor, Explore subtitle, trend and export-restriction risk shadings) pushed as PR #177."
+          "date": "2026-10-17",
+          "done": "Fixed the \"Fact-check with Substrata\" 404 on profile pages (e.g. /science/high-na-euv) by resolving entity profiles in /api/factcheck; pushed as PR #183, CI verify green."
         }
       }
     },

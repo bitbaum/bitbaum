@@ -672,7 +672,7 @@ ${stages.map(([, st]) => `                  <div><dt>${esc(st.plural)}</dt><dd>$
 ${all.map((v) => card(v, true)).join("\n")}
           </div>
           <p class="empty" id="work-empty" hidden>Nothing at that intersection yet. <button type="button" class="linkish" data-clear>Clear the filter</button> to see everything.</p>
-          <p class="private-door"><a class="textlink" href="/private/">Client work not yet public — private projects, with the access code ${ARROW}</a></p>
+          <p class="private-door"><a class="textlink" href="/private/">Client work not yet public — for the studio owner ${ARROW}</a></p>
         </div>
       </div>
     </section>`;
@@ -956,7 +956,7 @@ export function portalPage() {
   return shell({ title: "Your project portal — bitbaum", description: "Follow your private Bitbaum brief, partner application and preview review.", path: "/portal/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Your private request</span><h1 class="headline-caps section-title">Project portal.</h1><div data-studio-portal data-api-origin="${esc(LOKI_FEEDBACK.origin)}" data-course="${esc(JSON.stringify(COURSE))}"><p>Opening your request…</p><noscript><p>The private portal needs JavaScript. Keep the complete link from your receipt and open it in a browser with JavaScript enabled.</p></noscript></div></div></section></main>`, script: PORTAL_SCRIPT });
 }
 export function privatePage() {
-  return shell({ title: "Private projects — bitbaum", description: "Client work shown only with the studio's access code.", path: "/private/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Client work</span><h1 class="headline-caps section-title">Private projects.</h1><p class="lede">Work built for clients who have not agreed to be shown in public. It stays here, behind the studio's access code, until they do.</p><div data-private data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>Private projects need JavaScript to open.</p></noscript></div></div></section></main>`, script: PRIVATE_SCRIPT });
+  return shell({ title: "Private projects — bitbaum", description: "Client work, visible to the studio owner only.", path: "/private/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Client work</span><h1 class="headline-caps section-title">Private projects.</h1><p class="lede">Work built for clients who have not agreed to be shown in public. Only the studio owner sees it here, signed in to Loki; each client sees only their own preview, through its own link.</p><div data-private data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>Private projects need JavaScript and a Loki sign-in.</p></noscript></div></div></section></main>`, script: PRIVATE_SCRIPT });
 }
 
 export function academyPage() {

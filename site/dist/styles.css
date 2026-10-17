@@ -81,6 +81,23 @@
   --rabbit-line: #2d2922;
 }
 
+/* Light text on the sky. The shared tokens are tuned for a white page; this
+   site's light page is the warm sky above (#e6dcc6) under translucent panels,
+   where they measured 4.2:1 (secondary), 2.2:1 (tertiary) and 3.0:1 (the green
+   "live" mark) — below WCAG AA's 4.5:1, and visibly faint on a laptop in
+   daylight. These are warm greys measured against the sky and the panels:
+   secondary ≥ 5.9:1, tertiary ≥ 4.7:1, green ≥ 4.9:1. Dark mode is untouched.
+   site/check-contrast.mjs fails the build if any text drops below AA again. */
+:root:not(.dark) {
+  --fg-2: #4d4a45;
+  --fg-3: #5c5851;
+  --ok: #185c34;
+}
+
+/* Dark keeps the shared roles except the faintest one: tertiary measured
+   4.1:1 on the raised panels; #8f8f8f holds 4.6:1 on every dark surface. */
+.dark { --fg-3: #8f8f8f; }
+
 /* Dark roles come from @bitbaum/design-tokens (.dark). Site-only cinema scrims. */
 .dark {
   --sky-base: #03050a;
@@ -252,7 +269,7 @@ img { max-width: 100%; display: block; }
 .bleed-under .bleed-scrim::before { content: ""; position: absolute; inset: 0 0 auto; height: 10rem; background: linear-gradient(to bottom, rgb(var(--veil) / 0.55), rgb(var(--veil) / 0)); }
 .bleed-body { position: relative; width: 100%; padding-block: 10rem clamp(4rem, 8vw, 7rem); }
 .bleed-copy { display: grid; justify-items: start; gap: 1.4rem; max-width: 52rem; }
-.bleed .kicker { color: var(--fg-2); }
+.bleed .kicker { color: var(--fg); } /* over the painted sky, which changes with the hour: only the primary ink holds AA on all of it */
 .bleed .headline-caps { color: var(--fg); font-size: clamp(2.9rem, 8.4vw, 7rem); }
 /* A statement longer than a few words steps down a size, so it stays three lines. */
 .bleed .headline-caps.long { font-size: clamp(2.4rem, 5.4vw, 4.9rem); }
@@ -485,7 +502,8 @@ a.card-name:hover { color: var(--accent); }
 .chip { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 32px; padding: 0 0.7rem; font: inherit; font-size: 0.85rem; color: var(--fg-2); background: transparent; border: 1px solid var(--line-2); border-radius: var(--radius-pill); cursor: pointer; transition: color 120ms ease, border-color 120ms ease, background 120ms ease; }
 .chip:hover { color: var(--fg); border-color: var(--fg-3); }
 .chip[aria-pressed="true"] { color: var(--on-accent); background: var(--accent); border-color: var(--accent); }
-.chip-n { font-variant-numeric: tabular-nums; font-size: 0.72rem; opacity: 0.7; }
+.chip[aria-pressed="true"] .chip-n { color: inherit; }
+.chip-n { font-variant-numeric: tabular-nums; font-size: 0.72rem; color: var(--fg-3); }
 .clear, .linkish { font: inherit; font-size: 0.85rem; color: var(--fg-2); background: none; border: 0; padding: 0; cursor: pointer; border-bottom: 1px solid var(--line-2); }
 .clear:hover, .linkish:hover { color: var(--fg); }
 .clear { margin-left: auto; }
@@ -861,6 +879,12 @@ body::after {
 @media (min-width: 701px) { :root { --curtain: clamp(40px, 7vw, 128px); } }
 [data-lodge] { position: relative; isolation: isolate; }
 .stage { background: transparent; overflow: hidden; }
+/* Text on the painted sky. The sky changes with the hour (blue by day, amber
+   at dusk) and no static check can measure text on it, so everything that
+   reads as a sentence there uses the primary ink, and the quiet buttons get
+   enough ground to look like buttons rather than tinted glass. */
+.stage :is(.lede, .pkg-guidance, .pkg-result) { color: var(--fg); }
+.stage .btn.secondary { background: hsl(var(--surface-base) / 0.85); }
 .stage.hero { padding-bottom: calc(var(--section-tight) + 110px); }
 .venture-hero.stage { padding: calc(var(--section) * 0.8) 0 calc(var(--section-tight) + 110px); }
 .curtains { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
@@ -1466,7 +1490,6 @@ footer nav a { max-width: 100%; overflow-wrap: anywhere; }
 /* Private projects: the door on the work page, and the code form. */
 .private-door { margin: 2rem 0 0; color: var(--fg-3); }
 [data-private] { margin-top: 2rem; }
-.private-form { max-width: 26rem; }
 .private-grid { margin-top: 1rem; }
 .private-grid .card-what { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .private-grid .textlink { margin-top: .5rem; overflow-wrap: anywhere; }

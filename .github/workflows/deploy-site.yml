@@ -60,6 +60,10 @@ jobs:
           FLEET_PACKAGES_SHA: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.packages_sha || '' }}
         run: node site/build.mjs --require-fresh
       - run: node site/build.mjs --check
+      # No text below WCAG AA in light or dark, on phone or desktop. Light mode
+      # once shipped captions at 2.2:1 on the warm sky and nobody saw it here.
+      - name: Contrast gate (built dist)
+        run: node site/check-contrast.mjs
       - name: Claims gate (built dist)
         env:
           GH_TOKEN: ${{ github.token }}
