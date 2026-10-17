@@ -1169,8 +1169,8 @@ export function studioPage(all, packages, origin, readings) {
     ["Honest stages", `Every project is labelled by what can be verified — beta, pilot, in development, concept, not built — on the <a href="/work/">work catalogue</a>.`],
     ["People stay responsible", "Agents do implementation work in Loki; people set the goals, review the changes and answer for what ships."],
     ["Open by construction", `The packages are MIT-licensed and work built for someone else stays theirs. Contributor terms live in <a href="${CONTRIBUTING}">bitbaum/.github</a>.`],
-    ["Proven origin", `${snaps} of ${repos} repositories have a <a href="https://archive.softwareheritage.org/">Software Heritage snapshot</a>${block ? `; the earliest proof is anchored at Bitcoin block ${block}` : ""}.`],
-    ["Numbers from registers", `Counts and readings come from public registers, dated and linked (latest: ${esc(reading?.date ?? "n/a")}). They are readings, not forecasts.`],
+    ["Proven origin", `The <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a> tracks ${repos} repositories, of which <a href="https://archive.softwareheritage.org/">${snaps} have a Software Heritage snapshot</a>${block ? `; the earliest proof is anchored at Bitcoin block ${block}` : ""}.`],
+    ["Numbers from registers", `Fleet's <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">${esc(reading?.date ?? "latest")} readings</a>: ${n(reading?.downloads?.lastMonth)} package downloads over 30 days (including our own CI installs), ${n(reading?.stars)} GitHub stars, and CHF ${n(reading?.clients?.mrrChf)} a month from studio engagements. Readings, not forecasts.`],
     ["Zürich, hired by the day", `Fractional CTO and contract engineering. Rates and the waitlist are on the <a href="${HIRE}">hire page</a>; the code is on <a href="${GITHUB}">GitHub</a>.`],
   ].map(([h, t]) => `          <div class="depth-block"><span class="label">${h}</span><p>${t}</p></div>`).join("\n");
   const body = `  <main id="main">
