@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-17T21:51:42.705Z",
+  "generatedAt": "2026-10-17T20:44:33.900Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -730,7 +730,7 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-10-17T21:22:40.144Z"
+          "at": "2026-10-17T20:22:17.770Z"
         },
         "lastLog": {
           "date": "2026-10-12",
@@ -3660,11 +3660,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-10-17T21:37:12.108Z"
+          "at": "2026-10-17T10:27:21.132Z"
         },
         "lastLog": {
           "date": "2026-10-17",
-          "done": "No substrata change: the home \"33\" button works (opens its \"How this is computed\" popover, verified in headless Chromium on desktop and phone); Loki watch mode flagged it because it only counts a URL change or network request as an effect, so the fix belongs in loki widget/watch.ts, not substrata."
+          "done": "Fixed the \"Fact-check with Substrata\" 404 on profile pages (e.g. /science/high-na-euv) by resolving entity profiles in /api/factcheck; pushed as PR #183, CI verify green."
         }
       }
     },
