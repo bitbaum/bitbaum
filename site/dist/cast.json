@@ -119,17 +119,6 @@
       "phone": "smaller"
     },
     {
-      "id": "starry-night",
-      "title": "The Starry Night, after Van Gogh",
-      "art": [],
-      "marker": "data-starry",
-      "selector": ".ask-sky canvas.starry",
-      "layer": "home · behind the chat",
-      "motion": "starry.mjs: brushstrokes creep along the swirl, the stars breathe",
-      "visible": "canvas",
-      "phone": "shown"
-    },
-    {
       "id": "fog-giant",
       "title": "The giant in the fog",
       "art": [
@@ -644,7 +633,6 @@
       "elephant-walker",
       "hummingbird",
       "wormhole",
-      "starry-night",
       "fog-walker",
       "cat",
       "sky",

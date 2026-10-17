@@ -29,6 +29,7 @@ import { createLoopsPage } from "./loops.mjs";
 import { publicMap } from "./public-map.mjs";
 import { fig, ART_NAMES } from "./art.mjs";
 import { renderRecord } from "./record-html.mjs";
+import { renderRoadmap, renderChangelog } from "./records.mjs";
 import { PAGE_ART } from "./art-placement.mjs";
 // How each object in a page's ground strip moves (styles.css): gears turn,
 // rye and dandelions sway, mushrooms breathe, the tumbleweed rolls through.
@@ -434,7 +435,25 @@ function pill(v) {
 }
 
 // ── page chrome ─────────────────────────────────────────────────────────────
+/**
+ * Where next, on every content page: the three doors a visitor came for,
+ * at the foot of the page where they have just finished reading. A page that
+ * already carries its own doors (the home page, hire, the venture pages'
+ * prev/next) is left alone.
+ */
+const DOORS_ON = ["/work/", "/partners/", "/studio/", "/academy/", "/packages/", "/map/", "/roadmap/", "/changelog/"];
+function doors(path) {
+  const here = (p) => (p === path ? "" : p);
+  const items = [
+    ["/#start", "Start a project", true],
+    [here("/work/") && "/work/", "See the work", false],
+    ["/#ask", "Ask the Cat or Loki", false],
+  ].filter(([h]) => h);
+  return `    <nav class="record-doors wrap" aria-label="Where next">${items.map(([h, t, accent]) => `<a class="${accent ? "btn-frame-accent" : "btn-frame"}" href="${h}">${t}${accent ? ` ${ARROW}` : ""}</a>`).join("")}</nav>\n`;
+}
+
 function shell({ title, description, path, body, nav, script, image }) {
+  if (DOORS_ON.includes(path) && !body.includes('aria-label="Where next"')) body = body.replace(/\s*<\/main>\s*$/, `\n${doors(path)}  </main>`);
   // Guests get a stage of their own after the opening section. Text can grow,
   // fonts can enlarge, and a phone can rotate without a creature sitting on it.
   if (path !== "/") {
@@ -504,6 +523,17 @@ function shell({ title, description, path, body, nav, script, image }) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${SITE}${path}">
@@ -599,7 +629,7 @@ ${CAT}
   <script type="module" src="/sky.mjs"><\/script>
   <script type="module" src="/lodge.mjs"><\/script>
   <script type="module" src="/warp.mjs"><\/script>
-${script ?? ""}${body.includes("data-starry") ? `\n  <script type="module" src="/starry.mjs"><\/script>` : ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>\n  <script type="module" src="/creatures.mjs"><\/script>` : ""}
+${script ?? ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>\n  <script type="module" src="/creatures.mjs"><\/script>` : ""}
 ${path === "/portal/" ? "" : `  <script src="${esc(LOKI_FEEDBACK.origin)}/widget.js" data-fc-project="${esc(LOKI_FEEDBACK.token)}" data-fc-modes="${esc(LOKI_FEEDBACK.modes)}" async><\/script>`}
 </body>
 </html>
@@ -788,11 +818,9 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
           <h2 class="headline-caps section-title">${esc(ask.headline)}</h2>
           <p class="lede">${esc(ask.lede)}</p>
         </div>
-        <figure class="ask-sky">
-          <canvas class="starry" data-starry aria-hidden="true"></canvas>
+        <div class="ask-sky">
           <div class="ask-chat">${chatMount({ title: "", starters: ask.starters })}</div>
-          <figcaption>Sky after Vincent van Gogh, <cite>The Starry Night</cite>, 1889</figcaption>
-        </figure>
+        </div>
       </div>
     </section>`;
   const by = (slug) => ventureBySlug.get(slug);
@@ -949,9 +977,31 @@ export function academyPage() {
   return shell({ title: "Systems design pilot — bitbaum", description: "The first Bitbaum lesson, practical capstone and review rubric. The full course is in development.", path: "/academy/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Studio-owned course · pilot</span><h1 class="headline-caps section-title">Design a system people can use.</h1><p class="lede">One practical lesson and a capstone rubric begin the course. More lessons and teaching examples are being developed in public. Passing the course and becoming a studio-approved partner are separate decisions.</p><div class="record">${lesson}<h2>Submit evidence for each dimension</h2>${COURSE.modules.map((m) => `<h3>${esc(m.title)}</h3><p>${esc(m.prompt)}</p>`).join("\n")}</div><div class="bleed-actions quiet-actions"><a class="btn primary" href="/partners/#join">Start a partner application ${ARROW}</a><a class="btn secondary" href="/portal/">Resume your application</a><a class="textlink" href="/roadmap/">Follow course development</a></div></div></section></main>` });
 }
 export function recordPage(kind) {
-  const name = kind === "roadmap" ? "Roadmap" : "Changelog";
+  // Drawn, not read: the roadmap as a board of horizons with progress, the
+  // changelog as a timeline. The canonical text stays in the repository and
+  // is linked; the page shows the state and opens the detail on request.
   const source = readFileSync(join(here, "..", `${kind.toUpperCase()}.md`), "utf8");
-  return shell({ title: `${name} — bitbaum`, description: `Bitbaum's canonical ${kind}: course, portal and studio development in public.`, path: `/${kind}/`, body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Building in public</span><h1 class="headline-caps section-title">${name}.</h1><div class="record">${renderRecord(source)}</div><a class="textlink" href="https://github.com/bitbaum/bitbaum/blob/main/${kind.toUpperCase()}.md">Read the canonical repository record</a></div></section></main>` });
+  const canonical = `https://github.com/bitbaum/bitbaum/blob/main/${kind.toUpperCase()}.md`;
+  if (kind === "roadmap") {
+    const r = renderRoadmap(source);
+    const body = `<main id="main"><section class="section record-page"><div class="wrap">
+      <span class="kicker quiet">Building in public</span>
+      <h1 class="headline-caps section-title">Roadmap.</h1>
+      <p class="lede">What the studio is building, in the order it matters. ${r.done} of ${r.total} steps are done and verified in CI; dates are not promised. <a class="textlink" href="${canonical}">The canonical record</a> has every word.</p>
+${r.html}
+      <nav class="record-doors" aria-label="Where next"><a class="btn-frame-accent" href="/work/">See what is built ${ARROW}</a><a class="btn-frame" href="/changelog/">What changed lately</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
+    </div></section></main>`;
+    return shell({ title: "Roadmap — bitbaum", description: `Bitbaum's roadmap: ${r.done} of ${r.total} steps done across now, next and later.`, path: "/roadmap/", body });
+  }
+  const c = renderChangelog(source);
+  const body = `<main id="main"><section class="section record-page"><div class="wrap">
+      <span class="kicker quiet">Building in public</span>
+      <h1 class="headline-caps section-title">Changelog.</h1>
+      <p class="lede">${c.count} changes shipped, newest first. One line each; open an entry for the rest. <a class="textlink" href="${canonical}">The canonical record</a> has every word.</p>
+${c.html}
+      <nav class="record-doors" aria-label="Where next"><a class="btn-frame-accent" href="/roadmap/">What comes next ${ARROW}</a><a class="btn-frame" href="/work/">See the work</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
+    </div></section></main>`;
+  return shell({ title: "Changelog — bitbaum", description: `Bitbaum's changelog: ${c.count} shipped changes, newest first.`, path: "/changelog/", body });
 }
 
 
@@ -1335,7 +1385,6 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("lodge.mjs", readFileSync(join(here, "lodge.mjs"), "utf8"));
   files.set("creatures.mjs", readFileSync(join(here, "creatures.mjs"), "utf8"));
   files.set("warp.mjs", readFileSync(join(here, "warp.mjs"), "utf8"));
-  files.set("starry.mjs", readFileSync(join(here, "starry.mjs"), "utf8"));
   const register = castRegister(files);
   files.set("cast.json", JSON.stringify(register, null, 2) + "\n");
   return { all, files, castDoc: castDoc(register) };
