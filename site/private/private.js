@@ -1,11 +1,8 @@
 // The private part of the portfolio: client work the client has not agreed to
-// show. The static page names nothing; the list comes from Loki only after the
-// studio's access code, and a signed token remembers it on this device.
-const KEY = "bitbaum:private:token";
+// show. The static page names nothing. The list comes from Loki only for the
+// studio owner, signed in there — never for a shared code, because the code
+// clients get for their own preview must not open anyone else's project.
 const $ = (selector, root = document) => root.querySelector(selector);
-const read = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
-const save = (token) => { try { if (token) localStorage.setItem(KEY, token); } catch { /* optional */ } };
-const forget = () => { try { localStorage.removeItem(KEY); } catch { /* optional */ } };
 const STATUS = { live: "live", prospect: "preview", "not live": "not live" };
 
 function el(tag, attributes = {}, ...children) {
@@ -19,20 +16,6 @@ function el(tag, attributes = {}, ...children) {
   return node;
 }
 
-async function open(origin, body) {
-  const response = await fetch(`${origin}/api/fleet/private`, {
-    method: "POST", credentials: "omit", cache: "no-store", referrerPolicy: "no-referrer",
-    headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
-  });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok || !data.ok) {
-    const err = new Error(data.error ?? "Could not reach the studio. Try again in a moment.");
-    err.status = response.status;
-    throw err;
-  }
-  return data;
-}
-
 function card(p) {
   const status = STATUS[p.status] ?? p.status;
   return el("article", { class: "card text" }, el("div", { class: "card-body" },
@@ -44,55 +27,39 @@ function card(p) {
   ));
 }
 
-function form(root, origin, note = "") {
-  const id = "private-code";
-  const input = el("input", { id, name: "code", type: "password", autocomplete: "off", autocapitalize: "none", spellcheck: "false", required: true, maxlength: 200 });
-  const error = el("p", { class: "portal-error", role: "alert", hidden: !note, text: note });
-  const submit = el("button", { type: "submit", class: "btn primary", text: "Show private projects" });
-  const f = el("form", { class: "portal-form private-form", novalidate: true },
-    el("label", { for: id, class: "portal-field" }, el("span", { text: "Access code" }), input),
-    error, submit,
-    el("p", { class: "caption", text: "The code is the one the studio gave you with your preview. It is remembered on this device for 30 days." }));
-  f.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const code = input.value.trim();
-    if (!code) { error.hidden = false; error.textContent = "Type the code first."; input.focus(); return; }
-    submit.disabled = true; submit.textContent = "Opening…"; error.hidden = true;
-    try {
-      const data = await open(origin, { code });
-      save(data.token);
-      list(root, origin, data.projects);
-    } catch (err) {
-      error.hidden = false; error.textContent = err.message;
-      submit.disabled = false; submit.textContent = "Show private projects";
-      input.select();
-    }
-  });
-  root.replaceChildren(f);
-  input.focus();
+function signIn(root, origin, note) {
+  root.replaceChildren(
+    el("p", { class: "caption", text: note }),
+    el("div", { class: "bleed-actions quiet-actions" },
+      el("a", { class: "btn primary", href: `${origin}/studio-private`, text: "Sign in with Loki" }),
+      el("a", { class: "btn secondary", href: "/work/", text: "Back to the public work" })),
+  );
 }
 
-function list(root, origin, projects) {
-  const lock = el("button", { type: "button", class: "btn secondary", text: "Lock again" });
-  lock.addEventListener("click", () => { forget(); form(root, origin); });
+function list(root, projects) {
   root.replaceChildren(
     el("p", { class: "work-count", role: "status", text: projects.length === 1 ? "1 private project" : `${projects.length} private projects` }),
     projects.length
       ? el("div", { class: "grid work-grid private-grid" }, ...projects.map(card))
       : el("p", { class: "empty", text: "Nothing private right now — every client project is on the public work page." }),
-    el("div", { class: "bleed-actions quiet-actions" }, el("a", { class: "btn secondary", href: "/work/", text: "Back to the public work" }), lock),
+    el("div", { class: "bleed-actions quiet-actions" }, el("a", { class: "btn secondary", href: "/work/", text: "Back to the public work" })),
   );
 }
 
-const root = $("[data-private]");
-if (root) {
+async function load(root) {
   const origin = root.dataset.apiOrigin;
-  const token = read();
-  if (!token) form(root, origin);
-  else {
-    root.replaceChildren(el("p", { class: "caption", text: "Opening…" }));
-    open(origin, { token })
-      .then((data) => list(root, origin, data.projects))
-      .catch((err) => { if (err.status === 401) forget(); form(root, origin, err.status === 401 ? "Enter the code again — it has changed or expired." : err.message); });
+  root.replaceChildren(el("p", { class: "caption", text: "Checking who you are…" }));
+  try {
+    const response = await fetch(`${origin}/api/fleet/private`, { credentials: "include", cache: "no-store" });
+    const data = await response.json().catch(() => ({}));
+    if (response.ok && data.ok) return list(root, data.projects ?? []);
+    if (response.status === 401) return signIn(root, origin, "This list is for the studio owner. Sign in to Loki and you come straight back here.");
+    if (response.status === 403) return signIn(root, origin, "These projects are visible to the studio owner only. If you were sent a preview, its own link and code still open it.");
+    signIn(root, origin, data.error ?? "Could not reach the studio. Try again in a moment.");
+  } catch {
+    signIn(root, origin, "Could not reach the studio. Try again in a moment.");
   }
 }
+
+const root = $("[data-private]");
+if (root) load(root);
