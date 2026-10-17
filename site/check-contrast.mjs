@@ -47,10 +47,22 @@ for (const theme of ["light", "dark"]) {
   for (const [width, height] of [[1440, 900], [390, 844]]) {
     const ctx = await browser.newContext({ viewport: { width, height }, reducedMotion: "reduce" });
     await ctx.addInitScript((t) => { try { localStorage.setItem("theme", t); } catch { /* none */ } }, theme);
+    // The chat's own reply is text too, and it only exists after a question,
+    // so the check asks one: a canned answer stands in for the network.
+    // Order matters: Playwright tries the last-registered route first.
     await ctx.route((url) => !url.href.startsWith(origin), (r) => r.abort());
+    await ctx.route("**/api/widget/chat", (r) => r.fulfill({ json: { reply: "x", messages: [{ speaker: "loki", text: "A reply long enough to measure, the way a real answer reads." }] } }));
     const page = await ctx.newPage();
     for (const path of pages) {
       await page.goto(origin + path, { waitUntil: "load" });
+      // The chat loads a moment after the page (chat.js is lazy), so wait for it.
+      const box = page.locator("[data-chat] textarea").first();
+      if (await page.locator("[data-chat]").count()) {
+        await box.waitFor({ timeout: 15000 });
+        await box.fill("How do I start?").catch(() => {});
+        await box.press("Enter").catch(() => {});
+        await page.waitForFunction(() => document.querySelector("[data-chat]")?.textContent?.includes("A reply long enough"), null, { timeout: 10000 }).catch(() => {});
+      }
       const bad = await page.evaluate(() => {
         const parse = (c) => { const m = c.match(/[\d.]+/g)?.map(Number) ?? [0, 0, 0, 0]; return [m[0], m[1], m[2], m[3] ?? 1]; };
         const over = (top, under) => { const a = top[3]; return [0, 1, 2].map((i) => top[i] * a + under[i] * (1 - a)).concat(1); };
