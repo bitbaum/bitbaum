@@ -1148,12 +1148,37 @@ export function studioPage(all, packages, origin, readings) {
   const pkgCount = (packages.packages ?? []).length;
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
   const reading = readings?.current;
+  const running = all.filter((v) => ["product", "pilot"].includes(v.stage)).length;
+  const repos = origin?.repos?.length ?? 0, snaps = origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0;
+  const n = (x) => Number(x ?? 0).toLocaleString("en-US");
+  // Seen, not read: every number is a tile that links to where it is checked.
+  const tiles = [
+    [running, "systems running", "/work/"],
+    [pkgCount, "open-source packages", "/packages/"],
+    [repos, "repositories with proven origin", "https://github.com/bitbaum/fleet/blob/main/registers/origin.json"],
+    [n(reading?.downloads?.lastMonth), "package downloads, 30 days", "https://www.npmjs.com/org/bitbaum"],
+    [n(reading?.stars), "GitHub stars", "https://github.com/bitbaum"],
+    [`CHF ${n(reading?.clients?.mrrChf)}`, "a month from engagements", "https://github.com/bitbaum/fleet/blob/main/registers/readings.json"],
+  ].map(([v, t, h]) => `          <a class="stage-link" href="${h}"><span class="stage-count">${v}</span><span>${t}</span></a>`).join("\n");
+  const pillars = [
+    ["/orangecat/", "Earn", "OrangeCat", "Payment links and Bitcoin settlement: turn who you are into income."],
+    ["/loki/", "Build", "Loki", "Say what you want; a fleet of AI agents builds, tests and ships it, and you review what goes live."],
+    ["/solon/", "Decide", "Solon", "Proposals, one-click votes under rules a group chose, and a public record."],
+  ].map(([h, k, name, line]) => `          <a class="path" href="${h}"><span class="kicker quiet">${k}</span><span class="path-title">${name}</span><span class="path-body">${line}</span><span class="path-cta">Open ${name} ${ARROW}</span></a>`).join("\n");
+  const facts = [
+    ["Honest stages", `Every project is labelled by what can be verified — beta, pilot, in development, concept, not built — on the <a href="/work/">work catalogue</a>.`],
+    ["People stay responsible", "Agents do implementation work in Loki; people set the goals, review the changes and answer for what ships."],
+    ["Open by construction", `The packages are MIT-licensed and work built for someone else stays theirs. Contributor terms live in <a href="${CONTRIBUTING}">bitbaum/.github</a>.`],
+    ["Proven origin", `${snaps} of ${repos} repositories have a <a href="https://archive.softwareheritage.org/">Software Heritage snapshot</a>${block ? `; the earliest proof is anchored at Bitcoin block ${block}` : ""}.`],
+    ["Numbers from registers", `Counts and readings come from public registers, dated and linked (latest: ${esc(reading?.date ?? "n/a")}). They are readings, not forecasts.`],
+    ["Zürich, hired by the day", `Fractional CTO and contract engineering. Rates and the waitlist are on the <a href="${HIRE}">hire page</a>; the code is on <a href="${GITHUB}">GitHub</a>.`],
+  ].map(([h, t]) => `          <div class="depth-block"><span class="label">${h}</span><p>${t}</p></div>`).join("\n");
   const body = `  <main id="main">
     <section data-lodge class="stage stage-floored hero compact">
       <div class="wrap">
         <span class="eyebrow">The studio</span>
         <h1 class="display-1">Bit, and Baum.</h1>
-        <p class="lede">Bit for software. Baum, German for tree, for the shape: many branches from one trunk. The trunk is what lets a small group ship like a large one — and what lets the next person start in the middle rather than at the beginning.</p>
+        <p class="lede">Bit for software. Baum, German for tree, for the shape: many branches from one trunk, so a small group ships like a large one and the next person starts in the middle, not at the beginning.</p>
         <div class="actions">
           <a class="btn primary" href="/#join">Build with us ${ARROW}</a>
           <a class="btn secondary" href="/work/">See the work</a>
@@ -1161,22 +1186,32 @@ export function studioPage(all, packages, origin, readings) {
       </div>
     </section>
     <section class="section">
-      <div class="wrap"><div class="prose">
-        <h2>What bitbaum is</h2>
-        <p>Bitbaum is a product studio building AI-native software. OrangeCat, Loki and Solon are public beta products. Other projects are labelled on the <a href="/work/">work catalogue</a> by what can be verified: pilot, in development, concept, or not built.</p>
-        <h2>Why the stack is what it is</h2>
-        <p><a href="/orangecat/">OrangeCat</a> is the economic product, with payment links and Bitcoin settlement. <a href="/loki/">Loki</a> is the engineering control plane for dispatching work to agents, following sessions and reviewing changes. <a href="/solon/">Solon</a> is the governance product: proposals, one-click votes under rules a group chose, and a public record — in beta, with its governance agent being built alongside the first pilot groups.</p>
-        <h2>How the work gets done</h2>
-        <p>The studio publishes ${pkgCount} MIT-licensed packages for specific jobs: model routing, email, content, forms, rate limits, lists, threads and more. They are not all used by every product. Each <a href="/packages/">package profile</a> links to its source, current version and apps that list it as a dependency. Agents can do implementation work in Loki; people set the goals, review changes and remain responsible for what ships.</p>
-        <h2>What is true</h2>
-        <p>The project list and package adopters come from public registers; stage descriptions and short summaries are editorial and are kept here for review. The work catalogue distinguishes projects built for real organisations from demos and things that are not built.</p>
-        <h2>Open by construction</h2>
-        <p>The shared packages are MIT-licensed. Work built for someone else stays theirs. Contributor terms live in <a href="${CONTRIBUTING}">bitbaum/.github</a>. The <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a> tracks <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">${origin?.repos?.length ?? 0} repositories</a>, of which <a href="https://archive.softwareheritage.org/">${origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0} have a Software Heritage snapshot</a>${block ? `; the <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">earliest recorded proof is anchored at Bitcoin block ${block}</a>` : ""}.</p>
-        <h2>Numbers, in the open</h2>
-        <p>Fleet's <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">${esc(reading?.date ?? "latest")} readings</a> report <a href="https://github.com/bitbaum">${Number(reading?.stars ?? 0)} GitHub stars</a> and <a href="https://www.npmjs.com/org/bitbaum">${Number(reading?.downloads?.lastMonth ?? 0).toLocaleString("en-US")} package downloads over 30 days</a> (including our own CI installs). The same dated register reports <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">CHF ${Number(reading?.clients?.mrrChf ?? 0).toLocaleString("en-US")} a month from studio engagements</a> so far. These are readings, not forecasts; the source and date are linked.</p>
-        <h2>Work with the studio</h2>
-        <p>Fractional CTO and contract engineering, Zürich. Rates, scope and the waitlist are on the <a href="${HIRE}">hire page</a>. The code is on <a href="${GITHUB}">GitHub</a>.</p>
-      </div></div>
+      <div class="wrap">
+        <span class="kicker quiet">In the open</span>
+        <h2 class="headline-caps section-title">The numbers, with their sources.</h2>
+        <div class="stage-links stat-tiles">
+${tiles}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap">
+        <span class="kicker quiet">The trunk</span>
+        <h2 class="headline-caps section-title">Earn. Build. Decide.</h2>
+        <div class="paths">
+${pillars}
+        </div>
+        <p class="caption">Three public beta products, one loop; the ${pkgCount} shared packages behind them are on the <a class="textlink" href="/packages/">packages page</a>.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap">
+        <span class="kicker quiet">The rules</span>
+        <h2 class="headline-caps section-title">What is true here.</h2>
+        <div class="depth-blocks">
+${facts}
+        </div>
+      </div>
     </section>
   </main>`;
   return shell({ title: "The studio — bitbaum", description: "What Bitbaum builds, how its projects differ in readiness, and where the public numbers come from.", path: "/studio/", body, nav: "/studio/" });

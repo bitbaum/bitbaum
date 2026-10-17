@@ -1560,3 +1560,8 @@ footer nav a { max-width: 100%; overflow-wrap: anywhere; }
 .tl-more code { font-family: var(--mono); font-size: 0.85em; }
 .record-doors { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.5rem; padding-top: 1.75rem; border-top: 1px solid var(--line); }
 main > .record-doors.wrap { margin-top: 0; margin-bottom: var(--section-tight); padding-top: 1.75rem; }
+/* A number tile never breaks its number: "12" is not "1 / 2". */
+.stage-link .stage-count { white-space: nowrap; flex: none; }
+/* Six number tiles with longer labels: one to a row on a phone, so no label
+   breaks inside a word; three or six across where there is room. */
+.stat-tiles { grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
