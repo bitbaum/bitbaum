@@ -599,7 +599,7 @@ ${CAT}
   <script type="module" src="/sky.mjs"><\/script>
   <script type="module" src="/lodge.mjs"><\/script>
   <script type="module" src="/warp.mjs"><\/script>
-${script ?? ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>\n  <script type="module" src="/creatures.mjs"><\/script>` : ""}
+${script ?? ""}${body.includes("data-starry") ? `\n  <script type="module" src="/starry.mjs"><\/script>` : ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>\n  <script type="module" src="/creatures.mjs"><\/script>` : ""}
 ${path === "/portal/" ? "" : `  <script src="${esc(LOKI_FEEDBACK.origin)}/widget.js" data-fc-project="${esc(LOKI_FEEDBACK.token)}" data-fc-modes="${esc(LOKI_FEEDBACK.modes)}" async><\/script>`}
 </body>
 </html>
@@ -788,7 +788,11 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
           <h2 class="headline-caps section-title">${esc(ask.headline)}</h2>
           <p class="lede">${esc(ask.lede)}</p>
         </div>
-        ${chatMount({ title: "", starters: ask.starters })}
+        <figure class="ask-sky">
+          <canvas class="starry" data-starry aria-hidden="true"></canvas>
+          <div class="ask-chat">${chatMount({ title: "", starters: ask.starters })}</div>
+          <figcaption>Sky after Vincent van Gogh, <cite>The Starry Night</cite>, 1889</figcaption>
+        </figure>
       </div>
     </section>`;
   const by = (slug) => ventureBySlug.get(slug);
@@ -859,28 +863,6 @@ ${pathCards}
       </div>
     </section>
 
-${fullBleed({ scene: "seed", id: "build-yourself", body: `        <div class="bleed-copy">
-          <span class="kicker">Build it yourself</span>
-          <h2 class="headline-caps">Make it yourself.<br>Today.</h2>
-          <p class="bleed-lede">The studio is at capacity. Free Loki is open to you: build on your own, with no need to join every product. Explore OrangeCat or Solon when payment or collective decisions fit your work.</p>
-          <div class="bleed-actions">
-            <a class="btn-frame-accent" href="${LOKI_START}">Start with Loki ${ARROW}</a>
-            <a class="btn-frame" href="#tools">How the tools fit</a>
-          </div>
-        </div>` })}
-
-    <section class="section tools-section" id="tools">
-      <div class="wrap">
-        <span class="kicker quiet">The tools</span>
-        <h2 class="headline-caps section-title">Build. Earn. Decide.</h2>
-        <div class="tools">
-${tools}
-        </div>
-      </div>
-    </section>
-
-${WORMHOLE}
-
     <section class="section" id="work-preview">
       <div class="wrap">
         <div class="home-section-head">
@@ -894,23 +876,26 @@ ${featuredWork.map((v) => card(v, false)).join("\n")}
       </div>
     </section>
 
-${fullBleed({ scene: "rings", id: "studio", body: `        <div class="bleed-copy">
-          <span class="kicker">The studio &middot; ${esc(studioOpen ? "Taking projects" : "At capacity")}</span>
-          <h2 class="headline-caps">Built for you.<br>Built to last.</h2>
-          <p class="bleed-lede">${esc(hire?.lede ?? "")} ${esc(studioFrom)}.</p>
-          <div class="bleed-actions">
-            <a class="btn-frame-accent" href="${HIRE}#waitlist">${esc(studioOpen ? "Talk to the studio" : "Join the waitlist")} ${ARROW}</a>
-            <a class="btn-frame" href="${HIRE}">Rates and how it works</a>
-          </div>
-        </div>` })}
 
-${fullBleed({ scene: "mycelium", id: "join", strong: true, body: `        <div class="bleed-copy">
-          <span class="kicker">Partners</span>
-          <h2 class="headline-caps">Build here.</h2>
-          <p class="bleed-lede">Builders who pass the studio's systems design course and are approved take the work the studio cannot — under their own name, at their own price. Applications are open; none is listed yet.</p>
+    <section class="section tools-section" id="tools">
+      <div class="wrap">
+        <span class="kicker quiet">The tools</span>
+        <h2 class="headline-caps section-title">Build. Earn. Decide.</h2>
+        <div class="tools">
+${tools}
+        </div>
+      </div>
+    </section>
+
+${WORMHOLE}
+
+${fullBleed({ scene: "seed", id: "build-yourself", body: `        <div class="bleed-copy">
+          <span class="kicker">Build it yourself</span>
+          <h2 class="headline-caps">Make it yourself.<br>Today.</h2>
+          <p class="bleed-lede">The studio is at capacity. Free Loki is open to you: build on your own, with no need to join every product. Explore OrangeCat or Solon when payment or collective decisions fit your work.</p>
           <div class="bleed-actions">
-            <a class="btn-frame-accent" href="/partners/#join">Become a partner ${ARROW}</a>
-            <a class="btn-frame" href="/partners/">How it works</a>
+            <a class="btn-frame-accent" href="${LOKI_START}">Start with Loki ${ARROW}</a>
+            <a class="btn-frame" href="#tools">How the tools fit</a>
           </div>
         </div>` })}
 
@@ -918,9 +903,9 @@ ${RABBIT_HOLE}
 
 ${askSection}
 
-    <section class="dev-band">
+    <section class="dev-band" id="join">
       <div class="wrap">
-        <p><span class="label">For developers</span> The ${pkgCount} MIT packages behind these products — ${pkgLine} and more. <a class="textlink" href="/packages/">Explore packages ${ARROW}</a></p>
+        <p><span class="label">Build with us</span> The ${pkgCount} MIT packages behind these products — ${pkgLine} and more. <a class="textlink" href="/packages/">Explore packages ${ARROW}</a> <a class="textlink" href="${CONTRIBUTING}">Contribute ↗</a> <a class="textlink" href="/partners/#join">Become a partner ${ARROW}</a></p>
       </div>
     </section>
   </main>`;
@@ -1350,6 +1335,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("lodge.mjs", readFileSync(join(here, "lodge.mjs"), "utf8"));
   files.set("creatures.mjs", readFileSync(join(here, "creatures.mjs"), "utf8"));
   files.set("warp.mjs", readFileSync(join(here, "warp.mjs"), "utf8"));
+  files.set("starry.mjs", readFileSync(join(here, "starry.mjs"), "utf8"));
   const register = castRegister(files);
   files.set("cast.json", JSON.stringify(register, null, 2) + "\n");
   return { all, files, castDoc: castDoc(register) };
