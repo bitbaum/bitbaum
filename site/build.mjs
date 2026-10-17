@@ -903,9 +903,9 @@ ${RABBIT_HOLE}
 
 ${askSection}
 
-    <section class="dev-band">
+    <section class="dev-band" id="join">
       <div class="wrap">
-        <p><span class="label">For developers</span> The ${pkgCount} MIT packages behind these products — ${pkgLine} and more. <a class="textlink" href="/packages/">Explore packages ${ARROW}</a></p>
+        <p><span class="label">Build with us</span> The ${pkgCount} MIT packages behind these products — ${pkgLine} and more. <a class="textlink" href="/packages/">Explore packages ${ARROW}</a> <a class="textlink" href="${CONTRIBUTING}">Contribute ↗</a> <a class="textlink" href="/partners/#join">Become a partner ${ARROW}</a></p>
       </div>
     </section>
   </main>`;
