@@ -1016,7 +1016,7 @@ ${does.map((d) => `            <li>${esc(d)}</li>`).join("\n")}
           ${v.stack.connects ? `<p class="depth-connects"><span class="label">In the stack</span> ${esc(v.stack.connects)}</p>` : ""}
         </div>` : ""}
 ${roadmap.length ? `        <div class="depth-roadmap">
-          <span class="label">Being built now</span>
+          <span class="label">${v.stage === "next" ? "The plan" : "Being built now"}</span>
           <ul>
 ${roadmap.map((r) => {
     const pct = Number(r.progress);

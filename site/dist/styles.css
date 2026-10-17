@@ -1321,6 +1321,18 @@ html { overflow-x: clip; }
 
 /* ─── project avatars ─────────────────────────────────────────────────── */
 .guest-stand { left: 58%; bottom: 64px; width: 120px; }
+/* What stands on the floor casts a shadow on it: a soft pool under the feet
+   is what makes a painting stand rather than float. The figure settles about
+   its feet (lodge.mjs leans it a degree now and then), never about its middle. */
+.guest-stand .fig, .guest-unicorn .fig, .horse-stand .fig, .guest-snail .fig { transform-origin: 50% 100%; }
+.guest-stand::after, .guest-unicorn::after, .guest-horse::after, .guest-snail::after, .walker::after, .deer-deep::after, .art-stage .fox::after {
+  content: ""; position: absolute; left: 10%; right: 10%; bottom: -3%; height: 14%; z-index: -1;
+  border-radius: 50%; background: radial-gradient(ellipse at center, rgb(0 0 0 / 0.42), rgb(0 0 0 / 0.18) 45%, transparent 72%);
+  filter: blur(2px); pointer-events: none;
+}
+:root:not(.dark) .guest-stand::after, :root:not(.dark) .guest-unicorn::after, :root:not(.dark) .guest-horse::after, :root:not(.dark) .guest-snail::after, :root:not(.dark) .walker::after, :root:not(.dark) .deer-deep::after, :root:not(.dark) .art-stage .fox::after { opacity: 0.6; }
+.guest-art-diplodocus::after { left: 18%; right: 22%; height: 9%; }
+.guest-art-elephant::after { left: 14%; right: 14%; height: 10%; }
 .guest-art-cow { width: 150px; }
 .guest-art-diplodocus { width: 250px; left: 54%; bottom: 56px; }
 .guest-art-elephant { width: 150px; }

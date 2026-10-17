@@ -813,8 +813,47 @@ if (canvas) {
   // Rain falls as fine slanting lines, snow as soft flakes that sway; both
   // are few, drawn over the sky and behind every word. Fog is CSS (a pair of
   // slow bands, styles.css) and needs nothing here.
-  let drops = [], motes = [], clouds = [];
-  document.addEventListener("weather", () => { drops = []; motes = []; clouds = []; if (still) draw(0); });
+  let drops = [], motes = [], clouds = [], beasts = [];
+  document.addEventListener("weather", () => { drops = []; motes = []; clouds = []; beasts = []; if (still) draw(0); });
+
+  // Cloud creatures: now and then a cloud is a diplodocus, a whale, a unicorn
+  // — the painted animals, made of cloud. The creatures that live in the sky
+  // live there AS clouds, drifting with the others; nothing solid floats.
+  // Each is cut once: the painting's shape, filled with the cloud's own
+  // texture and lit from above, with a soft edge.
+  const BEASTS = ["diplodocus", "whale", "unicorn", "elephant", "horse", "deer", "owl-fly", "cow", "fox", "moth"];
+  const beastCache = new Map();
+  function beast(name, w) {
+    const key = `${name}@${w | 0}`;
+    if (beastCache.has(key)) return beastCache.get(key);
+    const img = art(name), tex = art("cloud-2") || art("cloud-1");
+    if (!img || !tex) return null;
+    const h = Math.round(w * (img.naturalHeight / img.naturalWidth)), pad = Math.round(w * 0.06);
+    const c = document.createElement("canvas"); c.width = w + pad * 2; c.height = h + pad * 2;
+    const g = c.getContext("2d");
+    // The shape, softened: a cloud has no hard line anywhere.
+    g.filter = `blur(${Math.max(1.5, w * 0.012).toFixed(1)}px)`;
+    g.drawImage(img, pad, pad, w, h);
+    g.filter = "none";
+    // Filled with cloud: the texture tiled through the silhouette, then a
+    // light from above and a shadow underneath, so it reads as vapour.
+    // The texture is tiled on its own sheet first and laid in with ONE draw:
+    // source-in keeps only where the new source overlaps, so tile by tile it
+    // would erase all but the last tile.
+    const sheet = document.createElement("canvas"); sheet.width = c.width; sheet.height = c.height;
+    const sg = sheet.getContext("2d");
+    const tw = Math.max(w * 0.9, 120), th = tw * (tex.naturalHeight / tex.naturalWidth);
+    for (let y = -th * 0.3; y < c.height; y += th * 0.55) for (let x = -tw * 0.3; x < c.width; x += tw * 0.7) sg.drawImage(tex, x, y, tw, th);
+    g.globalCompositeOperation = "source-in";
+    g.drawImage(sheet, 0, 0);
+    g.globalCompositeOperation = "source-atop";
+    const lit = g.createLinearGradient(0, 0, 0, c.height);
+    lit.addColorStop(0, "rgba(255,255,255,0.55)"); lit.addColorStop(0.55, "rgba(255,255,255,0.08)"); lit.addColorStop(1, "rgba(120,135,160,0.45)");
+    g.fillStyle = lit; g.fillRect(0, 0, c.width, c.height);
+    g.globalCompositeOperation = "source-over";
+    beastCache.set(key, c);
+    return c;
+  }
   // Weather and season, drawn behind every word. Particles are few and
   // capped; all of it holds still for reduced motion.
   function weather(t) {
@@ -837,6 +876,33 @@ if (canvas) {
       if (palette.night) ctx.filter = "brightness(0.5) saturate(0.4)";
       else if (w.tone < 1) ctx.filter = `brightness(${w.tone.toFixed(2)}) saturate(0.5)`;
       ctx.drawImage(img, c.x, c.y, cw, h);
+      ctx.filter = "none"; ctx.globalAlpha = 1;
+    }
+    // One or two cloud creatures, high and far, slower than the clouds: a
+    // diplodocus crossing the sky as a cloud is seen only by someone who
+    // looks up. A creature that has drifted off is replaced by another.
+    const nBeasts = w.fog ? 0 : phone ? 1 : 2;
+    while (beasts.length < nBeasts) {
+      const name = BEASTS[Math.floor(Math.random() * BEASTS.length)];
+      // The first ones are already in the sky when the page opens; a
+      // replacement comes in from the right, the way the clouds do.
+      beasts.push({ name, x: beasts.length === 0 && !beasts.seeded ? Math.random() * W * 0.6 : W + Math.random() * W * 0.8, y: H * (phone ? 0.04 + Math.random() * 0.1 : 0.05 + Math.random() * 0.3), s: (phone ? 0.5 : 0.7) + Math.random() * 0.5, v: 4 + Math.random() * 5, face: Math.random() < 0.5 ? 1 : -1 });
+    }
+    beasts.seeded = true;
+    if (beasts.length > nBeasts) beasts.length = nBeasts;
+    for (const b of beasts) {
+      const bw = Math.min(W * 0.5, 380) * b.s;
+      const cnv = beast(b.name, bw);
+      if (!cnv) continue;
+      if (!still) b.x -= (b.v + w.wind * 0.6) * dt;
+      if (b.x < -cnv.width) { b.x = W + cnv.width * 0.3; b.name = BEASTS[Math.floor(Math.random() * BEASTS.length)]; b.face = Math.random() < 0.5 ? 1 : -1; }
+      ctx.globalAlpha = palette.night ? 0.22 : w.tone < 1 ? 0.85 : 0.75;
+      if (palette.night) ctx.filter = "brightness(0.55) saturate(0.3)";
+      else if (w.tone < 1) ctx.filter = `brightness(${w.tone.toFixed(2)}) saturate(0.5)`;
+      // Clouds go with the wind, which blows left: a creature faces the way it drifts.
+      ctx.save(); ctx.translate(b.x + cnv.width / 2, b.y); ctx.scale(-b.face, 1);
+      ctx.drawImage(cnv, -cnv.width / 2, 0);
+      ctx.restore();
       ctx.filter = "none"; ctx.globalAlpha = 1;
     }
     if (still) return;

@@ -83,9 +83,9 @@ say((await page.$$(`${W} .ck-mic`)).length === 1, "with a microphone");
 say((await page.$$(`${W} form, ${W} input[type=email], ${W} select`)).length === 0, "and no form fields to fill");
 
 // The one door routes by what was written, never by what was filled in.
-// A line with no website and no email is kept: one question, then the
-// studio's waitlist (Loki's inbox) — the engagement a reader clicked travels
-// with it, and no address is invented.
+// A line with no website and no email is kept at once on the studio's
+// waitlist (Loki's inbox) — no question first — and the engagement a reader
+// clicked travels with it; no address is invented.
 let intakes = 0, intake = null;
 const cors = { "access-control-allow-origin": new URL(base).origin, "access-control-allow-methods": "GET, POST, OPTIONS", "access-control-allow-headers": "Content-Type, Authorization" };
 await page.route("**/api/studio-intake", async (route) => {
@@ -96,26 +96,27 @@ await page.route("**/api/studio-intake", async (route) => {
 await page.click('[data-engagement="Rescue"]');
 await page.fill(`${W} .ck-input`, "an app");
 await page.press(`${W} .ck-input`, "Enter");
-await page.waitForTimeout(400);
-say(posts === 0 && intakes === 0, "a line without a site is not sent anywhere yet");
-say(/website that already exists/i.test(await page.innerText(`${W} .ck-thread`)), "it asks the one question: is there a site?");
-await page.fill(`${W} .ck-input`, "no, something new");
-await page.press(`${W} .ck-input`, "Enter");
 await page.waitForTimeout(600);
-say(posts === 1 && intakes === 0, `"something new" joins the waitlist in one request (${posts})`);
+say(posts === 1 && intakes === 0, `the first line joins the waitlist at once, with no question first (${posts})`);
 say(/^fcw_/.test(last?.token ?? ""), "it carries the widget token");
 say((last?.suggestion ?? "").includes("Engagement: Rescue"), "the engagement is recorded");
-say((last?.suggestion ?? "").includes("an app") && (last?.suggestion ?? "").includes("something new"), "both lines are recorded as written");
+say((last?.suggestion ?? "").includes("an app"), "the line is recorded as written");
 say(!last?.contact, "no address is invented");
 say((last?.page ?? "") === "/hire/", `the page is recorded (${last?.page})`);
 const asked = await page.innerText(`${W} .ck-thread`);
 say(/on the studio waitlist/i.test(asked) && /goes to your inbox as well/i.test(asked), "the visitor is told it is kept, and that an email is optional");
+say(/paste its address/i.test(asked), "and that an existing site's address can still be added");
+await page.fill(`${W} .ck-input`, "no, something new");
+await page.press(`${W} .ck-input`, "Enter");
+await page.waitForTimeout(600);
+say(posts === 2 && intakes === 0, `"something new" is a follow-up on the same note (${posts})`);
+say((last?.suggestion ?? "").includes("an app") && (last?.suggestion ?? "").includes("something new"), "both lines are recorded as written");
 
 // an email given afterwards becomes the reply address
 await page.fill(`${W} .ck-input`, "someone@example.com please");
 await page.press(`${W} .ck-input`, "Enter");
 await page.waitForTimeout(600);
-say(posts === 2, `the follow-up is kept too (${posts})`);
+say(posts === 3, `the follow-up is kept too (${posts})`);
 say(last?.contact === "someone@example.com", `the address is recorded (${last?.contact})`);
 say((last?.suggestion ?? "").includes("an app"), "tied to the first message");
 
