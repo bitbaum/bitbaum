@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-17T18:55:21.516Z",
-  "thesis": "One person plus Bitcoin, an AI fleet and cryptographic governance replaces the permission a corporation, bank, platform or state would otherwise grant.",
+  "generatedAt": "2026-10-17T20:44:33.900Z",
+  "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
       "slug": "orangecat",
@@ -130,7 +130,7 @@
       },
       "identity": {
         "problem": "Electronic waste and lack of access to technology for those in need.",
-        "solution": "Revamp-IT provides refurbished technology to those in need, while promoting sustainability and digital inclusion.",
+        "solution": "evig provides refurbished technology to those in need, while promoting sustainability and digital inclusion.",
         "mission": "To provide refurbished technology to those in need, while promoting sustainability and digital inclusion.",
         "vision": "A world where technology is accessible to all, and electronic waste is minimized."
       }

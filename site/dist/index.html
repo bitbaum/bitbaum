@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>bitbaum — one trunk, many products</title>
 <meta name="description" content="An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/">
@@ -244,13 +255,11 @@
           <h2 class="headline-caps section-title">Not sure where to start?</h2>
           <p class="lede">Ask in your own words. The Cat knows earning and getting paid, Loki knows building — between them, every project here. They send you to the one that fits.</p>
         </div>
-        <figure class="ask-sky">
-          <canvas class="starry" data-starry aria-hidden="true"></canvas>
+        <div class="ask-sky">
           <div class="ask-chat"><div class="chat-mount" data-chat data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;I want a website for my business&quot;,&quot;I need AI agents working on my code&quot;,&quot;What is bitbaum?&quot;,&quot;I want to get paid for my work&quot;]">
           <p class="caption">The chat needs JavaScript. <a class="textlink" href="/work/">Browse every project</a> or <a class="textlink" href="/hire/#waitlist">join the waitlist</a>.</p>
         </div></div>
-          <figcaption>Sky after Vincent van Gogh, <cite>The Starry Night</cite>, 1889</figcaption>
-        </figure>
+        </div>
       </div>
     </section>
 
@@ -385,7 +394,6 @@
       addEventListener("load", function () { (window.requestIdleCallback || setTimeout)(load, { timeout: 4000 }); });
     })();
   </script>
-  <script type="module" src="/starry.mjs"></script>
   <script type="module" src="/scenes.mjs"></script>
   <script type="module" src="/creatures.mjs"></script>
   <script src="https://loki.orangecat.ch/widget.js" data-fc-project="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-fc-modes="report" async></script>

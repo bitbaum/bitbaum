@@ -29,6 +29,7 @@ import { createLoopsPage } from "./loops.mjs";
 import { publicMap } from "./public-map.mjs";
 import { fig, ART_NAMES } from "./art.mjs";
 import { renderRecord } from "./record-html.mjs";
+import { renderRoadmap, renderChangelog } from "./records.mjs";
 import { PAGE_ART } from "./art-placement.mjs";
 // How each object in a page's ground strip moves (styles.css): gears turn,
 // rye and dandelions sway, mushrooms breathe, the tumbleweed rolls through.
@@ -434,7 +435,25 @@ function pill(v) {
 }
 
 // ── page chrome ─────────────────────────────────────────────────────────────
+/**
+ * Where next, on every content page: the three doors a visitor came for,
+ * at the foot of the page where they have just finished reading. A page that
+ * already carries its own doors (the home page, hire, the venture pages'
+ * prev/next) is left alone.
+ */
+const DOORS_ON = ["/work/", "/partners/", "/studio/", "/academy/", "/packages/", "/map/", "/roadmap/", "/changelog/"];
+function doors(path) {
+  const here = (p) => (p === path ? "" : p);
+  const items = [
+    ["/#start", "Start a project", true],
+    [here("/work/") && "/work/", "See the work", false],
+    ["/#ask", "Ask the Cat or Loki", false],
+  ].filter(([h]) => h);
+  return `    <nav class="record-doors wrap" aria-label="Where next">${items.map(([h, t, accent]) => `<a class="${accent ? "btn-frame-accent" : "btn-frame"}" href="${h}">${t}${accent ? ` ${ARROW}` : ""}</a>`).join("")}</nav>\n`;
+}
+
 function shell({ title, description, path, body, nav, script, image }) {
+  if (DOORS_ON.includes(path) && !body.includes('aria-label="Where next"')) body = body.replace(/\s*<\/main>\s*$/, `\n${doors(path)}  </main>`);
   // Guests get a stage of their own after the opening section. Text can grow,
   // fonts can enlarge, and a phone can rotate without a creature sitting on it.
   if (path !== "/") {
@@ -504,6 +523,17 @@ function shell({ title, description, path, body, nav, script, image }) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${SITE}${path}">
@@ -599,7 +629,7 @@ ${CAT}
   <script type="module" src="/sky.mjs"><\/script>
   <script type="module" src="/lodge.mjs"><\/script>
   <script type="module" src="/warp.mjs"><\/script>
-${script ?? ""}${body.includes("data-starry") ? `\n  <script type="module" src="/starry.mjs"><\/script>` : ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>\n  <script type="module" src="/creatures.mjs"><\/script>` : ""}
+${script ?? ""}${body.includes("data-scene") ? `\n  <script type="module" src="/scenes.mjs"><\/script>\n  <script type="module" src="/creatures.mjs"><\/script>` : ""}
 ${path === "/portal/" ? "" : `  <script src="${esc(LOKI_FEEDBACK.origin)}/widget.js" data-fc-project="${esc(LOKI_FEEDBACK.token)}" data-fc-modes="${esc(LOKI_FEEDBACK.modes)}" async><\/script>`}
 </body>
 </html>
@@ -788,11 +818,9 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
           <h2 class="headline-caps section-title">${esc(ask.headline)}</h2>
           <p class="lede">${esc(ask.lede)}</p>
         </div>
-        <figure class="ask-sky">
-          <canvas class="starry" data-starry aria-hidden="true"></canvas>
+        <div class="ask-sky">
           <div class="ask-chat">${chatMount({ title: "", starters: ask.starters })}</div>
-          <figcaption>Sky after Vincent van Gogh, <cite>The Starry Night</cite>, 1889</figcaption>
-        </figure>
+        </div>
       </div>
     </section>`;
   const by = (slug) => ventureBySlug.get(slug);
@@ -949,9 +977,31 @@ export function academyPage() {
   return shell({ title: "Systems design pilot — bitbaum", description: "The first Bitbaum lesson, practical capstone and review rubric. The full course is in development.", path: "/academy/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Studio-owned course · pilot</span><h1 class="headline-caps section-title">Design a system people can use.</h1><p class="lede">One practical lesson and a capstone rubric begin the course. More lessons and teaching examples are being developed in public. Passing the course and becoming a studio-approved partner are separate decisions.</p><div class="record">${lesson}<h2>Submit evidence for each dimension</h2>${COURSE.modules.map((m) => `<h3>${esc(m.title)}</h3><p>${esc(m.prompt)}</p>`).join("\n")}</div><div class="bleed-actions quiet-actions"><a class="btn primary" href="/partners/#join">Start a partner application ${ARROW}</a><a class="btn secondary" href="/portal/">Resume your application</a><a class="textlink" href="/roadmap/">Follow course development</a></div></div></section></main>` });
 }
 export function recordPage(kind) {
-  const name = kind === "roadmap" ? "Roadmap" : "Changelog";
+  // Drawn, not read: the roadmap as a board of horizons with progress, the
+  // changelog as a timeline. The canonical text stays in the repository and
+  // is linked; the page shows the state and opens the detail on request.
   const source = readFileSync(join(here, "..", `${kind.toUpperCase()}.md`), "utf8");
-  return shell({ title: `${name} — bitbaum`, description: `Bitbaum's canonical ${kind}: course, portal and studio development in public.`, path: `/${kind}/`, body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Building in public</span><h1 class="headline-caps section-title">${name}.</h1><div class="record">${renderRecord(source)}</div><a class="textlink" href="https://github.com/bitbaum/bitbaum/blob/main/${kind.toUpperCase()}.md">Read the canonical repository record</a></div></section></main>` });
+  const canonical = `https://github.com/bitbaum/bitbaum/blob/main/${kind.toUpperCase()}.md`;
+  if (kind === "roadmap") {
+    const r = renderRoadmap(source);
+    const body = `<main id="main"><section class="section record-page"><div class="wrap">
+      <span class="kicker quiet">Building in public</span>
+      <h1 class="headline-caps section-title">Roadmap.</h1>
+      <p class="lede">What the studio is building, in the order it matters. ${r.done} of ${r.total} steps are done and verified in CI; dates are not promised. <a class="textlink" href="${canonical}">The canonical record</a> has every word.</p>
+${r.html}
+      <nav class="record-doors" aria-label="Where next"><a class="btn-frame-accent" href="/work/">See what is built ${ARROW}</a><a class="btn-frame" href="/changelog/">What changed lately</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
+    </div></section></main>`;
+    return shell({ title: "Roadmap — bitbaum", description: `Bitbaum's roadmap: ${r.done} of ${r.total} steps done across now, next and later.`, path: "/roadmap/", body });
+  }
+  const c = renderChangelog(source);
+  const body = `<main id="main"><section class="section record-page"><div class="wrap">
+      <span class="kicker quiet">Building in public</span>
+      <h1 class="headline-caps section-title">Changelog.</h1>
+      <p class="lede">${c.count} changes shipped, newest first. One line each; open an entry for the rest. <a class="textlink" href="${canonical}">The canonical record</a> has every word.</p>
+${c.html}
+      <nav class="record-doors" aria-label="Where next"><a class="btn-frame-accent" href="/roadmap/">What comes next ${ARROW}</a><a class="btn-frame" href="/work/">See the work</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
+    </div></section></main>`;
+  return shell({ title: "Changelog — bitbaum", description: `Bitbaum's changelog: ${c.count} shipped changes, newest first.`, path: "/changelog/", body });
 }
 
 
@@ -1001,7 +1051,7 @@ ${does.map((d) => `            <li>${esc(d)}</li>`).join("\n")}
           ${v.stack.connects ? `<p class="depth-connects"><span class="label">In the stack</span> ${esc(v.stack.connects)}</p>` : ""}
         </div>` : ""}
 ${roadmap.length ? `        <div class="depth-roadmap">
-          <span class="label">Being built now</span>
+          <span class="label">${v.stage === "next" ? "The plan" : "Being built now"}</span>
           <ul>
 ${roadmap.map((r) => {
     const pct = Number(r.progress);
@@ -1098,12 +1148,37 @@ export function studioPage(all, packages, origin, readings) {
   const pkgCount = (packages.packages ?? []).length;
   const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
   const reading = readings?.current;
+  const running = all.filter((v) => ["product", "pilot"].includes(v.stage)).length;
+  const repos = origin?.repos?.length ?? 0, snaps = origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0;
+  const n = (x) => Number(x ?? 0).toLocaleString("en-US");
+  // Seen, not read: every number is a tile that links to where it is checked.
+  const tiles = [
+    [running, "systems running", "/work/"],
+    [pkgCount, "open-source packages", "/packages/"],
+    [repos, "repositories with proven origin", "https://github.com/bitbaum/fleet/blob/main/registers/origin.json"],
+    [n(reading?.downloads?.lastMonth), "package downloads, 30 days", "https://www.npmjs.com/org/bitbaum"],
+    [n(reading?.stars), "GitHub stars", "https://github.com/bitbaum"],
+    [`CHF ${n(reading?.clients?.mrrChf)}`, "a month from engagements", "https://github.com/bitbaum/fleet/blob/main/registers/readings.json"],
+  ].map(([v, t, h]) => `          <a class="stage-link" href="${h}"><span class="stage-count">${v}</span><span>${t}</span></a>`).join("\n");
+  const pillars = [
+    ["/orangecat/", "Earn", "OrangeCat", "Payment links and Bitcoin settlement: turn who you are into income."],
+    ["/loki/", "Build", "Loki", "Say what you want; a fleet of AI agents builds, tests and ships it, and you review what goes live."],
+    ["/solon/", "Decide", "Solon", "Proposals, one-click votes under rules a group chose, and a public record."],
+  ].map(([h, k, name, line]) => `          <a class="path" href="${h}"><span class="kicker quiet">${k}</span><span class="path-title">${name}</span><span class="path-body">${line}</span><span class="path-cta">Open ${name} ${ARROW}</span></a>`).join("\n");
+  const facts = [
+    ["Honest stages", `Every project is labelled by what can be verified — beta, pilot, in development, concept, not built — on the <a href="/work/">work catalogue</a>.`],
+    ["People stay responsible", "Agents do implementation work in Loki; people set the goals, review the changes and answer for what ships."],
+    ["Open by construction", `The packages are MIT-licensed and work built for someone else stays theirs. Contributor terms live in <a href="${CONTRIBUTING}">bitbaum/.github</a>.`],
+    ["Proven origin", `${snaps} of ${repos} repositories have a <a href="https://archive.softwareheritage.org/">Software Heritage snapshot</a>${block ? `; the earliest proof is anchored at Bitcoin block ${block}` : ""}.`],
+    ["Numbers from registers", `Counts and readings come from public registers, dated and linked (latest: ${esc(reading?.date ?? "n/a")}). They are readings, not forecasts.`],
+    ["Zürich, hired by the day", `Fractional CTO and contract engineering. Rates and the waitlist are on the <a href="${HIRE}">hire page</a>; the code is on <a href="${GITHUB}">GitHub</a>.`],
+  ].map(([h, t]) => `          <div class="depth-block"><span class="label">${h}</span><p>${t}</p></div>`).join("\n");
   const body = `  <main id="main">
     <section data-lodge class="stage stage-floored hero compact">
       <div class="wrap">
         <span class="eyebrow">The studio</span>
         <h1 class="display-1">Bit, and Baum.</h1>
-        <p class="lede">Bit for software. Baum, German for tree, for the shape: many branches from one trunk. The trunk is what lets a small group ship like a large one — and what lets the next person start in the middle rather than at the beginning.</p>
+        <p class="lede">Bit for software. Baum, German for tree, for the shape: many branches from one trunk, so a small group ships like a large one and the next person starts in the middle, not at the beginning.</p>
         <div class="actions">
           <a class="btn primary" href="/#join">Build with us ${ARROW}</a>
           <a class="btn secondary" href="/work/">See the work</a>
@@ -1111,22 +1186,32 @@ export function studioPage(all, packages, origin, readings) {
       </div>
     </section>
     <section class="section">
-      <div class="wrap"><div class="prose">
-        <h2>What bitbaum is</h2>
-        <p>Bitbaum is a product studio building AI-native software. OrangeCat, Loki and Solon are public beta products. Other projects are labelled on the <a href="/work/">work catalogue</a> by what can be verified: pilot, in development, concept, or not built.</p>
-        <h2>Why the stack is what it is</h2>
-        <p><a href="/orangecat/">OrangeCat</a> is the economic product, with payment links and Bitcoin settlement. <a href="/loki/">Loki</a> is the engineering control plane for dispatching work to agents, following sessions and reviewing changes. <a href="/solon/">Solon</a> is the governance product: proposals, one-click votes under rules a group chose, and a public record — in beta, with its governance agent being built alongside the first pilot groups.</p>
-        <h2>How the work gets done</h2>
-        <p>The studio publishes ${pkgCount} MIT-licensed packages for specific jobs: model routing, email, content, forms, rate limits, lists, threads and more. They are not all used by every product. Each <a href="/packages/">package profile</a> links to its source, current version and apps that list it as a dependency. Agents can do implementation work in Loki; people set the goals, review changes and remain responsible for what ships.</p>
-        <h2>What is true</h2>
-        <p>The project list and package adopters come from public registers; stage descriptions and short summaries are editorial and are kept here for review. The work catalogue distinguishes projects built for real organisations from demos and things that are not built.</p>
-        <h2>Open by construction</h2>
-        <p>The shared packages are MIT-licensed. Work built for someone else stays theirs. Contributor terms live in <a href="${CONTRIBUTING}">bitbaum/.github</a>. The <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a> tracks <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">${origin?.repos?.length ?? 0} repositories</a>, of which <a href="https://archive.softwareheritage.org/">${origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0} have a Software Heritage snapshot</a>${block ? `; the <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">earliest recorded proof is anchored at Bitcoin block ${block}</a>` : ""}.</p>
-        <h2>Numbers, in the open</h2>
-        <p>Fleet's <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">${esc(reading?.date ?? "latest")} readings</a> report <a href="https://github.com/bitbaum">${Number(reading?.stars ?? 0)} GitHub stars</a> and <a href="https://www.npmjs.com/org/bitbaum">${Number(reading?.downloads?.lastMonth ?? 0).toLocaleString("en-US")} package downloads over 30 days</a> (including our own CI installs). The same dated register reports <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">CHF ${Number(reading?.clients?.mrrChf ?? 0).toLocaleString("en-US")} a month from studio engagements</a> so far. These are readings, not forecasts; the source and date are linked.</p>
-        <h2>Work with the studio</h2>
-        <p>Fractional CTO and contract engineering, Zürich. Rates, scope and the waitlist are on the <a href="${HIRE}">hire page</a>. The code is on <a href="${GITHUB}">GitHub</a>.</p>
-      </div></div>
+      <div class="wrap">
+        <span class="kicker quiet">In the open</span>
+        <h2 class="headline-caps section-title">The numbers, with their sources.</h2>
+        <div class="stage-links stat-tiles">
+${tiles}
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap">
+        <span class="kicker quiet">The trunk</span>
+        <h2 class="headline-caps section-title">Earn. Build. Decide.</h2>
+        <div class="paths">
+${pillars}
+        </div>
+        <p class="caption">Three public beta products, one loop; the ${pkgCount} shared packages behind them are on the <a class="textlink" href="/packages/">packages page</a>.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap">
+        <span class="kicker quiet">The rules</span>
+        <h2 class="headline-caps section-title">What is true here.</h2>
+        <div class="depth-blocks">
+${facts}
+        </div>
+      </div>
     </section>
   </main>`;
   return shell({ title: "The studio — bitbaum", description: "What Bitbaum builds, how its projects differ in readiness, and where the public numbers come from.", path: "/studio/", body, nav: "/studio/" });
@@ -1335,7 +1420,6 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("lodge.mjs", readFileSync(join(here, "lodge.mjs"), "utf8"));
   files.set("creatures.mjs", readFileSync(join(here, "creatures.mjs"), "utf8"));
   files.set("warp.mjs", readFileSync(join(here, "warp.mjs"), "utf8"));
-  files.set("starry.mjs", readFileSync(join(here, "starry.mjs"), "utf8"));
   const register = castRegister(files);
   files.set("cast.json", JSON.stringify(register, null, 2) + "\n");
   return { all, files, castDoc: castDoc(register) };

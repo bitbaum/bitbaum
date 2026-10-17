@@ -255,15 +255,10 @@ img { max-width: 100%; display: block; }
 .ask-section { border-top: 1px solid var(--line); }
 .ask { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(1.75rem, 5vw, 5rem); align-items: start; }
 .ask-copy { display: grid; gap: 1rem; justify-items: start; }
-/* The chat floats on The Starry Night (starry.mjs): ask the night sky. The card
-   keeps its own ground, so nothing written in it sits on the painting. */
-.ask-sky { position: relative; margin: 0; padding: clamp(1.25rem, 4vw, 2.75rem); border-radius: var(--radius); overflow: hidden; background: #13244d; isolation: isolate; }
-.ask-sky .starry { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; display: block; }
-.ask-sky .ask-chat { position: relative; }
-.ask-sky .chat-card { background: rgb(var(--veil) / 0.93); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-/* Anything the chat shows before it loads sits on the night sky: moonlight, not ink. */
-.ask-sky .chat-mount > .caption, .ask-sky .chat-mount > .caption .textlink { color: #e8eefb; }
-.ask-sky .chat-mount > .caption .textlink { border-bottom-color: rgb(232 238 251 / 0.5); }
+/* The chat sits on the page's own sky. The Starry Night that was painted
+   behind it is gone: the night sky itself carries a few Van Gogh stars
+   (sky.mjs), past the first screen, faint. */
+.ask-sky { position: relative; margin: 0; }
 .ask-sky figcaption { margin-top: 0.9rem; color: #e8eefb; font-size: 0.75rem; letter-spacing: 0.02em; text-shadow: 0 1px 2px rgb(0 0 0 / 0.6); }
 .ask-sky figcaption cite { font-style: italic; }
 
@@ -1151,7 +1146,7 @@ footer::before { background-position: calc(var(--tile) / -2 + var(--fy, 0px)) 0,
   45% { scale: 0.86; translate: 0 22px; filter: brightness(1.03) saturate(0.9); }
   80% { scale: 0.5; translate: 0 6px; filter: blur(0.35px) brightness(1.08) saturate(0.7); }
   95% { opacity: 1; }
-  100% { left: 75%; opacity: 0; scale: 0.34; translate: 0 0; filter: blur(0.8px) brightness(1.14) saturate(0.55); }
+  100% { left: 68%; opacity: 0; scale: 0.34; translate: 0 0; filter: blur(0.8px) brightness(1.14) saturate(0.55); }
 }
 
 
@@ -1159,12 +1154,14 @@ footer::before { background-position: calc(var(--tile) / -2 + var(--fy, 0px)) 0,
   .glass .riders { gap: 3px; }
   .glass .riders .fig-sancho { width: 38px; }
   .glass .riders .fig-quixote { width: 58px; }
+  /* On a phone the mill stands at 90%: the ride ends well short of it, so
+     the riders fade out on the plain and never sit on top of the tower. */
   @keyframes ride {
-    0% { left: 64%; opacity: 0; scale: 0.85; translate: 0 10px; filter: none; }
+    0% { left: 30%; opacity: 0; scale: 0.85; translate: 0 10px; filter: none; }
     7% { opacity: 1; }
     50% { scale: 0.62; translate: 0 6px; }
-    95% { opacity: 1; }
-    100% { left: 81%; opacity: 0; scale: 0.38; translate: 0 0; filter: blur(0.6px) brightness(1.1) saturate(0.6); }
+    92% { opacity: 1; }
+    100% { left: 62%; opacity: 0; scale: 0.38; translate: 0 0; filter: blur(0.6px) brightness(1.1) saturate(0.6); }
   }
 }
 @media (prefers-reduced-motion: reduce) { .glass .riders { animation: none; left: 60%; scale: 0.7; translate: 0 12px; } }
@@ -1336,6 +1333,18 @@ html { overflow-x: clip; }
 
 /* ─── project avatars ─────────────────────────────────────────────────── */
 .guest-stand { left: 58%; bottom: 64px; width: 120px; }
+/* What stands on the floor casts a shadow on it: a soft pool under the feet
+   is what makes a painting stand rather than float. The figure settles about
+   its feet (lodge.mjs leans it a degree now and then), never about its middle. */
+.guest-stand .fig, .guest-unicorn .fig, .horse-stand .fig, .guest-snail .fig { transform-origin: 50% 100%; }
+.guest-stand::after, .guest-unicorn::after, .guest-horse::after, .guest-snail::after, .walker::after, .deer-deep::after, .art-stage .fox::after {
+  content: ""; position: absolute; left: 10%; right: 10%; bottom: -3%; height: 14%; z-index: -1;
+  border-radius: 50%; background: radial-gradient(ellipse at center, rgb(0 0 0 / 0.42), rgb(0 0 0 / 0.18) 45%, transparent 72%);
+  filter: blur(2px); pointer-events: none;
+}
+:root:not(.dark) .guest-stand::after, :root:not(.dark) .guest-unicorn::after, :root:not(.dark) .guest-horse::after, :root:not(.dark) .guest-snail::after, :root:not(.dark) .walker::after, :root:not(.dark) .deer-deep::after, :root:not(.dark) .art-stage .fox::after { opacity: 0.6; }
+.guest-art-diplodocus::after { left: 18%; right: 22%; height: 9%; }
+.guest-art-elephant::after { left: 14%; right: 14%; height: 10%; }
 .guest-art-cow { width: 150px; }
 .guest-art-diplodocus { width: 250px; left: 54%; bottom: 56px; }
 .guest-art-elephant { width: 150px; }
@@ -1434,8 +1443,8 @@ main:has(> .art-collection:last-child) ~ footer { margin-top: 0; }
   .scene-world .whale { top: 12px; width: 50%; }
   .scene-world .dragonfly .fig { width: 32px; }
   /* They ride on phones too — a short path, right of the burrow, receding toward the mill. */
-  .glass .riders { left: 70%; }
-  .glass .windmill { left: 84%; width: 28px; }
+  .glass .riders { left: 40%; }
+  .glass .windmill { left: 86%; width: 28px; }
   .scene-world .foreground .fig-fern { height: 130px; right: 5%; }
   .scene-world .foreground .fig-fiddlehead { height: 80px; right: 36%; }
   .scene-world .fig-fog-giant { width: 90px; left: 18%; }
@@ -1474,7 +1483,7 @@ main:has(> .art-collection:last-child) ~ footer { margin-top: 0; }
 .portal-words { white-space: pre-wrap; overflow-wrap: anywhere; }
 .portal-history { border-top: 1px solid var(--line); padding-top: 1rem; }
 .portal-stack a, .portal-card p, .portal-card a, .portal-field span { overflow-wrap: anywhere; }
-.record { overflow-wrap: anywhere; line-height: 1.7; }
+.record { overflow-wrap: break-word; line-height: 1.7; }
 .record h2 { font-size: 1.7rem; line-height: 1.3; margin: 2.5rem 0 1rem; }
 .record h3, .record h4 { font-size: 1.2rem; line-height: 1.4; margin: 1.75rem 0 .75rem; }
 .record p, .record ul, .record ol, .record pre { margin: 1rem 0; }
@@ -1508,3 +1517,60 @@ footer nav a { max-width: 100%; overflow-wrap: anywhere; }
 .private-grid { margin-top: 1rem; }
 .private-grid .card-what { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .private-grid .textlink { margin-top: .5rem; overflow-wrap: anywhere; }
+
+/* ─── records drawn, not read: the roadmap board and the changelog timeline ── */
+.record-page .lede { max-width: 42rem; }
+.roadmap-sum { display: grid; grid-template-columns: auto 1fr; align-items: baseline; column-gap: 0.75rem; margin: 2rem 0 1.5rem; max-width: 42rem; }
+.roadmap-sum-n { font-size: var(--text-display-2); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); line-height: 1; }
+.roadmap-sum-t { color: var(--fg-2); }
+.roadmap-sum .progress { grid-column: 1 / -1; margin-top: 0.75rem; }
+.progress { position: relative; height: 6px; border-radius: 999px; background: rgb(var(--line-rgb) / 0.14); overflow: hidden; }
+.progress > span { display: block; height: 100%; border-radius: inherit; background: var(--ok); transition: width 600ms ease; }
+.board { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); align-items: start; margin-top: 1rem; }
+.lane { display: grid; gap: 0.9rem; align-content: start; }
+.lane-head { display: grid; gap: 0.2rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--line); }
+.lane-title { font-size: 1.35rem; line-height: 1.2; margin: 0; }
+.lane-count { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--fg-3); }
+.rm-theme { display: grid; gap: 0.6rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raised); }
+.rm-theme-done { border-color: hsl(145 55% 50% / 0.35); }
+.rm-theme-title { font-size: 1.05rem; line-height: 1.3; margin: 0; }
+.rm-theme-summary { margin: 0; color: var(--fg-2); font-size: 0.92rem; line-height: 1.5; }
+.rm-theme-meter { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 0.6rem; }
+.rm-theme-count { font-family: var(--mono); font-size: 0.72rem; color: var(--fg-3); }
+.rm-theme-next { margin: 0; font-size: 0.9rem; line-height: 1.45; color: var(--fg); }
+.rm-theme-next .label { display: block; margin-bottom: 0.15rem; }
+.rm-theme-steps summary, .tl-more summary { cursor: pointer; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-3); list-style: none; }
+.rm-theme-steps summary::before, .tl-more summary::before { content: "+ "; }
+.rm-theme-steps[open] summary::before, .tl-more[open] summary::before { content: "− "; }
+.rm-theme-steps summary::-webkit-details-marker, .tl-more summary::-webkit-details-marker { display: none; }
+.rm-theme-steps ul { list-style: none; margin: 0.6rem 0 0; padding: 0; display: grid; gap: 0.4rem; }
+.rm-theme-steps li { display: grid; grid-template-columns: 1.1rem 1fr; gap: 0.4rem; font-size: 0.88rem; line-height: 1.45; }
+.step-done { color: var(--fg-3); }
+.step-done .step-mark { color: var(--ok); }
+.step-open .step-mark { color: var(--fg-3); }
+.timeline { list-style: none; margin: 2rem 0 0; padding: 0; position: relative; max-width: 48rem; }
+.timeline::before { content: ""; position: absolute; left: 0.45rem; top: 0.6rem; bottom: 0.6rem; width: 1px; background: var(--line-2); }
+.tl-entry { position: relative; display: grid; gap: 0.3rem; padding: 0 0 1.75rem 2rem; }
+.tl-entry::before { content: ""; position: absolute; left: 0; top: 0.35rem; width: 0.9rem; height: 0.9rem; border-radius: 50%; background: var(--bg); border: 2px solid var(--ok); }
+.tl-date { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-3); }
+.tl-card { display: grid; gap: 0.5rem; }
+.tl-title { font-size: 1.2rem; line-height: 1.3; margin: 0; }
+.tl-lead { margin: 0; color: var(--fg-2); line-height: 1.55; }
+.tl-more ul { margin: 0.6rem 0 0; padding-left: 1.1rem; display: grid; gap: 0.45rem; color: var(--fg-2); font-size: 0.92rem; line-height: 1.55; }
+.tl-more code { font-family: var(--mono); font-size: 0.85em; }
+.record-doors { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.5rem; padding-top: 1.75rem; border-top: 1px solid var(--line); }
+main > .record-doors.wrap { margin-top: 0; margin-bottom: var(--section-tight); padding-top: 1.75rem; }
+/* A number tile never breaks its number: "12" is not "1 / 2". */
+.stage-link .stage-count { white-space: nowrap; flex: none; }
+/* Six number tiles with longer labels: one to a row on a phone, so no label
+   breaks inside a word; three or six across where there is room. */
+.stat-tiles { grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+/* A record's table on a phone: each row a card, the first cell its title, so
+   no cell squeezes a word into pieces ("Permission s and privacy"). */
+@media (max-width: 700px) {
+  .record-table table, .record-table tbody, .record-table tr, .record-table td { display: block; width: 100%; }
+  .record-table thead { display: none; }
+  .record-table tr { margin: 0.75rem 0; padding: 0.75rem 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raised); }
+  .record-table td { border: 0; padding: 0; }
+  .record-table td:first-child { font-weight: 600; margin-bottom: 0.3rem; }
+}

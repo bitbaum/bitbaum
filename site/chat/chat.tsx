@@ -243,10 +243,14 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
 // bounces is a person lost. The words become a private studio request on
 // Loki (POST /api/studio-intake): a website brief when an address is in the
 // text, a partner application on /partners/, and otherwise the plain
-// waitlist (Loki's inbox, POST /api/feedback) after one question — is there a
-// site? Every request gets a private portal link; an email anywhere in the
-// text becomes the reply address, and the follow-ups go to the same record.
-// No AI answers here: the studio reads every word as written.
+// waitlist (Loki's inbox, POST /api/feedback) — at once, with no question
+// first: the first message IS the request. It used to answer "is this about a
+// website that exists?" before saving anything, and a person who had just
+// said what they wanted read that as not being heard. An address pasted later
+// turns the same request into a website brief. Every request gets a private
+// portal link; an email anywhere in the text becomes the reply address, and
+// the follow-ups go to the same record. No AI answers here: the studio reads
+// every word as written.
 const EMAIL = /[^\s<>(),;:"']+@[^\s<>(),;:"']+\.[a-z]{2,}/i;
 // A public address written loosely: "acme.ch", "www.acme.ch/shop", "https://…".
 const SITE = /(?:https?:\/\/)?(?:www\.)?(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}(?:\/[^\s<>"'(),]*)?/i;
@@ -293,7 +297,7 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
   const [links, setLinks] = useState<Link[]>([]);
   // What the first message became: nothing yet, a question about the site,
   // a studio request with a portal, or a plain waitlist note.
-  const stage = useRef<{ kind: "fresh" } | { kind: "asked"; first: string } | { kind: "portal"; access: Access } | { kind: "waitlist"; first: string }>({ kind: "fresh" });
+  const stage = useRef<{ kind: "fresh" } | { kind: "portal"; access: Access } | { kind: "waitlist"; first: string }>({ kind: "fresh" });
   const replyTo = useRef("");
   const ids = useRef<{ requestId: string; accessKey: string } | null>(null);
   const pending = useRef<{ text: string; kept: ChatMessageData[] } | null>(null);
@@ -308,6 +312,17 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
   const where = () => (cfg.purpose === "partner" ? "application" : "portal");
   const askReply = (email: string) =>
     email ? ` The link is on its way to ${email} too, so it cannot be lost.` : " Write your email here and the link goes to your inbox as well — optional; the link above works without one.";
+  // A brief on Loki from what was said so far, as a website request.
+  const openWebsite = async (site: string, first: string, email: string) => {
+    const topic = cfg.topic();
+    const target = partnerWanted.current ? "partner" : "studio";
+    await open({
+      kind: "website", website: site, target,
+      changes: `${topic ? `Engagement: ${topic}\n` : ""}${first}`.slice(0, 1200),
+      ...(target === "studio" ? { offerId: cfg.offerId } : { preferredPartnerId: partnerWanted.current }),
+    }, email);
+    say(`Saved — you are on the studio waitlist. The link above is your private portal: replies, status and previews appear there, so keep it. Sending this books no work and agrees no price; a person reads it.${askReply(email)}`);
+  };
 
   // A studio request on Loki, kept idempotent: a retry reuses the same ids.
   const open = async (body: Record<string, unknown>, email: string) => {
@@ -343,32 +358,26 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
         if (rest.length > 1 || !email)
           await post(`${cfg.origin}/api/studio-portal/${s.access.id}`, { action: "message", body: text.slice(0, 2000), mutationId: crypto.randomUUID() }, s.access.key);
         say(email && email !== replyTo.current ? `Thank you — the reply will go to ${email}, and the private link is on its way there too.` : "Added to your request. The studio sees it in the same place.");
+      } else if (s.kind === "waitlist" && site) {
+        // The address that was missing: the note becomes a website brief with
+        // its own portal, carrying everything said so far.
+        await openWebsite(site, `${s.first}\n\n${text}`, email);
       } else if (s.kind === "waitlist") {
         await note(`Waitlist, follow-up to: “${s.first.slice(0, 300)}”\n\n${text}`, email);
-        say(email && !replyTo.current ? `Thank you — the reply will go to ${email}.` : "Added to your note.");
+        say(email && !replyTo.current ? `Thank you — the reply will go to ${email}.` : "Added to your note. The studio sees it with the rest.");
       } else if (cfg.purpose === "partner") {
         await open({ kind: "partner", website: site, changes: text.slice(0, 2000) }, email);
         say(`Your application is saved and private — the link above opens it; keep it. Next step: the pilot course at /academy/. Submit your capstone evidence in the application and the studio reviews it. Passing the course and being approved are separate decisions, both by a person.${askReply(email)}`);
       } else if (site) {
-        const first = s.kind === "asked" ? `${s.first}\n\n${text}` : text;
-        const topic = cfg.topic();
-        const target = partnerWanted.current ? "partner" : "studio";
-        await open({
-          kind: "website", website: site, target,
-          changes: `${topic ? `Engagement: ${topic}\n` : ""}${first}`.slice(0, 1200),
-          ...(target === "studio" ? { offerId: cfg.offerId } : { preferredPartnerId: partnerWanted.current }),
-        }, email);
-        say(`Saved — you are on the studio waitlist. The link above is your private portal: replies, status and previews appear there, so keep it. Sending this books no work and agrees no price; a person reads it.${askReply(email)}`);
-      } else if (s.kind === "fresh") {
-        stage.current = { kind: "asked", first: text };
-        say("Noted. Is this about a website that already exists? Paste its address — or say it is something new.");
+        await openWebsite(site, text, email);
       } else {
-        const first = `${s.first}\n\n${text}`;
+        // The first message is the request: saved now, in the visitor's own
+        // words, with the way to say more left open.
         const topic = cfg.topic();
-        const data = await note(`Waitlist — from the website${topic ? `\nEngagement: ${topic}` : ""}\n\n${first}`, email);
-        stage.current = { kind: "waitlist", first };
+        const data = await note(`Waitlist — from the website${topic ? `\nEngagement: ${topic}` : ""}\n\n${text}`, email);
+        stage.current = { kind: "waitlist", first: text };
         if (data.claimUrl?.startsWith(`${cfg.origin}/claim-feedback?token=`)) setLinks([{ label: "Track this request", url: data.claimUrl }]);
-        say(`You are on the studio waitlist, and a person will read this — nothing automated goes out.${askReply(email || replyTo.current)}`);
+        say(`Thank you — you are on the studio waitlist, and a person will read this; nothing automated goes out. If it is about a website that already exists, paste its address here and it joins this request.${askReply(email || replyTo.current)}`);
       }
       pending.current = null;
       if (email) replyTo.current = email;

@@ -4,18 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>Changelog — bitbaum</title>
-<meta name="description" content="Bitbaum's canonical changelog: course, portal and studio development in public.">
+<meta name="description" content="Bitbaum's changelog: 10 shipped changes, newest first.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/changelog/">
 <meta property="og:title" content="Changelog — bitbaum">
-<meta property="og:description" content="Bitbaum's canonical changelog: course, portal and studio development in public.">
+<meta property="og:description" content="Bitbaum's changelog: 10 shipped changes, newest first.">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/changelog/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Changelog — bitbaum">
-<meta name="twitter:description" content="Bitbaum's canonical changelog: course, portal and studio development in public.">
+<meta name="twitter:description" content="Bitbaum's changelog: 10 shipped changes, newest first.">
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -64,30 +75,94 @@
       </button>
     </div>
   </header>
-<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Building in public</span><h1 class="headline-caps section-title">Changelog.</h1><div class="record"><p>Completed changes are recorded here; unfinished work stays in <a href="https://github.com/bitbaum/bitbaum/blob/main/ROADMAP.md">ROADMAP.md</a>.</p>
-<h2 id="2026-10-02-the-map">2026-10-02 — The map</h2>
-<ul><li>New page, /map/: every project drawn as a loop, meaning work that recurs and still needs a person in it. Four layers: the rails (OrangeCat, Solon, Loki and the shared packages), the constraints (Substrata), professionals in the loop, and loops in the world. Each loop names who stays in it and what routine part it aims to retire.</li><li>The loops live in <code>site/overrides.json</code> (<code>loops</code>). The build fails if a loop cites a project the site does not show, if a project is in two loops, or if a shown project is in none, so a new project cannot reach /work/ without someone deciding what it is for.</li><li>A loop with no project is drawn as a gap and claims nothing. Allocating money is the first: named, not built, and explicitly not advice.</li><li>Diplodoctor and Causius now describe their own plans: a licensed clinician, or a licensed lawyer, stays in the loop and owns the result. Both remain &quot;not built&quot;.</li><li>138 responsive checks pass, including the new page.</li></ul>
-<h2 id="2026-10-08-the-private-link-cannot-be-lost">2026-10-08 — The private link cannot be lost</h2>
-<ul><li>A studio request or partner application has no account; its private link is the key. Now the link also goes to the email given — at the start, or added later in the same conversation — and the portal page has &quot;Lost the link?&quot;: the address you gave gets a fresh link to every open request under it, and the old one stops working (Loki <code>/api/studio-recover</code>).</li></ul>
-<h2 id="2026-10-02-they-move-the-way-they-would">2026-10-02 — They move the way they would</h2>
-<ul><li>The standing animals (Heidi's cow, the diplodocus, the elephant, the deer, the rabbit, the cat and the kit) graze along their floor: a slow walk to a spot, a rest, a turn, a slow walk back.</li><li>On the partners' meadow the deer comes toward us over minutes and the giant in the fog paces.</li><li>The scarab rolls the sun along the ground; its far start no longer floats.</li><li>The stylesheet and scripts lose the hooks of a plain that no page emits any more (the old gears, rye clump, cow and diplodocus doors, the cat's perch, the scene tumbleweed).</li></ul>
-<h2 id="2026-10-02-every-piece-has-a-place">2026-10-02 — Every piece has a place</h2>
-<ul><li>Nothing is retired: every painting is somewhere, on the ground, one or two to a screen. The inner pages' creatures stand on the Lynch floor in perspective — the same floor as the hero's — and the hero keeps no second floor of its own when a stage follows.</li><li>A page's objects (the soft watch and its gears, the rye, the tumbleweed, the mushrooms, the Little Prince, the dandelions, the windmill, the fog creature) stand at the page's foot with their feet on the footer's chevron band, where the cat waits — not in a grid of pictures. The gears turn, the rye and dandelions sway, the mushrooms breathe, the tumbleweed rolls through now and then.</li><li>The long-legged elephant crosses the plain again on the &quot;build it yourself&quot; screen (desk only).</li><li>Phones keep each screen to one or two things: the plain is the tree, the dome and the hummingbird; the hero's one flying thing is the whale.</li></ul>
-<h2 id="2026-10-02-grounded-and-the-floor-is-black-again">2026-10-02 — Grounded, and the floor is black again</h2>
-<ul><li>The chevron floor is bone on ink in both modes. Its base colour was the foreground — white by night — so in dark mode the Red Room floor was a white slab.</li><li>The owl's perch was a line in mid-air; its painted branch now reaches in from beyond the stage's edge.</li><li>The fox and the cat meet: when the fox runs the floor the cat turns to face it, the fox leaps over, the cat startles and watches it go.</li><li>On phones the riders ride too — they had been pinned still beside the rabbit and the burrow, which is what crowded the first screen. A short receding path right of the burrow, toward the mill.</li></ul>
-<h2 id="2026-10-02-the-cast-is-accounted-for">2026-10-02 — The cast is accounted for</h2>
-<ul><li><code>site/cast.json</code> names every painted or drawn element once; the build finds each one on the pages it renders and writes the register (<code>dist/cast.json</code>, <code>docs/CAST.md</code> — what is where, how it moves, what shows on phones). It refuses to build when an element is on no page or a painting belongs to no entry. The first run found one: the hummingbird avatar was assigned to a venture that does not exist, so it was on no page — it now lives on Camille's bakery.</li><li><code>site/check-cast.mjs</code> opens every page at phone and desk width and proves each element is in the DOM, loaded and sized where the register says; it runs in CI with the other checks.</li><li>Quixote and Sancho ride into the plain toward the mill — near and large first, then up and away, smaller and hazier — instead of along the horizon line.</li><li>The header steps aside while the reader reads down and returns on the first scroll up; never while the menu is open.</li></ul>
-<h2 id="2026-10-01-the-sky-obeys-the-weather">2026-10-01 — The sky obeys the weather</h2>
-<ul><li>One table in <code>site/sky.mjs</code> (<code>WX</code>) says what each weather does: the sky's gradient by day and night, how much sun, moon and stars show, how many clouds and how bright, what falls, how hard the wind blows. Everything that draws reads it; nothing tests a weather by name any more. Rain is an overcast with no sun, mist veils it, snow dims the stars.</li><li>Quixote and Sancho ride out of the haze: small and far first, nearer and larger as they come toward the mill, instead of sliding along a line.</li><li>On a phone the clouds keep to the band above the first screen's words.</li></ul>
-<h2 id="2026-10-01-one-door">2026-10-01 — One door</h2>
-<ul><li>The studio's intake is one field, typed or spoken, on /hire/ and /partners/: no form, nothing refused for its shape. A website in the text makes a studio request; on /partners/ the message is the application; anything else is asked one question and joins the waitlist. Every request gives the visitor its private portal link; follow-ups go to the same record; a retry reuses the same receipt.</li><li>The three paths say true things everywhere: the free tool is one address, the studio shows its fixed price and its day rate, and partners read &quot;applications open · none approved yet&quot; with the systems design course named as the step before review.</li><li>The browser checks drive the conversation instead of the forms; 135 responsive checks still pass.</li></ul>
-<h2 id="2026-09-30-start-the-shared-studio-portal-and-course-pilot">2026-09-30 — Start the shared studio portal and course pilot</h2>
-<ul><li>Build a Bitbaum brief intake, request receipt and private customer/partner portal backed by Loki's scoped request API.</li><li>Keep free Loki self-service independent, with an explicit draft-preserving handoff. Studio offer and current capacity stay in hire.json; Rescue retains its assessment scope.</li><li>Add course evidence, separate studio approval, consented profile review and assigned-brief delivery. Availability determines public directory inclusion.</li><li>Write the first systems design lesson, exercise and capstone rubric. Further lessons and calibration remain in development.</li><li>Render the canonical roadmap and changelog through bip-kit, and resolve the studio repository through its canonical project ID.</li><li>Verify the scoped backend in Loki's full CI, including PostgreSQL isolation, revocation, assignment and retry tests. Bitbaum's browser journeys and 135 responsive checks pass, including rotation and enlarged text; the narrow-screen footer and price wrapping are corrected.</li><li>Production release is gated on the backend migration and API availability. The first real engagement and reviewer calibration remain pilot work.</li></ul>
-<h2 id="2026-09-30">2026-09-30</h2>
-<h3 id="recorded">Recorded</h3>
-<ul><li>Added the studio roadmap and delivery plan. Recorded free, independent Loki access; studio-only engagement prices; course completion before studio partner approval; and optional product participation. Course, portal and intake-placement corrections remain planned.</li></ul>
-<h3 id="changed">Changed</h3>
-<ul><li>Mobile artwork has grounded spaces away from copy. All 123 responsive page/viewport checks passed, including rotation and enlarged text.</li><li>Partner applications use a direct message and tracking receipt. Submission records interest for review; it does not confer approval.</li></ul></div><a class="textlink" href="https://github.com/bitbaum/bitbaum/blob/main/CHANGELOG.md">Read the canonical repository record</a></div></section>
+<main id="main"><section class="section record-page"><div class="wrap">
+      <span class="kicker quiet">Building in public</span>
+      <h1 class="headline-caps section-title">Changelog.</h1>
+      <p class="lede">10 changes shipped, newest first. One line each; open an entry for the rest. <a class="textlink" href="https://github.com/bitbaum/bitbaum/blob/main/CHANGELOG.md">The canonical record</a> has every word.</p>
+    <ol class="timeline">
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-10-08">8 Oct 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">The private link cannot be lost</h2>
+          <p class="tl-lead">A studio request or partner application has no account; its private link is the key.</p>
+          <details class="tl-more"><summary>In full</summary><ul><li>A studio request or partner application has no account; its private link is the key. Now the link also goes to the email given — at the start, or added later in the same conversation — and the portal page has &quot;Lost the link?&quot;: the address you gave gets a fresh link to every open request under it, and the old one stops working (Loki <code>/api/studio-recover</code>).</li></ul></details>
+        </div>
+      </li>
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-10-02">2 Oct 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">The map</h2>
+          <p class="tl-lead">New page, /map/: every project drawn as a loop, meaning work that recurs and still needs a person in it.</p>
+          <details class="tl-more"><summary>5 points</summary><ul><li>New page, /map/: every project drawn as a loop, meaning work that recurs and still needs a person in it. Four layers: the rails (OrangeCat, Solon, Loki and the shared packages), the constraints (Substrata), professionals in the loop, and loops in the world. Each loop names who stays in it and what routine part it aims to retire.</li><li>The loops live in <code>site/overrides.json</code> (<code>loops</code>). The build fails if a loop cites a project the site does not show, if a project is in two loops, or if a shown project is in none, so a new project cannot reach /work/ without someone deciding what it is for.</li><li>A loop with no project is drawn as a gap and claims nothing. Allocating money is the first: named, not built, and explicitly not advice.</li><li>Diplodoctor and Causius now describe their own plans: a licensed clinician, or a licensed lawyer, stays in the loop and owns the result. Both remain &quot;not built&quot;.</li><li>138 responsive checks pass, including the new page.</li></ul></details>
+        </div>
+      </li>
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-10-02">2 Oct 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">They move the way they would</h2>
+          <p class="tl-lead">The standing animals (Heidi's cow, the diplodocus, the elephant, the deer, the rabbit, the cat and the kit) graze along their floor: a slow walk to a spot, a rest, a turn, a slow walk back.</p>
+          <details class="tl-more"><summary>4 points</summary><ul><li>The standing animals (Heidi's cow, the diplodocus, the elephant, the deer, the rabbit, the cat and the kit) graze along their floor: a slow walk to a spot, a rest, a turn, a slow walk back.</li><li>On the partners' meadow the deer comes toward us over minutes and the giant in the fog paces.</li><li>The scarab rolls the sun along the ground; its far start no longer floats.</li><li>The stylesheet and scripts lose the hooks of a plain that no page emits any more (the old gears, rye clump, cow and diplodocus doors, the cat's perch, the scene tumbleweed).</li></ul></details>
+        </div>
+      </li>
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-10-02">2 Oct 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">Every piece has a place</h2>
+          <p class="tl-lead">Nothing is retired: every painting is somewhere, on the ground, one or two to a screen.</p>
+          <details class="tl-more"><summary>4 points</summary><ul><li>Nothing is retired: every painting is somewhere, on the ground, one or two to a screen. The inner pages' creatures stand on the Lynch floor in perspective — the same floor as the hero's — and the hero keeps no second floor of its own when a stage follows.</li><li>A page's objects (the soft watch and its gears, the rye, the tumbleweed, the mushrooms, the Little Prince, the dandelions, the windmill, the fog creature) stand at the page's foot with their feet on the footer's chevron band, where the cat waits — not in a grid of pictures. The gears turn, the rye and dandelions sway, the mushrooms breathe, the tumbleweed rolls through now and then.</li><li>The long-legged elephant crosses the plain again on the &quot;build it yourself&quot; screen (desk only).</li><li>Phones keep each screen to one or two things: the plain is the tree, the dome and the hummingbird; the hero's one flying thing is the whale.</li></ul></details>
+        </div>
+      </li>
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-10-02">2 Oct 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">Grounded, and the floor is black again</h2>
+          <p class="tl-lead">The chevron floor is bone on ink in both modes.</p>
+          <details class="tl-more"><summary>4 points</summary><ul><li>The chevron floor is bone on ink in both modes. Its base colour was the foreground — white by night — so in dark mode the Red Room floor was a white slab.</li><li>The owl's perch was a line in mid-air; its painted branch now reaches in from beyond the stage's edge.</li><li>The fox and the cat meet: when the fox runs the floor the cat turns to face it, the fox leaps over, the cat startles and watches it go.</li><li>On phones the riders ride too — they had been pinned still beside the rabbit and the burrow, which is what crowded the first screen. A short receding path right of the burrow, toward the mill.</li></ul></details>
+        </div>
+      </li>
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-10-02">2 Oct 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">The cast is accounted for</h2>
+          <p class="tl-lead">site/cast.json names every painted or drawn element once; the build finds each one on the pages it renders and writes the register (dist/cast.json, docs/CAST.md — what is where, how it moves, what shows on phones).</p>
+          <details class="tl-more"><summary>4 points</summary><ul><li><code>site/cast.json</code> names every painted or drawn element once; the build finds each one on the pages it renders and writes the register (<code>dist/cast.json</code>, <code>docs/CAST.md</code> — what is where, how it moves, what shows on phones). It refuses to build when an element is on no page or a painting belongs to no entry. The first run found one: the hummingbird avatar was assigned to a venture that does not exist, so it was on no page — it now lives on Camille's bakery.</li><li><code>site/check-cast.mjs</code> opens every page at phone and desk width and proves each element is in the DOM, loaded and sized where the register says; it runs in CI with the other checks.</li><li>Quixote and Sancho ride into the plain toward the mill — near and large first, then up and away, smaller and hazier — instead of along the horizon line.</li><li>The header steps aside while the reader reads down and returns on the first scroll up; never while the menu is open.</li></ul></details>
+        </div>
+      </li>
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-10-01">1 Oct 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">The sky obeys the weather</h2>
+          <p class="tl-lead">One table in site/sky.mjs (WX) says what each weather does: the sky's gradient by day and night, how much sun, moon and stars show, how many clouds and how bright, what falls, how hard the wind blows.</p>
+          <details class="tl-more"><summary>3 points</summary><ul><li>One table in <code>site/sky.mjs</code> (<code>WX</code>) says what each weather does: the sky's gradient by day and night, how much sun, moon and stars show, how many clouds and how bright, what falls, how hard the wind blows. Everything that draws reads it; nothing tests a weather by name any more. Rain is an overcast with no sun, mist veils it, snow dims the stars.</li><li>Quixote and Sancho ride out of the haze: small and far first, nearer and larger as they come toward the mill, instead of sliding along a line.</li><li>On a phone the clouds keep to the band above the first screen's words.</li></ul></details>
+        </div>
+      </li>
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-10-01">1 Oct 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">One door</h2>
+          <p class="tl-lead">The studio's intake is one field, typed or spoken, on /hire/ and /partners/: no form, nothing refused for its shape.</p>
+          <details class="tl-more"><summary>3 points</summary><ul><li>The studio's intake is one field, typed or spoken, on /hire/ and /partners/: no form, nothing refused for its shape. A website in the text makes a studio request; on /partners/ the message is the application; anything else is asked one question and joins the waitlist. Every request gives the visitor its private portal link; follow-ups go to the same record; a retry reuses the same receipt.</li><li>The three paths say true things everywhere: the free tool is one address, the studio shows its fixed price and its day rate, and partners read &quot;applications open · none approved yet&quot; with the systems design course named as the step before review.</li><li>The browser checks drive the conversation instead of the forms; 135 responsive checks still pass.</li></ul></details>
+        </div>
+      </li>
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-09-30">30 Sep 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">Start the shared studio portal and course pilot</h2>
+          <p class="tl-lead">Build a Bitbaum brief intake, request receipt and private customer/partner portal backed by Loki's scoped request API.</p>
+          <details class="tl-more"><summary>7 points</summary><ul><li>Build a Bitbaum brief intake, request receipt and private customer/partner portal backed by Loki's scoped request API.</li><li>Keep free Loki self-service independent, with an explicit draft-preserving handoff. Studio offer and current capacity stay in hire.json; Rescue retains its assessment scope.</li><li>Add course evidence, separate studio approval, consented profile review and assigned-brief delivery. Availability determines public directory inclusion.</li><li>Write the first systems design lesson, exercise and capstone rubric. Further lessons and calibration remain in development.</li><li>Render the canonical roadmap and changelog through bip-kit, and resolve the studio repository through its canonical project ID.</li><li>Verify the scoped backend in Loki's full CI, including PostgreSQL isolation, revocation, assignment and retry tests. Bitbaum's browser journeys and 135 responsive checks pass, including rotation and enlarged text; the narrow-screen footer and price wrapping are corrected.</li><li>Production release is gated on the backend migration and API availability. The first real engagement and reviewer calibration remain pilot work.</li></ul></details>
+        </div>
+      </li>
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-09-30">30 Sep 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">Recorded and Changed</h2>
+          <p class="tl-lead">Added the studio roadmap and delivery plan.</p>
+          <details class="tl-more"><summary>3 points</summary><ul><li>Added the studio roadmap and delivery plan. Recorded free, independent Loki access; studio-only engagement prices; course completion before studio partner approval; and optional product participation. Course, portal and intake-placement corrections remain planned.</li><li>Mobile artwork has grounded spaces away from copy. All 123 responsive page/viewport checks passed, including rotation and enlarged text.</li><li>Partner applications use a direct message and tracking receipt. Submission records interest for review; it does not confer approval.</li></ul></details>
+        </div>
+      </li>
+    </ol>
+      <nav class="record-doors" aria-label="Where next"><a class="btn-frame-accent" href="/roadmap/">What comes next <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn-frame" href="/work/">See the work</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
+    </div></section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-flutter guest-art-dragonfly" aria-hidden="true"><span class="fig puppet fig-dragonfly" data-rig='[{"poly":[[0,0],[46.5,0],[46.5,62],[0,62]],"pivot":[47,24],"a":[-8,8],"dur":0.12,"delay":0,"mode":"swing"},{"poly":[[53.5,0],[100,0],[100,62],[53.5,62]],"pivot":[53,24],"a":[8,-8],"dur":0.12,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/dragonfly.webp" width="404" height="255" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div></main>
   <footer>
     <div class="wrap">

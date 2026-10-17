@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>S.Ink — A tattoo studio, online</title>
 <meta name="description" content="The studio's own site: artists, work, booking. Built and hosted as a favour.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/s-ink/">

@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>evig — Access to intelligence, affordable for everyone</title>
 <meta name="description" content="Refurbished hardware, repair, and courses from Revamp-IT, a Zürich digital-inclusion non-profit. The site, the shop and the workshop calendar.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/evig/">
@@ -99,7 +110,7 @@
       <div class="wrap">
         <div class="depth-blocks">
           <div class="depth-block"><span class="label">The problem</span><p>Electronic waste and lack of access to technology for those in need.</p></div>
-          <div class="depth-block"><span class="label">What it does</span><p>Revamp-IT provides refurbished technology to those in need, while promoting sustainability and digital inclusion.</p></div>
+          <div class="depth-block"><span class="label">What it does</span><p>evig provides refurbished technology to those in need, while promoting sustainability and digital inclusion.</p></div>
           <div class="depth-block"><span class="label">Where it is heading</span><p>A world where technology is accessible to all, and electronic waste is minimized.</p></div>
         </div>
 

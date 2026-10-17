@@ -564,27 +564,22 @@ if (guest && stageFloor) {
   }
 
   if (kind === "stand") {
-    // Grazes its way along the floor: a slow walk to a spot, a rest, a turn,
-    // a slow walk back — alive through its mesh the whole time. Slow enough
-    // that the walk is noticed only by someone who stays, which is the point.
+    // Stands where it is, on the floor, and is alive through its mesh: it
+    // breathes, shifts its weight now and then, and that is all. It used to
+    // slide along the floor at 7 px/s and mirror-flip to turn — a painting
+    // gliding sideways with its legs still, which read as nothing an animal
+    // does. Settling is a slow sink of a pixel or two, not a walk.
     const f = guest.querySelector(".fig");
-    const SPEED = 7; // px per second
-    // Wall-clock, not frames: a background tab or a slow device must not
-    // stretch a rest into minutes or a walk into a crawl.
-    let x = 0, target = 0, face = 1, restUntil = 0, last = performance.now();
-    const pick = (t) => { const span = W() * 0.16; target = -span + Math.random() * span * 2; restUntil = t + 6000 + Math.random() * 14000; };
-    pick(last);
+    let last = performance.now(), phase = Math.random() * Math.PI * 2, shiftAt = last + 8000 + Math.random() * 12000, lean = 0, leanTo = 0;
     const tick = (t) => {
       const dt = Math.min(0.5, (t - last) / 1000); last = t;
       if (onScreen && !still) {
-        if (t < restUntil) { /* resting */ }
-        else if (Math.abs(target - x) < 1) pick(t);
-        else {
-          const dir = Math.sign(target - x);
-          if (dir !== face && f) { face = dir; f.animate([{ scale: `${-dir} 1` }, { scale: `${dir} 1` }], { duration: 1600, easing: "ease-in-out", fill: "forwards" }); }
-          x += dir * SPEED * dt;
-        }
-        guest.style.translate = `${x.toFixed(1)}px 0`;
+        phase += dt * 1.25;
+        if (t > shiftAt) { leanTo = (Math.random() - 0.5) * 1.6; shiftAt = t + 9000 + Math.random() * 15000; }
+        lean += (leanTo - lean) * Math.min(1, dt * 0.6);
+        const breath = 1 + 0.006 * Math.sin(phase);
+        guest.style.translate = `0 ${(Math.sin(phase) * 0.8).toFixed(2)}px`;
+        if (f) f.style.transform = `rotate(${lean.toFixed(2)}deg) scale(1, ${breath.toFixed(4)})`;
       }
       requestAnimationFrame(tick);
     };
