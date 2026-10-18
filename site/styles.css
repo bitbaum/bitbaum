@@ -1124,7 +1124,7 @@ body::after {
 
 /* ─── mushrooms: touch one and it breathes out spores ─────────────────── */
 .shroom { cursor: pointer; transform-origin: 50% 100%; animation: shroom-breathe 6s ease-in-out infinite; }
-.s2 { animation-delay: -2s; } .s3 { animation-delay: -4s; }
+.s2, .shroom-2 { animation-delay: -2s; } .s3, .shroom-3 { animation-delay: -4s; }
 @keyframes shroom-breathe { 50% { scale: 1.015 1.03; } }
 .spore { position: absolute; width: 4px; height: 4px; margin: -2px; border-radius: 50%; pointer-events: none; z-index: 4; background: rgb(var(--signal-rgb)); box-shadow: 0 0 6px 1px rgb(var(--signal-rgb) / 0.7); }
 @media (prefers-reduced-motion: reduce) { .walker .puppet, .shroom { animation: none; } }
@@ -1460,7 +1460,9 @@ main:has(> .art-collection:last-child) ~ footer { margin-top: 0; }
   .art-stage .guest-art-diplodocus { left: 48%; width: 120px; }
   .art-stage .guest-art-elephant { width: 70px; }
   .art-stage .guest-horse, .art-stage .guest-unicorn { left: 55%; }
-  .art-collection { padding-block: 2rem 3rem; }
+  /* No bottom padding here either: it lifted every page's objects 48px off
+     the footer floor on phones, so rye and dandelions hung in the air. */
+  .art-collection { padding-block: 2rem 0; }
   .art-object > .fig { max-height: 125px; }
   .art-object .fig-gear-l, .art-object .fig-gear-s { max-height: 45px; }
   .stage.hero, .venture-hero.stage { padding-bottom: var(--section-tight); }

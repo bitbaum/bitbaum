@@ -38,7 +38,9 @@ import { card, esc, host, pill, slugify } from "./card.mjs";
 const COLLECTION_MOTION = {
   "gear-l": "turning", "gear-s": "turning reverse",
   "rye-a": "swaying", "rye-b": "swaying slow", "rye-c": "swaying quick",
-  "mushroom-1": "shroom", "mushrooms-2": "shroom s2", "mushrooms-3": "shroom s3",
+  // Not the meadow's s2/s3: those place and size its mushrooms, and on a page
+  // they pushed the third one off a phone's edge and hid two below 700px.
+  "mushroom-1": "shroom", "mushrooms-2": "shroom shroom-2", "mushrooms-3": "shroom shroom-3",
   "dandelion-flower": "swaying slow", "dandelion-clock": "swaying", "dandelion-bare": "swaying quick",
   tumbleweed: "rolling",
 };

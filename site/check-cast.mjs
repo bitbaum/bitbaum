@@ -25,7 +25,7 @@ if (!base) { console.error("usage: node site/check-cast.mjs <base-url>"); proces
 
 const register = JSON.parse(readFileSync(new URL("./dist/cast.json", import.meta.url), "utf8"));
 const byId = Object.fromEntries(register.entries.map((e) => [e.id, e]));
-const browser = await pw.chromium.launch();
+const browser = await pw.chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
 let fail = 0, checked = 0;
 const bad = (m) => { fail++; console.log(`FAIL ${m}`); };
 
@@ -79,6 +79,59 @@ for (const [width, device] of [[390, "phone"], [1280, "desk"]]) {
       else if (!(info.w > 0 && info.h > 0)) bad(`${where}: no size (${Math.round(info.w)}×${Math.round(info.h)})`);
       else if (info.right <= 0 || info.left >= docW) bad(`${where}: outside the page (left ${Math.round(info.left)}, page ${docW})`);
       if (info.unloaded) bad(`${where}: ${info.unloaded} of ${info.imgs} images did not load`);
+    }
+  }
+  // A page's objects stand ON the footer's chevron floor. A painting is a
+  // rectangle with transparent margins, so where its feet are is the lowest
+  // opaque row of its pixels, not its box — measured from the image itself.
+  // Caught 2026-10-18: a phone-only bottom padding hung every page's rye,
+  // dandelions and gears 48px in the air, and the meadow's .s2/.s3 rules
+  // pushed a mushroom off the screen and hid two below 700px. Neither moved a
+  // single element out of the DOM, so the checks above saw nothing.
+  for (const path of Object.keys(register.pages)) {
+    await page.goto(`${base}${path}?weather=clear`, { waitUntil: "domcontentloaded" });
+    if (!(await page.$(".art-collection"))) continue;
+    await page.evaluate(async () => {
+      const c = document.querySelector(".art-collection");
+      c.scrollIntoView({ block: "center" });
+      for (const i of c.querySelectorAll("img")) { i.loading = "eager"; if (!i.complete) await new Promise((r) => { i.onload = i.onerror = r; setTimeout(r, 4000); }); }
+    });
+    const objs = await page.evaluate(() => {
+      for (const a of document.getAnimations()) a.cancel();
+      const floor = document.querySelector("footer").getBoundingClientRect().top;
+      return [...document.querySelectorAll(".art-collection > .art-object")].map((o) => {
+        const img = o.querySelector("img.fig, .fig img, img");
+        const or = o.getBoundingClientRect();
+        const out = { name: img?.className || o.className, display: getComputedStyle(o).display, left: or.left, right: or.right, gap: null };
+        // A rigged figure is several images; its lowest one is its feet. One
+        // whose images are all invisible (the prince: sky.mjs paints him, the
+        // <img> only holds his place) has no feet here to measure.
+        const shown = [...o.querySelectorAll("img")].filter((im) => getComputedStyle(im).visibility !== "hidden");
+        if (!shown.length) out.painted = true;
+        let feet = -Infinity;
+        for (const im of shown) {
+          const r = im.getBoundingClientRect();
+          if (!im.naturalWidth || !r.height) continue;
+          const c = document.createElement("canvas"); c.width = im.naturalWidth; c.height = im.naturalHeight;
+          const x = c.getContext("2d"); x.drawImage(im, 0, 0);
+          const d = x.getImageData(0, 0, c.width, c.height).data;
+          let low = -1;
+          for (let y = c.height - 1; y >= 0 && low < 0; y--) for (let xx = 0; xx < c.width; xx++) if (d[(y * c.width + xx) * 4 + 3] > 60) { low = y; break; }
+          if (low >= 0) feet = Math.max(feet, r.top + ((low + 1) / c.height) * r.height);
+        }
+        if (feet > -Infinity) out.gap = floor - feet;
+        return out;
+      });
+    });
+    const vw = await page.evaluate(() => innerWidth);
+    for (const o of objs) {
+      checked++;
+      const where = `${path} ${device} · ground · ${o.name}`;
+      if (o.display === "none") { bad(`${where}: hidden`); continue; }
+      if (o.painted) continue;
+      if (o.left < -1 || o.right > vw + 1) bad(`${where}: off the screen (${Math.round(o.left)}–${Math.round(o.right)} of ${vw})`);
+      if (o.gap === null) bad(`${where}: no pixels to stand on`);
+      else if (Math.abs(o.gap) > 4) bad(`${where}: ${o.gap > 0 ? "floats" : "sinks"} ${Math.round(Math.abs(o.gap))}px ${o.gap > 0 ? "above" : "below"} the floor`);
     }
   }
   if (errors.length) bad(`${device}: page errors — ${errors[0]}`);
