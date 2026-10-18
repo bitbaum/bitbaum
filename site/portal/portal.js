@@ -28,11 +28,13 @@ function field(form, name, title, { type = "text", max = 2000, required = true, 
   return input;
 }
 async function api(origin, path, { key, body } = {}) {
+  // A request that never reached Loki rejects with the browser's own words
+  // ("Failed to fetch", "Load failed"), which every caller here used to print.
   const response = await fetch(origin + path, {
     method: body ? "POST" : "GET", credentials: "omit", cache: "no-store", referrerPolicy: "no-referrer",
     headers: { ...(key ? { Authorization: `Bearer ${key}` } : {}), ...(body ? { "Content-Type": "application/json" } : {}) },
     ...(body ? { body: JSON.stringify(body) } : {}),
-  });
+  }).catch(() => { throw new Error("Loki could not be reached just now. Check your connection and try again."); });
   const data = await response.json().catch(() => ({}));
   if (!response.ok || !data.ok) throw new Error(data.error ?? "The request did not complete. Your draft is still here; try again.");
   return data;

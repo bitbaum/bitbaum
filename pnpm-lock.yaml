@@ -15,8 +15,8 @@ importers:
         specifier: 1.1.0
         version: 1.1.0
       bip-kit:
-        specifier: ^0.5.1
-        version: 0.5.1(react@19.3.0)
+        specifier: ^0.6.0
+        version: 0.6.0(react@19.3.0)
       listkit:
         specifier: github:bitbaum/listkit#69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525
         version: https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525
@@ -203,8 +203,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  bip-kit@0.5.1:
-    resolution: {integrity: sha512-0+AbK4rrnz+RZbrDCD/i2bbroja4rQcS77ntfrQCF9cZd8tfvxawI5ObJrgiN1se3+JmVeMJGPptMRCQBTIVaw==}
+  bip-kit@0.6.0:
+    resolution: {integrity: sha512-evyb2/RtTK7EXrQBde3misyHj/vCZYxJLVBv285iPa3nKl8Mr60sAIspCaSL6SFY0872Jz5MX7gf/uJ0Avvtew==}
     engines: {node: '>=20'}
     peerDependencies:
       katex: '>=0.16'
@@ -337,7 +337,7 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  bip-kit@0.5.1(react@19.3.0):
+  bip-kit@0.6.0(react@19.3.0):
     dependencies:
       react: 19.3.0
 

@@ -14,6 +14,14 @@ on:
       - 'pnpm-lock.yaml'
       - 'pnpm-workspace.yaml'
   workflow_dispatch:
+  # The site is a VIEW of Loki's fleet map, and a view rebuilt only on a push
+  # here goes stale the moment a project changes there: on 2026-10-18 the work
+  # page still called Diplodoctor "not built" hours after Loki knew it was a
+  # running beta, because nobody had pushed to this repo since. Every three
+  # hours the site rebuilds from the live sources; a run that changes no page
+  # stops before committing or publishing anything.
+  schedule:
+    - cron: '41 */3 * * *'
   repository_dispatch:
     types: [package-registry-updated]
 
@@ -54,21 +62,39 @@ jobs:
       # shot was eleven days and a whole redesign stale. A site that fails to
       # load keeps its previous picture (shots.mjs logs FAILED and moves on).
       - name: Retake product screenshots
+        if: github.event_name != 'schedule'
         run: node site/shots.mjs
       - name: Build from current fleet sources
         env:
           FLEET_PACKAGES_SHA: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.packages_sha || '' }}
         run: node site/build.mjs --require-fresh
-      - run: node site/build.mjs --check
+      # map.json carries the time it was generated, so it differs on every
+      # run; every other file is deterministic. Nothing else changed means
+      # nothing to say, and a scheduled run ends here.
+      - name: Anything new to publish?
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && git diff --quiet -- site/dist ':(exclude)site/dist/map.json'; then
+            echo "No page changed since the last build; nothing to publish."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Site check
+        if: steps.changed.outputs.publish == 'true'
+        run: node site/build.mjs --check
       # No text below WCAG AA in light or dark, on phone or desktop. Light mode
       # once shipped captions at 2.2:1 on the warm sky and nobody saw it here.
       - name: Contrast gate (built dist)
+        if: steps.changed.outputs.publish == 'true'
         run: node site/check-contrast.mjs
       - name: Claims gate (built dist)
+        if: steps.changed.outputs.publish == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: node site/check-claims.mjs
       - name: Theme gate against local dist
+        if: steps.changed.outputs.publish == 'true'
         run: |
           python3 -m http.server 8731 --directory site/dist &
           echo $! > /tmp/bitbaum-http.pid
@@ -82,6 +108,7 @@ jobs:
           [ "$failures" -eq 0 ]
           kill "$(cat /tmp/bitbaum-http.pid)" || true
       - name: Commit refreshed source snapshots and generated site
+        if: steps.changed.outputs.publish == 'true'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -91,6 +118,7 @@ jobs:
             git push origin HEAD:main
           fi
       - name: Configure SSH
+        if: steps.changed.outputs.publish == 'true'
         env:
           HETZNER_SSH_PRIVATE_KEY: ${{ secrets.HETZNER_SSH_PRIVATE_KEY }}
           HETZNER_IP: ${{ vars.HETZNER_IP }}
@@ -102,10 +130,12 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H "$HETZNER_IP" >> ~/.ssh/known_hosts
       - name: Publish and verify public pages
+        if: steps.changed.outputs.publish == 'true'
         env:
           BOX: ubuntu@${{ vars.HETZNER_IP }}
         run: bash site/publish.sh
       - name: Hire form gate (live)
+        if: steps.changed.outputs.publish == 'true'
         run: node site/check-hire.mjs https://bitbaum.orangecat.ch
 
   preview-check:

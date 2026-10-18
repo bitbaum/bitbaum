@@ -4,9 +4,6 @@
 //   dragonfly    hunts over the hero's mirrored horizon — darts, hangs in
 //                the air, darts again, and flits off when the pointer comes
 //                close.
-//   hummingbird  feeds at the crown of the grown tree in "build it yourself",
-//                hovering from blossom to blossom; curious, it comes to look
-//                at a pointer that lingers nearby, then goes back to feeding.
 //
 // Each runs only while its scene is on screen, moves with transforms alone,
 // and under prefers-reduced-motion is not shown at all.
@@ -54,40 +51,6 @@ function creature(el, host, pick, { speed, hover, shy, curious }) {
   }).observe(host);
 }
 
-// The elephant crosses the plain in depth: it appears small and far on the
-// horizon, walks forward and to the left — toward us — growing as it nears,
-// and fades before it reaches the words. Its legs stride as it goes
-// (art.mjs), and scenes.mjs casts its long evening shadow on the sand.
-const walker = document.querySelector(".walker");
-const plain = walker?.closest(".scene-world");
-if (walker && plain) {
-  const LOOP = 95000;
-  let raf = 0, visible = false, t0 = performance.now();
-  const place = (now) => {
-    const u = still ? 0.45 : ((now - t0) % LOOP) / LOOP;
-    const w = plain.clientWidth, h = plain.clientHeight, horizon = num(plain, "--horizon", h * 0.74);
-    const phoneW = w < 700;
-    // Depth eases in: far is slow and small, near is larger and quicker.
-    const d = u * u * 0.35 + u * 0.65;
-    const x = w * (phoneW ? 0.95 - d * 0.35 : 0.97 - d * 0.3);
-    // On a phone the words fill the plain below its horizon, so the elephant
-    // keeps to the far ground just under it, smaller.
-    const y = phoneW ? horizon + d * 34 : horizon + (h - horizon) * d * 0.62;
-    const scale = phoneW ? 0.3 + d * 0.3 : 0.34 + d * 0.72;
-    const fade = Math.min(1, u / 0.06, (1 - u) / 0.08);
-    walker.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-50%, -100%) scale(${scale.toFixed(3)})`;
-    walker.style.opacity = Math.max(0, fade).toFixed(3);
-    walker.style.setProperty("--depth", d.toFixed(3));
-  };
-  const frame = (now) => { place(now); if (visible && !still) raf = requestAnimationFrame(frame); };
-  new IntersectionObserver(([e]) => {
-    visible = e.isIntersecting;
-    cancelAnimationFrame(raf);
-    if (visible) raf = requestAnimationFrame(frame);
-  }).observe(plain);
-  place(performance.now());
-}
-
 if (!still) {
   const dragonfly = document.querySelector(".dragonfly");
   const hero = dragonfly?.closest(".scene-world");
@@ -98,19 +61,6 @@ if (!still) {
       if (w < 700) return [w * (0.15 + Math.random() * 0.7), h * (0.35 + Math.random() * 0.3)];
       return [w * (0.5 + Math.random() * 0.42), h - 30 - Math.random() * 150];
     }, { speed: 7, hover: () => 700 + Math.random() * 1800, shy: 90 });
-  }
-
-  const bird = document.querySelector(".hummingbird");
-  const plain = bird?.closest(".scene-world");
-  if (bird && plain) {
-    creature(bird, plain, () => {
-      // Feed at the crown only once the tree has grown; before that, wait
-      // high above the seed.
-      const cx = num(plain, "--crown-x", plain.clientWidth * 0.7), cy = num(plain, "--crown-y", plain.clientHeight * 0.4);
-      const r = num(plain, "--crown-r", 120) * (plain.dataset.grown === "1" ? 1 : 0.4);
-      const a = Math.random() * Math.PI * 2;
-      return [cx + Math.cos(a) * r, cy + Math.sin(a) * r * 0.6];
-    }, { speed: 4, hover: () => 1200 + Math.random() * 1600, curious: 170 });
   }
 }
 

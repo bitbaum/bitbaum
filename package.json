@@ -21,7 +21,7 @@
   "dependencies": {
     "@bitbaum/chatkit": "github:bitbaum/chatkit#v0.1.0",
     "@bitbaum/design-tokens": "1.1.0",
-    "bip-kit": "^0.5.1",
+    "bip-kit": "^0.6.0",
     "listkit": "github:bitbaum/listkit#69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

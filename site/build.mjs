@@ -33,6 +33,7 @@ import { renderRoadmap, renderChangelog } from "./records.mjs";
 import { probeAll, shownStage } from "./live.mjs";
 import { PAGE_ART } from "./art-placement.mjs";
 import { card, esc, host, pill, slugify } from "./card.mjs";
+import { readRefs } from "bip-kit";
 // How each object in a page's ground strip moves (styles.css): gears turn,
 // rye and dandelions sway, mushrooms breathe, the tumbleweed rolls through.
 // Everything else stands still, as a painting does.
@@ -161,7 +162,7 @@ if (!/^https:\/\//.test(LOKI_FEEDBACK.origin) || !/^fcw_[a-f0-9]{32}$/.test(LOKI
 // The pictures are drawn, not photographed: every full-screen section holds
 // a scene from site/scenes.mjs, each about what its section says. Stock photos
 // said nothing about building systems; a tree that is a neuron does.
-const SCENES = ["neuron", "seed", "rings", "mycelium"];
+const SCENES = ["neuron", "rings", "mycelium"];
 
 /**
  * A full-screen section: one drawn scene, one statement, one way forward. The
@@ -184,18 +185,10 @@ ${body}
 }
 
 // What lives in each scene. Few figures per screen, each with room around it:
-// the plain of "build it yourself" belongs to Dalí — the soft watch on its
-// stone, spilled clockwork, the long-legged elephant far off, ergot on the
-// rye, a hummingbird at the grown tree; the partners' meadow to the herd and
-// what fruits from the network — the deer, Heidi's cow and Diplodoctor's
-// diplodocus (both doors), mushrooms, a fern unrolling, and something vast
-// passing in the fog behind. A dream of a past that never happened.
+// the partners' meadow belongs to the herd and what fruits from the network —
+// the deer, Heidi's cow and Diplodoctor's diplodocus (both doors), mushrooms,
+// a fern unrolling, and something vast passing in the fog behind. A dream of a past that never happened.
 const SCENE_LIFE = {
-  // The plain, by day or night: the hummingbird at the crown, and far off the
-  // long-legged elephant crossing toward us (creatures.mjs walks it in depth;
-  // phones keep the plain to the tree and the dome).
-  seed: `      <div class="hummingbird" hidden aria-hidden="true">${fig("hummingbird")}</div>
-      <div class="walker" aria-hidden="true">${fig("elephant")}</div>`,
   // Links sit in the scene, so this container is not aria-hidden; the two
   // doors carry their own labels and the rest is decorative.
   // The home meadow is the herd's: the two doors and one cluster of
@@ -278,10 +271,6 @@ const SKY_LIFE = `  <div class="sky-life" aria-hidden="true"><div class="fog-wal
 // and is gone when the reader moves on.
 const WHALE = `      <div class="whale" hidden aria-hidden="true">${fig("whale")}</div>`;
 
-// Between two chapters, a wormhole: the painted vortex in open space, turning
-// inward and swelling as the reader falls past it (lodge.mjs).
-const WORMHOLE = `    <div class="wormhole-gap" aria-hidden="true">${fig("wormhole", "wormhole")}</div>`;
-
 // Each inner page has one story on its stage — never more — chosen by its
 // address so it is always the same there: the fox hatching, the owl, the
 // white horse, the snail, the moth, the scarab rolling the sun. Spread across
@@ -334,8 +323,6 @@ function story(path) {
   return STORIES[names[h % names.length]]();
 }
 
-const RABBIT_HOLE = `    <div class="rabbit-hole" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="${SPIRAL}"/></svg></div>`;
-
 // Which widget modes this site asks for. Chat is opt-in per embed (Loki's
 // widget/surface-modes.ts) and it is the one the homepage's Ask box opens.
 if (!/^(report|chat|watch)(,(report|chat|watch))*$/.test(LOKI_FEEDBACK.modes ?? "")) {
@@ -379,14 +366,19 @@ export function ventures(map, cfg, origin, packages, live = {}) {
       pillar: o.pillar ?? null,
       pillarRole: o.pillarRole ?? null,
       stack: o.stack ?? null,
-      // Who built it. Every project so far is the studio's; a partner's work
-      // carries the partner's name, so the portfolio shows who built what.
-      builtBy: o.builtBy ?? "bitbaum studio",
+      // Who built it, when it was not the studio. Every project so far is the
+      // studio's, and "by bitbaum studio" under all seventeen tiles of the
+      // studio's own site said nothing seventeen times; a partner's work
+      // carries the partner's name, so the portfolio still shows who built what.
+      builtBy: o.builtBy ?? null,
       // What the product is FOR, from its Loki profile (the SSOT, edited where
       // the product is built) — so the page grows as the product does. An
       // editorial override wins where the profile has fallen behind.
       identity: { ...(p.identity ?? {}), ...(o.identity ?? {}) },
-      roadmap: (p.roadmap ?? []).filter((r) => r?.title),
+      // A `{#id}` on a roadmap step links it to the changelog line that
+      // delivered it (bip-kit). It is an anchor, not words: Diplodoctor's page
+      // printed "Read a lab report and say what it means {#read}".
+      roadmap: (p.roadmap ?? []).filter((r) => r?.title).map((r) => ({ ...r, title: readRefs(r.title).text })),
       for: o.for ?? null,
       order: o.order ?? 99,
       status: p.status ?? (url ? "live" : ""),
@@ -431,6 +423,10 @@ export function ventures(map, cfg, origin, packages, live = {}) {
  * already carries its own doors (the home page, hire, the venture pages'
  * prev/next) is left alone.
  */
+// Pages that are one person's: the owner's private projects and a portal that
+// opens a private request. They work by link; a search engine has no reason
+// to list them, and the sitemap used to hand them over.
+const UNLISTED = ["/private/", "/portal/"];
 const DOORS_ON = ["/work/", "/partners/", "/studio/", "/academy/", "/packages/", "/map/", "/roadmap/", "/changelog/"];
 function doors(path) {
   const here = (p) => (p === path ? "" : p);
@@ -525,7 +521,7 @@ addEventListener("error", function (e) {
 }, true);
 </script>
 <title>${esc(title)}</title>
-<meta name="description" content="${esc(description)}">
+<meta name="description" content="${esc(description)}">${UNLISTED.includes(path) ? `\n<meta name="robots" content="noindex">` : ""}
 <link rel="canonical" href="${SITE}${path}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
@@ -764,12 +760,6 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
   }
   const flagships = flagshipSlugs.map((slug) => ventureBySlug.get(slug));
   const featuredPackages = packageSlugs.map((slug) => packageBySlug.get(slug));
-  const stageLinks = Object.entries(cfg.stages ?? {})
-    .filter(([stage]) => all.some((v) => v.stage === stage))
-    .map(([stage, definition]) => {
-      const count = all.filter((v) => v.stage === stage).length;
-      return `<a class="stage-link" href="/work/#work?stage=${encodeURIComponent(stage)}"><span class="stage-count">${count}</span><span>${esc(definition.plural)}</span></a>`;
-    }).join("\n");
   // The portfolio, shown rather than counted: running products and pilots
   // beyond the three flagships, each with its screenshot.
   const featuredWork = all
@@ -778,7 +768,7 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
   // Packages are for developers; on a portfolio they are one line, not a section.
   const pkgLine = featuredPackages
     .map((p) => `<a class="textlink" href="/packages/${esc(p.slug)}/" data-package="${esc(p.slug)}">${esc(p.slug)}</a>`)
-    .join(", ");
+    .join(", ").replace(/, (?=[^,]*$)/, " and ");
   // The front desk: the site's chat, where the Cat and Loki answer from the
   // public fleet map.
   const ask = home.ask;
@@ -874,7 +864,6 @@ ${pathCards}
         <div class="grid home-work-grid">
 ${featuredWork.map((v) => card(v)).join("\n")}
         </div>
-        <p class="home-section-note">Every project is labelled by the stage it is really at: <span class="stage-inline">${stageLinks}</span></p>
       </div>
     </section>
 
@@ -882,32 +871,18 @@ ${featuredWork.map((v) => card(v)).join("\n")}
     <section class="section tools-section" id="tools">
       <div class="wrap">
         <span class="kicker quiet">The tools</span>
-        <h2 class="headline-caps section-title">Build. Earn. Decide.</h2>
+        <h2 class="headline-caps section-title">Earn. Build. Decide.</h2>
         <div class="tools">
 ${tools}
         </div>
       </div>
     </section>
 
-${WORMHOLE}
-
-${fullBleed({ scene: "seed", id: "build-yourself", body: `        <div class="bleed-copy">
-          <span class="kicker">Build it yourself</span>
-          <h2 class="headline-caps">Make it yourself.<br>Today.</h2>
-          <p class="bleed-lede">The studio is at capacity. Free Loki is open to you: build on your own, with no need to join every product. Explore OrangeCat or Solon when payment or collective decisions fit your work.</p>
-          <div class="bleed-actions">
-            <a class="btn-frame-accent" href="${LOKI_START}">Start with Loki ${ARROW}</a>
-            <a class="btn-frame" href="#tools">How the tools fit</a>
-          </div>
-        </div>` })}
-
-${RABBIT_HOLE}
-
 ${askSection}
 
     <section class="dev-band" id="join">
       <div class="wrap">
-        <p><span class="label">Build with us</span> The ${pkgCount} MIT packages behind these products — ${pkgLine} and more. <a class="textlink" href="/packages/">Explore packages ${ARROW}</a> <a class="textlink" href="${CONTRIBUTING}">Contribute ↗</a> <a class="textlink" href="/partners/#join">Become a partner ${ARROW}</a></p>
+        <p><span class="label">Open source</span> The ${pkgCount} MIT packages behind these products, like ${pkgLine}, are yours to use. <a class="textlink" href="/packages/">Explore packages ${ARROW}</a></p>
       </div>
     </section>
   </main>`;
@@ -984,7 +959,7 @@ export function workPage(all, cfg) {
     <section data-lodge class="stage stage-floored hero compact work-hero"><div class="wrap">
       <span class="eyebrow">The work</span>
       <h1 class="display-1">Everything built here, at its real stage.</h1>
-      <p class="lede">Products and pilots in use, concepts built to show what is possible, and ideas named but not built — each labelled honestly. Filters live in the address bar, so a filtered view is a link you can send.</p>
+      <p class="lede">Products and pilots in use, concepts built to show what is possible, and ideas named but not built — each labelled honestly.</p>
     </div></section>
 ${workSection(all, cfg)}
   </main>`;
@@ -1002,11 +977,20 @@ ${workSection(all, cfg)}
  * it from the product's Loki profile or its editorial stack block, never typed
  * into this page; an empty field renders nothing rather than a placeholder.
  */
+/** Most of `text`'s words already said in `said`: printing it would say it twice. */
+function repeats(text, said) {
+  const words = (t) => new Set(String(t ?? "").toLowerCase().match(/[a-z]{4,}/g) ?? []);
+  const a = words(said), b = words(text);
+  return b.size > 0 && [...b].filter((w) => a.has(w)).length / b.size >= 0.6;
+}
+
 function ventureDepth(v) {
   const id = v.identity ?? {};
   const blocks = [
     ["The problem", id.problem],
-    ["What it does", id.solution],
+    // Diplodoctor's story and its profile's solution are both its README:
+    // the page printed the same paragraph twice, a screen apart.
+    ["What it does", repeats(id.solution, v.story) ? null : id.solution],
     ["Where it is heading", id.vision],
   ].filter(([, t]) => t && String(t).trim());
   const does = v.stack?.does ?? [];
@@ -1052,17 +1036,30 @@ export function profileLinks(v) {
   ].filter(Boolean);
 }
 
+/**
+ * Where a project stands, in one line a visitor can read. The stage is the
+ * site's own word; the address answering or not only qualifies it — a
+ * product that answers is running whatever its register row still says
+ * ("prospect" outlived Diplodoctor's first deploy by five weeks).
+ */
+function stageLine(v, stage) {
+  if (v.stage === "next") return "Named, not built";
+  const forWhom = v.for ? `, for ${esc(v.for)}` : "";
+  if (v.stage === "product") return `Beta — ${v.running || v.status === "live" ? "running" : "not running right now"}, not released${forWhom}`;
+  if (v.stage === "concept") return `Concept${v.status === "demo" ? " — a demo on mock data" : ""}${forWhom}`;
+  return `${esc(stage?.title ?? v.stage)}${v.running ? " — running, not released" : ""}${forWhom}`;
+}
+
 export function venturePage(v, all, cfg, contact) {
   const i = all.indexOf(v);
   const prev = all[(i - 1 + all.length) % all.length];
   const next = all[(i + 1) % all.length];
   const stage = cfg.stages?.[v.stage];
   const facts = [
-    ["Stage", (stage?.title ?? v.stage) + (v.for ? `, for ${v.for}` : "")],
-    // The register's word, unless the address says otherwise: a product that
-    // answers is running whatever its row still says ("prospect" outlived
-    // Diplodoctor's first deploy by five weeks).
-    ["Status", v.stage === "next" ? "Named, not built" : v.status === "live" || (v.running && v.stage === "product") ? "Beta — running, not released" : v.status === "demo" ? "Demo, mock data" : v.running ? "Running, not released" : v.status === "validating" ? "Validating" : v.status || "—"],
+    // One row for where it stands. Stage and status used to be two rows that
+    // said the same thing twice ("Product" over "Beta — running, not
+    // released"); the stage leads and the running state qualifies it.
+    ["Stage", stageLine(v, stage)],
     v.tags.length ? ["Field", v.tags.map((t) => `<a href="/work/#work?field=${esc(slugify(t))}">${esc(t)}</a>`).join(", ")] : null,
     v.since ? ["Since", monthYear(v.since)] : null,
     v.url ? ["Address", `<a href="${esc(v.url)}">${esc(host(v.url))}</a>`] : null,
@@ -1095,8 +1092,6 @@ ${v.shot ? `    <div class="wrap"><div class="venture-shot"><img src="/shots/${e
     <section class="wrap venture-body">
       <div class="prose">
         ${v.story ? `<p>${esc(v.story)}</p>` : ""}
-        ${stage ? `<p class="caption"><strong>${esc(stage.plural)}:</strong> ${esc(stage.lede)}</p>` : ""}
-        ${v.shot ? `<p class="caption">The image is a screenshot of ${esc(host(v.url))}, taken by a machine when this site was built. If the product changed, so did the picture.</p>` : ""}
       </div>
       <div class="venture-facts">
 ${facts.map(([k, val]) => `        <div><span class="label">${esc(k)}</span><span>${val}</span></div>`).join("\n")}
@@ -1129,13 +1124,13 @@ export function studioPage(all, packages, origin, readings) {
   const repos = origin?.repos?.length ?? 0, snaps = origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0;
   const n = (x) => Number(x ?? 0).toLocaleString("en-US");
   // Seen, not read: every number is a tile that links to where it is checked.
+  // Stars and engagement income stay stated in "Numbers from registers"
+  // below, in a sentence, rather than as two headline tiles reading 3 and 0.
   const tiles = [
     [running, "systems running", "/work/"],
     [pkgCount, "open-source packages", "/packages/"],
     [repos, "repositories with proven origin", "https://github.com/bitbaum/fleet/blob/main/registers/origin.json"],
     [n(reading?.downloads?.lastMonth), "package downloads, 30 days", "https://www.npmjs.com/org/bitbaum"],
-    [n(reading?.stars), "GitHub stars", "https://github.com/bitbaum"],
-    [`CHF ${n(reading?.clients?.mrrChf)}`, "a month from engagements", "https://github.com/bitbaum/fleet/blob/main/registers/readings.json"],
   ].map(([v, t, h]) => `          <a class="stage-link" href="${h}"><span class="stage-count">${v}</span><span>${t}</span></a>`).join("\n");
   const pillars = [
     ["/orangecat/", "Earn", "OrangeCat", "Payment links and Bitcoin settlement: turn who you are into income."],
@@ -1241,11 +1236,11 @@ ${fullBleed({ scene: "rings", under: true, body: `        <div class="bleed-copy
     <section class="section studio-facts">
       <div class="wrap">
         <div class="hero-facts">
-          <a href="#shipped"><b>${running.length}</b> systems built and running</a>
+          <a href="/work/"><b>${running.length}</b> systems built and running</a>
           <a href="/packages/"><b>${pkgCount}</b> packages published open source</a>
           <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json"><b>${proven}</b> repositories with proven origin</a>
         </div>
-        <p class="caption">Every number here is checkable: the systems are listed below with their addresses, the packages are on npm, and the origin proofs are <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">in a public register</a>.</p>
+        <p class="caption">Every number here is checkable: the systems are on <a href="/work/">the work page</a> with their addresses, the packages are on npm, and the origin proofs are <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">in a public register</a>.</p>
       </div>
     </section>
 
@@ -1266,18 +1261,6 @@ ${hire.offers.map((o) => `          <a class="card text" href="#waitlist" data-e
               <div class="pkg-links"><span>Request this &rarr;</span></div>
             </div>
           </a>`).join("\n")}
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="shipped">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="row"><h2 class="display-2">${running.length} systems running right now</h2><a class="textlink" href="/work/">Everything, filterable &rarr;</a></div>
-          <p class="lede">Not screenshots from finished engagements — running services you can open in a new tab, on infrastructure that is public.</p>
-        </div>
-        <div class="grid four">
-${running.map((v) => card(v)).join("\n")}
         </div>
       </div>
     </section>
@@ -1386,9 +1369,10 @@ export function render({ map, packages, origin, readings, cfg, hire, live = {} }
   files.set("commission.json", JSON.stringify({ version: 1, origin: SITE, availability: hire.availability, offer: commissioningOffer, feedbackToken: LOKI_FEEDBACK.token, course: COURSE }, null, 2) + "\n");
   for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all, cfg, hire?.contact?.email));
   files.set("map.json", JSON.stringify(publicMap(map, new Set(all.map((v) => v.slug))), null, 2) + "\n");
-  // Every page the build writes is in the sitemap, because the sitemap is
-  // derived from the same map of files — a page cannot exist and be missing.
-  const pages = [...files.keys()].filter((f) => f.endsWith("index.html")).map((f) => `${SITE}/${f.replace(/index\.html$/, "")}`).sort();
+  // Every public page the build writes is in the sitemap, because the sitemap
+  // is derived from the same map of files — a page cannot exist and be
+  // missing. The unlisted ones are left out on purpose.
+  const pages = [...files.keys()].filter((f) => f.endsWith("index.html")).map((f) => `/${f.replace(/index\.html$/, "")}`).filter((p) => !UNLISTED.includes(p)).map((p) => `${SITE}${p}`).sort();
   files.set("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((u) => `  <url><loc>${u}</loc></url>`).join("\n")}\n</urlset>\n`);
   files.set("robots.txt", `User-agent: *\nAllow: /\nDisallow: /map.json\n\nSitemap: ${SITE}/sitemap.xml\n`);
   files.set("theme.mjs", readFileSync(join(here, "theme.mjs"), "utf8"));
@@ -1481,6 +1465,14 @@ if (isMain) {
     // Pages for ventures that no longer exist must not linger.
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
       if (d.isDirectory() && !["shots", "fonts", "packages", "work", "map", "studio", "hire", "og", "vendor", "partners", "art", "portal", "private", "academy", "roadmap", "changelog"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
+    }
+    // Nor may a script nothing loads any more: the retired Starry Night layer
+    // (starry.mjs) and the old ask.mjs were still served after the pages
+    // stopped asking for them. A top-level file is either written by
+    // this build or copied just below.
+    const copied = new Set(["styles.css", "logo-mark.svg", "tokens.css"]);
+    for (const d of readdirSync(DIST, { withFileTypes: true })) {
+      if (d.isFile() && !files.has(d.name) && !copied.has(d.name)) rmSync(join(DIST, d.name));
     }
     cpSync(join(here, "styles.css"), join(DIST, "styles.css"));
     // Same rule, fewer generations — a favicon that cannot drift from the logo.
