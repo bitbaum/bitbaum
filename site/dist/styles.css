@@ -491,7 +491,11 @@ a.card:hover { border-color: var(--fg-3); background: hsl(var(--text-primary) / 
 .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .card-body { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.1rem 1.25rem 1.2rem; flex: 1; }
 .card-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
-.card-name { font-weight: 600; font-size: 1.15rem; letter-spacing: -0.015em; }
+.card-name { font-weight: 600; font-size: 1.15rem; letter-spacing: -0.015em; min-width: 0; overflow-wrap: anywhere; }
+/* A status word is one word: it never breaks, and a long name wraps beside it
+   instead. Without this the phone rule below let "not live" stack one letter
+   per line inside its pill (2026-10-18). */
+.card-top .pill { flex: none; white-space: nowrap; }
 a.card-name { color: inherit; text-decoration: none; }
 a.card-name:hover { color: var(--accent); }
 .card-what { color: var(--fg-2); font-size: 0.95rem; line-height: 1.5; }
@@ -569,6 +573,9 @@ a.card-name:hover { color: var(--accent); }
 .stage-help .legend { grid-template-columns: 1fr; margin-top: 0.8rem; }
 .work-count { margin: 0 0 1rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-3); }
 .work-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+/* One line of purpose on a tile, three at most: a description written as a
+   brief must not turn the grid into a wall of text. */
+.work-grid .card-what { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 @media (max-width: 1023px) {
   main { overflow-wrap: anywhere; }
   .bleed-copy, .venture-hero .wrap, .venture-depth .wrap, .section-head { grid-template-columns: minmax(0, 1fr); }
@@ -1514,9 +1521,6 @@ footer nav a { max-width: 100%; overflow-wrap: anywhere; }
 /* Private projects: the door on the work page, and the code form. */
 .private-door { margin: 2rem 0 0; color: var(--fg-3); }
 [data-private] { margin-top: 2rem; }
-.private-grid { margin-top: 1rem; }
-.private-grid .card-what { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.private-grid .textlink { margin-top: .5rem; overflow-wrap: anywhere; }
 
 /* ─── records drawn, not read: the roadmap board and the changelog timeline ── */
 .record-page .lede { max-width: 42rem; }
