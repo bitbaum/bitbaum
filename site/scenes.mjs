@@ -4,8 +4,6 @@
 //
 //   neuron    the home hero: a tree above a horizon, its reflection below as
 //             dendrites, signals climbing the roots and firing the crown.
-//   seed      "build it yourself": a seed on an empty plain, grown by the
-//             reader's own scrolling, casting a long low shadow.
 //   rings     the studio: a trunk's growth rings, turning slowly. Built to
 //             last is what rings are; one spark traces this year's.
 //   mycelium  partners: separate trees on one horizon whose roots meet
@@ -271,90 +269,6 @@ function dome(ctx, cx, ground, R, turn) {
   }
 }
 
-// ── seed: grown by the reader's scroll, with a long Dalí shadow ───────────
-function seed(ctx, box, canvas) {
-  let tree, maxDepth, horizon, rootX, trunk, W, H, phone;
-  return {
-    size(w, h) {
-      W = w; H = h; phone = W < 700; maxDepth = phone ? 7 : 8;
-      // On a phone the words fill the lower half, so the plain lies above them.
-      horizon = H * (phone ? 0.36 : 0.74);
-      rootX = W * (phone ? 0.66 : 0.72);
-      trunk = phone ? H * 0.065 : Math.min(H * 0.11, W * 0.17);
-      tree = growTree(311, maxDepth, { spread: 1.1 });
-    },
-    draw(t) {
-      // The plain: dusk-lit earth by night, Dalí's pale sand by day. The sky
-      // above it is the page's own.
-      const ground = ctx.createLinearGradient(0, horizon, 0, H);
-      if (palette.night) { ground.addColorStop(0, "rgba(46, 43, 37, 0.95)"); ground.addColorStop(0.5, "rgba(22, 21, 15, 0.9)"); ground.addColorStop(1, "rgba(7, 7, 7, 0.6)"); }
-      else { ground.addColorStop(0, "rgba(226, 212, 186, 0.95)"); ground.addColorStop(1, "rgba(201, 184, 150, 0.5)"); }
-      ctx.fillStyle = ground; ctx.fillRect(0, horizon, W, H - horizon);
-      // Depth: furrows in the sand running to a vanishing point on the
-      // horizon, and bands that crowd together as they recede.
-      const vx = W * 0.62;
-      ctx.strokeStyle = palette.night ? "rgba(235, 229, 216, 0.05)" : "rgba(92, 70, 40, 0.1)";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      for (let k = -14; k <= 14; k++) { ctx.moveTo(vx, horizon); ctx.lineTo(vx + k * W * 0.16, H); }
-      for (let k = 1; k <= 7; k++) { const y = horizon + (H - horizon) * Math.pow(k / 7, 2.2); ctx.moveTo(0, y); ctx.lineTo(W, y); }
-      ctx.stroke();
-      // Long evening shadows: the sun is low behind us and to the right, so
-      // everything standing on the plain throws its shadow forward and left.
-      const stage = canvas.parentElement, hb = stage.getBoundingClientRect();
-      ctx.fillStyle = palette.night ? "rgba(0, 0, 0, 0.42)" : "rgba(84, 60, 30, 0.2)";
-      for (const el of stage.querySelectorAll(".walker .fig, .fig-watch-block")) {
-        const r = el.getBoundingClientRect();
-        if (!r.width) continue;
-        const fx = r.left - hb.left + r.width * 0.5, fy = r.bottom - hb.top, len = r.height * 1.5;
-        ctx.globalAlpha = +getComputedStyle(el.closest(".walker") ?? el).opacity || 1;
-        ctx.beginPath();
-        ctx.ellipse(fx - len * 0.45, fy + len * 0.05, len * 0.5, Math.max(3, r.width * 0.09), -0.08, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      }
-      // How far the reader has scrolled through this section grows the tree.
-      const r = canvas.getBoundingClientRect();
-      const seen = still ? 1 : Math.max(0, Math.min(1, (innerHeight - r.top) / (r.height + innerHeight * 0.1)));
-      const progress = still ? 99 : Math.max(0.02, Math.min(maxDepth + 1, (seen - 0.12) / 0.62 * (maxDepth + 1)));
-      // The elephant crosses the far plain, slowly, behind everything else.
-      pose(tree.root, rootX, horizon, 0, trunk, { t, key: "up", progress });
-      // Where things stand and where the hummingbird feeds.
-      const host = canvas.parentElement;
-      host.style.setProperty("--horizon", `${horizon.toFixed(1)}px`);
-      host.style.setProperty("--crown-x", `${rootX.toFixed(1)}px`);
-      host.style.setProperty("--crown-y", `${(horizon - trunk * 3.1).toFixed(1)}px`);
-      host.style.setProperty("--crown-r", `${(trunk * 2.3).toFixed(1)}px`);
-      host.dataset.grown = progress > maxDepth ? "1" : "0";
-      // The shadow: the same tree laid flat on the ground, stretched left.
-      ctx.save();
-      ctx.translate(rootX, horizon);
-      ctx.transform(1, 0, 1.9, 0.2, 0, 0);
-      ctx.translate(-rootX, -horizon);
-      ctx.scale(1, -1); ctx.translate(0, -2 * horizon);
-      strokeTree(ctx, tree.root, "up", palette.night ? "rgba(0, 0, 0, 0.9)" : "rgba(70, 52, 32, 0.4)", 3.6);
-      ctx.restore();
-      strokeTree(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.4 : 0.85})`, 2.4);
-      spine(ctx, tree.root, "up", `rgba(${palette.line}, ${phone ? 0.3 : 0.6})`, 2.4);
-      // Far back on the horizon, small: distance is what makes the plain deep.
-      // Fuller's dome, standing on the plain at mid-distance, large enough to read.
-      dome(ctx, W * (phone ? 0.86 : 0.86), horizon + (phone ? 10 : 12), phone ? 30 : Math.min(80, W * 0.055), still ? 0.4 : t * 0.00012);
-      // The seed itself, and — once grown — the crown's tips come alive.
-      glow(ctx, rootX, horizon, 10, "green", progress < 1 ? 1 : 0.4);
-      if (progress > maxDepth) {
-        ctx.globalCompositeOperation = glowMode();
-        const k = Math.min(1, progress - maxDepth);
-        tree.tips.forEach((tip, i) => {
-          if (!tip.up || i % 3) return;
-          glow(ctx, tip.up.x2, tip.up.y2, 7, "season", k * (0.35 + 0.35 * Math.sin(t * 0.002 + i)));
-        });
-        ctx.globalCompositeOperation = "source-over";
-      }
-    },
-    scrolls: true,
-  };
-}
-
 // ── rings: a cross-section of a trunk, turning slowly ─────────────────────
 function rings(ctx) {
   let W, H, cx, cy, R, bands;
@@ -515,7 +429,7 @@ function mycelium(ctx, box, canvas) {
   };
 }
 
-const SCENES = { neuron, seed, rings, mycelium };
+const SCENES = { neuron, rings, mycelium };
 
 for (const canvas of document.querySelectorAll("canvas[data-scene]")) {
   const make = SCENES[canvas.dataset.scene];

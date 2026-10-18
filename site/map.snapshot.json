@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-18T11:36:42.936Z",
+  "generatedAt": "2026-10-18T18:27:08.215Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -20,7 +20,7 @@
   ],
   "summary": {
     "projects": 27,
-    "live": 12,
+    "live": 14,
     "clients": 1,
     "inFlight": 0
   },
@@ -28,7 +28,7 @@
     {
       "slug": "loki",
       "name": "loki",
-      "what": "Capability layer: a captain over a fleet of AI agents that builds and ships projects, with verification and approval built in — improve it by typing into it",
+      "what": "Loki is an independent product for building and changing projects with AI agents. Start with a brief, create a real repository, build and deploy, then use project feedback to direct the next change. OrangeCat linking is optional; an OrangeCat account is not required to build in Loki.",
       "stack": "Next.js 16 App Router · TypeScript strict · Tailwind 4 + ui-* design system (globals.css SSOT) · Drizzle ORM + PostgreSQL 17 (self-hosted Hetzner) · box-runner + Fleet Runner desktop (Electron, node-pty) · pgvector fleet-knowledge RAG (fastembed 384-dim) · Auth.js (GitHub/Google/X/email + OrangeCat OIDC)",
       "layer": "execution",
       "status": "live",
@@ -729,8 +729,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-10-18T10:38:57.873Z"
+          "outcome": "partial",
+          "at": "2026-10-18T16:14:24.888Z"
         },
         "lastLog": {
           "date": "2026-10-12",
@@ -741,7 +741,7 @@
     {
       "slug": "orangecat",
       "name": "orangecat",
-      "what": "Economic layer: Bitcoin-native identity, entities and settlement — the economy that remembers need, where Cat is every actor's AI economic agent",
+      "what": "Your AI economic agent — and the platform where it operates.",
       "stack": "Next.js 15 · TypeScript · Supabase (self-hosted on the bitbaum box) · BTC/Lightning (NWC, LNURL, Alby) · pgvector (Cat memory) · Groq + OpenRouter BYOK · OIDC provider (PKCE, JWKS, refresh rotation)",
       "layer": "economic",
       "status": "live",
@@ -1150,7 +1150,7 @@
     {
       "slug": "solon",
       "name": "solon",
-      "what": "Governance layer: Bitcoin-signed voting, transparent treasury and Ostrom-style rules — humans and agents both first-class voters",
+      "what": "Governance any group can use — one-click proposals and votes for anyone with an account (Solon's own, or OrangeCat's), Bitcoin signatures for anyone who wants a vote others can recount without trusting Solon, versioned policies and an append-only audit trail.",
       "stack": null,
       "layer": "governance",
       "status": "live",
@@ -1636,7 +1636,7 @@
     {
       "slug": "bitbaum",
       "name": "Bitbaum",
-      "what": null,
+      "what": "The Bitbaum studio website and its static site generator. The public site is bitbaum.orangecat.ch. It presents projects at their editorially reviewed readiness stage, documents shared packages, and routes people to the studio waitlist or to Loki for agent-assisted work.",
       "stack": null,
       "layer": "product",
       "status": "live",
@@ -1947,9 +1947,365 @@
       }
     },
     {
+      "slug": "causius",
+      "name": "Causius",
+      "what": "The legal layer of the fleet: an agent that does legal work on a sealed case file, a person who decides what leaves it, and licensed lawyers where the law reserves the work for them. Read a letter without an account, or open a matter and let the agent research, keep the deadlines and draft.",
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "client": null,
+      "since": "2026-09-10",
+      "urls": {
+        "live": "https://causius.orangecat.ch",
+        "repo": "https://github.com/bitbaum/causius",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": "Legal marketplaces rot the same way: clients want cheaper and faster, platforms attract hungry lawyers rather than the good ones, quality and trust fall, and AI on top just industrialises mediocre memos. Meanwhile Swiss SME employment and contract matters are frequent, document-heavy and repeat, yet each reaches a lawyer as an unstructured pile the lawyer bills hours to untangle.",
+        "solution": "Causius prepares the mandate. A licensed lawyer owns it. Intake turns a messy SME employment or contract matter into a structured file: timeline, clause map, missing documents, first draft and a risk list with citations to Fedlex and case law. A curated bench of named lawyers accepts, edits and bills it. A factory for prepared files, not a lawyer directory or a substitute counsel; it never says 'you should sue'.",
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [
+        {
+          "title": "Read a letter and say what it wants {#read}",
+          "line": "A letter in, a case file out: the deadline, each thing asked for, a full",
+          "status": "in progress",
+          "progress": 73,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Intake by pasted text or a photo of the letter {#intake}",
+              "done": true
+            },
+            {
+              "title": "The case file: deadline, checklist, translations, draft reply {#case-file}",
+              "done": true
+            },
+            {
+              "title": "Cases kept in the browser, with export and import {#export}",
+              "done": true
+            },
+            {
+              "title": "Analysis through the fleet's shared model chain, with a rate limit {#shared-models}",
+              "done": true
+            },
+            {
+              "title": "Your own model: connect a key, checked, strongest model preselected {#own-model}",
+              "done": true
+            },
+            {
+              "title": "The interface and the analysis in English, German and French {#languages}",
+              "done": true
+            },
+            {
+              "title": "Letters of several pages, photographed in order {#pages}",
+              "done": true
+            },
+            {
+              "title": "The deadline shown with the sentence of the letter it was read from {#deadline-source}",
+              "done": true
+            },
+            {
+              "title": "Shared model keys set on the host, and the first real letter analysed there",
+              "done": false
+            },
+            {
+              "title": "A set of real letters with known answers, to measure how often the deadline is right",
+              "done": false
+            },
+            {
+              "title": "Letters that arrive as a PDF",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Private by construction {#privacy}",
+          "line": "The model reads what a letter asks for; it does not need to know who it is",
+          "status": "in progress",
+          "progress": 57,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Personal details replaced in the browser before a letter is sent {#anonymise}",
+              "done": true
+            },
+            {
+              "title": "Details covered on page photos before they are sent {#anonymise-photos}",
+              "done": true
+            },
+            {
+              "title": "An anonymised case file to hand to a helper {#anonymise-export}",
+              "done": true
+            },
+            {
+              "title": "A strict content security policy and security headers {#security}",
+              "done": true
+            },
+            {
+              "title": "Read the text of a photographed page in the browser, so photos are anonymised automatically too",
+              "done": false
+            },
+            {
+              "title": "Model providers that contractually do not train on or retain what they are sent",
+              "done": false
+            },
+            {
+              "title": "An independent security review before the first real users",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Say what Causius is, in one place {#identity}",
+          "line": "Problem, solution, mission and vision live in the Loki project profile and are",
+          "status": "in progress",
+          "progress": 25,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Roadmap and changelog kept in this repository and rendered from the fleet map {#records}",
+              "done": true
+            },
+            {
+              "title": "Problem, solution, mission and vision filled in on the Loki profile",
+              "done": false
+            },
+            {
+              "title": "An OrangeCat profile, so the project can be found and funded",
+              "done": false
+            },
+            {
+              "title": "A Solon organisation, so its rules can be decided in the open",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Matters worked by an agent {#matters}",
+          "line": "A matter is anything legal to be handled. The agent researches, records",
+          "status": "in progress",
+          "progress": 67,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Sign in with OrangeCat; one account across the fleet {#sign-in}",
+              "done": true
+            },
+            {
+              "title": "Matters stored on our host, each sealed with its own key (AES-256-GCM) {#sealed-matters}",
+              "done": true
+            },
+            {
+              "title": "The agent: web research with sources, deadlines, tasks, facts, drafts, approvals {#agent}",
+              "done": true
+            },
+            {
+              "title": "Every personal detail, and the account name, hidden from the model {#agent-privacy}",
+              "done": true
+            },
+            {
+              "title": "Documents added to a matter: PDF and text, only the text kept {#documents}",
+              "done": true
+            },
+            {
+              "title": "Check domain names with the registries before founding on a name {#domains}",
+              "done": true
+            },
+            {
+              "title": "Deadline reminders by e-mail",
+              "done": false
+            },
+            {
+              "title": "Bring a quick-check letter into a matter in one step",
+              "done": false
+            },
+            {
+              "title": "Keys only the owner holds, so the operator cannot open a matter",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "The fleet's design and a technical narrative {#site}",
+          "line": null,
+          "status": "in progress",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Built on @bitbaum/design-tokens, in the grammar Solon and Loki use {#design}",
+              "done": true
+            },
+            {
+              "title": "Platform, Security and Ecosystem pages; the fleet read from the fleet map {#narrative}",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Helpers you can actually reach {#helpers}",
+          "line": "Legal assistants and licensed lawyers offer their help as services on OrangeCat",
+          "status": "planned",
+          "progress": 20,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The rules: who may give legal advice, and who may be pseudonymous {#helper-rules}",
+              "done": true
+            },
+            {
+              "title": "Helpers listed from their OrangeCat services, by jurisdiction, area and language, under a name or a pseudonym",
+              "done": false
+            },
+            {
+              "title": "A lawyer's identity held privately and shown to a client when they engage them",
+              "done": false
+            },
+            {
+              "title": "A lawyer's admission checked against the public bar register before the label",
+              "done": false
+            },
+            {
+              "title": "Hand a case to a helper from the case page, sharing only what you choose",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Decide the marketplace rules in the open {#governance}",
+          "line": "Who is admitted, what a label requires and how a dispute is settled are",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Admission and labelling rules adopted by a recorded vote",
+              "done": false
+            },
+            {
+              "title": "A dispute between a person and a helper has a written path",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "A matter shared with a helper {#rooms}",
+          "line": null,
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A shared matter: the person, their helper and the agent in one thread, the helper seeing only what is shared",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Legal existence {#existence}",
+          "line": null,
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Found a company or an association: documents prepared by the agent, filed on approval",
+              "done": false
+            },
+            {
+              "title": "Register a domain on approval, through a registrar connected to OrangeCat payments",
+              "done": false
+            },
+            {
+              "title": "Contracts signed by the parties, obligations tracked, payment held in escrow on OrangeCat",
+              "done": false
+            },
+            {
+              "title": "The law cited from Solon as versioned data, rule by rule",
+              "done": false
+            },
+            {
+              "title": "Law firms running Causius on models inside their own walls",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "More than letters {#beyond}",
+          "line": null,
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Forms filled from the facts already in the case",
+              "done": false
+            },
+            {
+              "title": "Guides per jurisdiction for the most common procedures",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-10-15",
+          "done": "Accounts of your own. You no longer need an OrangeCat account to use Causius. Register with an email address and a password, a sign-in link or a passkey; add two-step codes if you like. \"Sign in with OrangeCat\" stays as one button for people who have an account there, and matters you started that way are still yours. {#accounts}"
+        },
+        {
+          "date": "2026-10-14",
+          "done": "A look of its own: ink on paper. Causius is light by default, deep ink-indigo on warm paper, with headlines set like an inscription; dark mode follows your device or the switch in the header, and your choice is kept in this browser. Amber and red stay for deadlines and problems only. {#look}\nMuch less to read. The home page went from about a thousand words to about two hundred and forty: what it is, how it works, why it is private, who can help. What is real today and the identity statement moved to the platform page; the quick check, the case page, the helpers page and the security page were cut by a quarter to a third. {#less-to-read}\nHeader and footer are easier to hit. Language, theme and footer links are all at least 44 by 44 pixels, and nothing runs off the edge of a phone. {#nav-contract}"
+        },
+        {
+          "date": "2026-10-12",
+          "done": "Say it, photograph it, attach it. Starting a matter and writing in one use the same message box: a microphone, a camera/photos/files menu, and a choice of model. Photos are covered by you in the browser before they are read; PDFs and text files are added as they are. {#intake}\nSpeaking, disclosed. A spoken take goes to a speech service and cannot be hidden first. The text comes back for you to edit, and the security page says so. {#voice}\nHiding personal details is sturdier. Titles (Dr., Prof.), initials, ALL-CAPS names, street and PO-box forms, phone and IBAN variants are now caught, and a very long paste can no longer slow the check down. {#redaction}\nThe agent is stricter with what it reads. Web pages and documents are treated as untrusted text, the agent refuses internal addresses, and one matter handles one message at a time. {#agent-hardening}\nThe security page says only what is true. Deadline dates are readable in the database, detection is not perfect, and the feedback widget is named. {#honest-security}"
+        },
+        {
+          "date": "2026-10-11",
+          "done": "Matters, worked by an agent. Sign in with your OrangeCat account and open a matter: Causius researches what applies and cites it, records deadlines and tasks, drafts documents, and proposes anything that would leave the matter (sending, filing, signing, paying) for you to approve. {#matters}\nSealed on our host. Each matter is encrypted with its own key; the database alone holds no name, message, deadline or document. Your account name is always among the words hidden from the model. {#sealed-matters}\nDocuments in a matter. Add a PDF or a text file; only its text is kept, encrypted. {#documents}\nDomain names checked with the registries. Before recommending a name for something you are founding, the agent asks the registries whether its domains are registered. {#domains}\nOne account across the fleet. \"Create an account\" opens OrangeCat's screen; the same account opens OrangeCat, Solon and Loki, and the account menu links to them. {#sign-in}\nThe fleet's look, and the story behind it. Causius now wears the shared design of OrangeCat, Loki and Solon, with new pages on how it is built, how it keeps matters private, and where it sits in the fleet. {#narrative}\nYour details never reach the model. Before a letter is sent, your browser replaces names, addresses, AHV and IBAN numbers, phone numbers, e-mail addresses, dates of birth and reference numbers with placeholders. You see every replacement, can add words of your own, and can preview exactly what is sent. The real values go back into the result on your device. {#anonymise}\nCover details on a photo. Black out your name and address on each page before it is sent; what is under the box is removed from the image. {#anonymise-photos}\nAn anonymised case file for helpers. Export a case with your details replaced, to hand to a legal assistant or a lawyer. {#anonymise-export}\nA strict security policy. The browser runs only scripts the page vouches for, sends data only to Causius, and refuses framing. {#security}\nEnglish pages answered with an error. Every page now lives under its language (/en, /de, /fr), and / opens in your browser's language.\nCausius speaks English, German and French. The whole interface, and what an analysis says about your letter, in the language you choose in the header. German follows Swiss spelling. [#7] {#languages}\nLetters of several pages. Photograph up to four pages in order. Photos are made smaller in your browser before they are sent, so a phone picture is no longer too large. [#7] {#pages}\nThe deadline shows its source. Under the reply date is the sentence of the letter it was read from, to compare with your own copy. A date the letter does not state is never worked out for you. [#7] {#deadline-source}\nYou are told before you start. The intake page says whether the free models are on, and whether they can read photos, before you add a letter. [#7] {#shared-models}"
+        },
+        {
+          "date": "2026-10-10",
+          "done": "Causius reads a letter. Paste an official letter or add a photo of it and get a case: the deadline with the days left, each thing asked of you as a checklist, the letter in the languages you chose, and a draft reply to fill in. [#7] {#intake} {#case-file}\nYour case stays with you. Cases are kept in your browser only. Export one as a file to hand to a helper or move to another device, and import it again. [#7] {#export}\nYour own model. Connect an API key from one of ten providers. The key is checked as you paste it, the strongest model it can use is preselected, and it is kept in your browser only. [#7] {#own-model}\nFree shared models, fairly shared. Without a key, letters are read by the fleet's shared free models, a few per hour per visitor. A photo goes only to a model that can read one. [#7] {#shared-models}\nHelpers, and an honest line between them. What a legal assistant may do, what only a licensed lawyer may do, and who may work under a pseudonym. Nobody is listed yet, and the page says so. [#7] {#helper-rules}\nRoadmap and changelog. Both are kept in the repository and shown on the site from the fleet map. [#7] {#records}"
+        }
+      ],
+      "records": {
+        "roadmap": "repo",
+        "changelog": "repo",
+        "source": {
+          "roadmap": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md",
+          "changelog": "https://github.com/bitbaum/causius/blob/HEAD/CHANGELOG.md"
+        }
+      },
+      "next": "Follow the canonical roadmap for planned work.",
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": {
+          "date": "2026-09-10",
+          "done": "Replaced the developer placeholder with an explicit day-zero page and a path to define the first product workflow. Causius remains a scaffold, not a delivered legal service.\nSource: https://github.com/bitbaum/causius/commit/e9a1823a23d3cf8087a280a6ac7a2cdbf39df7fe"
+        }
+      }
+    },
+    {
       "slug": "datacat",
       "name": "datacat",
-      "what": "AI data capture & analysis",
+      "what": "Universal AI-powered data ingestion and form builder platform.",
       "stack": null,
       "layer": "product",
       "status": "live",
@@ -2096,9 +2452,360 @@
       }
     },
     {
+      "slug": "diplodoctor",
+      "name": "Diplodoctor",
+      "what": "The health layer of the fleet: an agent that reads a medical report with you, a person who decides what leaves it, and the people they choose to help: assistants anyone can be, and licensed professionals where the law reserves the work for them. Paste or photograph a lab report and see every value, which ones are outside their printed range, what they measure and what to ask your doctor. Read it without an account, in five languages. An account is there for what comes next (people you choose, matters), not for the reading.",
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "client": null,
+      "since": "2026-09-10",
+      "urls": {
+        "live": "https://diplodoctor.orangecat.ch",
+        "repo": "https://github.com/bitbaum/diplodoctor",
+        "orangecat": "https://orangecat.ch/projects/9ab54187-755b-4077-910f-fd877709877a",
+        "solon": null
+      },
+      "identity": {
+        "problem": "A lab report reaches the person it is about as a page of values, units and printed ranges that they usually cannot read on their own.",
+        "solution": "Paste or photograph a lab report and see every value, which ones are outside their printed range, what they measure and what to ask your doctor, without an account and in five languages. The AI reads and explains but never diagnoses or prescribes; health assistants anyone can be, and licensed professionals where the law reserves the work, help with the rest.",
+        "mission": "Help anyone understand their own medical results, with the person deciding what leaves them and who helps.",
+        "vision": "Three kinds of help in one place: any AI model, health assistants, and licensed professionals who can prove their licence without revealing who they are, each saying only what they are allowed to say."
+      },
+      "roadmap": [
+        {
+          "title": "Read a lab report and say what it means {#read}",
+          "line": "A report in, a health file out, without an account.",
+          "status": "in progress",
+          "progress": 83,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Intake by pasted text or a photo of the report, several pages in order {#intake}",
+              "done": true
+            },
+            {
+              "title": "Every value extracted: name, value, unit, printed range, flag, and the line it was read from {#values}",
+              "done": true
+            },
+            {
+              "title": "The flag decided by comparing the numbers, not by the model; urgency never lower than the flags imply {#flags}",
+              "done": true
+            },
+            {
+              "title": "Plain-language information on each value outside its range, as information and never a diagnosis {#explain}",
+              "done": true
+            },
+            {
+              "title": "Questions to ask your doctor, written from the values outside their range {#questions}",
+              "done": true
+            },
+            {
+              "title": "Reports kept in the browser, with export and import {#export}",
+              "done": true
+            },
+            {
+              "title": "A value followed across reports in this browser, with units never converted {#trends}",
+              "done": true
+            },
+            {
+              "title": "The interface and the reading in German, French, Italian, English and Spanish {#languages}",
+              "done": true
+            },
+            {
+              "title": "Analysis through the fleet's shared model chain, with a rate limit; or your own model {#models}",
+              "done": true
+            },
+            {
+              "title": "Shared model keys set on the host, and the first real report read there",
+              "done": true
+            },
+            {
+              "title": "A set of real reports with known values, to measure how often extraction is right",
+              "done": false
+            },
+            {
+              "title": "Reports that arrive as a PDF",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/diplodoctor/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Private by construction {#privacy}",
+          "line": null,
+          "status": "in progress",
+          "progress": 50,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Names, birth dates, addresses, insurance, patient and order numbers replaced in the browser before a report is sent {#anonymise}",
+              "done": true
+            },
+            {
+              "title": "Details covered on page photos before they are sent {#anonymise-photos}",
+              "done": true
+            },
+            {
+              "title": "An anonymised file to hand to a person you choose {#anonymise-export}",
+              "done": true
+            },
+            {
+              "title": "Zero-knowledge proofs wherever an identity would otherwise be exposed, starting with a licence {#zk}",
+              "done": false
+            },
+            {
+              "title": "A strict content security policy and security headers {#security}",
+              "done": true
+            },
+            {
+              "title": "Read the text of a photographed page in the browser, so photos are anonymised automatically too",
+              "done": false
+            },
+            {
+              "title": "Model providers that contractually do not train on or retain what they are sent",
+              "done": false
+            },
+            {
+              "title": "An independent security review before the first real users",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/diplodoctor/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "A legal opinion on the medical-device line {#mdr}",
+          "line": "Software that interprets one person's values may be a medical device under the",
+          "status": "in progress",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A written opinion on whether the explanation step is a medical device, before it is promoted",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/diplodoctor/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "A look of its own {#look}",
+          "line": null,
+          "status": "in progress",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A light, calm theme, dark on request, the whole look in one file {#theme}",
+              "done": true
+            },
+            {
+              "title": "A test that keeps any theme readable (WCAG AA) {#theme-test}",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/diplodoctor/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Say what Diplodoctor is, in one place {#identity}",
+          "line": "Problem, solution, mission and vision live in the Loki project profile and are",
+          "status": "in progress",
+          "progress": 25,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Roadmap and changelog kept in this repository and rendered from the fleet map {#records}",
+              "done": true
+            },
+            {
+              "title": "Problem, solution, mission and vision filled in on the Loki profile",
+              "done": false
+            },
+            {
+              "title": "An OrangeCat profile, so the project can be found and funded",
+              "done": false
+            },
+            {
+              "title": "A Solon organisation, so its rules can be decided in the open",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/diplodoctor/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "One health file {#file}",
+          "line": null,
+          "status": "planned",
+          "progress": 67,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Today, Records, and medicines, appointments and notes beside reports {#records}",
+              "done": true
+            },
+            {
+              "title": "Search that forgives a typo, and filters that live in the address {#find}",
+              "done": true
+            },
+            {
+              "title": "The file kept for you across devices, sealed on our host, for signed-in people, if they choose",
+              "done": true
+            },
+            {
+              "title": "Ask about your file, in a chat",
+              "done": true
+            },
+            {
+              "title": "Keys only the owner holds, so the operator cannot open the file",
+              "done": false
+            },
+            {
+              "title": "Reminders: a retest, a refill, a follow-up",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/diplodoctor/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Health matters worked by an agent {#matters}",
+          "line": "A health matter is any concern to be handled. The agent keeps the timeline,",
+          "status": "planned",
+          "progress": 11,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Accounts of our own, optional, pseudonymous by default: email and password, link, passkey, two-factor, OrangeCat and the shared sign-in",
+              "done": true
+            },
+            {
+              "title": "One account across the fleet without a second sign-up",
+              "done": false
+            },
+            {
+              "title": "Matters stored on our host in Switzerland, each sealed with its own key",
+              "done": false
+            },
+            {
+              "title": "A timeline of results, visits and documents; medications with dose and frequency; family history",
+              "done": false
+            },
+            {
+              "title": "Reminders: a retest, a refill, a follow-up",
+              "done": false
+            },
+            {
+              "title": "Drafts proposed for the owner to approve: an appointment request, a letter to the Krankenkasse",
+              "done": false
+            },
+            {
+              "title": "A dispute with an insurer handed to Causius",
+              "done": false
+            },
+            {
+              "title": "Caring for someone else, with their consent recorded and revocable",
+              "done": false
+            },
+            {
+              "title": "Bring a quick-check report into a matter in one step",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/diplodoctor/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "People in the loop {#people}",
+          "line": "Three kinds of help, labelled for what each is: any AI model, a health assistant",
+          "status": "planned",
+          "progress": 17,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The rules: what an AI model may say, what an assistant's view is, what only a licensed professional may give, and who may be pseudonymous {#people-rules}",
+              "done": true
+            },
+            {
+              "title": "\"Have a person look at it\": a redacted file handed to an assistant or a licensed professional you choose",
+              "done": false
+            },
+            {
+              "title": "Assistants and licensed professionals offer their work as OrangeCat services and are paid there, in any currency",
+              "done": false
+            },
+            {
+              "title": "How helpful people found an assistant, shown on their profile, from the people they helped",
+              "done": false
+            },
+            {
+              "title": "A licence proven with a zero-knowledge proof against the public register, so a licensed professional can stay pseudonymous",
+              "done": false
+            },
+            {
+              "title": "Admission, labelling and evaluation rules adopted by a recorded vote on Solon",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/diplodoctor/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "For clinics and practices {#clinics}",
+          "line": null,
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A patient hands a clinic their file by choice, anonymised until they decide otherwise",
+              "done": false
+            },
+            {
+              "title": "A clinic's patients arrive with their results read and their questions written",
+              "done": false
+            },
+            {
+              "title": "A clinic runs Diplodoctor on a model inside its own walls, so patient data never leaves the practice",
+              "done": false
+            },
+            {
+              "title": "A clinic's own branding and languages on its own address",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/diplodoctor/blob/HEAD/ROADMAP.md"
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-10-15",
+          "done": "Keep your file in your account, if you choose. One switch in Account. The file is kept sealed on our server and follows you to any device you sign in on. Off by default; turning it off deletes the copy.\nAsk about your own file. Questions answered from your records only, with names hidden before anything is sent. Information, not a diagnosis.\nA health file, not a report reader. The header is now Today, Records and People. Today shows what is next, the latest results and your medicines; Records is everything in one list you can search (a typo still finds it) and filter, and you can add medicines, appointments and notes beside reports. The home page says so in fewer words.\nAccounts, if you want one. Sign in with email and password, a link, a passkey, two-factor, OrangeCat or the shared sign-in, in all five languages. Reading a report still needs none, and nothing health-related is stored on the server.\nMuch less to read. The home page went from about a thousand words to a couple of hundred: what it is, one value read, how it works, why it is private, and who can help. The depth moved to Platform and Security; the intake form, the report page and People were cut by a quarter to a third. A test now holds each page to a word budget. {#less-text}\nWarm paper and pine green, not clinical blue. Blue is every hospital's colour. The look is one file (app/theme.css), so it stays a one-line change. {#colour}\nEvery control in the header and footer is at least 44px, at phone, tablet and desktop width, in all five languages. {#targets}"
+        },
+        {
+          "date": "2026-10-14",
+          "done": "Read a lab report. Paste it or photograph its pages, in any language. Every value comes out with its unit, its printed range and the line of the report it was read from. {#read}\nThe numbers decide, not the model. Whether a value is outside its range is worked out by comparing it with the printed bounds, and the urgency shown can never be lower than the values imply. {#flags}\nWhat it means, as information. A plain explanation for each value outside its range, questions to take to your doctor, and the words of a non-lab document explained. Never a diagnosis. {#explain}\nFollow a value over time. When the same measurement is in an earlier report in this browser, the earlier value and the direction are shown. Units are never converted. {#trends}\nPrivate by construction. Names, birth dates, addresses, insurance, patient and order numbers are replaced in your browser before anything is sent; reports live in this browser only; an anonymised file can be exported for a clinician. {#privacy}\nFive languages. The whole site and every reading in English, German, French, Italian and Spanish. {#languages}\nYour own model. Connect an API key and the reading runs on your own budget; the key stays in your browser. {#own-model}\nRoadmap, changelog and the rules for clinicians, said plainly, with nobody listed who does not exist. {#records}"
+        },
+        {
+          "date": "2026-10-14",
+          "done": "Three kinds of help, said honestly. Any AI model (there is no \"Diplodoctor model\"; it is whichever model answers), a health assistant anyone can be, under a name or a pseudonym, whose view is an opinion and whose helpfulness will be shown, and a licensed professional, whose licence can be proven without revealing who they are. /clinicians is now /people. Nobody is listed yet and the pages say so; the zero-knowledge licence proof is planned. {#people}\nA look of its own. Light and calm by default, dark on request or when your device asks, with a toggle in the header. The whole look is one file, app/theme.css, and a test keeps any change readable. {#theme}"
+        }
+      ],
+      "records": {
+        "roadmap": "repo",
+        "changelog": "repo",
+        "source": {
+          "roadmap": "https://github.com/bitbaum/diplodoctor/blob/HEAD/ROADMAP.md",
+          "changelog": "https://github.com/bitbaum/diplodoctor/blob/HEAD/CHANGELOG.md"
+        }
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
       "slug": "evig",
       "name": "evig",
-      "what": "Admin platform — 30+ sections, 165 tables",
+      "what": "evig makes genuinely good computing affordable to everyone — curated, decent hardware people actually want to use, not junk refurb. Founded 2026. This repository is the platform that runs it: a storefront, a community marketplace, repair & IT-help, workshops, an AI-assisted intake pipeline, and an in-house AI assistant.",
       "stack": null,
       "layer": "product",
       "status": "live",
@@ -2651,7 +3358,7 @@
     {
       "slug": "heidi",
       "name": "Heidi",
-      "what": "Learn to understand and text in Zurich Swiss German. heidi.orangecat.ch",
+      "what": "Helps adults who already speak German understand the Zurich German actually spoken around them. Live at heidi.orangecat.ch.",
       "stack": null,
       "layer": "product",
       "status": "live",
@@ -2841,7 +3548,7 @@
     {
       "slug": "petvity",
       "name": "petvity",
-      "what": "A pet-care platform for owner-managed pet profiles, care records, provider discovery, marketplace listings and adoption workflows.",
+      "what": "Global pet care platform — owners manage multi-species pet profiles, track physical and emotional health KPIs, connect with vets and sitters, access a marketplace, and list pets for cross-border adoption.",
       "stack": null,
       "layer": "product",
       "status": "live",
@@ -3236,7 +3943,7 @@
     {
       "slug": "revamp-info",
       "name": "revamp-info",
-      "what": "Internal fundraising dashboard",
+      "what": "Hirnli helps mission-driven organizations find the right foundation funders, build per-foundation fit narratives, and ship professional German-language applications (Gesuche) that stand out from the templated norm. Multi-tenant by design — one deployment serves each organization's branded site on its own host.",
       "stack": null,
       "layer": "product",
       "status": "live",
@@ -3321,7 +4028,7 @@
     {
       "slug": "substrata",
       "name": "substrata",
-      "what": "Open research on the physical bottlenecks of technological progress: materials, compute, energy, science, policy, capital and talent, with checkable evidence and public contributions.",
+      "what": "Open-source research on the physical chokepoints between here and a much faster technological progress.",
       "stack": "Next.js 16, React 19, TypeScript, PostgreSQL 17, OrangeCat OIDC, @bitbaum/ai-kit, bip-kit and sitekit. Versioned research corpus; derived search, atlas and exports.",
       "layer": "product",
       "status": "live",
@@ -3671,7 +4378,7 @@
     {
       "slug": "surf-your-life",
       "name": "surf-your-life",
-      "what": "A clinic portal for burnout and Long COVID recovery, with daily check-ins, symptom tracking and practitioner visibility.",
+      "what": "A psychiatry-led clinic portal (Zürich) helping people recover from burnout and Long COVID. Clients track their recovery — daily check-ins, symptoms, sleep, techniques — and practitioners get the visibility they need to intervene early, run evidence-based programs, and analyze progress.",
       "stack": null,
       "layer": "product",
       "status": "live",
@@ -3820,7 +4527,7 @@
     {
       "slug": "s-ink",
       "name": "sink",
-      "what": null,
+      "what": "Portfolio site for S.Ink — tattoo work by Sami Tutar. Fine line, blackwork, lettering, ornamental. Available in seven languages.",
       "stack": null,
       "layer": "client",
       "status": "live",
@@ -3930,7 +4637,7 @@
     {
       "slug": "sbb-fundbuero",
       "name": "sbb-lost-found",
-      "what": null,
+      "what": "Report something lost on a train while you are still on it, bound to the actual journey, so staff can search before the vehicle reaches the depot.",
       "stack": null,
       "layer": "demo",
       "status": "demo",
@@ -4056,7 +4763,7 @@
     {
       "slug": "biaslens",
       "name": "BiasLens",
-      "what": "Media bias analysis engine. Shows evidence before conclusions, separates fact from framing, measures uncertainty, and surfaces missing perspectives — every score explainable and reproducible. The \"Bloomberg Terminal for media analysis.\"",
+      "what": "Media bias analysis engine. Shows evidence before conclusions, separates fact from framing, measures uncertainty, and surfaces missing perspectives — every score explainable, reproducible, and challengeable. The \"Bloomberg Terminal for media analysis.\"",
       "stack": null,
       "layer": "next",
       "status": "not live",
@@ -4126,7 +4833,7 @@
     {
       "slug": "botsmann",
       "name": "botsmann",
-      "what": "AI specialists platform",
+      "what": "Domain-specialized AI professionals, not another generic chatbot wrapper.",
       "stack": null,
       "layer": "next",
       "status": "validating",
@@ -4194,447 +4901,6 @@
           "date": "2026-09-15",
           "done": "Consolidated rate limiting, authentication layout and bot creation flow so shared behaviour has one implementation.\nSource: https://github.com/bitbaum/botsmann/commit/376b94f89d234579244be48650e5301b570a0a73"
         }
-      }
-    },
-    {
-      "slug": "causius",
-      "name": "Causius",
-      "what": null,
-      "stack": null,
-      "layer": "next",
-      "status": "validating",
-      "owner": "bitbaum",
-      "client": null,
-      "since": "2026-09-10",
-      "urls": {
-        "live": "https://causius.orangecat.ch",
-        "repo": "https://github.com/bitbaum/causius",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Legal marketplaces rot the same way: clients want cheaper and faster, platforms attract hungry lawyers rather than the good ones, quality and trust fall, and AI on top just industrialises mediocre memos. Meanwhile Swiss SME employment and contract matters are frequent, document-heavy and repeat, yet each reaches a lawyer as an unstructured pile the lawyer bills hours to untangle.",
-        "solution": "Causius prepares the mandate. A licensed lawyer owns it. Intake turns a messy SME employment or contract matter into a structured file: timeline, clause map, missing documents, first draft and a risk list with citations to Fedlex and case law. A curated bench of named lawyers accepts, edits and bills it. A factory for prepared files, not a lawyer directory or a substitute counsel; it never says 'you should sue'.",
-        "mission": null,
-        "vision": null
-      },
-      "roadmap": [
-        {
-          "title": "Read a letter and say what it wants {#read}",
-          "line": "A letter in, a case file out: the deadline, each thing asked for, a full",
-          "status": "in progress",
-          "progress": 73,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Intake by pasted text or a photo of the letter {#intake}",
-              "done": true
-            },
-            {
-              "title": "The case file: deadline, checklist, translations, draft reply {#case-file}",
-              "done": true
-            },
-            {
-              "title": "Cases kept in the browser, with export and import {#export}",
-              "done": true
-            },
-            {
-              "title": "Analysis through the fleet's shared model chain, with a rate limit {#shared-models}",
-              "done": true
-            },
-            {
-              "title": "Your own model: connect a key, checked, strongest model preselected {#own-model}",
-              "done": true
-            },
-            {
-              "title": "The interface and the analysis in English, German and French {#languages}",
-              "done": true
-            },
-            {
-              "title": "Letters of several pages, photographed in order {#pages}",
-              "done": true
-            },
-            {
-              "title": "The deadline shown with the sentence of the letter it was read from {#deadline-source}",
-              "done": true
-            },
-            {
-              "title": "Shared model keys set on the host, and the first real letter analysed there",
-              "done": false
-            },
-            {
-              "title": "A set of real letters with known answers, to measure how often the deadline is right",
-              "done": false
-            },
-            {
-              "title": "Letters that arrive as a PDF",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Private by construction {#privacy}",
-          "line": "The model reads what a letter asks for; it does not need to know who it is",
-          "status": "in progress",
-          "progress": 57,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Personal details replaced in the browser before a letter is sent {#anonymise}",
-              "done": true
-            },
-            {
-              "title": "Details covered on page photos before they are sent {#anonymise-photos}",
-              "done": true
-            },
-            {
-              "title": "An anonymised case file to hand to a helper {#anonymise-export}",
-              "done": true
-            },
-            {
-              "title": "A strict content security policy and security headers {#security}",
-              "done": true
-            },
-            {
-              "title": "Read the text of a photographed page in the browser, so photos are anonymised automatically too",
-              "done": false
-            },
-            {
-              "title": "Model providers that contractually do not train on or retain what they are sent",
-              "done": false
-            },
-            {
-              "title": "An independent security review before the first real users",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Say what Causius is, in one place {#identity}",
-          "line": "Problem, solution, mission and vision live in the Loki project profile and are",
-          "status": "in progress",
-          "progress": 25,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Roadmap and changelog kept in this repository and rendered from the fleet map {#records}",
-              "done": true
-            },
-            {
-              "title": "Problem, solution, mission and vision filled in on the Loki profile",
-              "done": false
-            },
-            {
-              "title": "An OrangeCat profile, so the project can be found and funded",
-              "done": false
-            },
-            {
-              "title": "A Solon organisation, so its rules can be decided in the open",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Matters worked by an agent {#matters}",
-          "line": "A matter is anything legal to be handled. The agent researches, records",
-          "status": "in progress",
-          "progress": 67,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Sign in with OrangeCat; one account across the fleet {#sign-in}",
-              "done": true
-            },
-            {
-              "title": "Matters stored on our host, each sealed with its own key (AES-256-GCM) {#sealed-matters}",
-              "done": true
-            },
-            {
-              "title": "The agent: web research with sources, deadlines, tasks, facts, drafts, approvals {#agent}",
-              "done": true
-            },
-            {
-              "title": "Every personal detail, and the account name, hidden from the model {#agent-privacy}",
-              "done": true
-            },
-            {
-              "title": "Documents added to a matter: PDF and text, only the text kept {#documents}",
-              "done": true
-            },
-            {
-              "title": "Check domain names with the registries before founding on a name {#domains}",
-              "done": true
-            },
-            {
-              "title": "Deadline reminders by e-mail",
-              "done": false
-            },
-            {
-              "title": "Bring a quick-check letter into a matter in one step",
-              "done": false
-            },
-            {
-              "title": "Keys only the owner holds, so the operator cannot open a matter",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "The fleet's design and a technical narrative {#site}",
-          "line": null,
-          "status": "in progress",
-          "progress": 100,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Built on @bitbaum/design-tokens, in the grammar Solon and Loki use {#design}",
-              "done": true
-            },
-            {
-              "title": "Platform, Security and Ecosystem pages; the fleet read from the fleet map {#narrative}",
-              "done": true
-            }
-          ],
-          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Helpers you can actually reach {#helpers}",
-          "line": "Legal assistants and licensed lawyers offer their help as services on OrangeCat",
-          "status": "planned",
-          "progress": 20,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "The rules: who may give legal advice, and who may be pseudonymous {#helper-rules}",
-              "done": true
-            },
-            {
-              "title": "Helpers listed from their OrangeCat services, by jurisdiction, area and language, under a name or a pseudonym",
-              "done": false
-            },
-            {
-              "title": "A lawyer's identity held privately and shown to a client when they engage them",
-              "done": false
-            },
-            {
-              "title": "A lawyer's admission checked against the public bar register before the label",
-              "done": false
-            },
-            {
-              "title": "Hand a case to a helper from the case page, sharing only what you choose",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Decide the marketplace rules in the open {#governance}",
-          "line": "Who is admitted, what a label requires and how a dispute is settled are",
-          "status": "planned",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Admission and labelling rules adopted by a recorded vote",
-              "done": false
-            },
-            {
-              "title": "A dispute between a person and a helper has a written path",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "A matter shared with a helper {#rooms}",
-          "line": null,
-          "status": "later",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "A shared matter: the person, their helper and the agent in one thread, the helper seeing only what is shared",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Legal existence {#existence}",
-          "line": null,
-          "status": "later",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Found a company or an association: documents prepared by the agent, filed on approval",
-              "done": false
-            },
-            {
-              "title": "Register a domain on approval, through a registrar connected to OrangeCat payments",
-              "done": false
-            },
-            {
-              "title": "Contracts signed by the parties, obligations tracked, payment held in escrow on OrangeCat",
-              "done": false
-            },
-            {
-              "title": "The law cited from Solon as versioned data, rule by rule",
-              "done": false
-            },
-            {
-              "title": "Law firms running Causius on models inside their own walls",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "More than letters {#beyond}",
-          "line": null,
-          "status": "later",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Forms filled from the facts already in the case",
-              "done": false
-            },
-            {
-              "title": "Guides per jurisdiction for the most common procedures",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
-        }
-      ],
-      "changelog": [
-        {
-          "date": "2026-10-15",
-          "done": "Accounts of your own. You no longer need an OrangeCat account to use Causius. Register with an email address and a password, a sign-in link or a passkey; add two-step codes if you like. \"Sign in with OrangeCat\" stays as one button for people who have an account there, and matters you started that way are still yours. {#accounts}"
-        },
-        {
-          "date": "2026-10-14",
-          "done": "A look of its own: ink on paper. Causius is light by default, deep ink-indigo on warm paper, with headlines set like an inscription; dark mode follows your device or the switch in the header, and your choice is kept in this browser. Amber and red stay for deadlines and problems only. {#look}\nMuch less to read. The home page went from about a thousand words to about two hundred and forty: what it is, how it works, why it is private, who can help. What is real today and the identity statement moved to the platform page; the quick check, the case page, the helpers page and the security page were cut by a quarter to a third. {#less-to-read}\nHeader and footer are easier to hit. Language, theme and footer links are all at least 44 by 44 pixels, and nothing runs off the edge of a phone. {#nav-contract}"
-        },
-        {
-          "date": "2026-10-12",
-          "done": "Say it, photograph it, attach it. Starting a matter and writing in one use the same message box: a microphone, a camera/photos/files menu, and a choice of model. Photos are covered by you in the browser before they are read; PDFs and text files are added as they are. {#intake}\nSpeaking, disclosed. A spoken take goes to a speech service and cannot be hidden first. The text comes back for you to edit, and the security page says so. {#voice}\nHiding personal details is sturdier. Titles (Dr., Prof.), initials, ALL-CAPS names, street and PO-box forms, phone and IBAN variants are now caught, and a very long paste can no longer slow the check down. {#redaction}\nThe agent is stricter with what it reads. Web pages and documents are treated as untrusted text, the agent refuses internal addresses, and one matter handles one message at a time. {#agent-hardening}\nThe security page says only what is true. Deadline dates are readable in the database, detection is not perfect, and the feedback widget is named. {#honest-security}"
-        },
-        {
-          "date": "2026-10-11",
-          "done": "Matters, worked by an agent. Sign in with your OrangeCat account and open a matter: Causius researches what applies and cites it, records deadlines and tasks, drafts documents, and proposes anything that would leave the matter (sending, filing, signing, paying) for you to approve. {#matters}\nSealed on our host. Each matter is encrypted with its own key; the database alone holds no name, message, deadline or document. Your account name is always among the words hidden from the model. {#sealed-matters}\nDocuments in a matter. Add a PDF or a text file; only its text is kept, encrypted. {#documents}\nDomain names checked with the registries. Before recommending a name for something you are founding, the agent asks the registries whether its domains are registered. {#domains}\nOne account across the fleet. \"Create an account\" opens OrangeCat's screen; the same account opens OrangeCat, Solon and Loki, and the account menu links to them. {#sign-in}\nThe fleet's look, and the story behind it. Causius now wears the shared design of OrangeCat, Loki and Solon, with new pages on how it is built, how it keeps matters private, and where it sits in the fleet. {#narrative}\nYour details never reach the model. Before a letter is sent, your browser replaces names, addresses, AHV and IBAN numbers, phone numbers, e-mail addresses, dates of birth and reference numbers with placeholders. You see every replacement, can add words of your own, and can preview exactly what is sent. The real values go back into the result on your device. {#anonymise}\nCover details on a photo. Black out your name and address on each page before it is sent; what is under the box is removed from the image. {#anonymise-photos}\nAn anonymised case file for helpers. Export a case with your details replaced, to hand to a legal assistant or a lawyer. {#anonymise-export}\nA strict security policy. The browser runs only scripts the page vouches for, sends data only to Causius, and refuses framing. {#security}\nEnglish pages answered with an error. Every page now lives under its language (/en, /de, /fr), and / opens in your browser's language.\nCausius speaks English, German and French. The whole interface, and what an analysis says about your letter, in the language you choose in the header. German follows Swiss spelling. [#7] {#languages}\nLetters of several pages. Photograph up to four pages in order. Photos are made smaller in your browser before they are sent, so a phone picture is no longer too large. [#7] {#pages}\nThe deadline shows its source. Under the reply date is the sentence of the letter it was read from, to compare with your own copy. A date the letter does not state is never worked out for you. [#7] {#deadline-source}\nYou are told before you start. The intake page says whether the free models are on, and whether they can read photos, before you add a letter. [#7] {#shared-models}"
-        },
-        {
-          "date": "2026-10-10",
-          "done": "Causius reads a letter. Paste an official letter or add a photo of it and get a case: the deadline with the days left, each thing asked of you as a checklist, the letter in the languages you chose, and a draft reply to fill in. [#7] {#intake} {#case-file}\nYour case stays with you. Cases are kept in your browser only. Export one as a file to hand to a helper or move to another device, and import it again. [#7] {#export}\nYour own model. Connect an API key from one of ten providers. The key is checked as you paste it, the strongest model it can use is preselected, and it is kept in your browser only. [#7] {#own-model}\nFree shared models, fairly shared. Without a key, letters are read by the fleet's shared free models, a few per hour per visitor. A photo goes only to a model that can read one. [#7] {#shared-models}\nHelpers, and an honest line between them. What a legal assistant may do, what only a licensed lawyer may do, and who may work under a pseudonym. Nobody is listed yet, and the page says so. [#7] {#helper-rules}\nRoadmap and changelog. Both are kept in the repository and shown on the site from the fleet map. [#7] {#records}"
-        }
-      ],
-      "records": {
-        "roadmap": "repo",
-        "changelog": "repo",
-        "source": {
-          "roadmap": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md",
-          "changelog": "https://github.com/bitbaum/causius/blob/HEAD/CHANGELOG.md"
-        }
-      },
-      "next": "Follow the canonical roadmap for planned work.",
-      "now": {
-        "openRuns": 0,
-        "lastRun": null,
-        "lastLog": {
-          "date": "2026-09-10",
-          "done": "Replaced the developer placeholder with an explicit day-zero page and a path to define the first product workflow. Causius remains a scaffold, not a delivered legal service.\nSource: https://github.com/bitbaum/causius/commit/e9a1823a23d3cf8087a280a6ac7a2cdbf39df7fe"
-        }
-      }
-    },
-    {
-      "slug": "diplodoctor",
-      "name": "Diplodoctor",
-      "what": "The project creates a health platform that lets users store and manage their own medical records while providing AI‑driven clinical reasoning. An integrated AI companion, Diplodoc, reviews a patient’s history and alerts them when a legal restriction prevents a particular treatment, explaining the relevant law and its implications. By combining telemedicine with medical tourism and being built on the existing Vita clinic portal, the service can be deployed by individual practices to offer transparent, compliant care across borders.\n\nFrom the owner:\n\nWhat does this actually do for them?\nA health platform: home diagnostics, a 24/7 AI doctor that introduces itself as Diplodoc, and a doctor-in-the-loop marketplace so a licensed clinician stands behind the AI. Vita, a Zürich clinic, is the credibility engine and first reference customer; Diplodoctor is the platform, in its own entity.",
-      "stack": null,
-      "layer": "next",
-      "status": "prospect",
-      "owner": "bitbaum",
-      "client": null,
-      "since": "2026-09-10",
-      "urls": {
-        "live": "https://diplodoctor.orangecat.ch",
-        "repo": null,
-        "orangecat": "https://orangecat.ch/projects/9ab54187-755b-4077-910f-fd877709877a",
-        "solon": null
-      },
-      "identity": {
-        "problem": "Patients struggle to manage personal health records across borders and navigate complex legal restrictions or availability of specialized treatments.",
-        "solution": "Offers an AI clinical companion that analyzes patient records to flag treatment options and legal hurdles, validated by licensed doctors via a telemedicine marketplace.",
-        "mission": "To provide accessible, transparent, and legally compliant cross-border healthcare by pairing AI clinical reasoning with licensed medical oversight.",
-        "vision": "A seamless global healthcare and medical tourism ecosystem where patients access compliant cross-border treatments and diagnostics backed by verified clinicians."
-      },
-      "roadmap": [
-        {
-          "title": "Establish secure patient health record storage with Vita clinic portal integration",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        },
-        {
-          "title": "Build the Diplodoc clinical reasoning and home diagnostics engine",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        },
-        {
-          "title": "Develop the cross-border jurisdictional compliance and restriction engine",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        },
-        {
-          "title": "Implement the doctor-in-the-loop consultation marketplace",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        },
-        {
-          "title": "Deploy multi-tenant clinic onboarding and medical tourism workflows",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        }
-      ],
-      "changelog": [],
-      "records": {
-        "roadmap": "goals",
-        "changelog": null,
-        "source": {
-          "roadmap": null,
-          "changelog": null
-        }
-      },
-      "next": null,
-      "now": {
-        "openRuns": 0,
-        "lastRun": null,
-        "lastLog": null
       }
     },
     {
@@ -4913,7 +5179,7 @@
     {
       "slug": "skif",
       "name": "Skif",
-      "what": "Holistic safety for people and the places they live, Zürich first, without trading away privacy or freedom.\n\nFrom the owner:\n\nWho is this for, and who pays for it?\nYear one pays per booking: people in Zürich who want a calm, qualified person with them (a night out, getting home after unwanted attention, a high-exposure person such as a crypto founder, a family), and venues like nightclubs wanting staff who de-escalate. Later: households, buildings, workplaces and neighbourhood associations paying for assessments and interventions. Users: the protected person or place, the Protectors, and Operations.\n\nWhat do they do today instead, and what is bad about it?\nSecurity firms sell equipment, not outcomes: cloud cameras, CCTV, alarm subscriptions, now facial recognition, on the assumption that more surveillance means more safety. The data leaves the home, sits with a vendor and can be shared without the person deciding. Human protection is bouncers picked for size, or close protection that is costly, opaque and not bookable. Nobody measures whether it worked, and nobody says 'you don't need to buy anything'.\n\nWhat does this actually do for them?\nThe person first states what they value and their limits: a Safety Preference Profile with hard constraints (no facial recognition, no interior cameras, no cloud video, no automatic police sharing). Each recommendation is the most proportionate effective intervention within those limits, trade-offs shown, never one opaque score; 'buy nothing' is valid. Protectors are chosen for judgment and calm, not intimidation, and matching explains why. Everyone sees only what the job needs.\n\nAnything the build must use, or must avoid?\nFleet stack: Next.js App Router, strict TypeScript, Tailwind, zod, Drizzle + pg on the bitbaum box's Postgres, Vitest, pnpm. Sign-in is OrangeCat OIDC only, no users table (id_token.sub is identity). Modular monolith. Avoid: Supabase, microservices, an LLM as the matching/dispatch algorithm (it must be deterministic and explainable), trackers on sensitive pages, location or incident data outside our own DB. Payments: manual PAYMENT_PENDING behind an abstraction, never faked.\n\nWhat has to be true for the first version to be worth shipping?\nEnd to end with persisted data: customer signs in, sets privacy preferences, requests a service (e.g. Night Out); Ops sees approved Protectors ranked with reasons and assigns one; the Protector accepts, starts and completes; the customer rates respect, discretion and feeling of safety (not stars); the Protector files a report or incident; Ops sees the lifecycle. Plus a Safety Assessment saving a Safety Plan that respects hard constraints and can say 'nothing to buy'.",
+      "what": "Holistic safety for people and the places they live — Zürich first, without trading away privacy or freedom.",
       "stack": null,
       "layer": "next",
       "status": "prospect",
@@ -5035,7 +5301,7 @@
     {
       "slug": "truthseeker",
       "name": "truthseeker",
-      "what": null,
+      "what": "First-principles rebuttal generator. Paste any article URL, get a structured response that includes:",
       "stack": null,
       "layer": "next",
       "status": "not live",
@@ -5200,7 +5466,7 @@
     {
       "slug": "zeitkastli",
       "name": "Zeitkastli",
-      "what": "Zeitkastli is a weatherproof time capsule and a web app that remembers where you put it — drop a pin, add a photo and a note, and find it again years later.",
+      "what": "A weatherproof capsule and a web app that remembers where you put it.",
       "stack": null,
       "layer": "next",
       "status": "not live",

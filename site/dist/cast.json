@@ -43,8 +43,10 @@
     },
     {
       "id": "burrow",
-      "title": "The burrow (Loki spiral) — the rabbit hole",
-      "art": [],
+      "title": "The burrow (Loki spiral) — the rabbit hole, and the wormhole you fall through",
+      "art": [
+        "wormhole"
+      ],
       "marker": "class=\"burrow\"",
       "selector": ".glass .burrow",
       "layer": "hero · floor-plane",
@@ -78,45 +80,6 @@
       "motion": "creatures.mjs, with depth",
       "visible": "eventually",
       "phone": "hidden"
-    },
-    {
-      "id": "elephant-walker",
-      "title": "The long-legged elephant crossing the plain",
-      "art": [
-        "elephant"
-      ],
-      "marker": "class=\"walker\"",
-      "selector": "#build-yourself .walker",
-      "layer": "home seed scene · plain",
-      "motion": "creatures.mjs: walks in depth toward us, legs striding (mesh warp)",
-      "visible": "eventually",
-      "phone": "hidden"
-    },
-    {
-      "id": "hummingbird",
-      "title": "The hummingbird at the seed tree",
-      "art": [
-        "hummingbird"
-      ],
-      "marker": "class=\"hummingbird\"",
-      "selector": "#build-yourself .hummingbird",
-      "layer": "home seed scene",
-      "motion": "creatures.mjs, orbits the crown",
-      "visible": "eventually",
-      "phone": "shown"
-    },
-    {
-      "id": "wormhole",
-      "title": "The wormhole between chapters",
-      "art": [
-        "wormhole"
-      ],
-      "marker": "wormhole-gap",
-      "selector": ".wormhole-gap .fig-wormhole",
-      "layer": "home · in flow",
-      "motion": "css worm-turn",
-      "visible": "immediate",
-      "phone": "smaller"
     },
     {
       "id": "fog-giant",
@@ -567,17 +530,6 @@
       "phone": "shown"
     },
     {
-      "id": "seed-plain",
-      "title": "The seed plain with the Fuller dome",
-      "art": [],
-      "marker": "data-scene=\"seed\"",
-      "selector": "canvas[data-scene=seed]",
-      "layer": "scene canvas",
-      "motion": "scenes.mjs",
-      "visible": "canvas",
-      "phone": "shown"
-    },
-    {
       "id": "rings",
       "title": "The rings",
       "art": [],
@@ -609,17 +561,6 @@
       "motion": "floor glides on scroll (--fy); curtains drawn by lodge.mjs",
       "visible": "immediate",
       "phone": "smaller (no curtains)"
-    },
-    {
-      "id": "rabbit-hole",
-      "title": "The rabbit-hole spirals",
-      "art": [],
-      "marker": "class=\"rabbit-hole\"",
-      "selector": ".rabbit-hole",
-      "layer": "home · in flow",
-      "motion": "lodge.mjs",
-      "visible": "immediate",
-      "phone": "shown"
     }
   ],
   "pages": {
@@ -630,16 +571,11 @@
       "burrow",
       "whale",
       "dragonfly",
-      "elephant-walker",
-      "hummingbird",
-      "wormhole",
       "fog-walker",
       "cat",
       "sky",
       "neuron-tree",
-      "seed-plain",
-      "lodge",
-      "rabbit-hole"
+      "lodge"
     ],
     "/work/": [
       "fog-walker",

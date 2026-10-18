@@ -360,8 +360,6 @@ img { max-width: 100%; display: block; }
 
 /* The portfolio on the homepage: screenshots, not counters. */
 .home-work-grid { margin-top: 0.5rem; }
-.stage-inline { display: inline-flex; flex-wrap: wrap; gap: 0.35rem; vertical-align: middle; }
-.stage-inline .stage-link { min-height: 32px; padding: 0.2rem 0.6rem; font-size: 0.8rem; }
 
 /* Packages are for developers: one quiet line near the end, not a section. */
 .dev-band { padding: 1.5rem 0; border-top: 1px solid var(--line); color: var(--fg-2); font-size: 0.95rem; }
@@ -415,7 +413,6 @@ img { max-width: 100%; display: block; }
 .home-section-head > div { display: grid; gap: 0.4rem; }
 .home-page .display-2 { text-transform: none; letter-spacing: -0.04em; }
 .home-section-head .textlink { flex: none; margin-bottom: 0.3rem; }
-.home-section-note { margin: 0.7rem 0 1.4rem; max-width: 52ch; color: var(--fg-3); font-size: 0.92rem; }
 .home-package-grid .pkg-card .card-name { white-space: nowrap; flex: none; font-size: 1rem; }
 .home-package-grid .pkg-badges { gap: 0.2rem; }
 .home-package-grid .pkg-category { display: none; }
@@ -714,7 +711,6 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .stack-layer-shot { order: -1; position: static; }
   .home-section-head { align-items: flex-start; flex-wrap: wrap; }
   .home-page .section { padding-block: 2rem; }
-  .home-section-note { margin-bottom: 1rem; }
   .home-page .stage-links { gap: 0.35rem; }
   .home-page .stage-link { min-height: 40px; padding: 0.35rem 0.65rem; font-size: 0.78rem; }
 }
@@ -774,11 +770,10 @@ footer a:not(.mark):hover { color: var(--fg); }
   }
   .home-work-grid::-webkit-scrollbar, .tools::-webkit-scrollbar { display: none; }
   .home-work-grid > *, .tools > * { flex: 0 0 84%; scroll-snap-align: start; }
-  .home-section-head .textlink, .stage-inline .stage-link { min-height: 44px; display: inline-flex; align-items: center; }
+  .home-section-head .textlink { min-height: 44px; display: inline-flex; align-items: center; }
   .paths-section, .tools-section, #work-preview, .ask-section { padding-block: 3.5rem; }
 }
 .home-section-head .textlink { display: inline-flex; align-items: center; min-height: 44px; }
-.stage-inline .stage-link { min-height: 44px; }
 
 /* The last band sits on the footer; no dead strip of page between them. */
 main:has(> .dev-band:last-child) + footer { margin-top: 0; }
@@ -862,8 +857,6 @@ body::after {
 
 
 /* The rabbit hole. */
-.rabbit-hole { display: grid; place-items: center; padding-block: clamp(0.5rem, 3vw, 2rem); }
-.rabbit-hole svg { width: clamp(56px, 7vw, 84px); height: auto; fill: none; stroke: var(--fg-3); stroke-width: 1.4; stroke-linecap: round; will-change: transform; }
 @keyframes fall { to { transform: rotate(360deg); } }
 
 /* Chapters. */
@@ -931,22 +924,17 @@ body::after {
 .glass .fig-sancho { left: 76%; width: 76px; }
 .glass .fig-quixote { left: 81.5%; width: 122px; }
 .glass .fig-windmill { left: 88.6%; width: 96px; transform-origin: 50% 100%; }
-/* A phone's plain keeps to the tree, the dome and one bird; the elephant and the dragonfly have the desk. */
-@media (max-width: 700px) { .glass .dragonfly, .bleed-scene .walker { display: none; } }
+/* On a phone the dragonfly keeps to the desk. */
+@media (max-width: 700px) { .glass .dragonfly { display: none; } }
 .glass .horizon-life { opacity: 0.94; }
 
 @keyframes turn { to { rotate: 360deg; } }
 /* The elephant's path through depth is set by creatures.mjs; it faces the
    way it walks, left and toward us. */
-.walker { position: absolute; left: 0; top: 0; z-index: 2; width: 150px; transform-origin: 50% 100%; pointer-events: none; will-change: transform, opacity; }
-.walker .fig { width: 100%; transform: scaleX(-1); }
 .foreground .fig { transform-origin: 50% 100%; animation: sway 7s ease-in-out infinite alternate; }
 .foreground .fig:nth-child(2) { animation-duration: 8.5s; }
 .foreground .fig:nth-child(3) { animation-duration: 6.2s; }
 @keyframes sway { from { rotate: -1.4deg; } to { rotate: 1.6deg; } }
-.hummingbird { position: absolute; z-index: 2; left: 0; top: 0; pointer-events: none; will-change: transform; }
-.hummingbird[hidden] { display: none; }
-.hummingbird .fig { width: 64px; margin: -26px 0 0 -32px; }
 
 /* The meadow: the herd under the connected trees, mushrooms fruiting from
    the network (they light when a spark passes beneath), a fern unrolling in
@@ -1057,7 +1045,6 @@ body::after {
   .glass .fig-quixote { left: 74%; width: 58px; }
   .glass .fig-windmill { left: 88%; width: 46px; }
   /* On a phone the words cover the plain's horizon: its figures step aside. */
-  .walker { display: none; }
   .fig-fog-giant { left: 10%; width: 150px; }
   .fig-deer { left: 18%; width: 40px; }
   .s1 { left: 28%; width: 26px; }
@@ -1072,7 +1059,7 @@ body::after {
   .whale { width: 78vw; top: 9vh; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .walker, .foreground .fig, .burrow svg, .rabbit .fig, .cat .fig, .fox-run, .whale .fig { animation: none; }
+  .foreground .fig, .burrow svg, .rabbit .fig, .cat .fig, .fox-run, .whale .fig { animation: none; }
   :root[data-weather="mist"] .sky-life::before, :root[data-weather="mist"] .sky-life::after { animation: none; }
 }
 
@@ -1110,8 +1097,6 @@ body::after {
 .puppet .pp { animation-timing-function: cubic-bezier(.45,.05,.55,.95); }
 .puppet .pp-gesture { animation-name: gesture; animation-direction: normal; animation-timing-function: ease-in-out; }
 @keyframes gesture { 0%, 52% { rotate: var(--a0); } 64%, 84% { rotate: var(--a1); } 96%, 100% { rotate: var(--a0); } }
-.walker .puppet { animation: stride-bob 0.9s ease-in-out infinite alternate; }
-@keyframes stride-bob { from { translate: 0 0; } to { translate: 0 -1.5%; } }
 
 /* ─── clicks go where the eye goes ────────────────────────────────────────
    A scene's text column covered its whole width, so it took the clicks meant
@@ -1127,7 +1112,7 @@ body::after {
 .s2, .shroom-2 { animation-delay: -2s; } .s3, .shroom-3 { animation-delay: -4s; }
 @keyframes shroom-breathe { 50% { scale: 1.015 1.03; } }
 .spore { position: absolute; width: 4px; height: 4px; margin: -2px; border-radius: 50%; pointer-events: none; z-index: 4; background: rgb(var(--signal-rgb)); box-shadow: 0 0 6px 1px rgb(var(--signal-rgb) / 0.7); }
-@media (prefers-reduced-motion: reduce) { .walker .puppet, .shroom { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .shroom { animation: none; } }
 /* The windmill's sails turn — slowly, the wrong way round for a dream. */
 .puppet .pp-spin { animation-name: spin; animation-timing-function: linear; animation-direction: normal; }
 @keyframes spin { to { rotate: -360deg; } }
@@ -1195,13 +1180,6 @@ html { overflow-x: clip; }
 .falling .falling-worm { position: absolute; left: var(--fx); top: var(--fy); width: 60vmax; height: 60vmax; margin: -30vmax 0 0 -30vmax; opacity: 0; animation: worm-fall 0.95s cubic-bezier(.55,0,.85,.5) forwards; }
 @keyframes worm-fall { 0% { opacity: 0; scale: 0.1; rotate: 0deg; } 30% { opacity: 1; } 100% { opacity: 1; scale: 4.5; rotate: -540deg; } }
 
-/* ─── the wormhole between chapters ───────────────────────────────────── */
-.wormhole-gap { display: grid; place-items: center; padding-block: clamp(1rem, 3vh, 2rem); overflow: hidden; }
-.wormhole-gap .wormhole { width: min(46vw, 300px); height: auto; animation: worm-turn 140s linear infinite; }
-.dark .wormhole-gap .wormhole { mix-blend-mode: screen; filter: none !important; }
-:root:not(.dark) .wormhole-gap .wormhole { opacity: 0.88; }
-@keyframes worm-turn { to { rotate: -360deg; } }
-@media (prefers-reduced-motion: reduce) { .wormhole-gap .wormhole { animation: none; } }
 
 /* ─── depth: shadows on the ground, haze with distance, planes that move ──
    Every figure standing on a floor or plain has a soft contact shadow, cast
@@ -1214,11 +1192,11 @@ html { overflow-x: clip; }
   border-radius: 50%; background: radial-gradient(closest-side, rgb(0 0 0 / 0.5), rgb(0 0 0 / 0)); pointer-events: none;
 }
 :root:not(.dark) .puppet::after, :root:not(.dark) .glass .windmill::after { background: radial-gradient(closest-side, rgb(70 50 25 / 0.32), rgb(70 50 25 / 0)); }
-.whale .puppet::after, .hummingbird .puppet::after, .dragonfly .puppet::after, .guest-fly .puppet::after { display: none; }
+.whale .puppet::after, .dragonfly .puppet::after, .guest-fly .puppet::after { display: none; }
 .glass .riders, .glass .windmill { filter: saturate(0.82) contrast(0.92); }
 .glass .horizon-life, .bleed-scene .horizon-life { translate: calc(var(--px, 0) * -5px) 0; }
 .glass .lodge-floor, .glass .floor-plane, .rabbit-hop { translate: calc(var(--px, 0) * -12px) 0; }
-.foreground, .walker { translate: calc(var(--px, 0) * -20px) 0; }
+.foreground { translate: calc(var(--px, 0) * -20px) 0; }
 
 /* ─── the burrow: a hole cut in the Lodge floor ─────────────────────────── */
 .burrow {
@@ -1265,14 +1243,11 @@ html { overflow-x: clip; }
   -webkit-mask-image: linear-gradient(to top, transparent 0, #000 26%, #000 58%, transparent 100%), linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
   -webkit-mask-composite: source-in; mask-image: linear-gradient(to top, transparent 0, #000 26%, #000 58%, transparent 100%), linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%); mask-composite: intersect;
 }
-.wormhole-gap .wormhole { transform: none !important; opacity: 0.95; }
 
 /* ─── phones: one thing at a time ───────────────────────────────────────── */
 @media (max-width: 700px) {
   .curtains, .whale, .dragonfly, .fog-walker { display: none !important; }
   [data-lodge] > .wrap { padding-inline: var(--gutter); }
-  .wormhole-gap { padding-block: 1.5rem; }
-  .wormhole-gap .wormhole { width: 72vw; }
 }
 
 /* ─── the menu belongs to the night ─────────────────────────────────────── */
@@ -1316,17 +1291,10 @@ html { overflow-x: clip; }
 .deer-deep { left: 30%; width: 70px; bottom: -40px !important; }
 .glass .whale { position: absolute; top: 9vh; left: 0; z-index: 1; }
 
-/* The plain, laid out in depth: dome on the far horizon right, the watch
-   near the tree, the rye in the near foreground between the words and the
-   watch, the elephant walking the space in front of the dome. */
 
 /* ─── phones get the world too, composed for a narrow screen ──────────────
-   The plain on a phone lies above the words: the watch and its gears on the
-   left, the tree, the rye with its ergot on the right, the elephant crossing
-   the far ground. The whale and dragonfly come back, small, in their own sky. */
+   On a phone the whale and dragonfly come back, small, in their own sky. */
 @media (max-width: 700px) {
-  .walker { display: block; }
-  .walker { width: 110px; }
   .whale { display: block !important; }
   .whale[hidden] { display: none !important; }
   .glass .whale { top: 11vh; width: 56vw; opacity: 0.4; }
@@ -1344,12 +1312,12 @@ html { overflow-x: clip; }
    is what makes a painting stand rather than float. The figure settles about
    its feet (lodge.mjs leans it a degree now and then), never about its middle. */
 .guest-stand .fig, .guest-unicorn .fig, .horse-stand .fig, .guest-snail .fig { transform-origin: 50% 100%; }
-.guest-stand::after, .guest-unicorn::after, .guest-horse::after, .guest-snail::after, .walker::after, .deer-deep::after, .art-stage .fox::after {
+.guest-stand::after, .guest-unicorn::after, .guest-horse::after, .guest-snail::after, .deer-deep::after, .art-stage .fox::after {
   content: ""; position: absolute; left: 10%; right: 10%; bottom: -3%; height: 14%; z-index: -1;
   border-radius: 50%; background: radial-gradient(ellipse at center, rgb(0 0 0 / 0.42), rgb(0 0 0 / 0.18) 45%, transparent 72%);
   filter: blur(2px); pointer-events: none;
 }
-:root:not(.dark) .guest-stand::after, :root:not(.dark) .guest-unicorn::after, :root:not(.dark) .guest-horse::after, :root:not(.dark) .guest-snail::after, :root:not(.dark) .walker::after, :root:not(.dark) .deer-deep::after, :root:not(.dark) .art-stage .fox::after { opacity: 0.6; }
+:root:not(.dark) .guest-stand::after, :root:not(.dark) .guest-unicorn::after, :root:not(.dark) .guest-horse::after, :root:not(.dark) .guest-snail::after, :root:not(.dark) .deer-deep::after, :root:not(.dark) .art-stage .fox::after { opacity: 0.6; }
 .guest-art-diplodocus::after { left: 18%; right: 22%; height: 9%; }
 .guest-art-elephant::after { left: 14%; right: 14%; height: 10%; }
 .guest-art-cow { width: 150px; }
@@ -1455,7 +1423,10 @@ main:has(> .art-collection:last-child) ~ footer { margin-top: 0; }
   .scene-world .foreground .fig-fern { height: 130px; right: 5%; }
   .scene-world .foreground .fig-fiddlehead { height: 80px; right: 36%; }
   .scene-world .fig-fog-giant { width: 90px; left: 18%; }
-  .scene-world .deer-deep { width: 44px; left: 38%; bottom: -8px !important; }
+  /* A phone's meadow has four small trees, centred at 12%, 37%, 62% and 87%
+     (scenes.mjs). At 38% the deer stood in the second tree's crown, as tall
+     as the tree: a deer on a treetop. It grazes in the middle gap. */
+  .scene-world .deer-deep { width: 44px; left: 50%; bottom: -8px !important; }
   .art-stage { margin-top: 0; height: 220px; }
   .art-stage .guest-art-diplodocus { left: 48%; width: 120px; }
   .art-stage .guest-art-elephant { width: 70px; }
@@ -1468,10 +1439,6 @@ main:has(> .art-collection:last-child) ~ footer { margin-top: 0; }
   .stage.hero, .venture-hero.stage { padding-bottom: var(--section-tight); }
   .stage-floored::after { display: none; }
   .stage.stage-floored { -webkit-mask-image: none; mask-image: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .scene-world .hummingbird { display: block !important; }
-  .scene-world .hummingbird { left: 65%; top: 28%; }
 }
 
 /* Request forms and public records stay in normal flow on every viewport. */

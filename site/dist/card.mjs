@@ -22,16 +22,21 @@ export const slugify = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-"
 // comfortable releasing, and today that is nothing.
 export const STATUS_TEXT = { live: "beta", demo: "demo", validating: "validating", prospect: "not built", unverified: "concept", "not live": "not live" };
 
-/** The words a stage says before any status: a stage is what can be verified. */
-const STAGE_TEXT = { next: "not built", concept: "concept", development: "in development", preview: "preview" };
+/**
+ * The word a public tile says is its STAGE — the same word the work filter
+ * counts and the venture page states. It used to fall back to the Loki
+ * register's status, so a product the site called a beta still read "not
+ * built" or "validating" on its tile whenever the register lagged
+ * (Diplodoctor and Causius, 2026-10-18). The status is only the private
+ * page's fallback, where a tile has no public stage.
+ */
+const STAGE_TEXT = { product: "beta", pilot: "pilot", development: "in development", concept: "concept", next: "not built", preview: "preview" };
 
 export function pill(v) {
-  const staged = STAGE_TEXT[v.stage];
-  if (staged) return `<span class="pill">${staged}</span>`;
-  const text = STATUS_TEXT[v.status] ?? v.status;
-  // Keyed on the STATUS, not the rendered word — so renaming the word cannot
-  // silently drop the accent that marks a thing you can actually open.
-  return text ? `<span class="pill ${v.status === "live" ? "beta" : ""}">${esc(text)}</span>` : "";
+  const text = STAGE_TEXT[v.stage] ?? STATUS_TEXT[v.status] ?? v.status;
+  // The accent marks a thing you can open and use today.
+  const open = v.stage ? v.stage === "product" || v.stage === "pilot" : v.status === "live";
+  return text ? `<span class="pill${open ? " beta" : ""}">${esc(text)}</span>` : "";
 }
 
 /**

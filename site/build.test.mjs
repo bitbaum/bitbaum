@@ -72,3 +72,16 @@ test("a venture typed 'not built' whose address answers is never shown as not bu
   assert.ok(isRunning(200) && isRunning(307) && isRunning(401) && isRunning(403));
   assert.ok(!isRunning(0) && !isRunning(404) && !isRunning(502) && !isRunning(503));
 });
+
+test("a public tile says its stage, never the register's word", async () => {
+  const { pill } = await import("./card.mjs");
+  // Diplodoctor on 2026-10-18: a beta on the site, "prospect" in the register.
+  assert.equal(pill({ stage: "product", status: "prospect" }), '<span class="pill beta">beta</span>');
+  assert.equal(pill({ stage: "product", status: "validating" }), '<span class="pill beta">beta</span>');
+  assert.equal(pill({ stage: "pilot", status: "live" }), '<span class="pill beta">pilot</span>');
+  assert.equal(pill({ stage: "next", status: "prospect" }), '<span class="pill">not built</span>');
+  assert.equal(pill({ stage: "concept", status: "demo" }), '<span class="pill">concept</span>');
+  // The private page has no public stage: there the status still speaks.
+  assert.equal(pill({ status: "live" }), '<span class="pill beta">beta</span>');
+  assert.equal(pill({ stage: "preview", status: "prospect" }), '<span class="pill">preview</span>');
+});

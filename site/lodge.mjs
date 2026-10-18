@@ -136,27 +136,6 @@ if (!still) {
   glide();
 }
 
-// ── falling through the rabbit holes ──────────────────────────────────────
-// Each spiral between chapters turns counter-clockwise, so its arms flow
-// inward, and swells as it passes the middle of the screen: you fall through
-// it into the next chapter.
-const holes = [...document.querySelectorAll(".rabbit-hole svg")];
-if (holes.length && !still) {
-  let queued = false;
-  const fall = () => {
-    queued = false;
-    const mid = innerHeight / 2;
-    for (const h of holes) {
-      const r = h.getBoundingClientRect();
-      const k = Math.max(0, 1 - Math.abs(r.top + r.height / 2 - mid) / (innerHeight * 0.5));
-      h.style.transform = `rotate(${(-scrollY * 0.35) % 360}deg) scale(${(1 + k * k * 1.8).toFixed(3)})`;
-      h.style.opacity = (0.55 + k * 0.45).toFixed(2);
-    }
-  };
-  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(fall); } }, { passive: true });
-  fall();
-}
-
 // ── the White Rabbit ─────────────────────────────────────────────────────
 // He sits on the Lodge floor beside the burrow — a hole in the floor itself —
 // fretting over his watch. Every so often he is late: a crouch, a hop, a dive
