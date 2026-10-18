@@ -191,7 +191,27 @@ const workPlain = work.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
 // Honesty cuts both ways: a project that is not built stays listed as not
 // built. (Solon was pinned here as "in development" until it shipped its beta,
 // 2026-09-25 — solon#184/#188; the stage now comes from overrides.json.)
-say(/Solon/.test(workPlain) && /Not built/.test(workPlain) && /Causius/.test(workPlain) && /Skif/.test(workPlain), "not-built projects are present in the staged catalogue");
+say(/Solon/.test(workPlain) && /Causius/.test(workPlain) && /Skif/.test(workPlain), "the staged catalogue lists every stage's ventures (Solon, Causius, Skif)");
+// …and the other way: a venture whose address answers is never "Named, not
+// built". Diplodoctor and Causius ran for five weeks under that label because
+// it was typed once and nothing compared it to the world (2026-10-18). The
+// build now raises such a stage itself (live.mjs); this asks the world again,
+// independently, so the rule cannot silently stop holding.
+{
+  const { probe, isRunning } = await import("./live.mjs");
+  const mapSnap = JSON.parse(readFileSync(join(here, "map.snapshot.json"), "utf8"));
+  const mislabelled = [];
+  for (const [slug, o] of Object.entries(editorial.overrides ?? {})) {
+    if (!o?.what || !o.stage) continue;
+    const url = o.url ?? mapSnap.projects?.find((p) => p.slug === slug)?.urls?.live;
+    if (!url) continue;
+    const page = (await pageText(`/${slug}/`)).replace(/<[^>]+>/g, " ");
+    if (!/Named, not built/.test(page)) continue;
+    const status = await probe(url);
+    if (isRunning(status)) mislabelled.push(`${slug} (${url} → ${status})`);
+  }
+  say(mislabelled.length === 0, `no running address is labelled not built${mislabelled.length ? ": " + mislabelled.join(", ") : ""}`);
+}
 say(!/Built from \d+ shared packages|every product is built from/i.test(home), "homepage does not imply every product uses every package");
 const pkgRepos = packages.map((p) => String(p.repo ?? "").split("/").pop()).filter(Boolean);
 const pkgNotMit = pkgRepos.filter((r) => licences[r] && licences[r] !== "MIT");

@@ -234,25 +234,23 @@
     },
     "diplodoctor": {
       "name": "Diplodoctor",
-      "what": "Medicine, with a doctor in the loop",
-      "stage": "next",
+      "what": "Your health, in one place",
+      "stage": "product",
       "tags": [
         "Health"
       ],
-      "order": 1,
-      "shot": false,
-      "story": "Named, not built. The plan: home diagnostics, an AI doctor available around the clock, and a doctor-in-the-loop marketplace, so a licensed clinician stands behind every answer the AI gives."
+      "order": 11,
+      "story": "Keep results, medicines and appointments together. Paste or photograph a lab report and see every value, which ones are outside their printed range, what they measure and what to ask your doctor \u2014 without an account, in five languages. The AI reads and explains; it never diagnoses or prescribes. Health assistants and, where the law reserves the work, licensed professionals you choose help with the rest. Nobody is listed yet, and the pages say so."
     },
     "causius": {
       "name": "Causius",
-      "what": "Law, with a lawyer in the loop",
-      "stage": "next",
+      "what": "Your legal matter, worked through",
+      "stage": "product",
       "tags": [
         "Knowledge"
       ],
-      "order": 2,
-      "shot": false,
-      "story": "Named, not built. The plan: Causius prepares the mandate and a licensed lawyer owns it. A messy employment or contract matter becomes a structured file \u2014 timeline, clause map, missing documents, a first draft and a cited risk list \u2014 which a named lawyer accepts, edits and bills. It never tells anyone to sue."
+      "order": 12,
+      "story": "Say what is happening, or bring the letter: Causius finds the rules, keeps your deadlines and drafts the reply, on a sealed case file, and nothing leaves without you. Check a letter with no account. Legal assistants help with procedure and filing; licensed lawyers advise and represent where the law reserves the work for them. It never tells anyone to sue."
     },
     "skif": {
       "name": "Skif",

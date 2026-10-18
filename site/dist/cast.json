@@ -887,6 +887,18 @@
       "horse",
       "sky"
     ],
+    "/diplodoctor/": [
+      "fog-walker",
+      "cat",
+      "stand-diplodocus",
+      "sky"
+    ],
+    "/causius/": [
+      "fog-walker",
+      "cat",
+      "owl",
+      "sky"
+    ],
     "/s-ink/": [
       "fog-walker",
       "cat",
@@ -909,18 +921,6 @@
       "fog-walker",
       "cat",
       "flutter-hummingbird",
-      "sky"
-    ],
-    "/diplodoctor/": [
-      "fog-walker",
-      "cat",
-      "stand-diplodocus",
-      "sky"
-    ],
-    "/causius/": [
-      "fog-walker",
-      "cat",
-      "owl",
       "sky"
     ]
   }

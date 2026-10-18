@@ -30,6 +30,7 @@ import { publicMap } from "./public-map.mjs";
 import { fig, ART_NAMES } from "./art.mjs";
 import { renderRecord } from "./record-html.mjs";
 import { renderRoadmap, renderChangelog } from "./records.mjs";
+import { probeAll, shownStage } from "./live.mjs";
 import { PAGE_ART } from "./art-placement.mjs";
 import { card, esc, host, pill, slugify } from "./card.mjs";
 // How each object in a page's ground strip moves (styles.css): gears turn,
@@ -342,7 +343,7 @@ if (!/^(report|chat|watch)(,(report|chat|watch))*$/.test(LOKI_FEEDBACK.modes ?? 
 }
 
 // ── the ventures: register facts + presentation + what they are built from ──
-export function ventures(map, cfg, origin, packages) {
+export function ventures(map, cfg, origin, packages, live = {}) {
   const byRepo = new Map((origin?.repos ?? []).map((r) => [r.repo.split("/")[1], r]));
   const alias = cfg.adopterAliases ?? {};
   // Invert the registry: which packages does each venture use? The registry
@@ -362,13 +363,18 @@ export function ventures(map, cfg, origin, packages) {
     const org = repoName ? byRepo.get(repoName) : null;
     const url = o.url ?? p.urls?.live ?? null;
     const slug = o.slug ?? p.slug;
+    // Whether the address answered at build time (live.mjs); null when it
+    // was not asked. Raises a stale "not built", never lowers anything.
+    const running = url && live[url] ? live[url].running : null;
     return {
       slug,
       name: o.name ?? p.name ?? slug,
       what: o.what,
       homeLine: o.homeLine ?? null,
       story: o.story ?? "",
-      stage: o.stage,
+      stage: shownStage(o.stage, running),
+      stageTyped: o.stage,
+      running,
       tags: o.tags ?? [],
       pillar: o.pillar ?? null,
       pillarRole: o.pillarRole ?? null,
@@ -1053,7 +1059,10 @@ export function venturePage(v, all, cfg, contact) {
   const stage = cfg.stages?.[v.stage];
   const facts = [
     ["Stage", (stage?.title ?? v.stage) + (v.for ? `, for ${v.for}` : "")],
-    ["Status", v.stage === "next" ? "Named, not built" : v.status === "live" ? "Beta — running, not released" : v.status === "demo" ? "Demo, mock data" : v.status === "validating" ? "Validating" : v.status || "—"],
+    // The register's word, unless the address says otherwise: a product that
+    // answers is running whatever its row still says ("prospect" outlived
+    // Diplodoctor's first deploy by five weeks).
+    ["Status", v.stage === "next" ? "Named, not built" : v.status === "live" || (v.running && v.stage === "product") ? "Beta — running, not released" : v.status === "demo" ? "Demo, mock data" : v.running ? "Running, not released" : v.status === "validating" ? "Validating" : v.status || "—"],
     v.tags.length ? ["Field", v.tags.map((t) => `<a href="/work/#work?field=${esc(slugify(t))}">${esc(t)}</a>`).join(", ")] : null,
     v.since ? ["Since", monthYear(v.since)] : null,
     v.url ? ["Address", `<a href="${esc(v.url)}">${esc(host(v.url))}</a>`] : null,
@@ -1214,7 +1223,7 @@ const slug = (name) =>
   String(name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 export function hirePage(all, cfg, hire, packages, origin) {
-  const running = all.filter((v) => v.status === "live" && v.stage !== "next");
+  const running = all.filter((v) => (v.status === "live" || (v.running && v.stage === "product")) && v.stage !== "next");
   const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
   const pkgCount = (packages.packages ?? []).length;
   const body = `  <main id="main">
@@ -1328,8 +1337,8 @@ ${intakeMount({ prompt: hire.waitlist.prompt, offerId: hire.commissioningOffer }
 }
 
 // ── build ───────────────────────────────────────────────────────────────────
-export function render({ map, packages, origin, readings, cfg, hire }) {
-  const all = ventures(map, cfg, origin, packages);
+export function render({ map, packages, origin, readings, cfg, hire, live = {} }) {
+  const all = ventures(map, cfg, origin, packages, live);
   const files = new Map();
   files.set("index.html", homePage(all, packages, cfg, origin, readings, hire));
   files.set("work/index.html", workPage(all, cfg));
@@ -1403,7 +1412,22 @@ if (isMain) {
   const readings = await fetchOrSnapshot(SOURCES.readings);
   const cfg = JSON.parse(readFileSync(join(here, "overrides.json"), "utf8"));
   const hire = JSON.parse(readFileSync(join(here, "hire.json"), "utf8"));
-  const { all, files, castDoc: castMd } = render({ map, packages, origin, readings, cfg, hire });
+  // Every shown venture's address, asked once (live.mjs). Offline and --check
+  // read the answers the last online build kept, so both render alike.
+  const liveSnapshot = join(here, "live.snapshot.json");
+  let live = existsSync(liveSnapshot) ? JSON.parse(readFileSync(liveSnapshot, "utf8")) : {};
+  if (!args.has("--offline")) {
+    const urls = [
+      ...(map.projects ?? []).map((p) => { const o = cfg.overrides?.[p.slug]; return o?.what && o.stage ? (o.url ?? p.urls?.live) : null; }),
+      ...(cfg.extras ?? []).map((x) => (x.what && x.stage ? x.url : null)),
+    ];
+    live = await probeAll(urls);
+    writeFileSync(liveSnapshot, JSON.stringify(live, null, 2) + "\n");
+  }
+  const { all, files, castDoc: castMd } = render({ map, packages, origin, readings, cfg, hire, live });
+  for (const v of all) {
+    if (v.stage !== v.stageTyped) console.warn(`${v.slug}: overrides.json says "${v.stageTyped}" but ${v.url} answers — shown as "${v.stage}". Correct its stage.`);
+  }
   const pageCount = [...files.keys()].filter((file) => file.endsWith("index.html")).length;
 
   // A shot the page references must exist: a broken image on a product page
