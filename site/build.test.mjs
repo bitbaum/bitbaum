@@ -36,3 +36,39 @@ test("the map places every shown venture in exactly one loop", async () => {
     ["a", "b"],
   );
 });
+
+test("a venture typed 'not built' whose address answers is never shown as not built", async () => {
+  const { shownStage, isRunning, probeAll } = await import("./live.mjs");
+  const map = {
+    projects: [
+      { slug: "up", urls: { live: "https://up.example" } },
+      { slug: "down", urls: { live: "https://down.example" } },
+      { slug: "beta", urls: { live: "https://beta.example" } },
+    ],
+  };
+  const cfg = {
+    stages: { product: {}, development: {}, next: {} },
+    overrides: {
+      up: { what: "Up", stage: "next" },
+      down: { what: "Down", stage: "next" },
+      beta: { what: "Beta", stage: "product" },
+    },
+  };
+  const fetcher = async (url) => ({ status: url.includes("down") ? 503 : 200 });
+  const live = await probeAll(map.projects.map((p) => p.urls.live), fetcher);
+  assert.deepEqual(live["https://up.example"], { status: 200, running: true });
+  assert.deepEqual(live["https://down.example"], { status: 503, running: false });
+
+  const shown = Object.fromEntries(ventures(map, cfg, { repos: [] }, { packages: [] }, live).map((v) => [v.slug, v]));
+  assert.equal(shown.up.stage, "development", "an answering address lifts 'not built' to in development");
+  assert.equal(shown.up.stageTyped, "next", "the typed stage is kept, so the build can name the stale line");
+  assert.equal(shown.down.stage, "next", "a site that does not answer keeps its typed stage");
+  assert.equal(shown.beta.stage, "product", "a stage is only raised, never lowered");
+
+  const unprobed = ventures(map, cfg, { repos: [] }, { packages: [] });
+  assert.equal(unprobed.find((v) => v.slug === "up").stage, "next", "no probe data, no change");
+
+  assert.equal(shownStage("product", false), "product");
+  assert.ok(isRunning(200) && isRunning(307) && isRunning(401) && isRunning(403));
+  assert.ok(!isRunning(0) && !isRunning(404) && !isRunning(502) && !isRunning(503));
+});

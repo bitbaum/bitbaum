@@ -1,0 +1,70 @@
+{
+  "https://botsmann.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://camille.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://causius.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://datacat.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://diplodoctor.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://evig.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://heidi.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://hirnli.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://loki.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://petvity.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://sbbfundbuero.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://sinktattoo.com": {
+    "status": 200,
+    "running": true
+  },
+  "https://skif.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://solon.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://substrata.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
+  "https://surf-your-life.orangecat.ch": {
+    "status": 200,
+    "running": true
+  }
+}

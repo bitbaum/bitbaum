@@ -106,6 +106,13 @@ A page nobody reaches helps nobody. In leverage order:
   provisioning fact; publicly those are *pilots* and *concepts*.
 - **"Live" or "released" as a maturity claim.** Public services are labelled
   beta; pilots, development, concepts, and not-built work keep their own stage.
+- **"Not built" for anything whose address answers.** Stages in
+  `overrides.json` are editorial, and a word typed once goes stale: Diplodoctor
+  and Causius ran for five weeks as "Named, not built" (found 2026-10-18). Every
+  online build now asks each shown address (`site/live.mjs`, answers kept in
+  `live.snapshot.json`), shows a running "not built" as in development at the
+  least and prints the stale line; `check-claims.mjs` asks the addresses again
+  and fails if any running one is labelled not built.
 - **A start date, or any implication of capacity there isn't.** Rates ARE
   published — that is what lets a reader qualify themselves — but while
   `availability.state` is `closed`, every door leads to the waitlist and the
