@@ -2,8 +2,32 @@
 // show. The static page names nothing. The list comes from Loki only for the
 // studio owner, signed in there — never for a shared code, because the code
 // clients get for their own preview must not open anyone else's project.
+//
+// Every project is drawn by the SAME tile as the public work grid (card.mjs):
+// same picture, same honest status words, same layout. Only the audience
+// differs, so only two things change: the tile opens the site itself (there is
+// no public page for it), and its picture comes from Loki, which serves it to
+// the owner alone — a private site's screenshot is never a public file.
+import { card } from "/card.mjs";
+
 const $ = (selector, root = document) => root.querySelector(selector);
-const STATUS = { live: "live", prospect: "preview", "not live": "not live" };
+
+/** What Loki's private list says, as the venture the tile draws. */
+function venture(p, origin) {
+  return {
+    slug: p.slug,
+    name: p.name,
+    what: p.what ?? "",
+    since: p.since ?? "",
+    tags: [],
+    // A preview is built and waiting on the client's yes: say so, never
+    // "not built", which is what `prospect` means on the public map.
+    stage: p.status === "prospect" ? "preview" : undefined,
+    status: p.status,
+    url: p.live ?? "",
+    shotSrc: p.live ? `${origin}/api/fleet/private/shot/${encodeURIComponent(p.slug)}` : null,
+  };
+}
 
 function el(tag, attributes = {}, ...children) {
   const node = document.createElement(tag);
@@ -12,19 +36,8 @@ function el(tag, attributes = {}, ...children) {
     if (key === "text") node.textContent = value;
     else node.setAttribute(key, value === true ? "" : String(value));
   }
-  node.append(...children.filter((v) => v != null).map((v) => (typeof v === "string" ? document.createTextNode(v) : v)));
+  node.append(...children.filter((v) => v != null));
   return node;
-}
-
-function card(p) {
-  const status = STATUS[p.status] ?? p.status;
-  return el("article", { class: "card text" }, el("div", { class: "card-body" },
-    el("div", { class: "card-top" }, el("span", { class: "card-name", text: p.name }),
-      status ? el("span", { class: `pill${p.status === "live" ? " beta" : ""}`, text: status }) : null),
-    p.what ? el("span", { class: "card-what", text: p.what }) : null,
-    p.since ? el("span", { class: "card-by", text: `since ${p.since}` }) : null,
-    p.live ? el("a", { class: "textlink", href: p.live, target: "_blank", rel: "noopener noreferrer", text: `${p.live.replace(/^https?:\/\//, "").replace(/\/$/, "")} ↗` }) : null,
-  ));
 }
 
 function signIn(root, origin, note) {
@@ -36,12 +49,19 @@ function signIn(root, origin, note) {
   );
 }
 
-function list(root, projects) {
+function list(root, origin, projects) {
+  const grid = el("div", { class: "grid work-grid" });
+  // card() escapes every value it is given; it is the same template the
+  // public grid is built from.
+  grid.innerHTML = projects
+    .map((p) => {
+      const v = venture(p, origin);
+      return card(v, { href: v.url || null, shotSrc: v.shotSrc });
+    })
+    .join("\n");
   root.replaceChildren(
     el("p", { class: "work-count", role: "status", text: projects.length === 1 ? "1 private project" : `${projects.length} private projects` }),
-    projects.length
-      ? el("div", { class: "grid work-grid private-grid" }, ...projects.map(card))
-      : el("p", { class: "empty", text: "Nothing private right now — every client project is on the public work page." }),
+    projects.length ? grid : el("p", { class: "empty", text: "Nothing private right now — every client project is on the public work page." }),
     el("div", { class: "bleed-actions quiet-actions" }, el("a", { class: "btn secondary", href: "/work/", text: "Back to the public work" })),
   );
 }
@@ -52,7 +72,7 @@ async function load(root) {
   try {
     const response = await fetch(`${origin}/api/fleet/private`, { credentials: "include", cache: "no-store" });
     const data = await response.json().catch(() => ({}));
-    if (response.ok && data.ok) return list(root, data.projects ?? []);
+    if (response.ok && data.ok) return list(root, origin, data.projects ?? []);
     if (response.status === 401) return signIn(root, origin, "This list is for the studio owner. Sign in to Loki and you come straight back here.");
     if (response.status === 403) return signIn(root, origin, "These projects are visible to the studio owner only. If you were sent a preview, its own link and code still open it.");
     signIn(root, origin, data.error ?? "Could not reach the studio. Try again in a moment.");

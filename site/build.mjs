@@ -31,6 +31,7 @@ import { fig, ART_NAMES } from "./art.mjs";
 import { renderRecord } from "./record-html.mjs";
 import { renderRoadmap, renderChangelog } from "./records.mjs";
 import { PAGE_ART } from "./art-placement.mjs";
+import { card, esc, host, pill, slugify } from "./card.mjs";
 // How each object in a page's ground strip moves (styles.css): gears turn,
 // rye and dandelions sway, mushrooms breathe, the tumbleweed rolls through.
 // Everything else stands still, as a painting does.
@@ -146,11 +147,8 @@ async function fetchOrSnapshot([url, file, what]) {
 }
 
 // ── helpers ─────────────────────────────────────────────────────────────────
-const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const monthYear = (iso) => (iso ? `${MONTHS[new Date(iso).getUTCMonth()]} ${new Date(iso).getUTCFullYear()}` : "");
-const host = (url) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
-const slugify = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const MARK = MARK_HEADER();
 const ARROW = `<span class="arrow" aria-hidden="true">&rarr;</span>`;
 const LOKI_FEEDBACK = JSON.parse(readFileSync(join(here, "loki-feedback.json"), "utf8"));
@@ -418,22 +416,6 @@ export function ventures(map, cfg, origin, packages) {
   return out.sort((a, b) => (stageRank.get(a.stage) ?? Number.MAX_SAFE_INTEGER) - (stageRank.get(b.stage) ?? Number.MAX_SAFE_INTEGER) || a.order - b.order || a.name.localeCompare(b.name));
 }
 
-// apps.conf `live` means the process is SERVED. It is not a release claim, and
-// rendering it as one is the mistake this table exists to not make: nothing
-// here is finished enough to hand over without a caveat, OrangeCat included,
-// so the public word is beta. "Live" is reserved for something we would be
-// comfortable releasing, and today that is nothing.
-const STATUS_TEXT = { live: "beta", demo: "demo", validating: "validating", prospect: "not built", unverified: "concept", "not live": "not live" };
-function pill(v) {
-  if (v.stage === "next") return `<span class="pill">not built</span>`;
-  if (v.stage === "concept") return `<span class="pill">concept</span>`;
-  if (v.stage === "development") return `<span class="pill">in development</span>`;
-  const text = STATUS_TEXT[v.status] ?? v.status;
-  // Keyed on the STATUS, not the rendered word — so renaming the word cannot
-  // silently drop the accent that marks a thing you can actually open.
-  return text ? `<span class="pill ${v.status === "live" ? "beta" : ""}">${esc(text)}</span>` : "";
-}
-
 // ── page chrome ─────────────────────────────────────────────────────────────
 /**
  * Where next, on every content page: the three doors a visitor came for,
@@ -636,23 +618,7 @@ ${path === "/portal/" ? "" : `  <script src="${esc(LOKI_FEEDBACK.origin)}/widget
 `;
 }
 
-// ── cards ───────────────────────────────────────────────────────────────────
-function card(v, filterable = false) {
-  const img = v.shot
-    ? `        <div class="shot"><img src="/shots/${esc(v.slug)}.jpg" alt="${esc(v.name)} — screenshot" loading="lazy" width="1280" height="800"></div>\n`
-    : "";
-  // Who built it (and for whom) — the portfolio says who made what. Something
-  // not built has no builder to credit.
-  const credit = [v.stage !== "next" && v.builtBy ? `by ${esc(v.builtBy)}` : "", v.for ? `for ${esc(v.for)}` : ""].filter(Boolean).join(" · ");
-  const sub = credit ? `<span class="card-by">${credit}</span>` : "";
-  const meta = filterable ? `data-stage="${esc(v.stage)}" data-tags="${esc(v.tags.map(slugify).join(" "))}" data-name="${esc(v.name)}" data-host="${esc(host(v.url ?? ""))}" data-since="${esc(v.since ?? "")}"` : "";
-  return `      <a class="card${v.shot ? "" : " text"}" href="/${esc(v.slug)}/"${meta ? ` ${meta}` : ""}>
-${img}        <div class="card-body">
-          <div class="card-top"><span class="card-name">${esc(v.name)}</span>${pill(v)}</div>
-          <span class="card-what">${esc(v.what)}</span>${sub ? `\n          ${sub}` : ""}
-        </div>
-      </a>`;
-}
+// ── cards: the one tile lives in card.mjs (shared with the private page) ──
 
 const { pkgCard, packagesPage, packagePage, shownPackages } = createPackagePages({ esc, shell });
 const loopsPage = createLoopsPage({ esc, shell, pill, ARROW });
@@ -699,7 +665,7 @@ ${stages.map(([, st]) => `                  <div><dt>${esc(st.plural)}</dt><dd>$
         <div class="work-main">
           <p class="work-count"><span id="work-count">${all.length} of ${all.length}</span> projects</p>
           <div class="grid work-grid" id="work-grid">
-${all.map((v) => card(v, true)).join("\n")}
+${all.map((v) => card(v, { filterable: true })).join("\n")}
           </div>
           <p class="empty" id="work-empty" hidden>Nothing at that intersection yet. <button type="button" class="linkish" data-clear>Clear the filter</button> to see everything.</p>
           <p class="private-door"><a class="textlink" href="/private/">Client work not yet public — for the studio owner ${ARROW}</a></p>
@@ -898,7 +864,7 @@ ${pathCards}
           <a class="textlink" href="/work/">All ${all.length} projects ${ARROW}</a>
         </div>
         <div class="grid home-work-grid">
-${featuredWork.map((v) => card(v, false)).join("\n")}
+${featuredWork.map((v) => card(v)).join("\n")}
         </div>
         <p class="home-section-note">Every project is labelled by the stage it is really at: <span class="stage-inline">${stageLinks}</span></p>
       </div>
@@ -1374,6 +1340,7 @@ export function render({ map, packages, origin, readings, cfg, hire }) {
   files.set("portal.js", readFileSync(join(here, "portal", "portal.js"), "utf8"));
   files.set("private/index.html", privatePage());
   files.set("private.js", readFileSync(join(here, "private", "private.js"), "utf8"));
+  files.set("card.mjs", readFileSync(join(here, "card.mjs"), "utf8"));
   files.set("packages/index.html", packagesPage(packages, cfg, all));
   files.set("packages-filter.mjs", readFileSync(join(here, "packages-filter.mjs"), "utf8"));
   files.set("work-filter.mjs", readFileSync(join(here, "work-filter.mjs"), "utf8"));
