@@ -70,7 +70,7 @@ ${gap
           <span class="kicker quiet">${esc(layer.kicker ?? "")}</span>
           <h2>${esc(layer.title)}</h2>
           <p>${esc(layer.line)}</p>${layer.packages ? `
-          <p>Under these sit <a href="/packages/">${pkgCount} shared packages</a>. Each is a loop already retired: a problem that kept recurring across projects, solved once so the next project starts past it.</p>` : ""}
+          <p>Under these sit <a href="/packages/">the shared packages</a>. Each is a loop already retired: a problem that kept recurring across projects, solved once so the next project starts past it.</p>` : ""}
         </div>
         <div class="grid loop-grid">
 ${layer.loops.map(loopCard).join("\n")}

@@ -57,7 +57,7 @@ async function directory(root) {
   try {
     const data = await api(root.dataset.apiOrigin, "/api/studio-partners");
     if (!data.partners?.length) { root.replaceChildren(text("No approved, available partner is listed yet. Build it yourself with Loki, or send the studio a brief while the first applications are reviewed."), link("Use free Loki", root.dataset.apiOrigin + "/commission", "btn secondary"), link("Send the studio a brief", "/hire/#waitlist", "btn secondary")); return; }
-    root.replaceChildren(...data.partners.map((p) => el("article", { class: "portal-card" }, el("h3", { text: p.name }), text(p.headline), text(`${p.rate} · ${p.availability}`), link("View their work", p.url), link("Request this partner", `/hire/#partner=${p.id}`, "btn primary"))));
+    root.replaceChildren(...data.partners.map((p) => el("article", { class: "portal-card" }, el("h3", { text: p.name }), text(p.headline), text(`${p.rate} · ${p.availability}`), ...(p.coursePassed ? [text("Passed the bitbaum systems design course", "caption")] : []), link("View their work", p.url), link("Request this partner", `/hire/#partner=${p.id}`, "btn primary"))));
   } catch (err) { const retry = el("button", { type: "button", class: "btn secondary", text: "Check again" }); retry.addEventListener("click", () => directory(root)); root.replaceChildren(text(err.message, "portal-error"), retry, link("Use free Loki", root.dataset.apiOrigin + "/commission")); }
 }
 function portal(root) {
@@ -121,21 +121,31 @@ function portal(root) {
     content.append(heading); preview(content, request, true);
     if (request.partner) {
       const p = request.partner;
-      content.append(text(`Course: ${p.coursePassed ? "passed" : "awaiting pass"}. Studio approval: ${p.approved ? "approved" : "pending"}.`, "caption"), link("Read the systems design pilot and rubric", "/academy/", "btn secondary"));
-      if (!p.approved) actionForm(content, p.assessment ? "Submit revised course evidence" : "Submit course evidence", "submit_assessment", [
-        ...course.modules.map((m) => ({ name: m.id, title: `${m.title}: ${m.prompt}`, type: "textarea", min: 30, max: 2500, value: p.assessment?.answers[m.id] ?? "" })),
-        { name: "projectUrl", title: "Working capstone preview URL", value: p.assessment?.projectUrl ?? "" },
-        { name: "sourceUrl", title: "Source and verification evidence URL", value: p.assessment?.sourceUrl ?? "" },
-      ], (v) => ({ assessment: { version: course.version, answers: Object.fromEntries(course.modules.map((m) => [m.id, v[m.id]])), projectUrl: v.projectUrl, sourceUrl: v.sourceUrl } }));
-      actionForm(content, p.profile ? "Propose a revised public profile" : "Propose your public profile", "propose_profile", [
-        { name: "name", title: "Public name", max: 100, value: p.profile?.name ?? "" },
-        { name: "headline", title: "What you build", max: 300, value: p.profile?.headline ?? "" },
-        { name: "url", title: "Public work URL", max: 500, value: p.profile?.url ?? "" },
-        { name: "rate", title: "Your rates or quoting basis", max: 200, value: p.profile?.rate ?? "" },
-        { name: "availability", title: "Current availability", options: [["available", "Available"], ["limited", "Limited availability"], ["unavailable", "Unavailable"]], value: p.profile?.availability ?? "available" },
-      ], (v) => ({ profile: v, consent: true }));
-      content.append(text(p.profilePublished ? "Your approved profile is published. Proposing a revision removes it until the studio reviews it." : "Your proposed profile stays private until approval and publication review.", "caption"));
-      if (p.approved && p.profile) actionForm(content, "Update availability", "set_availability", [{ name: "availability", title: "Availability", options: [["available", "Available"], ["limited", "Limited"], ["unavailable", "Unavailable"]], value: p.profile.availability }], (v) => ({ availability: v.availability }));
+      const courseState = p.coursePassed ? "passed" : p.assessment ? "under review" : "not taken";
+      content.append(text(`Studio approval: ${p.approved ? "approved" : "pending"}. Course (optional): ${courseState}.`, "caption"));
+      if (p.approved) {
+        actionForm(content, p.profile ? "Propose a revised public profile" : "Propose your public profile", "propose_profile", [
+          { name: "name", title: "Public name", max: 100, value: p.profile?.name ?? "" },
+          { name: "headline", title: "What you build", max: 300, value: p.profile?.headline ?? "" },
+          { name: "url", title: "Public work URL", max: 500, value: p.profile?.url ?? "" },
+          { name: "rate", title: "Your rates or quoting basis", max: 200, value: p.profile?.rate ?? "" },
+          { name: "availability", title: "Current availability", options: [["available", "Available"], ["limited", "Limited availability"], ["unavailable", "Unavailable"]], value: p.profile?.availability ?? "available" },
+        ], (v) => ({ profile: v, consent: true }));
+        content.append(text(p.profilePublished ? "Your profile is published. Proposing a revision takes it down until the studio reviews it." : "Your proposed profile stays private until the studio publishes it.", "caption"));
+        if (p.profile) actionForm(content, "Update availability", "set_availability", [{ name: "availability", title: "Availability", options: [["available", "Available"], ["limited", "Limited"], ["unavailable", "Unavailable"]], value: p.profile.availability }], (v) => ({ availability: v.availability }));
+      }
+      // The course is offered, never required: folded away, one tap to open.
+      const courseBox = el("details", { class: "portal-card portal-course" }, el("summary", { text: p.coursePassed ? "The systems design course: passed" : "The systems design course (optional)" }));
+      if (p.coursePassed) courseBox.append(text("You passed the course and its exam. The credential shows on your published profile."));
+      else {
+        courseBox.append(text("Not required: the studio decides your application on your work. Take the course to learn, or to add its credential to your profile. The exam is a capstone: answer each part and link a working preview and its source."), link("Read the course and rubric", "/academy/", "btn secondary"));
+        actionForm(courseBox, p.assessment ? "Submit revised course evidence" : "Submit your capstone", "submit_assessment", [
+          ...course.modules.map((m) => ({ name: m.id, title: `${m.title}: ${m.prompt}`, type: "textarea", min: 30, max: 2500, value: p.assessment?.answers[m.id] ?? "" })),
+          { name: "projectUrl", title: "Working capstone preview URL", value: p.assessment?.projectUrl ?? "" },
+          { name: "sourceUrl", title: "Source and verification evidence URL", value: p.assessment?.sourceUrl ?? "" },
+        ], (v) => ({ assessment: { version: course.version, answers: Object.fromEntries(course.modules.map((m) => [m.id, v[m.id]])), projectUrl: v.projectUrl, sourceUrl: v.sourceUrl } }));
+      }
+      content.append(courseBox);
       if (p.approved) {
         content.append(el("h2", { text: "Assigned briefs" }));
         if (!data.assignments.length) content.append(text("No briefs are assigned to you yet. Keep your availability current."));

@@ -29,7 +29,9 @@ test("package cards are whole-card links with data-adopters", () => {
   assert.doesNotMatch(html, /Explore paykit/);
   assert.doesNotMatch(html, /Developer profile/);
   assert.doesNotMatch(html, /pkg-cover/);
-  assert.match(html, /2 distinct adopters in the fleet/);
+  // The hero states what the packages are, not how many: a bare count is a
+  // number with nothing to read it against.
+  assert.match(html, /<span class="eyebrow">Open source &middot; MIT<\/span>/);
   assert.match(html, /id="package-search"/);
   assert.match(html, /data-adoption="new"/);
   assert.match(html, /data-adoption="adopted"/);
