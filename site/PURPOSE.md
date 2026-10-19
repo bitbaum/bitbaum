@@ -57,8 +57,8 @@ for a list of gaps (the fleet registers publish those, not this page).
 ## What each page is for
 
 - **`/`** — a short introduction, the current waitlist route, Loki as the
-  self-serve option for urgent agent-assisted work, the OrangeCat/Loki flagship
-  products, three selected packages, and stage counts linking to `/work/`.
+  self-serve option for urgent agent-assisted work, the flagship products
+  (OrangeCat, Loki and Solon), three selected packages, and stage counts linking to `/work/`.
   The complete work catalogue and package list have their own pages.
 - **`/work/`** — all projects that have an editorial profile, filtered by
   readiness stage and field. “Not built” is a real stage, not a roadmap promise.

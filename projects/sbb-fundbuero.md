@@ -1,9 +1,9 @@
-# sbb-lost-found — Real-Time Lost-Item Recovery for Swiss Public Transport
+# sbb-fundbuero (formerly sbb-lost-found) — Real-Time Lost-Item Recovery for Swiss Public Transport
 
 **Status:** Concept / Demo (Live on mock data; no commercial relationship)
 **Tagline:** Connect the passenger to train staff while the item is still on board
-**URL:** [sbb.orangecat.ch](https://sbb.orangecat.ch)
-**Codebase:** `/home/g/dev/sbb-lost-found/` (deployed = `frontend/` only; no database in the deploy registry — the live site runs on mock data)
+**URL:** [sbbfundbuero.orangecat.ch](https://sbbfundbuero.orangecat.ch)
+**Codebase:** repository `bitbaum/sbb-fundbuero` (deployed = `frontend/` only; no database in the deploy registry — the live site runs on mock data)
 
 ---
 

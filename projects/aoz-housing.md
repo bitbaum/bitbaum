@@ -1,9 +1,9 @@
-# aoz-housing — Shared-Living Management & Compatibility Placement
+# AOZ Begleitung (repo `aoz-begleitung`, formerly `aoz-housing`) — Shared-Living Management & Compatibility Placement
 
 **Status:** Active Development (Live — REAL WG instance since 2026-08-13). **AOZ is not a signed customer.** No institutional customers. AOZ is demo/pilot only.
 **Tagline:** One product, two faces: a WG/shared-flat tool and a staff placement system for refugee housing
-**URL:** [aoz-wohnen.orangecat.ch](https://aoz-wohnen.orangecat.ch) — runs in REAL mode (Witikonerstrasse 458 "Singapur", George's flat); demo mode OFF there (reset timer would truncate real data)
-**Codebase:** `/home/g/dev/aoz-housing/`
+**URL:** [aoz.orangecat.ch](https://aoz.orangecat.ch) — runs in REAL mode (Witikonerstrasse 458 "Singapur", George's flat); demo mode OFF there (reset timer would truncate real data)
+**Codebase:** repository `bitbaum/aoz-begleitung` (formerly `aoz-housing`)
 
 ---
 

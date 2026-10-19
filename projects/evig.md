@@ -2,7 +2,7 @@
 
 **Status:** Active Development (Live) — rebranded from Revamp-IT 2026-07-24; gemeinnütziger Verein in Gründung
 **Tagline:** "Intelligenz, für alle bezahlbar" (affordable intelligence)
-**URL:** production serves at [revampit.orangecat.ch](https://revampit.orangecat.ch) (per repo CLAUDE.md); README/social drafts reference evig.orangecat.ch — infra cutover pending. Legacy www.revamp-it.ch = old Joomla site, not this app.
+**URL:** [evig.orangecat.ch](https://evig.orangecat.ch) (revampit.orangecat.ch is a permanent 308 redirect to it since 2026-09-10; infra identifiers such as the `revampit` database and deploy paths still carry the old name). Legacy www.revamp-it.ch = old Joomla site, not this app.
 **Codebase:** `/home/g/dev/evig/` — **alias note:** `/home/g/dev/revampit/` is an identical older clone of the same codebase (same package name, same HEAD); evig is canonical. ONE brief covers both.
 
 ---
@@ -73,6 +73,6 @@ RevampIT the organization is the physical engine: its refurb inventory flows int
 
 ## Risks / Debt
 
-- Canonical public domain unresolved (revampit.orangecat.ch vs evig.orangecat.ch); infra identifiers still say revampit pending cutover
+- Canonical public domain is evig.orangecat.ch (revampit.orangecat.ch redirects); infra identifiers still say revampit pending cutover
 - Blog `force-dynamic` workaround renders per-request — fix before a traffic spike
 - GTM doc + social queue not yet merged to main

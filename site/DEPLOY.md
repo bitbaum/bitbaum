@@ -34,8 +34,8 @@ it will not publish from an old snapshot when a source is unavailable. Local
 offline builds may use the committed snapshots, so a developer can still work
 without network access.
 
-The home page features the two flagship projects and the three packages named
-in `home.featuredPackages`. Its build fails if a selected item disappears from
+The home page features the flagship projects named in `home.flagshipProjects`
+and the packages named in `home.featuredPackages`. Its build fails if a selected item disappears from
 the source registers. `/work/` contains the full staged project catalogue and
 `/packages/` contains every registered package. The Loki feedback widget is
 configured by `site/loki-feedback.json` and included by the shared page shell;
