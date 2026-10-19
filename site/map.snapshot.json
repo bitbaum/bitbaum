@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-19T08:53:57.632Z",
+  "generatedAt": "2026-10-19T13:53:00.425Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -1174,11 +1174,11 @@
           "title": "Every organization on its own pages",
           "line": "Most app pages still read the oldest organization. Solon governs many, so every",
           "status": "in progress",
-          "progress": 33,
+          "progress": 50,
           "targetDate": null,
           "milestones": [
             {
-              "title": "Anyone with an OrangeCat account may found an organization {#founding} — founding chooses its governance profile",
+              "title": "Anyone with an account may found an organization {#founding} — founding chooses its governance profile",
               "done": true
             },
             {
@@ -1195,7 +1195,7 @@
             },
             {
               "title": "Member pages within an organization: role, votes cast, proposals filed",
-              "done": false
+              "done": true
             },
             {
               "title": "Retire primaryOrg() from every page; old links redirect into the first organization",
@@ -1476,7 +1476,7 @@
         },
         {
           "title": "Founding is permissionless",
-          "line": "Any recognized OrangeCat identity may found an organization; the organization,",
+          "line": "Any signed-in account may found an organization; the organization,",
           "status": "done",
           "progress": 100,
           "targetDate": null,
@@ -1529,8 +1529,8 @@
           "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
         },
         {
-          "title": "One account across the stack",
-          "line": "Sign in once with an OrangeCat account — email and password, an emailed code,",
+          "title": "Accounts: Solon's own, or OrangeCat's",
+          "line": "Create a Solon account with an email and a password or a passkey, with",
           "status": "done",
           "progress": 100,
           "targetDate": null,
@@ -2095,7 +2095,7 @@
           "targetDate": null,
           "milestones": [
             {
-              "title": "Sign in with OrangeCat; one account across the fleet {#sign-in}",
+              "title": "Causius accounts of its own (password, sign-in link, passkey, two-step codes); Sign in with OrangeCat as one way in {#sign-in}",
               "done": true
             },
             {
@@ -2640,7 +2640,7 @@
           "targetDate": null,
           "milestones": [
             {
-              "title": "Today, Records, and medicines, appointments and notes beside reports {#records}",
+              "title": "Today, Records, and medicines, appointments and notes beside reports {#health-file}",
               "done": true
             },
             {
@@ -3358,7 +3358,7 @@
     {
       "slug": "heidi",
       "name": "Heidi",
-      "what": "Helps adults who already speak German understand the Zurich German actually spoken around them. Live at heidi.orangecat.ch.",
+      "what": "Helps adults who already speak German understand the Zurich German actually spoken around them. Runs at heidi.orangecat.ch (beta).",
       "stack": null,
       "layer": "product",
       "status": "live",
@@ -5427,7 +5427,7 @@
     {
       "slug": "website-design-development-your-site-live-in-days-hosted-free",
       "name": "Website design & development — your site live in days, hosted free",
-      "what": "A working website — designed, built, deployed, and live on the internet, usually within days.\n\nPricing: CHF 100/hour. A simple site (up to ~5 pages, your text and images, one round of revisions) typically takes 1-3 hours — CHF 100-300 all in. That is not a discount: AI agents do the typing and an automated pipeline does the shipping, so you pay for judgement and taste, not keystrokes. Larger work — web apps, integrations, payments, ongoing changes — runs at the same rate, quoted before I start.\n\nIncluded: design, responsive build tested on real viewports, accessibility basics, SEO metadata, TLS, and deployment.\n\nHosting is free at yourname.orangecat.ch; move to your own domain whenever you like.\n\nLive work: orangecat.ch · loki.orangecat.ch · sink.orangecat.ch · vitareba.orangecat.ch · petvity.orangecat.ch · evig.orangecat.ch\n\nRemote, based in Zurich. Settled in Bitcoin over Lightning.",
+      "what": "A working website — designed, built, deployed, and live on the internet, usually within days.\n\nPricing: CHF 100/hour. A simple site (up to ~5 pages, your text and images, one round of revisions) typically takes 1-3 hours — CHF 100-300 all in. That is not a discount: AI agents do the typing and an automated pipeline does the shipping, so you pay for judgement and taste, not keystrokes. Larger work — web apps, integrations, payments, ongoing changes — runs at the same rate, quoted before I start.\n\nIncluded: design, responsive build tested on real viewports, accessibility basics, SEO metadata, TLS, and deployment.\n\nHosting is free at yourname.orangecat.ch; move to your own domain whenever you like.\n\nLive work: orangecat.ch · loki.orangecat.ch · sinktattoo.com · vitareba.orangecat.ch · petvity.orangecat.ch · evig.orangecat.ch\n\nRemote, based in Zurich. Settled in Bitcoin over Lightning.",
       "stack": null,
       "layer": "next",
       "status": "not live",
