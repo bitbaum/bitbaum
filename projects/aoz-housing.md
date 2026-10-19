@@ -1,9 +1,9 @@
-# aoz-housing — Shared-Living Management & Compatibility Placement
+# AOZ Begleitung (repo `aoz-begleitung`, formerly `aoz-housing`) — Shared-Living Management & Compatibility Placement
 
 **Status:** Active Development (Live — REAL WG instance since 2026-08-13). **AOZ is not a signed customer.** No institutional customers. AOZ is demo/pilot only.
 **Tagline:** One product, two faces: a WG/shared-flat tool and a staff placement system for refugee housing
-**URL:** [aoz-wohnen.orangecat.ch](https://aoz-wohnen.orangecat.ch) — runs in REAL mode (Witikonerstrasse 458 "Singapur", George's flat); demo mode OFF there (reset timer would truncate real data)
-**Codebase:** `/home/g/dev/aoz-housing/`
+**URL:** [aoz.orangecat.ch](https://aoz.orangecat.ch) — runs in REAL mode (a real shared flat in Zürich); demo mode OFF there (reset timer would truncate real data)
+**Codebase:** repository `bitbaum/aoz-begleitung` (formerly `aoz-housing`)
 
 ---
 
@@ -49,8 +49,8 @@ Hard ethical constraints are code constraints: never track immigration status, r
 
 ## Go-to-market
 
-- **ICP (two, explicit):** (a) AOZ staff placing asylum seekers into shared housing — the pitch/pilot target; (b) WG/shared-flat households — the `wg` brand preset, of which Witikonerstrasse 458 is real instance #1.
+- **ICP (two, explicit):** (a) AOZ staff placing asylum seekers into shared housing — the pitch/pilot target; (b) WG/shared-flat households — the `wg` brand preset, of which a shared flat in Zürich is real instance #1.
 - **Positioning one-liner:** shared living that runs itself — transparent money, binding house rules, and placements matched for compatibility instead of vacancy.
 - **Shortest first-paying-customer path:** relationship-driven — an AOZ pilot via the pitch deck, invoiced (no processor needed). **No such customer is signed.** The live WG instance is a real household demo, not an AOZ contract.
 - **Monetization state:** none built; pilot-first by design.
-- **Key metrics to move:** AOZ pilot signed (**currently unsigned** — AOZ is not a customer) · real WG instances beyond #1 · daily resident engagement on WIT-458 · incident/relocation deltas once a pilot runs.
+- **Key metrics to move:** AOZ pilot signed (**currently unsigned** — AOZ is not a customer) · real WG instances beyond #1 · daily resident engagement on instance #1 · incident/relocation deltas once a pilot runs.

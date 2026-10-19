@@ -3,7 +3,7 @@
 **Status:** Active Development (Live, single-tenant for Revamp-IT)
 **Tagline:** Mine the Swiss foundation register, rank the pipeline, generate the Gesuch
 **URL:** [revamp-info.orangecat.ch](https://revamp-info.orangecat.ch)
-**Codebase:** `/home/g/dev/revamp-info/`
+**Codebase:** repository `bitbaum/hirnli` (the fleet map row is still `revamp-info`)
 
 ---
 

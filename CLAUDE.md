@@ -1,6 +1,6 @@
 # bitbaum
 
-Strategic planning repository for the bitbaum AI product studio.
+Strategic planning repository for bitbaum, and the generator for its site, bitbaum.orangecat.ch.
 
 @~/.claude/CLAUDE.md
 
@@ -15,27 +15,33 @@ bitbaum builds AI-native products on shared open infrastructure so more than one
 
 ## What This Repo Is
 
-This repository holds the strategic vision, product briefs and business plans for all bitbaum products — plus `site/`, the generator for bitbaum.orangecat.ch. The site is a VIEW: Before adding anything to the site, read `site/PURPOSE.md`: what it is for, who it serves, and what it must never claim. `site/build.mjs` renders Loki's public fleet map (https://loki.orangecat.ch/api/fleet/map), fleet's package and origin registers, and `site/overrides.json` (group, one line, story per venture) into `site/dist/` — a home page, a page per venture, packages, studio — and publishes a **redacted** agent map as `map.json` (catalogue fields only; ops changelog/now/next stay offline in the snapshot). Ventures are filed by STAGE (product, pilot, concept, next) — what a visitor can verify, never the register's kind: there are no clients, and the site must not say there are. The home grid filters by stage and field with the choice in the URL. The public name is Cato and the contact address is cato@orangecat.ch; a `mao@` address or the `catomean` handle is a superseded identity and must never appear on a page. Never say "one-person studio" or "solo-founder": the point of OrangeCat, Loki and Solon is that more than one person can build here. Never type a venture into the page; describe it in its Loki profile and it appears.
+This repository holds the strategic vision, product briefs and business plans for all bitbaum products — plus `site/`, the generator for bitbaum.orangecat.ch. The site is a VIEW: Before adding anything to the site, read `site/PURPOSE.md`: what it is for, who it serves, and what it must never claim. `site/build.mjs` renders Loki's public fleet map (https://loki.orangecat.ch/api/fleet/map), fleet's package and origin registers, and `site/overrides.json` (group, one line, story per venture) into `site/dist/` — a home page, a page per venture, packages, studio — and publishes a **redacted** agent map as `map.json` (catalogue fields only; ops changelog/now/next stay offline in the snapshot). Ventures are filed by STAGE (product, pilot, development, concept, next — defined in `site/overrides.json` → `stages`) — what a visitor can verify, never the register's kind: there are no clients, and the site must not say there are. The home grid filters by stage and field with the choice in the URL. The public name is Cato and the contact address is cato@orangecat.ch; a `mao@` address or the `catomean` handle is a superseded identity and must never appear on a page. Never say "one-person studio" or "solo-founder": the point of OrangeCat, Loki and Solon is that more than one person can build here. Never type a venture into the page; describe it in its Loki profile and it appears.
 
 ## Structure
 
 ```
-README.md          — Company overview, portfolio, shared infra, business model
+README.md          — the site: what it shows, how to build, verify and publish it
+ROADMAP.md         — studio implementation plan (rendered at /roadmap/)
+CHANGELOG.md       — completed changes (rendered at /changelog/)
 projects/          — human briefs for Loki enrichment and operator notes; NOT
                      read by site/build.mjs. Site copy lives in site/overrides.json
                      and hire.json. Briefs are archival / enrichment input.
-docs/              — (reserved for cross-product docs, legal templates, etc.)
-site/              — generator + dist for bitbaum.orangecat.ch (see site/PURPOSE.md)
+docs/              — studio delivery plan (commissioning-and-portals.md), the
+                     painted-world pipeline (ART-PIPELINE.md) and the generated
+                     cast register (CAST.md — written by site/build.mjs)
+assets/            — logo and avatar files
+site/              — generator + dist for bitbaum.orangecat.ch (see site/PURPOSE.md
+                     and site/DEPLOY.md)
 ```
 
 ## Product Codebases
 
-| Product | Directory | Status |
-|---------|-----------|--------|
-| orangecat | `/home/g/dev/orangecat/` | Live |
-| hirn.li | `/home/g/dev/hirnli/` | Pre-launch |
-| botsmann | — | Concept only |
-| evig | `/home/g/dev/evig/` | Active (Live) |
+Every product repository is in the [`bitbaum` GitHub organisation](https://github.com/bitbaum).
+Which ventures exist, their repository, address and state is Loki's fleet map
+(https://loki.orangecat.ch/api/fleet/map) — read it there rather than keeping a
+copy here. Publicly, nothing is "live": running services are beta, and every
+other venture keeps its stage from `site/overrides.json`. Note that the map row
+`revamp-info` is the repository `bitbaum/hirnli`.
 
 ## Conventions for This Repo
 

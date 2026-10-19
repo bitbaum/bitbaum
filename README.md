@@ -13,13 +13,13 @@ host being up as evidence that a product is ready or generally available.
 
 ## What the site shows
 
-- The homepage features the two flagship projects and a short package
-  selection. The full catalogue lives at `/work/`; all shared packages live at
-  `/packages/`.
+- The homepage features the flagship projects and packages selected under
+  `home` in [`site/overrides.json`](site/overrides.json). The full catalogue
+  lives at `/work/`; all shared packages live at `/packages/`.
 - Project readiness is maintained in [`site/overrides.json`](site/overrides.json).
   Its stages distinguish public beta products, pilots, development, concepts,
-  and projects that are not built. In particular, Solon is in development;
-  Skif and Causius are not built.
+  and projects that are not built. Read each project's current stage there,
+  not from a copy in this file.
 - Project and package records, package versions and observed adopters are
   sourced from the Loki fleet map and Fleet registers. Editorial descriptions
   and the homepage selections are reviewed here. The build fails if a selected
@@ -68,7 +68,7 @@ public site.
 
 ## CI/CD observations
 
-The latest successful publish, [run 35972429669](https://github.com/bitbaum/bitbaum/actions/runs/35972429669),
+A measured publish, [run 35972429669](https://github.com/bitbaum/bitbaum/actions/runs/35972429669),
 took 2m01s end to end. The largest measured steps were the public publish and
 smoke checks (30s), Playwright browser/dependency setup (21s), the live hire
 form browser check (18s), the claims gate (13s), and the theme browser check
@@ -76,7 +76,7 @@ form browser check (18s), the claims gate (13s), and the theme browser check
 took 1m34s. These are measured runs, not an SLA.
 
 The claims gate currently checks each public repository's licence through
-GitHub's API; it took 13s in the latest run. Batch or cache that evidence only
+GitHub's API; it took 13s in that run. Batch or cache that evidence only
 if it becomes a material part of deploy latency. GitHub also emitted a
 non-blocking warning that `actions/cache@v4` declares Node 20 and is being
 forced to Node 24. The deploy succeeded; review the action version during the

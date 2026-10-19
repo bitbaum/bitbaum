@@ -2,7 +2,7 @@
 
 **Status:** Active Development (Live, one real clinic)
 **Tagline:** Patient portal + clinician console for a metabolic-psychiatry / longevity practice
-**URL:** [vitareba.orangecat.ch](https://vitareba.orangecat.ch) — host still carries the old name until the infrastructure cutover (vitareba.ch not registered/live as of 2026-08)
+**URL:** [vita.orangecat.ch](https://vita.orangecat.ch) — `vitareba.orangecat.ch` 308-redirects here
 **Codebase:** `/home/g/dev/vitareba/` (repository bitbaum/vitareba; the name is an infrastructure identifier)
 
 ---
