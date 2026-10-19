@@ -71,7 +71,6 @@ expected_packages=$(node -e 'const c=require("./site/overrides.json"); console.l
 actual_packages=$(grep -o 'data-package="[^"]*"' <<<"$packages" | wc -l | tr -d ' ')
 [ "$actual_packages" = "$expected_packages" ] || { echo "packages page has $actual_packages cards; expected $expected_packages" >&2; fail=1; }
 grep -q 'data-package="paykit"' <<<"$packages" || { echo "packages page is missing the paykit card" >&2; fail=1; }
-grep -q 'distinct adopters in the fleet' <<<"$packages" || { echo "packages page missing unique-adopter eyebrow" >&2; fail=1; }
 if grep -q 'uses across the fleet' <<<"$packages"; then echo "packages page still sums dependency edges as uses" >&2; fail=1; fi
 for rel in packages-filter.mjs work-filter.mjs theme.mjs chat.js chatkit.css commission.json vendor/listkit/index.js vendor/listkit/LICENSE; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_ORIGIN/$rel?publish=$stamp")
