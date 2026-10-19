@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-18T18:35:19.113Z",
+  "generatedAt": "2026-10-19T13:53:00.425Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -182,7 +182,7 @@
     {
       "slug": "heidi",
       "name": "Heidi",
-      "what": "Helps adults who already speak German understand the Zurich German actually spoken around them. Live at heidi.orangecat.ch.",
+      "what": "Helps adults who already speak German understand the Zurich German actually spoken around them. Runs at heidi.orangecat.ch (beta).",
       "stack": null,
       "layer": "product",
       "status": "live",
