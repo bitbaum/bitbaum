@@ -132,6 +132,21 @@ function portal(root) {
           { name: "availability", title: "Current availability", options: [["available", "Available"], ["limited", "Limited availability"], ["unavailable", "Unavailable"]], value: p.profile?.availability ?? "available" },
         ], (v) => ({ profile: v, consent: true }));
         content.append(text(p.profilePublished ? "Your profile is published. Proposing a revision takes it down until the studio reviews it." : "Your proposed profile stays private until the studio publishes it.", "caption"));
+        // Your profile, kept with your OrangeCat account: a lost link is then
+        // not a lost profile. Optional, and offered only once approved.
+        const keep = el("section", { class: "portal-card" }, el("h3", { text: "Your OrangeCat account" }));
+        if (p.orangecatConnected) keep.append(text("Connected. Lost this link? Sign in with OrangeCat and your application opens again."), link("Sign in with OrangeCat", root.dataset.apiOrigin + "/studio/partner", "btn secondary"));
+        else {
+          const connect = button("Connect your OrangeCat account"); connect.type = "button";
+          const told = el("p", { role: "alert", hidden: true, class: "portal-error" });
+          connect.addEventListener("click", async () => {
+            connect.disabled = true; told.hidden = true;
+            try { location.href = (await api(root.dataset.apiOrigin, `/api/studio-portal/${access.id}/connect`, { key: access.key, body: {} })).url; }
+            catch (err) { told.textContent = err.message; told.hidden = false; connect.disabled = false; }
+          });
+          keep.append(text("Keep your profile with your OrangeCat account, so a lost link is never a lost profile. One sign-in; nothing else changes."), connect, told);
+        }
+        content.append(keep);
         if (p.profile) actionForm(content, "Update availability", "set_availability", [{ name: "availability", title: "Availability", options: [["available", "Available"], ["limited", "Limited"], ["unavailable", "Unavailable"]], value: p.profile.availability }], (v) => ({ availability: v.availability }));
       }
       // The course is offered, never required: folded away, one tap to open.
@@ -202,6 +217,7 @@ function portal(root) {
       finally { told.hidden = false; send.disabled = false; }
     });
     content.append(again);
+    content.append(link("Approved partner? Sign in with OrangeCat", root.dataset.apiOrigin + "/studio/partner"));
     content.append(link("Send a new brief", "/hire/#waitlist"), link("Apply as a partner", "/partners/#join")); root.replaceChildren(content);
   }
   window.addEventListener("hashchange", () => {

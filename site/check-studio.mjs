@@ -134,6 +134,8 @@ try {
     request.partner.approved = true; request.status = { id: "approved", title: "Partner approved", next: "Propose your profile" };
     await page.reload({ waitUntil: "load" });
     await page.waitForSelector("#portal-propose_profile");
+    // Approved: the profile can be kept with an OrangeCat account (optional).
+    assert.ok(await page.getByRole("button", { name: "Connect your OrangeCat account", exact: true }).isVisible());
     assert.equal(await page.locator("#portal-propose_profile input[type=checkbox]").count(), 1);
     await page.locator("#portal-propose_profile [name=name]").fill("A qualified builder");
     await page.locator("#portal-propose_profile [name=headline]").fill("Booking systems with recoverable journeys");
