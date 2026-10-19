@@ -1,6 +1,6 @@
 # bitbaum
 
-Strategic planning repository for the bitbaum AI product studio.
+Strategic planning repository for bitbaum.
 
 @~/.claude/CLAUDE.md
 
