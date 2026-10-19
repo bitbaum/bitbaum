@@ -16,17 +16,17 @@ addEventListener("error", function (e) {
 }, true);
 </script>
 <title>Systems design pilot — bitbaum</title>
-<meta name="description" content="The first Bitbaum lesson, practical capstone and review rubric. The full course is in development.">
+<meta name="description" content="Bitbaum's optional systems design course: the first lesson, the capstone exam and its rubric.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/academy/">
 <meta property="og:title" content="Systems design pilot — bitbaum">
-<meta property="og:description" content="The first Bitbaum lesson, practical capstone and review rubric. The full course is in development.">
+<meta property="og:description" content="Bitbaum's optional systems design course: the first lesson, the capstone exam and its rubric.">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/academy/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Systems design pilot — bitbaum">
-<meta name="twitter:description" content="The first Bitbaum lesson, practical capstone and review rubric. The full course is in development.">
+<meta name="twitter:description" content="Bitbaum's optional systems design course: the first lesson, the capstone exam and its rubric.">
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -75,7 +75,7 @@ addEventListener("error", function (e) {
       </button>
     </div>
   </header>
-<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Studio-owned course · pilot</span><h1 class="headline-caps section-title">Design a system people can use.</h1><p class="lede">One practical lesson and a capstone rubric begin the course. More lessons and teaching examples are being developed in public. Passing the course and becoming a studio-approved partner are separate decisions.</p><div class="record"><h2 id="lesson-1-design-around-a-real-request">Lesson 1: design around a real request</h2>
+<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Optional course · pilot</span><h1 class="headline-caps section-title">Design a system people can use.</h1><p class="lede">Agents do most of the building now; someone still has to judge what they built. This course teaches that judgement: one practical lesson so far, and a capstone exam reviewed by a person against the rubric below. It is optional for partners. Pass it and the credential shows on your profile; skip it and you are judged on your work, as everyone is.</p><div class="record"><h2 id="lesson-1-design-around-a-real-request">Lesson 1: design around a real request</h2>
 <p>Start with one person trying to finish one task. A request such as “make booking easier on phones” is useful evidence, but it is not yet a complete design. Find where the person gets stuck: choosing a service, finding an available time, confirming a booking, or recovering after an error. Describe the current failure before choosing a framework.</p>
 <p>Write a short brief with five parts: the user, the task, the present obstacle, the intended outcome and the constraints. Constraints include existing content and data, privacy, budget, time, source access and integrations you do not control. Separate facts you observed from assumptions you still need to test. An unavailable integration is a dependency to resolve, not a reason to pretend it works.</p>
 <p>Next, draw the smallest useful boundary. For a booking request, the public form collects a service and time, an application validates availability, and a confirmation records the result. Each boundary needs an owner, a data contract and a recoverable failure. A visitor should keep their request when a connection fails, and retrying should not book twice.</p>
@@ -91,7 +91,7 @@ addEventListener("error", function (e) {
 <h3>Permissions and privacy</h3><p>Show the customer, partner and reviewer permissions. Include one negative test proving that an unrelated customer cannot read or change the request.</p>
 <h3>Integrations and failure</h3><p>Identify one external dependency. Show what happens on a timeout, a duplicate submission and an unavailable dependency, including how the person can recover.</p>
 <h3>Testing and accessibility</h3><p>Provide a runnable check command and evidence for the main journey at 320px and desktop width. Include keyboard navigation, labels and an error-and-retry path.</p>
-<h3>Deployment and handover</h3><p>Show a reproducible deployment, a preview, rollback steps and a short handover. Identify unresolved dependencies and the person responsible for each one.</p></div><div class="bleed-actions quiet-actions"><a class="btn primary" href="/partners/#join">Start a partner application <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn secondary" href="/portal/">Resume your application</a><a class="textlink" href="/roadmap/">Follow course development</a></div></div></section>
+<h3>Deployment and handover</h3><p>Show a reproducible deployment, a preview, rollback steps and a short handover. Identify unresolved dependencies and the person responsible for each one.</p></div><div class="bleed-actions quiet-actions"><a class="btn primary" href="/partners/#join">Apply as a partner <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn secondary" href="/portal/">Submit your capstone in your application</a><a class="textlink" href="/roadmap/">Follow course development</a></div></div></section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-scarab" aria-hidden="true"><span class="scarab"><img class="fig fig-scarab" src="/art/scarab.webp" width="360" height="133" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="sunball"><img class="fig fig-sunball" src="/art/sunball.webp" width="360" height="360" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
     <nav class="record-doors wrap" aria-label="Where next"><a class="btn-frame-accent" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn-frame" href="/work/">See the work</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
       <div class="wrap art-collection" aria-hidden="true" data-art-collection><div class="art-object"><img class="fig fig-fog-neck" src="/art/fog-neck.webp" width="247" height="280" alt="" loading="lazy" decoding="async" draggable="false"></div></div>

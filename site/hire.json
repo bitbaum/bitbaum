@@ -2,7 +2,7 @@
   "_comment": "The editorial half of /hire/. The live-work list is NOT here — it is derived from the fleet map like every other list on this site, so a retired host can never be quoted from a hand-typed page (which is exactly what happened to the previous hire one-pager on 2026-09-12: it named a retired host, counted one renamed organisation as two systems, and used two superseded product names). Engagements, method, answers and contact are editorial and live here. TWO RULES FOR THIS FILE (2026-09-17): rates are PUBLISHED — the real number, so a reader can qualify themselves before writing — and the voice is the company's, never an individual's. No 'I', no 'my', and nothing that frames this as small; the reader is deciding whether to trust a supplier with a production system. Capacity is stated honestly at the top: while it is closed, the page sells the waitlist, not a start date.",
   "title": "We ship systems, and keep them running.",
   "lede": "bitbaum takes a product from idea to a running, monitored, backed-up production service — and hands over something a normal team can maintain afterwards.",
-  "eyebrow": "Fractional CTO · contract engineering · Zürich",
+  "eyebrow": "Contract engineering · senior days · Zürich",
   "availability": {
     "state": "closed",
     "shortLine": "Studio engagements are at capacity.",
@@ -30,12 +30,12 @@
   "commissioningOffer": "rescue",
   "offers": [
     {
-      "id": "fractional-cto",
-      "name": "Fractional CTO",
+      "id": "senior-day",
+      "name": "Senior engineering day",
       "price": "CHF 2,400",
       "unit": "per day",
-      "shape": "Two to four days a month",
-      "what": "Minimum three months. We own architecture, the deploy pipeline, the review bar, security posture and the technical side of hiring — for teams that need those decisions made without a full-time salary attached to them."
+      "shape": "No minimum",
+      "what": "Book a day when a senior call is needed: an architecture decision, a review of what was built, a security pass, or the technical interviews for a hire. Days are invoiced monthly, and none commits you to the next."
     },
     {
       "id": "build-sprint",
@@ -91,7 +91,7 @@
     },
     {
       "q": "We need someone on site, full time.",
-      "a": "Then you need an employee, and we will say so rather than sell you four days a month that will not fix it. We are happy to help write the role and sit in on the technical interviews instead."
+      "a": "Then you need an employee, and we will say so rather than sell you days that will not fix it. We are happy to help write the role and sit in on the technical interviews instead."
     },
     {
       "q": "Can you do it cheaper?",

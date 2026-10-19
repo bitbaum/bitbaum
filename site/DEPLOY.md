@@ -151,6 +151,17 @@ exact Fleet commit that produced the new register. Run `Deploy Bitbaum site`
 manually from Actions to retry a failed publish; ordinary site changes also
 publish on `push`.
 
+**Nobody merges by hand.** A green, non-draft pull request merges itself:
+`.github/workflows/auto-merge.yml` runs the fleet's one sweep
+(bitbaum/fleet `scripts/ci/auto-merge-sweep.sh`), which waits for this
+workflow's check, merges one pull request onto a green main, re-arms the
+deploy and reconciles it, so a merge that never reached the box ships on the
+next sweep. Hold work back with a draft or a `hold` label. Runs on main
+queue one at a time (the workflow's `concurrency`), because each commits
+refreshed snapshots back to main. Every three hours a scheduled run
+rebuilds from the live sources, so a change made in Loki reaches the site
+without anyone pushing here; when no page changed it publishes nothing.
+
 ### Observed deployment follow-up
 
 The 2026-09-24 publish completed successfully in 1m34s. GitHub emitted a
