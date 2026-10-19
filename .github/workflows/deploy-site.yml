@@ -26,8 +26,9 @@ on:
     types: [package-registry-updated]
 
 # One deploy of main at a time, whatever started it — a push, the schedule,
-# or the auto-merge sweep re-arming after a merge. Each run commits refreshed
-# snapshots to main, so two side by side race to push and one fails. A pull
+# or the auto-merge sweep re-arming after a merge. A run that changed a page
+# commits refreshed snapshots to main, so two side by side race to push and
+# one fails. A pull
 # request's check builds offline and pushes nothing; it keeps its own lane.
 concurrency:
   group: bitbaum-site-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
@@ -117,9 +118,23 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add site/*.snapshot.json site/dist
-          if ! git diff --cached --quiet; then
+          # Commit only what a reader could notice. Every build stamps a new
+          # generatedAt, and a product screenshot differs by a few bytes
+          # between two captures of the same page; committing that made a
+          # new main tip on every run, the auto-merge sweep dispatched a
+          # deploy for each new tip, and the two chased each other — one
+          # bot commit every seven minutes, and no PR could merge because
+          # main never had a verdict for its own tip (2026-10-19). A
+          # screenshot rides along when something real changed; the box
+          # gets the fresh pictures either way, because publish copies dist.
+          real=$(git diff --cached -U0 -- site ':(exclude)site/dist/shots' \
+            | grep -E '^[-+][^-+]' | grep -v '"generatedAt"' | head -1 || true)
+          if [ -n "$real" ]; then
             git commit -m 'chore(site): refresh published registry snapshots'
             git push origin HEAD:main
+          else
+            echo "Only build stamps and screenshot noise changed; nothing to commit."
+            git reset -q
           fi
       - name: Configure SSH
         if: steps.changed.outputs.publish == 'true'
