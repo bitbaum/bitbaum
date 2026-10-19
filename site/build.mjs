@@ -1139,7 +1139,7 @@ export function studioPage() {
     // numbers; the page says what they prove and where to read them.
     ["Proven origin", `Every repository is stamped in the public <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a>, its proof anchored in Bitcoin, and <a href="https://archive.softwareheritage.org/">Software Heritage</a> keeps archived copies.`],
     ["Readings, not forecasts", `Downloads, stars and income are recorded as dated readings in <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">Fleet's readings register</a>, our own CI installs included, and nothing here projects them forward.`],
-    ["Zürich, hired by the day", `Fractional CTO and contract engineering. Rates and the waitlist are on the <a href="${HIRE}">hire page</a>; the code is on <a href="${GITHUB}">GitHub</a>.`],
+    ["Zürich, hired by the day", `Fixed-price builds, and senior engineering by the day. Rates and the waitlist are on the <a href="${HIRE}">hire page</a>; the code is on <a href="${GITHUB}">GitHub</a>.`],
   ].map(([h, t]) => `          <div class="depth-block"><span class="label">${h}</span><p>${t}</p></div>`).join("\n");
   const body = `  <main id="main">
     <section data-lodge class="stage stage-floored hero compact">
