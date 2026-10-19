@@ -1,0 +1,49 @@
+# Auto-merge — nobody is in the merge loop, as in the rest of the fleet.
+#
+# A green, non-draft pull request merges itself and the site deploys itself.
+# The policy lives once for the whole fleet in bitbaum/fleet,
+# scripts/ci/auto-merge-sweep.sh; this file only says "run it, here".
+#
+# Until 2026-10-19 this repo had no sweep, so every site change waited for
+# someone to press merge — and an agent pressing it was, rightly, stopped.
+#
+# This repo's one workflow is both its check and its deploy: on a pull
+# request "Deploy Bitbaum site" runs the offline build and the browser
+# gates; on main it builds from the live sources and publishes. So it is
+# the CI the sweep waits for, the workflow it re-arms after a merge, and
+# the deploy it reconciles: a merge that never reached the box is shipped
+# by the next sweep (deploy-site.yml queues runs on main one at a time).
+#
+# Hold a pull request back with a draft or a `hold` / `no-automerge` /
+# `do-not-merge` / `wip` label. To stop all of this: delete this file.
+name: Auto-merge
+
+on:
+  workflow_run:
+    workflows: ["Deploy Bitbaum site"]
+    types: [completed]
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+# Declared here too: a called workflow's token is capped by its caller.
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  checks: read
+  statuses: read
+
+jobs:
+  sweep:
+    uses: bitbaum/fleet/.github/workflows/auto-merge-sweep.yml@main
+    with:
+      base_branch: main
+      ci_workflow: deploy-site.yml
+      rearm_workflows: "deploy-site.yml"
+      deploy_workflow: deploy-site.yml
+    secrets:
+      # GITHUB_TOKEN cannot merge a pull request that touches
+      # .github/workflows; the fleet's org PAT can, and its merges also wake
+      # the next sweep at once. Inert until the secret exists.
+      token: ${{ secrets.FLEET_PAT }}

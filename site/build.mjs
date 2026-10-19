@@ -807,7 +807,7 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
     {
       n: "02", key: "partner", title: "Hire a partner",
       price: "Their own quote", when: "Applications open · none approved yet", open: false,
-      body: "Independent builders who pass the studio's systems design course and are approved by hand. You hire and pay them directly; the first will be listed here once approved.",
+      body: "Independent builders the studio approved on their work. You hire and pay them directly; the first will be listed here once approved.",
       cta: "Meet the partners", href: "/partners/",
     },
     {
@@ -859,7 +859,7 @@ ${pathCards}
       <div class="wrap">
         <div class="home-section-head">
           <div><span class="kicker quiet">The work</span><h2 class="headline-caps section-title">Built here, running now</h2></div>
-          <a class="textlink" href="/work/">All ${all.length} projects ${ARROW}</a>
+          <a class="textlink" href="/work/">All projects ${ARROW}</a>
         </div>
         <div class="grid home-work-grid">
 ${featuredWork.map((v) => card(v)).join("\n")}
@@ -882,7 +882,7 @@ ${askSection}
 
     <section class="dev-band" id="join">
       <div class="wrap">
-        <p><span class="label">Open source</span> The ${pkgCount} MIT packages behind these products, like ${pkgLine}, are yours to use. <a class="textlink" href="/packages/">Explore packages ${ARROW}</a></p>
+        <p><span class="label">Open source</span> The MIT packages behind these products, like ${pkgLine}, are yours to use. <a class="textlink" href="/packages/">Explore packages ${ARROW}</a></p>
       </div>
     </section>
   </main>`;
@@ -898,7 +898,7 @@ export function partnersPage() {
   const body = `  <main id="main">
 ${fullBleed({ scene: "mycelium", cast: "partners", under: true, strong: true, body: `        <div class="bleed-copy rise">
           <span class="kicker">Partners</span><h1 class="headline-caps">Build here.</h1>
-          <p class="bleed-lede">Independent builders, approved by the studio after its systems design course. Work under your own name and agree your own scope and price.</p>
+          <p class="bleed-lede">Independent builders, approved by the studio on their work. Work under your own name and agree your own scope and price.</p>
           <div class="bleed-actions"><a class="btn-frame-accent" href="#join">Become a partner ${ARROW}</a><a class="btn-frame" href="#partners">Find a partner</a></div>
         </div>` })}
     <section class="section" id="partners"><div class="wrap">
@@ -906,12 +906,12 @@ ${fullBleed({ scene: "mycelium", cast: "partners", under: true, strong: true, bo
       <div class="portal-grid" data-partner-directory data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>The directory needs JavaScript to check current availability. <a href="${HIRE}#waitlist">Send the studio a brief</a> or <a href="${LOKI_START}">use free Loki</a>.</p></noscript></div>
       <p class="caption">Partners are independent. Customers contract with and pay the partner directly. The studio takes no cut. Loki, OrangeCat and Solon are optional tools.</p>
     </div></section>
-    <section class="section" id="how"><div class="wrap"><span class="kicker quiet">Qualification</span><h2 class="headline-caps section-title">Learn. Demonstrate. Get reviewed.</h2>
-      <ol class="steps"><li><span class="path-n">01</span><span class="step-title">Study the studio pilot</span><p>Start with the <a href="/academy/">first systems design lesson and capstone rubric</a>. The full course is still being developed.</p></li><li><span class="path-n">02</span><span class="step-title">Submit working evidence</span><p>Your private application holds a preview, source and answers for the six design dimensions. The studio can request revisions or record a course pass.</p></li><li><span class="path-n">03</span><span class="step-title">Receive studio approval</span><p>Course pass is a prerequisite, not automatic partner approval. An approved, consenting profile appears only after publication review and while availability is current.</p></li></ol>
+    <section class="section" id="how"><div class="wrap"><span class="kicker quiet">How approval works</span><h2 class="headline-caps section-title">Show your work. A person decides.</h2>
+      <ol class="steps"><li><span class="path-n">01</span><span class="step-title">Show what you have built</span><p>Say who you are and link the work: a live product, a repository, a site you made for someone. For an experienced builder that is the whole application.</p></li><li><span class="path-n">02</span><span class="step-title">The studio decides</span><p>A person reads your work and answers in your private application, and by email if you give an address. No exam is required.</p></li><li><span class="path-n">03</span><span class="step-title">The course, if you want it</span><p>The <a href="/academy/">systems design course</a> ends in a capstone exam reviewed against a published rubric. Pass it and your profile shows the credential. Take it to learn, to prove it, or not at all.</p></li></ol>
     </div></section>
-    <section class="section" id="join"><div class="wrap portal-layout"><div><span class="kicker quiet">Become a partner</span><h2 class="headline-caps section-title">Show what you build.</h2><p class="lede">Write it or say it — who you are, what you build, where the studio can see your work. One message opens a private application where the course evidence, review reasons and, later, assigned briefs live. No account needed.</p><p><a class="textlink" href="/academy/">Read the pilot course and rubric first</a></p></div>${intakeMount({ purpose: "partner", prompt: "Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application, and the pilot course is the next step." })}</div></section>
+    <section class="section" id="join"><div class="wrap portal-layout"><div><span class="kicker quiet">Become a partner</span><h2 class="headline-caps section-title">Show what you build.</h2><p class="lede">Write it or say it — who you are, what you build, where the studio can see your work. One message opens a private application where the studio answers and, later, assigned briefs live. No account and no course needed.</p><p><a class="textlink" href="/academy/">The optional course and its exam</a></p></div>${intakeMount({ purpose: "partner", prompt: "Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application, and a person at the studio answers it there." })}</div></section>
   </main>`;
-  return shell({ title: "Partners — bitbaum", description: "Hire an approved independent partner, or apply through Bitbaum's systems design pilot.", path: "/partners/", body, nav: "/partners/", script: CHAT_SCRIPT + PORTAL_SCRIPT });
+  return shell({ title: "Partners — bitbaum", description: "Hire an approved independent partner, or apply with the work you have built.", path: "/partners/", body, nav: "/partners/", script: CHAT_SCRIPT + PORTAL_SCRIPT });
 }
 
 export function portalPage() {
@@ -923,7 +923,7 @@ export function privatePage() {
 
 export function academyPage() {
   const lesson = renderRecord(readFileSync(join(here, "course", "first-lesson.md"), "utf8"));
-  return shell({ title: "Systems design pilot — bitbaum", description: "The first Bitbaum lesson, practical capstone and review rubric. The full course is in development.", path: "/academy/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Studio-owned course · pilot</span><h1 class="headline-caps section-title">Design a system people can use.</h1><p class="lede">One practical lesson and a capstone rubric begin the course. More lessons and teaching examples are being developed in public. Passing the course and becoming a studio-approved partner are separate decisions.</p><div class="record">${lesson}<h2>Submit evidence for each dimension</h2>${COURSE.modules.map((m) => `<h3>${esc(m.title)}</h3><p>${esc(m.prompt)}</p>`).join("\n")}</div><div class="bleed-actions quiet-actions"><a class="btn primary" href="/partners/#join">Start a partner application ${ARROW}</a><a class="btn secondary" href="/portal/">Resume your application</a><a class="textlink" href="/roadmap/">Follow course development</a></div></div></section></main>` });
+  return shell({ title: "Systems design pilot — bitbaum", description: "Bitbaum's optional systems design course: the first lesson, the capstone exam and its rubric.", path: "/academy/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Optional course · pilot</span><h1 class="headline-caps section-title">Design a system people can use.</h1><p class="lede">Agents do most of the building now; someone still has to judge what they built. This course teaches that judgement: one practical lesson so far, and a capstone exam reviewed by a person against the rubric below. It is optional for partners. Pass it and the credential shows on your profile; skip it and you are judged on your work, as everyone is.</p><div class="record">${lesson}<h2>Submit evidence for each dimension</h2>${COURSE.modules.map((m) => `<h3>${esc(m.title)}</h3><p>${esc(m.prompt)}</p>`).join("\n")}</div><div class="bleed-actions quiet-actions"><a class="btn primary" href="/partners/#join">Apply as a partner ${ARROW}</a><a class="btn secondary" href="/portal/">Submit your capstone in your application</a><a class="textlink" href="/roadmap/">Follow course development</a></div></div></section></main>` });
 }
 export function recordPage(kind) {
   // Drawn, not read: the roadmap as a board of horizons with progress, the
@@ -940,17 +940,17 @@ export function recordPage(kind) {
 ${r.html}
       <nav class="record-doors" aria-label="Where next"><a class="btn-frame-accent" href="/work/">See what is built ${ARROW}</a><a class="btn-frame" href="/changelog/">What changed lately</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
     </div></section></main>`;
-    return shell({ title: "Roadmap — bitbaum", description: `Bitbaum's roadmap: ${r.done} of ${r.total} steps done across now, next and later.`, path: "/roadmap/", body });
+    return shell({ title: "Roadmap — bitbaum", description: "Bitbaum's roadmap: what is done, and what comes now, next and later.", path: "/roadmap/", body });
   }
   const c = renderChangelog(source);
   const body = `<main id="main"><section class="section record-page"><div class="wrap">
       <span class="kicker quiet">Building in public</span>
       <h1 class="headline-caps section-title">Changelog.</h1>
-      <p class="lede">${c.count} changes shipped, newest first. One line each; open an entry for the rest. <a class="textlink" href="${canonical}">The canonical record</a> has every word.</p>
+      <p class="lede">What shipped, newest first. One line each; open an entry for the rest. <a class="textlink" href="${canonical}">The canonical record</a> has every word.</p>
 ${c.html}
       <nav class="record-doors" aria-label="Where next"><a class="btn-frame-accent" href="/roadmap/">What comes next ${ARROW}</a><a class="btn-frame" href="/work/">See the work</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
     </div></section></main>`;
-  return shell({ title: "Changelog — bitbaum", description: `Bitbaum's changelog: ${c.count} shipped changes, newest first.`, path: "/changelog/", body });
+  return shell({ title: "Changelog — bitbaum", description: "Bitbaum's changelog: what shipped, newest first.", path: "/changelog/", body });
 }
 
 
@@ -977,11 +977,18 @@ ${workSection(all, cfg)}
  * it from the product's Loki profile or its editorial stack block, never typed
  * into this page; an empty field renders nothing rather than a placeholder.
  */
-/** Most of `text`'s words already said in `said`: printing it would say it twice. */
+/**
+ * The share of a block's words already said above it at which printing the
+ * block would say it twice. Measured on the catalogue: Diplodoctor's story
+ * and solution share 97% of their words and Solon's 74% (the same sentence,
+ * reworded); every distinct pair shares under half.
+ */
+const REPEATED_WORDS_SHARE = 0.6;
+/** Most of `text`'s words already said in `said`. Words under four letters carry no meaning here. */
 function repeats(text, said) {
   const words = (t) => new Set(String(t ?? "").toLowerCase().match(/[a-z]{4,}/g) ?? []);
   const a = words(said), b = words(text);
-  return b.size > 0 && [...b].filter((w) => a.has(w)).length / b.size >= 0.6;
+  return b.size > 0 && [...b].filter((w) => a.has(w)).length / b.size >= REPEATED_WORDS_SHARE;
 }
 
 function ventureDepth(v) {
@@ -1116,22 +1123,7 @@ ${contact ? `    <section class="section" id="ask">
   return shell({ title: `${v.name} — ${v.what}`, description: v.story || v.what, path: `/${v.slug}/`, body, image: v.shot ? `/shots/${v.slug}.jpg` : undefined, script: contact ? CHAT_SCRIPT : undefined });
 }
 
-export function studioPage(all, packages, origin, readings) {
-  const pkgCount = (packages.packages ?? []).length;
-  const block = (origin?.repos ?? []).map((r) => r.provenSince?.block).filter(Boolean).sort((a, b) => a - b)[0];
-  const reading = readings?.current;
-  const running = all.filter((v) => ["product", "pilot"].includes(v.stage)).length;
-  const repos = origin?.repos?.length ?? 0, snaps = origin?.repos?.filter((r) => r.swh?.snapshot).length ?? 0;
-  const n = (x) => Number(x ?? 0).toLocaleString("en-US");
-  // Seen, not read: every number is a tile that links to where it is checked.
-  // Stars and engagement income stay stated in "Numbers from registers"
-  // below, in a sentence, rather than as two headline tiles reading 3 and 0.
-  const tiles = [
-    [running, "systems running", "/work/"],
-    [pkgCount, "open-source packages", "/packages/"],
-    [repos, "repositories with proven origin", "https://github.com/bitbaum/fleet/blob/main/registers/origin.json"],
-    [n(reading?.downloads?.lastMonth), "package downloads, 30 days", "https://www.npmjs.com/org/bitbaum"],
-  ].map(([v, t, h]) => `          <a class="stage-link" href="${h}"><span class="stage-count">${v}</span><span>${t}</span></a>`).join("\n");
+export function studioPage() {
   const pillars = [
     ["/orangecat/", "Earn", "OrangeCat", "Payment links and Bitcoin settlement: turn who you are into income."],
     ["/loki/", "Build", "Loki", "Say what you want; a fleet of AI agents builds, tests and ships it, and you review what goes live."],
@@ -1141,9 +1133,13 @@ export function studioPage(all, packages, origin, readings) {
     ["Honest stages", `Every project is labelled by what can be verified — beta, pilot, in development, concept, not built — on the <a href="/work/">work catalogue</a>.`],
     ["People stay responsible", "Agents do implementation work in Loki; people set the goals, review the changes and answer for what ships."],
     ["Open by construction", `The packages are MIT-licensed and work built for someone else stays theirs. Contributor terms live in <a href="${CONTRIBUTING}">bitbaum/.github</a>.`],
-    ["Proven origin", `The <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a> tracks ${repos} repositories, of which <a href="https://archive.softwareheritage.org/">${snaps} have a Software Heritage snapshot</a>${block ? `; the earliest proof is anchored at Bitcoin block ${block}` : ""}.`],
-    ["Numbers from registers", `Fleet's <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">${esc(reading?.date ?? "latest")} readings</a>: ${n(reading?.downloads?.lastMonth)} package downloads over 30 days (including our own CI installs), ${n(reading?.stars)} GitHub stars, and CHF ${n(reading?.clients?.mrrChf)} a month from studio engagements. Readings, not forecasts.`],
-    ["Zürich, hired by the day", `Fractional CTO and contract engineering. Rates and the waitlist are on the <a href="${HIRE}">hire page</a>; the code is on <a href="${GITHUB}">GitHub</a>.`],
+    // In words, not figures: a count of repositories, downloads or stars
+    // means nothing to a visitor without its context, and each one had to be
+    // re-checked by the claims gate on every build. The registers keep the
+    // numbers; the page says what they prove and where to read them.
+    ["Proven origin", `Every repository is stamped in the public <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a>, its proof anchored in Bitcoin, and <a href="https://archive.softwareheritage.org/">Software Heritage</a> keeps archived copies.`],
+    ["Readings, not forecasts", `Downloads, stars and income are recorded as dated readings in <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">Fleet's readings register</a>, our own CI installs included, and nothing here projects them forward.`],
+    ["Zürich, hired by the day", `Fixed-price builds, and senior engineering by the day. Rates and the waitlist are on the <a href="${HIRE}">hire page</a>; the code is on <a href="${GITHUB}">GitHub</a>.`],
   ].map(([h, t]) => `          <div class="depth-block"><span class="label">${h}</span><p>${t}</p></div>`).join("\n");
   const body = `  <main id="main">
     <section data-lodge class="stage stage-floored hero compact">
@@ -1159,21 +1155,12 @@ export function studioPage(all, packages, origin, readings) {
     </section>
     <section class="section">
       <div class="wrap">
-        <span class="kicker quiet">In the open</span>
-        <h2 class="headline-caps section-title">The numbers, with their sources.</h2>
-        <div class="stage-links stat-tiles">
-${tiles}
-        </div>
-      </div>
-    </section>
-    <section class="section">
-      <div class="wrap">
         <span class="kicker quiet">The trunk</span>
         <h2 class="headline-caps section-title">Earn. Build. Decide.</h2>
         <div class="paths">
 ${pillars}
         </div>
-        <p class="caption">Three public beta products, one loop; the ${pkgCount} shared packages behind them are on the <a class="textlink" href="/packages/">packages page</a>.</p>
+        <p class="caption">Three public beta products, one loop; the shared packages behind them are on the <a class="textlink" href="/packages/">packages page</a>.</p>
       </div>
     </section>
     <section class="section">
@@ -1217,10 +1204,7 @@ function intakeMount({ prompt, purpose = "studio", offerId = "" }) {
 const slug = (name) =>
   String(name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
-export function hirePage(all, cfg, hire, packages, origin) {
-  const running = all.filter((v) => (v.status === "live" || (v.running && v.stage === "product")) && v.stage !== "next");
-  const proven = (origin?.repos ?? []).filter((r) => r.provenSince).length;
-  const pkgCount = (packages.packages ?? []).length;
+export function hirePage(all, hire) {
   const body = `  <main id="main">
 ${fullBleed({ scene: "rings", under: true, body: `        <div class="bleed-copy rise">
           <span class="kicker">${esc(hire.eyebrow)}</span>
@@ -1232,17 +1216,6 @@ ${fullBleed({ scene: "rings", under: true, body: `        <div class="bleed-copy
             <a class="btn-frame" href="#build-yourself">Build it yourself now</a>
           </div>
         </div>` })}
-
-    <section class="section studio-facts">
-      <div class="wrap">
-        <div class="hero-facts">
-          <a href="/work/"><b>${running.length}</b> systems built and running</a>
-          <a href="/packages/"><b>${pkgCount}</b> packages published open source</a>
-          <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json"><b>${proven}</b> repositories with proven origin</a>
-        </div>
-        <p class="caption">Every number here is checkable: the systems are on <a href="/work/">the work page</a> with their addresses, the packages are on npm, and the origin proofs are <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">in a public register</a>.</p>
-      </div>
-    </section>
 
 ${buildYourselfBand(all, hire)}
 
@@ -1360,8 +1333,8 @@ export function render({ map, packages, origin, readings, cfg, hire, live = {} }
   }
   const shown = shownPackages(packages, cfg);
   for (const p of shown) files.set(`packages/${p.slug}/index.html`, packagePage(p, cfg, all, shown));
-  files.set("studio/index.html", studioPage(all, packages, origin, readings));
-  files.set("hire/index.html", hirePage(all, cfg, hire, packages, origin));
+  files.set("studio/index.html", studioPage());
+  files.set("hire/index.html", hirePage(all, hire));
   const commissioningOffer = hire.offers.find((o) => o.id === hire.commissioningOffer);
   if (!commissioningOffer) throw new Error("hire.commissioningOffer must name a published offer");
   // Public commissioning contract. Rates/capacity are authored only in hire.json;

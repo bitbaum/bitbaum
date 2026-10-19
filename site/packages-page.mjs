@@ -130,9 +130,7 @@ export function createPackagePages({ esc, shell }) {
   function packagesPage(packages, cfg, all) {
     const ventureBySlug = new Map(all.map((v) => [v.slug, v]));
     const alias = cfg.adopterAliases ?? {};
-    const registry = packages.packages ?? [];
     const list = shownPackages(packages, cfg);
-    const uniqueApps = uniqueAdopterCount(registry);
     const sections = packageSections(list, cfg);
     const groupOptions = sections.map((g) => `<option value="${esc(g.id)}" data-description="${esc(g.lede ?? "")}">${esc(g.title)}</option>`).join("");
     const cards = sections
@@ -141,7 +139,7 @@ export function createPackagePages({ esc, shell }) {
     const body = `  <main id="main">
     <section data-lodge class="stage stage-floored hero compact">
       <div class="wrap">
-        <span class="eyebrow">${registry.length} packages &middot; MIT &middot; ${uniqueApps} distinct adopters in the fleet</span>
+        <span class="eyebrow">Open source &middot; MIT</span>
         <h1 class="display-1">The trunk.</h1>
         <p class="lede">${esc(cfg.packages_lede ?? "")}</p>
         <div class="pkg-controls" id="package-controls" hidden>
@@ -162,7 +160,7 @@ export function createPackagePages({ esc, shell }) {
     </section>
     <section class="section">
       <div class="wrap">
-        <p class="caption">Each tile opens the package page. Adopter counts come from real <code>package.json</code> files, read by <a href="https://github.com/bitbaum/fleet/blob/main/scripts/ci/shared-registry-audit.mjs">fleet's registry audit</a>. The eyebrow counts distinct adopter names across packages (an app that uses three packages counts once). Packages with no adopters are listed openly.</p>
+        <p class="caption">Each tile opens the package page. Adopter counts come from real <code>package.json</code> files, read by <a href="https://github.com/bitbaum/fleet/blob/main/scripts/ci/shared-registry-audit.mjs">fleet's registry audit</a>. Packages with no adopters are listed openly.</p>
       </div>
     </section>
   </main>

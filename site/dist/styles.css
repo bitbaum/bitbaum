@@ -222,10 +222,6 @@ img { max-width: 100%; display: block; }
 .hero .display-1 { max-width: 13ch; }
 .hero .lede { margin-top: 0.25rem; }
 .hero .actions { margin-top: 0.75rem; }
-.hero-facts { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: 0.875rem; color: var(--fg-3); }
-.hero-facts b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
-.hero-facts a { color: inherit; }
-.hero-facts a:hover { color: var(--fg); }
 
 /* ─── homepage: the studio, its stack, and two clear doors ───────────── */
 .home-hero { padding-block: clamp(3rem, 7vw, 6.5rem); }
@@ -282,7 +278,6 @@ img { max-width: 100%; display: block; }
 .section-title + .lede, .section-title + p { margin-top: 1.25rem; }
 .bleed-lede { margin: 0; max-width: 38rem; font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.55; color: var(--fg); text-wrap: pretty; }
 .bleed-notice { margin: 0; max-width: 38rem; padding-left: 0.9rem; border-left: 2px solid var(--baum); color: var(--fg); line-height: 1.5; }
-.studio-facts { padding-block: 2.5rem; }
 .bleed-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.6rem; }
 .kicker { font-size: 0.74rem; font-weight: 600; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-2); }
 .kicker.quiet { color: var(--fg-3); }
@@ -417,9 +412,6 @@ img { max-width: 100%; display: block; }
 .home-package-grid .pkg-badges { gap: 0.2rem; }
 .home-package-grid .pkg-category { display: none; }
 .home-package-grid .pill { padding-inline: 0.35rem; font-size: 0.6rem; }
-.home-page .stage-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.1rem; }
-.home-page .stage-link { align-items: center; gap: 0.5rem; min-height: 44px; padding: 0.55rem 0.8rem; border-radius: var(--radius-pill); }
-.home-page .stage-count { font-size: 0.9rem; }
 .home-page .section { padding-block: clamp(2.5rem, 5vw, 4.5rem); }
 
 /* ─── cinematic hero ───────────────────────────────────────────────────── */
@@ -444,7 +436,7 @@ img { max-width: 100%; display: block; }
 .hero.compact .display-1 { font-size: clamp(2.3rem, 4.6vw, 3.9rem); max-width: 14ch; grid-column: 1; grid-row: 2; }
 .hero.compact .lede { grid-column: 2; grid-row: 2 / 4; align-self: end; margin-top: 0; max-width: 48ch; }
 .hero.compact .actions { grid-column: 1; grid-row: 3; margin-top: 0.4rem; }
-.hero.compact .hero-facts, .hero.compact .specs { grid-column: 1 / -1; grid-row: 4; margin-top: 1.25rem; }
+.hero.compact .specs { grid-column: 1 / -1; grid-row: 4; margin-top: 1.25rem; }
 
 .notice { display: flex; gap: 0.7rem; align-items: baseline; margin: 0.4rem 0 0; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.95rem; color: var(--fg-2); max-width: var(--measure-lede); }
 .notice::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--status); transform: translateY(-1px); }
@@ -527,10 +519,6 @@ a.card-name:hover { color: var(--accent); }
 .legend div { display: grid; gap: 0.15rem; }
 .legend dt { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-2); }
 .legend dd { margin: 0; font-size: 0.82rem; line-height: 1.5; color: var(--fg-3); }
-.stage-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: 0.65rem; margin-top: 1.25rem; }
-.stage-link { display: flex; align-items: baseline; gap: 0.65rem; min-width: 0; padding: 0.9rem 1rem; color: var(--fg-2); border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raised); }
-.stage-link:hover { color: var(--fg); border-color: var(--fg-3); }
-.stage-count { color: var(--fg); font-family: var(--mono); font-size: 1.1rem; font-variant-numeric: tabular-nums; }
 #work-grid { margin-top: 1.6rem; }
 .empty { margin: 1.5rem 0 0; color: var(--fg-2); }
 
@@ -694,7 +682,7 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .section-head { grid-template-columns: 1fr; }
   .section-head > :first-child, .section-head .lede { grid-column: 1; grid-row: auto; }
   .hero.compact .eyebrow, .hero.compact .display-1, .hero.compact .lede,
-  .hero.compact .actions, .hero.compact .hero-facts, .hero.compact .specs { grid-column: 1; grid-row: auto; }
+  .hero.compact .actions, .hero.compact .specs { grid-column: 1; grid-row: auto; }
   .spec + .spec { border-left: 0; padding-left: 0; }
   .home-hero { padding-block: 2.2rem; }
   .home-hero .wrap { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -711,8 +699,6 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .stack-layer-shot { order: -1; position: static; }
   .home-section-head { align-items: flex-start; flex-wrap: wrap; }
   .home-page .section { padding-block: 2rem; }
-  .home-page .stage-links { gap: 0.35rem; }
-  .home-page .stage-link { min-height: 40px; padding: 0.35rem 0.65rem; font-size: 0.78rem; }
 }
 @media (max-width: 640px) {
   .pager { flex-wrap: wrap; }
@@ -727,7 +713,6 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .grid, .grid.two, .grid.four { grid-template-columns: 1fr; }
   .hero { padding-top: var(--section-tight); }
   .eyebrow { font-size: 0.64rem; letter-spacing: 0.1em; padding: 0.35rem 0.7rem; }
-  .hero-facts { gap: 0.4rem 1.25rem; }
   .filters { gap: 0.9rem; }
   .filter-row { align-items: flex-start; flex-direction: column; gap: 0.5rem; width: 100%; }
   .filter-search, .filter-sort { width: 100%; min-width: 0; flex-basis: 100%; }
@@ -1533,11 +1518,6 @@ footer nav a { max-width: 100%; overflow-wrap: anywhere; }
 .tl-more code { font-family: var(--mono); font-size: 0.85em; }
 .record-doors { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.5rem; padding-top: 1.75rem; border-top: 1px solid var(--line); }
 main > .record-doors.wrap { margin-top: 0; margin-bottom: var(--section-tight); padding-top: 1.75rem; }
-/* A number tile never breaks its number: "12" is not "1 / 2". */
-.stage-link .stage-count { white-space: nowrap; flex: none; }
-/* Six number tiles with longer labels: one to a row on a phone, so no label
-   breaks inside a word; three or six across where there is room. */
-.stat-tiles { grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
 /* A record's table on a phone: each row a card, the first cell its title, so
    no cell squeezes a word into pieces ("Permission s and privacy"). */
 @media (max-width: 700px) {

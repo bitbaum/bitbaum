@@ -25,8 +25,12 @@ on:
   repository_dispatch:
     types: [package-registry-updated]
 
+# One deploy of main at a time, whatever started it — a push, the schedule,
+# or the auto-merge sweep re-arming after a merge. Each run commits refreshed
+# snapshots to main, so two side by side race to push and one fails. A pull
+# request's check builds offline and pushes nothing; it keeps its own lane.
 concurrency:
-  group: bitbaum-site-${{ github.event_name }}-${{ github.ref }}
+  group: bitbaum-site-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
   cancel-in-progress: false
 
 permissions:

@@ -113,18 +113,29 @@ try {
     assert.equal(actions[1].version, 2); assert.equal(actions[1].body, "Improve the confirmation after a failed booking.");
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
     assert.deepEqual(errors, []);
-    // A declined application can resubmit current evidence and propose a profile.
-    request = { ...structuredClone(fixture), kind: "partner", target: "application", website: "", offer: null, delivery: null, status: { id: "declined", title: "Application declined", next: "Revise evidence" }, partner: { assessment: null, coursePassed: false, approved: false, profile: null, profilePublished: false } };
+    // A declined application may still take the optional course: it is folded
+    // away, and there is no profile to propose before approval.
+    request = { ...structuredClone(fixture), kind: "partner", target: "application", website: "", offer: null, delivery: null, status: { id: "declined", title: "Application declined", next: "Reply with more of your work" }, partner: { assessment: null, coursePassed: false, approved: false, profile: null, profilePublished: false } };
     await page.reload({ waitUntil: "load" });
+    await page.getByText("The systems design course (optional)", { exact: true }).waitFor();
+    assert.equal(await page.locator("#portal-submit_assessment").isVisible(), false);
+    assert.equal(await page.locator("#portal-propose_profile").count(), 0);
+    await page.getByText("The systems design course (optional)", { exact: true }).click();
     await page.waitForSelector("#portal-submit_assessment");
     for (const module of course.modules) await page.locator(`#portal-submit_assessment [name=${module.id}]`).fill("A specific user journey with meaningful verification and recoverable boundaries.");
     await page.locator("#portal-submit_assessment [name=projectUrl]").fill("https://bitbaum.orangecat.ch");
     await page.locator("#portal-submit_assessment [name=sourceUrl]").fill("https://github.com/bitbaum/bitbaum");
-    await page.getByRole("button", { name: "Submit course evidence", exact: true }).click();
+    await page.getByRole("button", { name: "Submit your capstone", exact: true }).click();
     await page.waitForFunction(() => document.querySelector("#portal-submit_assessment [name=projectUrl]")?.value === "");
     const assessment = actions.find((a) => a.action === "submit_assessment").assessment;
     assert.equal(assessment.version, course.version);
     assert.deepEqual(Object.keys(assessment.answers), course.modules.map((m) => m.id));
+    // Approved on their work, without the course: now the profile can be proposed.
+    request.partner.approved = true; request.status = { id: "approved", title: "Partner approved", next: "Propose your profile" };
+    await page.reload({ waitUntil: "load" });
+    await page.waitForSelector("#portal-propose_profile");
+    // Approved: the profile can be kept with an OrangeCat account (optional).
+    assert.ok(await page.getByRole("button", { name: "Connect your OrangeCat account", exact: true }).isVisible());
     assert.equal(await page.locator("#portal-propose_profile input[type=checkbox]").count(), 1);
     await page.locator("#portal-propose_profile [name=name]").fill("A qualified builder");
     await page.locator("#portal-propose_profile [name=headline]").fill("Booking systems with recoverable journeys");
@@ -137,7 +148,6 @@ try {
     await page.getByRole("button", { name: "Propose your public profile", exact: true }).click();
     await page.waitForFunction(() => document.querySelector("#portal-propose_profile [name=name]")?.value === "");
     assert.equal(actions.find((a) => a.action === "propose_profile").consent, true);
-    request.partner.approved = true; request.partner.coursePassed = true; request.status.id = "approved";
     const assignedId = "9a4dbe4e-cba2-4ab2-8ad3-c855ad32907f";
     assignments = [{ ...structuredClone(fixture), id: assignedId, target: "partner", delivery: { ...fixture.delivery, version: 4 } }];
     await page.reload({ waitUntil: "load" });
@@ -154,4 +164,4 @@ try {
     await context.close(); checks++;
   }
 } finally { await browser.close(); }
-console.log(`PASS studio journeys at ${checks} widths: draft handoff, lost-response retry, private receipt, versioned review and revised course evidence`);
+console.log(`PASS studio journeys at ${checks} widths: draft handoff, lost-response retry, private receipt, versioned review and optional course evidence and approval without it`);
