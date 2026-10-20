@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-19T15:41:31.880Z",
+  "generatedAt": "2026-10-20T12:03:34.596Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -49,6 +49,52 @@
       },
       "roadmap": [
         {
+          "title": "Private builders",
+          "line": "One sealed builder per account on the box you already have: its own Linux user, home, token and agent sign-ins, and the rule that whoever asks for a change pays for it with their own engine — a Loki plan, their own key, or their own subscription signed in with the CLI's /login. Nobody's request runs on another person's subscription. Plan: docs/architecture/private-builders.md.",
+          "status": "in progress",
+          "progress": 67,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Design note: tenant model, credential handling, what a request without an engine becomes",
+              "done": true
+            },
+            {
+              "title": "A request on a shared project from someone with no engine goes to the owner as a suggestion; the per-site allowance is retired {#seat-suggests}",
+              "done": true
+            },
+            {
+              "title": "Agent terminals get an allowlisted environment, never the runner's whole one {#agent-env}",
+              "done": true
+            },
+            {
+              "title": "The runner reads projects through the API and carries no database password {#runner-no-db}",
+              "done": false
+            },
+            {
+              "title": "new-tenant.sh: user, dev root, loki-box-runner@<tenant> unit, token per tenant, reconciled from the account's flag {#new-tenant}",
+              "done": true
+            },
+            {
+              "title": "The owner's runner on the same template",
+              "done": false
+            },
+            {
+              "title": "Eligibility is a flag on the account, not an environment allowlist; a project with no stored builder routes to the connected one {#private-builder-flag}",
+              "done": true
+            },
+            {
+              "title": "Settings → Your engine: a key marked for building reaches your builder; /login in your own Sessions signs in your subscription {#your-engine}",
+              "done": true
+            },
+            {
+              "title": "The first tenant who is not the owner builds on their own sign-in",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
+        },
+        {
           "title": "Partner track",
           "line": "bitbaum owns the systems design course and partner approval. Loki supplies scoped application and assigned-delivery infrastructure; qualification does not enrol a partner in the whole ecosystem. OrangeCat or Solon handoffs remain optional and require their own purpose and consent.",
           "status": "in progress",
@@ -78,19 +124,23 @@
           "title": "Capacity you can read",
           "line": "The numbers that decide when the next wall is hit, published on the System page and in this file, so \"when do we need more\" is a reading, not a guess.",
           "status": "planned",
-          "progress": 0,
+          "progress": 40,
           "targetDate": null,
           "milestones": [
             {
-              "title": "Queue median wait per builder channel",
-              "done": false
+              "title": "Queue median wait per builder channel {#capacity-card}",
+              "done": true
             },
             {
               "title": "Box memory and CPU headroom",
               "done": false
             },
             {
-              "title": "Monthly token spend, and the share of it that is routine work",
+              "title": "Monthly builds, tokens and cost per account, and what welcome builds cost against their cap {#capacity-card}",
+              "done": true
+            },
+            {
+              "title": "The share of monthly token spend that is routine work",
               "done": false
             },
             {
@@ -101,26 +151,22 @@
           "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
         },
         {
-          "title": "Tenancy on the box",
-          "line": "One Linux user, one clone root, one runner service and one credential file per builder account. The shared cloud builder is one user with one set of keys today, which is why it is restricted to eligible accounts.",
+          "title": "Sealed builds",
+          "line": "After private builders: each build in its own throwaway box (a container, then a microVM when the box exposes KVM), so a tricked agent cannot reach even its own tenant's other work. SandboxExecutor is the seed.",
           "status": "planned",
           "progress": 0,
           "targetDate": null,
           "milestones": [
             {
-              "title": "Design note: tenant model, credential handling, egress limits",
+              "title": "A container per build with the agent CLIs inside, on the same machine",
               "done": false
             },
             {
-              "title": "new-tenant.sh: user, dev root, loki-box-runner@<tenant> unit",
+              "title": "Per-build CPU, memory and network limits",
               "done": false
             },
             {
-              "title": "Eligibility reads the tenant record instead of an environment allowlist",
-              "done": false
-            },
-            {
-              "title": "Per-tenant CPU, memory and network limits",
+              "title": "A microVM per build where the hardware allows it",
               "done": false
             }
           ],
@@ -152,7 +198,7 @@
           "title": "Bring your own key, metered by default",
           "line": "The builder pays their model vendor directly and pays Loki for the platform; every run records the tokens it spent, per tenant, from day one.",
           "status": "planned",
-          "progress": 50,
+          "progress": 75,
           "targetDate": null,
           "milestones": [
             {
@@ -168,12 +214,20 @@
               "done": true
             },
             {
-              "title": "Tokens per run per tenant recorded and shown on the run",
-              "done": false
+              "title": "A key marked \"for building\" reaches your private builder, not only your chat {#your-engine}",
+              "done": true
+            },
+            {
+              "title": "Tokens per run per tenant recorded and shown on the run, and which engine paid for it {#welcome-changes}",
+              "done": true
             },
             {
               "title": "BYOK as the default execution path for new accounts",
               "done": false
+            },
+            {
+              "title": "Welcome changes: a few free builds for a newcomer on Loki's key, under a monthly cap in CHF {#welcome-changes}",
+              "done": true
             },
             {
               "title": "A metered pool (wholesale tokens sold inside a plan) once the numbers say so",
@@ -303,15 +357,19 @@
           "source": "https://github.com/bitbaum/loki/blob/HEAD/ROADMAP.md"
         },
         {
-          "title": "Secure cloud execution for more accounts",
-          "line": "Isolated cloud builders beyond the eligible-account service, with the per-project choice of where work runs kept visible.",
+          "title": "Builders on other people's sites",
+          "line": "A builder found on Bitbaum is an OrangeCat account with a seat on one project and their own engine; the client pays them through the builder's own OrangeCat service. Bitbaum is the directory and the door.",
           "status": "later",
-          "progress": 0,
+          "progress": 67,
           "targetDate": null,
           "milestones": [
             {
-              "title": "Per-account sandboxing (the tenancy item above is the prerequisite)",
-              "done": false
+              "title": "Assigning a builder grants the seat on that one project",
+              "done": true
+            },
+            {
+              "title": "A fee on the assignment, paid to the builder's own wallet when the client accepts",
+              "done": true
             },
             {
               "title": "More parallelism without routing work to a different machine silently",
@@ -637,6 +695,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-20",
+          "done": "A partner you assign to a brief holds a seat on its project. {#builder-seat} Assign an approved partner to a website brief and, once the partner has signed in to Loki with the OrangeCat identity they connected, they are an editor on the brief's linked project and build in a private builder of their own, on their own engine. The seat follows the assignment and the project link and goes when either does; it is never a studio membership, so a partner sees one project and nothing else of yours.\nA partner's fee is paid to the partner. {#builder-fee} With a delivery a partner can state a fee; Loki lists it as a service in the partner's own name on OrangeCat, with the partner's own sign-in, and the brief shows the link to pay it. The brief is marked paid by OrangeCat's settled payment, never by anyone's word, and both sides are told. Loki holds no money and takes no share.\nYour requests on a shared project go to its owner. {#seat-suggests} Whether you are a Builder, a client or a viewer on someone else's project, what you ask for — on the project page in Loki or with Feedback on the site — is now a suggestion the owner decides on, and you are told when it ships. It used to build at once on the owner's subscription (a Builder's always, a client's up to a monthly allowance); nobody's request runs on another person's engine any more, and the \"changes a month\" setting is gone. A builder of your own on Loki's cloud is the next step on the roadmap.\nA new account's first build runs on its own computer. A project with no stored builder used to ask for the cloud and be refused as \"private\" even with Fleet Runner connected; it now runs on the computer you connected, and a new project's folder is no longer written under the cloud builder's root for an account the cloud does not serve.\n\"Hosted runner\" is offered only where it exists. It serves one account; everyone else saw it as a choice, could pick it, and queued work that was never claimed.\nAn agent on the cloud builder sees only its own environment. {#agent-env} It is born with what a shell needs, the engine key its account holds, and a token for the one repository it is working on. It used to inherit the builder's whole environment, database password and all.\nThe cloud builder asks Loki what to clone. {#runner-no-db} It no longer reads the database itself: it asks with its own token and gets its own account's projects and a token that account may use. One step from a builder with no database password at all.\nA private builder per account. {#new-tenant} {#private-builder-flag} The operator switches it on for an account in System → Plans, and within a minute that account has its own builder on Loki's cloud: its own Linux user and home on the box, its own runner token, its own agent sign-ins, no database password, a memory and CPU ceiling of its own. Its Sessions page shows that builder; claude then /login signs in its own Claude account there. Nothing of the studio's — its GitHub organisation, its previews, the box's own folders — comes with it. Until now the cloud was the founder's alone, with an environment variable as the only other door.\nYour own key builds, when you say so. {#your-engine} A key you added for Loki's chat can be marked \"also for building\" in Settings → AI; within a minute it reaches your private builder as Claude Code's, Codex's, Grok's or Gemini's own variable, and your builds run on it instead of a sign-in. A key stays chat-only until you say otherwise. The other way in is as before: start the agent in your Sessions and type /login.\nWelcome builds, then your plan's, then your own. {#welcome-changes} An account with a private builder can choose to build on Loki's engine: three welcome builds to start, then the builds a month its plan includes (10 on Personal, 40 on Pro, 100 on Team), and past them its own sign-in or key. Every run records which engine paid for it, a dispatch past the last build is refused with the way forward instead of queued, and Loki's welcome spending stops for everyone at a cap in francs the owner set.\nCapacity you can read. {#capacity-card} The System page shows how long work waited for a builder in the last day, per channel, and this month's builds, tokens and cost per account — beside what welcome builds cost against their cap. The numbers that decide when the box needs a bigger neighbour, read instead of guessed."
+        },
+        {
           "date": "2026-10-17",
           "done": "Answering a package update no longer makes it vanish. On Approvals, after you press Update, Not now or Stay on this version, the card now stays as a \"Just done\" line saying what Loki did (merged, merging when tests pass, snoozed until a date, or why it could not), with a link to the pull request. A new \"Answered recently\" list keeps the last two weeks of answers, with where each one stands now."
         },
@@ -711,10 +773,6 @@
         {
           "date": "2026-10-10",
           "done": "Autopilot overnight, with a budget. While you sleep, Loki builds from your feedback — one fix per project, your own notes first — reads one site that has not been read this week and files what it finds, and files away reports nobody started in 21 days with the reason on the row. The limit is a number of runs a night, in Settings → When an agent finishes (default 4, 0 keeps the filing and stops the building). A project paused on Control is left alone. The idle nudge that woke three projects a night on a generic \"next best\" guess is retired: a run with no brief is where the queue of things nobody asked for came from.\nThe morning note. /feedback opens with one line on what the night did and what it spent where the runner reported a price; the same line arrives on Telegram and push. Nothing when the night did nothing.\nFeedback on a phone. The question — how many need you — leads the page; the pickers are one quiet line; the numbers close it.\nLoki reads the page. The widget's Watch measured — small type, tiny targets, missing names — and said so on every page while the page in front of you said nothing first. It now also reads each page once per visit as a first-time visitor on a phone (purpose, hierarchy, content, fit, function) and says at most three things, each quoting the page, or nothing. Same \"Fix this\". Essay: /thoughts/loki-reads-the-page.\nWhich model are you. Loki's chat says what it is running on from its own prompt, in one sentence, instead of a tool round and a referral to Settings.\nShare on OrangeCat. Every Thoughts essay's share bar leads with OrangeCat: one tap opens the composer there, prefilled, on the reader's own account.\n\"Back in 30 minutes.\" Say it to Loki and the next screen you open — Control, or the chat — leads with what happened while you were away: what needs you, what went live, what finished and what still runs, each line a link to where it is acted on. One tap and it is gone. Nothing is recorded during the absence; the summary is read from what moved.\nFewer things thrown together. A feedback row's context is one sentence that wraps like one; the pickers are words, not boxes; \"Pointed at\" reads as a sentence; the thumbs-down form in the chat is part of the thread, not a second dialog; a review files the screenshot it judged with its first finding, so you read the finding beside the picture."
-        },
-        {
-          "date": "2026-10-10",
-          "done": "A model call is bounded by silence, not by a stopwatch. A 30-second cap on the whole call killed the first real turn on a user's own key: grok-4.7 thought for longer than that before its first word. Now a vendor may take up to 90 seconds to say anything on your own key, may stream for up to five minutes, and is only cut off when it goes silent for 30 seconds — and the sentence you get says which of those happened.\nYour model failed? One tap answers on the free models. Under such a turn a button sends the same words on Loki's free chain, for that turn only. Loki never switches silently: your key failing is the one thing you need to see.\nEvery key action says what it did. Adding a key reads \"xAI · grok-4.7 added. Loki starts here now. Testing it…\" and then \"Answered in 1.3 s — ‘Hello, I'm Grok.’\": a real, tiny turn on the key, timed, so \"added\" is backed by an answer. A Test button on each row repeats it; changing, re-ordering and removing say what changed.\nScreens that lay out on a phone. The model picker's rows were being squeezed in the bottom sheet and overlapped; a key's row in Settings wrapped its model name letter by letter. Both fixed; \"xAI\" is no longer shown as \"XAI\".\nNo more \"update password?\" The key field is masked but is not a password field, so the browser stops offering to save your API key as the site's login.\nYour words appear as you speak. Press the mic and the words scroll in as they are heard, one line, dimmed while the server transcribes and replaced by its words when they land. The checkmark still ends the take. Where the phone's recogniser cannot run, the wave stays and the recording is untouched. (chatkit 0.7.0.)"
         }
       ],
       "records": {
@@ -729,8 +787,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-10-18T16:14:24.888Z"
+          "outcome": "error",
+          "at": "2026-10-19T17:50:10.738Z"
         },
         "lastLog": {
           "date": "2026-10-12",
@@ -1046,6 +1104,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-20",
+          "done": "An app you sign into with OrangeCat can list a service in your name. It asks for that on the consent screen, marked as acting for you, like posting to your wall. A service listed through an app can be live at once instead of waiting as a draft, and when a client pays for it, Loki hears about it the way it already hears about project funding. This is how a builder booked through Loki gets paid: the fee is a service in the builder's own name, paid to the builder's own wallet, and the booking is marked paid from the payment itself.\nA product, service, cause or document created for a group now belongs to the group. The API layer worked out who the thing was for, but these four create paths rebuilt their row and dropped that, so the row fell to the person who clicked. The check that pins the carrier on every create path saw past them because of a type argument; it no longer does."
+        },
+        {
           "date": "2026-10-12",
           "done": "One wrong letter no longer loses anything. Type cqto and you get Cato; lki finds Loki, bitcon finds Bitcoin, farmhuose finds Farmhouse, setings takes you to Settings. Every word may carry one slip from four letters and two from eight — a wrong key, a missing, doubled or swapped letter — and a short word that matches nothing may still be a longer name with a letter dropped. Exact names still come first, and what matched is marked even when it was misspelled. When nothing matches, Discover asks \"Did you mean …?\" with the closest real name.\nDiscover is a page you can finish. One search field and one row of kinds — each with how many there are — then what was just listed, then a row of each kind: projects, things to buy, services, events, causes, people. Every card has the same parts in the same places: picture or initial, what kind of thing it is, the name, two lines, and the one fact that matters (the price, the goal, the date and place). It ends with the count of everything here and a way to list yours. It used to open on fifteen tabs and a sidebar of filters, several of which never filtered anything.\nSearch finds what you meant. Type two letters and it finds names that start with them (\"lo\" finds Loki); get a letter wrong and it still finds it (\"lokii\", \"bitcon\"); accents don't matter (\"zurich\" finds Zürich). Exact and leading title matches come first. The words you typed are marked in every result.\nA project with nothing raised yet says \"Be the first to back this\" on profiles, instead of a bold \"No funds yet\".\n\"What it solves\" asks which problem is yours instead of listing all twelve. Pick For you or For everyone, then the problem that sounds like you; its answer and the one thing to do next appear beside it (under it, on a phone). The same twelve answers, a sixth of the reading at a time.\nSigning in looks like the front page. The same mark drawing itself, the same depth behind it.\nA project without a picture shows its initial, not a generic target icon, on profiles.\nThe thing you typed whole comes before the longer thing that starts with it. Searching \"lki\" put \"Loki — Capability Layer for a Permissionless Economy\" above the project named Loki; a name matched end to end now ranks first. And in the quick search, a page you misspelled (\"setings\") comes before a listing that only mentions the word somewhere in its description, so Enter opens Settings.\nSettings → Usage only says what it knows. The free-pool card said \"nothing used yet — full allowance available\" when it simply had no reading — next to a counter showing you had already sent a message. It now says \"No reading yet\", shows when each number was read, and says \"Used up\" when a provider has refused for the day, even if its headers still look healthy. Plans that can't be bought yet say \"Not open yet\" instead of \"Activating\", the Cat Credits card no longer points you to a top-up that is closed, and the explanations no longer credit Supporters who can't exist yet or give a reason for the midnight-UTC reset that isn't true.\nA shared project link shows the project. It used to preview as the creator's face — Loki's page showed Cato — or as a broken image when the creator had none. Now the card carries the project's own mark or initial, its name, one line on what it is, and who is behind it.\nDiscover's people are people who have shown up. On the day the new Discover went live, its \"Just listed\" row was four untouched accounts with generated names and its People count was mostly the same. A person now appears once they have a name of their own, a bio or a picture, and \"Just listed\" shows listings, not sign-ups. The count of people on the front page follows. Those accounts still work and still open by link.\nSearch marks the words you typed, not letters inside other words. Searching \"lo\" marked the middle of \"technological\"; now only words that start with what you typed are marked, which is how the search matches them.\nOne keystroke opens one search box. The header carries the search twice (a bar on wide screens, an icon on phones), and each answered ⌘K, so two dialogs opened on top of each other.\nListings made with a test integration key stay off every public list.\nA listing with a broken picture shows its initial instead of breaking the page.\nTest listings no longer appear on Discover. The first card there was a listing titled \"TEST Session — TEST fixture — safe to delete\". Listings whose title marks them as tests are now left out of Discover, its counts, search and the sitemap."
         },
@@ -1120,10 +1182,6 @@
         {
           "date": "2026-09-08",
           "done": "Wallets show what they actually received and sent. On-chain history on the wallet card, with the net movement for that wallet rather than the transaction’s total."
-        },
-        {
-          "date": "2026-09-07",
-          "done": "Payments stopped being sent to wallets that cannot receive. New users were routed to a wallet with no way to accept money, and a send-only wallet connection took the whole receiving path down with it."
         }
       ],
       "records": {
