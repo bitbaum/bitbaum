@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-20T12:03:34.596Z",
+  "generatedAt": "2026-10-21T05:14:56.286Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -696,7 +696,7 @@
       "changelog": [
         {
           "date": "2026-10-20",
-          "done": "A partner you assign to a brief holds a seat on its project. {#builder-seat} Assign an approved partner to a website brief and, once the partner has signed in to Loki with the OrangeCat identity they connected, they are an editor on the brief's linked project and build in a private builder of their own, on their own engine. The seat follows the assignment and the project link and goes when either does; it is never a studio membership, so a partner sees one project and nothing else of yours.\nA partner's fee is paid to the partner. {#builder-fee} With a delivery a partner can state a fee; Loki lists it as a service in the partner's own name on OrangeCat, with the partner's own sign-in, and the brief shows the link to pay it. The brief is marked paid by OrangeCat's settled payment, never by anyone's word, and both sides are told. Loki holds no money and takes no share.\nYour requests on a shared project go to its owner. {#seat-suggests} Whether you are a Builder, a client or a viewer on someone else's project, what you ask for — on the project page in Loki or with Feedback on the site — is now a suggestion the owner decides on, and you are told when it ships. It used to build at once on the owner's subscription (a Builder's always, a client's up to a monthly allowance); nobody's request runs on another person's engine any more, and the \"changes a month\" setting is gone. A builder of your own on Loki's cloud is the next step on the roadmap.\nA new account's first build runs on its own computer. A project with no stored builder used to ask for the cloud and be refused as \"private\" even with Fleet Runner connected; it now runs on the computer you connected, and a new project's folder is no longer written under the cloud builder's root for an account the cloud does not serve.\n\"Hosted runner\" is offered only where it exists. It serves one account; everyone else saw it as a choice, could pick it, and queued work that was never claimed.\nAn agent on the cloud builder sees only its own environment. {#agent-env} It is born with what a shell needs, the engine key its account holds, and a token for the one repository it is working on. It used to inherit the builder's whole environment, database password and all.\nThe cloud builder asks Loki what to clone. {#runner-no-db} It no longer reads the database itself: it asks with its own token and gets its own account's projects and a token that account may use. One step from a builder with no database password at all.\nA private builder per account. {#new-tenant} {#private-builder-flag} The operator switches it on for an account in System → Plans, and within a minute that account has its own builder on Loki's cloud: its own Linux user and home on the box, its own runner token, its own agent sign-ins, no database password, a memory and CPU ceiling of its own. Its Sessions page shows that builder; claude then /login signs in its own Claude account there. Nothing of the studio's — its GitHub organisation, its previews, the box's own folders — comes with it. Until now the cloud was the founder's alone, with an environment variable as the only other door.\nYour own key builds, when you say so. {#your-engine} A key you added for Loki's chat can be marked \"also for building\" in Settings → AI; within a minute it reaches your private builder as Claude Code's, Codex's, Grok's or Gemini's own variable, and your builds run on it instead of a sign-in. A key stays chat-only until you say otherwise. The other way in is as before: start the agent in your Sessions and type /login.\nWelcome builds, then your plan's, then your own. {#welcome-changes} An account with a private builder can choose to build on Loki's engine: three welcome builds to start, then the builds a month its plan includes (10 on Personal, 40 on Pro, 100 on Team), and past them its own sign-in or key. Every run records which engine paid for it, a dispatch past the last build is refused with the way forward instead of queued, and Loki's welcome spending stops for everyone at a cap in francs the owner set.\nCapacity you can read. {#capacity-card} The System page shows how long work waited for a builder in the last day, per channel, and this month's builds, tokens and cost per account — beside what welcome builds cost against their cap. The numbers that decide when the box needs a bigger neighbour, read instead of guessed."
+          "done": "Voice says why the studio voices are off, and how to turn them on. {#voice-studio-off} When Groq will not read aloud, the Voice page now says why in one line, with the link that fixes it: usually Groq's voice terms, accepted once at console.groq.com. Until then Loki reads with your phone's voice, and the page says so, instead of every voice quietly sounding the same.\nChange Loki's voice by saying so. {#voice-change} \"Use Troy\", \"switch voice\" or \"what voices are there\" work while you listen, and questions about voice mode get true answers instead of advice about other apps. The status line reads as sentences (\"Three runs failed on loki.\"), the music bed is pitched and loud enough for a phone speaker, End is no longer covered by the feedback button, and the voices are an even grid.\nWatching says each thing once. {#watch-once} A page's findings are one card that updates in place, measured only after the page holds still, so \"no main title\" and \"two main titles\" no longer argue. A fix that did not finish says so, with a link to why. The header counts only what waits on you, and a saved note is never quoted cut off.\nPrompts: one card per prompt, schedules in words. {#prompts-tidy} The same prompt saved twice opens the one you have, and extra copies go with one tap. Schedule a prompt as \"every Monday at 10:00, Zurich time\" instead of a cron line. Run asks for the project before it shows the prompt, both actions say what they do, and category tags are no longer orange.\nA request goes to an agent the builder actually has. {#route-installed} When a project is set to an agent its builder does not have — Grok on the cloud builder, which runs Claude Code — Loki sends the request to one it does and says so on Watch it work, instead of starting nothing and showing \"Grok is not installed on the cloud builder\". A run that still stops for that reason offers the agent that is there as the one button, not \"Try again\", which would fail the same way.\nWatch it work says a stop once, with the way forward beside it. {#watch-stopped} The reason and the buttons now sit together at the top of the card; the Loki message that repeated the reason and the \"Stopped · 3 steps\" line are gone, as are the pull-request, merge and live steps under a run that never started. An agent that never opened reads \"could not start\", not \"stopped\". Your request shows what you asked: the technical details a report carries for the agent sit behind \"Dispatch details\".\nA partner you assign to a brief holds a seat on its project. {#builder-seat} Assign an approved partner to a website brief and, once the partner has signed in to Loki with the OrangeCat identity they connected, they are an editor on the brief's linked project and build in a private builder of their own, on their own engine. The seat follows the assignment and the project link and goes when either does; it is never a studio membership, so a partner sees one project and nothing else of yours.\nA partner's fee is paid to the partner. {#builder-fee} With a delivery a partner can state a fee; Loki lists it as a service in the partner's own name on OrangeCat, with the partner's own sign-in, and the brief shows the link to pay it. The brief is marked paid by OrangeCat's settled payment, never by anyone's word, and both sides are told. Loki holds no money and takes no share.\nYour requests on a shared project go to its owner. {#seat-suggests} Whether you are a Builder, a client or a viewer on someone else's project, what you ask for — on the project page in Loki or with Feedback on the site — is now a suggestion the owner decides on, and you are told when it ships. It used to build at once on the owner's subscription (a Builder's always, a client's up to a monthly allowance); nobody's request runs on another person's engine any more, and the \"changes a month\" setting is gone. A builder of your own on Loki's cloud is the next step on the roadmap.\nA new account's first build runs on its own computer. A project with no stored builder used to ask for the cloud and be refused as \"private\" even with Fleet Runner connected; it now runs on the computer you connected, and a new project's folder is no longer written under the cloud builder's root for an account the cloud does not serve.\n\"Hosted runner\" is offered only where it exists. It serves one account; everyone else saw it as a choice, could pick it, and queued work that was never claimed.\nAn agent on the cloud builder sees only its own environment. {#agent-env} It is born with what a shell needs, the engine key its account holds, and a token for the one repository it is working on. It used to inherit the builder's whole environment, database password and all.\nThe cloud builder asks Loki what to clone. {#runner-no-db} It no longer reads the database itself: it asks with its own token and gets its own account's projects and a token that account may use. One step from a builder with no database password at all.\nA private builder per account. {#new-tenant} {#private-builder-flag} The operator switches it on for an account in System → Plans, and within a minute that account has its own builder on Loki's cloud: its own Linux user and home on the box, its own runner token, its own agent sign-ins, no database password, a memory and CPU ceiling of its own. Its Sessions page shows that builder; claude then /login signs in its own Claude account there. Nothing of the studio's — its GitHub organisation, its previews, the box's own folders — comes with it. Until now the cloud was the founder's alone, with an environment variable as the only other door.\nYour own key builds, when you say so. {#your-engine} A key you added for Loki's chat can be marked \"also for building\" in Settings → AI; within a minute it reaches your private builder as Claude Code's, Codex's, Grok's or Gemini's own variable, and your builds run on it instead of a sign-in. A key stays chat-only until you say otherwise. The other way in is as before: start the agent in your Sessions and type /login.\nWelcome builds, then your plan's, then your own. {#welcome-changes} An account with a private builder can choose to build on Loki's engine: three welcome builds to start, then the builds a month its plan includes (10 on Personal, 40 on Pro, 100 on Team), and past them its own sign-in or key. Every run records which engine paid for it, a dispatch past the last build is refused with the way forward instead of queued, and Loki's welcome spending stops for everyone at a cap in francs the owner set.\nCapacity you can read. {#capacity-card} The System page shows how long work waited for a builder in the last day, per channel, and this month's builds, tokens and cost per account — beside what welcome builds cost against their cap. The numbers that decide when the box needs a bigger neighbour, read instead of guessed."
         },
         {
           "date": "2026-10-17",
@@ -787,12 +787,12 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-10-19T17:50:10.738Z"
+          "outcome": "partial",
+          "at": "2026-10-20T21:50:28.684Z"
         },
         "lastLog": {
-          "date": "2026-10-12",
-          "done": "Hosted dispatch (Hermes) FAILED — The owner of loki asked for this change while looking at their live site. Make … — Command failed: hermes -z Engineering standards (apply to ALL projects — hold every change to these):"
+          "date": "2026-10-20",
+          "done": "/loki \"New chat\" now always gives an empty, focused message box (start-page draft cleared; phone Back only leaves the thread) — PR #1356, CI green, auto-merge armed."
         }
       }
     },
@@ -1104,6 +1104,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-21",
+          "done": "Receive opens on a code people can scan. The QR slot in the bottom bar now shows a QR of your pay link, with your name on it, the link under it, and Copy link · Share as two equal buttons. Add an amount and the code and the link carry it. Under the code, every way you are paid, in one list: Bitcoin first (your name@orangecat.ch and the wallet it lands in), then any other app you add.\nYou can be paid in whatever people have. Add Twint, PayPal, Revolut, Cash App, Venmo, Wise, a bank account or any link as a way to be paid. Your pay page shows each one with the one thing it supports: a tap that opens the app with the amount filled in, or the handle to copy. These settle in those apps, straight to you; OrangeCat shows them and never holds the money. A page with no Bitcoin wallet but a Twint number is still a page someone can pay.\nSend reads what you give it. One field takes a username, a Lightning address, an invoice, or a code from the camera — someone's Receive QR included, with the amount they asked for already filled in. The \"To a person / Paste invoice\" switch is gone; the text says which it is."
+        },
+        {
           "date": "2026-10-20",
           "done": "An app you sign into with OrangeCat can list a service in your name. It asks for that on the consent screen, marked as acting for you, like posting to your wall. A service listed through an app can be live at once instead of waiting as a draft, and when a client pays for it, Loki hears about it the way it already hears about project funding. This is how a builder booked through Loki gets paid: the fee is a service in the builder's own name, paid to the builder's own wallet, and the booking is marked paid from the payment itself.\nA product, service, cause or document created for a group now belongs to the group. The API layer worked out who the thing was for, but these four create paths rebuilt their row and dropped that, so the row fell to the person who clicked. The check that pins the carrier on every create path saw past them because of a type argument; it no longer does."
         },
@@ -1178,10 +1182,6 @@
         {
           "date": "2026-09-10",
           "done": "Set a page up for someone else. You can create a profile or project on behalf of someone who has no account, and hand it over in one transaction. Until they claim it, it is visible and clearly theirs."
-        },
-        {
-          "date": "2026-09-08",
-          "done": "Wallets show what they actually received and sent. On-chain history on the wallet card, with the net movement for that wallet rather than the transaction’s total."
         }
       ],
       "records": {
@@ -2149,7 +2149,7 @@
           "title": "Matters worked by an agent {#matters}",
           "line": "A matter is anything legal to be handled. The agent researches, records",
           "status": "in progress",
-          "progress": 67,
+          "progress": 58,
           "targetDate": null,
           "milestones": [
             {
@@ -2175,6 +2175,18 @@
             {
               "title": "Check domain names with the registries before founding on a name {#domains}",
               "done": true
+            },
+            {
+              "title": "Start from a common problem: a workflow says what to establish and draft, never the law itself {#workflows}",
+              "done": true
+            },
+            {
+              "title": "Ask one question across every document of a matter, answered as a table with the passage each answer came from",
+              "done": false
+            },
+            {
+              "title": "Watch a matter's rules: tell its owner when a law, a form or a deadline it depends on changes",
+              "done": false
             },
             {
               "title": "Deadline reminders by e-mail",
@@ -2213,7 +2225,7 @@
           "title": "Helpers you can actually reach {#helpers}",
           "line": "Legal assistants and licensed lawyers offer their help as services on OrangeCat",
           "status": "planned",
-          "progress": 20,
+          "progress": 63,
           "targetDate": null,
           "milestones": [
             {
@@ -2221,19 +2233,31 @@
               "done": true
             },
             {
-              "title": "Helpers listed from their OrangeCat services, by jurisdiction, area and language, under a name or a pseudonym",
+              "title": "Helpers list themselves by jurisdiction, area and language, under a name or a pseudonym {#directory}",
+              "done": true
+            },
+            {
+              "title": "A lawyer's identity held privately and shown to a client when they engage them {#disclosure}",
+              "done": true
+            },
+            {
+              "title": "A lawyer's admission checked against the public register before the label, published as a signed attestation {#attestation}",
+              "done": true
+            },
+            {
+              "title": "Ask a helper about a matter, sharing it with or without your personal details {#engage}",
+              "done": true
+            },
+            {
+              "title": "Helpers paid through OrangeCat, with the money held until the work is accepted; a flat price per piece of work, never a share of a lawyer's fee",
               "done": false
             },
             {
-              "title": "A lawyer's identity held privately and shown to a client when they engage them",
+              "title": "Credentials issued by a bar itself, so the check needs no word of ours",
               "done": false
             },
             {
-              "title": "A lawyer's admission checked against the public bar register before the label",
-              "done": false
-            },
-            {
-              "title": "Hand a case to a helper from the case page, sharing only what you choose",
+              "title": "Notices by e-mail when a helper is asked, answers or writes",
               "done": false
             }
           ],
@@ -2261,12 +2285,12 @@
           "title": "A matter shared with a helper {#rooms}",
           "line": null,
           "status": "later",
-          "progress": 0,
+          "progress": 100,
           "targetDate": null,
           "milestones": [
             {
-              "title": "A shared matter: the person, their helper and the agent in one thread, the helper seeing only what is shared",
-              "done": false
+              "title": "A shared matter: the person, their helper and the agent in one thread, the helper seeing only what is shared {#shared-matter}",
+              "done": true
             }
           ],
           "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
@@ -2321,6 +2345,10 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-10-21",
+          "done": "Start from a common problem. Debt collection notice, rent increase, tax assessment, dismissal, insurance refused, founding an association: one tap tells the agent what has to be established and what to draft, and tells you what to have ready. No law is written into them: the agent finds and cites the rule and its deadline each time. \"Find a helper\" from such a matter opens the directory on its area. {#workflows}\nHelpers you can find and ask. A directory of legal assistants, licensed lawyers and AI services, with Causius AI first. Search forgives a typo; filter by kind, country, language and area. Nobody is invented: every profile is a real account that listed itself. {#helpers}\nBecome a helper. Any account can list itself, under a name or a pseudonym, and still keep matters of its own. \"Create a helper account\" sits on the sign-up page. {#helper-desk}\nA lawyer checked, and still pseudonymous. A lawyer submits their admission privately; a Causius reviewer checks it in the public register. The public then sees a signed attestation (SD-JWT, Ed25519) that names the place, never the person, and anyone can check it at /verify or with the key at /.well-known/jwks.json. A lawyer is listed only where it was checked. {#attestations}\nAsk a helper about your matter. You choose what they see: without your personal details (the default) or everything. Before sending you read your request exactly as they will, and can hide a name the patterns missed. A lawyer who accepts gives you the name Causius checked, with proof it is that name. Ending it ends their access at once. {#engagements}\nThe account menu's label no longer shows a formatting error to screen readers. {#account-label}"
+        },
         {
           "date": "2026-10-15",
           "done": "Accounts of your own. You no longer need an OrangeCat account to use Causius. Register with an email address and a password, a sign-in link or a passkey; add two-step codes if you like. \"Sign in with OrangeCat\" stays as one button for people who have an account there, and matters you started that way are still yours. {#accounts}"
