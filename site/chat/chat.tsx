@@ -9,6 +9,7 @@
 // server leg is the widget's own transcription route. Anyone who wants a
 // person instead sends the conversation to the studio's inbox with one field —
 // their email — never a form.
+import { richAnswerText } from "@bitbaum/chatkit";
 import { useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -41,7 +42,7 @@ function safeUrl(raw: unknown): string | null {
 function transcript(messages: ChatMessageData[]): string {
   return messages
     .filter((m) => !m.failed)
-    .map((m) => `${m.role === "user" ? "Visitor" : (m.speaker?.name ?? "Answer")}: ${m.content}`)
+    .map((m) => `${m.role === "user" ? "Visitor" : (m.speaker?.name ?? "Answer")}: ${m.role === "assistant" ? richAnswerText(m.content) : m.content}`)
     .join("\n\n");
 }
 
@@ -130,13 +131,14 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
         signal: controller.signal,
         body: JSON.stringify({
           token: cfg.token,
+          visualAnswers: true,
           message: question.slice(0, 1000),
           history: history
             .filter((m) => !m.failed)
             .slice(-12)
             .map((m) => ({
               role: m.role,
-              content: (m.role === "assistant" && m.speaker ? `${m.speaker.name}: ` : "") + m.content,
+              content: ((m.role === "assistant" && m.speaker ? `${m.speaker.name}: ` : "") + (m.role === "assistant" ? richAnswerText(m.content) : m.content)).slice(0, 2000),
             })),
           url: location.href.slice(0, 1000),
           pageTitle: document.title.slice(0, 300) || undefined,
@@ -203,6 +205,7 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
         stopped={stopped}
         onStop={() => abort.current?.abort()}
         onRetry={retry}
+        onReply={text => { void send(text); }}
         renderFooter={(m) =>
           links[m.id]?.length ? (
             <div className="chat-links">

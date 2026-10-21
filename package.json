@@ -19,7 +19,7 @@
     "check:contrast": "node site/check-contrast.mjs"
   },
   "dependencies": {
-    "@bitbaum/chatkit": "github:bitbaum/chatkit#v0.1.0",
+    "@bitbaum/chatkit": "^0.11.0",
     "@bitbaum/design-tokens": "1.1.0",
     "bip-kit": "^0.6.0",
     "listkit": "github:bitbaum/listkit#69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525",
@@ -29,5 +29,6 @@
   "devDependencies": {
     "esbuild": "^0.28.2",
     "playwright": "1.63.0"
-  }
+  },
+  "packageManager": "pnpm@11.25.0"
 }
