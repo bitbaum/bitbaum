@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-21T11:27:32.454Z",
+  "generatedAt": "2026-10-21T22:49:19.611Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -19,10 +19,10 @@
     }
   ],
   "summary": {
-    "projects": 27,
-    "live": 14,
+    "projects": 28,
+    "live": 15,
     "clients": 1,
-    "inFlight": 0
+    "inFlight": 3
   },
   "projects": [
     {
@@ -3620,7 +3620,7 @@
       },
       "next": null,
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
           "outcome": "timeout",
           "at": "2026-09-14T06:07:44.624Z"
@@ -3628,6 +3628,135 @@
         "lastLog": {
           "date": "2026-09-12",
           "done": "Fixed the Diktieren button on /de, which stayed on \"Ich höre …\" forever in browsers whose speech recogniser accepts start() but never responds and failed silently on most errors: it now gives up after 4 s (unless a mic prompt is still open), shows a message for every failure, and ignores late events from old sessions; verified with 7 Playwright scenarios plus a negative control against live, and opened PR #15 (fix/dictate-button -> main) with CI green."
+        }
+      }
+    },
+    {
+      "slug": "kivvi",
+      "name": "kivvi",
+      "what": "The ERP that knows things have a history.",
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "client": null,
+      "since": null,
+      "urls": {
+        "live": "https://kivvi.orangecat.ch",
+        "repo": "https://github.com/bitbaum/kivvi",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": "Generic ERPs do not fit the needs of secondhand businesses, leading to operational drag and limiting their ability to scale their impact.",
+        "solution": "Kivvi provides a native ERP system for secondhand businesses, handling intake, condition grading, repair workflows, and impact tracking, with a focus on automation and compliance with Swiss law and regulations.",
+        "mission": "Kivvi exists to solve the problem of generic ERPs not fitting the needs of secondhand businesses, providing a system that understands the unique workflows of these businesses.",
+        "vision": "To become the operating system for the circular economy, enabling businesses to scale their impact."
+      },
+      "roadmap": [
+        {
+          "title": "Build mobile intake and stock management",
+          "line": null,
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Support tablet intake and barcode scanning",
+              "done": false
+            },
+            {
+              "title": "Define offline storage and conflict resolution for stock changes",
+              "done": false
+            },
+            {
+              "title": "Validate synchronisation before relying on offline transactions",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
+        },
+        {
+          "title": "Connect inventory to webshop publication",
+          "line": null,
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Choose and document the first supported shop connector",
+              "done": false
+            },
+            {
+              "title": "Preserve per-item availability and condition when publishing",
+              "done": false
+            },
+            {
+              "title": "Verify retries and duplicate-publication handling",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
+        },
+        {
+          "title": "Develop the circular-economy talent marketplace",
+          "line": null,
+          "status": "active",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Let people discover participating circular businesses",
+              "done": false
+            },
+            {
+              "title": "Provide a clear application path without requiring an organisation account",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/kivvi/blob/c6035009a71a5a0045e6fec3e6b502bccce75896/apps/web/messages/en.json"
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-09-21",
+          "done": "Fixed a lost-update race that could leave a paying Cloud subscriber on the free plan (Stripe webhooks now merge company settings via Postgres `jsonb ||` instead of read-modify-write), documented the three previously-undocumented Stripe env vars, and repaired the pre-commit hook that ENOENT'd on every apps/web change — PR #109 merged, CI green, Deploy green for cdb78d2."
+        },
+        {
+          "date": "2026-09-21",
+          "done": "Fixed a lost-update race that could leave a paying Cloud subscriber on the free plan (Stripe webhooks now merge company settings via Postgres `jsonb ||` instead of read-modify-write), documented the three previously-undocumented Stripe env vars, and repaired the pre-commit hook that ENOENT'd on every apps/web change."
+        },
+        {
+          "date": "2026-07-06",
+          "done": "Stood up the Kivvi↔Loki agent bus (agent-msg CLI + inbox auto-check hook), proved the round-trip over BOTH the file-inbox and the pending_commands queue channel, locked the collaboration protocol, and retired a case-drift session-file duplicate."
+        },
+        {
+          "date": "2026-06-18",
+          "done": "(prev) Fixed root `npx tsc --noEmit` probe (9007da7). This turn: ran full diagnostic sweep, confirmed all authoritative checks green, no actionable autopilot work — handing back."
+        },
+        {
+          "date": "2026-06-15",
+          "done": "Stripped 14 throwaway audit/prod/refresh screenshot JPGs (~1.2MB) that the unpushed selfhost commit (bdbcb71) accidentally bundled into the repo root alongside its real 4-line DB_SSL change. Amended that commit to its intended content only (now 648edf0), kept the jpgs on disk, and hardened .gitignore to mirror the existing /*.png screenshot rule with /*.jpg + /*.jpeg (commit 7891746)."
+        }
+      ],
+      "records": {
+        "roadmap": "goals",
+        "changelog": "dev_log",
+        "source": {
+          "roadmap": null,
+          "changelog": null
+        }
+      },
+      "next": "Putting the CHF 49/mo price live in Stripe and setting STRIPE_PRICE_ID/STRIPE_SECRET_KEY/STRIPE_WEBHOOK_SECRET on the box is the owner's step (dashboard access needed); the code path behind it is now correct and the vars are documented in .env.example.",
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "error",
+          "at": "2026-09-21T04:01:12.805Z"
+        },
+        "lastLog": {
+          "date": "2026-09-21",
+          "done": "Fixed a lost-update race that could leave a paying Cloud subscriber on the free plan (Stripe webhooks now merge company settings via Postgres `jsonb ||` instead of read-modify-write), documented the three previously-undocumented Stripe env vars, and repaired the pre-commit hook that ENOENT'd on every apps/web change — PR #109 merged, CI green, Deploy green for cdb78d2."
         }
       }
     },
@@ -4450,14 +4579,14 @@
       },
       "next": null,
       "now": {
-        "openRuns": 0,
+        "openRuns": 2,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-10-17T21:37:12.108Z"
+          "at": "2026-10-21T22:06:03.229Z"
         },
         "lastLog": {
-          "date": "2026-10-17",
-          "done": "No substrata change: the home \"33\" button works (opens its \"How this is computed\" popover, verified in headless Chromium on desktop and phone); Loki watch mode flagged it because it only counts a URL change or network request as an effect, so the fix belongs in loki widget/watch.ts, not substrata."
+          "date": "2026-10-21",
+          "done": "Made chat response container scrollable with touch support and bottom padding, and adjusted companion viewport height calculation and viewport metadata to prevent mobile keyboard overlap."
         }
       }
     },
@@ -4849,7 +4978,7 @@
     {
       "slug": "biaslens",
       "name": "BiasLens",
-      "what": "Media bias analysis engine. Shows evidence before conclusions, separates fact from framing, measures uncertainty, and surfaces missing perspectives — every score explainable, reproducible, and challengeable. The \"Bloomberg Terminal for media analysis.\"",
+      "what": "Open-source, evidence-first analysis of media, historical narratives and public arguments. The first working slice takes an article URL or pasted text and produces a provisional, first-principles analysis. It separates an article's factual, normative and causal claims, notes apparent support inside the text, surfaces possible framing and explains what new evidence could change the assessment.",
       "stack": null,
       "layer": "next",
       "status": "not live",
