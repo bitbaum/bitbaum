@@ -19,7 +19,7 @@
     "check:contrast": "node site/check-contrast.mjs"
   },
   "dependencies": {
-    "@bitbaum/chatkit": "^0.11.0",
+    "@bitbaum/chatkit": "^0.12.0",
     "@bitbaum/design-tokens": "1.1.0",
     "bip-kit": "^0.6.0",
     "listkit": "github:bitbaum/listkit#69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525",
