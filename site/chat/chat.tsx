@@ -42,7 +42,7 @@ function safeUrl(raw: unknown): string | null {
 function transcript(messages: ChatMessageData[]): string {
   return messages
     .filter((m) => !m.failed)
-    .map((m) => `${m.role === "user" ? "Visitor" : (m.speaker?.name ?? "Answer")}: ${richAnswerText(m.content)}`)
+    .map((m) => `${m.role === "user" ? "Visitor" : (m.speaker?.name ?? "Answer")}: ${m.role === "assistant" ? richAnswerText(m.content) : m.content}`)
     .join("\n\n");
 }
 
@@ -138,7 +138,7 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
             .slice(-12)
             .map((m) => ({
               role: m.role,
-              content: ((m.role === "assistant" && m.speaker ? `${m.speaker.name}: ` : "") + richAnswerText(m.content)).slice(0, 2000),
+              content: ((m.role === "assistant" && m.speaker ? `${m.speaker.name}: ` : "") + (m.role === "assistant" ? richAnswerText(m.content) : m.content)).slice(0, 2000),
             })),
           url: location.href.slice(0, 1000),
           pageTitle: document.title.slice(0, 300) || undefined,
