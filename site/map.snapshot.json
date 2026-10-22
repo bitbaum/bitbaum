@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22T19:48:34.059Z",
+  "generatedAt": "2026-10-22T21:54:22.476Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -696,7 +696,7 @@
       "changelog": [
         {
           "date": "2026-10-22",
-          "done": "Every page was rebuilt to one bar, written down in docs/development/design-reset-2026-10.md: the way Claude, ChatGPT and Grok look on a phone.\nLists are rows, not boxes. {#rows} Projects, prompts, feedback, people, goals, habits, events, money, chats and sessions are lists of rows. Each row has a name, one grey line and one fact on the right, with no badges stacked under it and no card inside a card. Headings are sentence case, with no letter-spaced capitals and no explaining sentence under every title.\nOne action per page, in the same place. {#one-action} The page's one action is the round button at the top right, as \"new chat\" is in Claude. Everything else is in a row's \"…\" menu. Nothing sticks to the screen but the top bar, the bottom bar and the box you type in, so Projects no longer has a third of the screen pinned.\nProjects read as names. {#project-names} A project with no title shows as words (\"Murphys bar\"), not its folder (\"murphys-bar\"), everywhere.\nThe bell counts what still needs you. {#bell-earlier} Old notifications fold under \"Earlier\" and no longer count, so a nudge from four weeks ago stops showing \"9+\". A repeat of an alert you forgot is raised again instead of being swallowed by the old one.\nHome answers three questions. {#home-rows} What needs you, what is being built and what went quiet, each as rows with the reason in words (\"Stopped: Claude hit its limit\"), under the one box where work starts.\nSend to terminal works for every project. {#send-any-project} A project with only a repository and no folder now starts or queues its agent, as every other send does, instead of failing with \"no running agent\". Run with Loki shows the answer as it is written, with Stop and Try again, and a prompt's blanks are never sent as {{project_name}}.\nFixes found on the way. {#reset-fixes} An event without a deadline can be added again, events with a date and place are listed by that date, an ask with nobody on it can be given to someone, the /fleet filters open on a computer, the public home page's headline no longer waits for an animation to appear, and a project's \"What changed\" is newest first."
+          "done": "Every page was rebuilt to one bar, written down in docs/development/design-reset-2026-10.md: the way Claude, ChatGPT and Grok look on a phone.\nLists are rows, not boxes. {#rows} Projects, prompts, feedback, people, goals, habits, events, money, chats and sessions are lists of rows. Each row has a name, one grey line and one fact on the right, with no badges stacked under it and no card inside a card. Headings are sentence case, with no letter-spaced capitals and no explaining sentence under every title.\nOne action per page, in the same place. {#one-action} The page's one action is the round button at the top right, as \"new chat\" is in Claude. Everything else is in a row's \"…\" menu. Nothing sticks to the screen but the top bar, the bottom bar and the box you type in, so Projects no longer has a third of the screen pinned.\nProjects read as names. {#project-names} A project with no title shows as words (\"Murphys bar\"), not its folder (\"murphys-bar\"), everywhere.\nThe bell counts what still needs you. {#bell-earlier} Old notifications fold under \"Earlier\" and no longer count, so a nudge from four weeks ago stops showing \"9+\". A repeat of an alert you forgot is raised again instead of being swallowed by the old one.\nHome answers three questions. {#home-rows} What needs you, what is being built and what went quiet, each as rows with the reason in words (\"Stopped: Claude hit its limit\"), under the one box where work starts.\nSend to terminal works for every project. {#send-any-project} A project with only a repository and no folder now starts or queues its agent, as every other send does, instead of failing with \"no running agent\". Run with Loki shows the answer as it is written, with Stop and Try again, and a prompt's blanks are never sent as {{project_name}}.\nMissions and Settings finish the job. {#reset-last-pages} Missions is a search row and one row per project, and a mission's page is Objective, Next move, Roadmap, Latest handoff and Recent runs — progress still \"reported\", never verified. In Settings, Billing, Projects, Team and Privacy are rows too: projects move up and down from their menu (there was no way to drag on a phone), invitation links are copied, never shown as addresses, and the PIN forms open in a sheet.\nFixes found on the way. {#reset-fixes} An event without a deadline can be added again, events with a date and place are listed by that date, an ask with nobody on it can be given to someone, the /fleet filters open on a computer, the public home page's headline no longer waits for an animation to appear, a project's \"What changed\" is newest first, a request an agent received and then went silent on says \"the agent went quiet\" on the project page as Watch does, and Suggestions shows an avenue's best five instead of thirty \"Put it online\" rows."
         },
         {
           "date": "2026-10-20",
@@ -1105,7 +1105,7 @@
       "changelog": [
         {
           "date": "2026-10-22",
-          "done": "Draft switching protects unsaved writing. If device storage cannot save, your current draft stays open for retry. Clearing a draft also clears its saved text instead of restoring an older version after navigation.\nCat's editor suggestions open the editor. Recognized Open shortcuts go directly to real creation pages. Automatic memory skips one-off writing requests and routine app praise, checks duplicates within each batch, and respects unavailable memory controls. Several new notes stay compact; failed Undo is visible and memories have a direct review link.\nMessages work with keyboard and touch. New Message closes with Escape and restores focus, the Unread filter says what it shows, and conversation search tolerates typing slips. Failed inquiries offer Retry. The composer clears the mobile bar without a second blank band; shared fields are readable on phones and required textareas enforce validation. A slow session-sync request no longer sends a signed-in reader back to sign-in.\nYour articles remain yours to open and edit. Private article reads, edit/delete controls and profile article lists now use the same author identity as publishing. Followers-only articles check the follow relationship. Writing uses a focused application workspace; published readers remain public.\nProfile setup is a choice. Wallet connection is suggested when you need payments, without a Critical badge. Setup controls fit smaller screens, and Show more actually reveals the remaining tasks. Generated identifiers stay out of the welcome heading. The mobile menu and Create sheet support keyboard dismissal and focus management.\nPosts require your own signed-in identity. The older post writer now checks authorship inside the database function, including requests made directly to its API.\nRequest and Send start from your people. Under From and To, before you type, the people you follow, who follow you and whoever you have asked or been asked by — each row saying why they are there. From the first letter the list narrows, and every account with a handle is found, not only the ones that wrote a bio: the person you followed this morning was invisible to the shared search, which lists a profile only once it has said something about itself. While the list has rows, \"nobody goes by @me\" stays quiet.\nReceive is your code, nothing else. \"Add an amount\" is gone from under the QR: the code says who you are, the payer types what they owe on the page it opens, and a figure you want from a particular person is a Request. The link under the code no longer wraps a raw BTC decimal across two lines.\nWallets: the in-app Receive button is monochrome like every in-app action, the page is called Wallets, and every wallet carries the same mark instead of an emoji.\nHome is easier to read on a phone. Long suggestion and project names wrap, recent activity shares the dashboard's section layout, and the Cat tab replaces the floating button on mobile pages with a bottom bar. Project updates keep their source and full text behind “Read update”. Draft counts stay current; status copy describes Cat approvals rather than claiming nothing is waiting. Failed suggestion dismissals are reported, and cached suggestions no longer propose listing bitcoin as a rentable item.\nRequest and Send find the person as you type. The field used to resolve an exact username after a pause, so \"m\" produced \"Nobody goes by @m\". Now a list of people appears under the field from the same typo-tolerant search as ⌘K; tap one and the handle is filled in.\nWriting starts with your words. The article editor leads with the title and body, with AI tools and cover details available when needed. Drafts flush before leaving the page, and failed local saves are visible. The article list keeps its Write label on phones.\nOne Cat mark across the app. Cat's launcher, navigation and chat now use the same mark as the header. Install icons are versioned from that mark, and the app refreshes brand files instead of keeping old images indefinitely. The mobile Create button offers both Article and Post.\nWrite an article from Create. Article appears alongside Post in the header menu, mobile sheet and Create page. Cat links directly to the article editor without requiring a project. The header menu now supports keyboard navigation and keeps its choices within the available screen space."
+          "done": "A person who cannot receive Bitcoin is no longer a dead end on Send. The note now says why — they have not added a Bitcoin wallet, so a payment has nowhere to land — and under it, one line: \"Message Marco to suggest adding one\". It opens your conversation with them with a short, friendly message already written, including a link that shows how to get a wallet. Nothing is sent until you press send, and you can change the words.\nDraft switching protects unsaved writing. If device storage cannot save, your current draft stays open for retry. Clearing a draft also clears its saved text instead of restoring an older version after navigation.\nCat's editor suggestions open the editor. Recognized Open shortcuts go directly to real creation pages. Automatic memory skips one-off writing requests and routine app praise, checks duplicates within each batch, and respects unavailable memory controls. Several new notes stay compact; failed Undo is visible and memories have a direct review link.\nMessages work with keyboard and touch. New Message closes with Escape and restores focus, the Unread filter says what it shows, and conversation search tolerates typing slips. Failed inquiries offer Retry. The composer clears the mobile bar without a second blank band; shared fields are readable on phones and required textareas enforce validation. A slow session-sync request no longer sends a signed-in reader back to sign-in.\nYour articles remain yours to open and edit. Private article reads, edit/delete controls and profile article lists now use the same author identity as publishing. Followers-only articles check the follow relationship. Writing uses a focused application workspace; published readers remain public.\nProfile setup is a choice. Wallet connection is suggested when you need payments, without a Critical badge. Setup controls fit smaller screens, and Show more actually reveals the remaining tasks. Generated identifiers stay out of the welcome heading. The mobile menu and Create sheet support keyboard dismissal and focus management.\nPosts require your own signed-in identity. The older post writer now checks authorship inside the database function, including requests made directly to its API.\nRequest and Send start from your people. Under From and To, before you type, the people you follow, who follow you and whoever you have asked or been asked by — each row saying why they are there. From the first letter the list narrows, and every account with a handle is found, not only the ones that wrote a bio: the person you followed this morning was invisible to the shared search, which lists a profile only once it has said something about itself. While the list has rows, \"nobody goes by @me\" stays quiet.\nReceive is your code, nothing else. \"Add an amount\" is gone from under the QR: the code says who you are, the payer types what they owe on the page it opens, and a figure you want from a particular person is a Request. The link under the code no longer wraps a raw BTC decimal across two lines.\nWallets: the in-app Receive button is monochrome like every in-app action, the page is called Wallets, and every wallet carries the same mark instead of an emoji.\nHome is easier to read on a phone. Long suggestion and project names wrap, recent activity shares the dashboard's section layout, and the Cat tab replaces the floating button on mobile pages with a bottom bar. Project updates keep their source and full text behind “Read update”. Draft counts stay current; status copy describes Cat approvals rather than claiming nothing is waiting. Failed suggestion dismissals are reported, and cached suggestions no longer propose listing bitcoin as a rentable item.\nRequest and Send find the person as you type. The field used to resolve an exact username after a pause, so \"m\" produced \"Nobody goes by @m\". Now a list of people appears under the field from the same typo-tolerant search as ⌘K; tap one and the handle is filled in.\nWriting starts with your words. The article editor leads with the title and body, with AI tools and cover details available when needed. Drafts flush before leaving the page, and failed local saves are visible. The article list keeps its Write label on phones.\nOne Cat mark across the app. Cat's launcher, navigation and chat now use the same mark as the header. Install icons are versioned from that mark, and the app refreshes brand files instead of keeping old images indefinitely. The mobile Create button offers both Article and Post.\nWrite an article from Create. Article appears alongside Post in the header menu, mobile sheet and Create page. Cat links directly to the article editor without requiring a project. The header menu now supports keyboard navigation and keeps its choices within the available screen space."
         },
         {
           "date": "2026-10-21",
@@ -1228,6 +1228,44 @@
         "vision": "Solon envisions a future where governance is transparent, auditable, and secure, using blockchain technology and cryptographic methods."
       },
       "roadmap": [
+        {
+          "title": "The law as data: every law in Switzerland and Liechtenstein {#law}",
+          "line": "The law of every authority, as the publisher published it: who enacted it, from",
+          "status": "in progress",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The register of what exists: every act of the Confederation, the cantons and Liechtenstein, with its number, names and official link, and a coverage page counted from the data {#law-register}",
+              "done": false
+            },
+            {
+              "title": "Federal text from Fedlex, every act in force, checked against the publisher every day {#law-federal}",
+              "done": false
+            },
+            {
+              "title": "Liechtenstein text from gesetze.li {#law-li}",
+              "done": false
+            },
+            {
+              "title": "Cantonal text, one publisher at a time, Zürich first {#law-cantons}",
+              "done": false
+            },
+            {
+              "title": "Earlier versions of every act, and what changed between them {#law-history}",
+              "done": false
+            },
+            {
+              "title": "Municipal regulations, commune by commune {#law-communes}",
+              "done": false
+            },
+            {
+              "title": "A public API, and Causius reading the law from here with the publisher as its fallback {#law-api}",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
         {
           "title": "Every organization on its own pages",
           "line": "Most app pages still read the oldest organization. Solon governs many, so every",
@@ -1395,6 +1433,54 @@
           "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
         },
         {
+          "title": "One list of the kinds of group {#group-kinds}",
+          "line": "A town, a canton, a company, an association, a network state and a charter city",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The kinds in one config list (single source of truth), each declaring its decision rules, its membership, whether it holds money and what territory, if any, it claims",
+              "done": false
+            },
+            {
+              "title": "Places and organizations read that list; no kind is named in code anywhere else",
+              "done": false
+            },
+            {
+              "title": "A founding path for each kind, starting with the association and the quarter",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "A place with a common fund and a budget {#commons}",
+          "line": "A quarter such as Witikon is not a tax authority, and does not need to be one to",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A founded place holds a fund on OrangeCat that people can give to",
+              "done": false
+            },
+            {
+              "title": "The budget as a decision: lines, amounts, a period, voted by the group",
+              "done": false
+            },
+            {
+              "title": "Spending checked against the budget; the record shows what each line was used for",
+              "done": false
+            },
+            {
+              "title": "A founded place's budget set beside a commune's, line by line",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
           "title": "Mandates and receipts: decisions that carry themselves out",
           "line": "A closed decision hands a signed instruction to OrangeCat (money) or Loki",
           "status": "planned",
@@ -1415,6 +1501,32 @@
             },
             {
               "title": "Unmandated outflow from a watched treasury raises a SAFETY proposal",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Hiring a manager: contracts with success measures {#contracts}",
+          "line": "A group can hire a company to run what it needs, which hires others for waste,",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A mandate carries its terms: scope, payment, measures, end date",
+              "done": false
+            },
+            {
+              "title": "The measures, who measures them and who may dispute a reading are charter data, not code",
+              "done": false
+            },
+            {
+              "title": "Renewal, and replacement of a contractor, by vote; the record keeps the reasons",
+              "done": false
+            },
+            {
+              "title": "A contractor's subcontractors visible in the record",
               "done": false
             }
           ],
@@ -1597,6 +1709,10 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-10-22",
+          "done": "Liechtenstein is on the map. Its eleven communes and its two regions, Oberland and Unterland, are in Places, found by name and by postcode (9490 finds Vaduz). The postcodes come from swisstopo's official directory of localities, the same file the Swiss ones use. Liechtenstein has no tax model yet, so it shows no tax figures. (#277)\nPlaces can be loaded from GitHub. A hand-kept source, such as Liechtenstein's list of communes, has nothing to fetch, so the daily import skipped it and a later fetch that depends on it would have failed. A dispatch-only workflow now runs an import or a fetch on the server, dry run first. (#279)\nThe roadmap records the direction. The law as data (every law in Switzerland and Liechtenstein) is now the first item under Now, with a design and measured sizes; the roadmap also names one list of the kinds of group, founded places with a common fund and a budget, and contracts with success measures. None of these is built. See docs/design/2026-10-law-as-data.md and docs/design/2026-10-direction-notes.md."
+        },
         {
           "date": "2026-10-12",
           "done": "A place is found with a letter wrong. The search box on the map, and the name search on /places and /compare, now find a place when one letter of its name slipped — Zurihc, Winterhur, Kusnaht — and when its words are split differently (st gallen for St. Gallen). The closest name comes first, and the map's list marks the part of each name that matched. On the map, a name is now found from the start of any of its words rather than from any letters inside it. (#264)"
@@ -2149,7 +2265,7 @@
           "title": "Matters worked by an agent {#matters}",
           "line": "A matter is anything legal to be handled. The agent researches, records",
           "status": "in progress",
-          "progress": 75,
+          "progress": 79,
           "targetDate": null,
           "milestones": [
             {
@@ -2182,6 +2298,14 @@
             },
             {
               "title": "Ask up to three questions across every document of a matter, answered as a table with the passage each answer came from {#document-review}",
+              "done": true
+            },
+            {
+              "title": "The agent reads the law itself from the official sources, for no fee: Swiss federal law from Fedlex, Liechtenstein from gesetze.li and all 26 cantons through LexFind {#reads-law}",
+              "done": true
+            },
+            {
+              "title": "Every answer checked before it is shown: law needs a source, a deadline given is a deadline recorded, tool calls are made and not narrated, the answer is in the reader's language, and a turn always ends with an answer {#answer-checks}",
               "done": true
             },
             {
@@ -2222,6 +2346,76 @@
           "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
         },
         {
+          "title": "The law from Solon {#law-from-solon}",
+          "line": "Causius holds legal work; the law itself belongs in Solon, as data. Until it is",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Solon holds the acts (its register, then federal text, then Liechtenstein, then the cantons)",
+              "done": false
+            },
+            {
+              "title": "The agent asks Solon first and falls back to the publisher; an answer cites the publisher's link and Solon's hash",
+              "done": false
+            },
+            {
+              "title": "The agent tells a person when a law a matter depends on has changed, with what changed",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "The big problems, as workflows {#big-workflows}",
+          "line": "A workflow says what to establish and what to draft, never the law itself. The",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Founding a company in Switzerland or Liechtenstein: the form (GmbH, AG, sole proprietorship), capital, statutes and the founding checklist; the notarial deed, the capital deposit and the register entry are handed over to a notary, never done here {#wf-company}",
+              "done": false
+            },
+            {
+              "title": "Divorce: agreement or dispute, children, property and pensions; the petition and a draft convention; a lawyer recommended where the law and the sums call for one {#wf-divorce}",
+              "done": false
+            },
+            {
+              "title": "A notice ending a tenancy, and an eviction: which it is, the thirty days to contest, the request for an extension, the draft {#wf-termination}",
+              "done": false
+            },
+            {
+              "title": "Choosing a vehicle for an investment or an inheritance (foundation, Anstalt, company, fund) and comparing it across Switzerland, Liechtenstein, Luxembourg and Ireland: a sourced first draft, and then a licensed trustee or lawyer {#wf-vehicle}",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Law beyond Switzerland and Liechtenstein {#more-law}",
+          "line": "Switzerland and Liechtenstein are the markets. A country is added by giving it",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Luxembourg: Legilux, read as Fedlex is",
+              "done": false
+            },
+            {
+              "title": "Ireland: the Irish Statute Book, read the same way",
+              "done": false
+            },
+            {
+              "title": "The citation check recognises each market's way of citing law, so a rule quoted without a source is caught there too (today it knows Swiss and Liechtenstein forms only)",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/causius/blob/HEAD/ROADMAP.md"
+        },
+        {
           "title": "Helpers you can actually reach {#helpers}",
           "line": "Legal assistants and licensed lawyers offer their help as services on OrangeCat",
           "status": "planned",
@@ -2253,7 +2447,7 @@
               "done": false
             },
             {
-              "title": "Credentials issued by a bar itself, so the check needs no word of ours",
+              "title": "Credentials issued by a bar itself, so the check needs no word of ours. Today's attestation is a signed selective disclosure: a reviewer checked the admission, and the public sees only what the lawyer chooses. It is not yet a zero-knowledge proof, and says so",
               "done": false
             },
             {
@@ -2315,10 +2509,6 @@
               "done": false
             },
             {
-              "title": "The law cited from Solon as versioned data, rule by rule",
-              "done": false
-            },
-            {
               "title": "Law firms running Causius on models inside their own walls",
               "done": false
             }
@@ -2347,7 +2537,7 @@
       "changelog": [
         {
           "date": "2026-10-22",
-          "done": "The agent reads the law itself. For Swiss federal law it now opens the article on Fedlex, the official collection, and reads the text in force today before it states the rule. The answer cites the article with its link. This needs no search engine and no paid service, so it works when web search does not. Liechtenstein law is read the same way, from gesetze.li, the Government's consolidated collection, and the law of all 26 cantons through LexFind, from each canton's own official text. {#read-law}\nA quick check opens as a matter. Under the deadline, one tap moves the check into a sealed matter. The deadline and its sentence, the letter, the draft reply and the place come along. What the check hid from the model stays hidden. Signed out, it goes through sign-in and comes back to the check. {#letter-to-matter}\nAsk across documents. In a matter, ask up to three questions of every document at once: who pays, when it ends, what notice applies. The answers come back as a table, one row per document, and every answer quotes its passage. An answer whose quote is not in the document is dropped rather than shown. The table is saved to the matter as a draft. {#document-review}\nAnswers come in the reader's language. After reading German statutes the agent once answered an English question in German. An answer plainly in another language than the reader's is now sent back to be written again, keeping its facts and citations. {#answer-language}\nThe agent researches before it states the law. A real question on the live site was answered from memory: no search, no source, and the tool calls it should have made written into the answer as text. Every answer is now checked: one that cites law without a source, describes calls instead of making them, or gives a deadline without recording it, is sent back once (up to twice, each time to the next model in the chain); if it still fails it is shown marked \"unverified\". {#no-unsourced-law}"
+          "done": "The agent reads the law itself. For Swiss federal law it now opens the article on Fedlex, the official collection, and reads the text in force today before it states the rule. The answer cites the article with its link. This needs no search engine and no paid service, so it works when web search does not. Liechtenstein law is read the same way, from gesetze.li, the Government's consolidated collection, and the law of all 26 cantons through LexFind, from each canton's own official text. {#read-law}\nA quick check opens as a matter. Under the deadline, one tap moves the check into a sealed matter. The deadline and its sentence, the letter, the draft reply and the place come along. What the check hid from the model stays hidden. Signed out, it goes through sign-in and comes back to the check. {#letter-to-matter}\nAsk across documents. In a matter, ask up to three questions of every document at once: who pays, when it ends, what notice applies. The answers come back as a table, one row per document, and every answer quotes its passage. An answer whose quote is not in the document is dropped rather than shown. The table is saved to the matter as a draft. {#document-review}\nAnswers come in the reader's language. After reading German statutes the agent once answered an English question in German. An answer plainly in another language than the reader's is now sent back to be written again, keeping its facts and citations. {#answer-language}\nA turn no longer ends with \"I could not finish\". Free models misbehave in ways that a plain answer check does not catch: one reply asked for the same statute a hundred and fifty times, another wrote its answer as a tool call in the last round, where no tool can run. A reply now runs at most eight calls and a repeat only once, a turn at most twelve law readings and eight searches, a turn with nothing to show gets one more round, with tools off, by another model, and the best real answer of the turn is kept when a later reply is only a note of a call. {#turn-never-empty}\nSearch works again, on our own server. The search engine on the host had four sources, all four blocked for too many requests or a CAPTCHA, so every search came back empty. More free sources are switched on and a block lasts minutes instead of hours. The other engines still refuse the host, so search stays thin and the law is read from the publishers instead. No paid service is involved. {#search-again}\nThe agent researches before it states the law. A real question on the live site was answered from memory: no search, no source, and the tool calls it should have made written into the answer as text. Every answer is now checked: one that cites law without a source, describes calls instead of making them, or gives a deadline without recording it, is sent back once (up to twice, each time to the next model in the chain); if it still fails it is shown marked \"unverified\". {#no-unsourced-law}\nThe roadmap records where this is going. The law will be read from Solon as data, with the publisher as the check; the problems people bring most often (a company, a divorce, a notice ending a tenancy, choosing a vehicle for an investment) are named as workflows to build; Luxembourg and Ireland are named as the next readers; and the lawyer credential is described as what it is, a signed selective disclosure and not yet a zero-knowledge proof. None of this is built. {#roadmap-direction}"
         },
         {
           "date": "2026-10-21",
