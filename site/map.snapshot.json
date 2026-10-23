@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-23T13:15:36.191Z",
+  "generatedAt": "2026-10-23T17:24:48.773Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -20,7 +20,7 @@
   ],
   "summary": {
     "projects": 28,
-    "live": 15,
+    "live": 16,
     "clients": 1,
     "inFlight": 0
   },
@@ -1105,7 +1105,7 @@
       "changelog": [
         {
           "date": "2026-10-23",
-          "done": "The money screens are set like they matter. The amount is now a figure: the number large and centred, the currency small beside it, what actually moves (the Bitcoin amount) quietly beneath — on Send, Request, the pay page, the receipt and every request row. Receive is a poster rather than a box in a box: your name, then the code, with the Cat in its middle (it still scans), then Copy link · Share. Every way to be paid carries a round mark, and the Bitcoin one is the only orange. A confirmation draws its ring and tick instead of dropping in. People with no name show their handle once instead of twice. Underneath: stacked lines no longer carry a hidden 12px gap.\nBookings distinguish an empty list from a failed load. Retry restores a failed request, view choices share one control, and history filters cannot hide incoming or confirmed bookings.\nCat’s editor directions open the editor. Known creation paths and named editor suggestions become direct links, including answers that show a path as plain text. Duplicate editor suggestions collapse into one action.\nAsk Cat without an automatic upgrade pitch. Writing, creating or using another language no longer triggers a model promotion just because of keywords. Model choices remain available in AI settings.\nA request you paid now says Paid. Until now a request stayed Pending, with a Pay button, for both people — even after the money had moved, which invited paying twice. The pay link from a request now names it, so the payment answers it: the request turns Paid, the person who asked is told who paid and for what, and opening the old link shows \"This request is already paid\" instead of an empty form. A payment smaller than the ask leaves it open.\nA send that times out no longer invites a second payment. Lightning has no cancel, so a timeout can still go through. Send used to drop you back on the filled-in form with the button live; it now stops on \"Not confirmed yet\", asks you to check your wallet, and starts clean.\nSend says it before you type an amount. Your own name now reads \"That's you\", and someone who can only be paid on-chain gets a link to their pay page instead of a refusal after the review step.\nDead ends say why, and offer a person-to-person way forward. The pay page for someone with no wallet now reads the same as Send, with the same one-line way to message them.\nNotifications count in your currency. \"Lena asked you for CHF 20.00\" and \"You were paid CHF 5.00\" instead of BTC decimals; a request you asked for tells you who paid it.\nAsk Cat from Home with the same composer as chat. Type or dictate your intent, then open Cat with your words intact. Home no longer opens the keyboard automatically; chat actions follow the app’s monochrome button style.\nTask filters apply what you choose. Type and archived choices now reach the API. Filter controls have labels, phone actions keep their names, tasks open with keyboard-accessible links, and a failed list offers Retry."
+          "done": "Pay from your own wallet in one tap. If you are signed in with a wallet connected, a pay link now offers Pay from my wallet: it pays the invoice without leaving the page, and the receipt appears as before — the request turns Paid, and the person who was paid is told it was you by name. Paying from a wallet this way is the one case where they see who paid; scanning the code with any other wallet stays anonymous, and the page says so under the button. If your wallet says no, the code is still there to pay from another wallet. If it times out, the page keeps watching the same invoice and offers no second payment: Lightning has no cancel, so a retry could pay twice.\nReceive tells you when you were paid. Show your code, and when the payment lands the screen turns into a receipt — the amount in your currency, who paid and what for when that is known — with a Done to return to the code. It appears as soon as the payment is confirmed: within seconds while the payer's page stays open, and when the background check sees it if they close it. Payments sent straight to you@orangecat.ch are not seen by us and do not appear here.\nMobile sheets keep content scrolling separate from dismissal. Swipe the handle to close; scrolling the body no longer dismisses the sheet. Cancelled gestures reset, and simultaneous sheets have distinct accessible names.\nCancelling a confirmation returns keyboard focus. Shared confirmation dialogs remember their actual opener, including inbox delete buttons that are not Radix dialog triggers.\nThe money screens are set like they matter. The amount is now a figure: the number large and centred, the currency small beside it, what actually moves (the Bitcoin amount) quietly beneath — on Send, Request, the pay page, the receipt and every request row. Receive is a poster rather than a box in a box: your name, then the code, with the Cat in its middle (it still scans), then Copy link · Share. Every way to be paid carries a round mark, and the Bitcoin one is the only orange. A confirmation draws its ring and tick instead of dropping in. People with no name show their handle once instead of twice. Underneath: stacked lines no longer carry a hidden 12px gap.\nBookings distinguish an empty list from a failed load. Retry restores a failed request, view choices share one control, and history filters cannot hide incoming or confirmed bookings.\nCat’s editor directions open the editor. Known creation paths and named editor suggestions become direct links, including answers that show a path as plain text. Duplicate editor suggestions collapse into one action.\nAsk Cat without an automatic upgrade pitch. Writing, creating or using another language no longer triggers a model promotion just because of keywords. Model choices remain available in AI settings.\nInstall metadata points to supported app resources. The manifest no longer advertises missing screenshots, dead payment-protocol pages or an unimplemented file-opening flow. Generated icon files stay unchanged, and duplicate metadata has been removed.\nShort-post drafts keep your latest words. Closing the composer saves immediately. Drafts are separated by account and reply, storage errors offer Retry save, and older device-wide writing requires consent before private recovery.\nA request you paid now says Paid. Until now a request stayed Pending, with a Pay button, for both people — even after the money had moved, which invited paying twice. The pay link from a request now names it, so the payment answers it: the request turns Paid, the person who asked is told who paid and for what, and opening the old link shows \"This request is already paid\" instead of an empty form. A payment smaller than the ask leaves it open.\nA send that times out no longer invites a second payment. Lightning has no cancel, so a timeout can still go through. Send used to drop you back on the filled-in form with the button live; it now stops on \"Not confirmed yet\", asks you to check your wallet, and starts clean.\nSend says it before you type an amount. Your own name now reads \"That's you\", and someone who can only be paid on-chain gets a link to their pay page instead of a refusal after the review step.\nDead ends say why, and offer a person-to-person way forward. The pay page for someone with no wallet now reads the same as Send, with the same one-line way to message them.\nNotifications count in your currency. \"Lena asked you for CHF 20.00\" and \"You were paid CHF 5.00\" instead of BTC decimals; a request you asked for tells you who paid it.\nAsk Cat from Home with the same composer as chat. Type or dictate your intent, then open Cat with your words intact. Home no longer opens the keyboard automatically; chat actions follow the app’s monochrome button style.\nTask filters apply what you choose. Type and archived choices now reach the API. Filter controls have labels, phone actions keep their names, tasks open with keyboard-accessible links, and a failed list offers Retry."
         },
         {
           "date": "2026-10-22",
@@ -1232,7 +1232,7 @@
           "title": "The law as data: every law in Switzerland and Liechtenstein {#law}",
           "line": "The law of every authority, as the publisher published it: who enacted it, from",
           "status": "in progress",
-          "progress": 30,
+          "progress": 36,
           "targetDate": null,
           "milestones": [
             {
@@ -1261,6 +1261,10 @@
             },
             {
               "title": "Acts can be found and read on Solon itself, with the publisher's link, the page each copy was read from and its hash {#law-reading}",
+              "done": true
+            },
+            {
+              "title": "Search over the text of the provisions in force, ranked, each hit citing its act, anchor, publisher's page and hash; the first piece of the retrieval layer for the assistants {#law-search}",
               "done": true
             },
             {
@@ -1723,7 +1727,7 @@
       "changelog": [
         {
           "date": "2026-10-23",
-          "done": "Laws can be found and read on Solon. A new page, Find a law, searches the register by title or number and by whose law it is; each act opens with its provisions, a link to the publisher, the page the copy was read from and its hash. A version the publisher does not date says it was read on that day. {#law-reading}\nZürich's laws can be read from the canton's own collection. The loading tool takes each Zürich act's current version from ZH-Lex, the canton's PDF, with the day the canton says it took effect, and retires the first-pass reading of the same act. The constitution comes in at 139 articles, in force since 1 January\nLiechtenstein's laws are in the register. The 3,407 acts in force in the Government's Systematic Register (statutes, ordinances, notices, decrees and treaties) are listed with their LR number, their title and the Landesgesetzblatt issue that published them, beside the Swiss ones on /law/coverage and at /api/v1/law/acts?authority=li. Names and numbers only; the text from gesetze.li comes next. The communes are not listed yet. (#283) {#law-register-li}\nSolon can read Liechtenstein's laws from gesetze.li. The loading tool reads each act's consolidated page, article by article, with the page it came from and a hash that proves the copy. Lilex does not say since when a version applies, so each is dated by the day it was read and marked as such. Production is not loaded yet. (#284)\nEvery Swiss act can point to the place that publishes it. The register can now keep, for each act of the Confederation and the cantons, the address of its page at its own authority, and /api/v1/law/acts returns it as officialUrl. Production is not loaded yet. (#284)\nCantonal laws can be read as text. The loading tool reads each cantonal act's document and cuts it into articles, with the document it came from and a hash that proves the copy. This is a first pass, dated by the day it was read; the cantons' own publications will replace it canton by canton. Production is not loaded yet. (#284)\nA register of the law. Solon now lists every act of the Confederation, the 26 cantons and the intercantonal agreements: 33,441 acts, 22,047 of them in force, each with its title and its official number, read from LexFind's list and counted per authority on /law/coverage. Acts can be found by authority, number or title at /api/v1/law/acts. Only names and numbers so far: the text of the laws comes next, publisher by publisher. Liechtenstein and the communes are not listed yet. (#281) {#law-register}\nSolon can hold the text of the law. The Confederation's acts can now be read from Fedlex, article by article, with the page they came from and a hash that proves the copy, and looked up as they stood on any day a held version covers (/api/v1/law/provisions). The loading tool is built and tested on real federal acts; production is not loaded yet, so /law/coverage still shows no text held. (#282)"
+          "done": "The text of the law can be searched. GET /api/v1/law/search?q= ranks the provisions in force that match, optionally by authority or language, and each hit names the act, the article, the publisher's page and the hash of the copy, so an answer built on it can cite exactly what it read. {#law-search}\nLaws can be found and read on Solon. A new page, Find a law, searches the register by title or number and by whose law it is; each act opens with its provisions, a link to the publisher, the page the copy was read from and its hash. A version the publisher does not date says it was read on that day. {#law-reading}\nZürich's laws can be read from the canton's own collection. The loading tool takes each Zürich act's current version from ZH-Lex, the canton's PDF, with the day the canton says it took effect, and retires the first-pass reading of the same act. The constitution comes in at 139 articles, in force since 1 January\nLiechtenstein's laws are in the register. The 3,407 acts in force in the Government's Systematic Register (statutes, ordinances, notices, decrees and treaties) are listed with their LR number, their title and the Landesgesetzblatt issue that published them, beside the Swiss ones on /law/coverage and at /api/v1/law/acts?authority=li. Names and numbers only; the text from gesetze.li comes next. The communes are not listed yet. (#283) {#law-register-li}\nSolon can read Liechtenstein's laws from gesetze.li. The loading tool reads each act's consolidated page, article by article, with the page it came from and a hash that proves the copy. Lilex does not say since when a version applies, so each is dated by the day it was read and marked as such. Production is not loaded yet. (#284)\nEvery Swiss act can point to the place that publishes it. The register can now keep, for each act of the Confederation and the cantons, the address of its page at its own authority, and /api/v1/law/acts returns it as officialUrl. Production is not loaded yet. (#284)\nCantonal laws can be read as text. The loading tool reads each cantonal act's document and cuts it into articles, with the document it came from and a hash that proves the copy. This is a first pass, dated by the day it was read; the cantons' own publications will replace it canton by canton. Production is not loaded yet. (#284)\nA register of the law. Solon now lists every act of the Confederation, the 26 cantons and the intercantonal agreements: 33,441 acts, 22,047 of them in force, each with its title and its official number, read from LexFind's list and counted per authority on /law/coverage. Acts can be found by authority, number or title at /api/v1/law/acts. Only names and numbers so far: the text of the laws comes next, publisher by publisher. Liechtenstein and the communes are not listed yet. (#281) {#law-register}\nSolon can hold the text of the law. The Confederation's acts can now be read from Fedlex, article by article, with the page they came from and a hash that proves the copy, and looked up as they stood on any day a held version covers (/api/v1/law/provisions). The loading tool is built and tested on real federal acts; production is not loaded yet, so /law/coverage still shows no text held. (#282)"
         },
         {
           "date": "2026-10-22",
@@ -1820,6 +1824,76 @@
         "lastLog": {
           "date": "2026-09-25",
           "done": "Restored the four dependency bumps (next 16.3.5, react-dom/@types/react-dom 19.3.0, prettier 3.9.8, vitest 5.0.1) that closing #177-#180 had made Dependabot skip, and grouped minor/patch npm bumps plus dropped the nonexistent labels so it cannot recur — PR #185, CI verify+integration green, awaiting the repo's auto-merge workflow."
+        }
+      }
+    },
+    {
+      "slug": "biaslens",
+      "name": "BiasLens",
+      "what": "Public product name: BiasLens. Canonical product repository: bitbaum/biaslens.",
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "client": null,
+      "since": null,
+      "urls": {
+        "live": "https://biaslens.orangecat.ch",
+        "repo": "https://github.com/bitbaum/biaslens",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": "Media bias and lack of transparency in information sources, making it difficult for users to understand different perspectives and make informed decisions.",
+        "solution": "BiasLens provides a dynamic, explainable, and reproducible way to measure media bias, offering a per-article dashboard with bias scores, uncertainty metrics, and missing perspectives.",
+        "mission": "BiasLens aims to provide a transparent and explainable way to measure media bias, helping users understand different perspectives and make informed decisions.",
+        "vision": "BiasLens aspires to become a leading platform for media bias analysis, enabling users to navigate complex information landscapes with confidence."
+      },
+      "roadmap": [],
+      "changelog": [
+        {
+          "date": "2026-10-12",
+          "done": "Verified repo state and ran all checks — BiasLens at main b1f6c68, all green."
+        },
+        {
+          "date": "2026-07-17",
+          "done": "Added GET /api/claims/[id]/verify — the DB-backed twin of the POST route that loads a claim's stored Evidence via a new shared Prisma singleton and scores it with the existing pure scorer, realizing the \"scores are functions of stored evidence\" principle; added a vitest `@/*` alias config so route handlers are testable, 3 DB-free route tests, and verified end-to-end against local Postgres (seeded 2-supports/1-contradicts -> supported @ 0.67; missing id -> 404)."
+        },
+        {
+          "date": "2026-07-15",
+          "done": "Exposed the explainable claim-verification score over HTTP — POST /api/claims/verify validates evidence at the boundary against the EVIDENCE_STANCE SSOT, delegates to the pure domain scorer, and returns the full verdict (tally, confidence, algorithm id) as JSON; added verify-request parser + 6 boundary tests; verified end-to-end via curl."
+        },
+        {
+          "date": "2026-07-15",
+          "done": "Added .nvmrc pinning node 20 and an \"engines\": {\"node\": \">=20\"} field to package.json; npm run build passes (compile + lint + types green)."
+        },
+        {
+          "date": "2026-07-15",
+          "done": "Marked roadmap step 1 (toolchain bootstrap) DONE in README.md referencing 0d46066, confirmed `npm run build` still passes (compile + lint + tsc green), and committed as 9fbf768."
+        },
+        {
+          "date": "2026-07-15",
+          "done": "Bootstrapped the toolchain — npm install, App Router root (layout + placeholder page + design-token globals.css), local Postgres `biaslens` with DATABASE_URL in .env, initial Prisma migration applied and client generated; tsc, next lint, and next build all pass; committed as 0d46066."
+        }
+      ],
+      "records": {
+        "roadmap": null,
+        "changelog": "dev_log",
+        "source": {
+          "roadmap": null,
+          "changelog": null
+        }
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-10-12T08:25:59.233Z"
+        },
+        "lastLog": {
+          "date": "2026-10-12",
+          "done": "Hosted dispatch (Hermes) — no file changes — On BiasLens, do the next step the last session left: \"commit: 0d46066\". Ship it…"
         }
       }
     },
@@ -5199,76 +5273,6 @@
         "lastLog": {
           "date": "2026-09-24",
           "done": "Re-confirmed the timetable blocker is still live and traced a local-only verify crash to leftover gitignored build output from the removed microservice layout; no code change."
-        }
-      }
-    },
-    {
-      "slug": "biaslens",
-      "name": "BiasLens",
-      "what": "Open-source, evidence-first analysis of media, historical narratives and public arguments. The first working slice takes an article URL or pasted text and produces a provisional, first-principles analysis. It separates an article's factual, normative and causal claims, notes apparent support inside the text, surfaces possible framing and explains what new evidence could change the assessment.",
-      "stack": null,
-      "layer": "next",
-      "status": "not live",
-      "owner": "bitbaum",
-      "client": null,
-      "since": null,
-      "urls": {
-        "live": null,
-        "repo": "https://github.com/bitbaum/biaslens",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Media bias and lack of transparency in information sources, making it difficult for users to understand different perspectives and make informed decisions.",
-        "solution": "BiasLens provides a dynamic, explainable, and reproducible way to measure media bias, offering a per-article dashboard with bias scores, uncertainty metrics, and missing perspectives.",
-        "mission": "BiasLens aims to provide a transparent and explainable way to measure media bias, helping users understand different perspectives and make informed decisions.",
-        "vision": "BiasLens aspires to become a leading platform for media bias analysis, enabling users to navigate complex information landscapes with confidence."
-      },
-      "roadmap": [],
-      "changelog": [
-        {
-          "date": "2026-10-12",
-          "done": "Verified repo state and ran all checks — BiasLens at main b1f6c68, all green."
-        },
-        {
-          "date": "2026-07-17",
-          "done": "Added GET /api/claims/[id]/verify — the DB-backed twin of the POST route that loads a claim's stored Evidence via a new shared Prisma singleton and scores it with the existing pure scorer, realizing the \"scores are functions of stored evidence\" principle; added a vitest `@/*` alias config so route handlers are testable, 3 DB-free route tests, and verified end-to-end against local Postgres (seeded 2-supports/1-contradicts -> supported @ 0.67; missing id -> 404)."
-        },
-        {
-          "date": "2026-07-15",
-          "done": "Exposed the explainable claim-verification score over HTTP — POST /api/claims/verify validates evidence at the boundary against the EVIDENCE_STANCE SSOT, delegates to the pure domain scorer, and returns the full verdict (tally, confidence, algorithm id) as JSON; added verify-request parser + 6 boundary tests; verified end-to-end via curl."
-        },
-        {
-          "date": "2026-07-15",
-          "done": "Added .nvmrc pinning node 20 and an \"engines\": {\"node\": \">=20\"} field to package.json; npm run build passes (compile + lint + types green)."
-        },
-        {
-          "date": "2026-07-15",
-          "done": "Marked roadmap step 1 (toolchain bootstrap) DONE in README.md referencing 0d46066, confirmed `npm run build` still passes (compile + lint + tsc green), and committed as 9fbf768."
-        },
-        {
-          "date": "2026-07-15",
-          "done": "Bootstrapped the toolchain — npm install, App Router root (layout + placeholder page + design-token globals.css), local Postgres `biaslens` with DATABASE_URL in .env, initial Prisma migration applied and client generated; tsc, next lint, and next build all pass; committed as 0d46066."
-        }
-      ],
-      "records": {
-        "roadmap": null,
-        "changelog": "dev_log",
-        "source": {
-          "roadmap": null,
-          "changelog": null
-        }
-      },
-      "next": null,
-      "now": {
-        "openRuns": 0,
-        "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-10-12T08:25:59.233Z"
-        },
-        "lastLog": {
-          "date": "2026-10-12",
-          "done": "Hosted dispatch (Hermes) — no file changes — On BiasLens, do the next step the last session left: \"commit: 0d46066\". Ship it…"
         }
       }
     },
