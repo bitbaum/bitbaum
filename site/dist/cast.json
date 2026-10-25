@@ -659,13 +659,25 @@
       "horse",
       "sky"
     ],
-    "/packages/accountkit/": [
+    "/packages/chatkit/": [
+      "fog-walker",
+      "cat",
+      "moth",
+      "sky"
+    ],
+    "/packages/limitkit/": [
       "fog-walker",
       "cat",
       "scarab",
       "sky"
     ],
-    "/packages/limitkit/": [
+    "/packages/design-tokens/": [
+      "fog-walker",
+      "cat",
+      "moth",
+      "sky"
+    ],
+    "/packages/accountkit/": [
       "fog-walker",
       "cat",
       "scarab",
@@ -675,24 +687,6 @@
       "fog-walker",
       "cat",
       "snail",
-      "sky"
-    ],
-    "/packages/chatkit/": [
-      "fog-walker",
-      "cat",
-      "moth",
-      "sky"
-    ],
-    "/packages/design-tokens/": [
-      "fog-walker",
-      "cat",
-      "moth",
-      "sky"
-    ],
-    "/packages/ai-forms/": [
-      "fog-walker",
-      "cat",
-      "horse",
       "sky"
     ],
     "/packages/listkit/": [
@@ -707,6 +701,18 @@
       "horse",
       "sky"
     ],
+    "/packages/ai-forms/": [
+      "fog-walker",
+      "cat",
+      "horse",
+      "sky"
+    ],
+    "/packages/sitekit/": [
+      "fog-walker",
+      "cat",
+      "unicorn",
+      "sky"
+    ],
     "/packages/threadkit/": [
       "fog-walker",
       "cat",
@@ -719,10 +725,10 @@
       "owl",
       "sky"
     ],
-    "/packages/sitekit/": [
+    "/packages/chartkit/": [
       "fog-walker",
       "cat",
-      "unicorn",
+      "scarab",
       "sky"
     ],
     "/packages/speechkit/": [
