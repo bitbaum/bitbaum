@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T22:01:13.942Z",
+  "generatedAt": "2026-10-26T23:07:24.634Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -5149,6 +5149,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-26",
+          "done": "Tables in answers arrive as tables again. The check that removes unsourced sentences read each table row as a sentence and dropped the header row, which has no source of its own, so the reader saw \"| :--- | :--- |\" as text. A table is now judged as a table: a row stays when it cites a source, and the header stays with any row that does. A bold line at the start of a paragraph no longer loses its first asterisk either."
+        },
+        {
           "date": "2026-10-25",
           "done": "Charts now install from the released ChartKit package. Country percentages retain their world-wide scale, and the same shared figures continue to render research answers, resource rankings and profiles. Phone/desktop layouts in both themes are checked on the actual app."
         },
@@ -5223,10 +5227,6 @@
         {
           "date": "2026-09-07",
           "done": "CI caches Next's build output, and the auto-merge sweep holds a token so workflow PRs stop stalling. (#24, #25, #26)"
-        },
-        {
-          "date": "2026-09-04",
-          "done": "Green PRs merge themselves through the fleet auto-merge sweep, and the sweep reconciles deployment so a merged commit is never stranded. (#20, #22)\nDocs synced with the actual stack; the fleet's one package manager, pnpm. (#17, #19)"
         }
       ],
       "records": {
