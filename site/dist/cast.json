@@ -646,17 +646,17 @@
       "horse",
       "sky"
     ],
+    "/packages/mail-kit/": [
+      "fog-walker",
+      "cat",
+      "horse",
+      "sky"
+    ],
     "/packages/bip-kit/": [
       "fog-walker",
       "cat",
       "egg-fox",
       "kit",
-      "sky"
-    ],
-    "/packages/mail-kit/": [
-      "fog-walker",
-      "cat",
-      "horse",
       "sky"
     ],
     "/packages/chatkit/": [
