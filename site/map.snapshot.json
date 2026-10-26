@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T21:13:39.309Z",
+  "generatedAt": "2026-10-26T22:01:13.942Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -2189,6 +2189,10 @@
         {
           "date": "2026-10-26",
           "done": "The research notebook is one box. Say or type what you want to understand, or tap one of three examples, and the notebook sets out the question, its scope, the explanations to keep open and what would change your mind. Talk to the same box to change it (\"only Switzerland\", \"add an economic explanation\"), take a suggestion with one tap, or undo. Everything it wrote is marked as a draft and editable with a tap.\nA source is a link. Paste it and the page's title fills itself; \"supports, challenges or context\" is one tap, and where in the source is optional.\nSpeak to the article. The chat under a report has a microphone that works in every browser, and its first suggestions are the questions the report itself raised."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "Signing up asks for the password once. The repeat field is gone; an eye inside the password field shows what you typed instead (accountkit 0.8.0, the same in every product on it)."
         },
         {
           "date": "2026-10-25",
