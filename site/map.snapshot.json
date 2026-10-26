@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T13:36:30.945Z",
+  "generatedAt": "2026-10-26T14:33:12.358Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -1858,11 +1858,15 @@
           "title": "A report worth reading",
           "line": "Every finding points to a passage in the article, and every voice is named with",
           "status": "in progress",
-          "progress": 88,
+          "progress": 89,
           "targetDate": null,
           "milestones": [
             {
-              "title": "A test set of real Swiss and English articles, scored before and after every method change",
+              "title": "An evaluation harness and rubric that score reports before and after every method change",
+              "done": true
+            },
+            {
+              "title": "A test set of about twelve real Swiss and English articles in it",
               "done": false
             },
             {
@@ -1900,28 +1904,32 @@
           "title": "Replies you can send",
           "line": "Someone sends you an article. You send back BiasLens's reading of it, as a",
           "status": "planned",
-          "progress": 0,
+          "progress": 83,
           "targetDate": null,
           "milestones": [
             {
               "title": "Saved reports with their own link",
-              "done": false
+              "done": true
             },
             {
               "title": "A reply page made for the person receiving it",
-              "done": false
+              "done": true
             },
             {
-              "title": "Reply lengths from one line to a full dossier, chosen by occasion",
+              "title": "Reply lengths for every occasion: one line, a short brief, a full page",
+              "done": true
+            },
+            {
+              "title": "A printable dossier of a reading, for classes and letters to the editor",
               "done": false
             },
             {
               "title": "Share images for messages, posts and stories",
-              "done": false
+              "done": true
             },
             {
               "title": "Open any article by putting the BiasLens address in front of its link, or from the phone's share menu",
-              "done": false
+              "done": true
             }
           ],
           "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
@@ -1930,12 +1938,12 @@
           "title": "Who is speaking",
           "line": null,
           "status": "planned",
-          "progress": 0,
+          "progress": 50,
           "targetDate": null,
           "milestones": [
             {
               "title": "Profiles of authors, quoted people and outlets from sourced public records, with a source on every line",
-              "done": false
+              "done": true
             },
             {
               "title": "What BiasLens reports on an author's or outlet's articles show, with the number of articles and its limits stated",
@@ -1948,28 +1956,36 @@
           "title": "Rewrite studio",
           "line": null,
           "status": "planned",
-          "progress": 0,
+          "progress": 86,
           "targetDate": null,
           "milestones": [
             {
-              "title": "A neutral version of the article, each change linked to the passage it fixes",
+              "title": "A neutral version of the article that fixes the flagged passages",
+              "done": true
+            },
+            {
+              "title": "Each change in the neutral version linked to the passage it fixes",
               "done": false
             },
             {
-              "title": "A reply or op-ed answering the article",
-              "done": false
+              "title": "A response to the article: from BiasLens, as a letter to the editor, or as a draft of your own",
+              "done": true
             },
             {
-              "title": "The same facts written from stated values instead of a political label",
-              "done": false
+              "title": "The same facts written from stated values (the eight smartvote dimensions) instead of a political label",
+              "done": true
             },
             {
               "title": "\"How would this outlet write it\", always marked as a simulation",
-              "done": false
+              "done": true
+            },
+            {
+              "title": "\"How would this public figure answer it\", only for people with a public body of work, always marked as a simulation",
+              "done": true
             },
             {
               "title": "A check that a rewrite kept the original facts and added none",
-              "done": false
+              "done": true
             }
           ],
           "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
@@ -2145,6 +2161,18 @@
         {
           "date": "2026-10-26",
           "done": "Who is speaking. Every report lists the people and organisations the article quotes or cites, how the article describes them and whether they support its main claim. The author is never listed as a source.\nThe text, marked up. The article is shown with flagged passages highlighted. Tap one to see which technique it is, why it was flagged and a neutral wording.\nA published technique catalogue. Sixteen techniques, from a claim without a source to a poll without a sample size, each with what counts and what does not, on the method page.\nThe numbers. Figures are listed with whether the article names a source, a sample size or a comparison, and figures that do not match each other are flagged.\nPDFs. Paste a link to a PDF, such as a press clipping, or upload one; its text appears in the paste box to check before examining.\nReport in your language. Headings and text follow the report language, including Swiss German with Swiss spelling, and the language is preselected from your browser.\nProgress while it works. The page says which step the examination is on.\nClaims belong to whoever made them. An explanation offered by a quoted expert is shown as that expert’s, not the article’s.\nQuotes survive copy-paste. A passage is found even when quotation marks, dashes, spaces or line breaks differ; a changed word still fails.\nNo political labels. BiasLens no longer applies left/right or similar labels in its own voice; the rule and its word list are on the method page.\nSecond sign-in factors apply everywhere. An account with two-factor sign-in now asks for it whichever way the person signs in."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "Every reading has a link. A finished report is saved, without the article text, so it can be opened again and shared. The same text examined again opens the saved reading at once.\nSend a reply. Choose who it is for (a friend, a group chat, the author, a public post, a disagreement, a class), a length and what to include, and see exactly what will be sent before creating the link.\nA page for the person who receives it. It opens on their article and the three findings they can check against its own words, with an optional “guess first” question, the sender’s note and a way to reply back.\nShare images. Every reading and reply has a link preview image and downloadable square and story images that carry “AI reading · not a fact check” in the picture itself.\nMore ways in. Put the BiasLens address in front of any article link, open /analyze?u= with a link, or install BiasLens and use “Share → BiasLens” from a news app on Android."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "The same facts, told another way. Under every reading: rewrite the article as a neutral report, from one or two stated values (the smartvote dimensions), as a chosen outlet would have written it, or as a public figure might — or write a response to it from BiasLens, as a letter to the editor, or as your own reply.\nLabels that cannot be lost. Every text says who wrote it. An outlet or person is always marked “Simulation · not written by …”, and that label is written by BiasLens, not by the model.\nOnly public figures. A person can be simulated only if Wikidata shows a public figure with a public body of work; private people never are, two people with the same name are not guessed between, and anyone can ask to be left out.\nWhat the framing did to the facts. A rewrite of the article is checked against the original: how many of its facts were kept, which were changed or left out, and any fact that was added.\nSend it. A rewrite can go out with a reply, and the person who receives it sees it with its label and the facts check."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "Tap a name. Authors, quoted people and the outlet in a report open a profile: occupation, employer, offices, recorded party membership, owner and the owner’s owner, founding year, and the opening of the Wikipedia article — every line linked to its source on Wikidata.\nNo guessing. A name is linked only when the article’s own description of the person matches the record; when two people fit, the reader chooses. BiasLens adds no rating or label of its own, and every profile has a way to report a mistake."
         },
         {
           "date": "2026-10-25",
