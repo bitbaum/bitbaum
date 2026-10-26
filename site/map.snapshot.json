@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-25T13:20:08.725Z",
+  "generatedAt": "2026-10-26T05:18:21.177Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 28,
     "live": 16,
     "clients": 1,
-    "inFlight": 2
+    "inFlight": 0
   },
   "projects": [
     {
@@ -2638,6 +2638,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-25",
+          "done": "Account screens now use the shared AccountKit forms, including password recovery and reset, while retaining Causius's languages, profession labels and return routes.\nWhat changed for the people who use Causius, newest first. Every entry comes from a change merged into this repository; where there is a number in brackets, it is the pull request to read for the detail."
+        },
+        {
           "date": "2026-10-24",
           "done": "The agent finds the law by what it says. It no longer needs to know the act or article. It searches Solon's copy of the law of the Confederation and of every place the question names, and reads the provisions that answer it. Ask whether something is allowed in one canton, then in another, and each answer rests on that canton's own text. {#law-search}"
         },
@@ -4802,6 +4806,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-25",
+          "done": "Charts now install from the released ChartKit package. Country percentages retain their world-wide scale, and the same shared figures continue to render research answers, resource rankings and profiles. Phone/desktop layouts in both themes are checked on the actual app."
+        },
+        {
           "date": "2026-10-12",
           "done": "A chain reads as a page on a phone. The pull-up sheet is gone from the chains view below laptop width. A phone now reads top to bottom: what the chain is, \"Full evidence\" and \"On the globe\" once, the route in one strip you can tap along, its makers in a line, one row of tabs pinned under the top bar, and the reading at full width — no grip, no second scroll, no 3 × 2 tab grid taking a quarter of the screen. A tablet shows the diagram with the reading under it; a laptop keeps the panel beside the diagram. The figures are one row of numbers instead of boxes, and money's answer is one word with the reasoning above it. (#178)\nTwo more ways to shade the globe. The legend's picker now offers Historical trend (each country's production change between the two years USGS prints) and Risk heat-map (how many export restrictions the OECD inventory records on the resource, per country), beside Production volumes and Reserves. Trade flows and environmental impact zones are listed as not yet available: no sourced figures for them are on file. (#177)\nEvery chain, read six ways. The panel beside a chain now has six tabs: Overview, Markets, Research, Money, People and Policy. Each says what the chain means from that side, in sentences built from the records, then the few figures that carry it, the records behind it, and the page that holds all of it. Markets names the listed makers by ticker and what a stop would reach; Research, how far along each way around it is; Money, whether money is the constraint at all; People, the work it needs and where to train for it; Policy, the rules that touch it and the restrictions on its raw material. A tab is a link, so a reading can be shared, and it stays chosen as you walk the chain. (#176)\nA fuller description of each chain. The overview now leads with why the thing binds, the grade that actually ships, the four tests behind its severity score in words, and what has happened to it. (#176)\nProducer sites on the globe. Pick a resource on the world view and every mine, smelter and refinery the USGS Minerals Yearbook lists for it appears where it is: about a thousand locations in 37 countries, placed from GeoNames. A solid dot is the facility or its town; an open ring means only the province is known. Click one and the globe flies in and the panel lists who operates what there, at what capacity, with both sources. (#175)\nA chain, laid over the Earth. \"On the globe\" on any chain draws it across the world: one line from where each input is made to where the step that needs it is made, with a light running the way material moves, and numbered labels that match the list beside it. EUV scanners: optics from Germany and tin from China, Peru and Indonesia into the Netherlands, then on to foundries and packaging in Taiwan. (#175)\nWhat you can do, by reader. Every chain now ends with one row each for equity investors, commodity traders, industry teams, job seekers and learners, each built from the records and linking to the page that serves them. (#174; folded into the six readings in #176, each naming the reader it serves most)\nThe globe says where. Picking a resource labels its largest producers in place (\"Australia · 32%\") and turns to face them; a clicked country is reached by a flight that lands with a ring. (#174)\nClearer headings, no tiny text on the map. The map is titled \"Global Resource Map – Location, Production, and Supply-Chain Connections\"; on the chain diagram the column headings are larger and bold and the \"Made by\" headings lighter; no label on the map is below 12px; the sidebar's Explore heading says what is inside. (#177)\nThe chain is a route, not a hub. The diagram now shows every step two levels up and down — for leading-edge foundries, quartz and polysilicon into wafers, scanners, helium, neon and photoresist, into the foundries, into packaging — left to right in the order material moves. Makers sit inside the bottleneck they build. (#175)\nThe chain reads in plain words. A maker opens beside the diagram instead of leaving the map, and the panel says in sentences what the chain tells us. (#173)\nOne slip still finds it. A mistyped name now finds what was meant in the globe's country finder (\"Liechtenstien\"), the ⌘K page list (\"expsoure\") and the filter boxes on Exposure, Data series and your desk (\"wolfsped\"), where one wrong letter used to return nothing; the matched part of each name is marked. Site search already forgave typos and now also forgives one in the word still being typed (\"photres\") and in a word the site has only as the start of longer ones (\"canno\" finds Canon). Filter boxes now match the start of each typed word, in any order, rather than one run of letters anywhere. (#179)\nNo line runs through the makers. The old diagram drew the bottleneck's connector straight through the cards of its part suppliers. (#175)"
         },
@@ -4876,10 +4884,6 @@
         {
           "date": "2026-09-04",
           "done": "Green PRs merge themselves through the fleet auto-merge sweep, and the sweep reconciles deployment so a merged commit is never stranded. (#20, #22)\nDocs synced with the actual stack; the fleet's one package manager, pnpm. (#17, #19)"
-        },
-        {
-          "date": "2026-08-31",
-          "done": "TypeScript 6, ESLint 10, Node 24 in CI and on the box, a formatter, and sitekit 0.3.0 for a fix this repo could not make. (#11, #12, #13, #15, #16)"
         }
       ],
       "records": {
@@ -4892,10 +4896,10 @@
       },
       "next": null,
       "now": {
-        "openRuns": 2,
+        "openRuns": 0,
         "lastRun": {
           "outcome": "partial",
-          "at": "2026-10-22T02:09:33.010Z"
+          "at": "2026-10-25T09:14:49.286Z"
         },
         "lastLog": {
           "date": "2026-10-21",
