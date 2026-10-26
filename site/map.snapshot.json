@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T17:09:25.458Z",
+  "generatedAt": "2026-10-26T18:03:49.721Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -2471,6 +2471,10 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-10-26",
+          "done": "Expanded each package page with source-pinned API documentation and examples, repository changelogs and published release notes, section navigation and linked declared consumers. Release facts and current-source documentation are distinguished, and missing history is shown honestly.\nPackage source failures stop a fresh publish. Expanded-documentation browser checks cover phone/desktop widths and both themes before publication."
+        },
         {
           "date": "2026-10-08",
           "done": "A studio request or partner application has no account; its private link is the key. Now the link also goes to the email given — at the start, or added later in the same conversation — and the portal page has \"Lost the link?\": the address you gave gets a fresh link to every open request under it, and the old one stops working (Loki /api/studio-recover)."
