@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T18:12:32.983Z",
+  "generatedAt": "2026-10-26T19:24:09.679Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -2177,6 +2177,14 @@
         {
           "date": "2026-10-26",
           "done": "No invented figures. A neutral rewrite of an article that cites a poll without its sample once supplied a sample size and a margin of error the article never gave. A rewrite now says when the article leaves something out instead of filling the gap, and when the facts check finds an added fact the text is sent back once to remove it. The check shown is always the one of the text you read. Suggested rewordings in a report follow the same rule."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "Nothing else is asked. No display name, and a password needs 8 characters instead of 12, with no other rule. The same change reaches every product on the shared account package (accountkit 0.7.0), so signing up looks and works the same everywhere."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "Registration confirms the chosen password before submitting and offers show/hide controls. The shared account forms also include Spanish labels.\nWhat changed for people using BiasLens, newest first."
         },
         {
           "date": "2026-10-25",
