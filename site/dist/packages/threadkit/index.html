@@ -76,7 +76,7 @@ addEventListener("error", function (e) {
     </div>
   </header>
   <main id="main">
-    <section data-lodge class="stage stage-floored venture-hero">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
       <div class="wrap">
         <span class="eyebrow">Package &middot; MIT</span>
         <h1 class="display-1">threadkit</h1>
@@ -90,7 +90,10 @@ addEventListener("error", function (e) {
       </div>
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-scarab" aria-hidden="true"><span class="scarab"><img class="fig fig-scarab" src="/art/scarab.webp" width="360" height="133" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="sunball"><img class="fig fig-sunball" src="/art/sunball.webp" width="360" height="360" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
-    <section class="wrap venture-body">
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
       <div class="prose">
         <h2>Why it exists</h2><p>A chat that special-cases the assistant becomes a second permissions system. The assistant sees things the person cannot, or the person sees the assistant's notes. Both are bugs.</p>
         <h2>How it works</h2><p>A thread is a set of participants. Unread is per person. An AI can be a participant, and it sees exactly what its participation allows, which is the same rule as everyone else. No markup, no transport: the app keeps those.</p>
@@ -98,12 +101,91 @@ addEventListener("error", function (e) {
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Latest version</span><span>v0.1.1</span></div>
+        <div><span class="label">Registry release</span><span>v0.1.1</span></div>
         <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add threadkit@^0.1.1" aria-label="Copy install command"><code>pnpm add threadkit@^0.1.1</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/threadkit">bitbaum/threadkit</a></span></div>
-        <div><span class="label">Used by</span><span>5 apps</span></div>
-        <div class="uses" id="used-by"><span class="label">Used by</span><div class="chips"><a href="/heidi/">Heidi</a><a href="/orangecat/">OrangeCat</a><a href="/skif/">Skif</a><a href="/substrata/">Substrata</a><span>1 private project</span></div></div>
+        <div><span class="label">Declared consumers</span><span>5 repositories</span></div>
+
       </div>
+    </section>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/threadkit/blob/90ee7b1fb106483eb9c345dbbff6439530e10902/">source commit <code>90ee7b1fb106</code></a> · 2026-10-24. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-the-idea">The idea</a></li><li><a href="#api-why-this-matters-more-than-it-sounds">Why this matters more than it sounds</a></li><li><a href="#api-what-you-get">What you get</a></li><li><a href="#api-ai-as-a-participant">AI as a participant</a></li><li><a href="#api-bring-your-own-storage">Bring your own storage</a></li><li><a href="#api-api">API</a></li><li><a href="#api-licence">Licence</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Headless multi-participant message threads, with AI participants that obey the same rules as everyone else.</p>
+<p>No UI, no database, no SDK. Pure functions over data you already loaded, so the rules that decide who can read what are things you can unit-test instead of things buried in a <code>WHERE</code> clause.</p>
+<pre><code>pnpm add threadkit</code></pre>
+<h2 id="api-the-idea">The idea</h2>
+<p>Most messaging code encodes the number of participants into the schema. Two columns named <code>participant_1</code> and <code>participant_2</code>. A <code>patient_id</code> on the thread. A <code>read_at</code> flag on the message row. Each of these is correct right up until the day a third party joins, and then every one of them needs a migration.</p>
+<p>threadkit takes one position and derives everything from it:</p>
+<blockquote><p><strong>Permission is participation.</strong> Not role, not ownership, not a column on the thread.</p></blockquote>
+<p>A thread is a set of participants and an ordered log of messages. Whether it is a two-party DM, a group with four clinicians, or a conversation where one participant is a language model is a property of the participant list — not of the schema.</p>
+<h2 id="api-why-this-matters-more-than-it-sounds">Why this matters more than it sounds</h2>
+<p>Role-derived access reads fine and is wrong in a way tests usually miss:</p>
+<pre><code>if (session.user.role !== 'admin' &amp;&amp; thread.patientId !== session.user.id) forbid()</code></pre>
+<p>That is correct while the clinic has exactly one doctor. On the day it has two, every doctor can read every patient's thread — and nothing failed, so nobody finds out. The same shape hides in any app with one tenant, one workspace, or one org in production.</p>
+<p>Participation-based access cannot express that bug, because there is no role to check:</p>
+<pre><code>import { canRead, visibleMessages } from 'threadkit'
+
+if (!canRead(thread, actorId)) return forbidden()
+const messages = visibleMessages(thread, actorId, allMessages)</code></pre>
+<p><code>visibleMessages</code> returns <code>[]</code> for a non-participant rather than throwing, so a caller that forgets to gate still leaks nothing. Failing closed is deliberate.</p>
+<h2 id="api-what-you-get">What you get</h2>
+<p><strong>Joining does not grant history.</strong> A clinician added to a patient thread today sees what is said from today. Handing over the backlog is a decision someone makes on purpose:</p>
+<pre><code>{ actorId: 'dr-b', kind: 'human', joinedAt: now, visibleFrom: 'thread-start' }</code></pre>
+<p><strong>Leaving keeps the past and stops the future.</strong> A participant with <code>leftAt</code> retains what they already saw and receives nothing after it.</p>
+<p><strong>Unread is per person.</strong> A read high-water mark per participant, not a flag on the message. A flag on the message row means the first person to open a thread clears the badge for everybody — invisible with two participants, wrong with three.</p>
+<pre><code>unreadCount(thread, 'dr-b', messages)      // just theirs
+unreadThreadCount(entries, 'dr-b')         // the nav badge</code></pre>
+<p><strong>Optimistic sends reconcile instead of duplicating.</strong> <code>mergeMessages</code> matches on <code>id</code>, then on <code>clientId</code>, so the confirmed row replaces its placeholder rather than arriving beside it — the most common visible bug in a chat UI.</p>
+<h2 id="api-ai-as-a-participant">AI as a participant</h2>
+<p>An AI is a participant, not an exception. It reads through the same visibility window as every human, so a model added to an existing thread sees what it was granted and nothing earlier.</p>
+<pre><code>import { runAiTurn } from 'threadkit'
+
+const result = await runAiTurn(thread, messages, {
+  actorId: 'assistant-1',
+  systemPrompt: 'You support the patient between consultations.',
+  model: 'claude-opus-5',
+  complete: async ({ system, prompt, maxTokens, temperature }) => {
+    // your provider, your key, your model choice
+  },
+})
+
+if (result.status === 'responded') {
+  await store.append({ authorId: 'assistant-1', body: result.body, generatedBy: result.generatedBy })
+} else {
+  log.info('assistant stayed quiet', result.reason)
+}</code></pre>
+<p>The package never imports an SDK and never reads an API key. You pass a <code>complete</code> function; how the text is produced is your business.</p>
+<p>Defaults that keep it usable:</p>
+<ul><li><strong>It never answers itself.</strong> The loop guard runs before any policy, so a custom policy cannot talk it into an unbounded self-conversation.</li><li><strong>Two participants → it answers every turn.</strong> It <em>is</em> the conversation.</li><li><strong>Three or more → it waits to be addressed.</strong> A clinician and a patient talking to each other is not an invitation. Mentions match on whole words, so &quot;I had to w<strong>ai</strong>t ag<strong>ai</strong>n&quot; does not summon it.</li><li><strong>Silence is a normal outcome.</strong> A skipped turn returns a reason instead of throwing, and never spends a model call.</li><li><strong>Speakers are labelled by role, not by name.</strong> The transcript says <code>patient:</code>, not <code>Dr. Schabus:</code> — real names never have to reach the model, and <code>Participant</code> has no name field to leak.</li></ul>
+<p>Every reply carries <code>generatedBy</code>, so a record can say honestly which model wrote what.</p>
+<h2 id="api-bring-your-own-storage">Bring your own storage</h2>
+<p>There is no database adapter and no ORM. Load a thread and its messages however you already do, call the functions, write the result back. That is the whole integration surface — which is also why it works the same on Drizzle, Prisma, Supabase, or a JSON file.</p>
+<h2 id="api-api">API</h2>
+<div class="record-table"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>`canRead(thread, actorId)`</td><td>is this actor a participant at all</td></tr><tr><td>`canWrite(thread, actorId, now?)`</td><td>may they post right now</td></tr><tr><td>`visibleMessages(thread, actorId, messages)`</td><td>what they are allowed to see, in order</td></tr><tr><td>`canSeeMessage(participant, message)`</td><td>the single-message form</td></tr><tr><td>`visibilityWindow(participant)`</td><td>the `[from, to)` interval they may see</td></tr><tr><td>`readersOf(thread, message)`</td><td>who has seen it, excluding the author</td></tr><tr><td>`unreadMessages` / `unreadCount`</td><td>per participant</td></tr><tr><td>`unreadThreadCount(entries, actorId)`</td><td>threads with anything unread</td></tr><tr><td>`mergeMessages(existing, incoming)`</td><td>dedupe, reconcile optimistic, order</td></tr><tr><td>`compareMessages` / `isPending`</td><td>ordering and pending-state helpers</td></tr><tr><td>`runAiTurn(thread, messages, config)`</td><td>decide whether the AI speaks, and what it says</td></tr><tr><td>`afterEveryMessage` / `whenMentioned` / `defaultRespondPolicy`</td><td>response policies</td></tr></tbody></table></div>
+<h2 id="api-licence">Licence</h2>
+<p>MIT</p>
+<hr>
+<p>Part of <strong><a href="https://bitbaum.orangecat.ch/">bitbaum</a></strong> — AI-native products on open infrastructure, built in Zürich. Every package here lists the apps that use it: <strong><a href="https://bitbaum.orangecat.ch/packages/#threadkit">which apps use threadkit</a></strong>.</p></div></details>
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      <p>This repository has no root changelog in the retrieved source.</p>
+      <p>No release notes have been retrieved. This does not mean the package has never changed.</p>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/threadkit/commit/90ee7b1fb106483eb9c345dbbff6439530e10902">chore(deps-dev): bump the minor-and-patch group with 2 updates (#41)</a> <time datetime="2026-10-24T21:54:58Z">2026-10-24</time></li><li><a href="https://github.com/bitbaum/threadkit/commit/162bf52ecae10be4834bc1a3d377a6fd41e2914b">chore(deps-dev): bump the minor-and-patch group with 3 updates (#40)</a> <time datetime="2026-10-17T23:29:56Z">2026-10-17</time></li><li><a href="https://github.com/bitbaum/threadkit/commit/a4a450f3c41bef45399f901b149dafaf0598d752">chore(deps-dev): bump the minor-and-patch group with 4 updates (#39)</a> <time datetime="2026-10-10T21:25:56Z">2026-10-10</time></li><li><a href="https://github.com/bitbaum/threadkit/commit/b4636d526309773a17156e46f264f6281b4356eb">chore(deps-dev): bump the minor-and-patch group across 1 directory with 4 updates (#38)</a> <time datetime="2026-10-08T13:18:42Z">2026-10-08</time></li><li><a href="https://github.com/bitbaum/threadkit/commit/f7a8c04a27821ae3d2422850421c6a46ceb6b96c">docs: link back to bitbaum, and to who uses this package (#36)</a> <time datetime="2026-09-17T08:04:12Z">2026-09-17</time></li><li><a href="https://github.com/bitbaum/threadkit/commit/7ccc759bb101252995c0dcc2207fc2bb24ed6262">chore: rename FleetCrown to Loki (#35)</a> <time datetime="2026-09-13T23:33:19Z">2026-09-13</time></li><li><a href="https://github.com/bitbaum/threadkit/commit/997b65e2e45e0dfca4a61c65cffb90ab4af5f86d">chore(deps-dev): bump the minor-and-patch group with 3 updates (#34)</a> <time datetime="2026-09-12T21:24:13Z">2026-09-12</time></li><li><a href="https://github.com/bitbaum/threadkit/commit/8508451596f1690cd8152b48a16ca3a4faff9056">ci(publish): make publishing idempotent so a second run is green, not E403 (#33)</a> <time datetime="2026-09-11T01:05:23Z">2026-09-11</time></li></ol></details>
+      <a class="textlink" href="https://github.com/bitbaum/threadkit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/threadkit/tags">All tags</a>
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      <div class="chips"><a href="/heidi/">Heidi</a><a href="/orangecat/">OrangeCat</a><a href="/skif/">Skif</a><a href="/substrata/">Substrata</a><span>1 other repository</span></div>
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/threadkit/blob/90ee7b1fb106483eb9c345dbbff6439530e10902/">source commit <code>90ee7b1fb106</code></a> · 2026-10-24. Source documentation can include work beyond the registry release.</p>
+      <a class="textlink" href="https://github.com/bitbaum/threadkit/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/sitekit/">&larr; sitekit</a><a href="/packages/">All packages</a><a href="/packages/geo-kit/">geo-kit &rarr;</a></div></div>
   </main>
@@ -111,8 +193,13 @@ addEventListener("error", function (e) {
     for (const btn of document.querySelectorAll(".js-copy")) {
       btn.addEventListener("click", async () => {
         const text = btn.getAttribute("data-copy") || "";
-        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); setTimeout(() => btn.classList.remove("copied"), 1200); }
-        catch { /* clipboard may be denied */ }
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
       });
     }
   </script>

@@ -24,6 +24,7 @@
 //   node site/build.mjs --check    exit 1 if site/dist/ is stale
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { MARK_HEADER, MARK_FAVICON } from "./brand-mark.mjs";
+import { loadPackageRecords } from "./package-records.mjs";
 import { createPackagePages } from "./packages-page.mjs";
 import { createLoopsPage } from "./loops.mjs";
 import { publicMap } from "./public-map.mjs";
@@ -1293,7 +1294,7 @@ ${intakeMount({ prompt: hire.waitlist.prompt, offerId: hire.commissioningOffer }
 }
 
 // ── build ───────────────────────────────────────────────────────────────────
-export function render({ map, packages, origin, readings, cfg, hire, live = {} }) {
+export function render({ map, packages, origin, readings, cfg, hire, live = {}, packageRecords = { entries: {} } }) {
   const all = ventures(map, cfg, origin, packages, live);
   const files = new Map();
   files.set("index.html", homePage(all, packages, cfg, origin, readings, hire));
@@ -1332,7 +1333,7 @@ export function render({ map, packages, origin, readings, cfg, hire, live = {} }
     files.set(`vendor/listkit/${name}`, readFileSync(join(listkitDist, name), "utf8"));
   }
   const shown = shownPackages(packages, cfg);
-  for (const p of shown) files.set(`packages/${p.slug}/index.html`, packagePage(p, cfg, all, shown));
+  for (const p of shown) files.set(`packages/${p.slug}/index.html`, packagePage(p, cfg, all, shown, packageRecords.entries?.[p.slug]));
   files.set("studio/index.html", studioPage());
   files.set("hire/index.html", hirePage(all, hire));
   const commissioningOffer = hire.offers.find((o) => o.id === hire.commissioningOffer);
@@ -1381,7 +1382,11 @@ if (isMain) {
     live = await probeAll(urls);
     writeFileSync(liveSnapshot, JSON.stringify(live, null, 2) + "\n");
   }
-  const { all, files, castDoc: castMd } = render({ map, packages, origin, readings, cfg, hire, live });
+  const packageRecords = await loadPackageRecords(packages, {
+    snapshot: join(here, "package-records.snapshot.json"),
+    offline: args.has("--offline"), requireFresh: args.has("--require-fresh"),
+  });
+  const { all, files, castDoc: castMd } = render({ map, packages, origin, readings, cfg, hire, live, packageRecords });
   for (const v of all) {
     if (v.stage !== v.stageTyped) console.warn(`${v.slug}: overrides.json says "${v.stageTyped}" but ${v.url} answers — shown as "${v.stage}". Correct its stage.`);
   }
@@ -1409,8 +1414,14 @@ if (isMain) {
     }
   }
 
+  const packageDir = join(DIST, "packages");
+  const currentPackageSlugs = new Set(shownPackages(packages, cfg).map((entry) => entry.slug));
+  const obsoletePackageDirs = existsSync(packageDir)
+    ? readdirSync(packageDir, { withFileTypes: true }).filter((entry) => entry.isDirectory() && !currentPackageSlugs.has(entry.name))
+    : [];
   if (args.has("--check")) {
-    let stale = 0;
+    let stale = obsoletePackageDirs.length;
+    for (const entry of obsoletePackageDirs) console.error(`stale: dist/packages/${entry.name} — package no longer appears in the catalogue`);
     for (const [rel, html] of files) {
       const p = join(DIST, rel);
       if (!existsSync(p) || readFileSync(p, "utf8") !== html) { console.error(`stale: dist/${rel}`); stale++; }
@@ -1439,6 +1450,8 @@ if (isMain) {
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
       if (d.isDirectory() && !["shots", "fonts", "packages", "work", "map", "studio", "hire", "og", "vendor", "partners", "art", "portal", "private", "academy", "roadmap", "changelog"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
+    // Retired package pages must not survive a registry removal.
+    for (const entry of obsoletePackageDirs) rmSync(join(packageDir, entry.name), { recursive: true });
     // Nor may a script nothing loads any more: the retired Starry Night layer
     // (starry.mjs) and the old ask.mjs were still served after the pages
     // stopped asking for them. A top-level file is either written by

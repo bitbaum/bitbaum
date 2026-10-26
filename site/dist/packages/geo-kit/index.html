@@ -76,7 +76,7 @@ addEventListener("error", function (e) {
     </div>
   </header>
   <main id="main">
-    <section data-lodge class="stage stage-floored venture-hero">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
       <div class="wrap">
         <span class="eyebrow">Package &middot; MIT</span>
         <h1 class="display-1">geo-kit</h1>
@@ -90,7 +90,10 @@ addEventListener("error", function (e) {
       </div>
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-owl" aria-hidden="true"><span class="owl-perch"><img class="fig fig-owl" src="/art/owl.webp" width="433" height="419" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="owl-flying" hidden><img class="fig fig-owl-fly" src="/art/owl-fly.webp" width="440" height="384" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
-    <section class="wrap venture-body">
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
       <div class="prose">
         
         
@@ -98,12 +101,89 @@ addEventListener("error", function (e) {
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Latest version</span><span>v0.1.1</span></div>
+        <div><span class="label">Registry release</span><span>v0.1.1</span></div>
         <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/geo-kit@^0.1.1" aria-label="Copy install command"><code>pnpm add @bitbaum/geo-kit@^0.1.1</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/geo-kit">bitbaum/geo-kit</a></span></div>
-        <div><span class="label">Used by</span><span>3 apps</span></div>
-        <div class="uses" id="used-by"><span class="label">Used by</span><div class="chips"><a href="/orangecat/">OrangeCat</a><a href="/solon/">Solon</a><a href="/substrata/">Substrata</a></div></div>
+        <div><span class="label">Declared consumers</span><span>3 repositories</span></div>
+
       </div>
+    </section>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/edd2ea2de40c555003ac067c382857862dff8874/">source commit <code>edd2ea2de40c</code></a> · 2026-10-26. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-install">Install</a></li><li><a href="#api-ownership">Ownership</a></li><li><a href="#api-data-loading">Data loading</a></li><li><a href="#api-assertions-and-proposed-boundaries">Assertions and proposed boundaries</a></li><li><a href="#api-verify">Verify</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Country-neutral contracts for sharing versioned geography data across applications. The package owns no country packs, political claims, source choices, personal data, HTTP server, or rendering framework.</p>
+<h2 id="api-install">Install</h2>
+<p>The Git repository is the install source until npm publishing is bootstrapped. Pin the reviewed v0.1.1 source commit for a reproducible install:</p>
+<pre><code>pnpm add github:bitbaum/geo-kit#a337aec928cf7804fecf459c308d366b90f4b2fa</code></pre>
+<p>The npm workflow uses npm Trusted Publishing and provenance. The first npm publish and publisher trust setup require a maintainer-held passkey; publishing stays disabled until that is complete.</p>
+<h2 id="api-ownership">Ownership</h2>
+<ul><li><strong>Solon</strong> is the authoritative owner of public places, source records,</li></ul>
+<p>historical assertions, decisions, and published boundary resources.</p>
+<ul><li><strong>OrangeCat</strong> remains the owner of private residence and account data.</li><li><strong>Substrata and other clients</strong> consume public, versioned data and choose the</li></ul>
+<p>layers they need. They do not copy Solon's geography database.</p>
+<ul><li>Application policy supplies accepted licences and controls whether a</li></ul>
+<p>proposal is approved. This package does not make that decision.</p>
+<h2 id="api-data-loading">Data loading</h2>
+<p>Publish a small manifest beside content-addressed GeoJSON or TopoJSON resources. Each resource identifies its source, geography, open-ended layer and level keys, validity period, optional map viewpoint, URL, SHA-256 digest, size and feature count. Resources can reference multiple sources, with each source's licence and attribution checked independently. Viewpoints have names, descriptions and source references, so a client can explain which representation it displays. A client asks for one or more geography/resource IDs, a date, and (when needed) a viewpoint. The default view includes only resources with no explicit viewpoint. <code>selectGeographyResources</code> rejects broad accidental loads by default and enforces byte/resource limits before any request is made.</p>
+<p><code>loadGeographyResources</code> fetches selected same-origin URLs only, without cookies and without following redirects. It checks the decoded file size, SHA-256, GeoJSON/TopoJSON structure and feature count before returning parsed data. It accepts an injected cache, fetch implementation and abort signal so each app can use its own HTTP cache, IndexedDB policy and retry interface. Requests are bounded-concurrency and results use deterministic geography/kind/level/id order.</p>
+<p><code>loadGeographyManifest</code> uses the same transport protections for the manifest, including a decoded byte limit enforced while streaming (64 KiB by default). An abort cancels a stalled body and also stops loads served from a cache.</p>
+<p>Resource selection can include a WGS84 <code>bbox</code> in west/south/east/north order. Only intersecting resources with known bounds are selected. Resources without bounds remain eligible, so missing metadata cannot silently hide coverage. West greater than east represents an antimeridian crossing. Geographic, time, viewpoint and download-budget selectors continue to apply together.</p>
+<pre><code>import { loadGeographyManifest, loadGeographyResources } from '@bitbaum/geo-kit';
+
+const controller = new AbortController();
+const options = {
+  baseUrl: window.location.origin,
+  licensePolicy: [{ spdx: 'CC0-1.0', requiresAttribution: false }],
+  signal: controller.signal, // AbortController owned by the application
+};
+const manifest = await loadGeographyManifest('/geography/manifest.json', options);
+const layers = await loadGeographyResources(manifest, {
+  geographyIds: ['selected-geography'],
+  asOf: '2026-09-30', // the date displayed by the application
+  levelKeys: ['subdivision'],
+  bbox: [7, 46, 9, 48],
+  maxBytes: 512 * 1024,
+}, options);</code></pre>
+<p>Layer keys and geographic IDs in this example come from the application's data. Country packs, detailed subdivision datasets and a border drawing UI are separate deliverables owned by the applications; this package does not invent or publish them.</p>
+<p>The library never reads the system clock. Pass the date displayed by the app to support historical maps deterministically. An explicit viewpoint is opt-in; the library does not treat any boundary representation as the default truth.</p>
+<h2 id="api-assertions-and-proposed-boundaries">Assertions and proposed boundaries</h2>
+<p><code>AreaAssertion</code> follows Solon's sourced <code>claims</code>, <code>administers</code>, and <code>proposes</code> records. <code>summarizeAreaAssertions</code> filters those records by an explicit date and reports distinct claimants, administrators and proposers. Its <code>disputed</code> flag is a mechanical summary of competing claims or a mismatch between claimant and administrator; it is not a legal conclusion.</p>
+<p><code>validateBoundaryDraft</code> checks a proposal's polygon, WGS84 coordinates, closed rings, input limits, source/license metadata and validity interval. Publication stays blocked until the consuming app provides both a full geometry-topology validator and an approval check for the draft's proposal. The draft contains a shape and its provenance only; claims about who owns or administers it are separate sourced assertions.</p>
+<h2 id="api-verify">Verify</h2>
+<pre><code>pnpm install --frozen-lockfile
+pnpm run verify</code></pre>
+<p>Runtime code has no dependencies and targets modern browsers plus Node.js 20 or later. The package ships JavaScript and declarations built from the TypeScript source, so consumers do not need a TypeScript-aware runtime loader.</p></div></details>
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-1-1">0.1.1</h2>
+<ul><li>Add bounded, same-origin manifest downloads with source and licence validation.</li><li>Share streamed transport between manifests and geometry; cancel stalled bodies</li></ul>
+<p>and stop cached resource loads when the consumer aborts.</p>
+<ul><li>Filter resources by viewport bounds before applying the download budget,</li></ul>
+<p>including antimeridian crossings. Bounds remain optional for existing data.</p>
+<ul><li>Retain the explicit geography, date and viewpoint contract from 0.1.0.</li></ul>
+<h2 id="change-0-1-0">0.1.0</h2>
+<ul><li>Introduce sourced geography manifests, bounded resource selection and loading,</li></ul>
+<p>SHA-256 verification, WGS84 geometry validation, dated area assertions and proposal-gated boundary draft validation.</p></div></details>
+      <ol class="pkg-releases"><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/geo-kit/releases/tag/v0.1.1">v0.1.1</a><time datetime="2026-10-25T12:50:37Z">2026-10-25</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-0-what-s-changed">What's Changed</h2>
+<p>* feat: bound manifest downloads and select geography by viewport by @catomean in https://github.com/bitbaum/geo-kit/pull/1 * Document the usable immutable install pin by @catomean in https://github.com/bitbaum/geo-kit/pull/2 * chore: add the fleet package template files this repo is missing (dependabot.yml, auto-merge.yml, git-release.yml, release.yml) by @catomean in https://github.com/bitbaum/geo-kit/pull/3</p>
+<h2 id="release-0-new-contributors">New Contributors</h2>
+<p>* @catomean made their first contribution in https://github.com/bitbaum/geo-kit/pull/1</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/geo-kit/commits/v0.1.1</p></div></details></li></ol>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/geo-kit/commit/edd2ea2de40c555003ac067c382857862dff8874">ci: unified tokenless trusted-publishing workflow (OIDC, provenance) (#5)</a> <time datetime="2026-10-26T09:41:17Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/fce36b959056799d500371181468844aed7ed513">chore: add the fleet package template files this repo is missing (dependabot.yml, auto-merge.yml, git-release.yml, release.yml) (#3)</a> <time datetime="2026-10-25T12:49:55Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/e16385d224f8beb66bb5442b59b145ac5c435160">Merge pull request #2 from bitbaum/docs/immutable-install-pin</a> <time datetime="2026-09-30T17:15:46Z">2026-09-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/b59d4e98d0bc5e8c67a7476e3881a36428f6731b">Document the usable immutable geo-kit install pin</a> <time datetime="2026-09-30T17:11:52Z">2026-09-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/0fcc8ac92972523489e572bd091e8b75f2079e7d">Merge pull request #1 from bitbaum/feat/bounded-geography-loading</a> <time datetime="2026-09-30T16:47:33Z">2026-09-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/a337aec928cf7804fecf459c308d366b90f4b2fa">feat: bound manifest loading and select geography by viewport</a> <time datetime="2026-09-30T16:39:08Z">2026-09-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/599e5685da512f16b361e6b124129961c6f56d4e">feat: describe sourced geographic viewpoints and derived resources</a> <time datetime="2026-09-30T02:24:17Z">2026-09-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/050ad70ff2eb11db2fc2b3e4da601c6baa567318">feat: share WGS84 coordinate validation</a> <time datetime="2026-09-30T02:14:58Z">2026-09-30</time></li></ol></details>
+      <a class="textlink" href="https://github.com/bitbaum/geo-kit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/geo-kit/tags">All tags</a>
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      <div class="chips"><a href="/orangecat/">OrangeCat</a><a href="/solon/">Solon</a><a href="/substrata/">Substrata</a></div>
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/edd2ea2de40c555003ac067c382857862dff8874/">source commit <code>edd2ea2de40c</code></a> · 2026-10-26. Source documentation can include work beyond the registry release.</p>
+      <a class="textlink" href="https://github.com/bitbaum/geo-kit/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/threadkit/">&larr; threadkit</a><a href="/packages/">All packages</a><a href="/packages/chartkit/">chartkit &rarr;</a></div></div>
   </main>
@@ -111,8 +191,13 @@ addEventListener("error", function (e) {
     for (const btn of document.querySelectorAll(".js-copy")) {
       btn.addEventListener("click", async () => {
         const text = btn.getAttribute("data-copy") || "";
-        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); setTimeout(() => btn.classList.remove("copied"), 1200); }
-        catch { /* clipboard may be denied */ }
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
       });
     }
   </script>

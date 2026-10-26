@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T14:33:12.358Z",
+  "generatedAt": "2026-10-26T16:38:32.339Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -2175,6 +2175,10 @@
           "done": "Tap a name. Authors, quoted people and the outlet in a report open a profile: occupation, employer, offices, recorded party membership, owner and the owner’s owner, founding year, and the opening of the Wikipedia article — every line linked to its source on Wikidata.\nNo guessing. A name is linked only when the article’s own description of the person matches the record; when two people fit, the reader chooses. BiasLens adds no rating or label of its own, and every profile has a way to report a mistake."
         },
         {
+          "date": "2026-10-26",
+          "done": "No invented figures. A neutral rewrite of an article that cites a poll without its sample once supplied a sample size and a margin of error the article never gave. A rewrite now says when the article leaves something out instead of filling the gap, and when the facts check finds an added fact the text is sent back once to remove it. The check shown is always the one of the text you read. Suggested rewordings in a report follow the same rule."
+        },
+        {
           "date": "2026-10-25",
           "done": "Ask about the article. A conversation under the report answers questions from the article's own text and shows the passage behind each answer.\nAnalysis language. The report can be written in English, German or French, whatever language the article is in.\nAccount recovery. Resetting a password and recovering an account now complete end to end."
         },
@@ -3483,6 +3487,10 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-10-26",
+          "done": "Readable roadmap and changelog labels. Development pages now use their own translation namespace in all five languages, separate from medical records."
+        },
         {
           "date": "2026-10-15",
           "done": "Keep your file in your account, if you choose. One switch in Account. The file is kept sealed on our server and follows you to any device you sign in on. Off by default; turning it off deletes the copy.\nAsk about your own file. Questions answered from your records only, with names hidden before anything is sent. Information, not a diagnosis.\nA health file, not a report reader. The header is now Today, Records and People. Today shows what is next, the latest results and your medicines; Records is everything in one list you can search (a typo still finds it) and filter, and you can add medicines, appointments and notes beside reports. The home page says so in fewer words.\nAccounts, if you want one. Sign in with email and password, a link, a passkey, two-factor, OrangeCat or the shared sign-in, in all five languages. Reading a report still needs none, and nothing health-related is stored on the server.\nMuch less to read. The home page went from about a thousand words to a couple of hundred: what it is, one value read, how it works, why it is private, and who can help. The depth moved to Platform and Security; the intake form, the report page and People were cut by a quarter to a third. A test now holds each page to a word budget. {#less-text}\nWarm paper and pine green, not clinical blue. Blue is every hospital's colour. The look is one file (app/theme.css), so it stays a one-line change. {#colour}\nEvery control in the header and footer is at least 44px, at phone, tablet and desktop width, in all five languages. {#targets}"

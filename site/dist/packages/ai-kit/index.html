@@ -76,7 +76,7 @@ addEventListener("error", function (e) {
     </div>
   </header>
   <main id="main">
-    <section data-lodge class="stage stage-floored venture-hero">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
       <div class="wrap">
         <span class="eyebrow">Package &middot; MIT</span>
         <h1 class="display-1">ai-kit</h1>
@@ -90,7 +90,10 @@ addEventListener("error", function (e) {
       </div>
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-horse" aria-hidden="true"><span class="horse-stand"><img class="fig fig-horse" src="/art/horse.webp" width="440" height="384" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="horse-gallop" hidden><img class="fig fig-horse-run" src="/art/horse-run.webp" width="440" height="314" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
-    <section class="wrap venture-body">
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
       <div class="prose">
         <h2>Why it exists</h2><p>Twenty apps needed a model. The first copy picked one vendor and broke when that vendor had a bad day. The second copy would have done it again. ai-kit is the last copy: one chain, one way to tell a rate limit from an outage, one shared daily pool.</p>
         <h2>How it works</h2><p>You name the job, not the vendor. The kit walks a fallback chain, classifies a 429 into the three kinds that are not the same failure, and rations a shared daily allowance so one app cannot empty the free tiers for the others. When every vendor fails, it says so instead of inventing an answer.</p>
@@ -98,12 +101,339 @@ addEventListener("error", function (e) {
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Latest version</span><span>v1.21.4</span></div>
+        <div><span class="label">Registry release</span><span>v1.21.4</span></div>
         <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/ai-kit@^1.21.4" aria-label="Copy install command"><code>pnpm add @bitbaum/ai-kit@^1.21.4</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/ai-kit">bitbaum/ai-kit</a></span></div>
-        <div><span class="label">Used by</span><span>20 apps</span></div>
-        <div class="uses" id="used-by"><span class="label">Used by</span><div class="chips"><a href="/botsmann/">Botsmann</a><a href="/causius/">Causius</a><a href="/datacat/">DataCat</a><a href="/diplodoctor/">Diplodoctor</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/revamp-info/">Hirnli</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/sbb-fundbuero/">Nordbahn Fundbüro</a><a href="/skif/">Skif</a><a href="/solon/">Solon</a><a href="/substrata/">Substrata</a><a href="/surf-your-life/">Surf Your Life</a><span>6 private projects</span></div></div>
+        <div><span class="label">Declared consumers</span><span>20 repositories</span></div>
+
       </div>
+    </section>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/ai-kit/blob/42f474865ea11b74fdcf8f48994d5c06d3847862/">source commit <code>42f474865ea1</code></a> · 2026-10-26. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-why-this-is-one-package-and-not-four">Why this is one package and not four</a></li><li><a href="#api-what-s-in-it">What's in it</a></li><li><a href="#api-what-it-deliberately-does-not-ship">What it deliberately does not ship</a></li><li><a href="#api-which-providers-and-why">Which providers, and why</a></li><li><a href="#api-related">Related</a></li><li><a href="#api-knowing-what-is-left">Knowing what is left</a></li><li><a href="#api-showing-a-person-their-budget-what-the-numbers-mean">Showing a person their budget — what the numbers mean</a></li><li><a href="#api-versioning">Versioning</a></li><li><a href="#api-development">Development</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p><strong>The AI layer of an app, in one install.</strong> Which model to call, what to do when the vendor deletes it, how to walk the fallback and know when none of it worked, what to do when you're going too fast, how to share a free tier fairly between users, and how to fill a form from plain language.</p>
+<pre><code>pnpm add @bitbaum/ai-kit</code></pre>
+<hr>
+<h2 id="api-why-this-is-one-package-and-not-four">Why this is one package and not four</h2>
+<p>Adding an AI feature looks like one decision and is actually four. Get any of them wrong and the app fails <strong>identically</strong> from the outside: the assistant is broken, and the error usually blames the wrong thing.</p>
+<p>On 2026-08-26 that stopped being hypothetical. Groq retired its entire <code>llama-3.x</code> family. Every app in this fleet that had picked a model by hand went down at the same moment — five repos, three of them serving live traffic — and the one app that had adopted the fallback chain was unaffected. One of the broken ones reported <em>&quot;AI assistant not configured, please set GROQ_API_KEY&quot;</em> on a deployment whose key was perfectly valid, so the first hour of the investigation went into checking a credential that was never the problem.</p>
+<p>That app had already adopted the form-filling half. It hand-rolled the other half, because that was a second decision and nobody made it.</p>
+<p>So the four decisions ship together now. Adding AI is one install.</p>
+<blockquote><p><strong>Renamed from <code>ai-ration</code> in v0.3.0.</strong> The old name described one of its five</p><p>modules and hid the other four, and the person deciding whether to install it</p><p>could not tell what it did. An unreadable name is a cost paid at every install</p><p>decision — and this package had a single adopter while five repos that skipped</p><p>it were taken down together by exactly the failure it prevents.</p></blockquote>
+<hr>
+<h2 id="api-what-s-in-it">What's in it</h2>
+<h3 id="api-which-model-a-list-never-a-pin">Which model — a list, never a pin</h3>
+<pre><code>import { freeChain, usableChain, chainFrom } from '@bitbaum/ai-kit';
+
+const providers = freeChain('MYAPP');               // groq → openrouter
+const links = usableChain(providers, process.env);   // drops vendors with no key
+const chain = chainFrom(process.env.MYAPP_MODEL, links);</code></pre>
+<p>Falling back to a <strong>smaller model at the same vendor buys nothing</strong>: it draws on the same org-wide daily budget, so when the day runs dry every link in that &quot;fallback&quot; is already dead. Only a different vendor has a different meter.</p>
+<p><strong>Probe before you pin.</strong> Of nine free models probed live, <strong>five</strong> answered only via a text tool protocol, not native <code>tool_calls</code>. A native-only client would have silently lost most of the chain.</p>
+<h3 id="api-make-the-call-complete-owns-the-fetch">Make the call — <code>complete()</code> owns the fetch</h3>
+<pre><code>import { complete, freeChain, usableChain, createHealthTracker } from '@bitbaum/ai-kit';
+
+export const llmHealth = createHealthTracker();
+const chain = usableChain(freeChain('MYAPP'), process.env);
+
+const { text, id } = await complete({
+  chain,
+  health: llmHealth,
+  maxTokens: 500,
+  messages: [{ role: 'user', content: 'Summarise this in one line.' }],
+});</code></pre>
+<p>For four releases this package shipped the <em>decisions</em> and told you to keep the fetch. The rule read well and it was wrong: measured 2026-09-05, this fleet ran <strong>eight</strong> hand-rolled clients, <strong>two</strong> of which told the three kinds of 429 apart — while <code>ai-forms</code>, which ships a working route factory, had more than twice this package's adoption. A package that hands you a working call gets installed; one that hands you advice about calls does not.</p>
+<p><code>complete()</code> is the chain walk plus the request, and it carries the parts that kept getting left out of the hand-rolled ones:</p>
+<ul><li>a <strong>200 with empty content is a failure</strong>, not an answer — reasoning models</li></ul>
+<p>and some vendors return exactly that, and every client that read <code>choices[0].message.content || ''</code> shipped the empty string to a user;</p>
+<ul><li>a <strong>daily</strong> 429 marks the whole vendor dead for the walk, instead of trying</li></ul>
+<p>its other models against the same exhausted org-wide budget;</p>
+<ul><li>a <strong>size</strong> 429 ends the walk rather than demoting to a <em>smaller</em> ceiling,</li></ul>
+<p>which is strictly worse;</p>
+<ul><li>the vendor's response body survives into the error, so an exhausted day is</li></ul>
+<p>distinguishable from a momentary burst in a log.</p>
+<p><strong><code>maxTokens</code> has a floor, and it is higher than you think.</strong> The chain leads with reasoning models, which spend the budget on hidden thinking before emitting a visible token: <code>groq/openai/gpt-oss-20b</code> answered <em>empty</em> at 16 and correctly at 256 for the same one-word question. A mean budget makes a healthy model look dead.</p>
+<p><strong>Every link gets its own deadline</strong> (<code>timeoutMs</code>, default 30s). A vendor that accepts the connection and then never answers is the most common partial outage there is, and it is the one a fallback chain is least able to survive: without a deadline <code>await fetch</code> never returns, link two is never reached, and the chain that exists to survive an outage becomes the thing holding the request open.</p>
+<p>Note it is <em>per link</em>, and that it is not the same thing as <code>signal</code>:</p>
+<pre><code>// ✗ WRONG — link one spends the whole budget, links two and three inherit an
+//   already-aborted signal, and the &quot;fallback&quot; reports every vendor broken.
+complete({ chain, signal: AbortSignal.timeout(10_000), messages });
+
+// ✓ RIGHT — each link gets ten seconds; `signal` stays what it should be,
+//   the caller going away.
+complete({ chain, timeoutMs: 10_000, signal: request.signal, messages });</code></pre>
+<p>When the caller's <code>signal</code> aborts, the walk stops rather than touring the remaining vendors: the request nobody is waiting for should not spend the daily budget, nor report &quot;every vendor failed&quot; about vendors that were never asked.</p>
+<p><code>tryChain</code> stays for a caller with a genuinely unusual request to make.</p>
+<h3 id="api-tokens-as-they-arrive-completestream-same-chain">Tokens as they arrive — <code>completeStream()</code>, same chain</h3>
+<p><code>complete()</code> is request/response. Until v1.9 that was the whole API, so every app that wanted a live answer used this package to pick the model, classify the 429 and track health — and then <strong>threw all of it away for the one call that matters</strong>, hand-rolling a provider client. Measured across the fleet on 2026-09-15: six such clients, four SSE readers, four emitters.</p>
+<pre><code>for await (const d of completeStream({ messages, chain })) {
+  if (d.type === &quot;text&quot;) process.stdout.write(d.text);
+  if (d.type === &quot;end&quot;) console.log(&quot;\nserved by&quot;, d.id, d.toolCalls);
+}</code></pre>
+<p>Same chain, same 429 rules, same health — <code>complete()</code> and <code>completeStream()</code> walk through one <code>walkChain</code>, so they cannot disagree about what a dead vendor is. Exactly one <code>end</code> event carries the assembled turn, so a caller rendering live never has to accumulate the answer twice.</p>
+<p><strong>Fallback stops the moment the reader has seen output, and that is deliberate.</strong> A link that fails before its first delta demotes like any other; a link that fails after throws <code>StreamInterrupted</code>, carrying the partial text. Retrying there would replay the answer from the beginning into somebody already reading it. So a link counts as &quot;served&quot; only once a first token is really out — a 200 that then says nothing demotes, the same judgement <code>complete()</code> makes about an empty completion.</p>
+<p><code>@bitbaum/ai-kit/sse</code> has both ends of the wire: <code>sseResponse()</code> (the headers that actually stream — <code>no-transform</code> and <code>X-Accel-Buffering: no</code>, without which a proxy buffers the whole turn and delivers it in one lump) and <code>readEventStream()</code>. The reader <strong>keeps the remainder between chunks</strong>. A <code>ReadableStream</code> chunk is a TCP-sized slice that ends wherever the network put the boundary, routinely mid-frame; two of the fleet's hand-rolled readers split each chunk on newlines and dropped whatever straddled it, which loses a word from a long answer under load and is invisible in every short test.</p>
+<h3 id="api-does-it-work-right-now-a-probe-not-a-guess">Does it work RIGHT NOW? — a probe, not a guess</h3>
+<pre><code>// app/api/health/ai/route.ts — Next App Router, Hono, Deno and Bun all take
+// this shape directly.
+import { createAiHealthHandler, freeChain, usableChain } from '@bitbaum/ai-kit';
+import { llmHealth } from '@/lib/llm-health';
+
+const handler = createAiHealthHandler({
+  chain: usableChain(freeChain('MYAPP'), process.env),
+  health: llmHealth,
+  secret: process.env.AI_PROBE_SECRET,
+});
+
+export const GET = handler;</code></pre>
+<pre><code>GET /api/health/ai                          free. What happened last time.
+GET /api/health/ai?probe=1  + the secret    makes a real call. 200 or 503.</code></pre>
+<p><strong>Why a probe and not a passive read.</strong> Absence of failure is not evidence of success. A tracker that has recorded nothing looks identical whether the chain is perfect or every key is missing — and straight after a deploy that is exactly the state it is in. Observed converting the first app: the deploy was green, the bundle provably held the new code, both keys were present, <code>/api/health</code> returned 200, and <code>llm.status</code> was <code>&quot;unknown&quot;</code>. Every available signal said &quot;probably fine&quot; and none said &quot;works&quot;. The only paths that would have answered were an admin-authenticated form and two cron jobs that <strong>email real users</strong> — verifying a deploy must never require spamming somebody.</p>
+<p><strong>Why it is gated and cached.</strong> A probe spends real tokens from a daily budget shared with the app's actual features, so an ungated one on a health route is a self-inflicted outage: a monitor polling every 30s would drain the allowance and take the AI features down with it. So a probe runs only on <code>?probe=1</code> <strong>and</strong> with the secret, a <em>success</em> is cached for 10 minutes (returned with <code>cached</code> and its age, because a nine-minute-old success is a different claim from a fresh one), and a <strong>failure is never cached</strong> — the whole point is the truth about right now.</p>
+<p>With no secret configured the route answers <strong>501</strong>, not an open probe: an app that forgets to set one gets a route that cannot spend money, rather than one that can.</p>
+<h3 id="api-is-it-up-walk-the-chain-and-know-when-none-of-it-worked">Is it up? — walk the chain, and know when none of it worked</h3>
+<p>A chain nobody walks is a list, not a fallback. This was found sitting unused next to a single-shot caller in an app this package's <code>freeChain</code> had already saved from a retired model — the list existed, and nothing tried link two.</p>
+<pre><code>import { tryChain, createHealthTracker } from '@bitbaum/ai-kit';
+
+const llmHealth = createHealthTracker(); // one per process; see below
+
+const { text } = await tryChain(chain, {
+  health: llmHealth,
+  attempt: async ({ provider, model }) => {
+    // POST `${provider.baseUrl}/chat/completions` with `model` — your own
+    // fetch, your own retries. Throw to demote to the next link.
+    return callVendor(provider, model);
+  },
+});</code></pre>
+<p><code>attempt</code> makes the real request; <code>tryChain</code> only decides which link goes next and throws <code>ChainExhaustedError</code> (naming every link's failure, not just the last) when none of them work.</p>
+<p><code>createHealthTracker()</code> is a factory, not a global: a single-process app gets the old &quot;shared state everywhere&quot; behaviour for free by making exactly one and exporting it —</p>
+<pre><code>// lib/llm-health.ts
+export const llmHealth = createHealthTracker();</code></pre>
+<p>— and a health route reports <code>llmHealth.getHealth()</code> instead of only ever checking the database. That gap is not hypothetical: an app's <code>/health</code> reported &quot;healthy&quot; while its only configured key was returning 401 and every chat route was answering a friendly, silent, hardcoded apology. HTTP 200 is not evidence.</p>
+<h3 id="api-still-there-catch-a-retirement-before-a-user-does">Still there? — catch a retirement before a user does</h3>
+<pre><code>import { freeChain, checkCatalog, hasRot, catalogReport } from '@bitbaum/ai-kit';
+
+const verdicts = await checkCatalog(freeChain('MYAPP'));
+if (hasRot(verdicts)) console.warn(catalogReport(verdicts));</code></pre>
+<p>One <code>GET /models</code> per vendor. <strong>Zero tokens</strong>, which is what makes it schedulable — and &quot;somebody is supposed to remember&quot; is precisely what failed.</p>
+<p>Three states, not two: a catalogue that could not be read reports <strong>unchecked</strong>, never <em>gone</em>. Treating &quot;I could not look&quot; as &quot;nothing is there&quot; marks every model retired and invents an outage someone then acts on.</p>
+<blockquote><p>This fleet runs it daily across every repo from</p><p><a href="https://github.com/bitbaum/fleet"><code>fleet/scripts/ci/model-pin-audit.mjs</code></a>.</p></blockquote>
+<h3 id="api-too-fast-the-three-kinds-of-429">Too fast? — the three kinds of 429</h3>
+<pre><code>import { classifyRateLimit, rateLimitMessage } from '@bitbaum/ai-kit';
+
+classifyRateLimit(body); // 'capacity' | 'size' | 'daily'</code></pre>
+<p>They share a status code, a <code>type</code> and a <code>code</code>. Only the body tells them apart, and they need <strong>opposite</strong> responses: retry shortly, shrink the request, or give up on this vendor until tomorrow.</p>
+<p><code>retryAfterSeconds</code> is present only for the refusal a wait actually fixes. Telling someone whose daily quota is gone to try again in 20 minutes is a lie.</p>
+<h3 id="api-who-gets-it-fair-shares-of-a-free-tier">Who gets it — fair shares of a free tier</h3>
+<pre><code>import { fairShare, utcDayElapsed } from '@bitbaum/ai-kit';</code></pre>
+<p>A free tier grants roughly 100k tokens <strong>per day for an entire org</strong>, and one measured tool-calling turn cost ~16k — about six turns a day. Divided badly, the first enthusiastic user spends it before lunch and everyone after them meets a wall, including the person trying the product for the first time, who concludes it is broken and never comes back.</p>
+<p>Shares are <code>capacity / active users</code>, recomputed per request, where <em>active</em> means users who actually drew today — one user on a quiet day correctly gets everything. The allowance unlocks gradually through the day, with a <strong>one-turn floor</strong> so nobody's first question of the morning is refused.</p>
+<p>Whatever you pass as <code>costTokens</code> must err <strong>high</strong>: under-estimating admits turns the pool cannot cover, draining the day while the gate still believes there is room.</p>
+<h3 id="api-filling-forms-from-prose-then-by-talking-to-it">Filling forms — from prose, then by talking to it</h3>
+<pre><code>import { runFormAssist } from '@bitbaum/ai-kit/forms';
+import { useAiForm } from '@bitbaum/ai-kit/react';
+import { createFormAssistHandler } from '@bitbaum/ai-kit/server';</code></pre>
+<p>Re-exported from <a href="https://github.com/bitbaum/ai-forms"><code>ai-forms</code></a>, which stays its own package — it works, four apps run it, and it is useful well outside this fleet. Swallowing it would have broken those four for the sake of a filing system.</p>
+<p><strong>Note the subpath.</strong> Form filling is at <code>@bitbaum/ai-kit/forms</code>, not at the root. For one release it was both, and the first app to adopt the merged package paid for it: <code>ai-forms</code> is ESM-only, so importing the <em>chain</em> from the root dragged the forms package in behind it and the app's Jest run — which executes CJS — died inside a module it never asked for. One install is still the whole promise; the exports map is what keeps it, while letting a server that only wants a provider chain stop paying for a form library.</p>
+<p>React lives on its own subpath and is an <strong>optional</strong> peer, so importing <code>@bitbaum/ai-kit</code> on a server never pulls in a UI library.</p>
+<h3 id="api-seeing-the-web-search-and-read-as-citable-facts">Seeing the web — search and read, as citable facts</h3>
+<pre><code>import { webSearch, readPage, resultsToFacts, describeEmptySearch } from &quot;@bitbaum/ai-kit/web&quot;;
+import { assignFactIds, renderFacts } from &quot;@bitbaum/ai-kit/grounding&quot;;
+
+const found = await webSearch(&quot;lightning address spec&quot;, { limit: 5 });
+if (found.status !== &quot;found&quot;) {
+  return describeEmptySearch(found); // the model is told WHICH of the two this is
+}
+const facts = assignFactIds(resultsToFacts(found.results, found.provider));</code></pre>
+<p>Backends are a chain, in the same shape and for the same reason as the model chain: <code>searxng</code> (self-hosted, no key, no third party told what your users are looking for) → <code>brave</code> (an independent index, so the fallback is not the same index asked twice) → <code>tavily</code>. Each is included only if its env is set, so the common case is one call rather than a policy re-decided in every app.</p>
+<p><strong>The answer is three-valued, and that is the whole point.</strong> <code>found</code>; <code>nothing</code> (a backend answered and had nothing — a real negative the model may state); and <code>could_not_look</code> (nobody answered — an outage, which the model must <strong>not</strong> report as a fact about the world). Collapsing the last two into <code>[]</code> is how an expired API key becomes a confident sentence about what does not exist on the internet. A backend that answers <code>200</code> with zero results is walked past rather than believed, because that is exactly what a self-hosted metasearch instance does when its upstream engines refuse it.</p>
+<p><code>readPage()</code> is the other half — search returns titles and one sentence, and almost every real question needs the page. It fetches with <code>redirect: &quot;manual&quot;</code> and re-runs the <strong>full SSRF check on every hop</strong>, because an agent picks its own URLs: any page it reads can hand it a link to the cloud metadata service, and validating the first URL and then letting <code>fetch</code> follow the 302 is not a check at all. Truncation is stated in the result rather than implied, so a summary can say &quot;the first part of the page&quot; instead of implying it read all of it.</p>
+<p>Both produce <code>Fact</code>s from <code>/grounding</code> rather than a bespoke shape, so retrieved web content and retrieved database rows flow through <strong>one</strong> verifier and &quot;cite your sources&quot; becomes a string check instead of a line in a prompt. Search without citation binding makes hallucination worse, not better: the invented sentence is now surrounded by real ones.</p>
+<p>It does not summarise, re-rank with an LLM, crawl, render JavaScript, or cache. The first two are the model's job and belong upstream where the app's prompt lives; the last three are a different product with a different cost profile.</p>
+<h3 id="api-what-can-this-model-do-observe-never-assert">What can this model do? — observe, never assert</h3>
+<pre><code>import {
+  planToolAttempt,
+  classifyToolAttempt,
+  claimableVerdict,
+  currentVerdict,
+  makeRecord,
+  scopeKey,
+} from &quot;@bitbaum/ai-kit/capability&quot;;
+
+const observed = currentVerdict(await store.get(key)); // &quot;native&quot; | &quot;text&quot; | &quot;none&quot; | &quot;unobserved&quot;
+const plan = planToolAttempt({ observed }); // what to put on the wire
+
+const res = await fetch(endpoint, {
+  /* … tools attached when plan.sendTools … */
+});
+const seen = classifyToolAttempt({ status: res.status, parsed, bodyText, textProtocolFound });
+if (seen.record) await store.put(makeRecord({ ...key, verdict: seen.verdict, via: &quot;live&quot; }));</code></pre>
+<p>This replaces the line every app writes and every app gets wrong:</p>
+<pre><code>const TOOL_CAPABLE_PROVIDERS = [&quot;groq&quot;, &quot;openrouter&quot;]; // wrong tomorrow</code></pre>
+<p>That list is wrong the moment a user brings a model nobody has heard of, which is every day. It is also wrong in the other direction: it cannot express that <strong>five of nine</strong> free models probed here answer tools only in prose, so a native-only client loses most of its chain while believing it is fine.</p>
+<p><strong>The first real call is the probe.</strong> Send the tools, read what comes back, write down what it proved. Every model a user brings classifies itself on its first message, at no extra cost and with no release from us. Nothing here spends a separate request, which matters most when the key is the user's.</p>
+<p><strong>A positive is cheap; a negative is expensive and sticky.</strong> One <code>tool_calls</code> response proves capability outright. A 400 proves nothing <em>unless the vendor says it is about tools</em> — a context-length overflow, a content filter or a bad parameter must be recorded as nothing at all, because writing one down as &quot;no tools&quot; cripples a capable model until the record expires and nothing in the product explains why. Hence <code>record: false</code>: the right response to an uninformative failure is to learn nothing, not to guess.</p>
+<p><strong>&quot;Never asked&quot; is its own answer, read two ways.</strong> <code>planToolAttempt</code> is optimistic about it, because asking is the only way to learn. <code>claimableVerdict</code> is pessimistic about it, because announcing a capability a model has never demonstrated is a promise it may not keep, and the user meets that as a broken feature rather than a missing one. A single boolean cannot hold both, which is the whole reason this module exists.</p>
+<p>Records expire, and negatives expire sooner than positives: a model that gained tool support and is still marked incapable is invisibly crippled, while one that lost it says so loudly on the next call. Observations are keyed by a <strong>hash</strong> of the credential, never the credential, because capability genuinely differs per key and observations must not leak across them.</p>
+<p>Storage stays yours — a table, a KV, a file. This owns the shape and the rules.</p>
+<h3 id="api-can-it-see-a-picture-goes-only-to-a-model-that-reads-one">Can it SEE? — a picture goes only to a model that reads one</h3>
+<p><code>freeChain()</code> is ordered for text, so a screenshot sent through it meets four Groq links that cannot read it before reaching one that can. A blind model handed a picture does not fail usefully: it answers the words around the image, fluently, about nothing.</p>
+<p>So <code>complete()</code> and <code>completeStream()</code> route on it. Put an <code>image_url</code> part in a message and the blind links are skipped — no flag, no second chain, no call to make:</p>
+<pre><code>await complete({
+  messages: [
+    {
+      role: &quot;user&quot;,
+      content: [
+        { type: &quot;text&quot;, text: &quot;what does this say?&quot; },
+        { type: &quot;image_url&quot;, image_url: { url: dataUrl } },
+      ],
+    },
+  ],
+});
+// Groq's four text models are skipped. Gemini Flash and
+// google/gemma-4-26b-a4b-it:free are tried, in meter order.</code></pre>
+<p><strong>Three verdicts, and the third is the one that matters.</strong> <code>visionModels</code> on a provider names the ids that read images; an id in <code>models</code> but not there is <strong><code>&quot;no&quot;</code></strong>; an id in <em>neither</em> — an env override, a private deployment, a model a user brought — is <strong><code>&quot;unknown&quot;</code></strong>, and unknown is <em>tried</em>, never refused. Reading silence as a denial is how the strongest model a user can bring becomes the one your agent can do least with.</p>
+<p>When a turn carries a picture and every link is declared blind, you get <code>NoVisionLinkError</code> <strong>before any request is made</strong>, naming what it skipped — not a <code>ChainExhaustedError</code> that sends you hunting an outage that is not happening. The fix is a key, and the error says so.</p>
+<pre><code>import { visionProviders, modelSeesImages, NoVisionLinkError } from &quot;@bitbaum/ai-kit&quot;;
+
+// A dedicated vision chain, for a preflight whose whole job is the picture.
+// Stricter than the per-request filter: only proven sight, never &quot;unknown&quot;.
+const chain = usableChain(visionProviders(freeChain(&quot;APP&quot;)), process.env);
+
+// For a UI that must say &quot;this model cannot see&quot; before anything is attached.
+modelSeesImages(provider, model); // &quot;yes&quot; | &quot;no&quot; | &quot;unknown&quot;</code></pre>
+<p>Claims rot like pins do, so they are checkable: <code>pnpm run check:vision</code> sends a real image and asks what colour it is. One word, one right answer, and it treats <strong>HTTP 200 with empty content as a failure</strong> — a model that answers nothing is the shape that reads as a successful analysis of a picture nobody looked at.</p>
+<h3 id="api-a-reader-s-own-key-ai-kit-byok-ai-kit-seal">A reader's own key — <code>ai-kit/byok</code>, <code>ai-kit/seal</code></h3>
+<pre><code>import { BYOK_VENDORS, isByokConfig, byokChain } from &quot;@bitbaum/ai-kit/byok&quot;;
+import { sealSecret, openSecret } from &quot;@bitbaum/ai-kit/seal&quot;; // server only
+
+if (!isByokConfig(body.byok)) return bad();          // vendor id from a closed list
+const { chain, env, extraHeaders } = byokChain(body.byok, { url, title });
+completeStream({ chain, env, extraHeaders, messages, tools });</code></pre>
+<p>A <strong>closed list</strong> of OpenAI-shaped vendors (OpenRouter, OpenAI, Anthropic, Google Gemini, Groq, Mistral, DeepSeek, xAI, Together, Cerebras): the host comes from here, never from the request, because the server sends a stranger's bearer token to it. Anthropic and Gemini go through the same <code>complete()</code> as everyone else — both serve the OpenAI shape — so a reader's key gets streaming and tool calls with no vendor SDK. A local model (Ollama) is deliberately absent: a server cannot reach the reader's <code>localhost</code>. <code>ai-kit/byok</code> is pure, so a settings UI can import the list; <code>ai-kit/seal</code> (AES-256-GCM, OrangeCat's scheme) is for storing a signed-in reader's key at rest.</p>
+<h4 id="api-does-this-key-work-and-what-can-it-use-ai-kit-byok-probe">&quot;Does this key work, and what can it use?&quot; — <code>ai-kit/byok-probe</code></h4>
+<pre><code>import { probeByokKey } from &quot;@bitbaum/ai-kit/byok-probe&quot;; // server only
+
+const probe = await probeByokKey(&quot;anthropic&quot;, pastedKey);
+// { ok: true, message: &quot;Your Anthropic key works — 12 models available.&quot;,
+//   models: [&quot;claude-opus-5.5&quot;, …], suggested: &quot;claude-opus-5.5&quot; }</code></pre>
+<p>The moment a reader pastes a key, a settings screen can say whether it works <strong>and</strong> offer the models it can actually reach, with the best one preselected — instead of a text box and a failure in the chat later. Checked against each vendor the way that vendor checks keys: OpenRouter's <code>/models</code> is a public catalogue that answers 200 to a fake key, so its key is checked at <code>/key</code>; Anthropic's list wants <code>x-api-key</code>; Google and xAI reject a bad key with 400, not 401. On failure the reader gets the vendor's own words (with the key masked if the vendor echoed it), and an unreachable vendor is &quot;couldn't check&quot;, never &quot;your key is wrong&quot;.</p>
+<p>The suggestion names no model — ids change monthly. It is the newest model in the strongest tier the key can use, read from the name (<code>opus</code>/<code>pro</code>/<code>large</code> above, <code>mini</code>/<code>lite</code>/<code>haiku</code>/small parameter counts below, speed variants never on top) and dated by the vendor's catalogue, or by the version in the name when the vendor gives no dates (a <code>-latest</code> alias counts as newest). For a router, frontier labs' namespaces rank first. <code>rankByokModels</code> / <code>suggestByokModel</code> are pure, for re-ranking a list a UI already holds.</p>
+<h3 id="api-skip-a-link-that-already-refused-createlinkcooldown">Skip a link that already refused — <code>createLinkCooldown</code></h3>
+<pre><code>const cooldown = createLinkCooldown(); // once per process
+completeStream({ chain: cooldown.filter(chain), onLinkFailure: cooldown.record, ... });</code></pre>
+<p>A daily 429 cools the link until UTC midnight, a per-minute one for its <code>retry-after</code>; a size 429 cools nothing. If everything is cooling the whole chain is tried, so a stale memory is never the reason nothing answered.</p>
+<h3 id="api-readers-first-classbudget">Readers first — <code>classBudget</code></h3>
+<pre><code>const d = classBudget({ dayCapacityTokens, spent: { interactive, background }, cls: &quot;background&quot;,
+                        costTokens, policy: { background: BACKGROUND_POLICY } });
+if (!d.allowed) stop(d.reason); // &quot;class-cap&quot; | &quot;reserved&quot; | &quot;no-capacity&quot;</code></pre>
+<p><code>fairShare</code> splits a day between users; this splits it between <em>kinds</em> of spender on the same keys. A class may cap its total (<code>maxShare</code>) and refuse to spend below a floor left for everyone else (<code>stopBelow</code>). The default <code>BACKGROUND_POLICY</code> is a quarter of the day at most, never the last half; a class with no policy (the reader asking now) is limited by capacity alone.</p>
+<hr>
+<h2 id="api-what-it-deliberately-does-not-ship">What it deliberately does not ship</h2>
+<p><strong>~~An HTTP client.~~</strong> It ships one now — see <a href="https://github.com/bitbaum/ai-kit/blob/42f474865ea11b74fdcf8f48994d5c06d3847862/#make-the-call--complete-owns-the-fetch"><code>complete()</code></a>. The old rule (&quot;every app has its own calling conventions, and replacing those is a rewrite rather than an adoption&quot;) described this fleet's duplication accurately and then protected it: the conventions differed because nothing had ever offered to own them.</p>
+<p><strong>Model values.</strong> Which ids are free, which are billed, and which your account may use are properties of <em>your</em> deployment. Centralise the rule, assert it locally.</p>
+<hr>
+<h2 id="api-which-providers-and-why">Which providers, and why</h2>
+<p><a href="https://github.com/bitbaum/ai-kit/blob/42f474865ea11b74fdcf8f48994d5c06d3847862/docs/providers.md"><code>docs/providers.md</code></a> is the register: every inference provider looked at, what it actually costs, and the evidence and date behind each verdict. It exists because a provider ruled out today for costing money is worth revisiting the moment there is a budget — and because the reasons need to survive long enough to be re-checked rather than re-guessed.</p>
+<p>It also carries the rule that keeps this package honest: <strong>a vendor is only &quot;free&quot; once a real key has served a real completion.</strong> An unkeyed 401/403 proves only that the host exists, and an unkeyed 404 does not mean absent — both mistakes have been made here, in opposite directions, and both shipped.</p>
+<h2 id="api-related">Related</h2>
+<div class="record-table"><table><thead><tr><th>Package</th><th>For</th></tr></thead><tbody><tr><td>[`ai-forms`](https://github.com/bitbaum/ai-forms)</td><td>Form filling on its own, without the model layer</td></tr><tr><td>[`threadkit`](https://github.com/bitbaum/threadkit)</td><td>Messages between people, and who may see them</td></tr><tr><td>[`limitkit`](https://github.com/bitbaum/limitkit)</td><td>Stopping someone doing something too often</td></tr></tbody></table></div>
+<p><code>threadkit</code> and <code>limitkit</code> are <strong>not</strong> merged in here, on purpose: neither has anything to do with AI. An app that throttles its login form should not install a model catalogue to do it.</p>
+<h2 id="api-knowing-what-is-left">Knowing what is left</h2>
+<pre><code>const result = await complete({
+  messages,
+  onQuota: (readings) => void recordQuota(readings), // your table, your call
+});</code></pre>
+<p>Every vendor answer carries what it was willing to disclose about your remaining allowance, and this hands it to you on success <strong>and on refusal</strong>. No extra request: the number arrives on the exchange you were making anyway.</p>
+<p><strong>Do not poll a vendor's usage endpoint instead.</strong> Measured on one live key, within the same second:</p>
+<pre><code>GET  /api/v1/key         →  limit_remaining: null,  usage_daily: 0
+POST /chat/completions   →  429, x-ratelimit-remaining: 0 of 50,
+                            &quot;Rate limit exceeded: free-models-per-day&quot;</code></pre>
+<p>Both are OpenRouter, about the same account, and the account was locked out. The usage endpoint tracks money; free models cost nothing; the limit that actually binds is a request count it never reports. A dashboard built on the first line shows a full tank during a total outage.</p>
+<p>Three things this will not do, each deliberate:</p>
+<ul><li><strong>It never invents a reading.</strong> A vendor that sends no headers produces none.</li></ul>
+<p>Absent is a third state next to known and empty — render it as <em>unknown</em>, because drawing it full repeats the bug above and drawing it empty invents an outage.</p>
+<ul><li><strong>It never guesses a window.</strong> <code>x-ratelimit-remaining-requests</code> counts a day at</li></ul>
+<p>Groq and a minute elsewhere, so the window comes from a verified per-provider profile or from the header's own name, and is otherwise reported as unknown.</p>
+<ul><li><strong>It never stores anything.</strong> Persisting is the app's job, which is why this is</li></ul>
+<p>a callback. The package has no database and should not grow one.</p>
+<p><code>answersRemaining(reading, tokensPerTurn)</code> converts a token count into the unit a person actually thinks in. Nobody has an intuition for a token; &quot;about 40 more answers&quot; is actionable, and &quot;7,927 tokens&quot; is a sum the reader has to do and will get wrong.</p>
+<h2 id="api-showing-a-person-their-budget-what-the-numbers-mean">Showing a person their budget — what the numbers mean</h2>
+<p><code>answersRemaining</code> says how much is left. A usage screen also owes the reader what that <em>means</em>, and every app in this fleet ended up writing the same half twice: Loki's Settings → AI and OrangeCat's <code>/settings/usage</code> grew it separately in October 2026, with the same rules and slightly different sentences. It lives here now, so the next app starts with it.</p>
+<pre><code>import {
+  paceForecast, paceLine, weekSummary, refillsIn,
+  admissionsLeft, historyWindowLine, countOf,
+  type UsageAction, utcResetExplanation,
+} from '@bitbaum/ai-kit';
+
+const format = (n: number) => formatNumber(n);  // your app's formatter
+
+paceLine(paceForecast({ used: 5, limit: 10, now }), {
+  subject: 'your 10 messages', plural: true, then: ', then Cat waits until midnight UTC',
+});
+// → &quot;At today's pace your 10 messages run out around 12:00 UTC, then Cat waits until midnight UTC.&quot;
+
+weekSummary(lastSevenDays, todaysLimit);   // { total, activeDays, cappedDays } or null
+refillsIn(resetAt, Date.now());            // &quot;in 4 hours&quot; / &quot;in under a minute&quot; / null
+admissionsLeft(remainingTokens, gateEstimate, measuredPerAnswer);
+historyWindowLine({ assistant: 'Cat', items: 20, unit: 'message', memory: 'Memory', format });</code></pre>
+<p>The rules these keep, and that a screen built on them should keep too:</p>
+<ul><li><strong>A number that implies no action is decoration.</strong> Pair every figure with</li></ul>
+<p>what happens next, and every lever (<code>UsageAction</code>) with its consequence — a bare &quot;Upgrade&quot; is a guess.</p>
+<ul><li><strong>Absent is not zero.</strong> <code>weekSummary</code> returns <code>null</code> for an empty or</li></ul>
+<p>unreadable week; draw nothing rather than &quot;0&quot;. Seven rows ending today are the <em>last 7 days</em>, not &quot;this week&quot;.</p>
+<ul><li><strong>Claim only what you can back.</strong> <code>utcResetExplanation()</code> says what the</li></ul>
+<p>counter does and gives no reason for it, because &quot;the providers refill at midnight&quot; is false of Groq.</p>
+<ul><li><strong>No forecast from one sample.</strong> <code>paceForecast</code> stays silent until there is a</li></ul>
+<p>rate (<code>PACE_MIN_USED</code>, <code>PACE_MIN_DAY_FRACTION</code>, or your own <code>minUsed</code>).</p>
+<ul><li><strong>Count the way the gate admits.</strong> <code>admissionsLeft</code> never promises ten cheap</li></ul>
+<p>answers on a remainder the gate refuses after one.</p>
+<ul><li><strong>The app formats numbers.</strong> Pass your formatter; a page must not group</li></ul>
+<p>digits two different ways.</p>
+<ul><li><strong>The app owns product facts.</strong> Plan names, prices, which levers are open and</li></ul>
+<p>the reads from its own tables stay in the app; this module only phrases.</p>
+<p>Adopted by Loki (<code>lib/ai/budget-view.ts</code>) and OrangeCat (<code>services/cat/usage-meaning.ts</code>) — read either for a whole screen built on it.</p>
+<h2 id="api-versioning">Versioning</h2>
+<p><strong>This package is 1.x, and that is a functional decision rather than a milestone.</strong></p>
+<p>While it was <code>0.x</code>, every consumer was frozen at whatever minor it first installed, and nobody chose that. A caret range on a pre-1.0 version does not cross a minor — <code>^0.13.0</code> resolves to <em>at least 0.13.0 and below 0.14.0</em> — because semver treats a <code>0.x</code> minor as a breaking change. So eleven repos sat on five different versions of this package, spanning <code>0.6.2</code> to <code>0.15.0</code>, while the registry served <code>0.16.0</code> to none of them.</p>
+<p>The automation was not broken and nobody was neglecting it. Dependabot ran weekly in every one of those repos, correctly classified each <code>0.x</code> minor as a breaking change, and correctly routed it to its own pull request for a human to review — which is the right policy for a breaking change and the wrong outcome for a package whose minors were additive in practice. The version numbering defeated the process.</p>
+<p>From here:</p>
+<ul><li><strong>Minor releases are additive.</strong> New exports, new providers, new options with</li></ul>
+<p>defaults. Safe to take automatically, and your caret range will.</p>
+<ul><li><strong>Major releases remove or change something.</strong> They get a migration note and</li></ul>
+<p>they are meant to be read before merging.</p>
+<ul><li><strong>Patch releases fix behaviour</strong> without changing the surface.</li></ul>
+<p>The upgrade <em>to</em> 1.0.0 is the one exception, and it is a real one: a repo coming from <code>0.6.x</code> crosses ten minors of a package that was permitted to break at each of them. Run your own suite. Afterwards, the point is that you will not have to again.</p>
+<h3 id="api-keep-the-volatile-things-out-of-the-version">Keep the volatile things out of the version</h3>
+<p>Model ids rot on a timescale of weeks — vendors retire them with little notice, and a free catalogue rotates faster than that. Anything on that clock does not belong in a release, because shipping it means a version bump per rot and one upgrade per consumer to deliver a fact that was true yesterday.</p>
+<p>So this package ships the <em>logic</em> — how to discover a catalogue, how to walk a chain, how to read a refusal — and keeps the perishable data in the environment and in live catalogue fetches. That is what makes being a version behind uninteresting, which is a better property than being always current.</p>
+<h2 id="api-development">Development</h2>
+<pre><code>pnpm run verify  # lint + typecheck + build + test</code></pre>
+<p><strong>Releasing is merging.</strong> Raise <code>version</code> in <code>package.json</code> in the same PR as the change. When the PR merges, the auto-merge sweep dispatches <code>publish.yml</code> on main, which publishes that version if the registry does not have it yet and does nothing if it does. A pushed <code>v*</code> tag still works too.</p>
+<p>MIT.</p>
+<hr>
+<p>Part of <strong><a href="https://bitbaum.orangecat.ch/">bitbaum</a></strong> — AI-native products on open infrastructure, built in Zürich. Every package here lists the apps that use it: <strong><a href="https://bitbaum.orangecat.ch/packages/#ai-kit">which apps use ai-kit</a></strong>.</p></div></details>
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      <p>This repository has no root changelog in the retrieved source.</p>
+      <ol class="pkg-releases"><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/ai-kit/releases/tag/v1.21.4">v1.21.4</a><time datetime="2026-10-25T08:32:28Z">2026-10-25</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-0-what-s-changed">What's Changed</h2>
+<p>* chore(deps): bump the minor-and-patch group across 1 directory with 5 updates by @dependabot[bot] in https://github.com/bitbaum/ai-kit/pull/83 * chore(deps-dev): bump the minor-and-patch group with 4 updates by @dependabot[bot] in https://github.com/bitbaum/ai-kit/pull/84 * feat(usage): what the budget numbers mean, defined once (1.21.0) by @catomean in https://github.com/bitbaum/ai-kit/pull/85 * ci(publish): a merged version bump publishes itself by @catomean in https://github.com/bitbaum/ai-kit/pull/86 * chore(deps-dev): bump the minor-and-patch group with 3 updates by @dependabot[bot] in https://github.com/bitbaum/ai-kit/pull/87 * ci: cut scheduled CI minutes (CI audit) by @catomean in https://github.com/bitbaum/ai-kit/pull/88 * Fix false private-network rejection of public article hosts by @catomean in https://github.com/bitbaum/ai-kit/pull/89 * Preserve citation destinations when reading articles by @catomean in https://github.com/bitbaum/ai-kit/pull/90 * Keep page navigation out of article analysis context by @catomean in https://github.com/bitbaum/ai-kit/pull/91 * chore(deps-dev): bump the minor-and-patch group with 2 updates by @dependabot[bot] in https://github.com/bitbaum/ai-kit/pull/92 * Fix fragmented and multiline SSE parsing by @catomean in https://github.com/bitbaum/ai-kit/pull/93 * chore: add the fleet package template files this repo is missing (git-release.yml, release.yml) by @catomean in https://github.com/bitbaum/ai-kit/pull/94</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/ai-kit/compare/v1.20.1...v1.21.4</p></div></details></li></ol>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/ai-kit/commit/42f474865ea11b74fdcf8f48994d5c06d3847862">chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) (#95)</a> <time datetime="2026-10-26T11:06:07Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/ai-kit/commit/f80949a7cce18f196d6a7740503c8d585bbb6b44">chore: add the fleet package template files this repo is missing (git-release.yml, release.yml) (#94)</a> <time datetime="2026-10-25T08:31:22Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/ai-kit/commit/224cb56bf2849b95ce8d600b1060b05f1b85aa79">fix(sse): assemble multiline events and handle CR framing (v1.21.4) (#93)</a> <time datetime="2026-10-25T08:18:15Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/ai-kit/commit/a3e27e8a13da2806de60690aaf77937eb86e8a5a">chore(deps-dev): bump the minor-and-patch group with 2 updates (#92)</a> <time datetime="2026-10-24T14:53:50Z">2026-10-24</time></li><li><a href="https://github.com/bitbaum/ai-kit/commit/1a48792ec00e34a0a038ef5bfef5f979b74d5f9d">Prioritize article content before the model character limit (#91)</a> <time datetime="2026-10-24T05:30:36Z">2026-10-24</time></li><li><a href="https://github.com/bitbaum/ai-kit/commit/3e69a8c1ad74ea04626611d700463bb787b6bfb6">Preserve article citation links in model-visible text (#90)</a> <time datetime="2026-10-24T05:12:41Z">2026-10-24</time></li><li><a href="https://github.com/bitbaum/ai-kit/commit/65e3ce962ce8d25ce1733e6412f9474fd184bcdb">Fix public IPv4 range classification and mapped-address guards (#89)</a> <time datetime="2026-10-24T05:08:01Z">2026-10-24</time></li><li><a href="https://github.com/bitbaum/ai-kit/commit/c786c7749f84d078edeabc3a36799d2902ba40c5">ci: cut scheduled CI minutes (CI audit) (#88)</a> <time datetime="2026-10-21T18:26:57Z">2026-10-21</time></li></ol></details>
+      <a class="textlink" href="https://github.com/bitbaum/ai-kit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/ai-kit/tags">All tags</a>
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      <div class="chips"><a href="/botsmann/">Botsmann</a><a href="/causius/">Causius</a><a href="/datacat/">DataCat</a><a href="/diplodoctor/">Diplodoctor</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/revamp-info/">Hirnli</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/sbb-fundbuero/">Nordbahn Fundbüro</a><a href="/skif/">Skif</a><a href="/solon/">Solon</a><a href="/substrata/">Substrata</a><a href="/surf-your-life/">Surf Your Life</a><span>6 other repositories</span></div>
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/ai-kit/blob/42f474865ea11b74fdcf8f48994d5c06d3847862/">source commit <code>42f474865ea1</code></a> · 2026-10-26. Source documentation can include work beyond the registry release.</p>
+      <a class="textlink" href="https://github.com/bitbaum/ai-kit/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/paykit/">&larr; paykit</a><a href="/packages/">All packages</a><a href="/packages/mail-kit/">mail-kit &rarr;</a></div></div>
   </main>
@@ -111,8 +441,13 @@ addEventListener("error", function (e) {
     for (const btn of document.querySelectorAll(".js-copy")) {
       btn.addEventListener("click", async () => {
         const text = btn.getAttribute("data-copy") || "";
-        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); setTimeout(() => btn.classList.remove("copied"), 1200); }
-        catch { /* clipboard may be denied */ }
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
       });
     }
   </script>

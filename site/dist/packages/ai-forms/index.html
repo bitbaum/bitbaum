@@ -76,7 +76,7 @@ addEventListener("error", function (e) {
     </div>
   </header>
   <main id="main">
-    <section data-lodge class="stage stage-floored venture-hero">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
       <div class="wrap">
         <span class="eyebrow">Package &middot; MIT</span>
         <h1 class="display-1">ai-forms</h1>
@@ -90,7 +90,10 @@ addEventListener("error", function (e) {
       </div>
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-horse" aria-hidden="true"><span class="horse-stand"><img class="fig fig-horse" src="/art/horse.webp" width="440" height="384" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="horse-gallop" hidden><img class="fig fig-horse-run" src="/art/horse-run.webp" width="440" height="314" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
-    <section class="wrap venture-body">
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
       <div class="prose">
         <h2>Why it exists</h2><p>People do not want to meet a form. They want to say what they need. Each product was about to build its own 'paste a paragraph, get fields' box, with its own prompt and its own way of being wrong.</p>
         <h2>How it works</h2><p>A headless core turns prose into the fields a schema already allows, then lets the person correct them in conversation. A React hook and a route factory are optional. The form on the page stays the product's own.</p>
@@ -98,12 +101,146 @@ addEventListener("error", function (e) {
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Latest version</span><span>v0.1.3</span></div>
+        <div><span class="label">Registry release</span><span>v0.1.3</span></div>
         <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add ai-forms@^0.1.3" aria-label="Copy install command"><code>pnpm add ai-forms@^0.1.3</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/ai-forms">bitbaum/ai-forms</a></span></div>
-        <div><span class="label">Used by</span><span>6 apps</span></div>
-        <div class="uses" id="used-by"><span class="label">Used by</span><div class="chips"><a href="/evig/">evig</a><a href="/loki/">Loki</a><a href="/surf-your-life/">Surf Your Life</a><span>3 private projects</span></div></div>
+        <div><span class="label">Declared consumers</span><span>6 repositories</span></div>
+
       </div>
+    </section>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/ai-forms/blob/6e748d0e113a26d35d06236da20756e33481794a/">source commit <code>6e748d0e113a</code></a> · 2026-10-25. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-try-it">Try it</a></li><li><a href="#api-what-done-looks-like">What &quot;done&quot; looks like</a></li><li><a href="#api-why-refinement-silently-fails">Why refinement silently fails</a></li><li><a href="#api-adopting-it-three-files">Adopting it — three files</a></li><li><a href="#api-api">API</a></li><li><a href="#api-guarantees-the-tests-hold">Guarantees the tests hold</a></li><li><a href="#api-license">License</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p><a href="https://img.shields.io/npm/v/ai-forms.svg">![npm</a>](https://www.npmjs.com/package/ai-forms) <a href="https://github.com/bitbaum/ai-forms/actions/workflows/ci.yml/badge.svg">![CI</a>](https://github.com/bitbaum/ai-forms/actions/workflows/ci.yml) <a href="https://img.shields.io/badge/License-MIT-blue.svg">![License: MIT</a>](LICENSE)</p>
+<p>Headless AI form filling and conversational refinement.</p>
+<p>Forms are the worst part of most software. This package makes a form answer to plain language — fill it from a description, then keep talking to it (&quot;shorter&quot;, &quot;move the date to next Friday&quot;, &quot;actually call it something else&quot;) until it is right.</p>
+<pre><code>pnpm add ai-forms</code></pre>
+<p>No provider SDK, no markup, no styles. You pass in a function that calls whatever model you already use; the package handles prompting, parsing, sanitising, and the merge rules that decide who wins when the model and the user disagree.</p>
+<p>Works with any model (OpenAI, Anthropic, Groq, Gemini, local — anything you can wrap in <code>(prompt) => Promise&lt;string></code>), any framework on the server, and React on the client. The React hook is optional; the core is framework-free.</p>
+<hr>
+<h2 id="api-try-it">Try it</h2>
+<pre><code>git clone https://github.com/bitbaum/ai-forms
+cd ai-forms/examples/next &amp;&amp; pnpm install &amp;&amp; pnpm run dev</code></pre>
+<p>No API key required — the example ships a deterministic offline matcher (clearly labelled as such in the UI) so the behaviour is visible immediately. Set <code>GROQ_API_KEY</code> or <code>OPENAI_API_KEY</code> for a real model.</p>
+<p>Fill the form from one sentence, then send <em>&quot;actually make it principal level&quot;</em> and watch only <code>seniority</code> change while salary, skills and contact survive. See <a href="https://github.com/bitbaum/ai-forms/blob/6e748d0e113a26d35d06236da20756e33481794a/examples/next"><code>examples/next</code></a>.</p>
+<h2 id="api-what-done-looks-like">What &quot;done&quot; looks like</h2>
+<p>Five properties, all of which this package holds:</p>
+<ol><li><strong>Every form can be filled from prose.</strong> The user types what they want in one box; the form fills in.</li><li><strong>Every filled form can be changed by talking to it.</strong> Follow-up instructions apply to what is already there. This is the part almost everyone gets wrong — see &quot;Why refinement silently fails&quot; below.</li><li><strong>The user's own typing is never overwritten by a fill.</strong> Only gaps get filled, plus fields explicitly marked as carrying a default rather than intent.</li><li><strong>Every AI edit is reversible and visible.</strong> <code>undo()</code> restores the previous values; <code>isAiTouched(name)</code> marks which fields the assistant wrote.</li><li><strong>The page-aware chat can drive the form.</strong> The small assistant in the corner sees what is on screen and writes into the open form, rather than telling the user which buttons to press.</li></ol>
+<h2 id="api-why-refinement-silently-fails">Why refinement silently fails</h2>
+<p>The usual bug is one line of merge logic. An implementation protects user input by letting existing values win on conflict — correct for filling an empty form, fatal for changing a full one. Ask it to rewrite a description that already has text and the existing value overwrites the model's output, so nothing happens. The form appears to ignore the user.</p>
+<p>The fix is intent:</p>
+<div class="record-table"><table><thead><tr><th>Intent</th><th>Who wins</th><th>Why</th></tr></thead><tbody><tr><td>`fill`</td><td>the user</td><td>The model is filling gaps. Typed input is intent and must survive.</td></tr><tr><td>`refine`</td><td>the model</td><td>Changing the field *is* the request. Omitted fields keep their values.</td></tr></tbody></table></div>
+<p><code>useAiForm</code> infers the intent from whether the form is empty, so the user never picks a mode.</p>
+<p>The same mistake has a sibling: a single minimum input length. A fill description should be a sentence, but a refine instruction is legitimately two words (&quot;shorter&quot;). One floor for both rejects exactly the instructions that matter. See <code>MIN_INSTRUCTION_LENGTH</code>.</p>
+<hr>
+<h2 id="api-adopting-it-three-files">Adopting it — three files</h2>
+<h3 id="api-1-declare-the-form-s-fields-ssot">1. Declare the form's fields (SSOT)</h3>
+<pre><code>// src/config/ai-forms.ts
+import { defineFields, type FormTarget } from 'ai-forms';
+
+export const GOAL_FORM: FormTarget = {
+  key: 'goal',
+  name: 'Goal',
+  fields: defineFields([
+    { name: 'title', label: 'Title', type: 'text', required: true, maxLength: 120 },
+    { name: 'description', label: 'Description', type: 'textarea', maxLength: 500 },
+    { name: 'targetDate', label: 'Target date', type: 'date' },
+    { name: 'ownerId', label: 'Owner', type: 'text', aiExcluded: true },
+  ]),
+  instructions: ['Target dates are calendar dates, never relative phrases.'],
+};
+
+export const AI_FORMS = [GOAL_FORM /* , ... */];</code></pre>
+<p><code>aiExcluded</code> fields are never shown to the model and never writable by it — ids, tokens, ownership columns.</p>
+<h3 id="api-2-mount-one-route-for-the-whole-app">2. Mount one route for the whole app</h3>
+<pre><code>// src/app/api/ai/form-assist/route.ts
+import { createFormAssistHandler } from 'ai-forms/server';
+import { AI_FORMS } from '@/config/ai-forms';
+import { getCurrentUserId } from '@/lib/session';
+
+export const POST = createFormAssistHandler({
+  targets: AI_FORMS,
+  authorize: async () => (await getCurrentUserId())
+    ? { ok: true }
+    : { ok: false, status: 401, error: 'Sign in to use the assistant.' },
+
+  // Any provider. `complete` just has to return the model's text.
+  complete: async ({ system, prompt, maxTokens, temperature }) => {
+    const res = await fetch(`${process.env.LLM_BASE_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${process.env.LLM_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: process.env.LLM_MODEL,
+        max_tokens: maxTokens,
+        temperature,
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: prompt },
+        ],
+      }),
+    });
+    const json = await res.json();
+    return json.choices[0].message.content;
+  },
+});</code></pre>
+<p>The package never owns API keys, model choice, budgets, or fallback policy — the app passes its own caller. That is deliberate: you already have retry, spend caps, and a fallback chain, and a form library has no business owning any of them.</p>
+<p>Field specs live on the server, so a client can never widen the set of fields the model may write.</p>
+<h3 id="api-3-use-the-hook-in-the-form">3. Use the hook in the form</h3>
+<pre><code>const form = useAiForm({ target: 'goal', fields: GOAL_FORM.fields });
+
+&lt;input value={form.text('title')} onChange={e => form.setValue('title', e.target.value)} />
+&lt;textarea value={form.text('description')} onChange={e => form.setValue('description', e.target.value)} />
+
+&lt;AiFormAssistant
+  form={form}
+  suggestAfterFill                       // propose improvements right after a fill
+  labels={{ fillTitle: 'Mit KI ausfüllen', /* … your language */ }}
+  classNames={{ root: 'card', textarea: 'input', submit: 'btn-primary', suggestion: 'chip' }}
+/></code></pre>
+<p><strong>The hook owns form state.</strong> That is the point: the user and the assistant write to the same store, which is what makes &quot;now change the date&quot; work at all. Forms adopting this usually get <em>shorter</em>, because a <code>useState</code> per field collapses into one.</p>
+<p><strong>One assistant control for every app.</strong> <code>AiFormAssistant</code> is the behaviour — fill, change, undo, &quot;N fields updated&quot;, suggestions — with no styling: each app has its own design-token SSOT, so you pass words (<code>labels</code>) and token classes (<code>classNames</code>). Improve the experience here and every adopter gets it on the next install; a hand-rolled bar per app is how the same fix used to be needed four times. Rendering your own around <code>useAiForm</code> still works.</p>
+<p><strong>What the assistant does once the form has content.</strong> The same box takes three kinds of input: a change (&quot;shorter&quot;, &quot;write the description&quot;), more information (paste the advert — empty fields fill, filled ones are left alone), or nothing at all — <em>Suggest improvements</em> asks the model what it would change, and each suggestion is one tap that runs as an ordinary refine, with undo. Facts (dates, numbers, contacts) are never invented; prose you ask for is written.</p>
+<hr>
+<h2 id="api-api">API</h2>
+<h3 id="api-ai-forms"><code>ai-forms</code></h3>
+<div class="record-table"><table><thead><tr><th>Export</th><th>Purpose</th></tr></thead><tbody><tr><td>`defineFields(specs)`</td><td>Identity helper that pins field names into the type</td></tr><tr><td>`runFormAssist({ target, request, complete })`</td><td>The whole pipeline: prompt → model → parse → sanitize → merge</td></tr><tr><td>`mergeValues(ai, existing, intent, fields)`</td><td>SSOT for who wins on conflict</td></tr><tr><td>`sanitizeValues(raw, fields)`</td><td>Coerce to declared types; drop invented and excluded fields</td></tr><tr><td>`parseAssistResponse(text)`</td><td>Extract JSON from fenced or prose-wrapped completions</td></tr><tr><td>`MIN_INSTRUCTION_LENGTH`</td><td>Per-intent input floors</td></tr></tbody></table></div>
+<h3 id="api-ai-forms-server"><code>ai-forms/server</code></h3>
+<p><code>createFormAssistHandler(config)</code> → <code>(Request) => Promise&lt;Response></code>. Web-standard, so it drops straight into a Next.js App Router route. <code>authorize</code> runs before any model call.</p>
+<h3 id="api-ai-forms-react"><code>ai-forms/react</code></h3>
+<p><code>useAiForm(options)</code> → values, <code>setValue</code>, <code>ask</code> / <code>fill</code> / <code>refine</code>, <code>busy</code>, <code>error</code>, <code>transcript</code>, <code>changed</code>, <code>isAiTouched</code>, <code>undo</code>, <code>canUndo</code>, <code>reset</code>, <code>suggest</code> / <code>suggestions</code> / <code>suggesting</code> / <code>applySuggestion</code>.</p>
+<p><code>AiFormAssistant({ form, labels?, classNames?, icon?, suggestAfterFill? })</code> — the shared control described above.</p>
+<p>User-facing errors are English by default; pass <code>messages</code> to <code>createFormAssistHandler</code> (or per form on the <code>FormTarget</code>) to speak the app's language. <code>intent: &quot;suggest&quot;</code> goes to the same route; <code>respondSuggest</code> customises its envelope.</p>
+<p><code>readPageContext(selector?, maxChars?)</code> reads rendered text from the page, so a page-aware assistant can only claim to see what is actually on screen.</p>
+<hr>
+<h2 id="api-guarantees-the-tests-hold">Guarantees the tests hold</h2>
+<p><code>pnpm run verify</code> runs the build and the suite. The suite exists to stop specific regressions, not for coverage:</p>
+<ul><li>a fill never overwrites what the user typed; an <code>overridable</code> default may be replaced</li><li>a refine applies to existing text and keeps the fields it did not return</li><li>a two-word refine instruction is accepted where a two-word fill is rejected</li><li>prior turns and current values reach the model on a follow-up</li><li><code>aiExcluded</code> fields never appear in a prompt and can never be written</li><li>undeclared fields, uncoercible numbers, and unknown option values are dropped rather than guessed</li><li>calendar dates do not drift a day (local date, never <code>toISOString</code>)</li><li>a turn that changes nothing reports that honestly instead of claiming success</li><li>an unauthorised request never reaches the provider</li></ul>
+<h2 id="api-license">License</h2>
+<p>MIT</p>
+<hr>
+<p>Part of <strong><a href="https://bitbaum.orangecat.ch/">bitbaum</a></strong> — AI-native products on open infrastructure, built in Zürich. Every package here lists the apps that use it: <strong><a href="https://bitbaum.orangecat.ch/packages/#ai-forms">which apps use ai-forms</a></strong>.</p></div></details>
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      <p>This repository has no root changelog in the retrieved source.</p>
+      <p>No release notes have been retrieved. This does not mean the package has never changed.</p>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/ai-forms/commit/6e748d0e113a26d35d06236da20756e33481794a">chore(deps): bump next from 15.5.27 to 15.5.28 in /examples/next (#52)</a> <time datetime="2026-10-25T05:16:19Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/ai-forms/commit/3fc82c8353a8153488f7ac2d19c9cbaa72d07d44">chore(deps-dev): bump the minor-and-patch group with 2 updates (#51)</a> <time datetime="2026-10-24T22:40:00Z">2026-10-24</time></li><li><a href="https://github.com/bitbaum/ai-forms/commit/e39f185edaefea2c7c9b06b8e504cf91aca88075">chore(deps-dev): bump the minor-and-patch group with 3 updates (#50)</a> <time datetime="2026-10-17T21:24:53Z">2026-10-17</time></li><li><a href="https://github.com/bitbaum/ai-forms/commit/4d335097f488af960fbb25e84dd46e977b1310e2">chore(deps-dev): bump the minor-and-patch group with 4 updates (#49)</a> <time datetime="2026-10-10T20:35:58Z">2026-10-10</time></li><li><a href="https://github.com/bitbaum/ai-forms/commit/68b2db546d4f67fa89462a40099c90b9841753b7">chore(deps): bump next from 15.5.24 to 15.5.27 in /examples/next (#48)</a> <time datetime="2026-10-08T14:48:44Z">2026-10-08</time></li><li><a href="https://github.com/bitbaum/ai-forms/commit/ba3f9cafb1863706f16342d76f639358cf327664">chore(deps-dev): bump the minor-and-patch group across 1 directory with 4 updates (#47)</a> <time datetime="2026-10-08T14:41:32Z">2026-10-08</time></li><li><a href="https://github.com/bitbaum/ai-forms/commit/f5689bbdf60c1e4ab0651d828c6478ee94ecdd64">feat: refine fills gaps, writes requested prose, suggestions, shared AiFormAssistant (0.1.3) (#46)</a> <time datetime="2026-09-24T08:31:13Z">2026-09-24</time></li><li><a href="https://github.com/bitbaum/ai-forms/commit/4839d60592fd4882bd87f39ea1ccc89521f2e29d">docs: link back to bitbaum, and to who uses this package (#44)</a> <time datetime="2026-09-17T08:03:49Z">2026-09-17</time></li></ol></details>
+      <a class="textlink" href="https://github.com/bitbaum/ai-forms/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/ai-forms/tags">All tags</a>
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      <div class="chips"><a href="/packages/ai-kit/">ai-kit</a><a href="/evig/">evig</a><a href="/loki/">Loki</a><a href="/surf-your-life/">Surf Your Life</a><span>2 other repositories</span></div>
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/ai-forms/blob/6e748d0e113a26d35d06236da20756e33481794a/">source commit <code>6e748d0e113a</code></a> · 2026-10-25. Source documentation can include work beyond the registry release.</p>
+      <a class="textlink" href="https://github.com/bitbaum/ai-forms/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/searchkit/">&larr; searchkit</a><a href="/packages/">All packages</a><a href="/packages/sitekit/">sitekit &rarr;</a></div></div>
   </main>
@@ -111,8 +248,13 @@ addEventListener("error", function (e) {
     for (const btn of document.querySelectorAll(".js-copy")) {
       btn.addEventListener("click", async () => {
         const text = btn.getAttribute("data-copy") || "";
-        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); setTimeout(() => btn.classList.remove("copied"), 1200); }
-        catch { /* clipboard may be denied */ }
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
       });
     }
   </script>

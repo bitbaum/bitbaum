@@ -64,6 +64,27 @@ What this repository owns is presentation, in `site/overrides.json`:
 `site/hire.json` holds the hire page's editorial half: `offers` (name, price,
 unit, what), `method`, `faq` and `contact`.
 
+## Package reference documentation
+
+Each package page renders source-pinned README/API examples, a repository
+changelog where one exists, published release notes and recent source activity. Source activity is explicitly
+separate from released/deployed changes. `site/package-records.mjs`
+fetches the owning public repository head, then reads both markdown files at that
+exact commit; `package-records.snapshot.json` makes local/offline builds reproducible.
+A missing changelog is shown as missing. Fetch failures are errors, not empty history.
+`--require-fresh` refuses publication if any package source cannot be refreshed.
+The regular site rebuild refreshes this evidence alongside the registry.
+
+Current-source documentation may describe unreleased work, so pages show its
+commit/date separately from the registry release and install command. Dependency
+counts describe manifest declarations, not certified production journeys. The
+site does not infer private project names from unlisted adopter repositories.
+
+`node site/check-packages.mjs` checks all package pages at phone/desktop widths
+and both themes with documentation expanded. This runs in PR and publication
+checks. Factual package content is rendered from its owners, not copied into
+editorial overrides; missing evidence never becomes a claim that a feature works.
+
 ## Both directions of "what uses what"
 
 The package registry records adopters by repository. The build inverts that, so
