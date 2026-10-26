@@ -76,7 +76,7 @@ addEventListener("error", function (e) {
     </div>
   </header>
   <main id="main">
-    <section data-lodge class="stage stage-floored venture-hero">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
       <div class="wrap">
         <span class="eyebrow">Package &middot; MIT</span>
         <h1 class="display-1">speechkit</h1>
@@ -90,7 +90,10 @@ addEventListener("error", function (e) {
       </div>
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-snail" aria-hidden="true"><img class="fig fig-snail" src="/art/snail.webp" width="390" height="228" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
-    <section class="wrap venture-body">
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
       <div class="prose">
         
         
@@ -98,12 +101,84 @@ addEventListener("error", function (e) {
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Latest version</span><span>v1.0.0</span></div>
+        <div><span class="label">Registry release</span><span>v1.0.0</span></div>
         <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/speechkit@^1.0.0" aria-label="Copy install command"><code>pnpm add @bitbaum/speechkit@^1.0.0</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/speechkit">bitbaum/speechkit</a></span></div>
-        <div><span class="label">Used by</span><span>1 app</span></div>
-        <div class="uses" id="used-by"><span class="label">Used by</span><div class="chips"><a href="/heidi/">Heidi</a></div></div>
+        <div><span class="label">Declared consumers</span><span>1 repository</span></div>
+
       </div>
+    </section>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/speechkit/blob/dd17fb85665e55e3bba427587fc642ac395036c6/">source commit <code>dd17fb85665e</code></a> · 2026-10-25. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-install">Install</a></li><li><a href="#api-the-rule-everything-else-follows">The rule everything else follows</a></li><li><a href="#api-layers">Layers</a></li><li><a href="#api-where-somebody-searched-for-a-word">Where somebody searched for a word</a></li><li><a href="#api-grammar-run-your-own-checker">Grammar: run your own checker</a></li><li><a href="#api-the-references-in-the-source">The `§` references in the source</a></li><li><a href="#api-releasing">Releasing</a></li><li><a href="#api-develop">Develop</a></li><li><a href="#api-license">License</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Measure how somebody spoke — and say only what the evidence allows.</p>
+<p>A learner records themselves speaking a language they are learning. speechkit tells them, from that recording:</p>
+<ul><li><strong>how it went</strong> — how long they spoke, how often and how long they paused, how long they went before stopping;</li><li><strong>how fast</strong> — speech rate and articulation rate, and what the <em>pair</em> suggests (have the words but hunting for them, or neither);</li><li><strong>where they searched for a word</strong> — &quot;1.8 s before <em>Buch</em>&quot;: the word after a long pause is usually the one they were reaching for;</li><li><strong>grammar a listener would notice</strong> — &quot;den Buch → das Buch&quot;, from your own LanguageTool, never spelling, casing or punctuation, which the recogniser decided and the speaker did not.</li></ul>
+<p>It will <strong>not</strong> give a pronunciation score. That is not a gap waiting to be filled: a score against a native ideal is a judgement about a person, and no improvement in speech recognition makes it honest. A test in this repo fails if an export ever starts to look like one.</p>
+<p>Extracted from <a href="https://github.com/bitbaum/heidi">Heidi</a>, where it runs the speaking practice for Zurich German learners.</p>
+<h2 id="api-install">Install</h2>
+<pre><code>pnpm add @bitbaum/speechkit</code></pre>
+<p>On npm since 2026-09-25. <code>dist/</code> is also committed, so <code>github:bitbaum/speechkit#v1.0.0</code> works without a build step if you need a git pin.</p>
+<h2 id="api-the-rule-everything-else-follows">The rule everything else follows</h2>
+<p>A transcript is evidence about a speaker's <strong>words</strong> only when the recogniser returns the variety that was <strong>spoken</strong>.</p>
+<p>Swiss German recognition translates into Standard German — that is what every public corpus was built to do. A learner who says a flawless Zurich sentence gets back <code>ist</code> and <code>nicht</code>, none of which they said. Judging their grammar from that corrects the machine's German and bills it to the learner.</p>
+<pre><code>import { evidenceFrom, mayJudgeForm } from &quot;@bitbaum/speechkit&quot;;
+
+evidenceFrom({ available: true, returnsSpokenVariety: false, wer: 25.6 }); // &quot;meaning-only&quot;
+evidenceFrom({ available: true, returnsSpokenVariety: true, wer: 6.4 });   // &quot;words&quot;
+mayJudgeForm({ available: true, returnsSpokenVariety: true, wer: 22 });     // false — too many of its words are its own</code></pre>
+<p>So the same product is honest in both directions: on a dialect nothing transcribes faithfully, measure the signal and judge no forms; on a variety that is transcribed faithfully, measure the words too.</p>
+<h2 id="api-layers">Layers</h2>
+<div class="record-table"><table><thead><tr><th>Layer</th><th>Needs</th><th>Exports</th></tr></thead><tbody><tr><td>signal</td><td>raw samples</td><td>`measureDelivery`, `usable`, `MIN_PAUSE_MS` / `SEARCH_PAUSE_MS` / `STUCK_PAUSE_MS`</td></tr><tr><td>evidence</td><td>what the recogniser does</td><td>`evidenceFrom`, `mayJudgeForm`, `isFaithfulRendering`</td></tr><tr><td>words</td><td>a faithful transcript</td><td>`measureSpoken`, `hesitations`, `markerVerdict`, `measureFluency`, `countFilledPauses`</td></tr><tr><td>grammar</td><td>a faithful transcript + LanguageTool</td><td>`checkGrammar`, `fromLanguageTool`, `worthShowing`</td></tr><tr><td>practice design</td><td>nothing</td><td>`NATION_LADDER`, `trajectory`, `nextLimit` (4/3/2 task repetition)</td></tr></tbody></table></div>
+<p>Every fact about a language is passed in: vowels and whether adjacent vowels merge (<code>SyllableRule</code>), filler words, dialect marker words, the LanguageTool code. Nothing in the package names a language — Heidi runs it on Zurich German and Ukrainian from the same code, and Ukrainian found a real bug (it has no diphthongs, so merging adjacent vowels undercounted syllables by a third).</p>
+<h2 id="api-where-somebody-searched-for-a-word">Where somebody searched for a word</h2>
+<pre><code>import { measureDelivery, hesitations } from &quot;@bitbaum/speechkit&quot;;
+
+const delivery = measureDelivery(samples, sampleRate);      // on the device, from the audio
+const found = hesitations(delivery.pauseSpans ?? [], words); // words: timings from your recogniser
+// → [{ before: &quot;Buch&quot;, index: 3, ms: 1800 }]</code></pre>
+<p>The pauses come from the <strong>signal</strong>, and the recogniser's timings only <strong>name</strong> them. Recognisers are poor clocks for silence: Whisper was observed stretching a one-syllable word across a 1.8 s pause and leaving no gap between words at all. The test for this uses the exact timings it returned.</p>
+<p>Word timings: <code>transcribe({ words: true })</code> in <a href="https://github.com/bitbaum/ai-kit"><code>@bitbaum/ai-kit</code></a> ≥ 1.16.</p>
+<h2 id="api-grammar-run-your-own-checker">Grammar: run your own checker</h2>
+<pre><code>docker run -d --name languagetool --restart unless-stopped \
+  -p 127.0.0.1:8010:8010 -e Java_Xmx=1g --memory 1536m erikvl87/languagetool:6.8</code></pre>
+<p><code>checkGrammar(text, &quot;de-CH&quot;)</code> defaults to <code>http://127.0.0.1:8010</code>. Bind it to loopback: the server has no authentication, and the text is what somebody said out loud. Pointing <code>url</code> at the public API works and is a privacy decision to make — and disclose — on purpose. The package reads no environment.</p>
+<p><code>null</code> means <strong>not checked</strong> (the checker was down or slow); an empty <code>findings</code> means <strong>checked, nothing a listener would notice</strong>. Show them differently, or a page tells somebody their German was clean on the day the checker was off.</p>
+<p>LanguageTool is partial and the page should say so. On German it catches agreement, case and verb forms (<code>ich gehen</code>, <code>den Buch</code>) and misses verb position after <em>weil</em>.</p>
+<h2 id="api-the-references-in-the-source">The <code>§</code> references in the source</h2>
+<p>Comments cite sections of Heidi's design principles, which is where the reasoning was argued:</p>
+<ul><li><strong>§3</strong> — a <em>decision</em> (a threshold we chose and can defend) is labelled as one, never dressed up as a finding;</li><li><strong>§6</strong> — a model is never the sole judge of language the learner cannot audit; findings are deterministic, with a rule id you can argue with;</li><li><strong>§7</strong> — the state of Swiss German speech technology, measured rather than taken from vendors;</li><li><strong>§8</strong> — no false precision: no norms, no grades, no scores. Every number is reported as itself and compared only with the same learner's earlier takes.</li></ul>
+<h2 id="api-releasing">Releasing</h2>
+<p><code>1.0.0</code> was published by hand on 2026-09-25 — npm will not let a Trusted Publisher be configured for a package that does not exist yet. Releases are meant to be tag-driven and tokenless (npm Trusted Publishing), the same as <code>ai-kit</code>, once one more step is done by whoever holds the account's passkey:</p>
+<pre><code>npm login --auth-type=web     # a real 2FA session; approve with the passkey
+npm trust github @bitbaum/speechkit --file publish.yml --repo bitbaum/speechkit --yes
+gh variable set NPM_PUBLISHING -b on --repo bitbaum/speechkit</code></pre>
+<p>After that, <code>git tag vX.Y.Z &amp;&amp; git push origin vX.Y.Z</code> on a merged version bump publishes with provenance. Until then a tag's Publish run is green, publishes nothing, and says why.</p>
+<h2 id="api-develop">Develop</h2>
+<pre><code>pnpm install
+pnpm run verify   # format, lint, types, build, unit tests on the source, tests on dist/</code></pre>
+<p>CI fails if the committed <code>dist/</code> differs from what the source builds to.</p>
+<h2 id="api-license">License</h2>
+<p>MIT</p></div></details>
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      <p>This repository has no root changelog in the retrieved source.</p>
+      <p>No release notes have been retrieved. This does not mean the package has never changed.</p>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/speechkit/commit/dd17fb85665e55e3bba427587fc642ac395036c6">chore: add the fleet package template files this repo is missing (dependabot.yml, git-release.yml, release.yml) (#4)</a> <time datetime="2026-10-25T08:32:06Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/speechkit/commit/6b7d98a832bf6406642440fe0e69c95c8d520fe1">docs: on npm since 2026-09-25; one passkey step left for tokenless releases (#3)</a> <time datetime="2026-09-25T10:13:30Z">2026-09-25</time></li><li><a href="https://github.com/bitbaum/speechkit/commit/34a03f1e4b5f95d767ac297b8a1e040f20f3f6fa">docs: link Heidi's source rather than its site (#2)</a> <time datetime="2026-09-25T10:00:38Z">2026-09-25</time></li><li><a href="https://github.com/bitbaum/speechkit/commit/3b0df03746b7948f09ba2c3db40e8237a66f30a1">feat: speechkit 1.0.0 — measure how somebody spoke, and say only what the evidence allows (#1)</a> <time datetime="2026-09-25T09:05:34Z">2026-09-25</time></li><li><a href="https://github.com/bitbaum/speechkit/commit/65d83e31103f05770abe1a07acc6f0d001ca1a10">chore: start speechkit</a> <time datetime="2026-09-25T08:50:51Z">2026-09-25</time></li></ol></details>
+      <a class="textlink" href="https://github.com/bitbaum/speechkit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/speechkit/tags">All tags</a>
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      <div class="chips"><a href="/heidi/">Heidi</a></div>
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/speechkit/blob/dd17fb85665e55e3bba427587fc642ac395036c6/">source commit <code>dd17fb85665e</code></a> · 2026-10-25. Source documentation can include work beyond the registry release.</p>
+      <a class="textlink" href="https://github.com/bitbaum/speechkit/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/chartkit/">&larr; chartkit</a><a href="/packages/">All packages</a><a href="/packages/paykit/">paykit &rarr;</a></div></div>
   </main>
@@ -111,8 +186,13 @@ addEventListener("error", function (e) {
     for (const btn of document.querySelectorAll(".js-copy")) {
       btn.addEventListener("click", async () => {
         const text = btn.getAttribute("data-copy") || "";
-        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); setTimeout(() => btn.classList.remove("copied"), 1200); }
-        catch { /* clipboard may be denied */ }
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
       });
     }
   </script>

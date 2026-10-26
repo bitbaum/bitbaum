@@ -861,11 +861,15 @@ if (canvas) {
   const BEASTS = ["diplodocus", "whale", "unicorn", "elephant", "horse", "deer", "owl-fly", "cow", "fox", "moth"];
   const beastCache = new Map();
   function beast(name, w) {
+    // Resize/navigation can briefly provide unusable geometry. Never cache
+    // an empty sprite: drawing its zero-sized canvas throws and stops the sky.
+    if (!Number.isFinite(w) || w < 1) return null;
     const key = `${name}@${w | 0}`;
     if (beastCache.has(key)) return beastCache.get(key);
     const img = art(name), tex = art("cloud-2") || art("cloud-1");
     if (!img || !tex) return null;
     const h = Math.round(w * (img.naturalHeight / img.naturalWidth)), pad = Math.round(w * 0.06);
+    if (!Number.isFinite(h) || h < 1 || !tex.naturalWidth || !tex.naturalHeight) return null;
     const c = document.createElement("canvas"); c.width = w + pad * 2; c.height = h + pad * 2;
     const g = c.getContext("2d");
     // The shape, softened: a cloud has no hard line anywhere.

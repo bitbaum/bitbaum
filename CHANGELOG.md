@@ -2,6 +2,15 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-10-26 — Package references with source evidence
+
+- Expanded each package page with source-pinned API documentation and examples,
+  repository changelogs and published release notes, section navigation and
+  linked declared consumers. Release facts and current-source documentation are
+  distinguished, and missing history is shown honestly.
+- Package source failures stop a fresh publish. Expanded-documentation browser
+  checks cover phone/desktop widths and both themes before publication.
+
 ## 2026-10-02 — The map
 
 - New page, /map/: every project drawn as a loop, meaning work that recurs and still needs a person in it. Four layers: the rails (OrangeCat, Solon, Loki and the shared packages), the constraints (Substrata), professionals in the loop, and loops in the world. Each loop names who stays in it and what routine part it aims to retire.

@@ -41,7 +41,7 @@ jobs:
   build-and-deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
         with:
@@ -54,11 +54,14 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Read Playwright revision
+        id: playwright
+        run: node -p '"version=" + require("playwright/package.json").version' >> "$GITHUB_OUTPUT"
       - name: Cache Playwright Chromium
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-playwright-${{ steps.playwright.outputs.version }}
       - run: pnpm exec playwright install chromium --with-deps
       - run: pnpm test
       # Every product page says its picture was "taken by a machine when this
@@ -70,6 +73,7 @@ jobs:
         run: node site/shots.mjs
       - name: Build from current fleet sources
         env:
+          GH_TOKEN: ${{ github.token }}
           FLEET_PACKAGES_SHA: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.packages_sha || '' }}
         run: node site/build.mjs --require-fresh
       # map.json carries the time it was generated, so it differs on every
@@ -108,6 +112,7 @@ jobs:
           node site/check-hire.mjs http://127.0.0.1:8731 || failures=1
           node site/check-studio.mjs http://127.0.0.1:8731 || failures=1
           node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-packages.mjs http://127.0.0.1:8731 || failures=1
           node site/check-cast.mjs http://127.0.0.1:8731 || failures=1
           [ "$failures" -eq 0 ]
           kill "$(cat /tmp/bitbaum-http.pid)" || true
@@ -159,7 +164,7 @@ jobs:
   preview-check:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -168,6 +173,14 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Read Playwright revision
+        id: playwright
+        run: node -p '"version=" + require("playwright/package.json").version' >> "$GITHUB_OUTPUT"
+      - name: Cache Playwright Chromium
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.playwright.outputs.version }}
       - run: pnpm exec playwright install chromium --with-deps
       - run: pnpm test
       - run: node site/build.mjs --offline
@@ -181,5 +194,6 @@ jobs:
           node site/check-hire.mjs http://127.0.0.1:8731 || failures=1
           node site/check-studio.mjs http://127.0.0.1:8731 || failures=1
           node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-packages.mjs http://127.0.0.1:8731 || failures=1
           node site/check-cast.mjs http://127.0.0.1:8731 || failures=1
           [ "$failures" -eq 0 ]

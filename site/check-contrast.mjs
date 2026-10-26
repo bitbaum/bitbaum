@@ -55,6 +55,7 @@ for (const theme of ["light", "dark"]) {
     const page = await ctx.newPage();
     for (const path of pages) {
       await page.goto(origin + path, { waitUntil: "load" });
+      await page.locator(".pkg-document, .pkg-releases details").evaluateAll((elements) => elements.forEach((element) => { element.open = true; }));
       // The chat loads a moment after the page (chat.js is lazy), so wait for it.
       const box = page.locator("[data-chat] textarea").first();
       if (await page.locator("[data-chat]").count()) {

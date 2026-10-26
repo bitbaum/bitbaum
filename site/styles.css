@@ -1527,3 +1527,27 @@ main > .record-doors.wrap { margin-top: 0; margin-bottom: var(--section-tight); 
   .record-table td { border: 0; padding: 0; }
   .record-table td:first-child { font-weight: 600; margin-bottom: 0.3rem; }
 }
+
+/* Package references: one frame, readable code, and usable in-page navigation. */
+.pkg-local-nav { display:flex; gap:1.25rem; overflow-x:auto; padding-block:1rem; border-block:1px solid var(--line); }
+.pkg-local-nav a { display:inline-flex; align-items:center; min-height:44px; white-space:nowrap; }
+.pkg-reference-section { padding-block:2rem; border-top:1px solid var(--line); scroll-margin-top:6rem; min-width:0; }
+.pkg-reference-section h2 { font-size:var(--text-display-3); margin-bottom:1rem; }
+.pkg-reference-section > p { max-width:var(--measure-copy); margin-block:1rem; line-height:1.65; }
+.pkg-document { margin-block:1rem; border:1px solid var(--line); border-radius:var(--radius); padding:1rem; min-width:0; }
+.pkg-document summary, .pkg-releases summary { min-height:44px; cursor:pointer; display:list-item; align-content:center; }
+.pkg-document .record { max-width:100%; min-width:0; overflow-wrap:anywhere; }
+.pkg-document pre, .pkg-releases pre { max-width:100%; overflow-x:auto; padding:1rem; background:var(--bg-raised); }
+.pkg-releases { list-style:none; padding:0; display:grid; gap:1rem; margin-block:1.5rem; }
+.pkg-releases > li { border-bottom:1px solid var(--line); padding-block:1rem; min-width:0; }
+.pkg-release-head { display:flex; flex-wrap:wrap; gap:.75rem; align-items:baseline; }
+.pkg-release-head a { font-weight:600; min-height:44px; display:inline-flex; align-items:center; }
+.pkg-release-head time { color:var(--fg-2); }
+
+.package-hero.stage { padding-top:clamp(2.5rem,5vw,4rem); padding-bottom:calc(2rem + 75px); }
+.pkg-doc-toc { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr)); gap:.25rem 1.5rem; list-style:none; padding:0; margin-block:1rem; }
+.pkg-doc-toc a { display:inline-flex; align-items:center; min-height:44px; text-decoration:underline; text-underline-offset:.2em; }
+.record-callout { border-inline-start:3px solid var(--line-2); padding-inline:1rem; margin-block:1rem; }
+[data-copy-status] { font-size:.85rem; line-height:1.5; }
+
+button.pkg-install { min-height:44px; }

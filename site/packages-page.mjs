@@ -1,3 +1,6 @@
+import { extractToc, parseContentBlocks } from "bip-kit";
+import { renderRecord } from "./record-html.mjs";
+
 /**
  * /packages/ and /packages/<slug>/ — kept out of the site builder so that
  * file does not keep growing.
@@ -55,30 +58,32 @@ export function createPackagePages({ esc, shell }) {
   // client work, which stays private until the client agrees (Loki,
   // docs/architecture/client-work-consent.md). It used to render as its
   // repository name, which published every client's name on this page.
-  function pkgAdopters(p, ventureBySlug, alias) {
+  function pkgAdopters(p, ventureBySlug, alias, packageList = []) {
     let unnamed = 0;
     const shown = (p.adopterNames ?? []).flatMap((a) => {
       if (a === "bitbaum") return [`<a href="/">bitbaum</a>`];
       const v = ventureBySlug.get(alias[a] ?? a);
       if (v) return [`<a href="/${esc(v.slug)}/">${esc(v.name)}</a>`];
+      const dependency = packageList.find((entry) => entry.slug === a);
+      if (dependency) return [`<a href="/packages/${esc(dependency.slug)}/">${esc(dependency.slug)}</a>`];
       unnamed += 1;
       return [];
     });
-    if (unnamed) shown.push(`<span>${unnamed} ${unnamed === 1 ? "private project" : "private projects"}</span>`);
+    if (unnamed) shown.push(`<span>${unnamed} ${unnamed === 1 ? "other repository" : "other repositories"}</span>`);
     return shown;
   }
 
   function pkgPill(p) {
     if (p.status === "next") return `<span class="pill">not on npm yet</span>`;
     const n = p.adopters ?? 0;
-    const label = n === 0 ? "0 apps" : n === 1 ? "1 app" : `${n} apps`;
-    return `<span class="pill" aria-label="${esc(label)} use this package">${esc(label)}</span>`;
+    const label = n === 0 ? "0 repos" : n === 1 ? "1 repo" : `${n} repos`;
+    return `<span class="pill" aria-label="${esc(label)} declare this package">${esc(label)}</span>`;
   }
 
   function pkgVersion(p) {
     if (!p.version) return "";
     const source = p.install?.source === "git" ? "git" : "npm";
-    return `<span class="pill pkg-version" aria-label="Latest ${source} version ${esc(p.version)}">${esc(source)}&nbsp;v${esc(p.version)}</span>`;
+    return `<span class="pill pkg-version" aria-label="Registry ${source} version ${esc(p.version)}">${esc(source)}&nbsp;v${esc(p.version)}</span>`;
   }
 
   function editorialFor(p, cfg) {
@@ -145,7 +150,7 @@ export function createPackagePages({ esc, shell }) {
         <div class="pkg-controls" id="package-controls" hidden>
           <label>Find a package<input id="package-search" type="search" name="q" placeholder="Search packages, features, or adopters" autocomplete="off"></label>
           <label>Category<select id="package-group"><option value="" data-description="Browse shared tools by the jobs they do across the studio.">All categories</option>${groupOptions}</select></label>
-          <label>Adoption<select id="package-adoption"><option value="">Any adoption</option><option value="adopted">Used by an app</option><option value="new">No app uses it yet</option></select></label>
+          <label>Adoption<select id="package-adoption"><option value="">Any adoption</option><option value="adopted">Declared by a repository</option><option value="new">No declarations yet</option></select></label>
           <label>Sort by<select id="package-sort"><option value="featured">Studio order</option><option value="name">Name</option><option value="adopters">Most used</option></select></label>
           <button type="button" class="clear" id="package-clear" hidden>Clear filters</button>
           <p class="pkg-guidance" id="package-guidance">Browse shared tools by the jobs they do across the studio.</p>
@@ -168,11 +173,11 @@ export function createPackagePages({ esc, shell }) {
     return shell({ title: "Packages — bitbaum", description: cfg.packages_lede ?? "", path: "/packages/", body, nav: "/packages/" });
   }
 
-  function packagePage(p, cfg, all, list) {
+  function packagePage(p, cfg, all, list, records) {
     const editorial = editorialFor(p, cfg);
     const ventureBySlug = new Map(all.map((v) => [v.slug, v]));
     const alias = cfg.adopterAliases ?? {};
-    const adopters = pkgAdopters(p, ventureBySlug, alias);
+    const adopters = pkgAdopters(p, ventureBySlug, alias, list);
     const i = list.findIndex((x) => x.slug === p.slug);
     const prev = list[(i - 1 + list.length) % list.length];
     const next = list[(i + 1) % list.length];
@@ -187,7 +192,7 @@ export function createPackagePages({ esc, shell }) {
     const installCmd = p.install?.command ? esc(p.install.command) : "";
     const facts = [
       ["Licence", p.status === "next" ? "MIT, when it is published" : "MIT"],
-      p.version ? ["Latest version", `v${esc(p.version)}${p.install?.source === "git" ? " (git tag)" : ""}`] : null,
+      p.version ? ["Registry release", `v${esc(p.version)}${p.install?.source === "git" ? " (git tag)" : ""}`] : null,
       p.install?.command
         ? [
             "Install",
@@ -198,24 +203,37 @@ export function createPackagePages({ esc, shell }) {
         ? ["Source", `<a href="${esc(p.repo)}">${esc(String(p.repo).replace("https://github.com/", ""))}</a>`]
         : ["Source", `<a href="/orangecat/">Inside OrangeCat</a>`],
       adopters.length
-        ? ["Used by", `${p.adopters} ${p.adopters === 1 ? "app" : "apps"}`]
-        : ["Fleet adoption", "0 apps currently list this package as a dependency"],
+        ? ["Declared consumers", `${p.adopters} ${p.adopters === 1 ? "repository" : "repositories"}`]
+        : ["Fleet adoption", "0 repositories currently list this package as a dependency"],
     ].filter(Boolean);
+    const sourceBase = records?.commit && repoHref ? `${repoHref}/blob/${records.commit}/` : null;
+    const provenance = sourceBase ? `<p class="caption">Documentation from <a href="${esc(sourceBase)}">source commit <code>${esc(records.commit.slice(0, 12))}</code></a>${records.committedAt ? ` · ${esc(records.committedAt.slice(0, 10))}` : ""}. Source documentation can include work beyond the registry release.</p>` : `<p class="caption">Source documentation has not been retrieved for this package. Open the canonical README.</p>`;
+    const docs = records?.readme && sourceBase ? renderRecord(records.readme, { baseUrl: sourceBase, idPrefix: "api-" }) : "";
+    const headings = records?.readme ? extractToc(parseContentBlocks(records.readme.replace(/^# .+\n/, ""))).filter((heading) => heading.level === 2) : [];
+    const changes = records?.changelog && sourceBase ? renderRecord(records.changelog, { baseUrl: sourceBase, idPrefix: "change-" }) : "";
+    const releases = (records?.releases ?? []).map((release, index) => {
+      const href = release.url?.startsWith(`${repoHref}/releases/`) ? release.url : `${repoHref}/releases`;
+      return `<li><div class="pkg-release-head"><a href="${esc(href)}">${esc(release.name || release.tag)}</a>${release.publishedAt ? `<time datetime="${esc(release.publishedAt)}">${esc(release.publishedAt.slice(0, 10))}</time>` : ""}${release.prerelease ? '<span class="pill">Prerelease</span>' : ""}</div>${release.body ? `<details><summary>Release notes</summary><div class="record">${renderRecord(release.body, { baseUrl: sourceBase, idPrefix: `release-${index}-` })}</div></details>` : "<p>No release notes published.</p>"}</li>`;
+    }).join("");
+    const activity = (records?.commits ?? []).filter((entry) => /^[a-f0-9]{40}$/.test(entry.sha ?? "")).map((entry) => `<li><a href="${esc(repoHref)}/commit/${esc(entry.sha)}">${esc(entry.subject)}</a>${entry.date ? ` <time datetime="${esc(entry.date)}">${esc(entry.date.slice(0, 10))}</time>` : ""}</li>`).join("");
     const body = `  <main id="main">
-    <section data-lodge class="stage stage-floored venture-hero">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
       <div class="wrap">
         <span class="eyebrow${p.status === "next" ? " quiet" : ""}">${p.status === "next" ? "Next &middot; not on npm yet" : "Package &middot; MIT"}</span>
         <h1 class="display-1">${esc(p.slug)}</h1>
         <p class="lede">${esc(what)}</p>
         <div class="actions">
-          ${npmHref ? `<a class="btn primary" href="${esc(npmHref)}">npm</a>` : `<a class="btn primary" href="/orangecat/">See it in OrangeCat</a>`}
+          ${npmHref ? `<a class="btn primary" href="${esc(npmHref)}">npm</a>` : readmeHref ? `<a class="btn primary" href="${esc(readmeHref)}">Read documentation</a>` : `<a class="btn primary" href="/packages/">Browse packages</a>`}
           ${readmeHref ? `<a class="btn secondary" href="${esc(readmeHref)}">README &amp; API</a>` : ""}
           ${versionsHref ? `<a class="btn secondary" href="${esc(versionsHref)}">Version history</a>` : ""}
           ${p.repo ? `<a class="btn secondary" href="${esc(p.repo)}">Source</a>` : ""}
         </div>
       </div>
     </section>
-    <section class="wrap venture-body">
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
       <div class="prose">
         ${why ? `<h2>Why it exists</h2><p>${esc(why)}</p>` : ""}
         ${how ? `<h2>How it works</h2><p>${esc(how)}</p>` : ""}
@@ -223,8 +241,32 @@ export function createPackagePages({ esc, shell }) {
       </div>
       <div class="venture-facts">
 ${facts.map(([k, val]) => `        <div><span class="label">${esc(k)}</span><span>${val}</span></div>`).join("\n")}
-${adopters.length ? `        <div class="uses" id="used-by"><span class="label">Used by</span><div class="chips">${adopters.join("")}</div></div>` : ""}
+
       </div>
+    </section>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      ${provenance}
+      ${headings.length ? `<ul class="pkg-doc-toc" aria-label="Documentation topics">${headings.map((heading) => `<li><a href="#api-${esc(heading.id)}">${esc(heading.text)}</a></li>`).join("")}</ul>` : ""}
+      ${docs ? `<details class="pkg-document"><summary>Read the package documentation</summary><div class="record">${docs}</div></details>` : `<p>Read the <a class="textlink" href="${esc(readmeHref ?? repoHref ?? "/packages/")}">canonical package documentation</a>.</p>`}
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      ${changes ? `<details class="pkg-document"><summary>Read the repository changelog</summary><div class="record">${changes}</div></details>` : "<p>This repository has no root changelog in the retrieved source.</p>"}
+      ${releases ? `<ol class="pkg-releases">${releases}</ol>` : "<p>No release notes have been retrieved. This does not mean the package has never changed.</p>"}
+      ${activity ? `<details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes">${activity}</ol></details>` : ""}
+      ${repoHref ? `<a class="textlink" href="${esc(repoHref)}/releases">All releases</a> · <a class="textlink" href="${esc(repoHref)}/tags">All tags</a>` : ""}
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      ${adopters.length ? `<div class="chips">${adopters.join("")}</div>` : "<p>No consumers are recorded in the registry.</p>"}
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      ${provenance}
+      ${repoHref ? `<a class="textlink" href="${esc(repoHref)}/actions">Package verification runs</a>` : ""}
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/${esc(prev.slug)}/">&larr; ${esc(prev.slug)}</a><a href="/packages/">All packages</a><a href="/packages/${esc(next.slug)}/">${esc(next.slug)} &rarr;</a></div></div>
   </main>
@@ -232,8 +274,13 @@ ${adopters.length ? `        <div class="uses" id="used-by"><span class="label">
     for (const btn of document.querySelectorAll(".js-copy")) {
       btn.addEventListener("click", async () => {
         const text = btn.getAttribute("data-copy") || "";
-        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); setTimeout(() => btn.classList.remove("copied"), 1200); }
-        catch { /* clipboard may be denied */ }
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
       });
     }
   <\/script>`;

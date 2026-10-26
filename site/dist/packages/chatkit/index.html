@@ -76,7 +76,7 @@ addEventListener("error", function (e) {
     </div>
   </header>
   <main id="main">
-    <section data-lodge class="stage stage-floored venture-hero">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
       <div class="wrap">
         <span class="eyebrow">Package &middot; MIT</span>
         <h1 class="display-1">chatkit</h1>
@@ -90,7 +90,10 @@ addEventListener("error", function (e) {
       </div>
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-moth" aria-hidden="true"><img class="fig fig-moth" src="/art/moth.webp" width="412" height="272" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
-    <section class="wrap venture-body">
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
       <div class="prose">
         
         
@@ -98,12 +101,206 @@ addEventListener("error", function (e) {
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Latest version</span><span>v0.15.3</span></div>
+        <div><span class="label">Registry release</span><span>v0.15.3</span></div>
         <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/chatkit@^0.15.3" aria-label="Copy install command"><code>pnpm add @bitbaum/chatkit@^0.15.3</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/chatkit">bitbaum/chatkit</a></span></div>
-        <div><span class="label">Used by</span><span>17 apps</span></div>
-        <div class="uses" id="used-by"><span class="label">Used by</span><div class="chips"><a href="/">bitbaum</a><a href="/botsmann/">Botsmann</a><a href="/causius/">Causius</a><a href="/diplodoctor/">Diplodoctor</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/skif/">Skif</a><a href="/solon/">Solon</a><a href="/substrata/">Substrata</a><a href="/surf-your-life/">Surf Your Life</a><span>5 private projects</span></div></div>
+        <div><span class="label">Declared consumers</span><span>17 repositories</span></div>
+
       </div>
+    </section>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/chatkit/blob/109045ea05b94d7e8bc2c0cd635fdfa50637e2f7/">source commit <code>109045ea05b9</code></a> · 2026-10-26. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-install">Install</a></li><li><a href="#api-use">Use</a></li><li><a href="#api-the-standard-what-this-package-guarantees">The standard (what this package guarantees)</a></li><li><a href="#api-improving-it-here-never-in-your-app">Improving it — here, never in your app</a></li><li><a href="#api-develop">Develop</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p><strong>One chat for every bitbaum product.</strong> A composer with a microphone that never goes dead, a thread that does not fight the reader, answers with Copy and Retry, and LLM markdown — the fleet's chat standard as a package, so a fix made once reaches every product.</p>
+<p>Why it exists: on 2026-09-25 there were 13 chats in 10 repos, each written from scratch, each missing something another had already fixed — most often the microphone. The person using them found every gap by hand. This package is the one place those fixes now live. (Model calls, streaming and transcription stay in <a href="https://github.com/bitbaum/ai-kit"><code>ai-kit</code></a>, server-side; chatkit is the interface that calls them.)</p>
+<h2 id="api-install">Install</h2>
+<pre><code>pnpm add @bitbaum/chatkit@^0.13.0</code></pre>
+<p><strong>Install releases from npm, never a commit or a branch.</strong> A semver range is what lets a fix reach every product: Renovate/Dependabot opens the bump PR in each app when a release ships. A pinned commit or tag silently freezes the app on whatever it pinned — heidi and substrata kept the broken Android paperclip for days after the fix merged, because one pinned <code>v0.2.0</code> and npm had only <code>0.2.1</code>.</p>
+<h2 id="api-use">Use</h2>
+<pre><code>import { ChatStarters, ChatThread, Composer } from &quot;@bitbaum/chatkit/react&quot;;
+import &quot;@bitbaum/chatkit/styles.css&quot;;
+
+&lt;ChatThread
+  messages={messages}               // { id, role, content, speaker?, citations?, failed? }
+  live={streaming ? { text: partial } : null}
+  onStop={stop}
+  onRetry={retryLast}
+  empty={&lt;ChatStarters starters={[&quot;What can you build for me?&quot;]} onPick={send} />}
+/>
+&lt;Composer
+  onSend={(text, attachments) => send(text, attachments)} // return false to keep the draft
+  placeholder=&quot;Ask about any project…&quot;
+  sending={streaming}
+  onStop={stop}
+  voice={{ transcribeUrl: &quot;/api/transcribe&quot; }}
+  attach                             // only if your API accepts attachments
+  tools={&lt;ModelPicker />}            // app-specific controls go in slots
+  heldAttachments={refs.length}      // attachments the APP keeps (shown in `header`)
+  attachmentOnlyText=&quot;See attached&quot;  //   so a message of only those can still send
+/></code></pre>
+<h3 id="api-the-whole-screen-chatscreen">The whole screen — <code>ChatScreen</code></h3>
+<p>A chat page is the conversation, edge to edge and top to bottom, as in the ChatGPT and Claude apps. The header and the composer float OVER it instead of each taking a strip of the screen: words scroll under both and fade as they pass, the header's buttons are frosted pills (<code>ck-glass</code>), and the composer is a see-through pill. The last line of an answer always rests above the composer — the scroller is padded by the measured height of each.</p>
+<pre><code>&lt;ChatScreen
+  fill=&quot;viewport&quot;                    // or &quot;parent&quot;: fill the box you give it
+  header={&lt;>
+    &lt;button className=&quot;ck-glass&quot; aria-label=&quot;Chats&quot;>&lt;IconMenu />&lt;/button>
+    &lt;span style={{ flex: 1 }} />
+    &lt;button className=&quot;ck-glass&quot; aria-label=&quot;New chat&quot;>&lt;IconPen />&lt;/button>
+  &lt;/>}
+  composer={&lt;Composer … />}           // plus an error or a queue, if you have one
+  footnote=&quot;Answers can be wrong.&quot;
+>
+  &lt;ChatThread … />
+&lt;/ChatScreen></code></pre>
+<p><code>fill=&quot;viewport&quot;</code> follows the VISUAL viewport, so the composer rides above the phone keyboard. An app with its own thread pads its scroller with the two measured heights: <code>padding-block: var(--ck-top-inset) var(--ck-bottom-inset)</code>. The reading column is <code>--ck-measure</code> (48rem) wide with <code>--ck-gutter</code> (1rem) to the edge; the page behind it is <code>--ck-page</code>. <code>demo/screen.html</code> is the reference: look at it at 390px before changing any of this.</p>
+<h3 id="api-the-microphone">The microphone</h3>
+<p><code>voice</code> is on by default. Give it a server leg so it works everywhere:</p>
+<ul><li><code>transcribeUrl</code>: an endpoint taking <code>multipart/form-data</code> <code>{ audio, locale }</code></li></ul>
+<p>and answering <code>{ text }</code> — implement it with <code>ai-kit</code>'s <code>transcribe()</code>.</p>
+<ul><li>or <code>transcribe: (audio, locale) => Promise&lt;string></code> for a custom call.</li></ul>
+<p>The browser's own recogniser is tried first (free, instant). Where it is missing, <strong>or accepts <code>start()</code> and then says nothing</strong> — Chromium without Google's speech service does exactly that — the same press records and the server transcribes. The dead recogniser is remembered for 30 days so the next press records immediately. Every failure is shown in words (blocked mic, nothing heard, not available), never as a button that does nothing. <code>prefer: &quot;server&quot;</code> skips the browser leg (one model everywhere, language detected by the model). <code>rememberKey: null</code> stores nothing on the device.</p>
+<h3 id="api-suggested-replies">Suggested replies</h3>
+<p>The two to four things the person is likely to say next, as buttons under the latest answer — one tap sends it. The model writes them in the same turn, so there is no second call and no wait:</p>
+<pre><code>import { REPLIES_INSTRUCTION } from &quot;@bitbaum/chatkit&quot;;
+const system = `${yourPrompt}\n\n${REPLIES_INSTRUCTION}`; // server side</code></pre>
+<pre><code>&lt;ChatThread messages={messages} onReply={send} … /></code></pre>
+<p>Below 40rem the replies are one row that scrolls sideways with a fade, the lead reply first and always on screen; wider, they wrap. The Copy · Listen · Share · Retry row under an answer keeps each word on one line and every button at the 44px target (0.12.1).</p>
+<p>That is the whole integration. <code>ChatThread</code> takes the <code>quick_replies</code> block out of every answer (and out of a streaming one before it has finished, so nobody watches JSON appear), and shows the buttons under the latest answer only, never while a turn runs. Pass <code>replies</code> on a message to supply your own instead. An app with its own thread uses <code>extractReplies(text)</code> and <code>&lt;ChatReplies></code>, so the buttons look and behave the same everywhere.</p>
+<p>The model leads. The instruction asks for replies on EVERY answer, the recommended next step first, and the first button is drawn as the lead (<code>ck-reply-lead</code>): on a phone the answer is read and the next move is one tap, the way Grok does it. Only an answer that ends the conversation has no buttons.</p>
+<p>No heading over the buttons (0.15.1). Models like to write their own &quot;<strong>Quick follow-up options</strong>&quot; (or &quot;Suggested replies&quot;, &quot;Mögliche Rückfragen:&quot;, …) as the last line above the block; drawn over the buttons it reads as an empty section. The instruction tells the model not to, and <code>extractReplies</code> drops it anyway — decided by shape and position, not a word list, so it holds in every language: the last block before the replies, a heading or a bold/italic-only line of at most six words with no sentence punctuation but a closing colon, plus an <code>---</code> beside it. A bold sentence (&quot;<strong>China holds 99 %.</strong>&quot;) stays. While streaming (<code>{ streaming: true }</code>, which <code>ChatThread</code> passes) such a line is held back until the next line shows what it is, so it never flashes. <code>dropReplyLabel(text)</code> is exported for apps that pass their own <code>replies</code>.</p>
+<h3 id="api-under-every-answer-copy-listen-share">Under every answer — Copy, Listen, Share</h3>
+<p><code>AnswerActions</code> is the row under an answer, the same in every product:</p>
+<pre><code>&lt;AnswerActions text={answer} onRetry={retry} speaker={studioVoice} share={{ url }}>
+  &lt;YourOwnButton />
+&lt;/AnswerActions></code></pre>
+<p>Copy copies the markdown. Listen reads the answer aloud as prose (headings, emphasis, citations and code fences stripped — <code>plainTextForSpeech</code>) with the browser's own voice, or with the <code>speaker</code> you pass (<code>{ speak(text), cancel() }</code> — loki hands in its studio voice); while it reads, the row becomes a small player: Stop and the time so far. Share opens the system share sheet with the answer's prose (or what you pass), only where one exists. A button that does nothing is never shown. <code>ChatThread</code> renders it under every answer; pass <code>speaker</code> and <code>share</code> through.</p>
+<h3 id="api-dictation-reads-android-s-cumulative-results-once-0-15-2">Dictation reads Android's cumulative results once (0.15.2)</h3>
+<p>Android's Chrome-family recognisers (Chrome, Brave, Samsung Internet) report one utterance cumulatively — &quot;why&quot;, &quot;why exactly&quot;, &quot;why exactly is&quot;, … — often every one of them flagged final. The hook appended every final, so Substrata's Ask box on Brave typed the sentence once per word (2026-10-25). The transcript is now rebuilt from the recogniser's whole results list on every event by <code>heardFromResults</code> (core, pure), which collapses a growing chain to its last link. Desktop finals are untouched: two different phrases stay two, and a word the person really repeats as separate results stays repeated. The one limitation — &quot;no&quot; then &quot;no no&quot; as two separate results reads as one utterance growing — is written down beside the rule. <code>test/dictation.test.js</code> holds the fixtures; <code>test/browser.mjs</code> drives the real composer with a fake cumulative recogniser and fails on the old hook.</p>
+<h3 id="api-charts-in-answers-0-15">Charts in answers (0.15)</h3>
+<p>&quot;Who produces gallium?&quot; is answered with a ranked bar chart, not a list. chatkit stays dependency-free: it defines the <strong>data contract</strong> and a <strong>renderer slot</strong>; the drawing is the app's. Substrata injects <a href="https://github.com/bitbaum/chartkit"><code>@bitbaum/chartkit</code></a>, whose components take exactly the block's fields, so a block spreads into the matching one:</p>
+<pre><code>import { BarChart, LineChart, ShareBars, Timeline, StatTiles } from &quot;@bitbaum/chartkit&quot;;
+const renderers = {
+  chart: (b) =>
+    b.chart === &quot;bars&quot; ? &lt;BarChart {...b} /> : b.chart === &quot;line&quot; ? &lt;LineChart {...b} /> : b.chart === &quot;share&quot; ? &lt;ShareBars {...b} /> : b.chart === &quot;timeline&quot; ? &lt;Timeline {...b} /> : &lt;StatTiles {...b} />,
+};
+&lt;ChatScreen renderers={renderers} …>   // every answer on the screen
+&lt;ChatThread renderers={renderers} …>   // or one thread; Markdown and RichAnswerBlock take it too</code></pre>
+<p>Without a renderer, or when one returns <code>null</code> for a kind it does not draw, chatkit draws the <strong>fallback itself</strong>: the caption and a <code>.ck-table</code> of the data, so a chart is never a blank. A malformed block (a share of 140, a link with a script in it) is rejected by the parser and degrades to the same table of whatever rows were safe — the renderer never sees it. Copy and Listen read the figures as lines.</p>
+<p>The model writes a chart in the same fenced <code>chat_ui</code> JSON as every other block. <code>RICH_ANSWERS_INSTRUCTION</code> now says when to draw one — ranked quantities with 3+ rows → <code>bars</code>; shares of one whole → <code>share</code>; a quantity over time with 3+ points → <code>line</code>; 3+ dated events → <code>timeline</code>; 2–4 headline figures → <code>tiles</code> — that every number comes from a tool result, and that each row's <code>href</code> is copied from the result's page or link.</p>
+<p>The contract (<code>ChartBlock</code>, exported; limits are the parser's):</p>
+<pre><code>{ type: &quot;chart&quot;, chart: &quot;bars&quot;,     caption, unit?, highlight?, rows: [{ label, value, href?, share?, note?, estimated? }] }   // ≤ 24 rows
+{ type: &quot;chart&quot;, chart: &quot;share&quot;,    caption, other?, rows: [{ label, share, href? }] }                                        // share 0–100
+{ type: &quot;chart&quot;, chart: &quot;line&quot;,     caption, unit?, series: [{ id, label, points: [{ x, y, href?, note? }] }] }               // ≤ 6 series, ≤ 120 points
+{ type: &quot;chart&quot;, chart: &quot;timeline&quot;, caption, events: [{ date, label, href?, tone?: &quot;up&quot; | &quot;down&quot; | &quot;neutral&quot;, kind? }] }     // ≤ 24 events
+{ type: &quot;chart&quot;, chart: &quot;tiles&quot;,    caption, tiles: [{ label, value, href?, note? }] }                                       // ≤ 6 tiles</code></pre>
+<p>An <code>href</code> is a same-site path or a web URL, never anything else. The block sits in the answer column with the stack figure's margins (<code>.ck-rich .ck-chart</code>); <code>test/browser.mjs</code> renders one through a stub renderer and one through the fallback at 320, 390 and 1280px, runs the broken-word scan over them and asserts no horizontal overflow.</p>
+<h3 id="api-words-are-never-cut-0-14-1">Words are never cut (0.14.1)</h3>
+<p>A word may wrap onto the next line; it may never be cut in two. <code>.ck-md</code> sets <code>overflow-wrap: anywhere</code> so a long URL cannot push the thread wider, but <code>anywhere</code> also lowers a table cell's minimum width to one letter, and Substrata's three-column answer at 390px read &quot;Te / rm&quot; and &quot;Di / re / ct / or / y&quot; (2026-10-22). Tables now keep every word whole: columns share the width by wrapping at spaces, and when even the words do not fit the table scrolls sideways with a shadow on the edge that has more. The stack figure's tiles wrap too: three across becomes two and one, or one under the other, rather than cut &quot;Manufacture&quot;.</p>
+<p><code>test/browser.mjs</code> measures it rather than reading the CSS: every word on the page is laid out in a <code>Range</code> at 320, 390 and 1280px and must sit on one line (a word beside a hyphen, slash or dot, and anything over 24 characters, is exempt: a URL has to break somewhere). The demo thread carries the table from the screenshot, so the check fails on the old stylesheet.</p>
+<p>The check is exported so any product can run it against its own pages, from a Playwright script (never from app code):</p>
+<pre><code>import { BROKEN_WORDS_SOURCE } from &quot;@bitbaum/chatkit/audit&quot;;
+const broken = await page.evaluate(`(${BROKEN_WORDS_SOURCE})(document.body)`);
+if (broken.length) throw new Error(`words cut across lines: ${broken}`);</code></pre>
+<h3 id="api-the-feedback-loop-0-14">The feedback loop (0.14)</h3>
+<p>Two halves, one shape, so a bad answer is found by the product, not by the owner tripping over it.</p>
+<ul><li><strong>Under every answer, a thumb up and a thumb down</strong> — pass <code>onFeedback</code> to</li></ul>
+<p><code>ChatThread</code> (or <code>messageId</code> + <code>onFeedback</code> to <code>AnswerActions</code>). A thumb down opens a sheet: one tap on why (<code>FEEDBACK_REASONS</code>: wrong, gave up instead of looking, vague, misread, too long, hard to read, other), words optional, then Send. The app gets <code>{ messageId, verdict, reason?, text? }</code> and keeps it with the conversation.</p>
+<ul><li><strong>A nightly judge.</strong> A product exports a day of conversations as</li></ul>
+<p><code>ChatTranscript[]</code> (turns with the steps the assistant took, plus the thumbs); a reviewer asks a model, with <code>CHAT_REVIEW_INSTRUCTION</code> and <code>reviewPrompt(scope, transcript)</code>, what the person most likely wanted, what the product could have given with the tools it has, and what it gave, and reads the verdicts back with <code>parseChatReview</code> (<code>score</code> 1–5, <code>gaps</code> from <code>REVIEW_GAPS</code>: dead_end, wrong_tool, no_web, misread, vague, no_next_step…, and one concrete <code>fix</code>). In the fleet, Loki runs the judge and files each gap into its feedback inbox, where fixes are built.</p>
+<h3 id="api-the-next-message-while-a-turn-runs">The next message while a turn runs</h3>
+<p><code>queue</code> keeps Send live while <code>sending</code>, beside Stop, and the placeholder reads &quot;Queue a message…&quot;: the app receives the message through <code>onSend</code> as usual and sends it on when the turn ends. Without it a send during a turn is refused, which holds the next thought until a spinner stops.</p>
+<h3 id="api-recordings">Recordings</h3>
+<p>With a server leg, the paperclip also takes a recording that already exists — a voice memo from the phone's recorder, a taped meeting. It is dictation that happened earlier: the file is posted to <code>transcribeUrl</code> under its own name (Whisper reads the container from the extension) and the words land in the box like a mic take, never staged as an attachment the model would have to read. Files are recognised by type and, where a picker hands them over typeless as Android does with <code>.m4a</code>, by extension. Uploads are capped at <code>MAX_AUDIO_FILE_BYTES</code> (120 MB — an hour of phone memo with room to spare); over it, the person is told in words before any bytes move. Your server leg should compress and split long audio before Whisper; loki's does.</p>
+<h3 id="api-camera-photos-files">Camera, Photos, Files</h3>
+<p>On a touch screen the paperclip opens a sheet with three choices — Camera, Photos, Files — each its own file input. One input with a mixed <code>accept</code> (<code>image/*,text/*,audio/*</code>) is what a phone answers with a chooser of capture apps (Camera, Camera, Recorder, &quot;Photos &amp; Videos&quot;), where the screenshot you came to send is three levels down and the file browser is not offered at all. <code>ATTACH_SOURCE_INPUT</code> is the SSOT: Camera captures, Photos opens the system photo picker, Files has no <code>accept</code> and opens the real document browser. Because Files takes anything, <code>isTextFile</code> decides afterwards what can be read inline; a PDF gets a sentence, not a prompt full of bytes. With a mouse the paperclip opens the file dialog directly — on a desktop all three are the same dialog. A box that is not chatkit's composer renders <code>&lt;AttachMenu onFiles={…} /></code> rather than a bare <code>&lt;input type=&quot;file&quot;></code>. An app with more to bring into a message than files — one of the person's own things, a note the model reads every time — passes <code>extra={(close) => &lt;YourRows />}</code>: the rows sit under the three sources in the same sheet, and the sheet then opens on a mouse too, since a file dialog cannot hold them. Labels: <code>labels={{ attachMenu: { title, close, sources: { camera, photos, files } } }}</code>.</p>
+<h3 id="api-picking-files-anywhere-bitbaum-chatkit-attach">Picking files anywhere — <code>@bitbaum/chatkit/attach</code></h3>
+<p>An app with no chat still has uploaders (an avatar, product photos, a receipt). They need the same thing from a phone, so they use the same piece:</p>
+<pre><code>import { AttachMenu, shrinkImage } from &quot;@bitbaum/chatkit/attach&quot;;
+
+&lt;AttachMenu
+  sources={[&quot;camera&quot;, &quot;photos&quot;]} // an image uploader offers no Files
+  trigger=&quot;Add photo&quot;
+  onFiles={(files) => upload(files)}
+/>;</code></pre>
+<p><code>sources</code> narrows the sheet (one source skips it). <code>shrinkImage(file, maxEdge, maxBytes)</code> is the in-browser downscale the composer uses. <code>acceptFamilies</code> and <code>ATTACH_SOURCE_INPUT</code> are the rule itself.</p>
+<h3 id="api-the-check-every-app-runs-in-ci">The check every app runs in CI</h3>
+<pre><code>pnpm exec chatkit-check-file-inputs            # src app components</code></pre>
+<p>Fails on any file input whose literal <code>accept</code> mixes families (image + text, audio + text…) — the exact shape that hid screenshots on Android. One input per family, or <code>AttachMenu</code>. A real exception carries <code>// chatkit-allow-mixed-accept: &lt;reason></code> on the line or the line above.</p>
+<h3 id="api-screenshots">Screenshots</h3>
+<p><code>attach</code> takes limits: <code>attach={{ maxImageEdge: 1024 }}</code> shrinks a picture in the browser to 1024px on its longest edge and re-encodes it as JPEG before it is staged, stepping quality down until it fits <code>maxImageBytes</code>. A phone screenshot (~1290×2796, several MB) goes out at a few hundred KB: cheaper for whoever pays for the vision model, and the full-resolution screenshot never leaves the device. Off by default (<code>0</code>).</p>
+<p>Every reason a file did not attach is a label — <code>labels={{ attachNotes: { imageTooLarge: (name, mb) => … } }}</code> — so it reaches the reader in their language.</p>
+<h3 id="api-the-look-of-an-answer">The look of an answer</h3>
+<p><code>Markdown</code> renders what a model writes, never as HTML: paragraphs, headings with their level, bullet, numbered, nested and task lists, tables (they scroll sideways on a phone instead of breaking the page), rules, bold, italic, code, links, web images and <code>[F1]</code> citation handles. Three things make an answer read like the ChatGPT app's rather than a wall of text, and a model does all three unprompted:</p>
+<ul><li><strong>A list of named things becomes cards.</strong> <code>1. **Option.** why</code> — every item</li></ul>
+<p>opening with a bold lead — renders as a badge (the number, or the emoji the lead opens with: <code>**🤖 Robot.** …</code>), the name, and the body under it.</p>
+<ul><li><strong>A table is a table</strong>, with the header row kept.</li><li><strong>Sources are listed once</strong>, under the answer, from the handles the text</li></ul>
+<p>cites and the <code>citations</code> map you pass (<code>{ F1: { label, detail, href? } }</code>). On a mouse they are a row of chips; on a touch screen ONE &quot;Sources · n&quot; button opens a sheet with every record — label, detail, link — because a row of chips on a phone was a row of cut-off words. <code>renderCitation</code> replaces the in-text superscript with your own; <code>renderSources</code> replaces the row with your own; <code>sources={false}</code> drops it. <code>SourcesRow</code> and <code>Sheet</code> are exported for an app that lists sources from elsewhere.</p>
+<p><strong>0.13 — answers that read like the ChatGPT app's</strong>, measured against it screen by screen on a phone:</p>
+<ul><li><strong>Headings are signposts</strong>: a size up, with air above them, so a long</li></ul>
+<p>answer can be scanned and found again.</p>
+<ul><li><strong>Options are cards</strong>: a numbered list whose items open with a bold name</li></ul>
+<p>gets a tile badge, the name a size up, a hairline between cards, and a pill for a short tag written right after the name — <code>1. **Federated.** [Recommended] …</code>. The instruction asks the model to mark the one it recommends exactly that way.</p>
+<ul><li><strong>Sources are chips</strong>: a <code>[F2, F1]</code> handle is drawn after the sentence as</li></ul>
+<p>&quot;Fleet AGENTS.md +1&quot;, linked when the record has a link, and moved after the full stop when the model wrote it before. <code>renderCitation</code> still replaces it.</p>
+<ul><li><strong>Links that leave the site say so</strong>: a dotted underline and a small arrow.</li><li><strong>A layered figure</strong> — <code>{&quot;type&quot;:&quot;stack&quot;, …}</code> — for an architecture, a</li></ul>
+<p>pipeline or layers of responsibility: full-width boxes top to bottom, a row of tiles where a layer has parts (with an icon from a closed list), the words that cross each arrow, an accent tone for the layer that matters, and a caption that says what the figure claims. <code>diagram</code> stays for an arbitrary graph.</p>
+<ul><li><strong>&quot;Thought for 3m 38s ›&quot;</strong> above an answer, from <code>message.thinking</code></li></ul>
+<p>(<code>{ durationMs?, steps?: [{ label, detail? }], summary? }</code>), closed by default; while a turn runs, <code>live.steps</code> shows the same row open with the newest step marked. <code>ThinkingRow</code> is exported for an app's own thread.</p>
+<p><code>demo/screen.html</code> shows all of it.</p>
+<h3 id="api-look">Look</h3>
+<p>Every colour, radius and face is a <code>--ck-*</code> variable. They default to <a href="https://github.com/bitbaum/design-tokens"><code>@bitbaum/design-tokens</code></a>, so OrangeCat, Loki, Solon and bitbaum match with no work. Any other app sets <code>--ck-*</code> on the chat's container and keeps its own look. What you cannot change is the behaviour — that is the point.</p>
+<h3 id="api-language">Language</h3>
+<p>Every visible word is a label: <code>labels={{ send: &quot;Senden&quot;, dictation: {...} }}</code> on <code>Composer</code>, <code>labels</code> on <code>ChatThread</code>.</p>
+<h2 id="api-the-standard-what-this-package-guarantees">The standard (what this package guarantees)</h2>
+<ol><li>A microphone in the composer, with the server fallback above — and the</li></ol>
+<p>same server leg for a recording picked as a file.</p>
+<ol><li>16px text in the input and the messages (below that iOS zooms the page).</li><li>A composer that belongs to the conversation: auto-growing textarea, Enter</li></ol>
+<p>sends, Shift+Enter breaks the line, IME composition respected, 44px targets, usable above the phone keyboard (<code>useViewportHeight</code>).</p>
+<ol><li>Stop in the send slot while a turn is in flight.</li><li>A failed turn shows as a failure with Retry — never silence.</li><li>Scroll follows new tokens only while the reader is at the bottom, with a</li></ol>
+<p>jump-down button otherwise.</p>
+<ol><li>Markdown rendered, never as HTML; <code>javascript:</code> links stay text; Copy on</li></ol>
+<p>every answer.</p>
+<ol><li>Starters in the empty state; suggested replies under the latest answer;</li></ol>
+<p>the speaker's name on every answer once more than one agent speaks.</p>
+<ol><li>Nothing overflows at 320–390px.</li><li>In <code>ChatScreen</code>, the conversation fills the display and opens at the</li></ol>
+<p>latest message, with its end above the composer, not behind it.</p>
+<p><code>pnpm run verify</code> proves all of it: unit and render tests, then <code>test/browser.mjs</code> drives Chromium through the demo at desktop and 390px, light and dark, and speaks into a fake microphone past a silent recogniser.</p>
+<h2 id="api-improving-it-here-never-in-your-app">Improving it — here, never in your app</h2>
+<p>When a chat in any product has a bug or is missing something, <strong>fix it in this repo</strong>, add the check that would have caught it, bump the version, and let the products pick the release up. A local patch in one app is how the fleet got 13 different chats. If your app needs something truly its own, it goes in a slot (<code>tools</code>, <code>header</code>, <code>footer</code>, <code>renderFooter</code>, <code>renderLink</code>) — ask for a new slot here rather than forking the component.</p>
+<p>Release: bump <code>version</code> in <code>package.json</code> and merge. The merge publishes it (<code>publish.yml</code> runs on main, skips a version already on npm, and tags the commit <code>v&lt;version></code>). No manual tag.</p>
+<h2 id="api-develop">Develop</h2>
+<pre><code>pnpm install
+pnpm run demo        # builds demo/dist; open demo/index.html
+pnpm run verify      # everything CI runs</code></pre>
+<p>MIT © Cato</p>
+<h3 id="api-visual-answers-0-11">Visual answers (0.11)</h3>
+<p>Append <code>RICH_ANSWERS_INSTRUCTION</code> from <code>@bitbaum/chatkit</code> to a conversational system prompt, alongside <code>REPLIES_INSTRUCTION</code>. The model can place fenced <code>chat_ui</code> JSON blocks inline in its answer: galleries with captions and a full-size image sheet, dependency diagrams, recommendation callouts, and single-choice follow-ups. Markdown tables and step lists remain available. <code>Markdown</code> renders these automatically; pass <code>onReply={send}</code> for choice forms. <code>ChatThread</code> wires that callback only on the latest answer and disables it while another turn is running. Historical forms remain readable.</p>
+<p>Products keep their own model routing, tools, evidence rules, auth and <code>--ck-*</code> tokens. For a JSON-output assistant such as Heidi, ask for rich blocks only inside its free-text explanation string, never outside the answer envelope. Images must come from supplied context or tool results. No HTML or executable SVG is accepted. Images suppress referrers and broken thumbnails retain their text labels. Blocks are bounded and validated; incomplete/invalid blocks are hidden, so always include the takeaway in ordinary prose too. Diagram edges retain their direction and labels, including branches and cycles.</p>
+<p>Release this package before updating consumer lockfiles to <code>^0.11.0</code>. Run <code>pnpm run verify</code>; <code>demo/index.html</code> is the visual reference in light/dark and at phone width. The diagram and gallery artwork in the demo is a fixture.</p>
+<h3 id="api-audio-in-answers">Audio in answers</h3>
+<p>A validated <code>chat_ui</code> block can attach a real audio asset:</p>
+<pre><code>{&quot;type&quot;:&quot;audio&quot;,&quot;title&quot;:&quot;Morning sketch&quot;,&quot;src&quot;:&quot;/provided.wav&quot;,&quot;creator&quot;:&quot;Studio&quot;,&quot;caption&quot;:&quot;An original instrumental draft&quot;}</code></pre>
+<p>The native player waits for explicit playback and does not preload the file. Only attach URLs supplied by a person or a completed tool. Generation and catalogue access belong to the app's media tools: this renderer does not create a song or grant rights to redistribute it. Copy and speech preserve the track's title, creator and caption. The demo WAV is an original synthesized fixture; it is not a commercial track or a model-generated recording.</p>
+<p>The browser word-layout audit uses Unicode word boundaries. Chinese, Japanese and Korean may wrap between characters; those legal breaks are accepted while squeezed Latin words, including words embedded in CJK text, are still reported. Whole-page and chart overflow checks remain separate.</p></div></details>
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      <p>This repository has no root changelog in the retrieved source.</p>
+      <p>No release notes have been retrieved. This does not mean the package has never changed.</p>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/chatkit/commit/109045ea05b94d7e8bc2c0cd635fdfa50637e2f7">chore: add the fleet package template files this repo is missing (CLAUDE.md) (#36)</a> <time datetime="2026-10-26T11:17:10Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/chatkit/commit/f9f6f507b9fe8e7db982861b1e4cc1b0b81cc7b1">docs(agents): add package ownership guidance (#35)</a> <time datetime="2026-10-26T10:24:53Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/chatkit/commit/2f71aa426537121a441e48c5dcfd3d9075c3e46e">fix(audit): recognize legal international word boundaries (#34)</a> <time datetime="2026-10-25T18:26:20Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/chatkit/commit/57b7d46374c1ad7332b6986955c28f0740afcdcf">chore(deps): raise shared package floors to published versions (#33)</a> <time datetime="2026-10-25T18:01:56Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/chatkit/commit/100ed40204c073222b9f7810a6135171c9ab5bc4">chore: add the fleet package template files this repo is missing (dependabot.yml, git-release.yml, release.yml) (#31)</a> <time datetime="2026-10-25T08:32:20Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/chatkit/commit/3508d7ad95bbbd0275b1558754acd32ff17ce722">fix(dictation): cumulative recogniser results no longer repeat the words (#30)</a> <time datetime="2026-10-25T06:58:00Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/chatkit/commit/e669991a4f50fbd9b8593199d600f110b9f7962a">fix(replies): a heading the model writes over the reply buttons is never drawn (0.15.1) (#29)</a> <time datetime="2026-10-23T11:28:57Z">2026-10-23</time></li><li><a href="https://github.com/bitbaum/chatkit/commit/b37c3d65cef285406fa95727d0d4ac4931eef9cf">feat(rich): chart blocks in answers, drawn by an injected renderer (0.15) (#28)</a> <time datetime="2026-10-23T09:09:15Z">2026-10-23</time></li></ol></details>
+      <a class="textlink" href="https://github.com/bitbaum/chatkit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/chatkit/tags">All tags</a>
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      <div class="chips"><a href="/">bitbaum</a><a href="/botsmann/">Botsmann</a><a href="/causius/">Causius</a><a href="/diplodoctor/">Diplodoctor</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/skif/">Skif</a><a href="/solon/">Solon</a><a href="/substrata/">Substrata</a><a href="/surf-your-life/">Surf Your Life</a><span>5 other repositories</span></div>
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/chatkit/blob/109045ea05b94d7e8bc2c0cd635fdfa50637e2f7/">source commit <code>109045ea05b9</code></a> · 2026-10-26. Source documentation can include work beyond the registry release.</p>
+      <a class="textlink" href="https://github.com/bitbaum/chatkit/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/bip-kit/">&larr; bip-kit</a><a href="/packages/">All packages</a><a href="/packages/limitkit/">limitkit &rarr;</a></div></div>
   </main>
@@ -111,8 +308,13 @@ addEventListener("error", function (e) {
     for (const btn of document.querySelectorAll(".js-copy")) {
       btn.addEventListener("click", async () => {
         const text = btn.getAttribute("data-copy") || "";
-        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); setTimeout(() => btn.classList.remove("copied"), 1200); }
-        catch { /* clipboard may be denied */ }
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
       });
     }
   </script>
