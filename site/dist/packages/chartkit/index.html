@@ -82,9 +82,9 @@ addEventListener("error", function (e) {
         <h1 class="display-1">chartkit</h1>
         <p class="lede">One chart for every product: token-driven SVG charts that render on the server, read as a table, and never cut a label — line, ranked bars, share bars, sparkline, meter, timeline, stat tiles.</p>
         <div class="actions">
-          <a class="btn primary" href="https://www.npmjs.com/package/@bitbaum/chartkit">npm</a>
+          <a class="btn primary" href="https://github.com/bitbaum/chartkit#readme">Read documentation</a>
           <a class="btn secondary" href="https://github.com/bitbaum/chartkit#readme">README &amp; API</a>
-          <a class="btn secondary" href="https://www.npmjs.com/package/@bitbaum/chartkit?activeTab=versions">Version history</a>
+          <a class="btn secondary" href="https://github.com/bitbaum/chartkit/tags">Version history</a>
           <a class="btn secondary" href="https://github.com/bitbaum/chartkit">Source</a>
         </div>
       </div>
@@ -101,8 +101,8 @@ addEventListener("error", function (e) {
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Registry release</span><span>v0.1.1</span></div>
-        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/chartkit@^0.1.1" aria-label="Copy install command"><code>pnpm add @bitbaum/chartkit@^0.1.1</code></button></span></div>
+        <div><span class="label">Registry release</span><span>v0.2.0 (git tag)</span></div>
+        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add github:bitbaum/chartkit#b54b26715e569f4c18e758a14c124f5676e1e514" aria-label="Copy install command"><code>pnpm add github:bitbaum/chartkit#b54b26715e569f4c18e758a14c124f5676e1e514</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/chartkit">bitbaum/chartkit</a></span></div>
         <div><span class="label">Declared consumers</span><span>1 repository</span></div>
 
@@ -110,7 +110,7 @@ addEventListener("error", function (e) {
     </section>
     <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
       <h2 id="documentation-title">API and examples</h2>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/chartkit/blob/d58ff2edc9c574f5ded7561ca9c6b7880224d450/">source commit <code>d58ff2edc9c5</code></a> · 2026-10-26. Source documentation can include work beyond the registry release.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/chartkit/blob/b54b26715e569f4c18e758a14c124f5676e1e514/">source commit <code>b54b26715e56</code></a> · 2026-10-27. Source documentation can include work beyond the registry release.</p>
       <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-install">Install</a></li><li><a href="#api-use">Use</a></li><li><a href="#api-what-every-chart-guarantees">What every chart guarantees</a></li><li><a href="#api-the-audit">The audit</a></li><li><a href="#api-develop">Develop</a></li></ul>
       <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p><strong>One chart for every bitbaum product.</strong> A line, ranked bars, a share bar, a sparkline, a meter, a timeline and a strip of figures — drawn on the server from the app's own tokens, each with a table behind it and no label that clips, overlaps or shrinks — so a fix made once reaches every product.</p>
 <p>Why it exists: on 2026-10-23 the owner said visualisations are &quot;super important&quot;, a profile must be &quot;more useful than Bloomberg&quot;, and &quot;it's packages what makes us special&quot;. Substrata had one hand-rolled line chart and nothing else; every other product had none. This is the one place charts now live. (Colour and type come from <a href="https://github.com/bitbaum/design-tokens"><code>design-tokens</code></a>; chartkit is the drawing.)</p>
@@ -118,7 +118,7 @@ addEventListener("error", function (e) {
 <pre><code>pnpm add @bitbaum/chartkit@^0.1.0</code></pre>
 <p>Install releases from npm, never a commit or a branch, for the reason chatkit's README gives: a semver range is what lets a fix reach every product.</p>
 <h2 id="api-use">Use</h2>
-<pre><code>import { LineChart, BarChart, ShareBars, Sparkline, Meter, Timeline, StatTiles } from &quot;@bitbaum/chartkit/react&quot;;
+<pre><code>import { LineChart, BarChart, ColumnChart, ShareBars, Sparkline, Meter, Timeline, StatTiles } from &quot;@bitbaum/chartkit/react&quot;;
 import &quot;@bitbaum/chartkit/styles.css&quot;;
 
 &lt;LineChart
@@ -129,12 +129,13 @@ import &quot;@bitbaum/chartkit/styles.css&quot;;
   height={208}                       // CSS px; the width is the container's
 />
 &lt;BarChart rows={[{ label: &quot;China&quot;, value: 900000, share: 0.99, estimated: true }, { label: &quot;Other&quot;, value: null }]} unit=&quot;kg&quot; caption=&quot;…&quot; highlight=&quot;China&quot; />
-&lt;ShareBars rows={[{ label: &quot;China&quot;, share: 0.99 }, { label: &quot;Russia&quot;, share: 0.0067 }]} other={0.003} caption=&quot;…&quot; />
+&lt;ShareBars rows={[{ label: &quot;BlackRock&quot;, share: 0.074 }]} other={0.926} otherLabel=&quot;Others, each below 5%&quot; caption=&quot;…&quot; />
+&lt;ColumnChart series={[{ id: &quot;rev&quot;, label: &quot;Revenue&quot;, points: [{ x: &quot;FY2024&quot;, y: 61 }, { x: &quot;FY2025&quot;, y: -4, href: &quot;…&quot; }] }]} unit=&quot;USD bn&quot; caption=&quot;…&quot; />
 &lt;Sparkline points={points} label=&quot;Backlog over six quarters&quot; />
 &lt;Meter value={12} max={12} label=&quot;Severity&quot; href=&quot;/methods/severity&quot; />
 &lt;Timeline events={[{ date: &quot;2026-07-17&quot;, label: &quot;…&quot;, tone: &quot;down&quot;, href: &quot;…&quot; }]} caption=&quot;…&quot; />
 &lt;StatTiles tiles={[{ label: &quot;Bottlenecks mapped&quot;, value: 33, href: &quot;/bottlenecks&quot; }]} /></code></pre>
-<p><code>x</code> is an ISO period (<code>2025</code>, <code>2025-Q2</code>, <code>2025-03</code>, <code>2025-03-31</code>) or a number. Several series share one axis — there is no second y-axis and never will be; two measures of different scale are two charts. <code>BarChart</code> ranks its rows (largest first, no number last) whatever order they arrive in, draws a <code>null</code> as &quot;—&quot; and an estimate with &quot;≈&quot;. Every point of a <code>LineChart</code> and every event of a <code>Timeline</code> is an anchor when it has an <code>href</code>, with its value, period and note on hover and on keyboard focus.</p>
+<p><code>x</code> is an ISO period (<code>2025</code>, <code>2025-Q2</code>, <code>2025-03</code>, <code>2025-03-31</code>) or a number. Several series share one axis — there is no second y-axis and never will be; two measures of different scale are two charts. <code>BarChart</code> ranks its rows (largest first, no number last) whatever order they arrive in, draws a <code>null</code> as &quot;—&quot; and an estimate with &quot;≈&quot;. <code>ShareBars</code> names its remainder <code>otherLabel</code> (left out, &quot;Other&quot;) — say what the rest is, never a bare &quot;Other 87%&quot;. <code>ColumnChart</code> draws periods left to right in the order given (fiscal labels are not re-sorted), several series side by side, a loss below the zero line, and a missing figure as no column and &quot;—&quot; in the table. Every point of a <code>LineChart</code> and every event of a <code>Timeline</code> is an anchor when it has an <code>href</code>, with its value, period and note on hover and on keyboard focus.</p>
 <h2 id="api-what-every-chart-guarantees">What every chart guarantees</h2>
 <ul><li><strong>It renders on the server.</strong> Pure SVG and HTML, no effect, no measurement.</li></ul>
 <p>The drawing is an SVG stretched to its box (<code>preserveAspectRatio=&quot;none&quot;</code>, non-scaling strokes); every label is HTML in rem laid over it in per cent, so a 320px plot has the same type as a 1440px one.</p>
@@ -159,12 +160,14 @@ pnpm run demo         # builds demo/dist; open demo/index.html</code></pre>
     <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
       <h2 id="changelog-title">Changelog and releases</h2>
       <p>This repository has no root changelog in the retrieved source.</p>
-      <ol class="pkg-releases"><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/chartkit/releases/tag/v0.1.1">v0.1.1</a><time datetime="2026-10-25T12:43:12Z">2026-10-25</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-0-what-s-changed">What's Changed</h2>
+      <ol class="pkg-releases"><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/chartkit/releases/tag/v0.2.0">v0.2.0</a><time datetime="2026-10-27T07:56:07Z">2026-10-27</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-0-what-s-changed">What's Changed</h2>
+<p>* chore(deps): raise shared package floors to published versions by @catomean in https://github.com/bitbaum/chartkit/pull/4 * ci: unified tokenless trusted-publishing workflow by @catomean in https://github.com/bitbaum/chartkit/pull/5 * chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) by @catomean in https://github.com/bitbaum/chartkit/pull/6 * chore: add the fleet package template files this repo is missing (release-notify.yml) by @catomean in https://github.com/bitbaum/chartkit/pull/7 * feat: ShareBars otherLabel and a ColumnChart for values by period (0.2.0) by @catomean in https://github.com/bitbaum/chartkit/pull/9</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/chartkit/compare/v0.1.1...v0.2.0</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/chartkit/releases/tag/v0.1.1">v0.1.1</a><time datetime="2026-10-25T12:43:12Z">2026-10-25</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-1-what-s-changed">What's Changed</h2>
 <p>* chore: add the fleet package template files this repo is missing (git-release.yml) by @catomean in https://github.com/bitbaum/chartkit/pull/2 * fix(charts): preserve proportional bar scales (v0.1.1) by @catomean in https://github.com/bitbaum/chartkit/pull/3</p>
-<h2 id="release-0-new-contributors">New Contributors</h2>
+<h2 id="release-1-new-contributors">New Contributors</h2>
 <p>* @catomean made their first contribution in https://github.com/bitbaum/chartkit/pull/2</p>
 <p><strong>Full Changelog</strong>: https://github.com/bitbaum/chartkit/compare/v0.1.0...v0.1.1</p></div></details></li></ol>
-      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/chartkit/commit/d58ff2edc9c574f5ded7561ca9c6b7880224d450">chore: add the fleet package template files this repo is missing (release-notify.yml) (#7)</a> <time datetime="2026-10-26T18:11:01Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/24b1a0b2b6d702dc08d9ae0b1efdb6fecd74b286">chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) (#6)</a> <time datetime="2026-10-26T11:06:10Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/192b9194e264499e0c52b8d59b856348753b1d00">ci: unified tokenless trusted-publishing workflow (OIDC, provenance) (#5)</a> <time datetime="2026-10-26T09:41:40Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/5c9aa6823713f7ea36cc38a410eba5f6f8e62bcc">chore(deps): raise shared package floors to published versions (#4)</a> <time datetime="2026-10-25T18:01:43Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/55da9bdcee82eac9473d77a1316af322a6e3b20c">fix(charts): preserve proportional bar scales (v0.1.1) (#3)</a> <time datetime="2026-10-25T12:42:04Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/a5998e65355750af5f090e2f991d59718ea9800e">chore: add the fleet package template files this repo is missing (git-release.yml) (#2)</a> <time datetime="2026-10-25T08:31:26Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/da998b84d0c187c22e744252b9a3a1b1cc24c8f4">@bitbaum/chartkit 0.1.0: its own repo</a> <time datetime="2026-10-23T10:00:24Z">2026-10-23</time></li></ol></details>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/chartkit/commit/b54b26715e569f4c18e758a14c124f5676e1e514">feat: ShareBars otherLabel and a ColumnChart for values by period (#9)</a> <time datetime="2026-10-27T07:55:08Z">2026-10-27</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/d58ff2edc9c574f5ded7561ca9c6b7880224d450">chore: add the fleet package template files this repo is missing (release-notify.yml) (#7)</a> <time datetime="2026-10-26T18:11:01Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/24b1a0b2b6d702dc08d9ae0b1efdb6fecd74b286">chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) (#6)</a> <time datetime="2026-10-26T11:06:10Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/192b9194e264499e0c52b8d59b856348753b1d00">ci: unified tokenless trusted-publishing workflow (OIDC, provenance) (#5)</a> <time datetime="2026-10-26T09:41:40Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/5c9aa6823713f7ea36cc38a410eba5f6f8e62bcc">chore(deps): raise shared package floors to published versions (#4)</a> <time datetime="2026-10-25T18:01:43Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/55da9bdcee82eac9473d77a1316af322a6e3b20c">fix(charts): preserve proportional bar scales (v0.1.1) (#3)</a> <time datetime="2026-10-25T12:42:04Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/a5998e65355750af5f090e2f991d59718ea9800e">chore: add the fleet package template files this repo is missing (git-release.yml) (#2)</a> <time datetime="2026-10-25T08:31:26Z">2026-10-25</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/da998b84d0c187c22e744252b9a3a1b1cc24c8f4">@bitbaum/chartkit 0.1.0: its own repo</a> <time datetime="2026-10-23T10:00:24Z">2026-10-23</time></li></ol></details>
       <a class="textlink" href="https://github.com/bitbaum/chartkit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/chartkit/tags">All tags</a>
     </section>
     <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
@@ -175,7 +178,7 @@ pnpm run demo         # builds demo/dist; open demo/index.html</code></pre>
     <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
       <h2 id="evidence-title">Sources and verification</h2>
       <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/chartkit/blob/d58ff2edc9c574f5ded7561ca9c6b7880224d450/">source commit <code>d58ff2edc9c5</code></a> · 2026-10-26. Source documentation can include work beyond the registry release.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/chartkit/blob/b54b26715e569f4c18e758a14c124f5676e1e514/">source commit <code>b54b26715e56</code></a> · 2026-10-27. Source documentation can include work beyond the registry release.</p>
       <a class="textlink" href="https://github.com/bitbaum/chartkit/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/geo-kit/">&larr; geo-kit</a><a href="/packages/">All packages</a><a href="/packages/speechkit/">speechkit &rarr;</a></div></div>

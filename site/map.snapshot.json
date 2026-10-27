@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T05:33:49.798Z",
+  "generatedAt": "2026-10-27T08:56:32.606Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -4198,6 +4198,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-27",
+          "done": "A message you send in a saved conversation is shown once, not twice, and a question Heidi did not answer says so: before, it appeared twice with nothing under it and no way forward; now it gets the usual «try again» bubble with Retry. A double tap on Send no longer sends twice."
+        },
+        {
           "date": "2026-10-23",
           "done": "On «The most important words» the button that starts learning the next ten words is on a phone's first screen: it sits above the ten words there, not ten rows below them (on a wide screen it stays under the list).\nChoices that were ragged are now equal cells. In «Settings» the language and appearance choices were pills as wide as their words, wrapping three to a row with one left over; they are an even grid now (language: two columns, the last across; appearance: three equal cells). The footer's language list took half a column on a phone and broke «Schwiizerdütsch» and «Rumantsch» in the middle of the word; it takes the full width now.\nThe returning learner's first screens lose what got in the way. On «My area» a learner who has already practised no longer gets the warm-up as a second dark button above «Practise now» (it is a quiet line; newcomers still get the card), and the empty «Continue» heading over «No conversations yet» is gone. On «Exercises» the note about where answers are kept moved below the start button, so «Let's go» is on the first screen of a phone instead of below it, and the warm-up line is not shown to someone who already practises.\nHeidi opens on an empty conversation with the box ready, and the last one is a row away. Nearly everyone who opens Heidi has something new to ask, and until now they landed in last week's conversation and had to find the way out. A conversation you were in less than half an hour ago stays as it was (ask, read a grammar page, come back); anything older is offered as one quiet row, «Your last conversation · date → Continue», never put back over the box and never deleted. Signed in, the row is your most recent saved conversation. One rule for the home page's Heidi box, the floating «Ask Heidi» and /chat (useRestoreDraft, STILL_GOING_MS in lib/domain/chat/draft.ts).\nOne empty state for all three: the heading asks what you want to understand or say, instead of repeating «Ask Heidi» under a button that said it. The floating window shows the chat's own examples rather than three canned questions of its own, and its header icons are 44 px.\nTalking to Heidi has one name: the header, the dashboard and the floating button all say «Ask Heidi» (the header and dashboard used to say «Quick chat» for the same thing, and the dashboard showed its own button beside the floating one). On a phone the floating button slides away while you scroll down and returns when you scroll up, at the top and at the end of the page, so it stops covering the lines you are reading.\nAn empty box has a Paste button: most first messages are a line someone else wrote and you just copied. One tap fills the box (it does not send), it only reads the clipboard when pressed, and it is not drawn where the browser does not allow reading it."
         },
@@ -4272,10 +4276,6 @@
         {
           "date": "2026-09-14",
           "done": "One renderer for every surface — groups had been storing full answers and rendering them as plain paragraphs since the day they shipped (#45)\nOne label per control, not a visible one and a hidden twin (#46)\nThe home fold became the tool rather than a picture of it (#44)\nai-kit ^0.15.0 → ^1.8.0, and the cast that was waiting on it deleted (#42)\nThe evidence became the argument rather than a page beside it (#40); citations you can follow (#39)\nThe headline promises an order in every language, not just four (#38)\nMIT licence (#37); five things the site said that a person would not (#36)"
-        },
-        {
-          "date": "2026-09-13",
-          "done": "FleetCrown renamed to Loki (#35)\nA hero that demonstrates instead of claiming (#34)\nThe checker was a page nobody could use, and stopped being one (#33)\nPrefetch on intent rather than on arrival (#32); the page stopped competing with itself on a slow connection (#31)\nGroups: humans and Heidi in one thread, on a real database (#29)\nA personal space, rather than a document about one (#28)"
         }
       ],
       "records": {
