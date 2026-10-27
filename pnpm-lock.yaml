@@ -9,17 +9,17 @@ importers:
   .:
     dependencies:
       '@bitbaum/chatkit':
-        specifier: ^0.12.0
-        version: 0.12.0(react@19.3.0)
+        specifier: ^0.17.1
+        version: 0.17.1(react@19.3.0)
       '@bitbaum/design-tokens':
-        specifier: 1.1.0
-        version: 1.1.0
+        specifier: 1.2.0
+        version: 1.2.0
       bip-kit:
-        specifier: ^0.6.0
-        version: 0.6.0(react@19.3.0)
+        specifier: ^0.6.1
+        version: 0.6.1(react@19.3.0)
       listkit:
-        specifier: github:bitbaum/listkit#69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525
-        version: https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525
+        specifier: npm:@bitbaum/listkit@^0.2.1
+        version: '@bitbaum/listkit@0.2.1'
       react:
         specifier: ^19.3.0
         version: 19.3.0
@@ -36,15 +36,19 @@ importers:
 
 packages:
 
-  '@bitbaum/chatkit@0.12.0':
-    resolution: {integrity: sha512-C0qC8eHMeb8uw8ZG/cv5lQO0qspLF26BARLoCQIyGe3hGFw4U9kCYoPDyMGEIG8UGnXabLEWAiF9r4k5GX1SjA==}
+  '@bitbaum/chatkit@0.17.1':
+    resolution: {integrity: sha512-obLB5G0sjgPlSrmjX18ln8LAuXJeLFetIT+/7TvXT94ZID6HcICuptdW+r/zUE7ZXPsZbghSzHG9aB47JNyJ+g==}
     engines: {node: '>=20'}
     hasBin: true
     peerDependencies:
       react: '>=18'
 
-  '@bitbaum/design-tokens@1.1.0':
-    resolution: {integrity: sha512-sDVplKP4jKe0WHCOnW7xk75RC46JsAYqUngcVlctyAs9f1TQqZqbYTfbmyYipYCOaCIHMflnzAneQTbqrQbtBw==}
+  '@bitbaum/design-tokens@1.2.0':
+    resolution: {integrity: sha512-13TSrgYbEzSqt5FNfW3HSJIFcenUto8nKlk4J4IUsepL0gsTBoZ0YDMiJTaJKmR8sPPmcCS94Z/xgUBQW43itw==}
+    engines: {node: '>=20'}
+
+  '@bitbaum/listkit@0.2.1':
+    resolution: {integrity: sha512-eQR7k8jiAQRzXlXveYbYguzgiZtrqjw4O3Kr+ucLwG/rwBva73em6k2cPgkPC8ebrxSTQ4MYeSndy/Vb9KUiIQ==}
     engines: {node: '>=20'}
 
   '@esbuild/aix-ppc64@0.28.2':
@@ -203,8 +207,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  bip-kit@0.6.0:
-    resolution: {integrity: sha512-evyb2/RtTK7EXrQBde3misyHj/vCZYxJLVBv285iPa3nKl8Mr60sAIspCaSL6SFY0872Jz5MX7gf/uJ0Avvtew==}
+  bip-kit@0.6.1:
+    resolution: {integrity: sha512-lwWnRDCuhrO5YzBeaASjQwVoyIcDwGqEH3cskqa2ylIgyPagtVE6+ppDze+rkEBzVmKkUXREW5ydXOr2Kw3Oow==}
     engines: {node: '>=20'}
     peerDependencies:
       katex: '>=0.16'
@@ -223,11 +227,6 @@ packages:
     resolution: {integrity: sha512-HKVLS8dvII+xoKW9kmqxbRKrnWEXfJJr/FZhhJmiqIB0e053QNYFqOBouTMO/k5sID4MvCiUCvv8b9M4h32wIA==}
     engines: {node: '>=18'}
     hasBin: true
-
-  listkit@https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525}
-    version: 0.1.0
-    engines: {node: '>=20'}
 
   playwright-core@1.63.0:
     resolution: {integrity: sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==}
@@ -253,11 +252,13 @@ packages:
 
 snapshots:
 
-  '@bitbaum/chatkit@0.12.0(react@19.3.0)':
+  '@bitbaum/chatkit@0.17.1(react@19.3.0)':
     dependencies:
       react: 19.3.0
 
-  '@bitbaum/design-tokens@1.1.0': {}
+  '@bitbaum/design-tokens@1.2.0': {}
+
+  '@bitbaum/listkit@0.2.1': {}
 
   '@esbuild/aix-ppc64@0.28.2':
     optional: true
@@ -337,7 +338,7 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  bip-kit@0.6.0(react@19.3.0):
+  bip-kit@0.6.1(react@19.3.0):
     dependencies:
       react: 19.3.0
 
@@ -369,8 +370,6 @@ snapshots:
       '@esbuild/win32-arm64': 0.28.2
       '@esbuild/win32-ia32': 0.28.2
       '@esbuild/win32-x64': 0.28.2
-
-  listkit@https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525: {}
 
   playwright-core@1.63.0: {}
 

@@ -3,4 +3,6 @@ allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:
   - "@bitbaum/chatkit"
-  - bip-kit@0.5.1
+  - bip-kit@0.5.1 || 0.6.1
+  - '@bitbaum/design-tokens@1.2.0'
+  - '@bitbaum/listkit@0.2.1'
