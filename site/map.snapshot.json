@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T13:28:40.496Z",
+  "generatedAt": "2026-10-27T16:02:39.870Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -5161,6 +5161,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-27",
+          "done": "A company page scrolls under your finger on a phone. The \"On this page\" strip pulled the page back about 70px each time the section you were reading changed, so a swipe moved the page forward and then back. The strip now moves only itself. (#267)"
+        },
+        {
           "date": "2026-10-26",
           "done": "Tables in answers arrive as tables again. The check that removes unsourced sentences read each table row as a sentence and dropped the header row, which has no source of its own, so the reader saw \"| :--- | :--- |\" as text. A table is now judged as a table: a row stays when it cites a source, and the header stays with any row that does. A bold line at the start of a paragraph no longer loses its first asterisk either."
         },
@@ -5235,10 +5239,6 @@
         {
           "date": "2026-09-13",
           "done": "FleetCrown was renamed to Loki throughout. (#30)"
-        },
-        {
-          "date": "2026-09-07",
-          "done": "CI caches Next's build output, and the auto-merge sweep holds a token so workflow PRs stop stalling. (#24, #25, #26)"
         }
       ],
       "records": {
