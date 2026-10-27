@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T08:56:32.606Z",
+  "generatedAt": "2026-10-27T09:08:09.390Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -2490,6 +2490,10 @@
         {
           "date": "2026-10-27",
           "done": "Validate each package card against its own registry version and source, independently of accessible-label wording. Detect stale displayed versions even when packages share the same release number."
+        },
+        {
+          "date": "2026-10-27",
+          "done": "Publish checked source facts from main and propose generated snapshots through the normal pull-request gates, including generated cast documentation. Stop writing generated changes directly to main."
         },
         {
           "date": "2026-10-26",
