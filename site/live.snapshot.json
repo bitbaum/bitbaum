@@ -60,8 +60,8 @@
     "running": true
   },
   "https://substrata.orangecat.ch": {
-    "status": 0,
-    "running": false
+    "status": 200,
+    "running": true
   },
   "https://surf-your-life.orangecat.ch": {
     "status": 200,
