@@ -6,13 +6,13 @@ on:
   push:
     branches: [main]
     paths:
-      - '.github/workflows/deploy-site.yml'
-      - 'site/**'
-      - 'ROADMAP.md'
-      - 'CHANGELOG.md'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - 'pnpm-workspace.yaml'
+      - ".github/workflows/deploy-site.yml"
+      - "site/**"
+      - "ROADMAP.md"
+      - "CHANGELOG.md"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
   workflow_dispatch:
   # The site is a VIEW of Loki's fleet map, and a view rebuilt only on a push
   # here goes stale the moment a project changes there: on 2026-10-18 the work
@@ -21,7 +21,7 @@ on:
   # hours the site rebuilds from the live sources; a run that changes no page
   # stops before committing or publishing anything.
   schedule:
-    - cron: '41 */3 * * *'
+    - cron: "41 */3 * * *"
   repository_dispatch:
     types: [package-registry-updated]
 
@@ -54,6 +54,20 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Record generator package artifacts before refreshing generated data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/$GITHUB_REPOSITORY" --jq .private)" = false
+          producer="$RUNNER_TEMP/fleet-receipt-producer"
+          git init --quiet "$producer"
+          git -C "$producer" remote add origin https://github.com/bitbaum/fleet.git
+          git -C "$producer" fetch --quiet --depth 1 origin 5da9886a5211dc74dc6b7c8f5eade60c460cea6c
+          git -C "$producer" checkout --quiet --detach FETCH_HEAD
+          node "$producer/scripts/ci/release-receipt.mjs" --public \
+            --root "$GITHUB_WORKSPACE" --repo "$GITHUB_REPOSITORY" \
+            --output "$RUNNER_TEMP/bitbaum-release.json"
       - name: Read Playwright revision
         id: playwright
         run: node -p '"version=" + require("playwright/package.json").version' >> "$GITHUB_OUTPUT"
@@ -118,6 +132,17 @@ jobs:
           node site/check-cast.mjs http://127.0.0.1:8731 || failures=1
           [ "$failures" -eq 0 ]
           kill "$(cat /tmp/bitbaum-http.pid)" || true
+      - name: Stage generator receipt after checked source refresh
+        if: steps.changed.outputs.publish == 'true'
+        run: |
+          set -euo pipefail
+          # Only generated snapshots, pages and cast records may change during build.
+          # Executed generator source and its package lock must still match the receipt.
+          source_paths=(. ':(exclude)site/dist' ':(exclude)site/*.snapshot.json' ':(exclude)docs/CAST.md')
+          git diff --exit-code HEAD -- "${source_paths[@]}"
+          test -z "$(git ls-files --others --exclude-standard -- "${source_paths[@]}")"
+          mkdir -p site/dist/.well-known
+          cp "$RUNNER_TEMP/bitbaum-release.json" site/dist/.well-known/fleet-release.json
       - name: Configure SSH
         if: steps.changed.outputs.publish == 'true'
         env:
@@ -135,10 +160,15 @@ jobs:
         env:
           BOX: ubuntu@${{ vars.HETZNER_IP }}
         run: bash site/publish.sh
+      - name: Verify served generator package receipt
+        if: steps.changed.outputs.publish == 'true'
+        run: |
+          node "$RUNNER_TEMP/fleet-receipt-producer/scripts/ci/verify-live-release-receipt.mjs" \
+            --url https://bitbaum.orangecat.ch/.well-known/fleet-release.json \
+            --expected "$RUNNER_TEMP/bitbaum-release.json"
       - name: Hire form gate (live)
         if: steps.changed.outputs.publish == 'true'
         run: node site/check-hire.mjs https://bitbaum.orangecat.ch
-
 
       - name: Load the verified first-party generated PR helper
         if: steps.changed.outputs.publish == 'true'
