@@ -211,3 +211,17 @@ hashed or moved; interactive modules already live at `/theme.mjs`,
 created_date: 2026-06-01
 last_modified_date: 2026-09-30
 last_modified_summary: Current chat and commissioning assets; responsive and intake gates; published commissioning contract verification.
+
+
+## Generator package receipt
+
+Publication serves `/.well-known/fleet-release.json`, produced by Fleet's shared
+receipt tool from the clean generator checkout, its lockfile and installed
+packages before refreshing external catalogue data. It identifies the generator
+commit and package artifacts, not the freshness or correctness of every external
+claim. The existing fresh-source and public-page checks cover those separately.
+
+Before staging the receipt, publication checks that executable source and its lock
+have not changed. Only generated `site/dist/`, top-level site snapshot JSON files
+and `docs/CAST.md` may change during the build. The receipt is excluded from source
+snapshot commits and verified against its exact served copy after publication.
