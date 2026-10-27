@@ -1079,11 +1079,17 @@
     },
     "paykit": {
       "repo": "https://github.com/bitbaum/paykit",
-      "commit": "9c6ce49869b2d6ee01ecba993c51f98be53a9686",
-      "committedAt": "2026-10-27T15:50:09Z",
+      "commit": "f0d5951f24fe9d5935c4abdcd3de958bbd21c347",
+      "committedAt": "2026-10-27T16:41:33Z",
       "readme": "# paykit\n\nLet a website get paid. The website does not hold the money.\n\n```bash\npnpm add @bitbaum/paykit\n```\n\nPart of [bitbaum](https://bitbaum.orangecat.ch/packages/paykit/). The same behavior ships in [OrangeCat](https://orangecat.ch) today.\n\n## Why this exists\n\nA shop, a clinic, or a fundraiser should be able to take a payment without building a wallet, a balance, or a support desk for missing coins. You store where the money should land. The payer uses their own app.\n\n## Use\n\n```ts\nimport { classifyPaste, shownRail } from '@bitbaum/paykit';\n\nclassifyPaste('bitcoin:bc1q…'); // 'onchain'\nclassifyPaste('you@coinos.io'); // 'lightning'\nclassifyPaste('nostr+walletconnect://…'); // 'nwc'\n\n// A code to show. Twint, Monero, anything else. Their app pays it.\nshownRail('Twint', qrPayload);\n```\n\n`classifyPaste` reads the shape of a Bitcoin receive string after stripping the `bitcoin:` wrapper a wallet copies. It does not check the checksum. A host that moves money still validates before it saves.\n\nA **settled** rail (Lightning address, Bitcoin address, xpub, wallet-connect) is one the host can ask for a payment. A **shown** rail is only displayed. paykit does not store keys and does not keep a balance.\n\n## Licence\n\nMIT\n",
       "changelog": null,
       "commits": [
+        {
+          "sha": "f0d5951f24fe9d5935c4abdcd3de958bbd21c347",
+          "date": "2026-10-27T16:41:33Z",
+          "subject": "ci: diagnose npm publisher binding without publishing (#8)",
+          "url": "https://github.com/bitbaum/paykit/commit/f0d5951f24fe9d5935c4abdcd3de958bbd21c347"
+        },
         {
           "sha": "9c6ce49869b2d6ee01ecba993c51f98be53a9686",
           "date": "2026-10-27T15:50:09Z",
@@ -1125,12 +1131,6 @@
           "date": "2026-09-23T13:43:26Z",
           "subject": "chore: publish as @bitbaum/paykit",
           "url": "https://github.com/bitbaum/paykit/commit/cadb8dd5dad0d93883e286b1ecfe161ed494b5a2"
-        },
-        {
-          "sha": "28041d69849aafda5669af2849c19967a1354b4c",
-          "date": "2026-09-23T13:42:48Z",
-          "subject": "feat: classify a pasted receive string without holding money",
-          "url": "https://github.com/bitbaum/paykit/commit/28041d69849aafda5669af2849c19967a1354b4c"
         }
       ],
       "releases": [
