@@ -1,0 +1,11 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { assertPackageVersions } from './package-version-contract.mjs';
+const packages=[{slug:'first',version:'0.2.0',install:{source:'npm'}},{slug:'second',version:'0.2.0',install:{source:'git'}}];
+const actual=[{slug:'first',version:'0.2.0',source:'npm',text:'npm\u00a0v0.2.0'},{slug:'second',version:'0.2.0',source:'git',text:'git v0.2.0'}];
+test('same numeric version is validated separately for each package and source',()=>assert.doesNotThrow(()=>assertPackageVersions(packages,actual)));
+test('a version on another package cannot satisfy a missing card',()=>assert.throws(()=>assertPackageVersions(packages,actual.slice(0,1)),/second/));
+test('stale visible version cannot hide behind fresh machine attributes',()=>assert.throws(()=>assertPackageVersions(packages,[{...actual[0],text:'npm v0.1.0'},actual[1]]),/first/));
+test('a longer version is not mistaken for its prefix',()=>assert.throws(()=>assertPackageVersions(packages,[{...actual[0],text:'npm v0.2.00'},actual[1]]),/first/));
+test('wrong distribution source, absent badges and duplicate cards fail',()=>{for(const rows of [[{...actual[0],source:'git'},actual[1]],[{slug:'first'},actual[1]],[...actual,actual[0]]])assert.throws(()=>assertPackageVersions(packages,rows));});
+test('accessible wording can change without coupling publication to that label',()=>assert.doesNotThrow(()=>assertPackageVersions(packages,actual.map(card=>({...card,ariaLabel:'A clearer release label'})))));

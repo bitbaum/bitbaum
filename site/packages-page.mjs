@@ -83,7 +83,7 @@ export function createPackagePages({ esc, shell }) {
   function pkgVersion(p) {
     if (!p.version) return "";
     const source = p.install?.source === "git" ? "git" : "npm";
-    return `<span class="pill pkg-version" aria-label="Registry ${source} version ${esc(p.version)}">${esc(source)}&nbsp;v${esc(p.version)}</span>`;
+    return `<span class="pill pkg-version" data-package-version="${esc(p.version)}" data-package-source="${esc(source)}" aria-label="Registry ${source} version ${esc(p.version)}">${esc(source)}&nbsp;v${esc(p.version)}</span>`;
   }
 
   function editorialFor(p, cfg) {

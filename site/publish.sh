@@ -60,13 +60,9 @@ printf '%s' "$commission_json" | node -e 'const fs=require("node:fs"); const ass
 if grep -q 'mailto:' <<<"$hire"; then echo "hire page exposes a mailto again" >&2; fail=1; fi
 if grep -q 'manual steps between merge and deploy' <<<"$hire"; then echo "hire page still claims 0 manual deploy steps" >&2; fail=1; fi
 packages="$(curl -fsS "$SITE_ORIGIN/packages/?publish=$stamp")" || { echo "packages page unreachable" >&2; fail=1; }
-while IFS=$'\t' read -r slug version; do
-  [ -n "$slug" ] || continue
-  if ! grep -Fq "aria-label=\"Latest npm version $version\"" <<<"$packages"; then
-    echo "packages page is missing $slug npm version $version" >&2
-    fail=1
-  fi
-done < <(node -e 'for (const p of require("./site/packages.snapshot.json").packages) if (p.install?.source === "npm" && p.version) console.log(`${p.slug}\t${p.version}`)')
+# Compare each rendered card with its own registry row, not UI aria-label copy.
+printf '%s' "$packages" | node "$HERE/check-published-packages.mjs" || fail=1
+
 expected_packages=$(node -e 'const c=require("./site/overrides.json"); console.log(require("./site/packages.snapshot.json").packages.length + (c.upcomingPackages ?? []).length)')
 actual_packages=$(grep -o 'data-package="[^"]*"' <<<"$packages" | wc -l | tr -d ' ')
 [ "$actual_packages" = "$expected_packages" ] || { echo "packages page has $actual_packages cards; expected $expected_packages" >&2; fail=1; }
