@@ -738,7 +738,7 @@ ${paths.map(([slug, verb, line]) => {
 
 /** Where the chat mounts. Without JavaScript it says so and points onward. */
 function chatMount({ title, starters }) {
-  return `<div class="chat-mount" data-chat data-origin="${esc(LOKI_FEEDBACK.origin)}" data-token="${esc(LOKI_FEEDBACK.token)}" data-title="${esc(title)}" data-starters="${esc(JSON.stringify(starters))}">
+  return `<div class="chat-mount" data-chat data-fc-avoid data-origin="${esc(LOKI_FEEDBACK.origin)}" data-token="${esc(LOKI_FEEDBACK.token)}" data-title="${esc(title)}" data-starters="${esc(JSON.stringify(starters))}">
           <p class="caption">The chat needs JavaScript. <a class="textlink" href="/work/">Browse every project</a> or <a class="textlink" href="${HIRE}#waitlist">join the waitlist</a>.</p>
         </div>`;
 }
@@ -1197,7 +1197,7 @@ ${facts}
  * application becomes a private record on Loki with its own portal link.
  * Without JavaScript it says so. */
 function intakeMount({ prompt, purpose = "studio", offerId = "" }) {
-  return `        <div class="chat-mount intake-mount" data-intake data-purpose="${esc(purpose)}" data-origin="${esc(LOKI_FEEDBACK.origin)}" data-token="${esc(LOKI_FEEDBACK.token)}" data-offer-id="${esc(offerId)}" data-prompt="${esc(prompt)}">
+  return `        <div class="chat-mount intake-mount" data-intake data-fc-avoid data-purpose="${esc(purpose)}" data-origin="${esc(LOKI_FEEDBACK.origin)}" data-token="${esc(LOKI_FEEDBACK.token)}" data-offer-id="${esc(offerId)}" data-prompt="${esc(prompt)}">
           <p class="caption">${purpose === "partner" ? "Applications need" : "The waitlist needs"} JavaScript to reach the studio. <a class="textlink" href="/academy/">Read the pilot course</a> or <a class="textlink" href="/work/">browse every project</a> in the meantime.</p>
         </div>`;
 }
@@ -1294,6 +1294,17 @@ ${intakeMount({ prompt: hire.waitlist.prompt, offerId: hire.commissioningOffer }
 }
 
 // ── build ───────────────────────────────────────────────────────────────────
+/** The installed chatkit release — what the bundle is built from. */
+export function CHATKIT_VERSION() {
+  return JSON.parse(readFileSync(join(here, "..", "node_modules", "@bitbaum", "chatkit", "package.json"), "utf8")).version;
+}
+/** The files built from installed packages rather than from this repo's own
+ *  sources. A dependency bump changes them and nothing else, so the PR check
+ *  compares the COMMITTED copies against a fresh build before rebuilding:
+ *  a bump that does not carry its rebuilt bundle fails there, in review,
+ *  instead of leaving site/dist naming one version while package.json names
+ *  another (2026-10-27: dist on chatkit 0.12.0, package.json on ^0.17.1). */
+export const PACKAGE_BUILT = (rel) => rel === "chat.js" || rel === "chatkit.css" || rel === "tokens.css" || rel.startsWith("vendor/");
 export function render({ map, packages, origin, readings, cfg, hire, live = {}, packageRecords = { entries: {} } }) {
   const all = ventures(map, cfg, origin, packages, live);
   const files = new Map();
@@ -1313,6 +1324,12 @@ export function render({ map, packages, origin, readings, cfg, hire, live = {}, 
   files.set("packages-filter.mjs", readFileSync(join(here, "packages-filter.mjs"), "utf8"));
   files.set("work-filter.mjs", readFileSync(join(here, "work-filter.mjs"), "utf8"));
   // The chat island: chatkit + React bundled once for every page that mounts it.
+  // The chatkit release it was built from is in its first line and on every
+  // mount (data-chatkit), so the served version is one curl away: on
+  // 2026-10-27 the live chat still ran chatkit 0.12.0 — the Android mic that
+  // repeated every partial ("build build me build me") — five releases after
+  // the fix, and nothing on the page said so.
+  const chatkitVersion = CHATKIT_VERSION();
   const bundle = buildSync({
     entryPoints: [join(here, "chat", "chat.tsx")],
     bundle: true,
@@ -1320,7 +1337,8 @@ export function render({ map, packages, origin, readings, cfg, hire, live = {}, 
     format: "esm",
     jsx: "automatic",
     target: "es2020",
-    define: { "process.env.NODE_ENV": '"production"' },
+    define: { "process.env.NODE_ENV": '"production"', __CHATKIT_VERSION__: JSON.stringify(chatkitVersion) },
+    banner: { js: `/* @bitbaum/chatkit ${chatkitVersion} — site/chat/chat.tsx, built by site/build.mjs */` },
     write: false,
     logLevel: "warning",
   });
@@ -1340,7 +1358,9 @@ export function render({ map, packages, origin, readings, cfg, hire, live = {}, 
   if (!commissioningOffer) throw new Error("hire.commissioningOffer must name a published offer");
   // Public commissioning contract. Rates/capacity are authored only in hire.json;
   // Loki reads this view. The token is the same public write-only widget token.
-  files.set("commission.json", JSON.stringify({ version: 1, origin: SITE, availability: hire.availability, offer: commissioningOffer, feedbackToken: LOKI_FEEDBACK.token, course: COURSE }, null, 2) + "\n");
+  // `offers` (every published rate card) lets Loki's intake say which one a
+  // request resembles without ever stating a price that is not here.
+  files.set("commission.json", JSON.stringify({ version: 1, origin: SITE, availability: hire.availability, offer: commissioningOffer, offers: hire.offers, feedbackToken: LOKI_FEEDBACK.token, course: COURSE }, null, 2) + "\n");
   for (const v of all) files.set(`${v.slug}/index.html`, venturePage(v, all, cfg, hire?.contact?.email));
   files.set("map.json", JSON.stringify(publicMap(map, new Set(all.map((v) => v.slug))), null, 2) + "\n");
   // Every public page the build writes is in the sitemap, because the sitemap
@@ -1363,6 +1383,10 @@ export function render({ map, packages, origin, readings, cfg, hire, live = {}, 
 
 const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
 if (isMain) {
+  // --check-bundles: only the package-built files (see PACKAGE_BUILT), against
+  // what is COMMITTED — run before any rebuild on a pull request.
+  const bundlesOnly = args.has("--check-bundles");
+  if (bundlesOnly) args.add("--check");
   if (args.has("--check")) args.add("--offline");
   const map = await fetchOrSnapshot(SOURCES.map);
   const packages = await fetchOrSnapshot(SOURCES.packages);
@@ -1420,25 +1444,29 @@ if (isMain) {
     ? readdirSync(packageDir, { withFileTypes: true }).filter((entry) => entry.isDirectory() && !currentPackageSlugs.has(entry.name))
     : [];
   if (args.has("--check")) {
-    let stale = obsoletePackageDirs.length;
-    for (const entry of obsoletePackageDirs) console.error(`stale: dist/packages/${entry.name} — package no longer appears in the catalogue`);
+    let stale = bundlesOnly ? 0 : obsoletePackageDirs.length;
+    if (!bundlesOnly) for (const entry of obsoletePackageDirs) console.error(`stale: dist/packages/${entry.name} — package no longer appears in the catalogue`);
     for (const [rel, html] of files) {
+      if (bundlesOnly && !PACKAGE_BUILT(rel)) continue;
       const p = join(DIST, rel);
-      if (!existsSync(p) || readFileSync(p, "utf8") !== html) { console.error(`stale: dist/${rel}`); stale++; }
+      if (!existsSync(p) || readFileSync(p, "utf8") !== html) {
+        const why = rel === "chat.js" ? ` — not built from the installed @bitbaum/chatkit ${CHATKIT_VERSION()} (committed: ${(existsSync(p) ? readFileSync(p, "utf8").match(/@bitbaum\/chatkit (\S+)/)?.[1] : null) ?? "unstamped"})` : "";
+        console.error(`stale: dist/${rel}${why}`); stale++;
+      }
     }
-    if (readFileSync(join(here, "styles.css"), "utf8") !== (existsSync(join(DIST, "styles.css")) ? readFileSync(join(DIST, "styles.css"), "utf8") : "")) { console.error("stale: dist/styles.css"); stale++; }
+    if (!bundlesOnly && readFileSync(join(here, "styles.css"), "utf8") !== (existsSync(join(DIST, "styles.css")) ? readFileSync(join(DIST, "styles.css"), "utf8") : "")) { console.error("stale: dist/styles.css"); stale++; }
     {
       const src = join(here, "..", "node_modules", "@bitbaum", "design-tokens", "tokens.css");
       const want = existsSync(src) ? readFileSync(src, "utf8").replace(/url\(\.\/fonts\//g, "url(/fonts/") : "";
       const have = existsSync(join(DIST, "tokens.css")) ? readFileSync(join(DIST, "tokens.css"), "utf8") : "";
       if (want !== have) { console.error("stale: dist/tokens.css — the design tokens moved"); stale++; }
     }
-    {
+    if (!bundlesOnly) {
       const doc = join(here, "..", "docs", "CAST.md");
       if ((existsSync(doc) ? readFileSync(doc, "utf8") : "") !== castMd) { console.error("stale: docs/CAST.md — the cast moved"); stale++; }
     }
-    if (stale) { console.error(`site/dist is behind the sources — run: node site/build.mjs`); process.exit(1); }
-    console.log(`site/dist is in sync (${pageCount} pages, ${files.size} generated files)`);
+    if (stale) { console.error(bundlesOnly ? "the committed bundles are not what the installed packages build — run: node site/build.mjs --offline, and commit site/dist" : `site/dist is behind the sources — run: node site/build.mjs`); process.exit(1); }
+    console.log(bundlesOnly ? `site/dist bundles match the installed packages (chatkit ${CHATKIT_VERSION()})` : `site/dist is in sync (${pageCount} pages, ${files.size} generated files)`);
   } else {
     for (const [rel, html] of files) {
       mkdirSync(dirname(join(DIST, rel)), { recursive: true });

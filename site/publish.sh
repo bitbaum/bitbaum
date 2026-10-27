@@ -34,6 +34,11 @@ for rel in "" work/ packages/ packages/paykit/ studio/ hire/ partners/ portal/ p
   [ "$code" = "200" ] || { echo "$SITE_ORIGIN/$rel -> $code" >&2; fail=1; }
 done
 node "$HERE/check-widget.mjs" "$SITE_ORIGIN" || fail=1
+# The served chat must be the one just built: its first line names the chatkit
+# release (site/build.mjs). A stale or cached bundle fails the publish.
+want_chatkit=$(node -p 'require("./node_modules/@bitbaum/chatkit/package.json").version')
+served_chatkit=$(curl -fsS "$SITE_ORIGIN/chat.js?publish=$stamp" | sed -n '1s#.*@bitbaum/chatkit \([^ ]*\).*#\1#p') || served_chatkit=""
+[ "$served_chatkit" = "$want_chatkit" ] || { echo "served chat.js is chatkit '${served_chatkit:-unstamped}', built from $want_chatkit" >&2; fail=1; }
 home="$(curl -fsS "$SITE_ORIGIN/")" || { echo "home page unreachable" >&2; fail=1; }
 work="$(curl -fsS "$SITE_ORIGIN/work/?publish=$stamp")" || { echo "work page unreachable" >&2; fail=1; }
 grep -q 'id="work-grid"' <<<"$work" || { echo "work page has no project grid" >&2; fail=1; }

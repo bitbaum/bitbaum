@@ -117,9 +117,16 @@ organisation as two systems, and used two superseded product names.
 
 The waitlist uses the one-field chat intake in `site/chat/chat.tsx`, bundled
 as `/chat.js` with `/chatkit.css`. Partner applications use that same intake
-with a separate purpose. `/commission.json` is generated from the selected
-`commissioningOffer` and availability in `hire.json`; Loki reads it for the
-website-change brief. The public token grants write-only feedback intake.
+with a separate purpose. It is a conversation: the visitor's words (and
+pictures) are saved on Loki first, then Loki answers through the widget
+chat's intake mode — questions, the published engagement it resembles, never
+a promise — and files the brief once when Loki's code says it is ready. The
+logic is `site/chat/intake-flow.mjs`, tested with fakes by
+`site/intake-flow.test.mjs`. `/commission.json` is generated from the selected
+`commissioningOffer`, every published offer and availability in `hire.json`;
+Loki reads it for the website-change brief and the intake's answers. The
+public token grants write-only feedback intake. What each chat uses from the
+fleet, and how it is built, is `docs/chat-audit.md`.
 
 The public name is **Cato** and the address is **cato@orangecat.ch**. An
 earlier `mao@` address is the same person under a superseded handle and must
@@ -152,6 +159,7 @@ node site/build.mjs             # fetch the sources, write site/dist/
 node site/build.mjs --require-fresh # fail rather than fall back to snapshots
 node site/build.mjs --offline   # build from the snapshots (no network)
 node site/build.mjs --check     # exit 1 if site/dist/ is stale
+node site/build.mjs --check-bundles # exit 1 if the COMMITTED chat.js, chatkit.css, listkit or tokens are not what the locked packages build
 node site/check-claims.mjs      # truth gate against dist/ (or pass a live URL)
 node site/check-theme.mjs http://127.0.0.1:8731   # after serving dist/
 node site/check-responsive.mjs http://127.0.0.1:8731 # all pages, mobile/tablet/rotation/200% text

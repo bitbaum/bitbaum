@@ -217,6 +217,12 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ steps.playwright.outputs.version }}
       - run: pnpm exec playwright install chromium --with-deps
       - run: pnpm test
+      # Before rebuilding: the COMMITTED chat bundle, chatkit.css, listkit and
+      # tokens must be what the locked packages build. A dependency bump that
+      # does not carry its rebuilt bundle fails here, in review (2026-10-27:
+      # package.json on chatkit ^0.17.1, site/dist still built from 0.12.0).
+      - name: Committed bundles match the locked packages
+        run: node site/build.mjs --check-bundles
       - run: node site/build.mjs --offline
       - name: Package card release contract
         run: node site/check-published-packages.mjs < site/dist/packages/index.html
