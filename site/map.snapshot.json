@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T09:19:24.531Z",
+  "generatedAt": "2026-10-27T21:41:19.301Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -4203,7 +4203,7 @@
       "changelog": [
         {
           "date": "2026-10-27",
-          "done": "A message you send in a saved conversation is shown once, not twice, and a question Heidi did not answer says so: before, it appeared twice with nothing under it and no way forward; now it gets the usual «try again» bubble with Retry. A double tap on Send no longer sends twice."
+          "done": "The full chat at «/chat» is the fleet's chat app (chatkit's ChatApp): your conversations sit in a drawer on a phone and beside the chat on a wide screen, with a search box and Today / Yesterday / Earlier; each has one «…» for Rename and Delete. New: a temporary conversation that is written nowhere, a message written while Heidi is answering waits above the box and goes when she is done, and the conversation you had open comes back after a reload. Signed out, the list is kept in this browser and nothing reaches the database; a conversation from the home box or the floating window carries over. Stop still throws away the half answer (it had not been checked for Zurich forms) and a failure still says why. The chips under an answer («Shorter», «Word by word») and «What does it mean?» on a selected word now put their sentence in the box to send, instead of sending it at once.\nLater the same day, with chatkit 0.19: the chips under an answer and «What does it mean?» send in one tap again. Each failed turn keeps its own reason, even with two in one conversation; Retry sends the pictures again; signed out, «This conversation is only in this browser» and sign-in sit above the list of conversations. Heidi's workarounds for 0.18 are gone: Stop discarding the half answer is now chatkit's stopKeepsPartial, the failure reason a per-turn ChatTurnError, and the dialect starter carries its language.\nA message you send in a saved conversation is shown once, not twice, and a question Heidi did not answer says so: before, it appeared twice with nothing under it and no way forward; now it gets the usual «try again» bubble with Retry. A double tap on Send no longer sends twice."
         },
         {
           "date": "2026-10-23",
@@ -5161,6 +5161,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-27",
+          "done": "Retry after a failed answer sends your screenshot again, not only your words, and the failed answer says why it failed. A question from the home page, a \"Check this\" on a figure and a screenshot handed over from the home box are now sent by the shared chat itself (chatkit 0.19) instead of being typed into the box for you.\nA checked claim that someone said something now says what was checked: Reported when a source shows only that they said it, Confirmed only when a source establishes the thing itself.\nNo more half-links like \"](https://x.com/…))\" in an answer's reasoning: a link whose title held a full stop was cut in two when a sentence around it was removed.\nA source chip stands only on a sentence the page supports — a figure it prints or a name it gives — not on the answer's own analysis.\nThe Ask panel on a wide screen gives the answer its full width; the chat list opens as a drawer from the Chats button.\nA company page scrolls under your finger on a phone. The \"On this page\" strip pulled the page back about 70px each time the section you were reading changed, so a swipe moved the page forward and then back. The strip now moves only itself. (#267)"
+        },
+        {
           "date": "2026-10-26",
           "done": "Tables in answers arrive as tables again. The check that removes unsourced sentences read each table row as a sentence and dropped the header row, which has no source of its own, so the reader saw \"| :--- | :--- |\" as text. A table is now judged as a table: a row stays when it cites a source, and the header stays with any row that does. A bold line at the start of a paragraph no longer loses its first asterisk either."
         },
@@ -5235,10 +5239,6 @@
         {
           "date": "2026-09-13",
           "done": "FleetCrown was renamed to Loki throughout. (#30)"
-        },
-        {
-          "date": "2026-09-07",
-          "done": "CI caches Next's build output, and the auto-merge sweep holds a token so workflow PRs stop stalling. (#24, #25, #26)"
         }
       ],
       "records": {
