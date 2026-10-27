@@ -9,9 +9,11 @@
  * one repo and strands the rest — so the SPEC is shared and the engine is not.
  * This module is the array engine; a SQL engine consumes the same spec.
  */
-import { facetMatches, searchMatches } from "./facets.js";
+import { facetMatches } from "./facets.js";
+import { searchMatches, searchScore, searchTerms } from "./search.js";
 import { compareBy } from "./sort.js";
 import { pageOf } from "./page.js";
+import { RELEVANCE_SORT } from "./query.js";
 /** Every row that passes the query, unpaged and unsorted. */
 export function matches(rows, spec, query) {
     return rows.filter((row) => {
@@ -44,11 +46,37 @@ export function facetCounts(rows, spec, query) {
     }
     return out;
 }
+/**
+ * Is this query ordered by relevance? Only while there is text to rank by,
+ * and only when the reader asked for it (`?sort=relevance`) or has not chosen
+ * a sort of their own — an explicit "newest" stays newest while searching.
+ */
+export function isRanked(spec, query) {
+    if (!spec.search || searchTerms(query.q).length === 0)
+        return false;
+    if (query.sort === RELEVANCE_SORT)
+        return true;
+    return spec.search.rank !== false && query.sort === spec.defaultSort;
+}
 /** Filter, sort, count and page in one pass. */
 export function applyQuery(rows, spec, query) {
     const passed = matches(rows, spec, query);
-    const sort = spec.sorts.find((s) => s.key === query.sort) ?? spec.sorts[0];
-    const sorted = sort ? [...passed].sort(compareBy(sort.by, query.dir)) : passed;
+    const sort = spec.sorts.find((s) => s.key === query.sort) ??
+        spec.sorts.find((s) => s.key === spec.defaultSort) ??
+        spec.sorts[0];
+    const byKey = sort ? compareBy(sort.by, query.dir) : null;
+    let sorted;
+    if (isRanked(spec, query)) {
+        // Score once per row, not once per comparison. Ties keep the list's own
+        // order, so equally good matches still read alphabetically (or newest
+        // first, or whatever the default is).
+        const scored = passed.map((row) => ({ row, score: searchScore(spec.search, row, query.q) }));
+        scored.sort((a, b) => b.score - a.score || (byKey ? byKey(a.row, b.row) : 0));
+        sorted = scored.map((s) => s.row);
+    }
+    else {
+        sorted = byKey ? [...passed].sort(byKey) : passed;
+    }
     const page = pageOf(sorted.length, query.page, query.pageSize);
     return {
         rows: sorted.slice(page.from, page.to),

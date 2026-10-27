@@ -359,9 +359,15 @@ if (cat) {
   const spots = [];
   // (The tree is not a seat: a painted kitten on a line-drawn branch looked
   // pasted on. It sits on floors, peeks from curtains, or waits by the footer.)
-  for (const s of document.querySelectorAll("[data-art-stage]")) spots.push(["floor", s]);
+  // Never beside a chat: a cat over the composer or an answer covers what the
+  // visitor came to type (the owner's /hire/ screenshot, 2026-10-27).
+  const chats = [...document.querySelectorAll(".chat-mount")];
+  for (const s of document.querySelectorAll("[data-art-stage]")) if (!chats.some((c) => s.contains(c))) spots.push(["floor", s]);
   const foot = document.querySelector("footer");
-  if (foot) spots.push(["footer", foot]);
+  // The footer seat is above the footer's top edge: not when a chat ends
+  // within a screen of it (it grows as the conversation does).
+  const chatAboveFoot = foot && chats.some((c) => foot.getBoundingClientRect().top - c.getBoundingClientRect().bottom < innerHeight);
+  if (foot && !chatAboveFoot) spots.push(["footer", foot]);
   if (spots.length) {
     // ?cat=tree|floor|peek|footer pins the spot, for checking each one.
     const want = new URLSearchParams(location.search).get("cat");

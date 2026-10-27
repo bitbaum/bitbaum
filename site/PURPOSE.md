@@ -38,7 +38,7 @@ So the first job is **arrival**, and layout is second. See "How people arrive".
 
 | # | Reader | What they need to decide | Where they land | Their door |
 |---|---|---|---|---|
-| 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this supplier real and senior, what does it cost, and is it worth waiting for? | `/hire/`, with venture pages as evidence | the waitlist form |
+| 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this supplier real and senior, what does it cost, and is it worth waiting for? | `/hire/`, with venture pages as evidence | the waitlist conversation |
 | 2 | **A developer who already uses a package** | Is this maintained, and what else is here? | `/packages/`, reached from a package README | install, source |
 | 3 | **An organisation receiving an application** — a public service, a non-profit, AOZ, SBB, Stadt Zürich | What exists, how real is it, can I reply? | one venture page, sent as a direct link | "Ask about …" on that page |
 | 4 | **A builder who might contribute** | What can I contribute, and how are outside changes reviewed? | `/#join` | contributor terms, a pull request |

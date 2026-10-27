@@ -15,6 +15,32 @@
     "shape": "Two weeks, fixed",
     "what": "An inherited codebase nobody understands. You get a written assessment, a working local setup, CI that actually runs the tests, and a ranked list of what breaks first — whether or not we work together afterwards."
   },
+  "offers": [
+    {
+      "id": "senior-day",
+      "name": "Senior engineering day",
+      "price": "CHF 2,400",
+      "unit": "per day",
+      "shape": "No minimum",
+      "what": "Book a day when a senior call is needed: an architecture decision, a review of what was built, a security pass, or the technical interviews for a hire. Days are invoiced monthly, and none commits you to the next."
+    },
+    {
+      "id": "build-sprint",
+      "name": "Build sprint",
+      "price": "from CHF 18,000",
+      "unit": "",
+      "shape": "Four to six weeks",
+      "what": "Fixed price, fixed scope. A defined product or module delivered running in production, with tests and a pipeline. Change requests are re-quoted rather than quietly absorbed."
+    },
+    {
+      "id": "rescue",
+      "name": "Rescue",
+      "price": "CHF 6,500",
+      "unit": "",
+      "shape": "Two weeks, fixed",
+      "what": "An inherited codebase nobody understands. You get a written assessment, a working local setup, CI that actually runs the tests, and a ranked list of what breaks first — whether or not we work together afterwards."
+    }
+  ],
   "feedbackToken": "fcw_a182d39f6ef4ec8d616ef58e4ca5a693",
   "course": {
     "version": "pilot-v1",

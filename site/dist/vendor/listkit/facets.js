@@ -18,10 +18,6 @@
  * filter identity depend on the reader's language — a German user and an
  * English user filtering the same list got different results.
  */
-/** Casefold and collapse whitespace, so " Foo  Bar " and "foo bar" match. */
-export function normalise(v) {
-    return v.trim().toLowerCase().replace(/\s+/g, " ");
-}
 function asList(v) {
     if (v === null || v === undefined)
         return [];
@@ -80,11 +76,4 @@ export function facetMatches(facet, row, selected) {
             return at >= 0 && at >= floor;
         }
     }
-}
-/** Does a record contain the search text anywhere the spec points at? */
-export function searchMatches(spec, row, q) {
-    const needle = normalise(q);
-    if (!needle || !spec)
-        return true;
-    return spec.text(row).some((v) => (v ? normalise(v).includes(needle) : false));
 }

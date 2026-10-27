@@ -18,6 +18,14 @@ try {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
     await context.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
     await context.route("**/api/studio-partners", (r) => r.fulfill({ status: 200, headers, contentType: "application/json", body: JSON.stringify({ ok: true, partners: [] }) }));
+    // Loki's intake answer (POST /api/widget/chat, mode "intake"), faked: the
+    // conversation's rules are tested in Loki and in site/intake-flow.test.mjs.
+    let turn = 0;
+    await context.route("**/api/widget/chat", (route) => {
+      if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers });
+      const text = `Question ${++turn}: what has to work when it is done?`;
+      return route.fulfill({ status: 200, headers, contentType: "application/json", body: JSON.stringify({ ok: true, reply: text, messages: [{ speaker: "loki", text }], ready: false, summary: "" }) });
+    });
     const page = await context.newPage();
     const errors = []; page.on("pageerror", (e) => errors.push(e.message));
     const sent = [];
@@ -57,7 +65,7 @@ try {
     });
     await page.fill("#waitlist .ck-input", "Also the opening hours are wrong.");
     await page.press("#waitlist .ck-input", "Enter");
-    await page.getByText("Added to your request", { exact: false }).waitFor();
+    await page.getByText("Question 2: what has to work", { exact: false }).waitFor();
     assert.equal(follow.length, 1); assert.equal(follow[0].auth, `Bearer ${sent[0].accessKey}`);
     assert.equal(follow[0].body.action, "message"); assert.equal(follow[0].body.body, "Also the opening hours are wrong.");
     // An address given later becomes the reply address (and Loki mails the link to it).
