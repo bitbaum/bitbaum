@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T04:11:27.474Z",
+  "generatedAt": "2026-10-27T04:33:31.117Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -2487,6 +2487,10 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-10-27",
+          "done": "Validate each package card against its own registry version and source, independently of accessible-label wording. Detect stale displayed versions even when packages share the same release number."
+        },
         {
           "date": "2026-10-26",
           "done": "Expanded each package page with source-pinned API documentation and examples, repository changelogs and published release notes, section navigation and linked declared consumers. Release facts and current-source documentation are distinguished, and missing history is shown honestly.\nPackage source failures stop a fresh publish. Expanded-documentation browser checks cover phone/desktop widths and both themes before publication."
