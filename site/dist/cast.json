@@ -671,16 +671,16 @@
       "scarab",
       "sky"
     ],
-    "/packages/design-tokens/": [
-      "fog-walker",
-      "cat",
-      "moth",
-      "sky"
-    ],
     "/packages/accountkit/": [
       "fog-walker",
       "cat",
       "scarab",
+      "sky"
+    ],
+    "/packages/design-tokens/": [
+      "fog-walker",
+      "cat",
+      "moth",
       "sky"
     ],
     "/packages/whenkit/": [
