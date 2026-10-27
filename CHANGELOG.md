@@ -2,6 +2,10 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-10-27 — Checked publication snapshots
+
+- Publish checked source facts from main and propose generated snapshots through the normal pull-request gates, including generated cast documentation. Stop writing generated changes directly to main.
+
 ## 2026-10-27 — Package publication verification
 
 - Validate each package card against its own registry version and source, independently of accessible-label wording. Detect stale displayed versions even when packages share the same release number.

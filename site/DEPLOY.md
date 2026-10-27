@@ -165,8 +165,11 @@ site/publish.sh                 # --check, rsync dist to the box, prove every pa
 two builds, including the pinned listkit browser modules, and so `--check`
 can fail when the sources moved and the site did not. Main-branch changes to
 the site or its workflow run tests, claims/theme gates, rebuild from current
-Loki/Fleet sources, commit updated snapshots and generated pages, then publish
-to Hetzner, verify the public routes, and run the hire form gate. Fleet
+Loki/Fleet sources, publish to Hetzner, verify the public routes, and run the
+hire form gate. After those checks succeed, the workflow uses Fleet's pinned
+generated-PR helper to propose the published snapshots, generated pages and
+generated cast documentation. The helper never pushes main; the normal preview
+and merge gates check the snapshot PR. Fleet
 dispatches a refresh when its derived package registry changes, pinned to the
 exact Fleet commit that produced the new register. Run `Deploy Bitbaum site`
 manually from Actions to retry a failed publish; ordinary site changes also
@@ -178,8 +181,8 @@ publish on `push`.
 workflow's check, merges one pull request onto a green main, re-arms the
 deploy and reconciles it, so a merge that never reached the box ships on the
 next sweep. Hold work back with a draft or a `hold` label. Runs on main
-queue one at a time (the workflow's `concurrency`), because each commits
-refreshed snapshots back to main. Every three hours a scheduled run
+queue one at a time (the workflow's `concurrency`) so publications cannot race. Snapshot updates use one leased
+feature branch and reuse their open PR. Every three hours a scheduled run
 rebuilds from the live sources, so a change made in Loki reaches the site
 without anyone pushing here; when no page changed it publishes nothing.
 

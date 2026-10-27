@@ -25,17 +25,16 @@ on:
   repository_dispatch:
     types: [package-registry-updated]
 
-# One deploy of main at a time, whatever started it — a push, the schedule,
-# or the auto-merge sweep re-arming after a merge. A run that changed a page
-# commits refreshed snapshots to main, so two side by side race to push and
-# one fails. A pull
-# request's check builds offline and pushes nothing; it keeps its own lane.
+# One checked publication from main at a time. Generated snapshots are proposed
+# afterward through the shared first-party PR helper; no workflow pushes main.
+# Pull-request previews keep their own lane and publish nothing.
 concurrency:
   group: bitbaum-site-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
   cancel-in-progress: false
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   build-and-deploy:
@@ -46,6 +45,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: main
+          token: ${{ secrets.FLEET_PAT }}
       - uses: pnpm/action-setup@v6
         with:
           cache: true
@@ -118,30 +118,6 @@ jobs:
           node site/check-cast.mjs http://127.0.0.1:8731 || failures=1
           [ "$failures" -eq 0 ]
           kill "$(cat /tmp/bitbaum-http.pid)" || true
-      - name: Commit refreshed source snapshots and generated site
-        if: steps.changed.outputs.publish == 'true'
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add site/*.snapshot.json site/dist
-          # Commit only what a reader could notice. Every build stamps a new
-          # generatedAt, and a product screenshot differs by a few bytes
-          # between two captures of the same page; committing that made a
-          # new main tip on every run, the auto-merge sweep dispatched a
-          # deploy for each new tip, and the two chased each other — one
-          # bot commit every seven minutes, and no PR could merge because
-          # main never had a verdict for its own tip (2026-10-19). A
-          # screenshot rides along when something real changed; the box
-          # gets the fresh pictures either way, because publish copies dist.
-          real=$(git diff --cached -U0 -- site ':(exclude)site/dist/shots' \
-            | grep -E '^[-+][^-+]' | grep -v '"generatedAt"' | head -1 || true)
-          if [ -n "$real" ]; then
-            git commit -m 'chore(site): refresh published registry snapshots'
-            git push origin HEAD:main
-          else
-            echo "Only build stamps and screenshot noise changed; nothing to commit."
-            git reset -q
-          fi
       - name: Configure SSH
         if: steps.changed.outputs.publish == 'true'
         env:
@@ -162,6 +138,32 @@ jobs:
       - name: Hire form gate (live)
         if: steps.changed.outputs.publish == 'true'
         run: node site/check-hire.mjs https://bitbaum.orangecat.ch
+
+
+      - name: Load the verified first-party generated PR helper
+        if: steps.changed.outputs.publish == 'true'
+        uses: actions/checkout@v7
+        with:
+          repository: bitbaum/fleet
+          ref: c7f7904b42efecc6b01600709b470025b48cc291
+          path: .fleet-ops
+          persist-credentials: false
+          sparse-checkout: scripts/ci/generated-pr.mjs
+          sparse-checkout-cone-mode: false
+      - name: Propose the checked published snapshots through normal PR gates
+        if: steps.changed.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.FLEET_PAT }}
+        run: |
+          git add site/*.snapshot.json site/dist docs/CAST.md
+          real=$(git diff --cached -U0 -- site docs/CAST.md ':(exclude)site/dist/shots' \
+            | grep -E '^[-+][^-+]' | grep -v '"generatedAt"' | head -1 || true)
+          if [ -n "$real" ]; then
+            node .fleet-ops/scripts/ci/generated-pr.mjs site
+          else
+            echo "Only build stamps and screenshot noise changed; no source refresh needed."
+            git reset -q
+          fi
 
   preview-check:
     if: github.event_name == 'pull_request'
