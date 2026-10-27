@@ -2,6 +2,10 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-10-27 — Package publication verification
+
+- Validate each package card against its own registry version and source, independently of accessible-label wording. Detect stale displayed versions even when packages share the same release number.
+
 ## 2026-10-26 — Package references with source evidence
 
 - Expanded each package page with source-pinned API documentation and examples,

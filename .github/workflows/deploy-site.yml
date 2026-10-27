@@ -76,6 +76,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           FLEET_PACKAGES_SHA: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.packages_sha || '' }}
         run: node site/build.mjs --require-fresh
+      - name: Package card release contract
+        run: node site/check-published-packages.mjs < site/dist/packages/index.html
       # map.json carries the time it was generated, so it differs on every
       # run; every other file is deterministic. Nothing else changed means
       # nothing to say, and a scheduled run ends here.
@@ -184,6 +186,8 @@ jobs:
       - run: pnpm exec playwright install chromium --with-deps
       - run: pnpm test
       - run: node site/build.mjs --offline
+      - name: Package card release contract
+        run: node site/check-published-packages.mjs < site/dist/packages/index.html
       - run: node site/build.mjs --offline --check
       - name: Verify studio journeys and mobile geometry
         run: |
