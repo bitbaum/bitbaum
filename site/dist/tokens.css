@@ -1,5 +1,5 @@
 /**
- * @bitbaum/design-tokens — the design SSOT for OrangeCat, FleetCrown and Solon.
+ * @bitbaum/design-tokens — the design SSOT for OrangeCat, Loki and Solon.
  *
  * ┌──────────────────────────────────────────────────────────────────────────┐
  * │  TO RETHEME THE ENTIRE STACK, EDIT THE "KNOBS" BLOCK BELOW AND NOTHING   │
@@ -131,7 +131,7 @@
    *
    * White on #ff5c00 is 3.10:1 — below the 4.5 AA floor — so every primary
    * CTA in the fleet was failing at once: Solon's "Open the Dashboard",
-   * OrangeCat's "Get Started", FleetCrown's "Launch agent". Measured, not
+   * OrangeCat's "Get Started", Loki's "Launch agent". Measured, not
    * guessed. Near-black on the same orange is 6.10:1.
    *
    * The orange is deliberately NOT darkened to rescue white text: it would
@@ -155,7 +155,7 @@
   /* ── LIGHT THEME ────────────────────────────────────────────────────────
      :root is light and `.dark` overrides it — the same mechanism OrangeCat
      uses, so an app can toggle themes without translating anything. An app
-     that is dark-only (Solon, FleetCrown's public surface) pins it by putting
+     that is dark-only (Solon, Loki's public surface) pins it by putting
      `class="dark"` on <html> and never removing it. */
 
   /* Surfaces — page < base < raised < overlay < modal < drawer */
@@ -242,6 +242,32 @@
   /* Bitcoin's own orange. Not a brand colour — it means "this is Bitcoin", so
      it is deliberately NOT --public-accent and must not be used for actions. */
   --bitcoin-orange: #f7931a;
+
+  /**
+   * — Data maps ——————————————————————————————————————————————————————————
+   * One sequential scale for every choropleth (Solon's Places map first):
+   * viridis, dark to light, so it survives every colour-vision deficiency and
+   * reads in greyscale — its luminance rises at every step (pinned in
+   * test/contrast.test.js). Colour is never the only carrier: each map has a
+   * list with the same numbers, and a legend.
+   *
+   * Hatching marks an area more than one authority claims. A map takes no
+   * side, so a contested area gets the pattern, never a colour of its own:
+   * lines of --map-hatch-width every --map-hatch-gap at --map-hatch-angle, in
+   * the text colour, over whatever the scale says.
+   */
+  --map-scale-1: #46327e;
+  --map-scale-2: #365c8d;
+  --map-scale-3: #277f8e;
+  --map-scale-4: #1fa187;
+  --map-scale-5: #4ac16d;
+  --map-scale-6: #a0da39;
+  --map-scale-7: #fde725;
+  --map-no-data: 0 0% 85%;
+  --map-boundary: 0 0% 45%;
+  --map-hatch-angle: 45deg;
+  --map-hatch-gap: 6px;
+  --map-hatch-width: 1.5px;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -273,6 +299,10 @@
   --border-subtle: 0 0% 13%;
   --border-default: 0 0% 20%;
   --border-strong: 0 0% 24%;
+
+  /* Data maps: no-data and boundaries sit between the page and the scale */
+  --map-no-data: 0 0% 20%;
+  --map-boundary: 0 0% 40%;
   --border-interactive: 0 0% 60%;
 
   /* Accent */

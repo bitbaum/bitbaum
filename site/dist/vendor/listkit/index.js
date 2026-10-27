@@ -21,9 +21,10 @@
  * unfixable downstream because a consumer cannot patch markup it does not own.
  * Centralize the rule; render it locally.
  */
-export { facetMatches, searchMatches, normalise, } from "./facets.js";
-export { parseQuery, writeQuery, emptyQuery, isNarrowed, sameResultSet, PAGE_KEY, SIZE_KEY, SORT_KEY, DIR_KEY, TEXT_KEY, } from "./query.js";
-export { applyQuery, matches, facetCounts } from "./apply.js";
+export { facetMatches, } from "./facets.js";
+export { parseQuery, writeQuery, emptyQuery, isNarrowed, sameResultSet, PAGE_KEY, SIZE_KEY, SORT_KEY, DIR_KEY, TEXT_KEY, RELEVANCE_SORT, } from "./query.js";
+export { searchMatches, searchScore, searchTerms, normalise } from "./search.js";
+export { applyQuery, matches, facetCounts, isRanked } from "./apply.js";
 export { compareBy, nextDirection } from "./sort.js";
 export { pageOf, pageWindow } from "./page.js";
 export { toggleInSet, toggleFlag, escapeLike, likeContains, debounce, latest } from "./values.js";
