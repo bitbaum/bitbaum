@@ -97,14 +97,14 @@ addEventListener("error", function (e) {
       <div class="prose">
         <h2>Why it exists</h2><p>Public routes were growing one-off counters that forgot to bound themselves, and that told the client nothing when they said no. The failure mode is a process that remembers every IP forever.</p>
         <h2>How it works</h2><p>Fixed and sliding windows over a store you pass in, with a bounded in-memory store as the default. The decision is separate from the framework. The response carries the standard rate-limit headers, and the client IP is read in one place.</p>
-        <h2>Where it fits</h2><p>It is what lets a small studio leave a door open — hire, pay links, public APIs — without one caller becoming the outage. Fifteen apps already depend on that being true.</p>
+        <h2>Where it fits</h2><p>It is what lets a small studio leave a door open — hire, pay links, public APIs — without one caller becoming the outage. Sixteen apps already depend on that being true.</p>
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
         <div><span class="label">Registry release</span><span>v0.2.1</span></div>
         <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add limitkit@^0.2.1" aria-label="Copy install command"><code>pnpm add limitkit@^0.2.1</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/limitkit">bitbaum/limitkit</a></span></div>
-        <div><span class="label">Declared consumers</span><span>15 repositories</span></div>
+        <div><span class="label">Declared consumers</span><span>16 repositories</span></div>
 
       </div>
     </section>
@@ -181,7 +181,7 @@ export async function POST(req: Request) {
     <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
       <h2 id="consumers-title">Where it is declared</h2>
       <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
-      <div class="chips"><a href="/packages/accountkit/">accountkit</a><a href="/botsmann/">Botsmann</a><a href="/causius/">Causius</a><a href="/diplodoctor/">Diplodoctor</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/skif/">Skif</a><a href="/surf-your-life/">Surf Your Life</a><span>4 other repositories</span></div>
+      <div class="chips"><a href="/packages/accountkit/">accountkit</a><a href="/botsmann/">Botsmann</a><a href="/causius/">Causius</a><a href="/diplodoctor/">Diplodoctor</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/skif/">Skif</a><a href="/surf-your-life/">Surf Your Life</a><span>5 other repositories</span></div>
     </section>
     <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
       <h2 id="evidence-title">Sources and verification</h2>
@@ -189,7 +189,7 @@ export async function POST(req: Request) {
       <p class="caption">Documentation from <a href="https://github.com/bitbaum/limitkit/blob/a98e64e7558501aa6d1f30f0329c7f2689297632/">source commit <code>a98e64e75585</code></a> · 2026-10-28. Source documentation can include work beyond the registry release.</p>
       <a class="textlink" href="https://github.com/bitbaum/limitkit/actions">Package verification runs</a>
     </section>
-    <div class="wrap"><div class="pager"><a href="/packages/accountkit/">&larr; accountkit</a><a href="/packages/">All packages</a><a href="/packages/design-tokens/">design-tokens &rarr;</a></div></div>
+    <div class="wrap"><div class="pager"><a href="/packages/chatkit/">&larr; chatkit</a><a href="/packages/">All packages</a><a href="/packages/design-tokens/">design-tokens &rarr;</a></div></div>
   </main>
   <script type="module">
     for (const btn of document.querySelectorAll(".js-copy")) {
