@@ -18,8 +18,8 @@ importers:
         specifier: ^0.6.1
         version: 0.6.1(react@19.3.0)
       listkit:
-        specifier: npm:@bitbaum/listkit@^0.2.1
-        version: '@bitbaum/listkit@0.2.1'
+        specifier: npm:@bitbaum/listkit@^0.2.2
+        version: '@bitbaum/listkit@0.2.2'
       react:
         specifier: ^19.3.0
         version: 19.3.0
@@ -47,8 +47,8 @@ packages:
     resolution: {integrity: sha512-13TSrgYbEzSqt5FNfW3HSJIFcenUto8nKlk4J4IUsepL0gsTBoZ0YDMiJTaJKmR8sPPmcCS94Z/xgUBQW43itw==}
     engines: {node: '>=20'}
 
-  '@bitbaum/listkit@0.2.1':
-    resolution: {integrity: sha512-eQR7k8jiAQRzXlXveYbYguzgiZtrqjw4O3Kr+ucLwG/rwBva73em6k2cPgkPC8ebrxSTQ4MYeSndy/Vb9KUiIQ==}
+  '@bitbaum/listkit@0.2.2':
+    resolution: {integrity: sha512-MS7SpPodTaxXYccXW565M3sIYaDCHSpWFlJB77FdkE/fM7uktxn0u25p0BSWC97i4U6uCqPedYVt1xV34sGXnQ==}
     engines: {node: '>=20'}
 
   '@esbuild/aix-ppc64@0.28.2':
@@ -338,7 +338,7 @@ snapshots:
 
   '@bitbaum/design-tokens@1.2.0': {}
 
-  '@bitbaum/listkit@0.2.1': {}
+  '@bitbaum/listkit@0.2.2': {}
 
   '@esbuild/aix-ppc64@0.28.2':
     optional: true
