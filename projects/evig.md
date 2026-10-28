@@ -63,8 +63,8 @@ evig is one Next.js app: curated, durable hardware and digital access at a fair 
 
 - **ICP (5 segments, in order):** (1) individuals needing a capable affordable machine — students, job-seekers, families; (2) Swiss circular-economy actors — Repair Cafés, zero-waste, Umwelt-Vereine; (3) NGOs/Vereine/Schulen needing 5–20 identical devices on one invoice; (4) Gemeinden in the Reparaturbonus orbit; (5) the existing RevampIT orbit (customers, donors, volunteers).
 - **Positioning one-liner:** "Affordable intelligence" — complete, working second-life machines: hardware, software, and knowledge handed over together. Honest-by-default (open CO₂ methodology, "Verein in Gründung" stated plainly).
-- **Shortest first-paying-customer path:** the shop is already live — publish weekly, every post links a purchasable surface, newsletter captures returners; first orders from the RevampIT orbit + Mastodon locals. Secondary paid paths already built: workshop registrations, membership. Fleet GTM revenue rank: #3.
-- **Monetization state:** checkout live (Payrexx); BTCPay + Taler pending provisioning; physical inventory exists via RevampIT.
+- **Shortest first-paying-customer path:** the shop is already live — publish weekly, every post links a purchasable surface, newsletter captures returners; first orders from the newsletter and Mastodon locals. Secondary paid paths already built: workshop registrations, membership. Fleet GTM revenue rank: #3.
+- **Monetization state:** checkout live (Payrexx); BTCPay + Taler pending provisioning.
 - **Key metrics to move:** Listmonk subscriber count · `feed.xml` requests (Caddy logs) · shop orders (count + CHF, refurb vs P2P split) · blog→shop click-through. Mission rule: metric-per-franc must hold.
 
 ---

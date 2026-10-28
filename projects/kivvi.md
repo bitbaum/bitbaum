@@ -1,6 +1,6 @@
 # kivvi — The ERP That Knows Things Have a History
 
-**Status:** Active Development (Live, in production at RevampIT)
+**Status:** Active development (kivvi.orangecat.ch answers; no customer running its books on it is recorded in this repository — the owner confirms)
 **Tagline:** "The operating system for the circular economy"
 **URL:** [kivvi.orangecat.ch](https://kivvi.orangecat.ch) (production) · kivvi.ch = marketing domain, app.kivvi.ch referenced in email templates
 **Codebase:** `/home/g/dev/kivvi/` (pnpm + turbo monorepo; app = `apps/web`)
@@ -11,7 +11,7 @@
 
 AI-first, Swiss-native ERP for refurbishers, Brockenhäuser, repair workshops, and vintage shops. Generic ERPs assume buy-new/sell-new; kivvi models the reality of second-life goods: intake ≠ purchasing, every item has a condition, products flow backwards, testing/repair is operations, pricing is flexible, inventory is mixed bulk+serialized, and impact is a first-class metric.
 
-**Proof:** used in production by revamp-it (Zürich) and partner shops. Kivvi replaces Kivitendo as RevampIT's ERP companion — ledger, VAT, QR-bill invoices, banking, dunning — with 10 years of real financials imported (`kivitendo-export/`). Integration with evig is bidirectional and live (REST API + signed webhooks). Boundary: evig keeps marketplace/checkout/CMS; kivvi owns the books.
+**Proof:** none recorded here. Kivvi was shaped by the requirements of a Kivitendo migration (ledger, VAT, QR-bill invoices, banking, dunning; see `kivitendo-export/` and kivvi's `docs/`). RevampIT is not a client, owner or partner of bitbaum. Boundary with evig: evig keeps marketplace/checkout/CMS; kivvi owns the books.
 
 ---
 
@@ -58,15 +58,15 @@ AI-first, Swiss-native ERP for refurbishers, Brockenhäuser, repair workshops, a
 
 - **ICP (explicit in `PRODUCT.md`, 3 personas):** (1) computer refurbishers — revamp-it, Büro Mühle, TechInTheBox: ~20-person nonprofits on Kivitendo with unreliable stock counts; (2) Brockenhaus/charity shops — Brocki Zürich, Caritas, Heilsarmee, Emmaus: high volume, gut-feel pricing, need volunteer-friendly UI + impact reporting; (3) vintage/specialty resellers needing per-item provenance and condition-based pricing.
 - **Positioning one-liner:** the ERP that knows things have a history.
-- **Shortest first-paying-customer path (fleet GTM rank #2):** RevampIT (or the evig Verein) pays a real subscription — even internal, it exercises the whole billing path and creates the first MRR record. Then: Zürich second-hand/repair shops as outbound ICP (20–25 shops, research-only mode first, human-approved sends).
+- **Shortest first-paying-customer path (fleet GTM rank #2):** the first paying company creates the first MRR record and exercises the whole billing path. Outbound ICP: Zürich second-hand/repair shops (20–25 shops, research-only mode first, human-approved sends).
 - **Monetization state:** billing path fully coded and priced (CHF 49/mo Cloud); needs the Stripe price live and one real subscriber.
-- **Key metrics to move:** first MRR record · active companies on Cloud · trial→paid conversion · Kivitendo-migration completeness for RevampIT.
+- **Key metrics to move:** first MRR record · active companies on Cloud · trial→paid conversion · Kivitendo-migration completeness.
 
 ---
 
 ## Risks / Next Steps
 
-- Cloud tier's "Coming soon" subtitle contradicts the working Stripe checkout — resolve commercial availability, then flip the first real subscription on (RevampIT/evig)
+- Cloud tier's "Coming soon" subtitle contradicts the working Stripe checkout — resolve commercial availability, then flip the first real subscription on
 - Single `STRIPE_PRICE_ID` — no price catalog, per-seat, or usage metering yet
 - Roadmap "Next" items are all product (Ricardo/Tutti shop-front, warehouse mobile app, AI autopilot); no GTM/distribution doc exists in-repo
-- Kivitendo history import must complete cleanly for RevampIT's auditability promise to hold
+- Kivitendo history import must complete cleanly for the auditability promise to hold
