@@ -652,6 +652,12 @@
       "horse",
       "sky"
     ],
+    "/packages/accountkit/": [
+      "fog-walker",
+      "cat",
+      "scarab",
+      "sky"
+    ],
     "/packages/bip-kit/": [
       "fog-walker",
       "cat",
@@ -663,12 +669,6 @@
       "fog-walker",
       "cat",
       "moth",
-      "sky"
-    ],
-    "/packages/accountkit/": [
-      "fog-walker",
-      "cat",
-      "scarab",
       "sky"
     ],
     "/packages/limitkit/": [
