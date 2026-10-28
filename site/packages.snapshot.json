@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-28T06:46:34.910Z",
+  "generatedAt": "2026-10-28T07:18:15.723Z",
   "packages": [
     {
       "slug": "ai-kit",
@@ -185,10 +185,10 @@
       "name": "limitkit",
       "repo": "https://github.com/bitbaum/limitkit",
       "description": "Rate limiting as a decision, not a middleware: fixed and sliding windows over an injectable store, a bounded in-memory store, standard RateLimit headers, and client-IP extraction. No HTTP client, no framework.",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "install": {
         "source": "npm",
-        "command": "pnpm add limitkit@^0.2.0"
+        "command": "pnpm add limitkit@^0.2.1"
       },
       "adopters": 15,
       "adopterNames": [
@@ -210,7 +210,7 @@
       ],
       "release": {
         "source": "npm",
-        "version": "0.2.0"
+        "version": "0.2.1"
       }
     },
     {
@@ -249,10 +249,10 @@
       "name": "@bitbaum/whenkit",
       "repo": "https://github.com/bitbaum/whenkit",
       "description": "Dates and times people can pick without typing: day chips, time chips, length chips, a readable date field over the native picker, and a low-friction booking request that resolves to {startsAt, endsAt} in the provider's zone.",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "install": {
         "source": "npm",
-        "command": "pnpm add @bitbaum/whenkit@^0.3.2"
+        "command": "pnpm add @bitbaum/whenkit@^0.3.3"
       },
       "adopters": 10,
       "adopterNames": [
@@ -269,7 +269,7 @@
       ],
       "release": {
         "source": "npm",
-        "version": "0.3.2"
+        "version": "0.3.3"
       }
     },
     {
@@ -277,10 +277,10 @@
       "name": "@bitbaum/listkit",
       "repo": "https://github.com/bitbaum/listkit",
       "description": "A list as a query: a closed set of facet kinds, a URL codec that copies rather than rebuilds, a comparator that puts missing values last, and page arithmetic that cannot produce a negative offset. No markup, no React, no HTTP client.",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "install": {
         "source": "npm",
-        "command": "pnpm add @bitbaum/listkit@^0.2.1"
+        "command": "pnpm add @bitbaum/listkit@^0.2.2"
       },
       "adopters": 8,
       "adopterNames": [
@@ -295,7 +295,7 @@
       ],
       "release": {
         "source": "npm",
-        "version": "0.2.1"
+        "version": "0.2.2"
       }
     },
     {
@@ -303,10 +303,10 @@
       "name": "@bitbaum/searchkit",
       "repo": "https://github.com/bitbaum/searchkit",
       "description": "Search that finds what was meant: typo budgets by word length, prefix while typing, German spellings without umlauts, joined and split words, Algolia-order tie-break ranking, highlight ranges, query expansion for any database, and a generated typo regression suite. Zero dependencies; React optional.",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "install": {
         "source": "npm",
-        "command": "pnpm add @bitbaum/searchkit@^0.2.2"
+        "command": "pnpm add @bitbaum/searchkit@^0.2.3"
       },
       "adopters": 8,
       "adopterNames": [
@@ -321,7 +321,7 @@
       ],
       "release": {
         "source": "npm",
-        "version": "0.2.2"
+        "version": "0.2.3"
       }
     },
     {
@@ -400,10 +400,10 @@
       "name": "@bitbaum/geo-kit",
       "repo": "https://github.com/bitbaum/geo-kit",
       "description": "Versioned, on-demand geography resources and sourced boundary assertions for web applications.",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "install": {
         "source": "npm",
-        "command": "pnpm add @bitbaum/geo-kit@^0.1.1"
+        "command": "pnpm add @bitbaum/geo-kit@^0.1.2"
       },
       "adopters": 3,
       "adopterNames": [
@@ -413,7 +413,7 @@
       ],
       "release": {
         "source": "npm",
-        "version": "0.1.1"
+        "version": "0.1.2"
       }
     },
     {
@@ -421,10 +421,10 @@
       "name": "@bitbaum/chartkit",
       "repo": "https://github.com/bitbaum/chartkit",
       "description": "One chart for every product: token-driven SVG charts that render on the server, read as a table, and never cut a label — line, ranked bars, share bars, sparkline, meter, timeline, stat tiles.",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "install": {
         "source": "npm",
-        "command": "pnpm add @bitbaum/chartkit@^0.4.0"
+        "command": "pnpm add @bitbaum/chartkit@^0.5.0"
       },
       "adopters": 2,
       "adopterNames": [
@@ -433,7 +433,7 @@
       ],
       "release": {
         "source": "npm",
-        "version": "0.4.0"
+        "version": "0.5.0"
       }
     },
     {
@@ -441,10 +441,10 @@
       "name": "@bitbaum/speechkit",
       "repo": "https://github.com/bitbaum/speechkit",
       "description": "Measure how somebody spoke — pauses, rate, where they searched for a word, grammar a listener would notice — and say only what the evidence allows. Language-agnostic; no pronunciation score, on purpose.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "install": {
         "source": "npm",
-        "command": "pnpm add @bitbaum/speechkit@^1.0.0"
+        "command": "pnpm add @bitbaum/speechkit@^1.0.1"
       },
       "adopters": 1,
       "adopterNames": [
@@ -452,7 +452,7 @@
       ],
       "release": {
         "source": "npm",
-        "version": "1.0.0"
+        "version": "1.0.1"
       }
     },
     {
