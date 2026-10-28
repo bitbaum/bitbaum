@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T21:41:19.301Z",
+  "generatedAt": "2026-10-28T06:52:50.132Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -1104,6 +1104,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-27",
+          "done": "Your things go in from the same sheet as photos, and stay on your message. The paperclip now opens one sheet: Camera · Photos · Files, then One of your things, Context documents and Connections & keys — there is no second button beside it. A listing or note you add shows on your message the moment you send it, not only after a reload. When a turn fails, it says why in its own bubble, and Retry sends its photos again. Links to create something and the \"sharper on a frontier model\" note show under the latest answer only. A sentence handed to the Cat from the door, the search palette or an \"ask about this\" link is sent in a new chat as before.\nThe Cat chat is the fleet's chat app. The list of your chats now has search, Today / Yesterday / Earlier, and Rename beside Delete; on a phone it opens from the left, on a wide screen it stays beside the chat. Reloading the page reopens the chat you were in instead of a blank one. You can type your next message while the Cat is still answering — it waits above the box and goes when the answer lands. Photos and files attach from Camera · Photos · Files and show in your message after it is sent; your own listings and notes are under the box's \"Your things\". Temporary chat is in the \"…\" menu, and still leaves nothing behind."
+        },
+        {
           "date": "2026-10-24",
           "done": "A request for CHF 20 stays CHF 20. When you ask someone for money in a currency, the request is held in that currency until it is paid. The person asked sees \"CHF 20.00\" in their notification and in the list, and the pay page opens on what CHF 20 comes to in Bitcoin that day, not on the Bitcoin figure frozen into the link when you asked. The request turns Paid when the payment covers the ask at that day's rate, with two percent of room for the rate moving between the invoice and the payment. Requests made in BTC work as before. If we have no rate for your currency, the request is not sent, and the screen says so rather than guessing a figure."
         },
@@ -1178,10 +1182,6 @@
         {
           "date": "2026-09-15",
           "done": "Balances say when they were last checked. A number nobody has read is no longer displayed as zero. Projects showed “Bitcoin Balance CHF 0.00” whether or not anyone had ever asked the blockchain."
-        },
-        {
-          "date": "2026-09-14",
-          "done": "AI assistants are now Companions, and they remember you. A companion’s memory belongs to the person talking to it, not to whoever created it — and the owner can no longer read other people’s conversations.\nFree AI that actually answers. The free model chain had never worked end to end. It now has three genuinely free providers, ordered so the scarcest runs out last."
         }
       ],
       "records": {
@@ -4018,6 +4018,10 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-10-27",
+          "done": "Hirn keeps your conversations.\nHirn now has a conversation list with search: new conversation, rename, delete, and after a reload your last conversation is back.\nThe public Hirn assistant also offers a temporary conversation that is saved nowhere."
+        },
         {
           "date": "2026-10-12",
           "done": "Search forgives a typo.\nOne slip per word still finds what was meant: in the marketplace (\"Thinkpda\" finds the ThinkPad), in the technician directory (\"Zurich\" finds Zürich), in the command palette (⌘K), on the blog, in the open-source list and when picking people.\nIn the command palette, on the blog and in the open-source list the best match comes first, and the command palette marks what matched."
