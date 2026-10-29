@@ -28,7 +28,7 @@ evig is one Next.js app: curated, durable hardware and digital access at a fair 
 |-------|-----------|
 | Framework | Next.js 16 App Router, TypeScript, Tailwind CSS 4 |
 | Database | PostgreSQL on the Hetzner box + Drizzle |
-| Auth | NextAuth v5. Staff is the `is_staff` column, granted by a super admin. The email domain grants nothing. |
+| Auth | Sign in with OrangeCat via `@bitbaum/accountkit` (OrangeCat offers Google, GitHub and email); the app's own email + password kept as a secondary option; NextAuth v5. Staff is the `is_staff` column, granted by a super admin. The email domain grants nothing. |
 | Search / media | Meilisearch; Cloudflare R2 images; Upstash Redis rate limiting |
 | AI | HIRN cascade: Groq → OpenRouter → Ollama |
 | Testing | 7,500+ Jest tests / 500+ suites, Playwright E2E, Swiss-umlaut lint |

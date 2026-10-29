@@ -174,7 +174,7 @@ two builds, including the pinned listkit browser modules, and so `--check`
 can fail when the sources moved and the site did not. Main-branch changes to
 the site or its workflow run tests, claims/theme gates, rebuild from current
 Loki/Fleet sources, publish to Hetzner, verify the public routes, and run the
-hire form gate. After those checks succeed, the workflow uses Fleet's pinned
+hire intake gate. After those checks succeed, the workflow uses Fleet's pinned
 generated-PR helper to propose the published snapshots, generated pages and
 generated cast documentation. The helper never pushes main; the normal preview
 and merge gates check the snapshot PR. Fleet

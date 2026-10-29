@@ -2,6 +2,14 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-10-29 — Facts brought up to date
+
+- OrangeCat no longer offers "top up in sats": its checkout stays closed until the company is registered (`PAID_PLANS_OPEN`; orangecat.ch/pricing says "Not open yet"). "Sign in with OrangeCat" now says what it is: one account across the studio's apps, Loki and Solon among them.
+- Loki names its six agent adapters as the code does (Antigravity, not Gemini; OpenClaw added), and Fleet Runner is the desktop app, not a second thing.
+- Solon's red lines list all four humans-only categories, and the map and the stack say members vote with one click or sign, not that every vote is signed.
+- Removed an unsourced recovery-rate claim from the Fundbüro concept.
+- Package pages name adopters the packages register shows: design-tokens is shared by Loki, Solon, Skif, Substrata and this site (not OrangeCat); sitekit by Camille, Substrata and Skif; threadkit no longer names a private client app or says OrangeCat "will" adopt it, because it already has.
+
 ## 2026-10-27 — Checked publication snapshots
 
 - Publish checked source facts from main and propose generated snapshots through the normal pull-request gates, including generated cast documentation. Stop writing generated changes directly to main.

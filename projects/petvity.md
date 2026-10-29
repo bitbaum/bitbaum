@@ -19,7 +19,7 @@ Pet health tracking (7 metrics, Digital Twin emotional state with trend), vet/si
 |-------|-----------|
 | Framework | Next.js 16 App Router (standalone), TypeScript strict, Tailwind 4 |
 | Database | Self-hosted PostgreSQL 17 + Drizzle ORM |
-| Auth | NextAuth 5 (beta) |
+| Auth | Sign in with OrangeCat via `@bitbaum/accountkit` (OrangeCat offers Google, GitHub and email); the app's own email + password kept as a secondary option (2026-10-02); NextAuth 5 (beta) |
 | i18n | next-intl, 9 locales incl. RTL Arabic |
 | Email / observability | Resend (key unset in prod), Sentry |
 | Deployment | Self-hosted Hetzner behind Caddy (Vercel/Neon exit mid-2026) |

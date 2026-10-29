@@ -19,7 +19,7 @@ The most feature-complete of the fleet's small apps: ~41 page routes.
 |-------|-----------|
 | Framework | Next.js 16, React 19, Tailwind 4 |
 | Database | Drizzle + self-hosted Postgres + pgvector |
-| Auth | Auth.js v5 — Google OAuth + email/password |
+| Auth | Sign in with OrangeCat via `@bitbaum/accountkit` (OrangeCat offers Google, GitHub and email); the app's own email + password kept as a secondary option (2026-10-02); Auth.js v5 |
 | i18n | de / en / fr |
 | Email / observability | Resend; Sentry client + server with error boundaries |
 | Deployment | Self-hosted Hetzner |
