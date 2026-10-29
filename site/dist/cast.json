@@ -646,16 +646,16 @@
       "horse",
       "sky"
     ],
-    "/packages/mail-kit/": [
-      "fog-walker",
-      "cat",
-      "horse",
-      "sky"
-    ],
     "/packages/accountkit/": [
       "fog-walker",
       "cat",
       "scarab",
+      "sky"
+    ],
+    "/packages/mail-kit/": [
+      "fog-walker",
+      "cat",
+      "horse",
       "sky"
     ],
     "/packages/bip-kit/": [
@@ -713,13 +713,13 @@
       "unicorn",
       "sky"
     ],
-    "/packages/threadkit/": [
+    "/packages/chartkit/": [
       "fog-walker",
       "cat",
       "scarab",
       "sky"
     ],
-    "/packages/chartkit/": [
+    "/packages/threadkit/": [
       "fog-walker",
       "cat",
       "scarab",
