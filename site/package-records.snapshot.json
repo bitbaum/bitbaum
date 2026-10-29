@@ -76,73 +76,6 @@
         }
       ]
     },
-    "mail-kit": {
-      "repo": "https://github.com/bitbaum/mail-kit",
-      "commit": "cda8b6b4984536fd65a8c7c352429d5e6c671869",
-      "committedAt": "2026-10-29T00:32:59Z",
-      "readme": "# @bitbaum/mail-kit\n\nThe fleet's **one** email layer. One provider (Resend), one env contract, one\ncall shape, zero runtime dependencies.\n\nExists because the fleet grew ~12 bespoke email implementations across three\nprovider styles, and a dead SMTP credential silenced two apps' outbound mail\nfor months without anyone noticing. Uniformity is the fix.\n\n## Install\n\n```bash\npnpm add @bitbaum/mail-kit\n```\n\n## Use\n\n```ts\nimport { sendMail, isMailConfigured, mailHealth, conventionalFrom } from \"@bitbaum/mail-kit\";\n\nconst result = await sendMail({\n  to: \"person@example.ch\",\n  subject: \"Your invoice\",\n  html: \"<p>…</p>\",\n  attachments: [{ filename: \"invoice.pdf\", content: pdfBuffer, contentType: \"application/pdf\" }],\n});\n\nif (!result.sent) {\n  // result.error, result.status?, result.retryable — sendMail NEVER throws.\n  logger.error(\"invoice email failed\", result);\n}\n```\n\n- **`sendMail` never throws.** A thrown email error inside a server action\n  reaches nobody and destroys the form; a `{ sent: false }` you must look at\n  is deliverable. Callers where delivery matters check `.sent`.\n- **`isMailConfigured()`** — gate flows that *depend* on an email arriving\n  (password reset, invoices). A placeholder key and a production sandbox\n  sender (`@resend.dev`) count as **unconfigured**: both look configured and\n  deliver to nobody.\n- **`mailHealth()`** — key-validity + domain-status probe for `/api/health`.\n  A passing probe does not prove delivery; only a real send does.\n- **`options.idempotencyKey`** — pass from crons/queues so a retried job\n  cannot double-send (Resend dedupes for 24h).\n\n## One address per app: `hello@<host>`\n\nEvery app has one address, on its own host, that a customer can guess:\n`hello@<app>.orangecat.ch` on the box, and `hello@murphys-bar.ch` once a site\nhas its own domain. `appAddress(url)` builds it; `appAddressFromEnv()` reads `MAIL_ADDRESS`\nor derives it from `APP_URL` / `NEXT_PUBLIC_SITE_URL` / `AUTH_URL`.\n\n`sendMail` puts that address in **Reply-To** on every message (unless the call\nsets its own, or already sends from it). Mail still leaves through the shared\nsender until each host can sign its own — but every answer reaches the app.\n\n## Mail to an app\n\nThe fleet's mail gateway receives for every app host, checks SPF/DKIM/DMARC,\nand POSTs an `InboundMail` to `/api/mail/inbound`, signed with\n`MAIL_INBOUND_SECRET` (`x-mail-signature: t=…,v1=hmac`). The app side is one\nline:\n\n```ts\n// app/api/mail/inbound/route.ts\nimport { inboundHandler } from \"@bitbaum/mail-kit\";\nexport const POST = inboundHandler({ onMail: (mail) => saveAndTriage(mail) });\n```\n\nUnsigned, tampered, stale (> 5 min) or oversized deliveries are refused before\nyour code runs; a thrown `onMail` answers 500 so the gateway retries.\n\n## AI triage\n\n`triageMail(mail, complete, context)` asks a model (any `complete()` — the\nai-forms / ai-kit shape) for `kind`, `urgency`, a one-line `summary`, the\nsender's `language` and `needsHuman`. It never throws: no model, or nonsense\nback, and the answer comes from plain rules, marked `by: \"rules\"`. Instructions\ninside an email are described, never followed.\n\n## Env contract (the whole of it)\n\n| Var                   | Meaning                                                                       |\n| --------------------- | ----------------------------------------------------------------------------- |\n| `RESEND_API_KEY`      | required to send (a fleet key: `/opt/fleet/env`)                              |\n| `RESEND_FROM`         | sender — `Name <addr>` or bare address (optional if every call passes `from`) |\n| `MAIL_ADDRESS`        | the app's own address; optional, derived from the app's URL                   |\n| `MAIL_INBOUND_SECRET` | verifies mail from the gateway (a fleet key: `/opt/fleet/env`)                |\n\n## Fleet conventions\n\n- The shared Resend account is on the **free tier**: 1 verified domain,\n  **100 emails/day**, 3,000/month. Hitting the daily cap surfaces as\n  `{ sent: false, status: 429, retryable: true }`.\n- Only `loki.orangecat.ch` is verified, so every app sends as\n  `<app>@fleetcrown.orangecat.ch` — `conventionalFrom(\"My App\")` builds it.\n- A daily canary on the box sends one real email and alerts Telegram when it\n  fails — that, not this package, is what proves delivery keeps working.\n\n## What this is not\n\n- Not a template engine — apps own their HTML.\n- Not a queue — `retryable` tells a caller *whether* a retry can help;\n  scheduling one is the caller's decision.\n- Not for bulk — newsletters go through Listmonk.\n\n---\n\nPart of **[bitbaum](https://bitbaum.orangecat.ch)** — AI-native products on open\ninfrastructure, built in Zürich. Every package here lists the apps that use it:\n**[which apps use mail-kit](https://bitbaum.orangecat.ch/packages/#mail-kit)**.\n",
-      "changelog": "# Changelog\n\nThis retrospective record was added on 2026-10-27 from the immutable sources\nlinked below. Git commit dates are source dates, not inferred npm publication\ndates. A GitHub release does not itself establish npm publication.\nApplication adoption and deployment evidence are tracked separately.\n\n## 0.2.0\n\n- [Tagged source `v0.2.0`](https://github.com/bitbaum/mail-kit/tree/2086b4acaf9368442e1f357fce36ce0ce8bd43cd)\n- [Source commit](https://github.com/bitbaum/mail-kit/commit/2086b4acaf9368442e1f357fce36ce0ce8bd43cd), dated 2026-10-25.\n- [GitHub release](https://github.com/bitbaum/mail-kit/releases/tag/v0.2.0), published 2026-10-25.\n\n### Recorded release notes\n\n#### What's Changed\n* ci(auto-merge): hand the sweep a PAT so workflow PRs stop stalling by @catomean in https://github.com/bitbaum/mail-kit/pull/2\n* ci(auto-merge): correct the reason this repo passes a PAT by @catomean in https://github.com/bitbaum/mail-kit/pull/3\n* ci(publish): make publishing idempotent so a second run is green, not E403 by @catomean in https://github.com/bitbaum/mail-kit/pull/4\n* chore: rename FleetCrown to Loki by @catomean in https://github.com/bitbaum/mail-kit/pull/5\n* fix: the sending domain is DNS, not the product name by @catomean in https://github.com/bitbaum/mail-kit/pull/6\n* docs: link back to bitbaum, and to who uses this package by @catomean in https://github.com/bitbaum/mail-kit/pull/7\n* feat: one address per app, mail to apps, and AI triage (v0.2.0) by @catomean in https://github.com/bitbaum/mail-kit/pull/8\n* ci(publish): allow publishing a merged version by hand by @catomean in https://github.com/bitbaum/mail-kit/pull/9\n* docs(readme): the one-address example names no product's door by @catomean in https://github.com/bitbaum/mail-kit/pull/10\n* chore: add the fleet package template files this repo is missing (dependabot.yml, git-release.yml, release.yml) by @catomean in https://github.com/bitbaum/mail-kit/pull/11\n\n\n**Full Changelog**: https://github.com/bitbaum/mail-kit/compare/v0.1.1...v0.2.0\n",
-      "commits": [
-        {
-          "sha": "cda8b6b4984536fd65a8c7c352429d5e6c671869",
-          "date": "2026-10-29T00:32:59Z",
-          "subject": "fix(release): apply verified build-output staging contract (#22)",
-          "url": "https://github.com/bitbaum/mail-kit/commit/cda8b6b4984536fd65a8c7c352429d5e6c671869"
-        },
-        {
-          "sha": "0aa1cd414f381ff7245b99a46618a68325891d7c",
-          "date": "2026-10-28T02:33:19Z",
-          "subject": "chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#20)",
-          "url": "https://github.com/bitbaum/mail-kit/commit/0aa1cd414f381ff7245b99a46618a68325891d7c"
-        },
-        {
-          "sha": "9638a289fdcd00315cfa1cc51bd86b1c33f1aa95",
-          "date": "2026-10-28T02:04:20Z",
-          "subject": "docs(agents): the org rules block, generated from bitbaum/fleet (#19)",
-          "url": "https://github.com/bitbaum/mail-kit/commit/9638a289fdcd00315cfa1cc51bd86b1c33f1aa95"
-        },
-        {
-          "sha": "cf6af63c676f9b6de33606247c58ce2b0ca81142",
-          "date": "2026-10-27T23:19:57Z",
-          "subject": "docs: record verified release history and its evidence limits (#18)",
-          "url": "https://github.com/bitbaum/mail-kit/commit/cf6af63c676f9b6de33606247c58ce2b0ca81142"
-        },
-        {
-          "sha": "33eb8f69a999db32ecbebfeebb65ce4bccbc5a58",
-          "date": "2026-10-26T19:53:06Z",
-          "subject": "chore: add the fleet package template files this repo is missing (release-notify.yml) (#17)",
-          "url": "https://github.com/bitbaum/mail-kit/commit/33eb8f69a999db32ecbebfeebb65ce4bccbc5a58"
-        },
-        {
-          "sha": "174e5850a2f5a3ad01883491570cb56a2b2fef8b",
-          "date": "2026-10-26T11:06:04Z",
-          "subject": "chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) (#16)",
-          "url": "https://github.com/bitbaum/mail-kit/commit/174e5850a2f5a3ad01883491570cb56a2b2fef8b"
-        },
-        {
-          "sha": "2086b4acaf9368442e1f357fce36ce0ce8bd43cd",
-          "date": "2026-10-25T08:31:07Z",
-          "subject": "chore: add the fleet package template files this repo is missing (dependabot.yml, git-release.yml, release.yml) (#11)",
-          "url": "https://github.com/bitbaum/mail-kit/commit/2086b4acaf9368442e1f357fce36ce0ce8bd43cd"
-        },
-        {
-          "sha": "e9a1f6026d8aea22b8262655af4bac1fcf139ced",
-          "date": "2026-10-23T09:11:30Z",
-          "subject": "docs(readme): the one-address example names no product's door (#10)",
-          "url": "https://github.com/bitbaum/mail-kit/commit/e9a1f6026d8aea22b8262655af4bac1fcf139ced"
-        }
-      ],
-      "releases": [
-        {
-          "name": "v0.2.0",
-          "tag": "v0.2.0",
-          "publishedAt": "2026-10-25T08:32:00Z",
-          "prerelease": false,
-          "body": "## What's Changed\n* ci(auto-merge): hand the sweep a PAT so workflow PRs stop stalling by @catomean in https://github.com/bitbaum/mail-kit/pull/2\n* ci(auto-merge): correct the reason this repo passes a PAT by @catomean in https://github.com/bitbaum/mail-kit/pull/3\n* ci(publish): make publishing idempotent so a second run is green, not E403 by @catomean in https://github.com/bitbaum/mail-kit/pull/4\n* chore: rename FleetCrown to Loki by @catomean in https://github.com/bitbaum/mail-kit/pull/5\n* fix: the sending domain is DNS, not the product name by @catomean in https://github.com/bitbaum/mail-kit/pull/6\n* docs: link back to bitbaum, and to who uses this package by @catomean in https://github.com/bitbaum/mail-kit/pull/7\n* feat: one address per app, mail to apps, and AI triage (v0.2.0) by @catomean in https://github.com/bitbaum/mail-kit/pull/8\n* ci(publish): allow publishing a merged version by hand by @catomean in https://github.com/bitbaum/mail-kit/pull/9\n* docs(readme): the one-address example names no product's door by @catomean in https://github.com/bitbaum/mail-kit/pull/10\n* chore: add the fleet package template files this repo is missing (dependabot.yml, git-release.yml, release.yml) by @catomean in https://github.com/bitbaum/mail-kit/pull/11\n\n\n**Full Changelog**: https://github.com/bitbaum/mail-kit/compare/v0.1.1...v0.2.0",
-          "url": "https://github.com/bitbaum/mail-kit/releases/tag/v0.2.0"
-        }
-      ]
-    },
     "accountkit": {
       "repo": "https://github.com/bitbaum/accountkit",
       "commit": "bf272d9bcaac3d25bc71be0a5f57a89ce028b539",
@@ -239,6 +172,73 @@
           "prerelease": false,
           "body": "## What's Changed\n* chore(deps-dev): bump the dev group across 1 directory with 9 updates by @dependabot[bot] in https://github.com/bitbaum/accountkit/pull/38\n* chore(deps): raise shared package floors to published versions by @catomean in https://github.com/bitbaum/accountkit/pull/39\n* Preserve imported passwords in the shared auth runtime by @catomean in https://github.com/bitbaum/accountkit/pull/40\n\n## New Contributors\n* @dependabot[bot] made their first contribution in https://github.com/bitbaum/accountkit/pull/38\n\n**Full Changelog**: https://github.com/bitbaum/accountkit/compare/v0.9.1...v0.9.2",
           "url": "https://github.com/bitbaum/accountkit/releases/tag/v0.9.2"
+        }
+      ]
+    },
+    "mail-kit": {
+      "repo": "https://github.com/bitbaum/mail-kit",
+      "commit": "cda8b6b4984536fd65a8c7c352429d5e6c671869",
+      "committedAt": "2026-10-29T00:32:59Z",
+      "readme": "# @bitbaum/mail-kit\n\nThe fleet's **one** email layer. One provider (Resend), one env contract, one\ncall shape, zero runtime dependencies.\n\nExists because the fleet grew ~12 bespoke email implementations across three\nprovider styles, and a dead SMTP credential silenced two apps' outbound mail\nfor months without anyone noticing. Uniformity is the fix.\n\n## Install\n\n```bash\npnpm add @bitbaum/mail-kit\n```\n\n## Use\n\n```ts\nimport { sendMail, isMailConfigured, mailHealth, conventionalFrom } from \"@bitbaum/mail-kit\";\n\nconst result = await sendMail({\n  to: \"person@example.ch\",\n  subject: \"Your invoice\",\n  html: \"<p>…</p>\",\n  attachments: [{ filename: \"invoice.pdf\", content: pdfBuffer, contentType: \"application/pdf\" }],\n});\n\nif (!result.sent) {\n  // result.error, result.status?, result.retryable — sendMail NEVER throws.\n  logger.error(\"invoice email failed\", result);\n}\n```\n\n- **`sendMail` never throws.** A thrown email error inside a server action\n  reaches nobody and destroys the form; a `{ sent: false }` you must look at\n  is deliverable. Callers where delivery matters check `.sent`.\n- **`isMailConfigured()`** — gate flows that *depend* on an email arriving\n  (password reset, invoices). A placeholder key and a production sandbox\n  sender (`@resend.dev`) count as **unconfigured**: both look configured and\n  deliver to nobody.\n- **`mailHealth()`** — key-validity + domain-status probe for `/api/health`.\n  A passing probe does not prove delivery; only a real send does.\n- **`options.idempotencyKey`** — pass from crons/queues so a retried job\n  cannot double-send (Resend dedupes for 24h).\n\n## One address per app: `hello@<host>`\n\nEvery app has one address, on its own host, that a customer can guess:\n`hello@<app>.orangecat.ch` on the box, and `hello@murphys-bar.ch` once a site\nhas its own domain. `appAddress(url)` builds it; `appAddressFromEnv()` reads `MAIL_ADDRESS`\nor derives it from `APP_URL` / `NEXT_PUBLIC_SITE_URL` / `AUTH_URL`.\n\n`sendMail` puts that address in **Reply-To** on every message (unless the call\nsets its own, or already sends from it). Mail still leaves through the shared\nsender until each host can sign its own — but every answer reaches the app.\n\n## Mail to an app\n\nThe fleet's mail gateway receives for every app host, checks SPF/DKIM/DMARC,\nand POSTs an `InboundMail` to `/api/mail/inbound`, signed with\n`MAIL_INBOUND_SECRET` (`x-mail-signature: t=…,v1=hmac`). The app side is one\nline:\n\n```ts\n// app/api/mail/inbound/route.ts\nimport { inboundHandler } from \"@bitbaum/mail-kit\";\nexport const POST = inboundHandler({ onMail: (mail) => saveAndTriage(mail) });\n```\n\nUnsigned, tampered, stale (> 5 min) or oversized deliveries are refused before\nyour code runs; a thrown `onMail` answers 500 so the gateway retries.\n\n## AI triage\n\n`triageMail(mail, complete, context)` asks a model (any `complete()` — the\nai-forms / ai-kit shape) for `kind`, `urgency`, a one-line `summary`, the\nsender's `language` and `needsHuman`. It never throws: no model, or nonsense\nback, and the answer comes from plain rules, marked `by: \"rules\"`. Instructions\ninside an email are described, never followed.\n\n## Env contract (the whole of it)\n\n| Var                   | Meaning                                                                       |\n| --------------------- | ----------------------------------------------------------------------------- |\n| `RESEND_API_KEY`      | required to send (a fleet key: `/opt/fleet/env`)                              |\n| `RESEND_FROM`         | sender — `Name <addr>` or bare address (optional if every call passes `from`) |\n| `MAIL_ADDRESS`        | the app's own address; optional, derived from the app's URL                   |\n| `MAIL_INBOUND_SECRET` | verifies mail from the gateway (a fleet key: `/opt/fleet/env`)                |\n\n## Fleet conventions\n\n- The shared Resend account is on the **free tier**: 1 verified domain,\n  **100 emails/day**, 3,000/month. Hitting the daily cap surfaces as\n  `{ sent: false, status: 429, retryable: true }`.\n- Only `loki.orangecat.ch` is verified, so every app sends as\n  `<app>@fleetcrown.orangecat.ch` — `conventionalFrom(\"My App\")` builds it.\n- A daily canary on the box sends one real email and alerts Telegram when it\n  fails — that, not this package, is what proves delivery keeps working.\n\n## What this is not\n\n- Not a template engine — apps own their HTML.\n- Not a queue — `retryable` tells a caller *whether* a retry can help;\n  scheduling one is the caller's decision.\n- Not for bulk — newsletters go through Listmonk.\n\n---\n\nPart of **[bitbaum](https://bitbaum.orangecat.ch)** — AI-native products on open\ninfrastructure, built in Zürich. Every package here lists the apps that use it:\n**[which apps use mail-kit](https://bitbaum.orangecat.ch/packages/#mail-kit)**.\n",
+      "changelog": "# Changelog\n\nThis retrospective record was added on 2026-10-27 from the immutable sources\nlinked below. Git commit dates are source dates, not inferred npm publication\ndates. A GitHub release does not itself establish npm publication.\nApplication adoption and deployment evidence are tracked separately.\n\n## 0.2.0\n\n- [Tagged source `v0.2.0`](https://github.com/bitbaum/mail-kit/tree/2086b4acaf9368442e1f357fce36ce0ce8bd43cd)\n- [Source commit](https://github.com/bitbaum/mail-kit/commit/2086b4acaf9368442e1f357fce36ce0ce8bd43cd), dated 2026-10-25.\n- [GitHub release](https://github.com/bitbaum/mail-kit/releases/tag/v0.2.0), published 2026-10-25.\n\n### Recorded release notes\n\n#### What's Changed\n* ci(auto-merge): hand the sweep a PAT so workflow PRs stop stalling by @catomean in https://github.com/bitbaum/mail-kit/pull/2\n* ci(auto-merge): correct the reason this repo passes a PAT by @catomean in https://github.com/bitbaum/mail-kit/pull/3\n* ci(publish): make publishing idempotent so a second run is green, not E403 by @catomean in https://github.com/bitbaum/mail-kit/pull/4\n* chore: rename FleetCrown to Loki by @catomean in https://github.com/bitbaum/mail-kit/pull/5\n* fix: the sending domain is DNS, not the product name by @catomean in https://github.com/bitbaum/mail-kit/pull/6\n* docs: link back to bitbaum, and to who uses this package by @catomean in https://github.com/bitbaum/mail-kit/pull/7\n* feat: one address per app, mail to apps, and AI triage (v0.2.0) by @catomean in https://github.com/bitbaum/mail-kit/pull/8\n* ci(publish): allow publishing a merged version by hand by @catomean in https://github.com/bitbaum/mail-kit/pull/9\n* docs(readme): the one-address example names no product's door by @catomean in https://github.com/bitbaum/mail-kit/pull/10\n* chore: add the fleet package template files this repo is missing (dependabot.yml, git-release.yml, release.yml) by @catomean in https://github.com/bitbaum/mail-kit/pull/11\n\n\n**Full Changelog**: https://github.com/bitbaum/mail-kit/compare/v0.1.1...v0.2.0\n",
+      "commits": [
+        {
+          "sha": "cda8b6b4984536fd65a8c7c352429d5e6c671869",
+          "date": "2026-10-29T00:32:59Z",
+          "subject": "fix(release): apply verified build-output staging contract (#22)",
+          "url": "https://github.com/bitbaum/mail-kit/commit/cda8b6b4984536fd65a8c7c352429d5e6c671869"
+        },
+        {
+          "sha": "0aa1cd414f381ff7245b99a46618a68325891d7c",
+          "date": "2026-10-28T02:33:19Z",
+          "subject": "chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#20)",
+          "url": "https://github.com/bitbaum/mail-kit/commit/0aa1cd414f381ff7245b99a46618a68325891d7c"
+        },
+        {
+          "sha": "9638a289fdcd00315cfa1cc51bd86b1c33f1aa95",
+          "date": "2026-10-28T02:04:20Z",
+          "subject": "docs(agents): the org rules block, generated from bitbaum/fleet (#19)",
+          "url": "https://github.com/bitbaum/mail-kit/commit/9638a289fdcd00315cfa1cc51bd86b1c33f1aa95"
+        },
+        {
+          "sha": "cf6af63c676f9b6de33606247c58ce2b0ca81142",
+          "date": "2026-10-27T23:19:57Z",
+          "subject": "docs: record verified release history and its evidence limits (#18)",
+          "url": "https://github.com/bitbaum/mail-kit/commit/cf6af63c676f9b6de33606247c58ce2b0ca81142"
+        },
+        {
+          "sha": "33eb8f69a999db32ecbebfeebb65ce4bccbc5a58",
+          "date": "2026-10-26T19:53:06Z",
+          "subject": "chore: add the fleet package template files this repo is missing (release-notify.yml) (#17)",
+          "url": "https://github.com/bitbaum/mail-kit/commit/33eb8f69a999db32ecbebfeebb65ce4bccbc5a58"
+        },
+        {
+          "sha": "174e5850a2f5a3ad01883491570cb56a2b2fef8b",
+          "date": "2026-10-26T11:06:04Z",
+          "subject": "chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) (#16)",
+          "url": "https://github.com/bitbaum/mail-kit/commit/174e5850a2f5a3ad01883491570cb56a2b2fef8b"
+        },
+        {
+          "sha": "2086b4acaf9368442e1f357fce36ce0ce8bd43cd",
+          "date": "2026-10-25T08:31:07Z",
+          "subject": "chore: add the fleet package template files this repo is missing (dependabot.yml, git-release.yml, release.yml) (#11)",
+          "url": "https://github.com/bitbaum/mail-kit/commit/2086b4acaf9368442e1f357fce36ce0ce8bd43cd"
+        },
+        {
+          "sha": "e9a1f6026d8aea22b8262655af4bac1fcf139ced",
+          "date": "2026-10-23T09:11:30Z",
+          "subject": "docs(readme): the one-address example names no product's door (#10)",
+          "url": "https://github.com/bitbaum/mail-kit/commit/e9a1f6026d8aea22b8262655af4bac1fcf139ced"
+        }
+      ],
+      "releases": [
+        {
+          "name": "v0.2.0",
+          "tag": "v0.2.0",
+          "publishedAt": "2026-10-25T08:32:00Z",
+          "prerelease": false,
+          "body": "## What's Changed\n* ci(auto-merge): hand the sweep a PAT so workflow PRs stop stalling by @catomean in https://github.com/bitbaum/mail-kit/pull/2\n* ci(auto-merge): correct the reason this repo passes a PAT by @catomean in https://github.com/bitbaum/mail-kit/pull/3\n* ci(publish): make publishing idempotent so a second run is green, not E403 by @catomean in https://github.com/bitbaum/mail-kit/pull/4\n* chore: rename FleetCrown to Loki by @catomean in https://github.com/bitbaum/mail-kit/pull/5\n* fix: the sending domain is DNS, not the product name by @catomean in https://github.com/bitbaum/mail-kit/pull/6\n* docs: link back to bitbaum, and to who uses this package by @catomean in https://github.com/bitbaum/mail-kit/pull/7\n* feat: one address per app, mail to apps, and AI triage (v0.2.0) by @catomean in https://github.com/bitbaum/mail-kit/pull/8\n* ci(publish): allow publishing a merged version by hand by @catomean in https://github.com/bitbaum/mail-kit/pull/9\n* docs(readme): the one-address example names no product's door by @catomean in https://github.com/bitbaum/mail-kit/pull/10\n* chore: add the fleet package template files this repo is missing (dependabot.yml, git-release.yml, release.yml) by @catomean in https://github.com/bitbaum/mail-kit/pull/11\n\n\n**Full Changelog**: https://github.com/bitbaum/mail-kit/compare/v0.1.1...v0.2.0",
+          "url": "https://github.com/bitbaum/mail-kit/releases/tag/v0.2.0"
         }
       ]
     },
@@ -866,6 +866,105 @@
       ],
       "releases": []
     },
+    "chartkit": {
+      "repo": "https://github.com/bitbaum/chartkit",
+      "commit": "3c24f7323d2a73ad58902c20e190c0a483f755ee",
+      "committedAt": "2026-10-29T18:35:41Z",
+      "readme": "# chartkit\n\n**One chart for every bitbaum product.** A line, ranked bars, a share bar, a\nsparkline, a meter, a timeline and a strip of figures — drawn on the server\nfrom the app's own tokens, each with a table behind it and no label that\nclips, overlaps or shrinks — so a fix made once reaches every product.\n\nWhy it exists: on 2026-10-23 the owner said visualisations are \"super\nimportant\", a profile must be \"more useful than Bloomberg\", and \"it's packages\nwhat makes us special\". Substrata had one hand-rolled line chart and nothing\nelse; every other product had none. This is the one place charts now live.\n(Colour and type come from [`design-tokens`](https://github.com/bitbaum/design-tokens);\nchartkit is the drawing.)\n\n## Install\n\n```sh\npnpm add @bitbaum/chartkit@^0.7.0\n```\n\nInstall releases from npm, never a commit or a branch, for the reason chatkit's\nREADME gives: a semver range is what lets a fix reach every product.\n\n## Use\n\n```tsx\nimport { LineChart, BarChart, ColumnChart, ShareBars, Sparkline, Meter, Timeline, StatTiles } from \"@bitbaum/chartkit/react\";\nimport \"@bitbaum/chartkit/styles.css\";\n\n<LineChart\n  series={[{ id: \"backlog\", label: \"Backlog\", points: [{ x: \"2025-Q1\", y: 29, href: \"…\" }] }]}\n  unit=\"GW\"\n  caption=\"GE Vernova Gas Power equipment backlog, GW, by quarter.\"\n  yFrom=\"zero\"                       // or \"data\"; left out, zero only when the data sits near it\n  height={208}                       // CSS px; the width is the container's\n/>\n<LineChart                           // a year of daily closes: a clean line with a light fill\n  series={[{ id: \"close\", label: \"Close\", points: closes }]}\n  unit=\"USD\"\n  yFrom=\"data\"\n  markers=\"auto\"                     // \"all\" (default) | \"none\" | \"ends\" | \"auto\"\n  area                               // faint fill under the line, in the series' token colour\n  caption=\"NVIDIA daily closes, USD, last 12 months.\"\n/>\n<BarChart rows={[{ label: \"China\", value: 900000, share: 0.99, estimated: true }, { label: \"Other\", value: null }]} unit=\"kg\" caption=\"…\" highlight=\"China\" />\n<ShareBars rows={[{ label: \"BlackRock\", share: 0.074 }]} other={0.926} otherLabel=\"Others, each below 5%\" caption=\"…\" />\n<ColumnChart series={[{ id: \"rev\", label: \"Revenue\", points: [{ x: \"FY2024\", y: 61 }, { x: \"FY2025\", y: -4, href: \"…\" }] }]} unit=\"USD bn\" caption=\"…\" />\n<Sparkline points={points} label=\"Backlog over six quarters\" />\n<Sparkline                           // a null breaks the line; a tone colours that point's dot\n  points={[{ x: \"2026-10-01\", y: 4, tone: \"positive\" }, { x: \"2026-10-02\", y: null }, { x: \"2026-10-03\", y: 1, tone: \"negative\" }]}\n  label=\"Mood over three days: one good, one unrecorded, one bad\"\n/>\n<Meter value={12} max={12} label=\"Severity\" href=\"/methods/severity\" />\n<Meter value={3} max={10} label=\"Risk\" tone=\"negative\" showValue={false} />  // the caller prints \"3/10\"\n<Timeline events={[{ date: \"2026-07-17\", label: \"…\", tone: \"down\", href: \"…\" }]} caption=\"…\" />\n<StatTiles tiles={[{ label: \"Bottlenecks mapped\", value: 33, href: \"/bottlenecks\" }]} />\n```\n\n`x` is an ISO period (`2025`, `2025-Q2`, `2025-03`, `2025-03-31`) or a number.\nSeveral series share one axis — there is no second y-axis and never will be;\ntwo measures of different scale are two charts. `BarChart` defaults to ranking its rows\n(largest first, no number last) whatever order they arrive in, draws a `null`\nas \"—\" and an estimate with \"≈\". `ShareBars` names its remainder\n`otherLabel` (left out, \"Other\") — say what the rest is, never a bare\n\"Other 87%\". `ColumnChart` draws periods left to right in the order given\n(fiscal labels are not re-sorted), several series side by side, a loss below\nthe zero line, and a missing figure as no column and \"—\" in the table. Every point of a `LineChart` and every event\nof a `Timeline` is an anchor when it has an `href`, with its value, period and\nnote on hover and on keyboard focus.\n\nA dated `LineChart` picks its ticks for whatever span it is given: days for\na week of data, Mondays for a month, months for a year, years for decades —\nat most five, the coarsest step that still gives three, the first label and\nthe first of each new year naming the year. An axis is never left bare: a\nspan no step ticks inside is labelled at its two ends.\n\n`ColumnChart` prints every period label whole. When there are more periods\nthan the plot has room for, every second (third, …) label steps back so the\nrest fit, and nothing is cut: \"2015 2017 2019 …\" on a phone, every year on a\ndesktop. The step is planned on the server for bands of plot width and\napplied by a container query on the axis (no measurement, no effect); the\ntable behind the chart still holds every period. Only a label wider than the\nwhole plot is ever shortened.\n\n`markers` says which values of a `LineChart` carry a dot: `all` (the default,\nas before) every one; `none` the line alone; `ends` only each series' last\nvalue; `auto` every one up to 60 points on a series and none above — 250 daily\ncloses drawn as 250 beads is a string of pearls, not a price line. A value\nwhose dot is hidden is still there: its target is a full-height strip of the\nplot (the strips tile it, so a pointer or a finger anywhere over the line finds\nthe nearest value), and hover or keyboard focus shows its dot, a hairline\ncursor and the value. The table behind the chart holds every value either way.\n`area` adds a light fill under each line in that series' own `--ck-series-*`\ncolour — never a literal.\n\n`Meter` takes `tone` — `accent` (the default), `neutral`, `positive`,\n`warning` or `negative`, each a `--ck-*` token — and `showValue={false}` to\ndraw the track alone when the caller already prints the figure; the value\nstays in the meter's role (`aria-valuenow`), name and `title`. A `Sparkline`\npoint may be `y: null`, which breaks the line there instead of drawing a\nzero (a value alone between two gaps is a dot), and may carry a `tone`\n(`positive`, `warning`, `negative`, `neutral`) that colours its dot. Colour\nis never the only sign: say in the sparkline's `label` what the tones mean.\n\n## What every chart guarantees\n\n- **It renders on the server.** Pure SVG and HTML, no effect, no measurement.\n  The drawing is an SVG stretched to its box (`preserveAspectRatio=\"none\"`,\n  non-scaling strokes); every label is HTML in rem laid over it in per cent,\n  so a 320px plot has the same type as a 1440px one.\n- **Nothing is reachable only by pointing.** Each chart is a `<figure\n  class=\"ck-chart\">` with its caption and a visually hidden `<table>` of the\n  same values; the decorative parts are `aria-hidden`, the anchors are not.\n- **No label clips or overlaps.** Long names truncate with an ellipsis and\n  carry the full text in `title`; column periods thin out instead, so a year\n  or a month is never cut; bar labels have a least column; timeline events\n  that would collide take a second lane; the y gutter is as wide as its\n  widest number. `@bitbaum/chartkit/audit` measures it (below).\n- **Colour and type come only from `--ck-*` variables**, which default to\n  design-tokens and can be set once on `:root`: `--ck-ink`, `--ck-ink-muted`,\n  `--ck-line`, `--ck-bg`, `--ck-accent`, `--ck-up`, `--ck-down`,\n  `--ck-series-1` … `-6`, `--ck-font`, `--ck-mono`. Series are by index, never\n  cycled, and each after the first has a dash as well as a colour, so the set\n  survives a monochrome theme and a print. The prefix is shared with chatkit\n  on purpose: `--ck-line`, `--ck-accent`, `--ck-bg`, `--ck-font` and\n  `--ck-mono` mean the same in both, so an app that themed its chat has themed\n  its charts. Light and dark both work by token.\n\n## The audit\n\n```ts\nimport { CHART_DEFECTS_SOURCE } from \"@bitbaum/chartkit/audit\";\nconst defects = await page.evaluate(`(${CHART_DEFECTS_SOURCE})(document.body)`);\nif (defects.length) throw new Error(defects.join(\"\\n\"));\n```\n\n`findChartDefects(root)` runs inside the page and returns every piece of chart\ntext whose box leaves its chart or overlaps another piece of text in the same\nchart, one line each. Reading the CSS finds none of these; laying the words out\nwith the real font at the real width does. `test/browser.mjs` runs it over the\ndemo at 320, 390 and 1280px in light and dark, and first over a deliberately\nbroken figure, to prove the gate can fail.\n\n## Develop\n\n```sh\npnpm install\npnpm run verify       # format:check, lint, typecheck, build, test, test:browser\npnpm run demo         # builds demo/dist; open demo/index.html\n```\n\n`test:browser` needs Chromium: `pnpm exec playwright install chromium`, or set\n`CHROMIUM_PATH`. `dist/` is committed so a `github:` install needs no build\nstep; `pnpm run check:dist` says whether it matches the source.\n\nFor proportions, pass the whole as `max`: `<BarChart rows={[{ label: \"Share\", value: 1.6 }]} max={100} unit=\"%\" caption=\"Share of the whole\" />` draws a 1.6% bar. Without `max`, bars are relative to the largest row. The scale always expands to fit larger values; invalid or non-positive maxima fall back to the largest row. Accessible tables retain the original values.\n\n## App language\n\n`LineChart`, `ColumnChart` and `Timeline` accept an explicit BCP 47 `locale`\n(such as `de-CH`); numbers, dates, axes, tooltips and accessible tables use it.\nDates are formatted in UTC so a server timezone cannot move a reporting date.\nOmitting the locale preserves the existing English output. Pass translations\nfrom the app's dictionary with `periodLabel` on line/column charts,\n`preliminaryLabel` on line charts, and `tableLabels: { date, event, effect }`\non timelines. These labels remain English unless supplied: a locale formats\ndata, it does not guess product copy.\n\n```tsx\n<LineChart series={series} caption=\"Umsatz\" locale=\"de-CH\"\n  periodLabel=\"Zeitraum\" preliminaryLabel=\"vorläufig\" />\n```\n\n## Reference intervals, stacking and proportions\n\n`LineChart` accepts `referenceBands={[{ from: 10, to: 20, label: \"Expected interval\" }]}`.\nThe app owns the interval, label and unit; the chart extends its scale to include\nthe bounds and exposes the exact interval as text. Invalid/reversed bounds fail\nrather than silently presenting a different interval. This is a display feature,\nnot a source of clinical ranges or medical advice.\n\n`ColumnChart stacked` stacks positives upward and negatives downward from zero.\nThe axis includes accumulated totals; the table keeps each original value,\nincluding the distinction between missing and zero. The default remains grouped.\n\n`DoughnutChart` takes `rows: { label, value, href? }[]`, `caption`, `unit?`,\n`locale?`, `labelHeading?` and `valueHeading?`. It renders a proportional ring,\nlinked legend and exact-value accessible table. Values must be finite and\nnon-negative. An empty/zero total draws no invented shares. Colours use app\ntokens; legend links remain keyboard reachable without depending on a slice.\n\n\nFor ordinal scales, use `order=\"input\"` to preserve the row sequence. Optional\nrow `tone` values (`positive`, `warning`, `negative`) use theme colors rather\nthan a hardcoded palette. Tone takes precedence over highlight color; keep\nmeaningful text labels so color is never the only indication.\n\n`BarChart` also accepts `locale` for visual and accessible number formatting,\nand `labels` (`row`, `value`, `share`, `note`, `estimated`) for table headings\nand estimate text. Defaults preserve existing English ranked charts. For a\nsatisfaction distribution, pass the total as `max`, ordinal rows and translated\nscale labels; each bar then shows its share of all responses.\n",
+      "changelog": "# Changelog\n\n## 0.7.0\n\nAdditions only; every existing prop and default behaves as before.\n\n- **`LineChart` ticks for any span.** A dated axis now ticks on days, weeks\n  (Mondays), months or years — at most five, the coarsest step that still\n  gives three, the year on the first label and on the first of each new year.\n  A 30-day daily series (1–27 Oct) is labelled \"5 Oct 2026, 12 Oct, 19 Oct,\n  26 Oct\"; before, it had no date label at all. An axis is never bare: a span\n  no step ticks inside is labelled at its ends, and a numeric axis with one\n  value names it. (A month-tick span also no longer skips its first month.)\n- **`ColumnChart` thins labels instead of cutting them.** Period labels are\n  printed whole; when the plot is too narrow, every n-th steps back, planned\n  on the server per band of plot width and applied by a container query on\n  the axis. The 8-character cut is gone: at 390px twelve years read\n  \"2015 2017 … 2025\" rather than \"20…\", and months \"Jan 2025 May 2025 …\"\n  rather than \"J…\". Only a label wider than the whole plot is shortened.\n  Core: `columnLabelStep`, `columnLabelPlan`, `labelWidth`,\n  `COLUMN_AXIS_WIDTHS`.\n- **`Meter` `tone` and `showValue`.** `tone`: `accent` (default), `neutral`,\n  `positive`, `warning`, `negative`, by token. `showValue={false}` hides the\n  printed number; it stays in `aria-valuenow`, the name and the title.\n- **`Sparkline` gaps and tones.** `y: null` breaks the line (a lone value is\n  a dot) instead of being drawn as zero; a point's `tone` colours its dot.\n  Dots, the end dot included, are now drawn as round-capped strokes, so they\n  render as filled dots in a stretched SVG (the end dot used to show as a\n  thin ring). Types: `SparkPoint`, `ChartTone`.\n- Demo and browser checks: a month of days, twelve years and twelve months of\n  columns, a toned meter and a sparkline with gaps, at 320–1440px in light and\n  dark, in English and de-CH.\n\n## 0.5.0\n\n- App-defined reference intervals in LineChart, including exact accessible bounds.\n- Optional stacked ColumnChart with separate positive/negative totals and missing-value preservation.\n- DoughnutChart with token colours, localized exact-value tables, source links and zero-total handling.\n\n## 0.4.0\n\n- Line/column charts and timelines accept an explicit locale for dates, numbers, axes, tooltips and accessible tables. Product dictionaries supply translated period, preliminary and timeline headings. Existing English output stays unchanged when omitted; dates use UTC.\n\n## 0.3.0\n\n- **`LineChart` `markers`** — `\"all\"` (default, unchanged) | `\"none\"` |\n  `\"ends\"` | `\"auto\"`. `auto` drops the dots above 60 points on a series, so a\n  year of daily closes reads as a line rather than ~250 beads; `ends` keeps\n  only each series' last value. Hidden values stay reachable: each is a\n  full-height strip of the plot (the strips tile it edge to edge), and hover or\n  keyboard focus shows its dot, a hairline cursor and its value.\n- **`LineChart` `area`** — a light fill under each line in the series' token\n  colour (`color-mix` of `--ck-series-*`, never a hex).\n- Core: `areaPath`, `hitColumns`, `resolveMarkers`, `AUTO_MARKER_LIMIT`,\n  type `LineMarkers`.\n- Browser check now runs at 1440px too, and checks the dense chart at 390 and\n  1440px: no dots drawn, strips tile the plot, hover/focus shows the value on\n  screen.\n\n## 0.2.0\n\n- `ShareBars` `otherLabel`; `ColumnChart` for values by period.\n",
+      "commits": [
+        {
+          "sha": "3c24f7323d2a73ad58902c20e190c0a483f755ee",
+          "date": "2026-10-29T18:35:41Z",
+          "subject": "release v0.7.0",
+          "url": "https://github.com/bitbaum/chartkit/commit/3c24f7323d2a73ad58902c20e190c0a483f755ee"
+        },
+        {
+          "sha": "1515cf2981f3c4a49f87807495aa600ea270f7eb",
+          "date": "2026-10-29T18:25:54Z",
+          "subject": "feat: day/week ticks, column label thinning, Meter tone, Sparkline gaps (#18)",
+          "url": "https://github.com/bitbaum/chartkit/commit/1515cf2981f3c4a49f87807495aa600ea270f7eb"
+        },
+        {
+          "sha": "d9ab65cba39d3c798863cd97db145b99fa385d31",
+          "date": "2026-10-28T17:16:00Z",
+          "subject": "release v0.6.0",
+          "url": "https://github.com/bitbaum/chartkit/commit/d9ab65cba39d3c798863cd97db145b99fa385d31"
+        },
+        {
+          "sha": "14c38d56ce2b99d9366d886c988b6852e42d0380",
+          "date": "2026-10-28T17:13:44Z",
+          "subject": "feat(charts): support ordinal bar scales and localized labels (#17)",
+          "url": "https://github.com/bitbaum/chartkit/commit/14c38d56ce2b99d9366d886c988b6852e42d0380"
+        },
+        {
+          "sha": "642a92af3d7d8bbd7b96575a5f4cdded5f7696e4",
+          "date": "2026-10-28T06:57:05Z",
+          "subject": "release v0.5.0",
+          "url": "https://github.com/bitbaum/chartkit/commit/642a92af3d7d8bbd7b96575a5f4cdded5f7696e4"
+        },
+        {
+          "sha": "d8e07e2f72105abc4880b44d9fdd6d92e7e1eaa9",
+          "date": "2026-10-28T06:53:45Z",
+          "subject": "fix(charts): support the verified React 18 consumer runtime (#16)",
+          "url": "https://github.com/bitbaum/chartkit/commit/d8e07e2f72105abc4880b44d9fdd6d92e7e1eaa9"
+        },
+        {
+          "sha": "3490fa41fb667a8aa81fe97e8ac34433c52cb986",
+          "date": "2026-10-28T06:47:53Z",
+          "subject": "feat(charts): add reference bands, stacked columns and doughnuts (#15)",
+          "url": "https://github.com/bitbaum/chartkit/commit/3490fa41fb667a8aa81fe97e8ac34433c52cb986"
+        },
+        {
+          "sha": "efff2aac954396fb16f2c8f869210bf1fc534ac9",
+          "date": "2026-10-28T06:36:03Z",
+          "subject": "release v0.4.0",
+          "url": "https://github.com/bitbaum/chartkit/commit/efff2aac954396fb16f2c8f869210bf1fc534ac9"
+        }
+      ],
+      "releases": [
+        {
+          "name": "v0.7.0",
+          "tag": "v0.7.0",
+          "publishedAt": "2026-10-29T18:35:43Z",
+          "prerelease": false,
+          "body": "## What's Changed\n* feat: day/week ticks, column label thinning, Meter tone, Sparkline gaps by @catomean in https://github.com/bitbaum/chartkit/pull/18\n\n\n**Full Changelog**: https://github.com/bitbaum/chartkit/compare/v0.6.0...v0.7.0",
+          "url": "https://github.com/bitbaum/chartkit/releases/tag/v0.7.0"
+        },
+        {
+          "name": "v0.6.0",
+          "tag": "v0.6.0",
+          "publishedAt": "2026-10-28T17:16:03Z",
+          "prerelease": false,
+          "body": "## What's Changed\n* feat(charts): preserve ordinal scales and localize bar labels by @catomean in https://github.com/bitbaum/chartkit/pull/17\n\n\n**Full Changelog**: https://github.com/bitbaum/chartkit/compare/v0.5.0...v0.6.0",
+          "url": "https://github.com/bitbaum/chartkit/releases/tag/v0.6.0"
+        },
+        {
+          "name": "v0.5.0",
+          "tag": "v0.5.0",
+          "publishedAt": "2026-10-28T06:57:07Z",
+          "prerelease": false,
+          "body": "## What's Changed\n* feat(charts): add reference bands, stacked columns and doughnuts by @catomean in https://github.com/bitbaum/chartkit/pull/15\n* fix(charts): support the verified React 18 consumer runtime by @catomean in https://github.com/bitbaum/chartkit/pull/16\n\n\n**Full Changelog**: https://github.com/bitbaum/chartkit/compare/v0.4.0...v0.5.0",
+          "url": "https://github.com/bitbaum/chartkit/releases/tag/v0.5.0"
+        },
+        {
+          "name": "v0.4.0",
+          "tag": "v0.4.0",
+          "publishedAt": "2026-10-28T06:36:06Z",
+          "prerelease": false,
+          "body": "## What's Changed\n* docs(agents): the org rules block, generated from bitbaum/fleet by @catomean in https://github.com/bitbaum/chartkit/pull/12\n* chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it by @catomean in https://github.com/bitbaum/chartkit/pull/13\n* feat(charts): localize periods, values and accessible labels by @catomean in https://github.com/bitbaum/chartkit/pull/14\n\n\n**Full Changelog**: https://github.com/bitbaum/chartkit/compare/v0.3.0...v0.4.0",
+          "url": "https://github.com/bitbaum/chartkit/releases/tag/v0.4.0"
+        },
+        {
+          "name": "v0.3.0",
+          "tag": "v0.3.0",
+          "publishedAt": "2026-10-27T13:04:28Z",
+          "prerelease": false,
+          "body": "## What's Changed\n* chore(deps): raise shared package floors to published versions by @catomean in https://github.com/bitbaum/chartkit/pull/8\n* feat(line): markers and area on LineChart, so a year of closes is a clean line by @catomean in https://github.com/bitbaum/chartkit/pull/10\n* fix(release): install Chromium before verify, as the fleet template does by @catomean in https://github.com/bitbaum/chartkit/pull/11\n\n\n**Full Changelog**: https://github.com/bitbaum/chartkit/compare/v0.2.0...v0.3.0",
+          "url": "https://github.com/bitbaum/chartkit/releases/tag/v0.3.0"
+        }
+      ]
+    },
     "threadkit": {
       "repo": "https://github.com/bitbaum/threadkit",
       "commit": "70ffefca623e4fd4e7357ec9ba411a6e98ff39cf",
@@ -923,105 +1022,6 @@
         }
       ],
       "releases": []
-    },
-    "chartkit": {
-      "repo": "https://github.com/bitbaum/chartkit",
-      "commit": "d9ab65cba39d3c798863cd97db145b99fa385d31",
-      "committedAt": "2026-10-28T17:16:00Z",
-      "readme": "# chartkit\n\n**One chart for every bitbaum product.** A line, ranked bars, a share bar, a\nsparkline, a meter, a timeline and a strip of figures — drawn on the server\nfrom the app's own tokens, each with a table behind it and no label that\nclips, overlaps or shrinks — so a fix made once reaches every product.\n\nWhy it exists: on 2026-10-23 the owner said visualisations are \"super\nimportant\", a profile must be \"more useful than Bloomberg\", and \"it's packages\nwhat makes us special\". Substrata had one hand-rolled line chart and nothing\nelse; every other product had none. This is the one place charts now live.\n(Colour and type come from [`design-tokens`](https://github.com/bitbaum/design-tokens);\nchartkit is the drawing.)\n\n## Install\n\n```sh\npnpm add @bitbaum/chartkit@^0.3.0\n```\n\nInstall releases from npm, never a commit or a branch, for the reason chatkit's\nREADME gives: a semver range is what lets a fix reach every product.\n\n## Use\n\n```tsx\nimport { LineChart, BarChart, ColumnChart, ShareBars, Sparkline, Meter, Timeline, StatTiles } from \"@bitbaum/chartkit/react\";\nimport \"@bitbaum/chartkit/styles.css\";\n\n<LineChart\n  series={[{ id: \"backlog\", label: \"Backlog\", points: [{ x: \"2025-Q1\", y: 29, href: \"…\" }] }]}\n  unit=\"GW\"\n  caption=\"GE Vernova Gas Power equipment backlog, GW, by quarter.\"\n  yFrom=\"zero\"                       // or \"data\"; left out, zero only when the data sits near it\n  height={208}                       // CSS px; the width is the container's\n/>\n<LineChart                           // a year of daily closes: a clean line with a light fill\n  series={[{ id: \"close\", label: \"Close\", points: closes }]}\n  unit=\"USD\"\n  yFrom=\"data\"\n  markers=\"auto\"                     // \"all\" (default) | \"none\" | \"ends\" | \"auto\"\n  area                               // faint fill under the line, in the series' token colour\n  caption=\"NVIDIA daily closes, USD, last 12 months.\"\n/>\n<BarChart rows={[{ label: \"China\", value: 900000, share: 0.99, estimated: true }, { label: \"Other\", value: null }]} unit=\"kg\" caption=\"…\" highlight=\"China\" />\n<ShareBars rows={[{ label: \"BlackRock\", share: 0.074 }]} other={0.926} otherLabel=\"Others, each below 5%\" caption=\"…\" />\n<ColumnChart series={[{ id: \"rev\", label: \"Revenue\", points: [{ x: \"FY2024\", y: 61 }, { x: \"FY2025\", y: -4, href: \"…\" }] }]} unit=\"USD bn\" caption=\"…\" />\n<Sparkline points={points} label=\"Backlog over six quarters\" />\n<Meter value={12} max={12} label=\"Severity\" href=\"/methods/severity\" />\n<Timeline events={[{ date: \"2026-07-17\", label: \"…\", tone: \"down\", href: \"…\" }]} caption=\"…\" />\n<StatTiles tiles={[{ label: \"Bottlenecks mapped\", value: 33, href: \"/bottlenecks\" }]} />\n```\n\n`x` is an ISO period (`2025`, `2025-Q2`, `2025-03`, `2025-03-31`) or a number.\nSeveral series share one axis — there is no second y-axis and never will be;\ntwo measures of different scale are two charts. `BarChart` defaults to ranking its rows\n(largest first, no number last) whatever order they arrive in, draws a `null`\nas \"—\" and an estimate with \"≈\". `ShareBars` names its remainder\n`otherLabel` (left out, \"Other\") — say what the rest is, never a bare\n\"Other 87%\". `ColumnChart` draws periods left to right in the order given\n(fiscal labels are not re-sorted), several series side by side, a loss below\nthe zero line, and a missing figure as no column and \"—\" in the table. Every point of a `LineChart` and every event\nof a `Timeline` is an anchor when it has an `href`, with its value, period and\nnote on hover and on keyboard focus.\n\n`markers` says which values of a `LineChart` carry a dot: `all` (the default,\nas before) every one; `none` the line alone; `ends` only each series' last\nvalue; `auto` every one up to 60 points on a series and none above — 250 daily\ncloses drawn as 250 beads is a string of pearls, not a price line. A value\nwhose dot is hidden is still there: its target is a full-height strip of the\nplot (the strips tile it, so a pointer or a finger anywhere over the line finds\nthe nearest value), and hover or keyboard focus shows its dot, a hairline\ncursor and the value. The table behind the chart holds every value either way.\n`area` adds a light fill under each line in that series' own `--ck-series-*`\ncolour — never a literal.\n\n## What every chart guarantees\n\n- **It renders on the server.** Pure SVG and HTML, no effect, no measurement.\n  The drawing is an SVG stretched to its box (`preserveAspectRatio=\"none\"`,\n  non-scaling strokes); every label is HTML in rem laid over it in per cent,\n  so a 320px plot has the same type as a 1440px one.\n- **Nothing is reachable only by pointing.** Each chart is a `<figure\n  class=\"ck-chart\">` with its caption and a visually hidden `<table>` of the\n  same values; the decorative parts are `aria-hidden`, the anchors are not.\n- **No label clips or overlaps.** Long labels truncate with an ellipsis and\n  carry the full text in `title`; bar labels have a least column; timeline\n  events that would collide take a second lane; the y gutter is as wide as\n  its widest number. `@bitbaum/chartkit/audit` measures it (below).\n- **Colour and type come only from `--ck-*` variables**, which default to\n  design-tokens and can be set once on `:root`: `--ck-ink`, `--ck-ink-muted`,\n  `--ck-line`, `--ck-bg`, `--ck-accent`, `--ck-up`, `--ck-down`,\n  `--ck-series-1` … `-6`, `--ck-font`, `--ck-mono`. Series are by index, never\n  cycled, and each after the first has a dash as well as a colour, so the set\n  survives a monochrome theme and a print. The prefix is shared with chatkit\n  on purpose: `--ck-line`, `--ck-accent`, `--ck-bg`, `--ck-font` and\n  `--ck-mono` mean the same in both, so an app that themed its chat has themed\n  its charts. Light and dark both work by token.\n\n## The audit\n\n```ts\nimport { CHART_DEFECTS_SOURCE } from \"@bitbaum/chartkit/audit\";\nconst defects = await page.evaluate(`(${CHART_DEFECTS_SOURCE})(document.body)`);\nif (defects.length) throw new Error(defects.join(\"\\n\"));\n```\n\n`findChartDefects(root)` runs inside the page and returns every piece of chart\ntext whose box leaves its chart or overlaps another piece of text in the same\nchart, one line each. Reading the CSS finds none of these; laying the words out\nwith the real font at the real width does. `test/browser.mjs` runs it over the\ndemo at 320, 390 and 1280px in light and dark, and first over a deliberately\nbroken figure, to prove the gate can fail.\n\n## Develop\n\n```sh\npnpm install\npnpm run verify       # format:check, lint, typecheck, build, test, test:browser\npnpm run demo         # builds demo/dist; open demo/index.html\n```\n\n`test:browser` needs Chromium: `pnpm exec playwright install chromium`, or set\n`CHROMIUM_PATH`. `dist/` is committed so a `github:` install needs no build\nstep; `pnpm run check:dist` says whether it matches the source.\n\nFor proportions, pass the whole as `max`: `<BarChart rows={[{ label: \"Share\", value: 1.6 }]} max={100} unit=\"%\" caption=\"Share of the whole\" />` draws a 1.6% bar. Without `max`, bars are relative to the largest row. The scale always expands to fit larger values; invalid or non-positive maxima fall back to the largest row. Accessible tables retain the original values.\n\n## App language\n\n`LineChart`, `ColumnChart` and `Timeline` accept an explicit BCP 47 `locale`\n(such as `de-CH`); numbers, dates, axes, tooltips and accessible tables use it.\nDates are formatted in UTC so a server timezone cannot move a reporting date.\nOmitting the locale preserves the existing English output. Pass translations\nfrom the app's dictionary with `periodLabel` on line/column charts,\n`preliminaryLabel` on line charts, and `tableLabels: { date, event, effect }`\non timelines. These labels remain English unless supplied: a locale formats\ndata, it does not guess product copy.\n\n```tsx\n<LineChart series={series} caption=\"Umsatz\" locale=\"de-CH\"\n  periodLabel=\"Zeitraum\" preliminaryLabel=\"vorläufig\" />\n```\n\n## Reference intervals, stacking and proportions\n\n`LineChart` accepts `referenceBands={[{ from: 10, to: 20, label: \"Expected interval\" }]}`.\nThe app owns the interval, label and unit; the chart extends its scale to include\nthe bounds and exposes the exact interval as text. Invalid/reversed bounds fail\nrather than silently presenting a different interval. This is a display feature,\nnot a source of clinical ranges or medical advice.\n\n`ColumnChart stacked` stacks positives upward and negatives downward from zero.\nThe axis includes accumulated totals; the table keeps each original value,\nincluding the distinction between missing and zero. The default remains grouped.\n\n`DoughnutChart` takes `rows: { label, value, href? }[]`, `caption`, `unit?`,\n`locale?`, `labelHeading?` and `valueHeading?`. It renders a proportional ring,\nlinked legend and exact-value accessible table. Values must be finite and\nnon-negative. An empty/zero total draws no invented shares. Colours use app\ntokens; legend links remain keyboard reachable without depending on a slice.\n\n\nFor ordinal scales, use `order=\"input\"` to preserve the row sequence. Optional\nrow `tone` values (`positive`, `warning`, `negative`) use theme colors rather\nthan a hardcoded palette. Tone takes precedence over highlight color; keep\nmeaningful text labels so color is never the only indication.\n\n`BarChart` also accepts `locale` for visual and accessible number formatting,\nand `labels` (`row`, `value`, `share`, `note`, `estimated`) for table headings\nand estimate text. Defaults preserve existing English ranked charts. For a\nsatisfaction distribution, pass the total as `max`, ordinal rows and translated\nscale labels; each bar then shows its share of all responses.\n",
-      "changelog": "# Changelog\n\n## 0.5.0\n\n- App-defined reference intervals in LineChart, including exact accessible bounds.\n- Optional stacked ColumnChart with separate positive/negative totals and missing-value preservation.\n- DoughnutChart with token colours, localized exact-value tables, source links and zero-total handling.\n\n## 0.4.0\n\n- Line/column charts and timelines accept an explicit locale for dates, numbers, axes, tooltips and accessible tables. Product dictionaries supply translated period, preliminary and timeline headings. Existing English output stays unchanged when omitted; dates use UTC.\n\n## 0.3.0\n\n- **`LineChart` `markers`** — `\"all\"` (default, unchanged) | `\"none\"` |\n  `\"ends\"` | `\"auto\"`. `auto` drops the dots above 60 points on a series, so a\n  year of daily closes reads as a line rather than ~250 beads; `ends` keeps\n  only each series' last value. Hidden values stay reachable: each is a\n  full-height strip of the plot (the strips tile it edge to edge), and hover or\n  keyboard focus shows its dot, a hairline cursor and its value.\n- **`LineChart` `area`** — a light fill under each line in the series' token\n  colour (`color-mix` of `--ck-series-*`, never a hex).\n- Core: `areaPath`, `hitColumns`, `resolveMarkers`, `AUTO_MARKER_LIMIT`,\n  type `LineMarkers`.\n- Browser check now runs at 1440px too, and checks the dense chart at 390 and\n  1440px: no dots drawn, strips tile the plot, hover/focus shows the value on\n  screen.\n\n## 0.2.0\n\n- `ShareBars` `otherLabel`; `ColumnChart` for values by period.\n",
-      "commits": [
-        {
-          "sha": "d9ab65cba39d3c798863cd97db145b99fa385d31",
-          "date": "2026-10-28T17:16:00Z",
-          "subject": "release v0.6.0",
-          "url": "https://github.com/bitbaum/chartkit/commit/d9ab65cba39d3c798863cd97db145b99fa385d31"
-        },
-        {
-          "sha": "14c38d56ce2b99d9366d886c988b6852e42d0380",
-          "date": "2026-10-28T17:13:44Z",
-          "subject": "feat(charts): support ordinal bar scales and localized labels (#17)",
-          "url": "https://github.com/bitbaum/chartkit/commit/14c38d56ce2b99d9366d886c988b6852e42d0380"
-        },
-        {
-          "sha": "642a92af3d7d8bbd7b96575a5f4cdded5f7696e4",
-          "date": "2026-10-28T06:57:05Z",
-          "subject": "release v0.5.0",
-          "url": "https://github.com/bitbaum/chartkit/commit/642a92af3d7d8bbd7b96575a5f4cdded5f7696e4"
-        },
-        {
-          "sha": "d8e07e2f72105abc4880b44d9fdd6d92e7e1eaa9",
-          "date": "2026-10-28T06:53:45Z",
-          "subject": "fix(charts): support the verified React 18 consumer runtime (#16)",
-          "url": "https://github.com/bitbaum/chartkit/commit/d8e07e2f72105abc4880b44d9fdd6d92e7e1eaa9"
-        },
-        {
-          "sha": "3490fa41fb667a8aa81fe97e8ac34433c52cb986",
-          "date": "2026-10-28T06:47:53Z",
-          "subject": "feat(charts): add reference bands, stacked columns and doughnuts (#15)",
-          "url": "https://github.com/bitbaum/chartkit/commit/3490fa41fb667a8aa81fe97e8ac34433c52cb986"
-        },
-        {
-          "sha": "efff2aac954396fb16f2c8f869210bf1fc534ac9",
-          "date": "2026-10-28T06:36:03Z",
-          "subject": "release v0.4.0",
-          "url": "https://github.com/bitbaum/chartkit/commit/efff2aac954396fb16f2c8f869210bf1fc534ac9"
-        },
-        {
-          "sha": "d2cd4ee6a273e78248def2f0b586d0af0d2fd604",
-          "date": "2026-10-28T06:33:50Z",
-          "subject": "feat(charts): localize periods, values and accessible labels (#14)",
-          "url": "https://github.com/bitbaum/chartkit/commit/d2cd4ee6a273e78248def2f0b586d0af0d2fd604"
-        },
-        {
-          "sha": "6bdd2c3ecd270dd16a9e330ba63866b2e00068b5",
-          "date": "2026-10-28T02:28:17Z",
-          "subject": "chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#13)",
-          "url": "https://github.com/bitbaum/chartkit/commit/6bdd2c3ecd270dd16a9e330ba63866b2e00068b5"
-        }
-      ],
-      "releases": [
-        {
-          "name": "v0.6.0",
-          "tag": "v0.6.0",
-          "publishedAt": "2026-10-28T17:16:03Z",
-          "prerelease": false,
-          "body": "## What's Changed\n* feat(charts): preserve ordinal scales and localize bar labels by @catomean in https://github.com/bitbaum/chartkit/pull/17\n\n\n**Full Changelog**: https://github.com/bitbaum/chartkit/compare/v0.5.0...v0.6.0",
-          "url": "https://github.com/bitbaum/chartkit/releases/tag/v0.6.0"
-        },
-        {
-          "name": "v0.5.0",
-          "tag": "v0.5.0",
-          "publishedAt": "2026-10-28T06:57:07Z",
-          "prerelease": false,
-          "body": "## What's Changed\n* feat(charts): add reference bands, stacked columns and doughnuts by @catomean in https://github.com/bitbaum/chartkit/pull/15\n* fix(charts): support the verified React 18 consumer runtime by @catomean in https://github.com/bitbaum/chartkit/pull/16\n\n\n**Full Changelog**: https://github.com/bitbaum/chartkit/compare/v0.4.0...v0.5.0",
-          "url": "https://github.com/bitbaum/chartkit/releases/tag/v0.5.0"
-        },
-        {
-          "name": "v0.4.0",
-          "tag": "v0.4.0",
-          "publishedAt": "2026-10-28T06:36:06Z",
-          "prerelease": false,
-          "body": "## What's Changed\n* docs(agents): the org rules block, generated from bitbaum/fleet by @catomean in https://github.com/bitbaum/chartkit/pull/12\n* chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it by @catomean in https://github.com/bitbaum/chartkit/pull/13\n* feat(charts): localize periods, values and accessible labels by @catomean in https://github.com/bitbaum/chartkit/pull/14\n\n\n**Full Changelog**: https://github.com/bitbaum/chartkit/compare/v0.3.0...v0.4.0",
-          "url": "https://github.com/bitbaum/chartkit/releases/tag/v0.4.0"
-        },
-        {
-          "name": "v0.3.0",
-          "tag": "v0.3.0",
-          "publishedAt": "2026-10-27T13:04:28Z",
-          "prerelease": false,
-          "body": "## What's Changed\n* chore(deps): raise shared package floors to published versions by @catomean in https://github.com/bitbaum/chartkit/pull/8\n* feat(line): markers and area on LineChart, so a year of closes is a clean line by @catomean in https://github.com/bitbaum/chartkit/pull/10\n* fix(release): install Chromium before verify, as the fleet template does by @catomean in https://github.com/bitbaum/chartkit/pull/11\n\n\n**Full Changelog**: https://github.com/bitbaum/chartkit/compare/v0.2.0...v0.3.0",
-          "url": "https://github.com/bitbaum/chartkit/releases/tag/v0.3.0"
-        },
-        {
-          "name": "v0.2.0",
-          "tag": "v0.2.0",
-          "publishedAt": "2026-10-27T07:56:07Z",
-          "prerelease": false,
-          "body": "## What's Changed\n* chore(deps): raise shared package floors to published versions by @catomean in https://github.com/bitbaum/chartkit/pull/4\n* ci: unified tokenless trusted-publishing workflow by @catomean in https://github.com/bitbaum/chartkit/pull/5\n* chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) by @catomean in https://github.com/bitbaum/chartkit/pull/6\n* chore: add the fleet package template files this repo is missing (release-notify.yml) by @catomean in https://github.com/bitbaum/chartkit/pull/7\n* feat: ShareBars otherLabel and a ColumnChart for values by period (0.2.0) by @catomean in https://github.com/bitbaum/chartkit/pull/9\n\n\n**Full Changelog**: https://github.com/bitbaum/chartkit/compare/v0.1.1...v0.2.0",
-          "url": "https://github.com/bitbaum/chartkit/releases/tag/v0.2.0"
-        }
-      ]
     },
     "geo-kit": {
       "repo": "https://github.com/bitbaum/geo-kit",
