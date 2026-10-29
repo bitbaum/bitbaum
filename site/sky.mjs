@@ -473,7 +473,7 @@ if (canvas) {
   const ctx = canvas.getContext("2d");
   const phase = lunarPhase();
   let contentLeft = 0, wormhole = null;
-  let W = 0, H = 0, dpr = 1, skyH = 0, stars = [], figures = [], milky = null, moon = null, moonR = 0;
+  let W = 0, H = 0, dpr = 1, skyH = 0, stars = [], figures = [], milky = null, moon = null, moonR = 0, vanGogh = [];
   let shooting = null, nextShot = 0, lastDraw = 0, lastScroll = -1, raf = 0;
 
   function layout() {
@@ -552,6 +552,19 @@ if (canvas) {
       }
     }
     if (!PARALLAX) figures = figures.slice(0, 1);
+    // A few stars painted the way Van Gogh painted them: rings of short
+    // strokes turning slowly about a warm core. In the open sky between the
+    // chapters, in the margins beside the words, past the first screen —
+    // where only someone who scrolls into the night meets them. Few, small
+    // and faint: the sky keeps its real stars; these are the dream.
+    const gogh = rng(hash * 7 + 3), nGogh = phone ? 2 : 3;
+    vanGogh = [...Array(nGogh)].map((_, i) => {
+      const docY = span ? at((i + 0.5 + (gogh() - 0.5) * 0.3) / nGogh) : H * (1.6 + i * 0.9);
+      const side = (i + (hash & 1)) % 2 === 0;
+      const r = (phone ? 20 : 28) * (0.8 + gogh() * 0.6);
+      const x = phone ? W * (side ? 0.86 : 0.14) : side ? W - Math.max(margin0 * 0.5, r * 4) : Math.max(margin0 * 0.5, r * 4);
+      return { x, y: Math.max(H * 1.15, H / 2 + PARALLAX * (docY - H / 2)) + (gogh() - 0.5) * H * 0.2, r, spin: (gogh() < 0.5 ? -1 : 1) * (0.5 + gogh() * 0.5), ph: gogh() * 6.28 };
+    });
     moonR = phone ? 30 : Math.max(40, Math.min(72, W * 0.042));
     const mimg = art("moon");
     // Painted large enough to stay sharp as it grows toward the horizon.
@@ -726,9 +739,11 @@ if (canvas) {
       ctx.restore();
     }
     const dayMoon = (phase > 0.12 && phase < 0.42) || (phase > 0.58 && phase < 0.88);
-    const dmx = W * (phone ? 0.58 : 0.66), dmy = H * 0.1;
+    // Clear of the header bar (a phone's is ~75px tall), and faint: a day
+    // moon is a pale thing, not a second sun.
+    const dmx = W * (phone ? 0.56 : 0.66), dmy = H * (phone ? 0.17 : 0.1);
     if (dayMoon && moon && dmy > -moonR * 2 && w.sun >= 0.5) {
-      ctx.globalAlpha = 0.55 * w.sun;
+      ctx.globalAlpha = 0.4 * w.sun;
       const R2 = moonR * 0.62;
       ctx.drawImage(moon, dmx - R2, dmy - R2, R2 * 2, R2 * 2);
       ctx.globalAlpha = 1;
@@ -753,6 +768,28 @@ if (canvas) {
         ctx.drawImage(glowSprite(s.rgb), s.x - s.s * 3, y - s.s * 3, s.s * 6, s.s * 6);
       }
       ctx.globalAlpha = 1;
+      // The Van Gogh stars: three dashed rings turning about a warm core,
+      // each at its own slow pace, breathing. Drawn faint, over the real
+      // stars, and only once their part of the sky has scrolled into view.
+      ctx.lineCap = "round";
+      for (const g of vanGogh) {
+        const y = g.y - off;
+        if (y < -g.r * 3 || y > H + g.r * 3) continue;
+        const breathe = still ? 1 : 1 + 0.05 * Math.sin(t * 0.0009 + g.ph);
+        const R = g.r * breathe, turn = still ? 0 : t * 0.00008 * g.spin;
+        for (let k = 3; k >= 1; k--) {
+          const rr = R * (0.38 + k * 0.3);
+          ctx.strokeStyle = k === 3 ? "rgba(245, 215, 110, 0.14)" : k === 2 ? "rgba(248, 230, 160, 0.2)" : "rgba(253, 245, 210, 0.28)";
+          ctx.lineWidth = 1.6;
+          ctx.setLineDash([rr * 0.5, rr * 0.3]);
+          ctx.lineDashOffset = -turn * rr * (k % 2 ? 1 : -1.3);
+          ctx.beginPath(); ctx.arc(g.x, y, rr, 0, Math.PI * 2); ctx.stroke();
+        }
+        ctx.setLineDash([]); ctx.lineDashOffset = 0;
+        ctx.globalAlpha = 0.55;
+        ctx.drawImage(glowSprite("255, 214, 170"), g.x - R * 0.9, y - R * 0.9, R * 1.8, R * 1.8);
+        ctx.globalAlpha = 1;
+      }
       // Now and then, a shooting star.
       if (!still) {
         if (!shooting && t > nextShot) {
@@ -813,8 +850,51 @@ if (canvas) {
   // Rain falls as fine slanting lines, snow as soft flakes that sway; both
   // are few, drawn over the sky and behind every word. Fog is CSS (a pair of
   // slow bands, styles.css) and needs nothing here.
-  let drops = [], motes = [], clouds = [];
-  document.addEventListener("weather", () => { drops = []; motes = []; clouds = []; if (still) draw(0); });
+  let drops = [], motes = [], clouds = [], beasts = [];
+  document.addEventListener("weather", () => { drops = []; motes = []; clouds = []; beasts = []; if (still) draw(0); });
+
+  // Cloud creatures: now and then a cloud is a diplodocus, a whale, a unicorn
+  // — the painted animals, made of cloud. The creatures that live in the sky
+  // live there AS clouds, drifting with the others; nothing solid floats.
+  // Each is cut once: the painting's shape, filled with the cloud's own
+  // texture and lit from above, with a soft edge.
+  const BEASTS = ["diplodocus", "whale", "unicorn", "elephant", "horse", "deer", "owl-fly", "cow", "fox", "moth"];
+  const beastCache = new Map();
+  function beast(name, w) {
+    // Resize/navigation can briefly provide unusable geometry. Never cache
+    // an empty sprite: drawing its zero-sized canvas throws and stops the sky.
+    if (!Number.isFinite(w) || w < 1) return null;
+    const key = `${name}@${w | 0}`;
+    if (beastCache.has(key)) return beastCache.get(key);
+    const img = art(name), tex = art("cloud-2") || art("cloud-1");
+    if (!img || !tex) return null;
+    const h = Math.round(w * (img.naturalHeight / img.naturalWidth)), pad = Math.round(w * 0.06);
+    if (!Number.isFinite(h) || h < 1 || !tex.naturalWidth || !tex.naturalHeight) return null;
+    const c = document.createElement("canvas"); c.width = w + pad * 2; c.height = h + pad * 2;
+    const g = c.getContext("2d");
+    // The shape, softened: a cloud has no hard line anywhere.
+    g.filter = `blur(${Math.max(1.5, w * 0.012).toFixed(1)}px)`;
+    g.drawImage(img, pad, pad, w, h);
+    g.filter = "none";
+    // Filled with cloud: the texture tiled through the silhouette, then a
+    // light from above and a shadow underneath, so it reads as vapour.
+    // The texture is tiled on its own sheet first and laid in with ONE draw:
+    // source-in keeps only where the new source overlaps, so tile by tile it
+    // would erase all but the last tile.
+    const sheet = document.createElement("canvas"); sheet.width = c.width; sheet.height = c.height;
+    const sg = sheet.getContext("2d");
+    const tw = Math.max(w * 0.9, 120), th = tw * (tex.naturalHeight / tex.naturalWidth);
+    for (let y = -th * 0.3; y < c.height; y += th * 0.55) for (let x = -tw * 0.3; x < c.width; x += tw * 0.7) sg.drawImage(tex, x, y, tw, th);
+    g.globalCompositeOperation = "source-in";
+    g.drawImage(sheet, 0, 0);
+    g.globalCompositeOperation = "source-atop";
+    const lit = g.createLinearGradient(0, 0, 0, c.height);
+    lit.addColorStop(0, "rgba(255,255,255,0.55)"); lit.addColorStop(0.55, "rgba(255,255,255,0.08)"); lit.addColorStop(1, "rgba(120,135,160,0.45)");
+    g.fillStyle = lit; g.fillRect(0, 0, c.width, c.height);
+    g.globalCompositeOperation = "source-over";
+    beastCache.set(key, c);
+    return c;
+  }
   // Weather and season, drawn behind every word. Particles are few and
   // capped; all of it holds still for reduced motion.
   function weather(t) {
@@ -837,6 +917,41 @@ if (canvas) {
       if (palette.night) ctx.filter = "brightness(0.5) saturate(0.4)";
       else if (w.tone < 1) ctx.filter = `brightness(${w.tone.toFixed(2)}) saturate(0.5)`;
       ctx.drawImage(img, c.x, c.y, cw, h);
+      ctx.filter = "none"; ctx.globalAlpha = 1;
+    }
+    // One or two cloud creatures, high and far, slower than the clouds: a
+    // diplodocus crossing the sky as a cloud is seen only by someone who
+    // looks up. A creature that has drifted off is replaced by another.
+    const nBeasts = w.fog ? 0 : phone ? 1 : 2;
+    while (beasts.length < nBeasts) {
+      const name = BEASTS[Math.floor(Math.random() * BEASTS.length)];
+      // The first ones are already in the sky when the page opens; a
+      // replacement comes in from the right, the way the clouds do.
+      // High and small: on a phone the band above the first words, on a wide
+      // screen the upper quarter — never large enough to read as a figure
+      // standing behind a sentence further down the page.
+      beasts.push({ name, x: beasts.length === 0 && !beasts.seeded ? Math.random() * W * 0.6 : W + Math.random() * W * 0.8, y: H * (phone ? 0.015 + Math.random() * 0.05 : 0.03 + Math.random() * 0.1), s: (phone ? 0.5 : 0.6) + Math.random() * 0.4, v: 4 + Math.random() * 5, face: Math.random() < 0.5 ? 1 : -1 });
+    }
+    beasts.seeded = true;
+    if (beasts.length > nBeasts) beasts.length = nBeasts;
+    for (const b of beasts) {
+      const bw = Math.min(W * (phone ? 0.34 : 0.3), 250) * b.s;
+      const cnv = beast(b.name, bw);
+      if (!cnv) continue;
+      if (!still) b.x -= (b.v + w.wind * 0.6) * dt;
+      if (b.x < -cnv.width) { b.x = W + cnv.width * 0.3; b.name = BEASTS[Math.floor(Math.random() * BEASTS.length)]; b.face = Math.random() < 0.5 ? 1 : -1; }
+      // Subtle: a creature you notice on the second look, not the first —
+      // and only in the first screen's sky. Further down the page the words
+      // pass through this band, and a creature behind a sentence is noise.
+      const deep = Math.max(0, 1 - scrollY / (H * 0.9));
+      if (deep <= 0) continue;
+      ctx.globalAlpha = (palette.night ? 0.16 : w.tone < 1 ? 0.55 : 0.5) * deep;
+      if (palette.night) ctx.filter = "brightness(0.55) saturate(0.3)";
+      else if (w.tone < 1) ctx.filter = `brightness(${w.tone.toFixed(2)}) saturate(0.5)`;
+      // Clouds go with the wind, which blows left: a creature faces the way it drifts.
+      ctx.save(); ctx.translate(b.x + cnv.width / 2, b.y); ctx.scale(-b.face, 1);
+      ctx.drawImage(cnv, -cnv.width / 2, 0);
+      ctx.restore();
       ctx.filter = "none"; ctx.globalAlpha = 1;
     }
     if (still) return;

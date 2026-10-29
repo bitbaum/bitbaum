@@ -9,6 +9,7 @@
 // server leg is the widget's own transcription route. Anyone who wants a
 // person instead sends the conversation to the studio's inbox with one field —
 // their email — never a form.
+import { richAnswerText, type Attachment } from "@bitbaum/chatkit";
 import { useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -17,6 +18,13 @@ import {
   Composer,
   type ChatMessageData,
 } from "@bitbaum/chatkit/react";
+import { ATTACH_LIMITS, UUID, createIntake, picturesFrom } from "./intake-flow.mjs";
+
+/** The chatkit release this bundle was built from (site/build.mjs defines it
+ *  from the installed package): stamped on every mount as data-chatkit, and
+ *  in the bundle's first line, so the served version is one look away. */
+declare const __CHATKIT_VERSION__: string;
+const CHATKIT_VERSION = typeof __CHATKIT_VERSION__ === "string" ? __CHATKIT_VERSION__ : "unknown";
 
 type Config = { origin: string; token: string };
 type Link = { label: string; url: string };
@@ -28,6 +36,24 @@ type Reply = {
 };
 
 const SPEAKERS = { cat: { name: "Cat", id: "cat" }, loki: { name: "Loki", id: "loki" } } as const;
+
+/** The microphone: the widget's own transcription route, tried FIRST. One
+ *  server model everywhere — the Android recogniser's cumulative partials
+ *  ("build build me build me", 2026-10-27) never reach the box; the browser
+ *  recogniser remains chatkit's fallback when the server leg cannot work. */
+const voice = (cfg: Config) => ({
+  prefer: "server" as const,
+  transcribe: async (audio: Blob, locale: string) => {
+    const body = new FormData();
+    body.append("token", cfg.token);
+    if (locale) body.append("locale", locale);
+    body.append("audio", new File([audio], "voice.webm", { type: audio.type || "audio/webm" }));
+    const res = await fetch(`${cfg.origin}/api/widget/transcribe`, { method: "POST", body });
+    if (!res.ok) throw new Error(`transcription ${res.status}`);
+    const data = (await res.json()) as { text?: string };
+    return (data.text ?? "").trim();
+  },
+});
 
 function safeUrl(raw: unknown): string | null {
   try {
@@ -41,11 +67,11 @@ function safeUrl(raw: unknown): string | null {
 function transcript(messages: ChatMessageData[]): string {
   return messages
     .filter((m) => !m.failed)
-    .map((m) => `${m.role === "user" ? "Visitor" : (m.speaker?.name ?? "Answer")}: ${m.content}`)
+    .map((m) => `${m.role === "user" ? "Visitor" : (m.speaker?.name ?? "Answer")}: ${m.role === "assistant" ? richAnswerText(m.content) : m.content}`)
     .join("\n\n");
 }
 
-function Handoff({ cfg, messages }: { cfg: Config; messages: ChatMessageData[] }) {
+function Handoff({ cfg, messages, pictures }: { cfg: Config; messages: ChatMessageData[]; pictures: string[] }) {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "sent" | "failed">("idle");
   if (!messages.some((m) => m.role === "user")) return null;
@@ -69,6 +95,8 @@ function Handoff({ cfg, messages }: { cfg: Config; messages: ChatMessageData[] }
           page: location.pathname.slice(0, 300),
           url: location.href.slice(0, 1000),
           pageTitle: document.title.slice(0, 300) || undefined,
+          // The pictures shown in the conversation go with it (the ingest takes five).
+          ...(pictures.length ? { screenshots: pictures.slice(-5) } : {}),
         }),
       });
       setState(res.ok ? "sent" : "failed");
@@ -115,10 +143,11 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
   const [sending, setSending] = useState(false);
   const [stopped, setStopped] = useState(false);
   const abort = useRef<AbortController | null>(null);
-  const lastQuestion = useRef("");
+  const lastQuestion = useRef<{ text: string; images: string[] }>({ text: "", images: [] });
+  const [pictures, setPictures] = useState<string[]>([]);
 
-  const ask = async (question: string, history: ChatMessageData[]) => {
-    lastQuestion.current = question;
+  const ask = async (question: string, history: ChatMessageData[], images: string[] = []) => {
+    lastQuestion.current = { text: question, images };
     setStopped(false);
     setSending(true);
     const controller = new AbortController();
@@ -130,13 +159,15 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
         signal: controller.signal,
         body: JSON.stringify({
           token: cfg.token,
+          visualAnswers: true,
           message: question.slice(0, 1000),
+          ...(images.length ? { images } : {}),
           history: history
             .filter((m) => !m.failed)
             .slice(-12)
             .map((m) => ({
               role: m.role,
-              content: (m.role === "assistant" && m.speaker ? `${m.speaker.name}: ` : "") + m.content,
+              content: ((m.role === "assistant" && m.speaker ? `${m.speaker.name}: ` : "") + (m.role === "assistant" ? richAnswerText(m.content) : m.content)).slice(0, 2000),
             })),
           url: location.href.slice(0, 1000),
           pageTitle: document.title.slice(0, 300) || undefined,
@@ -177,22 +208,32 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
     }
   };
 
-  const send = (text: string) => {
-    const q = text.trim();
-    if (!q || sending) return false;
-    const next = [...messages, { id: `${Date.now()}-u`, role: "user" as const, content: q }];
+  const send = (text: string, attachments: Attachment[] = []) => {
+    const { images, refused } = picturesFrom(attachments);
+    const q = text.trim() || (images.length ? "What does this picture show, and which project fits?" : "");
+    const notes = refused.map((r, i) => ({ id: `${Date.now()}-r${i}`, role: "assistant" as const, content: r }));
+    if (!q || sending) {
+      if (notes.length) setMessages((prev) => [...prev, ...notes]);
+      return false;
+    }
+    const next = [
+      ...messages,
+      { id: `${Date.now()}-u`, role: "user" as const, content: q, attachments: images.map((i) => ({ kind: "image" as const, name: i.name, previewUrl: i.url })) },
+      ...notes,
+    ];
     setMessages(next);
-    void ask(q, messages);
+    if (images.length) setPictures((prev) => [...prev, ...images.map((i) => i.url)]);
+    void ask(q, messages, images.map((i) => i.url));
     return true;
   };
 
   const retry = () => {
-    if (!lastQuestion.current || sending) return;
+    if (!lastQuestion.current.text || sending) return;
     // Drop the failed or last answer and ask the same question again.
     const lastUser = messages.map((m) => m.role).lastIndexOf("user");
     const kept = lastUser >= 0 ? messages.slice(0, lastUser + 1) : messages;
     setMessages(kept);
-    void ask(lastQuestion.current, kept.slice(0, -1));
+    void ask(lastQuestion.current.text, kept.slice(0, -1), lastQuestion.current.images);
   };
 
   return (
@@ -203,6 +244,7 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
         stopped={stopped}
         onStop={() => abort.current?.abort()}
         onRetry={retry}
+        onReply={text => { void send(text); }}
         renderFooter={(m) =>
           links[m.id]?.length ? (
             <div className="chat-links">
@@ -217,50 +259,27 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
         empty={<ChatStarters title={title} starters={starters} onPick={(q) => send(q)} />}
       />
       <Composer
-        onSend={(text) => send(text)}
-        placeholder="Ask in your own words…"
+        onSend={(text, attachments) => send(text, attachments)}
+        placeholder="Ask in your own words — or add a screenshot…"
         sending={sending}
         onStop={() => abort.current?.abort()}
-        voice={{
-          transcribe: async (audio) => {
-            const body = new FormData();
-            body.append("token", cfg.token);
-            body.append("audio", new File([audio], "voice.webm", { type: audio.type || "audio/webm" }));
-            const res = await fetch(`${cfg.origin}/api/widget/transcribe`, { method: "POST", body });
-            if (!res.ok) throw new Error(`transcription ${res.status}`);
-            const data = (await res.json()) as { text?: string };
-            return (data.text ?? "").trim();
-          },
-        }}
+        attach={ATTACH_LIMITS}
+        attachmentOnlyText="What does this picture show, and which project fits?"
+        voice={voice(cfg)}
       />
-      <Handoff cfg={cfg} messages={messages} />
+      <Handoff cfg={cfg} messages={messages} pictures={pictures} />
     </div>
   );
 }
 
-// The studio's one door, as a conversation. One free-form field — typed or
-// spoken — and nothing is refused for its shape, because a request that
-// bounces is a person lost. The words become a private studio request on
-// Loki (POST /api/studio-intake): a website brief when an address is in the
-// text, a partner application on /partners/, and otherwise the plain
-// waitlist (Loki's inbox, POST /api/feedback) after one question — is there a
-// site? Every request gets a private portal link; an email anywhere in the
-// text becomes the reply address, and the follow-ups go to the same record.
-// No AI answers here: the studio reads every word as written.
-const EMAIL = /[^\s<>(),;:"']+@[^\s<>(),;:"']+\.[a-z]{2,}/i;
-// A public address written loosely: "acme.ch", "www.acme.ch/shop", "https://…".
-const SITE = /(?:https?:\/\/)?(?:www\.)?(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}(?:\/[^\s<>"'(),]*)?/i;
-const UUID = /^[a-f\d-]{36}$/i;
-
-type Purpose = "studio" | "partner";
+// The studio's one door, as a conversation. The logic — saved first, then a
+// reply like a person's, the brief filed once when Loki's code says it is
+// ready — lives in ./intake-flow.mjs (tested with fakes in
+// site/intake-flow.test.mjs); this is only how it looks.
 type Access = { id: string; key: string };
-type IntakeCfg = Config & { purpose: Purpose; offerId: string; prompt: string; topic: () => string };
+type IntakeCfg = Config & { purpose: "studio" | "partner"; offerId: string; prompt: string; topic: () => string; partner: string };
+type Said = { text: string; speaker?: "loki" | null; failed?: boolean; status?: boolean };
 
-const siteIn = (text: string) => {
-  const found = text.replace(EMAIL, " ").match(SITE)?.[0] ?? "";
-  // "e.g." and "i.e." are not websites.
-  return found && !/^(e\.g|i\.e)\b/i.test(found) ? found : "";
-};
 const newKey = () =>
   "spt_" + btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 const portalUrl = (a: Access) => new URL(`/portal/#id=${a.id}&key=${a.key}`, location.origin).href;
@@ -286,107 +305,71 @@ async function post(url: string, body: unknown, key?: string) {
 }
 
 function Intake({ cfg }: { cfg: IntakeCfg }) {
-  const [messages, setMessages] = useState<ChatMessageData[]>([{ id: "hello", role: "assistant", content: cfg.prompt }]);
+  const [messages, setMessages] = useState<ChatMessageData[]>([{ id: "hello", role: "assistant", content: cfg.prompt, speaker: SPEAKERS.loki }]);
   const [sending, setSending] = useState(false);
   const [links, setLinks] = useState<Link[]>([]);
-  // What the first message became: nothing yet, a question about the site,
-  // a studio request with a portal, or a plain waitlist note.
-  const stage = useRef<{ kind: "fresh" } | { kind: "asked"; first: string } | { kind: "portal"; access: Access } | { kind: "waitlist"; first: string }>({ kind: "fresh" });
-  const replyTo = useRef("");
-  const ids = useRef<{ requestId: string; accessKey: string } | null>(null);
-  const pending = useRef<{ text: string; kept: ChatMessageData[] } | null>(null);
-  const partnerWanted = useRef<string | undefined>(undefined);
-  if (partnerWanted.current === undefined) {
-    const p = new URLSearchParams(location.hash.slice(1)).get("partner") ?? "";
-    partnerWanted.current = UUID.test(p) ? p : "";
-  }
+  const [failed, setFailed] = useState(false);
+  const flow = useRef<ReturnType<typeof createIntake> | null>(null);
+  flow.current ??= createIntake(cfg, {
+    post,
+    chat: async (body: unknown) => {
+      const res = await fetch(`${cfg.origin}/api/widget/chat`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error ?? `chat ${res.status}`);
+      return data;
+    },
+    newIds: () => ({ requestId: crypto.randomUUID(), accessKey: newKey() }),
+    uuid: () => crypto.randomUUID(),
+    remember,
+    portalUrl,
+    page: () => ({ pathname: location.pathname, href: location.href, title: document.title }),
+  });
 
-  const say = (content: string, failed = false) =>
-    setMessages((prev) => [...prev, { id: `${Date.now()}-a`, role: "assistant", content, failed }]);
-  const where = () => (cfg.purpose === "partner" ? "application" : "portal");
-  const askReply = (email: string) =>
-    email ? ` The reply will go to ${email}.` : " If you would like the reply by email, write the address here — optional; the link above works without one.";
-
-  // A studio request on Loki, kept idempotent: a retry reuses the same ids.
-  const open = async (body: Record<string, unknown>, email: string) => {
-    ids.current ??= { requestId: crypto.randomUUID(), accessKey: newKey() };
-    const data = await post(`${cfg.origin}/api/studio-intake`, { ...ids.current, company: "", contact: email, ...body });
-    if (!data.id || !UUID.test(data.id)) throw new Error("The receipt was incomplete. Press “Try again”.");
-    const access = { id: data.id, key: ids.current.accessKey };
-    remember(access);
-    stage.current = { kind: "portal", access };
-    setLinks([{ label: `Open your ${where()}`, url: portalUrl(access) }]);
-  };
-  const note = (suggestion: string, email: string) =>
-    post(`${cfg.origin}/api/feedback`, {
-      token: cfg.token,
-      suggestion: suggestion.slice(0, 2000),
-      contact: (email || replyTo.current || undefined)?.slice(0, 200),
-      page: location.pathname.slice(0, 300), url: location.href.slice(0, 1000), pageTitle: document.title.slice(0, 300) || undefined,
-    });
-
-  const deliver = async (text: string, kept: ChatMessageData[]) => {
-    pending.current = { text, kept };
+  const show = (said: Said[]) =>
+    setMessages((prev) => [
+      ...prev,
+      ...said.map((m, i) => ({
+        id: `${Date.now()}-${i}`,
+        role: "assistant" as const,
+        content: m.text,
+        failed: m.failed,
+        speaker: m.speaker === "loki" ? SPEAKERS.loki : undefined,
+      })),
+    ]);
+  const run = async (turn: Promise<{ said: Said[]; link: Link | null } | null> | null) => {
+    if (!turn) return;
     setSending(true);
-    const email = text.match(EMAIL)?.[0] ?? "";
-    const site = siteIn(text);
-    const s = stage.current;
     try {
-      if (s.kind === "portal") {
-        await post(`${cfg.origin}/api/studio-portal/${s.access.id}`, { action: "message", body: text.slice(0, 2000), mutationId: crypto.randomUUID() }, s.access.key);
-        say(email && !replyTo.current ? `Added — the reply will go to ${email}.` : "Added to your request. The studio sees it in the same place.");
-      } else if (s.kind === "waitlist") {
-        await note(`Waitlist, follow-up to: “${s.first.slice(0, 300)}”\n\n${text}`, email);
-        say(email && !replyTo.current ? `Thank you — the reply will go to ${email}.` : "Added to your note.");
-      } else if (cfg.purpose === "partner") {
-        await open({ kind: "partner", website: site, changes: text.slice(0, 2000) }, email);
-        say(`Your application is saved and private — the link above opens it; keep it. Next step: the pilot course at /academy/. Submit your capstone evidence in the application and the studio reviews it. Passing the course and being approved are separate decisions, both by a person.${askReply(email)}`);
-      } else if (site) {
-        const first = s.kind === "asked" ? `${s.first}\n\n${text}` : text;
-        const topic = cfg.topic();
-        const target = partnerWanted.current ? "partner" : "studio";
-        await open({
-          kind: "website", website: site, target,
-          changes: `${topic ? `Engagement: ${topic}\n` : ""}${first}`.slice(0, 1200),
-          ...(target === "studio" ? { offerId: cfg.offerId } : { preferredPartnerId: partnerWanted.current }),
-        }, email);
-        say(`Saved — you are on the studio waitlist. The link above is your private portal: replies, status and previews appear there, so keep it. Sending this books no work and agrees no price; a person reads it.${askReply(email)}`);
-      } else if (s.kind === "fresh") {
-        stage.current = { kind: "asked", first: text };
-        say("Noted. Is this about a website that already exists? Paste its address — or say it is something new.");
-      } else {
-        const first = `${s.first}\n\n${text}`;
-        const topic = cfg.topic();
-        const data = await note(`Waitlist — from the website${topic ? `\nEngagement: ${topic}` : ""}\n\n${first}`, email);
-        stage.current = { kind: "waitlist", first };
-        if (data.claimUrl?.startsWith(`${cfg.origin}/claim-feedback?token=`)) setLinks([{ label: "Track this request", url: data.claimUrl }]);
-        say(`You are on the studio waitlist, and a person will read this — nothing automated goes out.${askReply(email || replyTo.current)}`);
-      }
-      pending.current = null;
-      if (email) replyTo.current = email;
-    } catch (err) {
-      const e = err as Error & { said?: boolean };
-      // The server's own reason when it gave one (a bad address, the course
-      // paused, too many tries); otherwise the plain truth and a way on.
-      say(e.said ? `${e.message} Your words are still here — press “Try again”, or add to them.` : "That did not reach us — your words are still here. Press “Try again” below.", true);
+      const out = await turn;
+      if (!out) return;
+      setFailed(out.said.some((m) => m.failed));
+      if (out.link) setLinks([out.link]);
+      show(out.said);
     } finally {
       setSending(false);
     }
   };
 
-  const send = (text: string) => {
+  const send = (text: string, attachments: Attachment[] = []) => {
     const t = text.trim();
-    if (!t || sending) return false;
-    const next = [...messages.filter((m) => !m.failed), { id: `${Date.now()}-u`, role: "user" as const, content: t }];
-    setMessages(next);
-    void deliver(t, next);
+    if ((!t && !attachments.length) || sending) return false;
+    const { images, refused } = picturesFrom(attachments);
+    if (!images.length && !t) {
+      show(refused.map((r) => ({ text: r })));
+      return false;
+    }
+    setMessages((prev) => [
+      ...prev.filter((m) => !m.failed),
+      { id: `${Date.now()}-u`, role: "user" as const, content: t || "See the picture.", attachments: images.map((i) => ({ kind: "image" as const, name: i.name, previewUrl: i.url })) },
+      ...refused.map((r, i) => ({ id: `${Date.now()}-r${i}`, role: "assistant" as const, content: r })),
+    ]);
+    void run(flow.current!.send(t || "See the picture.", images));
     return true;
   };
   const retry = () => {
-    const p = pending.current;
-    if (!p || sending) return;
-    setMessages(p.kept);
-    void deliver(p.text, p.kept);
+    if (sending) return;
+    setMessages((prev) => prev.filter((m) => !m.failed));
+    void run(flow.current!.retry());
   };
 
   // A brief brought over from Loki's free tool (#brief={website,changes}).
@@ -398,29 +381,23 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
     }
   } catch { /* an unreadable handoff leaves an empty box */ }
 
+  const fresh = messages.length === 1;
   return (
     <div className="chat-card intake-card">
       <ChatThread
         messages={messages}
-        live={sending ? { status: "Sending to the studio" } : null}
-        onRetry={messages[messages.length - 1]?.failed ? retry : undefined}
+        live={sending ? { status: fresh ? "Saving it for the studio" : "Loki is reading" } : null}
+        onRetry={failed ? retry : undefined}
       />
       <Composer
-        onSend={(text) => send(text)}
+        onSend={(text, attachments) => send(text, attachments)}
         defaultValue={draft}
-        placeholder={stage.current.kind === "fresh" ? (cfg.purpose === "partner" ? "Who you are, what you build, and a link to your work…" : "Your website and what should change — or what you want built…") : "Add anything, or your email…"}
+        placeholder={fresh ? (cfg.purpose === "partner" ? "Who you are, what you build, and a link to your work…" : "What should be built or changed — a screenshot helps…") : "Answer, add anything, or say “send it”…"}
         sending={sending}
-        voice={{
-          transcribe: async (audio) => {
-            const body = new FormData();
-            body.append("token", cfg.token);
-            body.append("audio", new File([audio], "voice.webm", { type: audio.type || "audio/webm" }));
-            const res = await fetch(`${cfg.origin}/api/widget/transcribe`, { method: "POST", body });
-            if (!res.ok) throw new Error(`transcription ${res.status}`);
-            const data = (await res.json()) as { text?: string };
-            return (data.text ?? "").trim();
-          },
-        }}
+        attach={ATTACH_LIMITS}
+        attachmentOnlyText="See the picture."
+        voice={voice(cfg)}
+        labels={{ attachNotes: { tooMany: (max) => `Up to ${max} pictures per message.` } }}
       />
       {links.length > 0 && (
         <div className="chat-links">
@@ -437,12 +414,15 @@ for (const el of document.querySelectorAll<HTMLElement>("[data-intake]")) {
   document.querySelectorAll<HTMLElement>("[data-engagement]").forEach((a) =>
     a.addEventListener("click", () => (topic = a.dataset.engagement ?? "")),
   );
+  const p = new URLSearchParams(location.hash.slice(1)).get("partner") ?? "";
   const cfg: IntakeCfg = {
     origin: el.dataset.origin ?? "", token: el.dataset.token ?? "",
     purpose: el.dataset.purpose === "partner" ? "partner" : "studio",
     offerId: el.dataset.offerId ?? "", prompt: el.dataset.prompt ?? "", topic: () => topic,
+    partner: UUID.test(p) ? p : "",
   };
   el.textContent = "";
+  el.dataset.chatkit = CHATKIT_VERSION;
   createRoot(el).render(<Intake cfg={cfg} />);
 }
 
@@ -455,5 +435,6 @@ for (const el of document.querySelectorAll<HTMLElement>("[data-chat]")) {
     /* no starters */
   }
   el.textContent = "";
+  el.dataset.chatkit = CHATKIT_VERSION;
   createRoot(el).render(<Chat cfg={cfg} starters={starters} title={el.dataset.title ?? ""} />);
 }

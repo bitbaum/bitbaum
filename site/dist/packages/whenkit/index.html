@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
+<title>whenkit — bitbaum</title>
+<meta name="description" content="Dates and times people can pick without typing: day chips, time chips, length chips, a readable date field over the native picker, and a low-friction booking request that resolves to {startsAt, endsAt} in the provider's zone.">
+<link rel="canonical" href="https://bitbaum.orangecat.ch/packages/whenkit/">
+<meta property="og:title" content="whenkit — bitbaum">
+<meta property="og:description" content="Dates and times people can pick without typing: day chips, time chips, length chips, a readable date field over the native picker, and a low-friction booking request that resolves to {startsAt, endsAt} in the provider's zone.">
+<meta property="og:url" content="https://bitbaum.orangecat.ch/packages/whenkit/">
+<meta property="og:site_name" content="bitbaum">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="whenkit — bitbaum">
+<meta name="twitter:description" content="Dates and times people can pick without typing: day chips, time chips, length chips, a readable date field over the native picker, and a low-friction booking request that resolves to {startsAt, endsAt} in the provider's zone.">
+<meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"bitbaum","url":"https://bitbaum.orangecat.ch","address":{"@type":"PostalAddress","addressLocality":"Zürich","addressCountry":"CH"},"sameAs":["https://github.com/bitbaum"]}</script>
+<script>
+  // Tiny FOUC guard only — theme UI lives in /theme.mjs.
+  (function () {
+    try {
+      // "auto" (local time) is the default: night while the sun is down where
+      // the reader is. The same sum as theme.mjs, kept tiny.
+      var saved = localStorage.getItem("theme") || "auto";
+      if (saved === "system") saved = "auto";
+      var d = new Date(), lat = 47, lng = -d.getTimezoneOffset() / 4, g = JSON.parse(localStorage.getItem("bb-geo") || "null");
+      if (g) { lat = g.lat; lng = g.lng; }
+      var r = Math.PI / 180, day = (d - Date.UTC(d.getUTCFullYear(), 0, 0)) / 864e5, dec = -23.44 * Math.cos(2 * Math.PI / 365 * (day + 10));
+      var h = 15 * (d.getUTCHours() + d.getUTCMinutes() / 60 + lng / 15 - 12);
+      var sun = Math.asin(Math.sin(lat * r) * Math.sin(dec * r) + Math.cos(lat * r) * Math.cos(dec * r) * Math.cos(h * r)) / r;
+      var dark = saved === "dark" || (saved === "auto" && sun < -3);
+      document.documentElement.classList.toggle("dark", dark);
+      document.documentElement.dataset.theme = saved;
+    } catch (e) {
+      document.documentElement.classList.toggle("dark", matchMedia("(prefers-color-scheme: dark)").matches);
+    }
+  })();
+</script>
+<link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <canvas class="sky" aria-hidden="true"></canvas>
+  <div class="sky-life" aria-hidden="true"><div class="fog-walker" hidden><img class="fig fig-fog-neck" src="/art/fog-neck.webp" width="247" height="280" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
+  <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false"><filter id="ripple"><feTurbulence type="fractalNoise" baseFrequency="0.006 0.09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter><filter id="ripple-soft"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.12" numOctaves="1" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top" data-header>
+    <div class="wrap">
+      <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
+      <nav class="top-links" aria-label="Site">
+        <a href="/work/">The work</a>
+        <a href="/partners/">Partners</a>
+        <a href="/hire/">Studio</a>
+      </nav>
+      <a class="btn primary top-cta" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </header>
+  <main id="main">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
+      <div class="wrap">
+        <span class="eyebrow">Package &middot; MIT</span>
+        <h1 class="display-1">whenkit</h1>
+        <p class="lede">Dates and times people can pick without typing: day chips, time chips, length chips, a readable date field over the native picker, and a low-friction booking request that resolves to {startsAt, endsAt} in the provider's zone.</p>
+        <div class="actions">
+          <a class="btn primary" href="https://www.npmjs.com/package/@bitbaum/whenkit">npm</a>
+          <a class="btn secondary" href="https://github.com/bitbaum/whenkit#readme">README &amp; API</a>
+          <a class="btn secondary" href="https://www.npmjs.com/package/@bitbaum/whenkit?activeTab=versions">Version history</a>
+          <a class="btn secondary" href="https://github.com/bitbaum/whenkit">Source</a>
+        </div>
+      </div>
+    </section>
+    <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-snail" aria-hidden="true"><img class="fig fig-snail" src="/art/snail.webp" width="390" height="228" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
+      <div class="prose">
+        
+        
+        
+      </div>
+      <div class="venture-facts">
+        <div><span class="label">Licence</span><span>MIT</span></div>
+        <div><span class="label">Registry release</span><span>v0.3.3</span></div>
+        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/whenkit@^0.3.3" aria-label="Copy install command"><code>pnpm add @bitbaum/whenkit@^0.3.3</code></button></span></div>
+        <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/whenkit">bitbaum/whenkit</a></span></div>
+        <div><span class="label">Declared consumers</span><span>11 repositories</span></div>
+
+      </div>
+    </section>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/whenkit/blob/2674d02f59eb1ac0220925d4a2fcbc41e17f5bf0/">source commit <code>2674d02f59eb</code></a> · 2026-10-28. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-why">Why</a></li><li><a href="#api-replacing-the-date-inputs-you-already-have">Replacing the date inputs you already have</a></li><li><a href="#api-rules-it-enforces">Rules it enforces</a></li><li><a href="#api-api">API</a></li><li><a href="#api-develop">Develop</a></li><li><a href="#api-npm">npm</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Dates and times people can pick <strong>without typing</strong>: day chips, time chips, length chips, a readable date field over the native picker, and a booking request that resolves to <code>{ startsAt, endsAt }</code> in the provider's time zone.</p>
+<pre><code>pnpm add @bitbaum/whenkit</code></pre>
+<pre><code>import { BookingRequestPicker } from &quot;@bitbaum/whenkit/react&quot;;
+import { resolveRequest, todayIn, type BookingChoice } from &quot;@bitbaum/whenkit&quot;;
+import &quot;@bitbaum/whenkit/styles.css&quot;;
+
+const [choice, setChoice] = useState&lt;BookingChoice | null>(null);
+
+&lt;BookingRequestPicker
+  unit=&quot;hour&quot; // &quot;day&quot; for things rented by the day — never asks for a time
+  zone=&quot;Europe/Zurich&quot; // the zone of the thing being booked
+  hours={{ start: &quot;09:00&quot;, end: &quot;18:00&quot; }}
+  openWeekdays={[1, 2, 3, 4, 5]}
+  lengths={[60]} // optional: one value = fixed duration, no length row
+  value={choice}
+  onChange={setChoice}
+/>;
+
+// On send:
+const slot = resolveRequest(choice, { zone: &quot;Europe/Zurich&quot;, today: todayIn(&quot;Europe/Zurich&quot;) });
+// → { startsAt, endsAt, flexible }  (null while incomplete)</code></pre>
+<h2 id="api-why">Why</h2>
+<p>The fleet had ~120 raw <code>&lt;input type=&quot;date|time|datetime-local&quot;></code> fields in 15 repos. Booking dialogs asked for a start AND an end date-time — two fields showing the browser's locale placeholder (<code>tt.mm.jjjj, --:--</code>) — for a studio rented by the day. Three decisions replace that:</p>
+<ol><li><strong>The listing decides the shape.</strong> Rented by the day → pick days, no times.</li></ol>
+<p>Hourly → pick a day, then a start time <strong>inside opening hours</strong>, then a length. <strong>Nobody types an end time.</strong> Flexible → at most a preferred day; the provider proposes the slot.</p>
+<ol><li><strong>Chips for the common case.</strong> The next two weeks as tappable days (&quot;Today&quot;,</li></ol>
+<p>&quot;Tomorrow&quot;, &quot;Fri 10&quot;), plus &quot;Another date…&quot; for anything further out.</p>
+<ol><li><strong>Keep the native picker, lose the ugly field.</strong> On a phone the platform</li></ol>
+<p>picker is the best there is. <code>DateField</code> keeps the real <code>&lt;input></code> (keyboard, autofill, a11y) transparent on top of a display that reads &quot;Sat, 11 Oct · 14:00&quot;, and opens the picker on tap.</p>
+<h2 id="api-replacing-the-date-inputs-you-already-have">Replacing the date inputs you already have</h2>
+<p><code>DateInput</code> is a drop-in for <code>&lt;input type=&quot;date&quot;></code> / <code>type=&quot;datetime-local&quot;</code>: same props, same <code>onChange(event)</code>, so a call site changes its tag and nothing else.</p>
+<pre><code>import { DateInput } from &quot;@bitbaum/whenkit/react&quot;;
+import &quot;@bitbaum/whenkit/styles.css&quot;;
+
+// before: &lt;input type=&quot;date&quot; value={due} onChange={(e) => setDue(e.target.value)} className=&quot;input&quot; />
+&lt;DateInput value={due} onChange={(e) => setDue(e.target.value)} className=&quot;input&quot; />;</code></pre>
+<p>Your own <code>className</code> lands on the visible box, and it wins: whenkit's look sits in <code>@layer base</code>, below Tailwind utilities and plain app CSS. The real input stays on top, invisible, so the picker, keyboard entry, autofill, <code>required</code> validation and form submission all keep working. Controlled (<code>value</code>) or uncontrolled (<code>defaultValue</code> + <code>name</code>, e.g. a server-action form). The empty state and weekday/month words follow <code>&lt;html lang></code> (or pass <code>locale</code> / <code>placeholder</code>).</p>
+<h3 id="api-migrating-a-repo">Migrating a repo</h3>
+<pre><code># one re-export per app: components/ui/date-input.tsx
+#   &quot;use client&quot;; import &quot;@bitbaum/whenkit/styles.css&quot;; export { DateInput } from &quot;@bitbaum/whenkit/react&quot;;
+node node_modules/@bitbaum/whenkit/scripts/migrate-date-inputs.mjs src --import &quot;@/components/ui/date-input&quot;          # dry run
+node node_modules/@bitbaum/whenkit/scripts/migrate-date-inputs.mjs src --import &quot;@/components/ui/date-input&quot; --write  # apply</code></pre>
+<p>It changes the tag and adds one import — nothing else — and lists what it will not guess (spread props, a dynamic <code>type={…}</code>). <code>--from Input</code> converts an app's own wrapper component instead of the raw <code>&lt;input></code>. Tested on tricky fixtures (<code>test/codemod.test.js</code>); a second run changes nothing.</p>
+<h2 id="api-rules-it-enforces">Rules it enforces</h2>
+<ul><li>Dates are <code>YYYY-MM-DD</code>, times <code>HH:MM</code> — wall-clock strings. They become an</li></ul>
+<p>instant in one place, <code>zonedToUtc</code>, in the provider's zone (DST gaps resolve forward). <code>new Date(&quot;2026-10-11&quot;)</code> drift cannot happen.</p>
+<ul><li>&quot;Today&quot; is the provider's today (<code>todayIn(zone)</code>), and start times already</li></ul>
+<p>past are not offered.</p>
+<ul><li>Every chip and day is a 44px target; the date input is 16px (iOS zooms</li></ul>
+<p>below that); the day strip scrolls inside itself, never the page.</p>
+<ul><li>Chip rows are real radio groups (arrow keys, one tab stop); day buttons</li></ul>
+<p>carry full spoken labels (&quot;Tomorrow, Friday 9 October&quot;).</p>
+<ul><li>Words come from <code>Intl</code> (&quot;Morgen&quot;, &quot;demain&quot;) — override the few sentences</li></ul>
+<p>via <code>words</code>.</p>
+<h2 id="api-api">API</h2>
+<p><strong>Core</strong> (<code>@bitbaum/whenkit</code>, no React): <code>todayIn</code>, <code>nowIn</code>, <code>addDays</code>, <code>daysBetween</code>, <code>nextDays</code>, <code>weekday</code>, <code>zonedToUtc</code>, <code>isISODate</code>, <code>isWallTime</code>, <code>dayLabel</code>, <code>formatTime</code>, <code>formatLength</code>, <code>timeSlots</code>, <code>lengthOptions</code>, <code>DEFAULT_HOURS</code>, <code>isComplete</code>, <code>resolveRequest</code>, <code>describeRequest</code>, <code>type BookingChoice</code>.</p>
+<p><strong>React</strong> (<code>@bitbaum/whenkit/react</code>): <code>BookingRequestPicker</code>, <code>DayStrip</code>, <code>ChipGroup</code>, <code>DateInput</code>, <code>DateField</code> (a <code>DateInput</code> with its own label).</p>
+<p><strong>Look</strong> (<code>@bitbaum/whenkit/styles.css</code>): <code>--wk-*</code> variables default to <code>@bitbaum/design-tokens</code>; set them once to match any other app.</p>
+<h2 id="api-develop">Develop</h2>
+<pre><code>pnpm install
+pnpm run verify   # format, lint, types, build, unit + render tests, browser checks</code></pre>
+<p><code>dist/</code> is committed so a <code>github:</code> install needs no build step; CI fails if it differs from what the source builds to. The browser check (<code>test/browser.mjs</code>) drives Chromium at 1280px and 390px, light and dark, and taps a booking end to end.</p>
+<h2 id="api-npm">npm</h2>
+<p>Not yet on npm — the first publish needs the account owner's passkey (see <code>.github/workflows/publish.yml</code>). Until then install from a tag as above.</p></div></details>
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><p>This retrospective record was added on 2026-10-27 from the immutable sources linked below. Git commit dates are source dates, not inferred npm publication dates. A GitHub release does not itself establish npm publication. Application adoption and deployment evidence are tracked separately.</p>
+<h2 id="change-0-3-2">0.3.2</h2>
+<ul><li><a href="https://github.com/bitbaum/whenkit/tree/f5e0a24208187091c2ca792008cdd7695a19910f">Tagged source <code>v0.3.2</code></a></li><li><a href="https://github.com/bitbaum/whenkit/commit/f5e0a24208187091c2ca792008cdd7695a19910f">Source commit</a>, dated 2026-10-08.</li></ul>
+<p>No authored release notes were found for this tag when this record was made. The links identify the verified source; missing feature history is not invented.</p></div></details>
+      <ol class="pkg-releases"><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/whenkit/releases/tag/v0.3.3">v0.3.3</a><time datetime="2026-10-28T06:58:22Z">2026-10-28</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-0-what-s-changed">What's Changed</h2>
+<p>* ci(publish): publish to npm on merge, first version included by @catomean in https://github.com/bitbaum/whenkit/pull/8 * chore: add the fleet package template files this repo is missing (dependabot.yml, git-release.yml, release.yml) by @catomean in https://github.com/bitbaum/whenkit/pull/9 * chore(deps): raise shared package floors to published versions by @catomean in https://github.com/bitbaum/whenkit/pull/11 * chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) by @catomean in https://github.com/bitbaum/whenkit/pull/12 * chore: add the fleet package template files this repo is missing (release-notify.yml) by @catomean in https://github.com/bitbaum/whenkit/pull/13 * chore(deps): raise shared package floors to published versions by @catomean in https://github.com/bitbaum/whenkit/pull/14 * docs: record verified package release history by @catomean in https://github.com/bitbaum/whenkit/pull/15 * docs(readme): install from npm, the way the registry says by @catomean in https://github.com/bitbaum/whenkit/pull/16 * ci(publish): the fleet's one publish.yml, with a no-publish check of the npm link by @catomean in https://github.com/bitbaum/whenkit/pull/17 * docs(agents): the org rules block, generated from bitbaum/fleet by @catomean in https://github.com/bitbaum/whenkit/pull/18 * chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it by @catomean in https://github.com/bitbaum/whenkit/pull/19 * chore(deps-dev): bump the dev group with 7 updates by @dependabot[bot] in https://github.com/bitbaum/whenkit/pull/20 * fix(release): install Chromium before browser verification by @catomean in https://github.com/bitbaum/whenkit/pull/21</p>
+<h2 id="release-0-new-contributors">New Contributors</h2>
+<p>* @dependabot[bot] made their first contribution in https://github.com/bitbaum/whenkit/pull/20</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/whenkit/compare/v0.3.2...v0.3.3</p></div></details></li></ol>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/whenkit/commit/2674d02f59eb1ac0220925d4a2fcbc41e17f5bf0">release v0.3.3</a> <time datetime="2026-10-28T06:58:20Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/whenkit/commit/1c8cebad06bb41af8cac13150cd6db223907f671">fix(release): install Chromium before browser verification (#21)</a> <time datetime="2026-10-28T06:56:03Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/whenkit/commit/d9cf48db671634b350ac0d6f02c78e2302675b58">chore(deps-dev): bump the dev group with 7 updates (#20)</a> <time datetime="2026-10-28T03:18:02Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/whenkit/commit/5d54a255fefc7a5adcea69bf79560cb51174bff1">chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#19)</a> <time datetime="2026-10-28T02:30:03Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/whenkit/commit/93d00d526ff201d4d87d7012a875ccb37eada816">docs(agents): the org rules block, generated from bitbaum/fleet (#18)</a> <time datetime="2026-10-28T02:11:22Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/whenkit/commit/2cdc2c3c333d46a8df0962a45d9c4cccaf759e0a">ci(publish): the fleet's one publish.yml, with a no-publish check of the npm trusted-publisher link (#17)</a> <time datetime="2026-10-28T01:44:33Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/whenkit/commit/43127a8dd97f82a910341fa0312adfb038d24eaf">docs(readme): install from npm, the way the registry says (#16)</a> <time datetime="2026-10-28T01:41:02Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/whenkit/commit/38567ad912f37352c0e74319a6c332289eb9e128">docs: record verified release history and its evidence limits (#15)</a> <time datetime="2026-10-27T23:21:30Z">2026-10-27</time></li></ol></details>
+      <a class="textlink" href="https://github.com/bitbaum/whenkit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/whenkit/tags">All tags</a>
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      <div class="chips"><a href="/datacat/">DataCat</a><a href="/diplodoctor/">Diplodoctor</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/revamp-info/">Hirnli</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/substrata/">Substrata</a><a href="/surf-your-life/">Surf Your Life</a><span>1 other repository</span></div>
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/whenkit/blob/2674d02f59eb1ac0220925d4a2fcbc41e17f5bf0/">source commit <code>2674d02f59eb</code></a> · 2026-10-28. Source documentation can include work beyond the registry release.</p>
+      <a class="textlink" href="https://github.com/bitbaum/whenkit/actions">Package verification runs</a>
+    </section>
+    <div class="wrap"><div class="pager"><a href="/packages/design-tokens/">&larr; design-tokens</a><a href="/packages/">All packages</a><a href="/packages/listkit/">listkit &rarr;</a></div></div>
+  </main>
+  <script type="module">
+    for (const btn of document.querySelectorAll(".js-copy")) {
+      btn.addEventListener("click", async () => {
+        const text = btn.getAttribute("data-copy") || "";
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
+      });
+    }
+  </script>
+  <footer>
+    <div class="wrap">
+      <div class="foot-cols">
+        <div class="foot-brand">
+          <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
+          <p>AI-native products on infrastructure that is open by construction. Built in Zürich.</p>
+          <div class="theme" role="group" aria-label="Colour theme">
+        <button type="button" data-set-theme="light" title="Light" aria-label="Light">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
+        </button>
+        <button type="button" data-set-theme="auto" title="Local time — day or night where you are" aria-label="Local time: day or night where you are">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 3.4a8.6 8.6 0 0 1 0 17.2z" fill="currentColor"/><path d="M12 7.2V12l3 2"/></svg>
+        </button>
+        <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
+        </button>
+      </div>
+          <button type="button" class="weather-switch" data-weather-cycle aria-label="Change the weather" title="Change the weather">
+        <svg class="w-clear" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7"/></svg>
+        <svg class="w-clouds" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 18.5a4 4 0 0 1-.4-8A5.5 5.5 0 0 1 16.6 9a3.9 3.9 0 0 1 .9 7.7z"/></svg>
+        <svg class="w-wind" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h11.5a2.5 2.5 0 1 0-2.5-2.5M3 14h15.5a2.5 2.5 0 1 1-2.5 2.5M3 19h7"/></svg>
+        <svg class="w-mist" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5h13M6 12h15M3 15.5h12M7 19h10"/></svg>
+        <svg class="w-rain" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14.5a4.5 4.5 0 1 1 1.3-8.8A5.5 5.5 0 0 1 18.8 8a3.3 3.3 0 0 1-.8 6.5z"/><path d="M8.5 17.5l-1 2.5M12.5 17.5l-1 2.5M16.5 17.5l-1 2.5"/></svg>
+        <svg class="w-snow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 6.8l2.5-2.3M9.5 19.5 12 17.2l2.5 2.3"/></svg>
+      </button>
+        </div>
+        <nav aria-label="Explore">
+          <h2 class="label">Explore</h2>
+          <a href="/work/">The work</a>
+          <a href="/map/">The map</a>
+          <a href="/partners/">Partners</a>
+          <a href="/studio/">About bitbaum</a>
+          <a href="/roadmap/">Roadmap</a>
+          <a href="/changelog/">Changelog</a>
+          <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
+        </nav>
+        <nav aria-label="Build with us">
+          <h2 class="label">Build with us</h2>
+          <a href="/partners/#join">Become a partner</a>
+          <a href="/academy/">Systems design pilot</a>
+          <a href="/portal/">Open your portal</a>
+          <a href="/packages/" aria-current="page">Packages (for developers)</a>
+          <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
+          <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
+        </nav>
+        <nav aria-label="The studio">
+          <h2 class="label">The studio</h2>
+          <a href="/hire/">Engagements and rates</a>
+          <a href="/hire/#waitlist">Join the waitlist</a>
+          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki)</a>
+        </nav>
+      </div>
+      <p class="foot-note">bitbaum is built in Zürich, in the open.</p>
+    </div>
+  </footer>
+  <div class="site-menu" id="site-menu" hidden>
+    <div class="wrap">
+      <div class="menu-actions">
+        <a class="btn primary" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a class="btn secondary" href="/#ask">Ask anything <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
+      <nav aria-label="Explore">
+        <h2 class="label">Explore</h2>
+        <a href="/work/">The work</a>
+          <a href="/map/">The map</a>
+          <a href="/partners/">Partners</a>
+          <a href="/studio/">About bitbaum</a>
+          <a href="/roadmap/">Roadmap</a>
+          <a href="/changelog/">Changelog</a>
+          <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
+      </nav>
+      <nav aria-label="Build with us">
+        <h2 class="label">Build with us</h2>
+        <a href="/partners/#join">Become a partner</a>
+          <a href="/academy/">Systems design pilot</a>
+          <a href="/portal/">Open your portal</a>
+          <a href="/packages/" aria-current="page">Packages (for developers)</a>
+          <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
+          <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
+      </nav>
+      <nav aria-label="The studio">
+        <h2 class="label">The studio</h2>
+        <a href="/hire/">Engagements and rates</a>
+          <a href="/hire/#waitlist">Join the waitlist</a>
+          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki)</a>
+      </nav>
+      <div class="menu-theme"><span class="label">Theme and weather</span><div class="theme" role="group" aria-label="Colour theme">
+        <button type="button" data-set-theme="light" title="Light" aria-label="Light">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
+        </button>
+        <button type="button" data-set-theme="auto" title="Local time — day or night where you are" aria-label="Local time: day or night where you are">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 3.4a8.6 8.6 0 0 1 0 17.2z" fill="currentColor"/><path d="M12 7.2V12l3 2"/></svg>
+        </button>
+        <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
+        </button>
+      </div><button type="button" class="weather-switch" data-weather-cycle aria-label="Change the weather" title="Change the weather">
+        <svg class="w-clear" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7"/></svg>
+        <svg class="w-clouds" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 18.5a4 4 0 0 1-.4-8A5.5 5.5 0 0 1 16.6 9a3.9 3.9 0 0 1 .9 7.7z"/></svg>
+        <svg class="w-wind" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h11.5a2.5 2.5 0 1 0-2.5-2.5M3 14h15.5a2.5 2.5 0 1 1-2.5 2.5M3 19h7"/></svg>
+        <svg class="w-mist" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5h13M6 12h15M3 15.5h12M7 19h10"/></svg>
+        <svg class="w-rain" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14.5a4.5 4.5 0 1 1 1.3-8.8A5.5 5.5 0 0 1 18.8 8a3.3 3.3 0 0 1-.8 6.5z"/><path d="M8.5 17.5l-1 2.5M12.5 17.5l-1 2.5M16.5 17.5l-1 2.5"/></svg>
+        <svg class="w-snow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 6.8l2.5-2.3M9.5 19.5 12 17.2l2.5 2.3"/></svg>
+      </button></div>
+    </div>
+  </div>
+  <script type="module" src="/theme.mjs"></script>
+  <script type="module" src="/nav.mjs"></script>
+  <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" data-label="OrangeCat &rarr;"><span class="fig puppet fig-cat" data-rig='[{"poly":[[0,50],[36,50],[34,100],[0,100]],"pivot":[33,86],"a":[-8,7],"dur":2.8,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/cat.webp" width="228" height="266" alt="" loading="lazy" decoding="async" draggable="false"></span></a>
+  <script type="module" src="/sky.mjs"></script>
+  <script type="module" src="/lodge.mjs"></script>
+  <script type="module" src="/warp.mjs"></script>
+
+  <script src="https://loki.orangecat.ch/widget.js" data-fc-project="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-fc-modes="report" async></script>
+</body>
+</html>

@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>Petvity — Your pet has a signal. Now you can read it.</title>
 <meta name="description" content="One daily check-in builds a living record of a pet — what changed, when, and what a vet or sitter needs to know. A humane adoption network sits on the same records.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/petvity/">
@@ -82,17 +93,14 @@
     <section class="wrap venture-body">
       <div class="prose">
         <p>One daily check-in builds a living record of a pet — what changed, when, and what a vet or sitter needs to know. A humane adoption network sits on the same records.</p>
-        <p class="caption"><strong>Products:</strong> Public beta services. Check each product page for its current scope and access.</p>
-        <p class="caption">The image is a screenshot of petvity.orangecat.ch, taken by a machine when this site was built. If the product changed, so did the picture.</p>
       </div>
       <div class="venture-facts">
-        <div><span class="label">Stage</span><span>Product</span></div>
-        <div><span class="label">Status</span><span>Beta — running, not released</span></div>
+        <div><span class="label">Stage</span><span>Beta — running, not released</span></div>
         <div><span class="label">Field</span><span><a href="/work/#work?field=health">Health</a></span></div>
         <div><span class="label">Since</span><span>Apr 2026</span></div>
         <div><span class="label">Address</span><span><a href="https://petvity.orangecat.ch">petvity.orangecat.ch</a></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/petvity">bitbaum/petvity</a></span></div>
-        <div class="uses"><span class="label">Built from</span><div class="chips"><a href="/packages/bip-kit/">bip-kit</a><a href="/packages/limitkit/">limitkit</a><a href="/packages/mail-kit/">mail-kit</a></div></div>
+        <div class="uses"><span class="label">Built from</span><div class="chips"><a href="/packages/accountkit/">accountkit</a><a href="/packages/bip-kit/">bip-kit</a><a href="/packages/limitkit/">limitkit</a><a href="/packages/mail-kit/">mail-kit</a><a href="/packages/whenkit/">whenkit</a></div></div>
       </div>
     </section>
     <section class="section venture-depth">
@@ -100,7 +108,7 @@
         <div class="depth-blocks">
           <div class="depth-block"><span class="label">The problem</span><p>Pet owners need a single place to monitor their pet's daily wellness and manage the full care journey</p></div>
           <div class="depth-block"><span class="label">What it does</span><p>Petvity provides a platform for pet owners to manage multi-species pet profiles, track physical and emotional health KPIs, and connect with vets and sitters</p></div>
-          <div class="depth-block"><span class="label">Where it is heading</span><p>Long-term vision: digital twins (IoT sensors, cameras, emotional state) as part of the same ecosystem as VitaReBa and Surf Your Life.</p></div>
+          <div class="depth-block"><span class="label">Where it is heading</span><p>Long-term vision: digital twins (IoT sensors, cameras, emotional state) as part of the same ecosystem as Vita and Surf Your Life.</p></div>
         </div>
 
         <div class="depth-roadmap">
@@ -121,7 +129,7 @@
           <h2 class="display-2">Ask about Petvity</h2>
           <p class="lede">Ask anything about Petvity — the Cat and Loki answer right away from the project catalogue. Want a person instead? Send them the conversation.</p>
         </div>
-        <div class="chat-mount" data-chat data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is Petvity?&quot;,&quot;Is Petvity ready to use?&quot;,&quot;How could Petvity work for my organisation?&quot;]">
+        <div class="chat-mount" data-chat data-fc-avoid data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is Petvity?&quot;,&quot;Is Petvity ready to use?&quot;,&quot;How could Petvity work for my organisation?&quot;]">
           <p class="caption">The chat needs JavaScript. <a class="textlink" href="/work/">Browse every project</a> or <a class="textlink" href="/hire/#waitlist">join the waitlist</a>.</p>
         </div>
       </div>

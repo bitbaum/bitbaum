@@ -29,5 +29,59 @@ test("the map places every shown venture in exactly one loop", async () => {
 
   assert.throws(() => loopMap(all, cfg([["a"]])), /no loop for b/);
   assert.throws(() => loopMap(all, cfg([["a", "b"], ["b"]])), /"b" is in both/);
-  assert.throws(() => loopMap(all, cfg([["a", "b", "ghost"]])), /does not show/);
+  // A venture the site does not show (client work Loki withholds) is left
+  // out of its loop instead of failing the build and freezing the old pages.
+  assert.deepEqual(
+    loopMap(all, cfg([["a", "b", "ghost"]]))[0].loops[0].ventures.map((v) => v.slug),
+    ["a", "b"],
+  );
+});
+
+test("a venture typed 'not built' whose address answers is never shown as not built", async () => {
+  const { shownStage, isRunning, probeAll } = await import("./live.mjs");
+  const map = {
+    projects: [
+      { slug: "up", urls: { live: "https://up.example" } },
+      { slug: "down", urls: { live: "https://down.example" } },
+      { slug: "beta", urls: { live: "https://beta.example" } },
+    ],
+  };
+  const cfg = {
+    stages: { product: {}, development: {}, next: {} },
+    overrides: {
+      up: { what: "Up", stage: "next" },
+      down: { what: "Down", stage: "next" },
+      beta: { what: "Beta", stage: "product" },
+    },
+  };
+  const fetcher = async (url) => ({ status: url.includes("down") ? 503 : 200 });
+  const live = await probeAll(map.projects.map((p) => p.urls.live), fetcher);
+  assert.deepEqual(live["https://up.example"], { status: 200, running: true });
+  assert.deepEqual(live["https://down.example"], { status: 503, running: false });
+
+  const shown = Object.fromEntries(ventures(map, cfg, { repos: [] }, { packages: [] }, live).map((v) => [v.slug, v]));
+  assert.equal(shown.up.stage, "development", "an answering address lifts 'not built' to in development");
+  assert.equal(shown.up.stageTyped, "next", "the typed stage is kept, so the build can name the stale line");
+  assert.equal(shown.down.stage, "next", "a site that does not answer keeps its typed stage");
+  assert.equal(shown.beta.stage, "product", "a stage is only raised, never lowered");
+
+  const unprobed = ventures(map, cfg, { repos: [] }, { packages: [] });
+  assert.equal(unprobed.find((v) => v.slug === "up").stage, "next", "no probe data, no change");
+
+  assert.equal(shownStage("product", false), "product");
+  assert.ok(isRunning(200) && isRunning(307) && isRunning(401) && isRunning(403));
+  assert.ok(!isRunning(0) && !isRunning(404) && !isRunning(502) && !isRunning(503));
+});
+
+test("a public tile says its stage, never the register's word", async () => {
+  const { pill } = await import("./card.mjs");
+  // Diplodoctor on 2026-10-18: a beta on the site, "prospect" in the register.
+  assert.equal(pill({ stage: "product", status: "prospect" }), '<span class="pill beta">beta</span>');
+  assert.equal(pill({ stage: "product", status: "validating" }), '<span class="pill beta">beta</span>');
+  assert.equal(pill({ stage: "pilot", status: "live" }), '<span class="pill beta">pilot</span>');
+  assert.equal(pill({ stage: "next", status: "prospect" }), '<span class="pill">not built</span>');
+  assert.equal(pill({ stage: "concept", status: "demo" }), '<span class="pill">concept</span>');
+  // The private page has no public stage: there the status still speaks.
+  assert.equal(pill({ status: "live" }), '<span class="pill beta">beta</span>');
+  assert.equal(pill({ stage: "preview", status: "prospect" }), '<span class="pill">preview</span>');
 });

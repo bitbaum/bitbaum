@@ -1,9 +1,9 @@
-# vitareba — Clinical Platform for Vita GmbH
+# Vita — Clinical Platform for Vita GmbH
 
 **Status:** Active Development (Live, one real clinic)
 **Tagline:** Patient portal + clinician console for a metabolic-psychiatry / longevity practice
-**URL:** [vitareba.orangecat.ch](https://vitareba.orangecat.ch) (vitareba.ch not registered/live as of 2026-08)
-**Codebase:** `/home/g/dev/vitareba/`
+**URL:** [vita.orangecat.ch](https://vita.orangecat.ch) — `vitareba.orangecat.ch` 308-redirects here
+**Codebase:** `/home/g/dev/vitareba/` (repository bitbaum/vitareba; the name is an infrastructure identifier)
 
 ---
 

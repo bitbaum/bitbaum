@@ -1,1 +1,4 @@
 node_modules
+
+# A deployment receipt belongs to the published build, never a source snapshot PR.
+site/dist/.well-known/fleet-release.json

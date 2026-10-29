@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>The work — bitbaum</title>
 <meta name="description" content="Browse Bitbaum projects by readiness stage and field, from running beta products to concepts and projects not yet built.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/work/">
@@ -68,7 +79,7 @@
     <section data-lodge class="stage stage-floored hero compact work-hero"><div class="wrap">
       <span class="eyebrow">The work</span>
       <h1 class="display-1">Everything built here, at its real stage.</h1>
-      <p class="lede">Products and pilots in use, concepts built to show what is possible, and ideas named but not built — each labelled honestly. Filters live in the address bar, so a filtered view is a link you can send.</p>
+      <p class="lede">Products and pilots in use, concepts built to show what is possible, and ideas named but not built — each labelled honestly.</p>
     </div></section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="egg" hidden aria-hidden="true"><img class="fig fig-egg egg-whole" src="/art/egg.webp" width="171" height="236" alt="" loading="lazy" decoding="async" draggable="false"><img class="fig fig-egg-bottom egg-half" src="/art/egg-bottom.webp" width="190" height="176" alt="" loading="lazy" decoding="async" draggable="false"><img class="fig fig-egg-top egg-cap" src="/art/egg-top.webp" width="176" height="94" alt="" loading="lazy" decoding="async" draggable="false"></div>
   <div class="fox" hidden aria-hidden="true"><span class="fig puppet fig-fox fox-run" data-rig='[{"poly":[[60,54],[100,54],[100,100],[60,100]],"pivot":[72,55],"a":[16,-14],"dur":0.46,"delay":0,"mode":"swing"},{"poly":[[14,52],[50,52],[50,86],[14,86]],"pivot":[44,50],"a":[-14,12],"dur":0.46,"delay":0,"mode":"swing"},{"poly":[[0,4],[40,4],[40,40],[0,40]],"pivot":[40,28],"a":[-6,5],"dur":0.46,"delay":-0.1,"mode":"swing"}]'><img class="pp-body" src="/art/fox.webp" width="525" height="199" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="fig puppet fig-kit fox-kit" data-rig='[{"poly":[[44,0],[100,0],[100,46],[58,50],[44,42]],"pivot":[66,46],"a":[-7,6],"dur":5,"delay":0,"mode":"gesture"}]'><img class="pp-body" src="/art/kit.webp" width="184" height="226" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
@@ -80,19 +91,18 @@
             <div class="filters" id="work-filters" hidden>
               <label class="filter-search">Search<input id="work-search" type="search" placeholder="Product, purpose or address" autocomplete="off"></label>
               <div class="filter-group"><span class="label">Stage</span><div class="chips vertical">
-                <button type="button" class="chip" data-facet="stage" data-value="product" aria-pressed="false" title="Public beta services. Check each product page for its current scope and access.">Products<span class="chip-n">11</span></button>
-                <button type="button" class="chip" data-facet="stage" data-value="pilot" aria-pressed="false" title="Built for a real organisation and in real use. No commercial terms — a working answer, offered first.">Pilots<span class="chip-n">5</span></button>
+                <button type="button" class="chip" data-facet="stage" data-value="product" aria-pressed="false" title="Public beta services. Check each product page for its current scope and access.">Products<span class="chip-n">13</span></button>
+                <button type="button" class="chip" data-facet="stage" data-value="pilot" aria-pressed="false" title="Built for a real organisation and in real use. No commercial terms — a working answer, offered first.">Pilots<span class="chip-n">1</span></button>
                 <button type="button" class="chip" data-facet="stage" data-value="development" aria-pressed="false" title="A public surface exists, but the system is still being built and is not ready to rely on.">In development<span class="chip-n">1</span></button>
-                <button type="button" class="chip" data-facet="stage" data-value="concept" aria-pressed="false" title="Built to apply with, before anyone asked. Working demos on public or mock data.">Concepts<span class="chip-n">4</span></button>
-                <button type="button" class="chip" data-facet="stage" data-value="next" aria-pressed="false" title="Named, not built. Listed so the list is honest.">Not built<span class="chip-n">2</span></button>
+                <button type="button" class="chip" data-facet="stage" data-value="concept" aria-pressed="false" title="Built to apply with, before anyone asked. Working demos on public or mock data.">Concepts<span class="chip-n">2</span></button>
               </div></div>
               <div class="filter-group"><span class="label">Field</span><div class="chips vertical">
                 <button type="button" class="chip" data-facet="field" data-value="infrastructure" aria-pressed="false">Infrastructure<span class="chip-n">3</span></button>
                 <button type="button" class="chip" data-facet="field" data-value="ai-agents" aria-pressed="false">AI agents<span class="chip-n">6</span></button>
-                <button type="button" class="chip" data-facet="field" data-value="health" aria-pressed="false">Health<span class="chip-n">4</span></button>
-                <button type="button" class="chip" data-facet="field" data-value="public-sector" aria-pressed="false">Public sector<span class="chip-n">3</span></button>
-                <button type="button" class="chip" data-facet="field" data-value="circular-economy" aria-pressed="false">Circular economy<span class="chip-n">3</span></button>
-                <button type="button" class="chip" data-facet="field" data-value="local-business" aria-pressed="false">Local business<span class="chip-n">4</span></button>
+                <button type="button" class="chip" data-facet="field" data-value="health" aria-pressed="false">Health<span class="chip-n">3</span></button>
+                <button type="button" class="chip" data-facet="field" data-value="public-sector" aria-pressed="false">Public sector<span class="chip-n">1</span></button>
+                <button type="button" class="chip" data-facet="field" data-value="circular-economy" aria-pressed="false">Circular economy<span class="chip-n">1</span></button>
+                <button type="button" class="chip" data-facet="field" data-value="local-business" aria-pressed="false">Local business<span class="chip-n">2</span></button>
                 <button type="button" class="chip" data-facet="field" data-value="knowledge" aria-pressed="false">Knowledge<span class="chip-n">6</span></button>
               </div></div>
               <label class="filter-sort">Sort by<select id="work-sort"><option value="studio">Studio order</option><option value="name">Name</option><option value="newest">Newest</option></select></label>
@@ -103,21 +113,19 @@
                   <div><dt>Pilots</dt><dd>Built for a real organisation and in real use. No commercial terms — a working answer, offered first.</dd></div>
                   <div><dt>In development</dt><dd>A public surface exists, but the system is still being built and is not ready to rely on.</dd></div>
                   <div><dt>Concepts</dt><dd>Built to apply with, before anyone asked. Working demos on public or mock data.</dd></div>
-                  <div><dt>Not built</dt><dd>Named, not built. Listed so the list is honest.</dd></div>
                 </dl>
               </details>
             </div>
           </details>
         </aside>
         <div class="work-main">
-          <p class="work-count"><span id="work-count">23 of 23</span> projects</p>
+          <p class="work-count"><span id="work-count">17 of 17</span> projects</p>
           <div class="grid work-grid" id="work-grid">
       <a class="card" href="/orangecat/" data-stage="product" data-tags="infrastructure ai-agents" data-name="OrangeCat" data-host="orangecat.ch" data-since="2025-04-02T14:37:17Z">
         <div class="shot"><img src="/shots/orangecat.jpg" alt="OrangeCat — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
           <div class="card-top"><span class="card-name">OrangeCat</span><span class="pill beta">beta</span></div>
           <span class="card-what">Your AI economic agent</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/loki/" data-stage="product" data-tags="infrastructure ai-agents" data-name="Loki" data-host="loki.orangecat.ch" data-since="2026-04-04T20:47:22Z">
@@ -125,7 +133,6 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">Loki</span><span class="pill beta">beta</span></div>
           <span class="card-what">Run your fleet. From anywhere.</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/heidi/" data-stage="product" data-tags="knowledge ai-agents" data-name="Heidi" data-host="heidi.orangecat.ch" data-since="2026-09-10T18:45:39Z">
@@ -133,7 +140,6 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">Heidi</span><span class="pill beta">beta</span></div>
           <span class="card-what">Zürich German, for learners</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/solon/" data-stage="product" data-tags="infrastructure" data-name="Solon" data-host="solon.orangecat.ch" data-since="2025-08-26T09:12:28Z">
@@ -141,7 +147,6 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">Solon</span><span class="pill beta">beta</span></div>
           <span class="card-what">Governance any group can run</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/revamp-info/" data-stage="product" data-tags="ai-agents knowledge" data-name="Hirnli" data-host="hirnli.orangecat.ch" data-since="2026-02-05T14:57:32Z">
@@ -149,7 +154,6 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">Hirnli</span><span class="pill beta">beta</span></div>
           <span class="card-what">Fundraising intelligence</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/evig/" data-stage="product" data-tags="circular-economy" data-name="evig" data-host="evig.orangecat.ch" data-since="2025-04-08T09:38:59Z">
@@ -157,7 +161,6 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">evig</span><span class="pill beta">beta</span></div>
           <span class="card-what">Access to intelligence, affordable for everyone</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/datacat/" data-stage="product" data-tags="ai-agents knowledge" data-name="DataCat" data-host="datacat.orangecat.ch" data-since="2025-07-07T10:25:10Z">
@@ -165,7 +168,6 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">DataCat</span><span class="pill beta">beta</span></div>
           <span class="card-what">Records in, records out</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/petvity/" data-stage="product" data-tags="health" data-name="Petvity" data-host="petvity.orangecat.ch" data-since="2026-04-20T16:44:06Z">
@@ -173,7 +175,6 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">Petvity</span><span class="pill beta">beta</span></div>
           <span class="card-what">Your pet has a signal. Now you can read it.</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/substrata/" data-stage="product" data-tags="knowledge" data-name="Substrata" data-host="substrata.orangecat.ch" data-since="2026-08-27T12:41:04Z">
@@ -181,7 +182,6 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">Substrata</span><span class="pill beta">beta</span></div>
           <span class="card-what">What moved among the constraints on technological progress</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/surf-your-life/" data-stage="product" data-tags="health" data-name="Surf Your Life" data-host="surf-your-life.orangecat.ch" data-since="2026-04-10T15:11:11Z">
@@ -189,55 +189,35 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">Surf Your Life</span><span class="pill beta">beta</span></div>
           <span class="card-what">Burnout and long COVID, treated at the biology</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/botsmann/" data-stage="product" data-tags="ai-agents knowledge" data-name="Botsmann" data-host="botsmann.orangecat.ch" data-since="2024-10-14T10:37:44Z">
         <div class="shot"><img src="/shots/botsmann.jpg" alt="Botsmann — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
-          <div class="card-top"><span class="card-name">Botsmann</span><span class="pill ">validating</span></div>
+          <div class="card-top"><span class="card-name">Botsmann</span><span class="pill beta">beta</span></div>
           <span class="card-what">Private AI professionals</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
-      <a class="card" href="/aoz-housing/" data-stage="pilot" data-tags="public-sector" data-name="AOZ Begleitung" data-host="aoz.orangecat.ch" data-since="2026-01-22T22:25:09Z">
-        <div class="shot"><img src="/shots/aoz-housing.jpg" alt="AOZ Begleitung — screenshot" loading="lazy" width="1280" height="800"></div>
+      <a class="card" href="/diplodoctor/" data-stage="product" data-tags="health" data-name="Diplodoctor" data-host="diplodoctor.orangecat.ch" data-since="2026-09-10T18:07:40Z">
+        <div class="shot"><img src="/shots/diplodoctor.jpg" alt="Diplodoctor — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
-          <div class="card-top"><span class="card-name">AOZ Begleitung</span><span class="pill beta">beta</span></div>
-          <span class="card-what">Beyond housing</span>
-          <span class="card-by">by bitbaum studio · for AOZ, Zürich</span>
+          <div class="card-top"><span class="card-name">Diplodoctor</span><span class="pill beta">beta</span></div>
+          <span class="card-what">Your health, in one place</span>
         </div>
       </a>
-      <a class="card" href="/kivvi/" data-stage="pilot" data-tags="circular-economy" data-name="kivvi" data-host="kivvi.orangecat.ch" data-since="2026-02-11T16:22:46Z">
-        <div class="shot"><img src="/shots/kivvi.jpg" alt="kivvi — screenshot" loading="lazy" width="1280" height="800"></div>
+      <a class="card" href="/causius/" data-stage="product" data-tags="knowledge" data-name="Causius" data-host="causius.orangecat.ch" data-since="2026-09-10T20:48:08Z">
+        <div class="shot"><img src="/shots/causius.jpg" alt="Causius — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
-          <div class="card-top"><span class="card-name">kivvi</span><span class="pill beta">beta</span></div>
-          <span class="card-what">The operating system for the circular economy</span>
-          <span class="card-by">by bitbaum studio · for Revamp-IT</span>
-        </div>
-      </a>
-      <a class="card" href="/vitareba/" data-stage="pilot" data-tags="health" data-name="Vita" data-host="vitareba.orangecat.ch" data-since="2026-04-13T09:14:43Z">
-        <div class="shot"><img src="/shots/vitareba.jpg" alt="Vita — screenshot" loading="lazy" width="1280" height="800"></div>
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">Vita</span><span class="pill beta">beta</span></div>
-          <span class="card-what">A clinic, with its patients in the loop</span>
-          <span class="card-by">by bitbaum studio · for one clinic, Zürich</span>
+          <div class="card-top"><span class="card-name">Causius</span><span class="pill beta">beta</span></div>
+          <span class="card-what">Your legal matter, worked through</span>
         </div>
       </a>
       <a class="card" href="/s-ink/" data-stage="pilot" data-tags="local-business" data-name="S.Ink" data-host="sinktattoo.com" data-since="2026-08-06T10:58:15Z">
         <div class="shot"><img src="/shots/s-ink.jpg" alt="S.Ink — screenshot" loading="lazy" width="1280" height="800"></div>
         <div class="card-body">
-          <div class="card-top"><span class="card-name">S.Ink</span><span class="pill beta">beta</span></div>
+          <div class="card-top"><span class="card-name">S.Ink</span><span class="pill beta">pilot</span></div>
           <span class="card-what">A tattoo studio, online</span>
-          <span class="card-by">by bitbaum studio · for S.Ink, Zürich</span>
-        </div>
-      </a>
-      <a class="card" href="/wild-spirit/" data-stage="pilot" data-tags="local-business" data-name="Annushka" data-host="annushka.orangecat.ch" data-since="">
-        <div class="shot"><img src="/shots/wild-spirit.jpg" alt="Annushka — screenshot" loading="lazy" width="1280" height="800"></div>
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">Annushka</span><span class="pill beta">beta</span></div>
-          <span class="card-what">A painter, shown</span>
-          <span class="card-by">by bitbaum studio · for Annushka, Zürich</span>
+          <span class="card-by">for S.Ink, Zürich</span>
         </div>
       </a>
       <a class="card" href="/skif/" data-stage="development" data-tags="" data-name="Skif" data-host="skif.orangecat.ch" data-since="2026-09-24T20:20:04Z">
@@ -245,7 +225,6 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">Skif</span><span class="pill">in development</span></div>
           <span class="card-what">Safety for a whole life, Zürich first</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/sbb-fundbuero/" data-stage="concept" data-tags="public-sector" data-name="Nordbahn Fundbüro" data-host="sbbfundbuero.orangecat.ch" data-since="2026-01-23T15:13:32Z">
@@ -253,23 +232,6 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">Nordbahn Fundbüro</span><span class="pill">concept</span></div>
           <span class="card-what">Lost on the train, while you are still on it</span>
-          <span class="card-by">by bitbaum studio</span>
-        </div>
-      </a>
-      <a class="card" href="/reparaturbonus-zh/" data-stage="concept" data-tags="public-sector circular-economy" data-name="Reparaturbonus" data-host="reparaturbonus.orangecat.ch" data-since="2025-06-18T12:02:31Z">
-        <div class="shot"><img src="/shots/reparaturbonus-zh.jpg" alt="Reparaturbonus — screenshot" loading="lazy" width="1280" height="800"></div>
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">Reparaturbonus</span><span class="pill">concept</span></div>
-          <span class="card-what">Repair instead of replace — the City of Zürich's bonus, as it should work</span>
-          <span class="card-by">by bitbaum studio</span>
-        </div>
-      </a>
-      <a class="card" href="/printcraft/" data-stage="concept" data-tags="local-business" data-name="PrintCraft" data-host="printcraft.orangecat.ch" data-since="2026-03-26T17:51:29Z">
-        <div class="shot"><img src="/shots/printcraft.jpg" alt="PrintCraft — screenshot" loading="lazy" width="1280" height="800"></div>
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">PrintCraft</span><span class="pill">concept</span></div>
-          <span class="card-what">Bring people together. In art.</span>
-          <span class="card-by">by bitbaum studio</span>
         </div>
       </a>
       <a class="card" href="/camille-boulangerie/" data-stage="concept" data-tags="local-business" data-name="Camille" data-host="camille.orangecat.ch" data-since="2026-08-27T13:10:03Z">
@@ -277,26 +239,15 @@
         <div class="card-body">
           <div class="card-top"><span class="card-name">Camille</span><span class="pill">concept</span></div>
           <span class="card-what">A bakery's site, generated</span>
-          <span class="card-by">by bitbaum studio</span>
-        </div>
-      </a>
-      <a class="card text" href="/diplodoctor/" data-stage="next" data-tags="health" data-name="Diplodoctor" data-host="diplodoctor.orangecat.ch" data-since="2026-09-10">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">Diplodoctor</span><span class="pill">not built</span></div>
-          <span class="card-what">Medicine, with a doctor in the loop</span>
-        </div>
-      </a>
-      <a class="card text" href="/causius/" data-stage="next" data-tags="knowledge" data-name="Causius" data-host="causius.orangecat.ch" data-since="2026-09-10T20:48:08Z">
-        <div class="card-body">
-          <div class="card-top"><span class="card-name">Causius</span><span class="pill">not built</span></div>
-          <span class="card-what">Law, with a lawyer in the loop</span>
         </div>
       </a>
           </div>
           <p class="empty" id="work-empty" hidden>Nothing at that intersection yet. <button type="button" class="linkish" data-clear>Clear the filter</button> to see everything.</p>
+          <p class="private-door"><a class="textlink" href="/private/">Client work not yet public — for the studio owner <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
         </div>
       </div>
     </section>
+    <nav class="record-doors wrap" aria-label="Where next"><a class="btn-frame-accent" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
       <div class="wrap art-collection" aria-hidden="true" data-art-collection><div class="art-object swaying"><img class="fig fig-rye-a" src="/art/rye-a.webp" width="256" height="328" alt="" loading="lazy" decoding="async" draggable="false"></div><div class="art-object swaying slow"><img class="fig fig-rye-b" src="/art/rye-b.webp" width="142" height="272" alt="" loading="lazy" decoding="async" draggable="false"></div><div class="art-object swaying quick"><img class="fig fig-rye-c" src="/art/rye-c.webp" width="186" height="274" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
   </main>
   <footer>

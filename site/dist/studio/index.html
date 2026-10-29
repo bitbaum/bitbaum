@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>The studio — bitbaum</title>
 <meta name="description" content="What Bitbaum builds, how its projects differ in readiness, and where the public numbers come from.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/studio/">
@@ -69,7 +80,7 @@
       <div class="wrap">
         <span class="eyebrow">The studio</span>
         <h1 class="display-1">Bit, and Baum.</h1>
-        <p class="lede">Bit for software. Baum, German for tree, for the shape: many branches from one trunk. The trunk is what lets a small group ship like a large one — and what lets the next person start in the middle rather than at the beginning.</p>
+        <p class="lede">Bit for software. Baum, German for tree, for the shape: many branches from one trunk, so a small group ships like a large one and the next person starts in the middle, not at the beginning.</p>
         <div class="actions">
           <a class="btn primary" href="/#join">Build with us <span class="arrow" aria-hidden="true">&rarr;</span></a>
           <a class="btn secondary" href="/work/">See the work</a>
@@ -78,23 +89,32 @@
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-scarab" aria-hidden="true"><span class="scarab"><img class="fig fig-scarab" src="/art/scarab.webp" width="360" height="133" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="sunball"><img class="fig fig-sunball" src="/art/sunball.webp" width="360" height="360" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
     <section class="section">
-      <div class="wrap"><div class="prose">
-        <h2>What bitbaum is</h2>
-        <p>Bitbaum is a product studio building AI-native software. OrangeCat, Loki and Solon are public beta products. Other projects are labelled on the <a href="/work/">work catalogue</a> by what can be verified: pilot, in development, concept, or not built.</p>
-        <h2>Why the stack is what it is</h2>
-        <p><a href="/orangecat/">OrangeCat</a> is the economic product, with payment links and Bitcoin settlement. <a href="/loki/">Loki</a> is the engineering control plane for dispatching work to agents, following sessions and reviewing changes. <a href="/solon/">Solon</a> is the governance product: proposals, one-click votes under rules a group chose, and a public record — in beta, with its governance agent being built alongside the first pilot groups.</p>
-        <h2>How the work gets done</h2>
-        <p>The studio publishes 13 MIT-licensed packages for specific jobs: model routing, email, content, forms, rate limits, lists, threads and more. They are not all used by every product. Each <a href="/packages/">package profile</a> links to its source, current version and apps that list it as a dependency. Agents can do implementation work in Loki; people set the goals, review changes and remain responsible for what ships.</p>
-        <h2>What is true</h2>
-        <p>The project list and package adopters come from public registers; stage descriptions and short summaries are editorial and are kept here for review. The work catalogue distinguishes projects built for real organisations from demos and things that are not built.</p>
-        <h2>Open by construction</h2>
-        <p>The shared packages are MIT-licensed. Work built for someone else stays theirs. Contributor terms live in <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md">bitbaum/.github</a>. The <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a> tracks <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">53 repositories</a>, of which <a href="https://archive.softwareheritage.org/">51 have a Software Heritage snapshot</a>; the <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">earliest recorded proof is anchored at Bitcoin block 966918</a>.</p>
-        <h2>Numbers, in the open</h2>
-        <p>Fleet's <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">2026-10-05 readings</a> report <a href="https://github.com/bitbaum">2 GitHub stars</a> and <a href="https://www.npmjs.com/org/bitbaum">17,241 package downloads over 30 days</a> (including our own CI installs). The same dated register reports <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">CHF 0 a month from studio engagements</a> so far. These are readings, not forecasts; the source and date are linked.</p>
-        <h2>Work with the studio</h2>
-        <p>Fractional CTO and contract engineering, Zürich. Rates, scope and the waitlist are on the <a href="/hire/">hire page</a>. The code is on <a href="https://github.com/bitbaum">GitHub</a>.</p>
-      </div></div>
+      <div class="wrap">
+        <span class="kicker quiet">The trunk</span>
+        <h2 class="headline-caps section-title">Earn. Build. Decide.</h2>
+        <div class="paths">
+          <a class="path" href="/orangecat/"><span class="kicker quiet">Earn</span><span class="path-title">OrangeCat</span><span class="path-body">Payment links and Bitcoin settlement: turn who you are into income.</span><span class="path-cta">Open OrangeCat <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+          <a class="path" href="/loki/"><span class="kicker quiet">Build</span><span class="path-title">Loki</span><span class="path-body">Say what you want; a fleet of AI agents builds, tests and ships it, and you review what goes live.</span><span class="path-cta">Open Loki <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+          <a class="path" href="/solon/"><span class="kicker quiet">Decide</span><span class="path-title">Solon</span><span class="path-body">Proposals, one-click votes under rules a group chose, and a public record.</span><span class="path-cta">Open Solon <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+        </div>
+        <p class="caption">Three public beta products, one loop; the shared packages behind them are on the <a class="textlink" href="/packages/">packages page</a>.</p>
+      </div>
     </section>
+    <section class="section">
+      <div class="wrap">
+        <span class="kicker quiet">The rules</span>
+        <h2 class="headline-caps section-title">What is true here.</h2>
+        <div class="depth-blocks">
+          <div class="depth-block"><span class="label">Honest stages</span><p>Every project is labelled by what can be verified — beta, pilot, in development, concept, not built — on the <a href="/work/">work catalogue</a>.</p></div>
+          <div class="depth-block"><span class="label">People stay responsible</span><p>Agents do implementation work in Loki; people set the goals, review the changes and answer for what ships.</p></div>
+          <div class="depth-block"><span class="label">Open by construction</span><p>The packages are MIT-licensed and work built for someone else stays theirs. Contributor terms live in <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md">bitbaum/.github</a>.</p></div>
+          <div class="depth-block"><span class="label">Proven origin</span><p>Every repository is stamped in the public <a href="https://github.com/bitbaum/fleet/blob/main/registers/origin.json">origin register</a>, its proof anchored in Bitcoin, and <a href="https://archive.softwareheritage.org/">Software Heritage</a> keeps archived copies.</p></div>
+          <div class="depth-block"><span class="label">Readings, not forecasts</span><p>Downloads, stars and income are recorded as dated readings in <a href="https://github.com/bitbaum/fleet/blob/main/registers/readings.json">Fleet's readings register</a>, our own CI installs included, and nothing here projects them forward.</p></div>
+          <div class="depth-block"><span class="label">Zürich, hired by the day</span><p>Fixed-price builds, and senior engineering by the day. Rates and the waitlist are on the <a href="/hire/">hire page</a>; the code is on <a href="https://github.com/bitbaum">GitHub</a>.</p></div>
+        </div>
+      </div>
+    </section>
+    <nav class="record-doors wrap" aria-label="Where next"><a class="btn-frame-accent" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn-frame" href="/work/">See the work</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
       <div class="wrap art-collection" aria-hidden="true" data-art-collection><div class="art-object"><span class="fig puppet fig-prince" data-rig='[{"poly":[[29,33],[53,31],[54,60],[28,56]],"pivot":[52,33],"a":[-4,3],"dur":1.3,"delay":-0.4,"mode":"swing"},{"poly":[[27,14],[50,13],[60,17],[58,26],[42,30],[27,34]],"pivot":[55,21],"a":[-6,5],"dur":1.6,"delay":0,"mode":"swing"},{"poly":[[0,19],[29,14],[29,35],[22,38],[0,41]],"pivot":[28,26],"a":[-12,10],"dur":1.6,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/prince.webp" width="235" height="351" alt="" loading="lazy" decoding="async" draggable="false"></span></div><div class="art-object swaying slow"><img class="fig fig-dandelion-flower" src="/art/dandelion-flower.webp" width="217" height="288" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
   </main>
   <footer>

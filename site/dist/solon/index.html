@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>Solon — Governance any group can run</title>
 <meta name="description" content="Solon runs governance for companies, towns, associations and communities — proposals, votes and the books, where every member can see them. Anyone with a seat puts a question on the record, members vote with one click under rules the group chose, and the result is published with every vote behind it. It is in beta; the governance agent that does the clerk's work is being built with the first pilot groups.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/solon/">
@@ -82,24 +93,20 @@
     <section class="wrap venture-body">
       <div class="prose">
         <p>Solon runs governance for companies, towns, associations and communities — proposals, votes and the books, where every member can see them. Anyone with a seat puts a question on the record, members vote with one click under rules the group chose, and the result is published with every vote behind it. It is in beta; the governance agent that does the clerk's work is being built with the first pilot groups.</p>
-        <p class="caption"><strong>Products:</strong> Public beta services. Check each product page for its current scope and access.</p>
-        <p class="caption">The image is a screenshot of solon.orangecat.ch, taken by a machine when this site was built. If the product changed, so did the picture.</p>
       </div>
       <div class="venture-facts">
-        <div><span class="label">Stage</span><span>Product</span></div>
-        <div><span class="label">Status</span><span>Beta — running, not released</span></div>
+        <div><span class="label">Stage</span><span>Beta — running, not released</span></div>
         <div><span class="label">Field</span><span><a href="/work/#work?field=infrastructure">Infrastructure</a></span></div>
         <div><span class="label">Since</span><span>Aug 2025</span></div>
         <div><span class="label">Address</span><span><a href="https://solon.orangecat.ch">solon.orangecat.ch</a></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/solon">bitbaum/solon</a></span></div>
-        <div class="uses"><span class="label">Built from</span><div class="chips"><a href="/packages/accountkit/">accountkit</a><a href="/packages/bip-kit/">bip-kit</a><a href="/packages/design-tokens/">design-tokens</a></div></div>
+        <div class="uses"><span class="label">Built from</span><div class="chips"><a href="/packages/accountkit/">accountkit</a><a href="/packages/ai-kit/">ai-kit</a><a href="/packages/bip-kit/">bip-kit</a><a href="/packages/chatkit/">chatkit</a><a href="/packages/design-tokens/">design-tokens</a><a href="/packages/geo-kit/">geo-kit</a><a href="/packages/mail-kit/">mail-kit</a><a href="/packages/searchkit/">searchkit</a></div></div>
       </div>
     </section>
     <section class="section venture-depth">
       <div class="wrap">
         <div class="depth-blocks">
           <div class="depth-block"><span class="label">The problem</span><p>Groups decide things all the time — boards, villages, associations, co-ops — mostly in meetings nobody minutes and spreadsheets nobody trusts. Afterwards nobody can show who decided what, under which rules, or whether it was carried out.</p></div>
-          <div class="depth-block"><span class="label">What it does</span><p>Anyone with a seat puts a question on the record in plain words; members vote with one click under rules the group chose; the result is published with every vote behind it, so everyone can hold the people carrying it out to it.</p></div>
           <div class="depth-block"><span class="label">Where it is heading</span><p>Any group, at any size, from anywhere, governing itself the way Glarus has for centuries: everyone hears the question, everyone sees the vote, everyone knows the result.</p></div>
         </div>
         <div class="depth-does">
@@ -117,11 +124,11 @@
         <div class="depth-roadmap">
           <span class="label">Being built now</span>
           <ul>
-            <li><span>Every organization on its own pages</span><span class="depth-progress" role="img" aria-label="33% done"><span style="width:33%"></span></span></li>
+            <li><span>The law as data: every law in Switzerland and Liechtenstein</span><span class="depth-progress" role="img" aria-label="42% done"><span style="width:42%"></span></span></li>
+            <li><span>Every organization on its own pages</span><span class="depth-progress" role="img" aria-label="50% done"><span style="width:50%"></span></span></li>
             <li><span>The governance agent</span><span class="depth-progress" role="img" aria-label="25% done"><span style="width:25%"></span></span></li>
             <li><span>Building in public</span><span class="depth-progress" role="img" aria-label="67% done"><span style="width:67%"></span></span></li>
             <li><span>The charter: rules as data, amended by the rules</span></li>
-            <li><span>Admission by vote</span></li>
           </ul>
         </div>
       </div>
@@ -132,7 +139,7 @@
           <h2 class="display-2">Ask about Solon</h2>
           <p class="lede">Ask anything about Solon — the Cat and Loki answer right away from the project catalogue. Want a person instead? Send them the conversation.</p>
         </div>
-        <div class="chat-mount" data-chat data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is Solon?&quot;,&quot;Is Solon ready to use?&quot;,&quot;How could Solon work for my organisation?&quot;]">
+        <div class="chat-mount" data-chat data-fc-avoid data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is Solon?&quot;,&quot;Is Solon ready to use?&quot;,&quot;How could Solon work for my organisation?&quot;]">
           <p class="caption">The chat needs JavaScript. <a class="textlink" href="/work/">Browse every project</a> or <a class="textlink" href="/hire/#waitlist">join the waitlist</a>.</p>
         </div>
       </div>

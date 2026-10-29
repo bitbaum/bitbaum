@@ -2,4 +2,7 @@ allowBuilds:
   listkit@https://codeload.github.com/bitbaum/listkit/tar.gz/69cb4f4ef12d6a2a56b56db1bb4d4ac14aced525: true
   esbuild: true
 minimumReleaseAgeExclude:
-  - bip-kit@0.5.1
+  - "@bitbaum/chatkit"
+  - bip-kit@0.5.1 || 0.6.1
+  - '@bitbaum/design-tokens@1.2.0'
+  - '@bitbaum/listkit@0.2.1 || 0.2.2'

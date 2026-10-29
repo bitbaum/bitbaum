@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>S.Ink — A tattoo studio, online</title>
 <meta name="description" content="The studio's own site: artists, work, booking. Built and hosted as a favour.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/s-ink/">
@@ -77,17 +88,14 @@
         </div>
       </div>
     </section>
-    <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-flutter guest-art-dragonfly" aria-hidden="true"><span class="fig puppet fig-dragonfly" data-rig='[{"poly":[[0,0],[46.5,0],[46.5,62],[0,62]],"pivot":[47,24],"a":[-8,8],"dur":0.12,"delay":0,"mode":"swing"},{"poly":[[53.5,0],[100,0],[100,62],[53.5,62]],"pivot":[53,24],"a":[8,-8],"dur":0.12,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/dragonfly.webp" width="404" height="255" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
+    <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-scarab" aria-hidden="true"><span class="scarab"><img class="fig fig-scarab" src="/art/scarab.webp" width="360" height="133" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="sunball"><img class="fig fig-sunball" src="/art/sunball.webp" width="360" height="360" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
     <div class="wrap"><div class="venture-shot"><img src="/shots/s-ink.jpg" alt="S.Ink — screenshot of sinktattoo.com" width="1280" height="800"></div></div>
     <section class="wrap venture-body">
       <div class="prose">
         <p>The studio's own site: artists, work, booking. Built and hosted as a favour.</p>
-        <p class="caption"><strong>Pilots:</strong> Built for a real organisation and in real use. No commercial terms — a working answer, offered first.</p>
-        <p class="caption">The image is a screenshot of sinktattoo.com, taken by a machine when this site was built. If the product changed, so did the picture.</p>
       </div>
       <div class="venture-facts">
-        <div><span class="label">Stage</span><span>Pilot, for S.Ink, Zürich</span></div>
-        <div><span class="label">Status</span><span>Beta — running, not released</span></div>
+        <div><span class="label">Stage</span><span>Pilot — running, not released, for S.Ink, Zürich</span></div>
         <div><span class="label">Field</span><span><a href="/work/#work?field=local-business">Local business</a></span></div>
         <div><span class="label">Since</span><span>Aug 2026</span></div>
         <div><span class="label">Address</span><span><a href="https://sinktattoo.com">sinktattoo.com</a></span></div>
@@ -113,12 +121,12 @@
           <h2 class="display-2">Ask about S.Ink</h2>
           <p class="lede">Ask anything about S.Ink — the Cat and Loki answer right away from the project catalogue. Want a person instead? Send them the conversation.</p>
         </div>
-        <div class="chat-mount" data-chat data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is S.Ink?&quot;,&quot;Is S.Ink ready to use?&quot;,&quot;How could S.Ink work for my organisation?&quot;]">
+        <div class="chat-mount" data-chat data-fc-avoid data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is S.Ink?&quot;,&quot;Is S.Ink ready to use?&quot;,&quot;How could S.Ink work for my organisation?&quot;]">
           <p class="caption">The chat needs JavaScript. <a class="textlink" href="/work/">Browse every project</a> or <a class="textlink" href="/hire/#waitlist">join the waitlist</a>.</p>
         </div>
       </div>
     </section>
-    <div class="wrap"><div class="pager"><a href="/vitareba/">&larr; Vita</a><a href="/work/#work?stage=pilot">All pilots</a><a href="/wild-spirit/">Annushka &rarr;</a></div></div>
+    <div class="wrap"><div class="pager"><a href="/causius/">&larr; Causius</a><a href="/work/#work?stage=pilot">All pilots</a><a href="/skif/">Skif &rarr;</a></div></div>
   </main>
   <footer>
     <div class="wrap">

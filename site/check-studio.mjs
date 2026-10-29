@@ -18,6 +18,14 @@ try {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
     await context.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
     await context.route("**/api/studio-partners", (r) => r.fulfill({ status: 200, headers, contentType: "application/json", body: JSON.stringify({ ok: true, partners: [] }) }));
+    // Loki's intake answer (POST /api/widget/chat, mode "intake"), faked: the
+    // conversation's rules are tested in Loki and in site/intake-flow.test.mjs.
+    let turn = 0;
+    await context.route("**/api/widget/chat", (route) => {
+      if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers });
+      const text = `Question ${++turn}: what has to work when it is done?`;
+      return route.fulfill({ status: 200, headers, contentType: "application/json", body: JSON.stringify({ ok: true, reply: text, messages: [{ speaker: "loki", text }], ready: false, summary: "" }) });
+    });
     const page = await context.newPage();
     const errors = []; page.on("pageerror", (e) => errors.push(e.message));
     const sent = [];
@@ -57,10 +65,32 @@ try {
     });
     await page.fill("#waitlist .ck-input", "Also the opening hours are wrong.");
     await page.press("#waitlist .ck-input", "Enter");
-    await page.getByText("Added to your request", { exact: false }).waitFor();
+    await page.getByText("Question 2: what has to work", { exact: false }).waitFor();
     assert.equal(follow.length, 1); assert.equal(follow[0].auth, `Bearer ${sent[0].accessKey}`);
     assert.equal(follow[0].body.action, "message"); assert.equal(follow[0].body.body, "Also the opening hours are wrong.");
+    // An address given later becomes the reply address (and Loki mails the link to it).
+    await page.fill("#waitlist .ck-input", "ops@example.com");
+    await page.press("#waitlist .ck-input", "Enter");
+    await page.getByText("the private link is on its way there too", { exact: false }).waitFor();
+    assert.equal(follow.length, 2); assert.equal(follow[1].body.action, "set_contact"); assert.equal(follow[1].body.contact, "ops@example.com");
     await page.unroute(`**/api/studio-portal/${id}`);
+    // The portal page offers a way back without the link: the address given
+    // asks for a fresh one, and the answer gives nothing away.
+    const recovers = [];
+    await page.route("**/api/studio-recover", (route) => {
+      if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers });
+      recovers.push(JSON.parse(route.request().postData()));
+      return route.fulfill({ status: 200, headers, contentType: "application/json", body: JSON.stringify({ ok: true, sent: true, message: "If that address belongs to a request, a fresh link is on its way to it." }) });
+    });
+    await page.goto(`${base}/portal/`, { waitUntil: "load" });
+    await page.evaluate(() => { try { sessionStorage.clear(); } catch {} });
+    await page.goto(`${base}/portal/`, { waitUntil: "load" });
+    await page.waitForSelector("#portal-recover-mail");
+    await page.locator("#portal-recover-mail [name=email]").fill("ops@example.com");
+    await page.getByRole("button", { name: "Send me a new link", exact: true }).click();
+    await page.getByText("a fresh link is on its way", { exact: false }).waitFor();
+    assert.equal(recovers.length, 1); assert.equal(recovers[0].email, "ops@example.com"); assert.equal(recovers[0].company, "");
+    await page.unroute("**/api/studio-recover");
     const actions = [];
     let request = structuredClone(fixture);
     let assignments = [];
@@ -91,18 +121,29 @@ try {
     assert.equal(actions[1].version, 2); assert.equal(actions[1].body, "Improve the confirmation after a failed booking.");
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
     assert.deepEqual(errors, []);
-    // A declined application can resubmit current evidence and propose a profile.
-    request = { ...structuredClone(fixture), kind: "partner", target: "application", website: "", offer: null, delivery: null, status: { id: "declined", title: "Application declined", next: "Revise evidence" }, partner: { assessment: null, coursePassed: false, approved: false, profile: null, profilePublished: false } };
+    // A declined application may still take the optional course: it is folded
+    // away, and there is no profile to propose before approval.
+    request = { ...structuredClone(fixture), kind: "partner", target: "application", website: "", offer: null, delivery: null, status: { id: "declined", title: "Application declined", next: "Reply with more of your work" }, partner: { assessment: null, coursePassed: false, approved: false, profile: null, profilePublished: false } };
     await page.reload({ waitUntil: "load" });
+    await page.getByText("The systems design course (optional)", { exact: true }).waitFor();
+    assert.equal(await page.locator("#portal-submit_assessment").isVisible(), false);
+    assert.equal(await page.locator("#portal-propose_profile").count(), 0);
+    await page.getByText("The systems design course (optional)", { exact: true }).click();
     await page.waitForSelector("#portal-submit_assessment");
     for (const module of course.modules) await page.locator(`#portal-submit_assessment [name=${module.id}]`).fill("A specific user journey with meaningful verification and recoverable boundaries.");
     await page.locator("#portal-submit_assessment [name=projectUrl]").fill("https://bitbaum.orangecat.ch");
     await page.locator("#portal-submit_assessment [name=sourceUrl]").fill("https://github.com/bitbaum/bitbaum");
-    await page.getByRole("button", { name: "Submit course evidence", exact: true }).click();
+    await page.getByRole("button", { name: "Submit your capstone", exact: true }).click();
     await page.waitForFunction(() => document.querySelector("#portal-submit_assessment [name=projectUrl]")?.value === "");
     const assessment = actions.find((a) => a.action === "submit_assessment").assessment;
     assert.equal(assessment.version, course.version);
     assert.deepEqual(Object.keys(assessment.answers), course.modules.map((m) => m.id));
+    // Approved on their work, without the course: now the profile can be proposed.
+    request.partner.approved = true; request.status = { id: "approved", title: "Partner approved", next: "Propose your profile" };
+    await page.reload({ waitUntil: "load" });
+    await page.waitForSelector("#portal-propose_profile");
+    // Approved: the profile can be kept with an OrangeCat account (optional).
+    assert.ok(await page.getByRole("button", { name: "Connect your OrangeCat account", exact: true }).isVisible());
     assert.equal(await page.locator("#portal-propose_profile input[type=checkbox]").count(), 1);
     await page.locator("#portal-propose_profile [name=name]").fill("A qualified builder");
     await page.locator("#portal-propose_profile [name=headline]").fill("Booking systems with recoverable journeys");
@@ -115,7 +156,6 @@ try {
     await page.getByRole("button", { name: "Propose your public profile", exact: true }).click();
     await page.waitForFunction(() => document.querySelector("#portal-propose_profile [name=name]")?.value === "");
     assert.equal(actions.find((a) => a.action === "propose_profile").consent, true);
-    request.partner.approved = true; request.partner.coursePassed = true; request.status.id = "approved";
     const assignedId = "9a4dbe4e-cba2-4ab2-8ad3-c855ad32907f";
     assignments = [{ ...structuredClone(fixture), id: assignedId, target: "partner", delivery: { ...fixture.delivery, version: 4 } }];
     await page.reload({ waitUntil: "load" });
@@ -132,4 +172,4 @@ try {
     await context.close(); checks++;
   }
 } finally { await browser.close(); }
-console.log(`PASS studio journeys at ${checks} widths: draft handoff, lost-response retry, private receipt, versioned review and revised course evidence`);
+console.log(`PASS studio journeys at ${checks} widths: draft handoff, lost-response retry, private receipt, versioned review and optional course evidence and approval without it`);

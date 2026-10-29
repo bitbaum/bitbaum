@@ -38,7 +38,6 @@
   ],
   "_adopterAliases": "The package registry names adopters by REPOSITORY, which is not always the venture's slug (the Hirnli app lives in bitbaum/hirnli while the register row is revamp-info). Map repo -> slug here so 'what uses this package' can link. An adopter with no venture page renders as plain text \u2014 which is honest: it is a real adopter the site does not show.",
   "adopterAliases": {
-    "aoz-begleitung": "aoz-housing",
     "hirnli": "revamp-info",
     "sink": "s-ink"
   },
@@ -65,7 +64,7 @@
           "Products, services, projects, causes, events and groups, all published from one profile.",
           "Companions with memory, direct messages and a timeline \u2014 the social layer value moves through.",
           "Run the Cat on a free daily allowance, bring your own key, or use a local model.",
-          "Sign in with OrangeCat \u2014 one account for nine of the studio's other apps, Loki and Solon among them."
+          "Sign in with OrangeCat \u2014 one account across the studio's apps, Loki and Solon among them."
         ],
         "connects": "The Cat hands builds to Loki and files proposals to Solon. What it may spend is not a setting we control: it is a policy decided in Solon, and OrangeCat re-checks every vote signature before it applies one."
       }
@@ -202,51 +201,6 @@
       "order": 10,
       "story": "Considered counsel from AI specialists in law, health, research and more \u2014 private by construction. Validating whether people want this, before building more of it."
     },
-    "aoz-housing": {
-      "name": "AOZ Begleitung",
-      "what": "Beyond housing",
-      "stage": "pilot",
-      "tags": [
-        "Public sector"
-      ],
-      "order": 1,
-      "for": "AOZ, Z\u00fcrich",
-      "story": "Sits beside an organisation's case-management system in refugee accommodation: one inbox for staff, places to go (jobs, internships, volunteering), housing with explainable matching across 23 scored factors, living together, and a resident portal in six languages. It holds real data only, with no demo world. AOZ is not a customer; the product exists to show what one would get."
-    },
-    "kivvi": {
-      "name": "kivvi",
-      "what": "The operating system for the circular economy",
-      "stage": "pilot",
-      "tags": [
-        "Circular economy"
-      ],
-      "order": 2,
-      "for": "Revamp-IT",
-      "story": "An ERP where every device keeps its history \u2014 donation, repair, refurbishment, resale. In production at Revamp-IT, run as a favour, not a contract."
-    },
-    "vitareba": {
-      "name": "Vita",
-      "what": "A clinic, with its patients in the loop",
-      "stage": "pilot",
-      "tags": [
-        "Health"
-      ],
-      "order": 3,
-      "for": "one clinic, Z\u00fcrich",
-      "story": "Patient portal and clinician console for a metabolic-psychiatry and longevity practice. One real clinic uses it; nobody pays for it yet."
-    },
-    "s-ink": {
-      "name": "S.Ink",
-      "what": "A tattoo studio, online",
-      "url": "https://sinktattoo.com",
-      "stage": "pilot",
-      "tags": [
-        "Local business"
-      ],
-      "order": 4,
-      "for": "S.Ink, Z\u00fcrich",
-      "story": "The studio's own site: artists, work, booking. Built and hosted as a favour."
-    },
     "sbb-fundbuero": {
       "name": "Nordbahn Fundb\u00fcro",
       "what": "Lost on the train, while you are still on it",
@@ -256,17 +210,6 @@
       ],
       "order": 1,
       "story": "Report a lost item bound to the real journey from Swiss open transport data, so staff can look while the train is still moving. A concept on mock data \u2014 not affiliated with SBB, built to show them."
-    },
-    "reparaturbonus-zh": {
-      "name": "Reparaturbonus",
-      "what": "Repair instead of replace \u2014 the City of Z\u00fcrich's bonus, as it should work",
-      "stage": "concept",
-      "tags": [
-        "Public sector",
-        "Circular economy"
-      ],
-      "order": 2,
-      "story": "Find a workshop, start the repair, claim the bonus. A concept for the City of Z\u00fcrich's repair bonus, built to apply with."
     },
     "heidi": {
       "name": "Heidi",
@@ -278,16 +221,6 @@
       ],
       "order": 3,
       "story": "Understand what was said, then write back in it. Sign in, practise in a group, and Heidi answers in the conversation when you name her."
-    },
-    "printcraft": {
-      "name": "PrintCraft",
-      "what": "Bring people together. In art.",
-      "stage": "concept",
-      "tags": [
-        "Local business"
-      ],
-      "order": 4,
-      "story": "Turn separate photos into one shared scene. A concept waiting for its first user."
     },
     "camille-boulangerie": {
       "name": "Camille",
@@ -301,25 +234,23 @@
     },
     "diplodoctor": {
       "name": "Diplodoctor",
-      "what": "Medicine, with a doctor in the loop",
-      "stage": "next",
+      "what": "Your health, in one place",
+      "stage": "product",
       "tags": [
         "Health"
       ],
-      "order": 1,
-      "shot": false,
-      "story": "Named, not built. The plan: home diagnostics, an AI doctor available around the clock, and a doctor-in-the-loop marketplace, so a licensed clinician stands behind every answer the AI gives. Vitareba, a Z\u00fcrich clinic, is the intended first reference."
+      "order": 11,
+      "story": "Keep results, medicines and appointments together. Paste or photograph a lab report and see every value, which ones are outside their printed range, what they measure and what to ask your doctor \u2014 without an account, in five languages. The AI reads and explains; it never diagnoses or prescribes. Health assistants and, where the law reserves the work, licensed professionals you choose help with the rest. Nobody is listed yet, and the pages say so."
     },
     "causius": {
       "name": "Causius",
-      "what": "Law, with a lawyer in the loop",
-      "stage": "next",
+      "what": "Your legal matter, worked through",
+      "stage": "product",
       "tags": [
         "Knowledge"
       ],
-      "order": 2,
-      "shot": false,
-      "story": "Named, not built. The plan: Causius prepares the mandate and a licensed lawyer owns it. A messy employment or contract matter becomes a structured file \u2014 timeline, clause map, missing documents, a first draft and a cited risk list \u2014 which a named lawyer accepts, edits and bills. It never tells anyone to sue."
+      "order": 12,
+      "story": "Say what is happening, or bring the letter: Causius finds the rules, keeps your deadlines and drafts the reply, on a sealed case file, and nothing leaves without you. Check a letter with no account. Legal assistants help with procedure and filing; licensed lawyers advise and represent where the law reserves the work for them. It never tells anyone to sue."
     },
     "skif": {
       "name": "Skif",
@@ -328,24 +259,21 @@
       "tags": [],
       "order": 3,
       "story": "Looks at the whole of a life: you, the people you love, your home, your accounts, your privacy and your good name. It suggests the most proportionate step. Sometimes that is a calm, qualified person beside you, often a small change, sometimes nothing at all."
-    }
-  },
-  "extras": [
-    {
-      "slug": "wild-spirit",
-      "name": "Annushka",
-      "what": "A painter, shown",
-      "url": "https://annushka.orangecat.ch",
+    },
+    "s-ink": {
+      "name": "S.Ink",
+      "what": "A tattoo studio, online",
+      "url": "https://sinktattoo.com",
       "stage": "pilot",
       "tags": [
         "Local business"
       ],
-      "order": 5,
-      "for": "Annushka, Z\u00fcrich",
-      "story": "Works, events and a way to book a sitting for a painter from Ukraine in Z\u00fcrich. Built and hosted as a favour.",
-      "_why": "static site plus a dead :4030 api; does not fit an apps.conf row"
+      "order": 4,
+      "for": "S.Ink, Z\u00fcrich",
+      "story": "The studio's own site: artists, work, booking. Built and hosted as a favour."
     }
-  ],
+  },
+  "extras": [],
   "packages_lede": "Shared tools for different product needs. Each package page explains what it does, how it works, where to get it, and which apps list it as a dependency. Some are new and have no adopters yet.",
   "home": {
     "flagshipProjects": [
@@ -369,10 +297,10 @@
       "lede": "Ask in your own words. The Cat knows earning and getting paid, Loki knows building \u2014 between them, every project here. They send you to the one that fits.",
       "placeholder": "What are you looking for?",
       "starters": [
-        "I want to earn and get paid in Bitcoin",
+        "I want a website for my business",
         "I need AI agents working on my code",
-        "Can you build something for my organisation?",
-        "What's being built right now?"
+        "What is bitbaum?",
+        "I want to get paid for my work"
       ]
     }
   },
@@ -430,7 +358,7 @@
       "what": "Message threads where permission is participation \u2014 not a role column. An AI obeys the same rules as a person.",
       "why": "A chat that special-cases the assistant becomes a second permissions system. The assistant sees things the person cannot, or the person sees the assistant's notes. Both are bugs.",
       "how": "A thread is a set of participants. Unread is per person. An AI can be a participant, and it sees exactly what its participation allows, which is the same rule as everyone else. No markup, no transport: the app keeps those.",
-      "fits": "OrangeCat, Heidi and Vita already share a conversation this way. It is how a person and an agent inhabit one room."
+      "fits": "OrangeCat, Heidi and Substrata already share a conversation this way. It is how a person and an agent inhabit one room."
     },
     "bip-kit": {
       "group": "show",
@@ -444,14 +372,14 @@
       "what": "A website as data \u2014 a closed set of section shapes, validated, with per-field provenance.",
       "why": "A generated site that cannot say where each sentence came from will eventually say something nobody wrote. The second generator was about to ship that.",
       "how": "Sections are a closed union, checked before render. One set of React renderers draws them. Every field can carry where it came from, so a page can show that a line was supplied rather than invented.",
-      "fits": "A generated site is data, and sitekit is that data: Camille and Substrata render through it. design-tokens is what it looks like. bip-kit is the long writing inside it."
+      "fits": "A generated site is data, and sitekit is that data: Camille, Substrata and Skif render through it. design-tokens is what it looks like. bip-kit is the long writing inside it."
     },
     "design-tokens": {
       "group": "show",
       "what": "One tokens.css behind the products, so a retheme is an edit to one file.",
       "why": "Color, type and radius were being copied into each app and then drifting. A retheme meant a hunt. Dark mode meant a second hunt.",
       "how": "Primitives, then semantic names, as CSS custom properties. Tailwind points at the variables and holds no literal color of its own. A product themes by overriding the variables, not by forking the components.",
-      "fits": "It is why the studio can look like one studio. Loki, Solon and this site share it. A package that draws a page is expected to use these tokens rather than invent a palette."
+      "fits": "It is why the studio can look like one studio. Loki, Solon, Skif, Substrata and this site share it. A package that draws a page is expected to use these tokens rather than invent a palette."
     },
     "listkit": {
       "group": "show",
@@ -551,7 +479,6 @@
             "retires": "Care that starts only when someone finds an appointment.",
             "ventures": [
               "diplodoctor",
-              "vitareba",
               "surf-your-life"
             ]
           },
@@ -600,8 +527,6 @@
             "retires": "Usable things ending up as waste, or lost for good.",
             "ventures": [
               "evig",
-              "kivvi",
-              "reparaturbonus-zh",
               "sbb-fundbuero"
             ]
           },
@@ -610,7 +535,6 @@
             "human": "A caseworker, a teacher, a neighbour.",
             "retires": "Newcomers left alone with forms and a language they cannot yet hear.",
             "ventures": [
-              "aoz-housing",
               "heidi"
             ]
           },
@@ -636,8 +560,6 @@
             "retires": "Waiting on an agency to fix a typo.",
             "ventures": [
               "s-ink",
-              "wild-spirit",
-              "printcraft",
               "camille-boulangerie"
             ]
           }

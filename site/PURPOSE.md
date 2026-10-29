@@ -38,7 +38,7 @@ So the first job is **arrival**, and layout is second. See "How people arrive".
 
 | # | Reader | What they need to decide | Where they land | Their door |
 |---|---|---|---|---|
-| 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this supplier real and senior, what does it cost, and is it worth waiting for? | `/hire/`, with venture pages as evidence | the waitlist form |
+| 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this supplier real and senior, what does it cost, and is it worth waiting for? | `/hire/`, with venture pages as evidence | the waitlist conversation |
 | 2 | **A developer who already uses a package** | Is this maintained, and what else is here? | `/packages/`, reached from a package README | install, source |
 | 3 | **An organisation receiving an application** — a public service, a non-profit, AOZ, SBB, Stadt Zürich | What exists, how real is it, can I reply? | one venture page, sent as a direct link | "Ask about …" on that page |
 | 4 | **A builder who might contribute** | What can I contribute, and how are outside changes reviewed? | `/#join` | contributor terms, a pull request |
@@ -57,8 +57,8 @@ for a list of gaps (the fleet registers publish those, not this page).
 ## What each page is for
 
 - **`/`** — a short introduction, the current waitlist route, Loki as the
-  self-serve option for urgent agent-assisted work, the OrangeCat, Loki and
-  Solon flagship products, three selected packages, and stage counts linking to `/work/`.
+  self-serve option for urgent agent-assisted work, the flagship products
+  (OrangeCat, Loki and Solon), three selected packages, and stage counts linking to `/work/`.
   The complete work catalogue and package list have their own pages.
 - **`/work/`** — all projects that have an editorial profile, filtered by
   readiness stage and field. “Not built” is a real stage, not a roadmap promise.
@@ -108,6 +108,13 @@ A page nobody reaches helps nobody. In leverage order:
   provisioning fact; publicly those are *pilots* and *concepts*.
 - **"Live" or "released" as a maturity claim.** Public services are labelled
   beta; pilots, development, concepts, and not-built work keep their own stage.
+- **"Not built" for anything whose address answers.** Stages in
+  `overrides.json` are editorial, and a word typed once goes stale: Diplodoctor
+  and Causius ran for five weeks as "Named, not built" (found 2026-10-18). Every
+  online build now asks each shown address (`site/live.mjs`, answers kept in
+  `live.snapshot.json`), shows a running "not built" as in development at the
+  least and prints the stale line; `check-claims.mjs` asks the addresses again
+  and fails if any running one is labelled not built.
 - **A start date, or any implication of capacity there isn't.** Rates ARE
   published — that is what lets a reader qualify themselves — but while
   `availability.state` is `closed`, every door leads to the waitlist and the

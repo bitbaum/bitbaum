@@ -136,27 +136,6 @@ if (!still) {
   glide();
 }
 
-// ── falling through the rabbit holes ──────────────────────────────────────
-// Each spiral between chapters turns counter-clockwise, so its arms flow
-// inward, and swells as it passes the middle of the screen: you fall through
-// it into the next chapter.
-const holes = [...document.querySelectorAll(".rabbit-hole svg")];
-if (holes.length && !still) {
-  let queued = false;
-  const fall = () => {
-    queued = false;
-    const mid = innerHeight / 2;
-    for (const h of holes) {
-      const r = h.getBoundingClientRect();
-      const k = Math.max(0, 1 - Math.abs(r.top + r.height / 2 - mid) / (innerHeight * 0.5));
-      h.style.transform = `rotate(${(-scrollY * 0.35) % 360}deg) scale(${(1 + k * k * 1.8).toFixed(3)})`;
-      h.style.opacity = (0.55 + k * 0.45).toFixed(2);
-    }
-  };
-  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(fall); } }, { passive: true });
-  fall();
-}
-
 // ── the White Rabbit ─────────────────────────────────────────────────────
 // He sits on the Lodge floor beside the burrow — a hole in the floor itself —
 // fretting over his watch. Every so often he is late: a crouch, a hop, a dive
@@ -380,9 +359,15 @@ if (cat) {
   const spots = [];
   // (The tree is not a seat: a painted kitten on a line-drawn branch looked
   // pasted on. It sits on floors, peeks from curtains, or waits by the footer.)
-  for (const s of document.querySelectorAll("[data-art-stage]")) spots.push(["floor", s]);
+  // Never beside a chat: a cat over the composer or an answer covers what the
+  // visitor came to type (the owner's /hire/ screenshot, 2026-10-27).
+  const chats = [...document.querySelectorAll(".chat-mount")];
+  for (const s of document.querySelectorAll("[data-art-stage]")) if (!chats.some((c) => s.contains(c))) spots.push(["floor", s]);
   const foot = document.querySelector("footer");
-  if (foot) spots.push(["footer", foot]);
+  // The footer seat is above the footer's top edge: not when a chat ends
+  // within a screen of it (it grows as the conversation does).
+  const chatAboveFoot = foot && chats.some((c) => foot.getBoundingClientRect().top - c.getBoundingClientRect().bottom < innerHeight);
+  if (foot && !chatAboveFoot) spots.push(["footer", foot]);
   if (spots.length) {
     // ?cat=tree|floor|peek|footer pins the spot, for checking each one.
     const want = new URLSearchParams(location.search).get("cat");
@@ -564,9 +549,26 @@ if (guest && stageFloor) {
   }
 
   if (kind === "stand") {
-    // Stands in the floor's depth, alive through its mesh; now and then it
-    // turns to face the other way and settles again.
-    every(19000, () => { const f = guest.querySelector(".fig"); if (f) f.animate([{ scale: "1 1" }, { scale: "-1 1", offset: 0.1 }, { scale: "-1 1", offset: 0.85 }, { scale: "1 1" }], { duration: 9000, easing: "ease-in-out" }); });
+    // Stands where it is, on the floor, and is alive through its mesh: it
+    // breathes, shifts its weight now and then, and that is all. It used to
+    // slide along the floor at 7 px/s and mirror-flip to turn — a painting
+    // gliding sideways with its legs still, which read as nothing an animal
+    // does. Settling is a slow sink of a pixel or two, not a walk.
+    const f = guest.querySelector(".fig");
+    let last = performance.now(), phase = Math.random() * Math.PI * 2, shiftAt = last + 8000 + Math.random() * 12000, lean = 0, leanTo = 0;
+    const tick = (t) => {
+      const dt = Math.min(0.5, (t - last) / 1000); last = t;
+      if (onScreen && !still) {
+        phase += dt * 1.25;
+        if (t > shiftAt) { leanTo = (Math.random() - 0.5) * 1.6; shiftAt = t + 9000 + Math.random() * 15000; }
+        lean += (leanTo - lean) * Math.min(1, dt * 0.6);
+        const breath = 1 + 0.006 * Math.sin(phase);
+        guest.style.translate = `0 ${(Math.sin(phase) * 0.8).toFixed(2)}px`;
+        if (f) f.style.transform = `rotate(${lean.toFixed(2)}deg) scale(1, ${breath.toFixed(4)})`;
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
   }
 
   if (kind === "flutter") {
@@ -670,7 +672,9 @@ if (guest && stageFloor) {
         u += dt / 46;
         if (u > 1.08) u = -0.05;
         const w = W(), d = Math.max(0, Math.min(1, u));
-        const x = w * (0.08 + d * 0.72), y = -d * -0.0 + (1 - d) * -46, s = 0.55 + d * 0.6;
+        // Far is small, near is large; the ground stays the ground (a few px
+        // higher at the far side is all the floor's perspective allows).
+        const x = w * (0.08 + d * 0.72), y = (1 - d) * -8, s = 0.55 + d * 0.6;
         guest.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${s.toFixed(3)})`;
         guest.style.opacity = Math.max(0, Math.min(1, u / 0.05, (1.05 - u) / 0.06)).toFixed(3);
         ball.style.rotate = `${(u * 2200).toFixed(1)}deg`;

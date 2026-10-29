@@ -28,11 +28,13 @@ function field(form, name, title, { type = "text", max = 2000, required = true, 
   return input;
 }
 async function api(origin, path, { key, body } = {}) {
+  // A request that never reached Loki rejects with the browser's own words
+  // ("Failed to fetch", "Load failed"), which every caller here used to print.
   const response = await fetch(origin + path, {
     method: body ? "POST" : "GET", credentials: "omit", cache: "no-store", referrerPolicy: "no-referrer",
     headers: { ...(key ? { Authorization: `Bearer ${key}` } : {}), ...(body ? { "Content-Type": "application/json" } : {}) },
     ...(body ? { body: JSON.stringify(body) } : {}),
-  });
+  }).catch(() => { throw new Error("Loki could not be reached just now. Check your connection and try again."); });
   const data = await response.json().catch(() => ({}));
   if (!response.ok || !data.ok) throw new Error(data.error ?? "The request did not complete. Your draft is still here; try again.");
   return data;
@@ -55,7 +57,7 @@ async function directory(root) {
   try {
     const data = await api(root.dataset.apiOrigin, "/api/studio-partners");
     if (!data.partners?.length) { root.replaceChildren(text("No approved, available partner is listed yet. Build it yourself with Loki, or send the studio a brief while the first applications are reviewed."), link("Use free Loki", root.dataset.apiOrigin + "/commission", "btn secondary"), link("Send the studio a brief", "/hire/#waitlist", "btn secondary")); return; }
-    root.replaceChildren(...data.partners.map((p) => el("article", { class: "portal-card" }, el("h3", { text: p.name }), text(p.headline), text(`${p.rate} · ${p.availability}`), link("View their work", p.url), link("Request this partner", `/hire/#partner=${p.id}`, "btn primary"))));
+    root.replaceChildren(...data.partners.map((p) => el("article", { class: "portal-card" }, el("h3", { text: p.name }), text(p.headline), text(`${p.rate} · ${p.availability}`), ...(p.coursePassed ? [text("Passed the bitbaum systems design course", "caption")] : []), link("View their work", p.url), link("Request this partner", `/hire/#partner=${p.id}`, "btn primary"))));
   } catch (err) { const retry = el("button", { type: "button", class: "btn secondary", text: "Check again" }); retry.addEventListener("click", () => directory(root)); root.replaceChildren(text(err.message, "portal-error"), retry, link("Use free Loki", root.dataset.apiOrigin + "/commission")); }
 }
 function portal(root) {
@@ -119,21 +121,46 @@ function portal(root) {
     content.append(heading); preview(content, request, true);
     if (request.partner) {
       const p = request.partner;
-      content.append(text(`Course: ${p.coursePassed ? "passed" : "awaiting pass"}. Studio approval: ${p.approved ? "approved" : "pending"}.`, "caption"), link("Read the systems design pilot and rubric", "/academy/", "btn secondary"));
-      if (!p.approved) actionForm(content, p.assessment ? "Submit revised course evidence" : "Submit course evidence", "submit_assessment", [
-        ...course.modules.map((m) => ({ name: m.id, title: `${m.title}: ${m.prompt}`, type: "textarea", min: 30, max: 2500, value: p.assessment?.answers[m.id] ?? "" })),
-        { name: "projectUrl", title: "Working capstone preview URL", value: p.assessment?.projectUrl ?? "" },
-        { name: "sourceUrl", title: "Source and verification evidence URL", value: p.assessment?.sourceUrl ?? "" },
-      ], (v) => ({ assessment: { version: course.version, answers: Object.fromEntries(course.modules.map((m) => [m.id, v[m.id]])), projectUrl: v.projectUrl, sourceUrl: v.sourceUrl } }));
-      actionForm(content, p.profile ? "Propose a revised public profile" : "Propose your public profile", "propose_profile", [
-        { name: "name", title: "Public name", max: 100, value: p.profile?.name ?? "" },
-        { name: "headline", title: "What you build", max: 300, value: p.profile?.headline ?? "" },
-        { name: "url", title: "Public work URL", max: 500, value: p.profile?.url ?? "" },
-        { name: "rate", title: "Your rates or quoting basis", max: 200, value: p.profile?.rate ?? "" },
-        { name: "availability", title: "Current availability", options: [["available", "Available"], ["limited", "Limited availability"], ["unavailable", "Unavailable"]], value: p.profile?.availability ?? "available" },
-      ], (v) => ({ profile: v, consent: true }));
-      content.append(text(p.profilePublished ? "Your approved profile is published. Proposing a revision removes it until the studio reviews it." : "Your proposed profile stays private until approval and publication review.", "caption"));
-      if (p.approved && p.profile) actionForm(content, "Update availability", "set_availability", [{ name: "availability", title: "Availability", options: [["available", "Available"], ["limited", "Limited"], ["unavailable", "Unavailable"]], value: p.profile.availability }], (v) => ({ availability: v.availability }));
+      const courseState = p.coursePassed ? "passed" : p.assessment ? "under review" : "not taken";
+      content.append(text(`Studio approval: ${p.approved ? "approved" : "pending"}. Course (optional): ${courseState}.`, "caption"));
+      if (p.approved) {
+        actionForm(content, p.profile ? "Propose a revised public profile" : "Propose your public profile", "propose_profile", [
+          { name: "name", title: "Public name", max: 100, value: p.profile?.name ?? "" },
+          { name: "headline", title: "What you build", max: 300, value: p.profile?.headline ?? "" },
+          { name: "url", title: "Public work URL", max: 500, value: p.profile?.url ?? "" },
+          { name: "rate", title: "Your rates or quoting basis", max: 200, value: p.profile?.rate ?? "" },
+          { name: "availability", title: "Current availability", options: [["available", "Available"], ["limited", "Limited availability"], ["unavailable", "Unavailable"]], value: p.profile?.availability ?? "available" },
+        ], (v) => ({ profile: v, consent: true }));
+        content.append(text(p.profilePublished ? "Your profile is published. Proposing a revision takes it down until the studio reviews it." : "Your proposed profile stays private until the studio publishes it.", "caption"));
+        // Your profile, kept with your OrangeCat account: a lost link is then
+        // not a lost profile. Optional, and offered only once approved.
+        const keep = el("section", { class: "portal-card" }, el("h3", { text: "Your OrangeCat account" }));
+        if (p.orangecatConnected) keep.append(text("Connected. Lost this link? Sign in with OrangeCat and your application opens again."), link("Sign in with OrangeCat", root.dataset.apiOrigin + "/studio/partner", "btn secondary"));
+        else {
+          const connect = button("Connect your OrangeCat account"); connect.type = "button";
+          const told = el("p", { role: "alert", hidden: true, class: "portal-error" });
+          connect.addEventListener("click", async () => {
+            connect.disabled = true; told.hidden = true;
+            try { location.href = (await api(root.dataset.apiOrigin, `/api/studio-portal/${access.id}/connect`, { key: access.key, body: {} })).url; }
+            catch (err) { told.textContent = err.message; told.hidden = false; connect.disabled = false; }
+          });
+          keep.append(text("Keep your profile with your OrangeCat account, so a lost link is never a lost profile. One sign-in; nothing else changes."), connect, told);
+        }
+        content.append(keep);
+        if (p.profile) actionForm(content, "Update availability", "set_availability", [{ name: "availability", title: "Availability", options: [["available", "Available"], ["limited", "Limited"], ["unavailable", "Unavailable"]], value: p.profile.availability }], (v) => ({ availability: v.availability }));
+      }
+      // The course is offered, never required: folded away, one tap to open.
+      const courseBox = el("details", { class: "portal-card portal-course" }, el("summary", { text: p.coursePassed ? "The systems design course: passed" : "The systems design course (optional)" }));
+      if (p.coursePassed) courseBox.append(text("You passed the course and its exam. The credential shows on your published profile."));
+      else {
+        courseBox.append(text("Not required: the studio decides your application on your work. Take the course to learn, or to add its credential to your profile. The exam is a capstone: answer each part and link a working preview and its source."), link("Read the course and rubric", "/academy/", "btn secondary"));
+        actionForm(courseBox, p.assessment ? "Submit revised course evidence" : "Submit your capstone", "submit_assessment", [
+          ...course.modules.map((m) => ({ name: m.id, title: `${m.title}: ${m.prompt}`, type: "textarea", min: 30, max: 2500, value: p.assessment?.answers[m.id] ?? "" })),
+          { name: "projectUrl", title: "Working capstone preview URL", value: p.assessment?.projectUrl ?? "" },
+          { name: "sourceUrl", title: "Source and verification evidence URL", value: p.assessment?.sourceUrl ?? "" },
+        ], (v) => ({ assessment: { version: course.version, answers: Object.fromEntries(course.modules.map((m) => [m.id, v[m.id]])), projectUrl: v.projectUrl, sourceUrl: v.sourceUrl } }));
+      }
+      content.append(courseBox);
       if (p.approved) {
         content.append(el("h2", { text: "Assigned briefs" }));
         if (!data.assignments.length) content.append(text("No briefs are assigned to you yet. Keep your availability current."));
@@ -172,6 +199,25 @@ function portal(root) {
     const stored = read("bitbaum:portal:recent");
     const recent = (Array.isArray(stored) ? stored : []).map(credential).filter(Boolean);
     if (recent.length) content.append(el("h2", { text: "Links saved in this browser session" }), ...recent.map((r) => link(`Open request ${r.id.slice(0, 8)}`, portalUrl(r), "btn secondary")));
+    // Lost the link entirely: the address given with the request gets a fresh
+    // one (the old link dies). The studio answers the same either way, so an
+    // address nobody gave us learns nothing here.
+    const again = el("form", { id: "portal-recover-mail", class: "portal-form" });
+    again.append(el("h2", { text: "Lost the link?" }));
+    const mail = field(again, "email", "The email you gave with the request", { type: "email", max: 200 });
+    const trap = field(again, "company", "Leave this field empty", { required: false });
+    trap.parentElement.hidden = true; trap.tabIndex = -1; trap.autocomplete = "off";
+    again.append(button("Send me a new link"));
+    const told = el("p", { role: "status", hidden: true }); again.append(told);
+    again.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const send = again.querySelector("button[type=submit]"); if (send.disabled) return; send.disabled = true;
+      try { const data = await api(root.dataset.apiOrigin, "/api/studio-recover", { body: { email: mail.value.trim(), company: trap.value } }); told.textContent = data.message ?? "If that address belongs to a request, a fresh link is on its way to it."; }
+      catch (err) { told.textContent = err.message; }
+      finally { told.hidden = false; send.disabled = false; }
+    });
+    content.append(again);
+    content.append(link("Approved partner? Sign in with OrangeCat", root.dataset.apiOrigin + "/studio/partner"));
     content.append(link("Send a new brief", "/hire/#waitlist"), link("Apply as a partner", "/partners/#join")); root.replaceChildren(content);
   }
   window.addEventListener("hashchange", () => {

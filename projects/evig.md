@@ -1,17 +1,15 @@
 # evig — Affordable Intelligence, Circular Tech
 
-**Status:** Active Development (Live) — rebranded from Revamp-IT 2026-07-24; gemeinnütziger Verein in Gründung
-**Tagline:** "Intelligenz, für alle bezahlbar" (affordable intelligence)
-**URL:** production serves at [revampit.orangecat.ch](https://revampit.orangecat.ch) (per repo CLAUDE.md); README/social drafts reference evig.orangecat.ch — infra cutover pending. Legacy www.revamp-it.ch = old Joomla site, not this app.
-**Codebase:** `/home/g/dev/evig/` — **alias note:** `/home/g/dev/revampit/` is an identical older clone of the same codebase (same package name, same HEAD); evig is canonical. ONE brief covers both.
+**Status:** Active — founded 2026, in formation. Grew out of Revamp-IT; it is not Revamp-IT.
+**Tagline:** "Intelligenz, für alle bezahlbar."
+**URL:** https://evig.orangecat.ch — the only address to publish. An older host still redirects there and must stay a redirect; do not print it. www.revamp-it.ch is Revamp-IT's Joomla site, not this app.
+**Codebase:** `bitbaum/evig`. Identity is `src/config/org.ts`. Staff is `src/lib/permissions.ts`.
 
 ---
 
 ## Executive Summary
 
-evig is the canonical circular-tech platform: curated, durable second-life hardware plus digital access at a fair price. The story is broader than refurb — "inequality of access to intelligence" (AI + compute) is the why; circular economy is the how. Seven surfaces in one app: Storefront, P2P Marketplace, IT-Hilfe (volunteer tech help), Workshops/Repair Café, Erfassung (AI intake pipeline), Member services (directory, donations, voting), and HIRN AI (staff assistant).
-
-RevampIT the organization is the physical engine: its refurb inventory flows into the marketplace as `is_revampit` listings; P2P community listings share the same checkout. evig is also a **live client of kivvi** (ERP integration: product sync, signed webhooks).
+evig is one Next.js app: curated, durable hardware and digital access at a fair price. Revamp-IT is the Zürich non-profit it grew out of in 2026. Revamp-IT's shop, history, and mail domain are Revamp-IT's. A stored column may still be named `is_revampit`; that is an infrastructure name, not a claim that the two organisations are one.
 
 ---
 
@@ -28,9 +26,9 @@ RevampIT the organization is the physical engine: its refurb inventory flows int
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | Next.js 16 App Router, React 18, TypeScript 5, Tailwind 3.4 |
-| Database | PostgreSQL 17 self-hosted + Drizzle; ~130 TABLE_NAMES constants as DB SSOT |
-| Auth | Sign in with OrangeCat via `@bitbaum/accountkit` (OrangeCat offers Google, GitHub and email); the app's own email + password kept as a secondary option (2026-10-02); NextAuth v5 + @auth/pg-adapter; staff detection by @revamp-it.ch domain |
+| Framework | Next.js 16 App Router, TypeScript, Tailwind CSS 4 |
+| Database | PostgreSQL on the Hetzner box + Drizzle |
+| Auth | Sign in with OrangeCat via `@bitbaum/accountkit` (OrangeCat offers Google, GitHub and email); the app's own email + password kept as a secondary option; NextAuth v5. Staff is the `is_staff` column, granted by a super admin. The email domain grants nothing. |
 | Search / media | Meilisearch; Cloudflare R2 images; Upstash Redis rate limiting |
 | AI | HIRN cascade: Groq → OpenRouter → Ollama |
 | Testing | 7,500+ Jest tests / 500+ suites, Playwright E2E, Swiss-umlaut lint |
@@ -65,14 +63,14 @@ RevampIT the organization is the physical engine: its refurb inventory flows int
 
 - **ICP (5 segments, in order):** (1) individuals needing a capable affordable machine — students, job-seekers, families; (2) Swiss circular-economy actors — Repair Cafés, zero-waste, Umwelt-Vereine; (3) NGOs/Vereine/Schulen needing 5–20 identical devices on one invoice; (4) Gemeinden in the Reparaturbonus orbit; (5) the existing RevampIT orbit (customers, donors, volunteers).
 - **Positioning one-liner:** "Affordable intelligence" — complete, working second-life machines: hardware, software, and knowledge handed over together. Honest-by-default (open CO₂ methodology, "Verein in Gründung" stated plainly).
-- **Shortest first-paying-customer path:** the shop is already live — publish weekly, every post links a purchasable surface, newsletter captures returners; first orders from the RevampIT orbit + Mastodon locals. Secondary paid paths already built: workshop registrations, membership. Fleet GTM revenue rank: #3.
-- **Monetization state:** checkout live (Payrexx); BTCPay + Taler pending provisioning; physical inventory exists via RevampIT.
+- **Shortest first-paying-customer path:** the shop is already live — publish weekly, every post links a purchasable surface, newsletter captures returners; first orders from the newsletter and Mastodon locals. Secondary paid paths already built: workshop registrations, membership. Fleet GTM revenue rank: #3.
+- **Monetization state:** checkout live (Payrexx); BTCPay + Taler pending provisioning.
 - **Key metrics to move:** Listmonk subscriber count · `feed.xml` requests (Caddy logs) · shop orders (count + CHF, refurb vs P2P split) · blog→shop click-through. Mission rule: metric-per-franc must hold.
 
 ---
 
 ## Risks / Debt
 
-- Canonical public domain unresolved (revampit.orangecat.ch vs evig.orangecat.ch); infra identifiers still say revampit pending cutover
+- Canonical site is https://evig.orangecat.ch. Infra identifiers may still say revampit until a cutover; do not treat those names as the product, and do not rename them in passing.
 - Blog `force-dynamic` workaround renders per-request — fix before a traffic spike
 - GTM doc + social queue not yet merged to main

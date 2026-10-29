@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>Surf Your Life — Burnout and long COVID, treated at the biology</title>
 <meta name="description" content="A psychiatrist-led programme for burnout and long COVID that works from metabolic biology rather than symptom management. The programme site and its intake.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/surf-your-life/">
@@ -82,17 +93,14 @@
     <section class="wrap venture-body">
       <div class="prose">
         <p>A psychiatrist-led programme for burnout and long COVID that works from metabolic biology rather than symptom management. The programme site and its intake.</p>
-        <p class="caption"><strong>Products:</strong> Public beta services. Check each product page for its current scope and access.</p>
-        <p class="caption">The image is a screenshot of surf-your-life.orangecat.ch, taken by a machine when this site was built. If the product changed, so did the picture.</p>
       </div>
       <div class="venture-facts">
-        <div><span class="label">Stage</span><span>Product</span></div>
-        <div><span class="label">Status</span><span>Beta — running, not released</span></div>
+        <div><span class="label">Stage</span><span>Beta — running, not released</span></div>
         <div><span class="label">Field</span><span><a href="/work/#work?field=health">Health</a></span></div>
         <div><span class="label">Since</span><span>Apr 2026</span></div>
         <div><span class="label">Address</span><span><a href="https://surf-your-life.orangecat.ch">surf-your-life.orangecat.ch</a></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/surf-your-life">bitbaum/surf-your-life</a></span></div>
-        <div class="uses"><span class="label">Built from</span><div class="chips"><a href="/packages/ai-forms/">ai-forms</a><a href="/packages/ai-kit/">ai-kit</a><a href="/packages/limitkit/">limitkit</a><a href="/packages/mail-kit/">mail-kit</a></div></div>
+        <div class="uses"><span class="label">Built from</span><div class="chips"><a href="/packages/accountkit/">accountkit</a><a href="/packages/ai-forms/">ai-forms</a><a href="/packages/ai-kit/">ai-kit</a><a href="/packages/chatkit/">chatkit</a><a href="/packages/limitkit/">limitkit</a><a href="/packages/mail-kit/">mail-kit</a><a href="/packages/whenkit/">whenkit</a></div></div>
       </div>
     </section>
     <section class="section venture-depth">
@@ -117,7 +125,7 @@
           <h2 class="display-2">Ask about Surf Your Life</h2>
           <p class="lede">Ask anything about Surf Your Life — the Cat and Loki answer right away from the project catalogue. Want a person instead? Send them the conversation.</p>
         </div>
-        <div class="chat-mount" data-chat data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is Surf Your Life?&quot;,&quot;Is Surf Your Life ready to use?&quot;,&quot;How could Surf Your Life work for my organisation?&quot;]">
+        <div class="chat-mount" data-chat data-fc-avoid data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is Surf Your Life?&quot;,&quot;Is Surf Your Life ready to use?&quot;,&quot;How could Surf Your Life work for my organisation?&quot;]">
           <p class="caption">The chat needs JavaScript. <a class="textlink" href="/work/">Browse every project</a> or <a class="textlink" href="/hire/#waitlist">join the waitlist</a>.</p>
         </div>
       </div>

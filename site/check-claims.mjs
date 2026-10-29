@@ -91,6 +91,7 @@ async function pageText(path) {
 const home = await pageText("/");
 const work = await pageText("/work/");
 const studio = await pageText("/studio/");
+const plainOf = (html) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
 const packagesHtml = await pageText("/packages/");
 const all = home + work + studio + packagesHtml;
 if (!all.trim()) {
@@ -191,7 +192,27 @@ const workPlain = work.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
 // Honesty cuts both ways: a project that is not built stays listed as not
 // built. (Solon was pinned here as "in development" until it shipped its beta,
 // 2026-09-25 — solon#184/#188; the stage now comes from overrides.json.)
-say(/Solon/.test(workPlain) && /Not built/.test(workPlain) && /Causius/.test(workPlain) && /Skif/.test(workPlain), "not-built projects are present in the staged catalogue");
+say(/Solon/.test(workPlain) && /Causius/.test(workPlain) && /Skif/.test(workPlain), "the staged catalogue lists every stage's ventures (Solon, Causius, Skif)");
+// …and the other way: a venture whose address answers is never "Named, not
+// built". Diplodoctor and Causius ran for five weeks under that label because
+// it was typed once and nothing compared it to the world (2026-10-18). The
+// build now raises such a stage itself (live.mjs); this asks the world again,
+// independently, so the rule cannot silently stop holding.
+{
+  const { probe, isRunning } = await import("./live.mjs");
+  const mapSnap = JSON.parse(readFileSync(join(here, "map.snapshot.json"), "utf8"));
+  const mislabelled = [];
+  for (const [slug, o] of Object.entries(editorial.overrides ?? {})) {
+    if (!o?.what || !o.stage) continue;
+    const url = o.url ?? mapSnap.projects?.find((p) => p.slug === slug)?.urls?.live;
+    if (!url) continue;
+    const page = (await pageText(`/${slug}/`)).replace(/<[^>]+>/g, " ");
+    if (!/Named, not built/.test(page)) continue;
+    const status = await probe(url);
+    if (isRunning(status)) mislabelled.push(`${slug} (${url} → ${status})`);
+  }
+  say(mislabelled.length === 0, `no running address is labelled not built${mislabelled.length ? ": " + mislabelled.join(", ") : ""}`);
+}
 say(!/Built from \d+ shared packages|every product is built from/i.test(home), "homepage does not imply every product uses every package");
 const pkgRepos = packages.map((p) => String(p.repo ?? "").split("/").pop()).filter(Boolean);
 const pkgNotMit = pkgRepos.filter((r) => licences[r] && licences[r] !== "MIT");
@@ -219,9 +240,13 @@ say(
   (originSnap.repos ?? []).every((r) => r.provenSince || r.stamped),
   `every repo in the origin register is stamped (${blocks.length} anchored, ${pendingStamps} awaiting Bitcoin confirmation)`,
 );
+// The site states these in words now, not figures. A figure that comes back
+// must still match its register.
+const repoFigure = plainOf(studio).match(/(\d+) repositories/);
+const swhFigure = plainOf(studio).match(/(\d+) have a Software Heritage snapshot/);
 say(
-  studio.includes(`${originSnap.repos.length} repositories`) && studio.includes(`${swhCount} have a Software Heritage snapshot`),
-  `origin copy matches the register (${originSnap.repos.length} tracked, ${swhCount} archived in Software Heritage)`,
+  (!repoFigure || Number(repoFigure[1]) === originSnap.repos.length) && (!swhFigure || Number(swhFigure[1]) === swhCount),
+  `any origin figure on the studio page matches the register (${originSnap.repos.length} tracked, ${swhCount} archived in Software Heritage)`,
 );
 
 const readings = existsSync(join(here, "readings.snapshot.json"))
@@ -235,11 +260,13 @@ if (paid === undefined) {
   const claimsPaid = /(has been|have been) paid (back )?to originators/i.test(text) && !/nothing has been paid/i.test(text);
   say(paid > 0 || !claimsPaid, `nothing is described as paid to originators while the ledger is empty (paid=${paid})`);
   const current = readings.current;
+  const studioText = plainOf(studio);
+  const downloadsFigure = studioText.match(/([\d,]+) package downloads/);
+  const incomeFigure = studioText.match(/CHF ([\d,]+) a month from studio engagements/);
   say(
-      studio.includes(`${current.date} readings`) && studio.includes(`${current.downloads.lastMonth.toLocaleString("en-US")} package downloads`) &&
-      studio.includes(`CHF ${Number(current.clients?.mrrChf ?? 0).toLocaleString("en-US")} a month from studio engagements`) &&
-      studio.includes("including our own CI installs"),
-    `studio readings match Fleet's dated register (${current.date}) and disclose CI downloads`,
+    (!downloadsFigure || (downloadsFigure[1] === current.downloads.lastMonth.toLocaleString("en-US") && studioText.includes("including our own CI installs"))) &&
+      (!incomeFigure || incomeFigure[1] === Number(current.clients?.mrrChf ?? 0).toLocaleString("en-US")),
+    `any readings figure on the studio page matches Fleet's dated register (${current.date}), with CI downloads disclosed`,
   );
 }
 
@@ -251,8 +278,8 @@ say(!/\bsolo-founder\b/i.test(plain), "pages do not use solo-founder framing");
 const unique = uniqueAdopterCount(packages);
 const eyebrow = packagesHtml.match(/(\d+) distinct adopters in the fleet/);
 say(
-  eyebrow && Number(eyebrow[1]) === unique,
-  `packages eyebrow unique adopters match the registry (${eyebrow?.[1] ?? "missing"} vs ${unique})`,
+  !eyebrow || Number(eyebrow[1]) === unique,
+  `any adopter count on the packages page matches the registry (${eyebrow?.[1] ?? "not shown"} vs ${unique})`,
 );
 say(!/uses across the fleet/i.test(packagesHtml), "packages page does not sum dependency edges as 'uses'");
 say(!/\{\{adopters(_word)?\}\}/.test(all), "no unexpanded {{adopters}} placeholders remain");

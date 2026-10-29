@@ -8,7 +8,7 @@
 // cannot differ between this page and /work/.
 //
 // Two rules keep it honest, and loopMap() enforces both at build time:
-//   - a loop may only cite a venture the site actually shows;
+//   - a loop shows only ventures the site actually shows (others are left out);
 //   - every shown venture sits in exactly one loop, so a new project cannot
 //     appear on /work/ without someone deciding what it is for.
 // A loop with no venture is allowed and is rendered as a gap. That is the
@@ -23,12 +23,17 @@ export function loopMap(all, cfg) {
     ...layer,
     loops: (layer.loops ?? []).map((loop) => ({
       ...loop,
-      ventures: (loop.ventures ?? []).map((slug) => {
+      // A cited venture the site does not show is left out, not fatal: Loki's
+      // map withholds client work until the client agrees, and that rule must
+      // never be able to stop the site from publishing (it did, 2026-10-14 to
+      // -15: every rebuild failed on "Medicine" citing vitareba, so the OLD
+      // pages — client work included — stayed live).
+      ventures: (loop.ventures ?? []).flatMap((slug) => {
         const v = bySlug.get(slug);
-        if (!v) throw new Error(`loops: "${loop.title}" cites "${slug}", which the site does not show`);
+        if (!v) return [];
         if (placed.has(slug)) throw new Error(`loops: "${slug}" is in both "${placed.get(slug)}" and "${loop.title}"`);
         placed.set(slug, loop.title);
-        return v;
+        return [v];
       }),
     })),
   }));
@@ -65,7 +70,7 @@ ${gap
           <span class="kicker quiet">${esc(layer.kicker ?? "")}</span>
           <h2>${esc(layer.title)}</h2>
           <p>${esc(layer.line)}</p>${layer.packages ? `
-          <p>Under these sit <a href="/packages/">${pkgCount} shared packages</a>. Each is a loop already retired: a problem that kept recurring across projects, solved once so the next project starts past it.</p>` : ""}
+          <p>Under these sit <a href="/packages/">the shared packages</a>. Each is a loop already retired: a problem that kept recurring across projects, solved once so the next project starts past it.</p>` : ""}
         </div>
         <div class="grid loop-grid">
 ${layer.loops.map(loopCard).join("\n")}

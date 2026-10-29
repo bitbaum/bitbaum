@@ -34,8 +34,8 @@ it will not publish from an old snapshot when a source is unavailable. Local
 offline builds may use the committed snapshots, so a developer can still work
 without network access.
 
-The home page features the three flagship projects in `home.flagshipProjects` and the three packages named
-in `home.featuredPackages`. Its build fails if a selected item disappears from
+The home page features the flagship projects named in `home.flagshipProjects`
+and the packages named in `home.featuredPackages`. Its build fails if a selected item disappears from
 the source registers. `/work/` contains the full staged project catalogue and
 `/packages/` contains every registered package. The Loki feedback widget is
 configured by `site/loki-feedback.json` and included by the shared page shell;
@@ -63,6 +63,27 @@ What this repository owns is presentation, in `site/overrides.json`:
 
 `site/hire.json` holds the hire page's editorial half: `offers` (name, price,
 unit, what), `method`, `faq` and `contact`.
+
+## Package reference documentation
+
+Each package page renders source-pinned README/API examples, a repository
+changelog where one exists, published release notes and recent source activity. Source activity is explicitly
+separate from released/deployed changes. `site/package-records.mjs`
+fetches the owning public repository head, then reads both markdown files at that
+exact commit; `package-records.snapshot.json` makes local/offline builds reproducible.
+A missing changelog is shown as missing. Fetch failures are errors, not empty history.
+`--require-fresh` refuses publication if any package source cannot be refreshed.
+The regular site rebuild refreshes this evidence alongside the registry.
+
+Current-source documentation may describe unreleased work, so pages show its
+commit/date separately from the registry release and install command. Dependency
+counts describe manifest declarations, not certified production journeys. The
+site does not infer private project names from unlisted adopter repositories.
+
+`node site/check-packages.mjs` checks all package pages at phone/desktop widths
+and both themes with documentation expanded. This runs in PR and publication
+checks. Factual package content is rendered from its owners, not copied into
+editorial overrides; missing evidence never becomes a claim that a feature works.
 
 ## Both directions of "what uses what"
 
@@ -96,9 +117,16 @@ organisation as two systems, and used two superseded product names.
 
 The waitlist uses the one-field chat intake in `site/chat/chat.tsx`, bundled
 as `/chat.js` with `/chatkit.css`. Partner applications use that same intake
-with a separate purpose. `/commission.json` is generated from the selected
-`commissioningOffer` and availability in `hire.json`; Loki reads it for the
-website-change brief. The public token grants write-only feedback intake.
+with a separate purpose. It is a conversation: the visitor's words (and
+pictures) are saved on Loki first, then Loki answers through the widget
+chat's intake mode — questions, the published engagement it resembles, never
+a promise — and files the brief once when Loki's code says it is ready. The
+logic is `site/chat/intake-flow.mjs`, tested with fakes by
+`site/intake-flow.test.mjs`. `/commission.json` is generated from the selected
+`commissioningOffer`, every published offer and availability in `hire.json`;
+Loki reads it for the website-change brief and the intake's answers. The
+public token grants write-only feedback intake. What each chat uses from the
+fleet, and how it is built, is `docs/chat-audit.md`.
 
 The public name is **Cato** and the address is **cato@orangecat.ch**. An
 earlier `mao@` address is the same person under a superseded handle and must
@@ -131,6 +159,7 @@ node site/build.mjs             # fetch the sources, write site/dist/
 node site/build.mjs --require-fresh # fail rather than fall back to snapshots
 node site/build.mjs --offline   # build from the snapshots (no network)
 node site/build.mjs --check     # exit 1 if site/dist/ is stale
+node site/build.mjs --check-bundles # exit 1 if the COMMITTED chat.js, chatkit.css, listkit or tokens are not what the locked packages build
 node site/check-claims.mjs      # truth gate against dist/ (or pass a live URL)
 node site/check-theme.mjs http://127.0.0.1:8731   # after serving dist/
 node site/check-responsive.mjs http://127.0.0.1:8731 # all pages, mobile/tablet/rotation/200% text
@@ -144,12 +173,26 @@ site/publish.sh                 # --check, rsync dist to the box, prove every pa
 two builds, including the pinned listkit browser modules, and so `--check`
 can fail when the sources moved and the site did not. Main-branch changes to
 the site or its workflow run tests, claims/theme gates, rebuild from current
-Loki/Fleet sources, commit updated snapshots and generated pages, then publish
-to Hetzner, verify the public routes, and run the hire intake gate. Fleet
+Loki/Fleet sources, publish to Hetzner, verify the public routes, and run the
+hire intake gate. After those checks succeed, the workflow uses Fleet's pinned
+generated-PR helper to propose the published snapshots, generated pages and
+generated cast documentation. The helper never pushes main; the normal preview
+and merge gates check the snapshot PR. Fleet
 dispatches a refresh when its derived package registry changes, pinned to the
 exact Fleet commit that produced the new register. Run `Deploy Bitbaum site`
 manually from Actions to retry a failed publish; ordinary site changes also
 publish on `push`.
+
+**Nobody merges by hand.** A green, non-draft pull request merges itself:
+`.github/workflows/auto-merge.yml` runs the fleet's one sweep
+(bitbaum/fleet `scripts/ci/auto-merge-sweep.sh`), which waits for this
+workflow's check, merges one pull request onto a green main, re-arms the
+deploy and reconciles it, so a merge that never reached the box ships on the
+next sweep. Hold work back with a draft or a `hold` label. Runs on main
+queue one at a time (the workflow's `concurrency`) so publications cannot race. Snapshot updates use one leased
+feature branch and reuse their open PR. Every three hours a scheduled run
+rebuilds from the live sources, so a change made in Loki reaches the site
+without anyone pushing here; when no page changed it publishes nothing.
 
 ### Observed deployment follow-up
 
@@ -176,3 +219,17 @@ hashed or moved; interactive modules already live at `/theme.mjs`,
 created_date: 2026-06-01
 last_modified_date: 2026-09-30
 last_modified_summary: Current chat and commissioning assets; responsive and intake gates; published commissioning contract verification.
+
+
+## Generator package receipt
+
+Publication serves `/.well-known/fleet-release.json`, produced by Fleet's shared
+receipt tool from the clean generator checkout, its lockfile and installed
+packages before refreshing external catalogue data. It identifies the generator
+commit and package artifacts, not the freshness or correctness of every external
+claim. The existing fresh-source and public-page checks cover those separately.
+
+Before staging the receipt, publication checks that executable source and its lock
+have not changed. Only generated `site/dist/`, top-level site snapshot JSON files
+and `docs/CAST.md` may change during the build. The receipt is excluded from source
+snapshot commits and verified against its exact served copy after publication.

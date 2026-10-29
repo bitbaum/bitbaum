@@ -29,7 +29,7 @@ The most feature-complete of the fleet's small apps: ~41 page routes.
 ## Business Model
 
 - **Monetization state: none.** No payment code; bookings and services exist but carry no prices in schema or UI.
-- Like vitareba, the natural first-customer motion is the clinic relationship via invoice — but unlike vitareba, no paid arrangement is ranked in the fleet GTM. Whether "Manu" here is the same clinician as vitareba's Manuel is **not established in either repo** — do not conflate the two clinics.
+- Like Vita, the natural first-customer motion is the clinic relationship via invoice — but unlike Vita, no paid arrangement is ranked in the fleet GTM. Whether "Manu" here is the same clinician as Vita's Manuel is **not established in either repo** — do not conflate the two clinics.
 - Revenue to date: CHF 0
 
 ---
@@ -51,6 +51,6 @@ The most feature-complete of the fleet's small apps: ~41 page routes.
 
 - **ICP (explicit):** burnout / Long-COVID reintegration and longevity clients; practitioners = the clinic team.
 - **Positioning one-liner:** catch the dip before the crash — daily signals for clients, early-intervention visibility for clinicians.
-- **Shortest first-paying-customer path:** clinic relationship via invoice (same pattern as vitareba). Not currently ranked in the fleet's top-4; no active revenue motion.
+- **Shortest first-paying-customer path:** clinic relationship via invoice (same pattern as Vita). Not currently ranked in the fleet's top-4; no active revenue motion.
 - **Monetization state:** none built.
 - **Key metrics to move:** none active per fleet GTM; the leads table (newsletter + assessment sources) is the existing funnel asset when activated.

@@ -4,19 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>Causius — Law, with a lawyer in the loop</title>
-<meta name="description" content="Named, not built. The plan: Causius prepares the mandate and a licensed lawyer owns it. A messy employment or contract matter becomes a structured file — timeline, clause map, missing documents, a first draft and a cited risk list — which a named lawyer accepts, edits and bills. It never tells anyone to sue.">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
+<title>Causius — Your legal matter, worked through</title>
+<meta name="description" content="Say what is happening, or bring the letter: Causius finds the rules, keeps your deadlines and drafts the reply, on a sealed case file, and nothing leaves without you. Check a letter with no account. Legal assistants help with procedure and filing; licensed lawyers advise and represent where the law reserves the work for them. It never tells anyone to sue.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/causius/">
-<meta property="og:title" content="Causius — Law, with a lawyer in the loop">
-<meta property="og:description" content="Named, not built. The plan: Causius prepares the mandate and a licensed lawyer owns it. A messy employment or contract matter becomes a structured file — timeline, clause map, missing documents, a first draft and a cited risk list — which a named lawyer accepts, edits and bills. It never tells anyone to sue.">
+<meta property="og:title" content="Causius — Your legal matter, worked through">
+<meta property="og:description" content="Say what is happening, or bring the letter: Causius finds the rules, keeps your deadlines and drafts the reply, on a sealed case file, and nothing leaves without you. Check a letter with no account. Legal assistants help with procedure and filing; licensed lawyers advise and represent where the law reserves the work for them. It never tells anyone to sue.">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/causius/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
+<meta property="og:image" content="https://bitbaum.orangecat.ch/shots/causius.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Causius — Law, with a lawyer in the loop">
-<meta name="twitter:description" content="Named, not built. The plan: Causius prepares the mandate and a licensed lawyer owns it. A messy employment or contract matter becomes a structured file — timeline, clause map, missing documents, a first draft and a cited risk list — which a named lawyer accepts, edits and bills. It never tells anyone to sue.">
-<meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
+<meta name="twitter:title" content="Causius — Your legal matter, worked through">
+<meta name="twitter:description" content="Say what is happening, or bring the letter: Causius finds the rules, keeps your deadlines and drafts the reply, on a sealed case file, and nothing leaves without you. Check a letter with no account. Legal assistants help with procedure and filing; licensed lawyers advise and represent where the law reserves the work for them. It never tells anyone to sue.">
+<meta name="twitter:image" content="https://bitbaum.orangecat.ch/shots/causius.jpg">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"bitbaum","url":"https://bitbaum.orangecat.ch","address":{"@type":"PostalAddress","addressLocality":"Zürich","addressCountry":"CH"},"sameAs":["https://github.com/bitbaum"]}</script>
@@ -67,9 +78,9 @@
   <main id="main">
     <section data-lodge class="stage stage-floored venture-hero">
       <div class="wrap">
-        <span class="eyebrow quiet">Not built</span>
+        <span class="eyebrow">Product</span>
         <h1 class="display-1">Causius</h1>
-        <p class="lede">Law, with a lawyer in the loop</p>
+        <p class="lede">Your legal matter, worked through</p>
         <div class="actions">
           <a class="btn primary" href="https://causius.orangecat.ch">Open causius.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></a>
           <a class="btn secondary" href="https://github.com/bitbaum/causius">Source</a>
@@ -78,21 +89,18 @@
       </div>
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-owl" aria-hidden="true"><span class="owl-perch"><img class="fig fig-owl" src="/art/owl.webp" width="433" height="419" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="owl-flying" hidden><img class="fig fig-owl-fly" src="/art/owl-fly.webp" width="440" height="384" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
-
+    <div class="wrap"><div class="venture-shot"><img src="/shots/causius.jpg" alt="Causius — screenshot of causius.orangecat.ch" width="1280" height="800"></div></div>
     <section class="wrap venture-body">
       <div class="prose">
-        <p>Named, not built. The plan: Causius prepares the mandate and a licensed lawyer owns it. A messy employment or contract matter becomes a structured file — timeline, clause map, missing documents, a first draft and a cited risk list — which a named lawyer accepts, edits and bills. It never tells anyone to sue.</p>
-        <p class="caption"><strong>Not built:</strong> Named, not built. Listed so the list is honest.</p>
-        
+        <p>Say what is happening, or bring the letter: Causius finds the rules, keeps your deadlines and drafts the reply, on a sealed case file, and nothing leaves without you. Check a letter with no account. Legal assistants help with procedure and filing; licensed lawyers advise and represent where the law reserves the work for them. It never tells anyone to sue.</p>
       </div>
       <div class="venture-facts">
-        <div><span class="label">Stage</span><span>Not built</span></div>
-        <div><span class="label">Status</span><span>Named, not built</span></div>
+        <div><span class="label">Stage</span><span>Beta — running, not released</span></div>
         <div><span class="label">Field</span><span><a href="/work/#work?field=knowledge">Knowledge</a></span></div>
         <div><span class="label">Since</span><span>Sep 2026</span></div>
         <div><span class="label">Address</span><span><a href="https://causius.orangecat.ch">causius.orangecat.ch</a></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/causius">bitbaum/causius</a></span></div>
-
+        <div class="uses"><span class="label">Built from</span><div class="chips"><a href="/packages/accountkit/">accountkit</a><a href="/packages/ai-kit/">ai-kit</a><a href="/packages/bip-kit/">bip-kit</a><a href="/packages/chatkit/">chatkit</a><a href="/packages/design-tokens/">design-tokens</a><a href="/packages/limitkit/">limitkit</a><a href="/packages/listkit/">listkit</a><a href="/packages/mail-kit/">mail-kit</a><a href="/packages/searchkit/">searchkit</a></div></div>
       </div>
     </section>
     <section class="section venture-depth">
@@ -105,7 +113,11 @@
         <div class="depth-roadmap">
           <span class="label">Being built now</span>
           <ul>
-            <li><span>Define the first law-oriented product workflow</span></li>
+            <li><span>Read a letter and say what it wants</span><span class="depth-progress" role="img" aria-label="73% done"><span style="width:73%"></span></span></li>
+            <li><span>Private by construction</span><span class="depth-progress" role="img" aria-label="57% done"><span style="width:57%"></span></span></li>
+            <li><span>Say what Causius is, in one place</span><span class="depth-progress" role="img" aria-label="25% done"><span style="width:25%"></span></span></li>
+            <li><span>Matters worked by an agent</span><span class="depth-progress" role="img" aria-label="79% done"><span style="width:79%"></span></span></li>
+            <li><span>The fleet's design and a technical narrative</span><span class="depth-progress" role="img" aria-label="100% done"><span style="width:100%"></span></span></li>
           </ul>
         </div>
       </div>
@@ -116,12 +128,12 @@
           <h2 class="display-2">Ask about Causius</h2>
           <p class="lede">Ask anything about Causius — the Cat and Loki answer right away from the project catalogue. Want a person instead? Send them the conversation.</p>
         </div>
-        <div class="chat-mount" data-chat data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is Causius?&quot;,&quot;Is Causius ready to use?&quot;,&quot;How could Causius work for my organisation?&quot;]">
+        <div class="chat-mount" data-chat data-fc-avoid data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is Causius?&quot;,&quot;Is Causius ready to use?&quot;,&quot;How could Causius work for my organisation?&quot;]">
           <p class="caption">The chat needs JavaScript. <a class="textlink" href="/work/">Browse every project</a> or <a class="textlink" href="/hire/#waitlist">join the waitlist</a>.</p>
         </div>
       </div>
     </section>
-    <div class="wrap"><div class="pager"><a href="/diplodoctor/">&larr; Diplodoctor</a><a href="/work/#work?stage=next">All not built</a><a href="/orangecat/">OrangeCat &rarr;</a></div></div>
+    <div class="wrap"><div class="pager"><a href="/diplodoctor/">&larr; Diplodoctor</a><a href="/work/#work?stage=product">All products</a><a href="/s-ink/">S.Ink &rarr;</a></div></div>
   </main>
   <footer>
     <div class="wrap">

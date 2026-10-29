@@ -4,18 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>Partners — bitbaum</title>
-<meta name="description" content="Hire an approved independent partner, or apply through Bitbaum's systems design pilot.">
+<meta name="description" content="Hire an approved independent partner, or apply with the work you have built.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/partners/">
 <meta property="og:title" content="Partners — bitbaum">
-<meta property="og:description" content="Hire an approved independent partner, or apply through Bitbaum's systems design pilot.">
+<meta property="og:description" content="Hire an approved independent partner, or apply with the work you have built.">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/partners/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Partners — bitbaum">
-<meta name="twitter:description" content="Hire an approved independent partner, or apply through Bitbaum's systems design pilot.">
+<meta name="twitter:description" content="Hire an approved independent partner, or apply with the work you have built.">
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -75,7 +86,7 @@
       <div class="wrap bleed-body">
         <div class="bleed-copy rise">
           <span class="kicker">Partners</span><h1 class="headline-caps">Build here.</h1>
-          <p class="bleed-lede">Independent builders, approved by the studio after its systems design course. Work under your own name and agree your own scope and price.</p>
+          <p class="bleed-lede">Independent builders, approved by the studio on their work. Work under your own name and agree your own scope and price.</p>
           <div class="bleed-actions"><a class="btn-frame-accent" href="#join">Become a partner <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn-frame" href="#partners">Find a partner</a></div>
         </div>
       </div>
@@ -86,13 +97,14 @@
       <div class="portal-grid" data-partner-directory data-api-origin="https://loki.orangecat.ch"><noscript><p>The directory needs JavaScript to check current availability. <a href="/hire/#waitlist">Send the studio a brief</a> or <a href="https://loki.orangecat.ch/commission">use free Loki</a>.</p></noscript></div>
       <p class="caption">Partners are independent. Customers contract with and pay the partner directly. The studio takes no cut. Loki, OrangeCat and Solon are optional tools.</p>
     </div></section>
-    <section class="section" id="how"><div class="wrap"><span class="kicker quiet">Qualification</span><h2 class="headline-caps section-title">Learn. Demonstrate. Get reviewed.</h2>
-      <ol class="steps"><li><span class="path-n">01</span><span class="step-title">Study the studio pilot</span><p>Start with the <a href="/academy/">first systems design lesson and capstone rubric</a>. The full course is still being developed.</p></li><li><span class="path-n">02</span><span class="step-title">Submit working evidence</span><p>Your private application holds a preview, source and answers for the six design dimensions. The studio can request revisions or record a course pass.</p></li><li><span class="path-n">03</span><span class="step-title">Receive studio approval</span><p>Course pass is a prerequisite, not automatic partner approval. An approved, consenting profile appears only after publication review and while availability is current.</p></li></ol>
+    <section class="section" id="how"><div class="wrap"><span class="kicker quiet">How approval works</span><h2 class="headline-caps section-title">Show your work. A person decides.</h2>
+      <ol class="steps"><li><span class="path-n">01</span><span class="step-title">Show what you have built</span><p>Say who you are and link the work: a live product, a repository, a site you made for someone. For an experienced builder that is the whole application.</p></li><li><span class="path-n">02</span><span class="step-title">The studio decides</span><p>A person reads your work and answers in your private application, and by email if you give an address. No exam is required.</p></li><li><span class="path-n">03</span><span class="step-title">The course, if you want it</span><p>The <a href="/academy/">systems design course</a> ends in a capstone exam reviewed against a published rubric. Pass it and your profile shows the credential. Take it to learn, to prove it, or not at all.</p></li></ol>
     </div></section>
-    <section class="section" id="join"><div class="wrap portal-layout"><div><span class="kicker quiet">Become a partner</span><h2 class="headline-caps section-title">Show what you build.</h2><p class="lede">Write it or say it — who you are, what you build, where the studio can see your work. One message opens a private application where the course evidence, review reasons and, later, assigned briefs live. No account needed.</p><p><a class="textlink" href="/academy/">Read the pilot course and rubric first</a></p></div>        <div class="chat-mount intake-mount" data-intake data-purpose="partner" data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-offer-id="" data-prompt="Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application, and the pilot course is the next step.">
+    <section class="section" id="join"><div class="wrap portal-layout"><div><span class="kicker quiet">Become a partner</span><h2 class="headline-caps section-title">Show what you build.</h2><p class="lede">Write it or say it — who you are, what you build, where the studio can see your work. One message opens a private application where the studio answers and, later, assigned briefs live. No account and no course needed.</p><p><a class="textlink" href="/academy/">The optional course and its exam</a></p></div>        <div class="chat-mount intake-mount" data-intake data-fc-avoid data-purpose="partner" data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-offer-id="" data-prompt="Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application, and a person at the studio answers it there.">
           <p class="caption">Applications need JavaScript to reach the studio. <a class="textlink" href="/academy/">Read the pilot course</a> or <a class="textlink" href="/work/">browse every project</a> in the meantime.</p>
         </div></div></section>
-      <div class="wrap art-collection" aria-hidden="true" data-art-collection><div class="art-object shroom"><img class="fig fig-mushroom-1" src="/art/mushroom-1.webp" width="96" height="157" alt="" loading="lazy" decoding="async" draggable="false"></div><div class="art-object shroom s2"><img class="fig fig-mushrooms-2" src="/art/mushrooms-2.webp" width="202" height="290" alt="" loading="lazy" decoding="async" draggable="false"></div><div class="art-object shroom s3"><img class="fig fig-mushrooms-3" src="/art/mushrooms-3.webp" width="187" height="259" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
+    <nav class="record-doors wrap" aria-label="Where next"><a class="btn-frame-accent" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn-frame" href="/work/">See the work</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
+      <div class="wrap art-collection" aria-hidden="true" data-art-collection><div class="art-object shroom"><img class="fig fig-mushroom-1" src="/art/mushroom-1.webp" width="96" height="157" alt="" loading="lazy" decoding="async" draggable="false"></div><div class="art-object shroom shroom-2"><img class="fig fig-mushrooms-2" src="/art/mushrooms-2.webp" width="202" height="290" alt="" loading="lazy" decoding="async" draggable="false"></div><div class="art-object shroom shroom-3"><img class="fig fig-mushrooms-3" src="/art/mushrooms-3.webp" width="187" height="259" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
   </main>
   <footer>
     <div class="wrap">

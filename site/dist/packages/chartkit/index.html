@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
+<title>chartkit — bitbaum</title>
+<meta name="description" content="One chart for every product: token-driven SVG charts that render on the server, read as a table, and never cut a label — line, ranked bars, share bars, sparkline, meter, timeline, stat tiles.">
+<link rel="canonical" href="https://bitbaum.orangecat.ch/packages/chartkit/">
+<meta property="og:title" content="chartkit — bitbaum">
+<meta property="og:description" content="One chart for every product: token-driven SVG charts that render on the server, read as a table, and never cut a label — line, ranked bars, share bars, sparkline, meter, timeline, stat tiles.">
+<meta property="og:url" content="https://bitbaum.orangecat.ch/packages/chartkit/">
+<meta property="og:site_name" content="bitbaum">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="chartkit — bitbaum">
+<meta name="twitter:description" content="One chart for every product: token-driven SVG charts that render on the server, read as a table, and never cut a label — line, ranked bars, share bars, sparkline, meter, timeline, stat tiles.">
+<meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"bitbaum","url":"https://bitbaum.orangecat.ch","address":{"@type":"PostalAddress","addressLocality":"Zürich","addressCountry":"CH"},"sameAs":["https://github.com/bitbaum"]}</script>
+<script>
+  // Tiny FOUC guard only — theme UI lives in /theme.mjs.
+  (function () {
+    try {
+      // "auto" (local time) is the default: night while the sun is down where
+      // the reader is. The same sum as theme.mjs, kept tiny.
+      var saved = localStorage.getItem("theme") || "auto";
+      if (saved === "system") saved = "auto";
+      var d = new Date(), lat = 47, lng = -d.getTimezoneOffset() / 4, g = JSON.parse(localStorage.getItem("bb-geo") || "null");
+      if (g) { lat = g.lat; lng = g.lng; }
+      var r = Math.PI / 180, day = (d - Date.UTC(d.getUTCFullYear(), 0, 0)) / 864e5, dec = -23.44 * Math.cos(2 * Math.PI / 365 * (day + 10));
+      var h = 15 * (d.getUTCHours() + d.getUTCMinutes() / 60 + lng / 15 - 12);
+      var sun = Math.asin(Math.sin(lat * r) * Math.sin(dec * r) + Math.cos(lat * r) * Math.cos(dec * r) * Math.cos(h * r)) / r;
+      var dark = saved === "dark" || (saved === "auto" && sun < -3);
+      document.documentElement.classList.toggle("dark", dark);
+      document.documentElement.dataset.theme = saved;
+    } catch (e) {
+      document.documentElement.classList.toggle("dark", matchMedia("(prefers-color-scheme: dark)").matches);
+    }
+  })();
+</script>
+<link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <canvas class="sky" aria-hidden="true"></canvas>
+  <div class="sky-life" aria-hidden="true"><div class="fog-walker" hidden><img class="fig fig-fog-neck" src="/art/fog-neck.webp" width="247" height="280" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
+  <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false"><filter id="ripple"><feTurbulence type="fractalNoise" baseFrequency="0.006 0.09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="22"/></filter><filter id="ripple-soft"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.12" numOctaves="1" seed="3"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></svg>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top" data-header>
+    <div class="wrap">
+      <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
+      <nav class="top-links" aria-label="Site">
+        <a href="/work/">The work</a>
+        <a href="/partners/">Partners</a>
+        <a href="/hire/">Studio</a>
+      </nav>
+      <a class="btn primary top-cta" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </header>
+  <main id="main">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
+      <div class="wrap">
+        <span class="eyebrow">Package &middot; MIT</span>
+        <h1 class="display-1">chartkit</h1>
+        <p class="lede">One chart for every product: token-driven SVG charts that render on the server, read as a table, and never cut a label — line, ranked bars, share bars, sparkline, meter, timeline, stat tiles.</p>
+        <div class="actions">
+          <a class="btn primary" href="https://www.npmjs.com/package/@bitbaum/chartkit">npm</a>
+          <a class="btn secondary" href="https://github.com/bitbaum/chartkit#readme">README &amp; API</a>
+          <a class="btn secondary" href="https://www.npmjs.com/package/@bitbaum/chartkit?activeTab=versions">Version history</a>
+          <a class="btn secondary" href="https://github.com/bitbaum/chartkit">Source</a>
+        </div>
+      </div>
+    </section>
+    <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-scarab" aria-hidden="true"><span class="scarab"><img class="fig fig-scarab" src="/art/scarab.webp" width="360" height="133" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="sunball"><img class="fig fig-sunball" src="/art/sunball.webp" width="360" height="360" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
+      <div class="prose">
+        
+        
+        
+      </div>
+      <div class="venture-facts">
+        <div><span class="label">Licence</span><span>MIT</span></div>
+        <div><span class="label">Registry release</span><span>v0.6.0</span></div>
+        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/chartkit@^0.6.0" aria-label="Copy install command"><code>pnpm add @bitbaum/chartkit@^0.6.0</code></button></span></div>
+        <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/chartkit">bitbaum/chartkit</a></span></div>
+        <div><span class="label">Declared consumers</span><span>3 repositories</span></div>
+
+      </div>
+    </section>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/chartkit/blob/d9ab65cba39d3c798863cd97db145b99fa385d31/">source commit <code>d9ab65cba39d</code></a> · 2026-10-28. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-install">Install</a></li><li><a href="#api-use">Use</a></li><li><a href="#api-what-every-chart-guarantees">What every chart guarantees</a></li><li><a href="#api-the-audit">The audit</a></li><li><a href="#api-develop">Develop</a></li><li><a href="#api-app-language">App language</a></li><li><a href="#api-reference-intervals-stacking-and-proportions">Reference intervals, stacking and proportions</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p><strong>One chart for every bitbaum product.</strong> A line, ranked bars, a share bar, a sparkline, a meter, a timeline and a strip of figures — drawn on the server from the app's own tokens, each with a table behind it and no label that clips, overlaps or shrinks — so a fix made once reaches every product.</p>
+<p>Why it exists: on 2026-10-23 the owner said visualisations are &quot;super important&quot;, a profile must be &quot;more useful than Bloomberg&quot;, and &quot;it's packages what makes us special&quot;. Substrata had one hand-rolled line chart and nothing else; every other product had none. This is the one place charts now live. (Colour and type come from <a href="https://github.com/bitbaum/design-tokens"><code>design-tokens</code></a>; chartkit is the drawing.)</p>
+<h2 id="api-install">Install</h2>
+<pre><code>pnpm add @bitbaum/chartkit@^0.3.0</code></pre>
+<p>Install releases from npm, never a commit or a branch, for the reason chatkit's README gives: a semver range is what lets a fix reach every product.</p>
+<h2 id="api-use">Use</h2>
+<pre><code>import { LineChart, BarChart, ColumnChart, ShareBars, Sparkline, Meter, Timeline, StatTiles } from &quot;@bitbaum/chartkit/react&quot;;
+import &quot;@bitbaum/chartkit/styles.css&quot;;
+
+&lt;LineChart
+  series={[{ id: &quot;backlog&quot;, label: &quot;Backlog&quot;, points: [{ x: &quot;2025-Q1&quot;, y: 29, href: &quot;…&quot; }] }]}
+  unit=&quot;GW&quot;
+  caption=&quot;GE Vernova Gas Power equipment backlog, GW, by quarter.&quot;
+  yFrom=&quot;zero&quot;                       // or &quot;data&quot;; left out, zero only when the data sits near it
+  height={208}                       // CSS px; the width is the container's
+/>
+&lt;LineChart                           // a year of daily closes: a clean line with a light fill
+  series={[{ id: &quot;close&quot;, label: &quot;Close&quot;, points: closes }]}
+  unit=&quot;USD&quot;
+  yFrom=&quot;data&quot;
+  markers=&quot;auto&quot;                     // &quot;all&quot; (default) | &quot;none&quot; | &quot;ends&quot; | &quot;auto&quot;
+  area                               // faint fill under the line, in the series' token colour
+  caption=&quot;NVIDIA daily closes, USD, last 12 months.&quot;
+/>
+&lt;BarChart rows={[{ label: &quot;China&quot;, value: 900000, share: 0.99, estimated: true }, { label: &quot;Other&quot;, value: null }]} unit=&quot;kg&quot; caption=&quot;…&quot; highlight=&quot;China&quot; />
+&lt;ShareBars rows={[{ label: &quot;BlackRock&quot;, share: 0.074 }]} other={0.926} otherLabel=&quot;Others, each below 5%&quot; caption=&quot;…&quot; />
+&lt;ColumnChart series={[{ id: &quot;rev&quot;, label: &quot;Revenue&quot;, points: [{ x: &quot;FY2024&quot;, y: 61 }, { x: &quot;FY2025&quot;, y: -4, href: &quot;…&quot; }] }]} unit=&quot;USD bn&quot; caption=&quot;…&quot; />
+&lt;Sparkline points={points} label=&quot;Backlog over six quarters&quot; />
+&lt;Meter value={12} max={12} label=&quot;Severity&quot; href=&quot;/methods/severity&quot; />
+&lt;Timeline events={[{ date: &quot;2026-07-17&quot;, label: &quot;…&quot;, tone: &quot;down&quot;, href: &quot;…&quot; }]} caption=&quot;…&quot; />
+&lt;StatTiles tiles={[{ label: &quot;Bottlenecks mapped&quot;, value: 33, href: &quot;/bottlenecks&quot; }]} /></code></pre>
+<p><code>x</code> is an ISO period (<code>2025</code>, <code>2025-Q2</code>, <code>2025-03</code>, <code>2025-03-31</code>) or a number. Several series share one axis — there is no second y-axis and never will be; two measures of different scale are two charts. <code>BarChart</code> defaults to ranking its rows (largest first, no number last) whatever order they arrive in, draws a <code>null</code> as &quot;—&quot; and an estimate with &quot;≈&quot;. <code>ShareBars</code> names its remainder <code>otherLabel</code> (left out, &quot;Other&quot;) — say what the rest is, never a bare &quot;Other 87%&quot;. <code>ColumnChart</code> draws periods left to right in the order given (fiscal labels are not re-sorted), several series side by side, a loss below the zero line, and a missing figure as no column and &quot;—&quot; in the table. Every point of a <code>LineChart</code> and every event of a <code>Timeline</code> is an anchor when it has an <code>href</code>, with its value, period and note on hover and on keyboard focus.</p>
+<p><code>markers</code> says which values of a <code>LineChart</code> carry a dot: <code>all</code> (the default, as before) every one; <code>none</code> the line alone; <code>ends</code> only each series' last value; <code>auto</code> every one up to 60 points on a series and none above — 250 daily closes drawn as 250 beads is a string of pearls, not a price line. A value whose dot is hidden is still there: its target is a full-height strip of the plot (the strips tile it, so a pointer or a finger anywhere over the line finds the nearest value), and hover or keyboard focus shows its dot, a hairline cursor and the value. The table behind the chart holds every value either way. <code>area</code> adds a light fill under each line in that series' own <code>--ck-series-*</code> colour — never a literal.</p>
+<h2 id="api-what-every-chart-guarantees">What every chart guarantees</h2>
+<ul><li><strong>It renders on the server.</strong> Pure SVG and HTML, no effect, no measurement.</li></ul>
+<p>The drawing is an SVG stretched to its box (<code>preserveAspectRatio=&quot;none&quot;</code>, non-scaling strokes); every label is HTML in rem laid over it in per cent, so a 320px plot has the same type as a 1440px one.</p>
+<ul><li><strong>Nothing is reachable only by pointing.</strong> Each chart is a `&lt;figure</li></ul>
+<p>class=&quot;ck-chart&quot;><code> with its caption and a visually hidden </code>&lt;table><code> of the same values; the decorative parts are </code>aria-hidden`, the anchors are not.</p>
+<ul><li><strong>No label clips or overlaps.</strong> Long labels truncate with an ellipsis and</li></ul>
+<p>carry the full text in <code>title</code>; bar labels have a least column; timeline events that would collide take a second lane; the y gutter is as wide as its widest number. <code>@bitbaum/chartkit/audit</code> measures it (below).</p>
+<ul><li><strong>Colour and type come only from <code>--ck-*</code> variables</strong>, which default to</li></ul>
+<p>design-tokens and can be set once on <code>:root</code>: <code>--ck-ink</code>, <code>--ck-ink-muted</code>, <code>--ck-line</code>, <code>--ck-bg</code>, <code>--ck-accent</code>, <code>--ck-up</code>, <code>--ck-down</code>, <code>--ck-series-1</code> … <code>-6</code>, <code>--ck-font</code>, <code>--ck-mono</code>. Series are by index, never cycled, and each after the first has a dash as well as a colour, so the set survives a monochrome theme and a print. The prefix is shared with chatkit on purpose: <code>--ck-line</code>, <code>--ck-accent</code>, <code>--ck-bg</code>, <code>--ck-font</code> and <code>--ck-mono</code> mean the same in both, so an app that themed its chat has themed its charts. Light and dark both work by token.</p>
+<h2 id="api-the-audit">The audit</h2>
+<pre><code>import { CHART_DEFECTS_SOURCE } from &quot;@bitbaum/chartkit/audit&quot;;
+const defects = await page.evaluate(`(${CHART_DEFECTS_SOURCE})(document.body)`);
+if (defects.length) throw new Error(defects.join(&quot;\n&quot;));</code></pre>
+<p><code>findChartDefects(root)</code> runs inside the page and returns every piece of chart text whose box leaves its chart or overlaps another piece of text in the same chart, one line each. Reading the CSS finds none of these; laying the words out with the real font at the real width does. <code>test/browser.mjs</code> runs it over the demo at 320, 390 and 1280px in light and dark, and first over a deliberately broken figure, to prove the gate can fail.</p>
+<h2 id="api-develop">Develop</h2>
+<pre><code>pnpm install
+pnpm run verify       # format:check, lint, typecheck, build, test, test:browser
+pnpm run demo         # builds demo/dist; open demo/index.html</code></pre>
+<p><code>test:browser</code> needs Chromium: <code>pnpm exec playwright install chromium</code>, or set <code>CHROMIUM_PATH</code>. <code>dist/</code> is committed so a <code>github:</code> install needs no build step; <code>pnpm run check:dist</code> says whether it matches the source.</p>
+<p>For proportions, pass the whole as <code>max</code>: <code>&lt;BarChart rows={[{ label: &quot;Share&quot;, value: 1.6 }]} max={100} unit=&quot;%&quot; caption=&quot;Share of the whole&quot; /></code> draws a 1.6% bar. Without <code>max</code>, bars are relative to the largest row. The scale always expands to fit larger values; invalid or non-positive maxima fall back to the largest row. Accessible tables retain the original values.</p>
+<h2 id="api-app-language">App language</h2>
+<p><code>LineChart</code>, <code>ColumnChart</code> and <code>Timeline</code> accept an explicit BCP 47 <code>locale</code> (such as <code>de-CH</code>); numbers, dates, axes, tooltips and accessible tables use it. Dates are formatted in UTC so a server timezone cannot move a reporting date. Omitting the locale preserves the existing English output. Pass translations from the app's dictionary with <code>periodLabel</code> on line/column charts, <code>preliminaryLabel</code> on line charts, and <code>tableLabels: { date, event, effect }</code> on timelines. These labels remain English unless supplied: a locale formats data, it does not guess product copy.</p>
+<pre><code>&lt;LineChart series={series} caption=&quot;Umsatz&quot; locale=&quot;de-CH&quot;
+  periodLabel=&quot;Zeitraum&quot; preliminaryLabel=&quot;vorläufig&quot; /></code></pre>
+<h2 id="api-reference-intervals-stacking-and-proportions">Reference intervals, stacking and proportions</h2>
+<p><code>LineChart</code> accepts <code>referenceBands={[{ from: 10, to: 20, label: &quot;Expected interval&quot; }]}</code>. The app owns the interval, label and unit; the chart extends its scale to include the bounds and exposes the exact interval as text. Invalid/reversed bounds fail rather than silently presenting a different interval. This is a display feature, not a source of clinical ranges or medical advice.</p>
+<p><code>ColumnChart stacked</code> stacks positives upward and negatives downward from zero. The axis includes accumulated totals; the table keeps each original value, including the distinction between missing and zero. The default remains grouped.</p>
+<p><code>DoughnutChart</code> takes <code>rows: { label, value, href? }[]</code>, <code>caption</code>, <code>unit?</code>, <code>locale?</code>, <code>labelHeading?</code> and <code>valueHeading?</code>. It renders a proportional ring, linked legend and exact-value accessible table. Values must be finite and non-negative. An empty/zero total draws no invented shares. Colours use app tokens; legend links remain keyboard reachable without depending on a slice.</p>
+<p>For ordinal scales, use <code>order=&quot;input&quot;</code> to preserve the row sequence. Optional row <code>tone</code> values (<code>positive</code>, <code>warning</code>, <code>negative</code>) use theme colors rather than a hardcoded palette. Tone takes precedence over highlight color; keep meaningful text labels so color is never the only indication.</p>
+<p><code>BarChart</code> also accepts <code>locale</code> for visual and accessible number formatting, and <code>labels</code> (<code>row</code>, <code>value</code>, <code>share</code>, <code>note</code>, <code>estimated</code>) for table headings and estimate text. Defaults preserve existing English ranked charts. For a satisfaction distribution, pass the total as <code>max</code>, ordinal rows and translated scale labels; each bar then shows its share of all responses.</p></div></details>
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-5-0">0.5.0</h2>
+<ul><li>App-defined reference intervals in LineChart, including exact accessible bounds.</li><li>Optional stacked ColumnChart with separate positive/negative totals and missing-value preservation.</li><li>DoughnutChart with token colours, localized exact-value tables, source links and zero-total handling.</li></ul>
+<h2 id="change-0-4-0">0.4.0</h2>
+<ul><li>Line/column charts and timelines accept an explicit locale for dates, numbers, axes, tooltips and accessible tables. Product dictionaries supply translated period, preliminary and timeline headings. Existing English output stays unchanged when omitted; dates use UTC.</li></ul>
+<h2 id="change-0-3-0">0.3.0</h2>
+<ul><li><strong><code>LineChart</code> <code>markers</code></strong> — <code>&quot;all&quot;</code> (default, unchanged) | <code>&quot;none&quot;</code> |</li></ul>
+<p><code>&quot;ends&quot;</code> | <code>&quot;auto&quot;</code>. <code>auto</code> drops the dots above 60 points on a series, so a year of daily closes reads as a line rather than ~250 beads; <code>ends</code> keeps only each series' last value. Hidden values stay reachable: each is a full-height strip of the plot (the strips tile it edge to edge), and hover or keyboard focus shows its dot, a hairline cursor and its value.</p>
+<ul><li><strong><code>LineChart</code> <code>area</code></strong> — a light fill under each line in the series' token</li></ul>
+<p>colour (<code>color-mix</code> of <code>--ck-series-*</code>, never a hex).</p>
+<ul><li>Core: <code>areaPath</code>, <code>hitColumns</code>, <code>resolveMarkers</code>, <code>AUTO_MARKER_LIMIT</code>,</li></ul>
+<p>type <code>LineMarkers</code>.</p>
+<ul><li>Browser check now runs at 1440px too, and checks the dense chart at 390 and</li></ul>
+<p>1440px: no dots drawn, strips tile the plot, hover/focus shows the value on screen.</p>
+<h2 id="change-0-2-0">0.2.0</h2>
+<ul><li><code>ShareBars</code> <code>otherLabel</code>; <code>ColumnChart</code> for values by period.</li></ul></div></details>
+      <ol class="pkg-releases"><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/chartkit/releases/tag/v0.6.0">v0.6.0</a><time datetime="2026-10-28T17:16:03Z">2026-10-28</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-0-what-s-changed">What's Changed</h2>
+<p>* feat(charts): preserve ordinal scales and localize bar labels by @catomean in https://github.com/bitbaum/chartkit/pull/17</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/chartkit/compare/v0.5.0...v0.6.0</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/chartkit/releases/tag/v0.5.0">v0.5.0</a><time datetime="2026-10-28T06:57:07Z">2026-10-28</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-1-what-s-changed">What's Changed</h2>
+<p>* feat(charts): add reference bands, stacked columns and doughnuts by @catomean in https://github.com/bitbaum/chartkit/pull/15 * fix(charts): support the verified React 18 consumer runtime by @catomean in https://github.com/bitbaum/chartkit/pull/16</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/chartkit/compare/v0.4.0...v0.5.0</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/chartkit/releases/tag/v0.4.0">v0.4.0</a><time datetime="2026-10-28T06:36:06Z">2026-10-28</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-2-what-s-changed">What's Changed</h2>
+<p>* docs(agents): the org rules block, generated from bitbaum/fleet by @catomean in https://github.com/bitbaum/chartkit/pull/12 * chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it by @catomean in https://github.com/bitbaum/chartkit/pull/13 * feat(charts): localize periods, values and accessible labels by @catomean in https://github.com/bitbaum/chartkit/pull/14</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/chartkit/compare/v0.3.0...v0.4.0</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/chartkit/releases/tag/v0.3.0">v0.3.0</a><time datetime="2026-10-27T13:04:28Z">2026-10-27</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-3-what-s-changed">What's Changed</h2>
+<p>* chore(deps): raise shared package floors to published versions by @catomean in https://github.com/bitbaum/chartkit/pull/8 * feat(line): markers and area on LineChart, so a year of closes is a clean line by @catomean in https://github.com/bitbaum/chartkit/pull/10 * fix(release): install Chromium before verify, as the fleet template does by @catomean in https://github.com/bitbaum/chartkit/pull/11</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/chartkit/compare/v0.2.0...v0.3.0</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/chartkit/releases/tag/v0.2.0">v0.2.0</a><time datetime="2026-10-27T07:56:07Z">2026-10-27</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-4-what-s-changed">What's Changed</h2>
+<p>* chore(deps): raise shared package floors to published versions by @catomean in https://github.com/bitbaum/chartkit/pull/4 * ci: unified tokenless trusted-publishing workflow by @catomean in https://github.com/bitbaum/chartkit/pull/5 * chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) by @catomean in https://github.com/bitbaum/chartkit/pull/6 * chore: add the fleet package template files this repo is missing (release-notify.yml) by @catomean in https://github.com/bitbaum/chartkit/pull/7 * feat: ShareBars otherLabel and a ColumnChart for values by period (0.2.0) by @catomean in https://github.com/bitbaum/chartkit/pull/9</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/chartkit/compare/v0.1.1...v0.2.0</p></div></details></li></ol>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/chartkit/commit/d9ab65cba39d3c798863cd97db145b99fa385d31">release v0.6.0</a> <time datetime="2026-10-28T17:16:00Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/14c38d56ce2b99d9366d886c988b6852e42d0380">feat(charts): support ordinal bar scales and localized labels (#17)</a> <time datetime="2026-10-28T17:13:44Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/642a92af3d7d8bbd7b96575a5f4cdded5f7696e4">release v0.5.0</a> <time datetime="2026-10-28T06:57:05Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/d8e07e2f72105abc4880b44d9fdd6d92e7e1eaa9">fix(charts): support the verified React 18 consumer runtime (#16)</a> <time datetime="2026-10-28T06:53:45Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/3490fa41fb667a8aa81fe97e8ac34433c52cb986">feat(charts): add reference bands, stacked columns and doughnuts (#15)</a> <time datetime="2026-10-28T06:47:53Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/efff2aac954396fb16f2c8f869210bf1fc534ac9">release v0.4.0</a> <time datetime="2026-10-28T06:36:03Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/d2cd4ee6a273e78248def2f0b586d0af0d2fd604">feat(charts): localize periods, values and accessible labels (#14)</a> <time datetime="2026-10-28T06:33:50Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/chartkit/commit/6bdd2c3ecd270dd16a9e330ba63866b2e00068b5">chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#13)</a> <time datetime="2026-10-28T02:28:17Z">2026-10-28</time></li></ol></details>
+      <a class="textlink" href="https://github.com/bitbaum/chartkit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/chartkit/tags">All tags</a>
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      <div class="chips"><a href="/substrata/">Substrata</a><span>2 other repositories</span></div>
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/chartkit/blob/d9ab65cba39d3c798863cd97db145b99fa385d31/">source commit <code>d9ab65cba39d</code></a> · 2026-10-28. Source documentation can include work beyond the registry release.</p>
+      <a class="textlink" href="https://github.com/bitbaum/chartkit/actions">Package verification runs</a>
+    </section>
+    <div class="wrap"><div class="pager"><a href="/packages/threadkit/">&larr; threadkit</a><a href="/packages/">All packages</a><a href="/packages/geo-kit/">geo-kit &rarr;</a></div></div>
+  </main>
+  <script type="module">
+    for (const btn of document.querySelectorAll(".js-copy")) {
+      btn.addEventListener("click", async () => {
+        const text = btn.getAttribute("data-copy") || "";
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
+      });
+    }
+  </script>
+  <footer>
+    <div class="wrap">
+      <div class="foot-cols">
+        <div class="foot-brand">
+          <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
+          <p>AI-native products on infrastructure that is open by construction. Built in Zürich.</p>
+          <div class="theme" role="group" aria-label="Colour theme">
+        <button type="button" data-set-theme="light" title="Light" aria-label="Light">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
+        </button>
+        <button type="button" data-set-theme="auto" title="Local time — day or night where you are" aria-label="Local time: day or night where you are">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 3.4a8.6 8.6 0 0 1 0 17.2z" fill="currentColor"/><path d="M12 7.2V12l3 2"/></svg>
+        </button>
+        <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
+        </button>
+      </div>
+          <button type="button" class="weather-switch" data-weather-cycle aria-label="Change the weather" title="Change the weather">
+        <svg class="w-clear" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7"/></svg>
+        <svg class="w-clouds" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 18.5a4 4 0 0 1-.4-8A5.5 5.5 0 0 1 16.6 9a3.9 3.9 0 0 1 .9 7.7z"/></svg>
+        <svg class="w-wind" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h11.5a2.5 2.5 0 1 0-2.5-2.5M3 14h15.5a2.5 2.5 0 1 1-2.5 2.5M3 19h7"/></svg>
+        <svg class="w-mist" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5h13M6 12h15M3 15.5h12M7 19h10"/></svg>
+        <svg class="w-rain" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14.5a4.5 4.5 0 1 1 1.3-8.8A5.5 5.5 0 0 1 18.8 8a3.3 3.3 0 0 1-.8 6.5z"/><path d="M8.5 17.5l-1 2.5M12.5 17.5l-1 2.5M16.5 17.5l-1 2.5"/></svg>
+        <svg class="w-snow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 6.8l2.5-2.3M9.5 19.5 12 17.2l2.5 2.3"/></svg>
+      </button>
+        </div>
+        <nav aria-label="Explore">
+          <h2 class="label">Explore</h2>
+          <a href="/work/">The work</a>
+          <a href="/map/">The map</a>
+          <a href="/partners/">Partners</a>
+          <a href="/studio/">About bitbaum</a>
+          <a href="/roadmap/">Roadmap</a>
+          <a href="/changelog/">Changelog</a>
+          <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
+        </nav>
+        <nav aria-label="Build with us">
+          <h2 class="label">Build with us</h2>
+          <a href="/partners/#join">Become a partner</a>
+          <a href="/academy/">Systems design pilot</a>
+          <a href="/portal/">Open your portal</a>
+          <a href="/packages/" aria-current="page">Packages (for developers)</a>
+          <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
+          <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
+        </nav>
+        <nav aria-label="The studio">
+          <h2 class="label">The studio</h2>
+          <a href="/hire/">Engagements and rates</a>
+          <a href="/hire/#waitlist">Join the waitlist</a>
+          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki)</a>
+        </nav>
+      </div>
+      <p class="foot-note">bitbaum is built in Zürich, in the open.</p>
+    </div>
+  </footer>
+  <div class="site-menu" id="site-menu" hidden>
+    <div class="wrap">
+      <div class="menu-actions">
+        <a class="btn primary" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a class="btn secondary" href="/#ask">Ask anything <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
+      <nav aria-label="Explore">
+        <h2 class="label">Explore</h2>
+        <a href="/work/">The work</a>
+          <a href="/map/">The map</a>
+          <a href="/partners/">Partners</a>
+          <a href="/studio/">About bitbaum</a>
+          <a href="/roadmap/">Roadmap</a>
+          <a href="/changelog/">Changelog</a>
+          <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
+      </nav>
+      <nav aria-label="Build with us">
+        <h2 class="label">Build with us</h2>
+        <a href="/partners/#join">Become a partner</a>
+          <a href="/academy/">Systems design pilot</a>
+          <a href="/portal/">Open your portal</a>
+          <a href="/packages/" aria-current="page">Packages (for developers)</a>
+          <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
+          <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
+      </nav>
+      <nav aria-label="The studio">
+        <h2 class="label">The studio</h2>
+        <a href="/hire/">Engagements and rates</a>
+          <a href="/hire/#waitlist">Join the waitlist</a>
+          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki)</a>
+      </nav>
+      <div class="menu-theme"><span class="label">Theme and weather</span><div class="theme" role="group" aria-label="Colour theme">
+        <button type="button" data-set-theme="light" title="Light" aria-label="Light">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
+        </button>
+        <button type="button" data-set-theme="auto" title="Local time — day or night where you are" aria-label="Local time: day or night where you are">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 3.4a8.6 8.6 0 0 1 0 17.2z" fill="currentColor"/><path d="M12 7.2V12l3 2"/></svg>
+        </button>
+        <button type="button" data-set-theme="dark" title="Dark" aria-label="Dark">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 1 1 9.7 3.5a6.9 6.9 0 0 0 10.8 10.8z"/></svg>
+        </button>
+      </div><button type="button" class="weather-switch" data-weather-cycle aria-label="Change the weather" title="Change the weather">
+        <svg class="w-clear" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7"/></svg>
+        <svg class="w-clouds" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 18.5a4 4 0 0 1-.4-8A5.5 5.5 0 0 1 16.6 9a3.9 3.9 0 0 1 .9 7.7z"/></svg>
+        <svg class="w-wind" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h11.5a2.5 2.5 0 1 0-2.5-2.5M3 14h15.5a2.5 2.5 0 1 1-2.5 2.5M3 19h7"/></svg>
+        <svg class="w-mist" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5h13M6 12h15M3 15.5h12M7 19h10"/></svg>
+        <svg class="w-rain" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14.5a4.5 4.5 0 1 1 1.3-8.8A5.5 5.5 0 0 1 18.8 8a3.3 3.3 0 0 1-.8 6.5z"/><path d="M8.5 17.5l-1 2.5M12.5 17.5l-1 2.5M16.5 17.5l-1 2.5"/></svg>
+        <svg class="w-snow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 6.8l2.5-2.3M9.5 19.5 12 17.2l2.5 2.3"/></svg>
+      </button></div>
+    </div>
+  </div>
+  <script type="module" src="/theme.mjs"></script>
+  <script type="module" src="/nav.mjs"></script>
+  <a class="cat" href="/orangecat/" hidden aria-label="OrangeCat" data-label="OrangeCat &rarr;"><span class="fig puppet fig-cat" data-rig='[{"poly":[[0,50],[36,50],[34,100],[0,100]],"pivot":[33,86],"a":[-8,7],"dur":2.8,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/cat.webp" width="228" height="266" alt="" loading="lazy" decoding="async" draggable="false"></span></a>
+  <script type="module" src="/sky.mjs"></script>
+  <script type="module" src="/lodge.mjs"></script>
+  <script type="module" src="/warp.mjs"></script>
+
+  <script src="https://loki.orangecat.ch/widget.js" data-fc-project="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-fc-modes="report" async></script>
+</body>
+</html>

@@ -4,18 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>accountkit — bitbaum</title>
-<meta name="description" content="One account for every bitbaum product: the account menu, and Sign in with OrangeCat (provider, session refresh, identity rules, error screen). Styled from @bitbaum/design-tokens.">
+<meta name="description" content="One account for every bitbaum product: the account menu, accounts themselves (better-auth: password, magic link, passkeys, 2FA, OIDC) and Sign in with OrangeCat. Styled from @bitbaum/design-tokens.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/packages/accountkit/">
 <meta property="og:title" content="accountkit — bitbaum">
-<meta property="og:description" content="One account for every bitbaum product: the account menu, and Sign in with OrangeCat (provider, session refresh, identity rules, error screen). Styled from @bitbaum/design-tokens.">
+<meta property="og:description" content="One account for every bitbaum product: the account menu, accounts themselves (better-auth: password, magic link, passkeys, 2FA, OIDC) and Sign in with OrangeCat. Styled from @bitbaum/design-tokens.">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/packages/accountkit/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="accountkit — bitbaum">
-<meta name="twitter:description" content="One account for every bitbaum product: the account menu, and Sign in with OrangeCat (provider, session refresh, identity rules, error screen). Styled from @bitbaum/design-tokens.">
+<meta name="twitter:description" content="One account for every bitbaum product: the account menu, accounts themselves (better-auth: password, magic link, passkeys, 2FA, OIDC) and Sign in with OrangeCat. Styled from @bitbaum/design-tokens.">
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -65,21 +76,24 @@
     </div>
   </header>
   <main id="main">
-    <section data-lodge class="stage stage-floored venture-hero">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
       <div class="wrap">
         <span class="eyebrow">Package &middot; MIT</span>
         <h1 class="display-1">accountkit</h1>
-        <p class="lede">One account for every bitbaum product: the account menu, and Sign in with OrangeCat (provider, session refresh, identity rules, error screen). Styled from @bitbaum/design-tokens.</p>
+        <p class="lede">One account for every bitbaum product: the account menu, accounts themselves (better-auth: password, magic link, passkeys, 2FA, OIDC) and Sign in with OrangeCat. Styled from @bitbaum/design-tokens.</p>
         <div class="actions">
-          <a class="btn primary" href="/orangecat/">See it in OrangeCat</a>
+          <a class="btn primary" href="https://www.npmjs.com/package/@bitbaum/accountkit">npm</a>
           <a class="btn secondary" href="https://github.com/bitbaum/accountkit#readme">README &amp; API</a>
-          <a class="btn secondary" href="https://github.com/bitbaum/accountkit/tags">Version history</a>
+          <a class="btn secondary" href="https://www.npmjs.com/package/@bitbaum/accountkit?activeTab=versions">Version history</a>
           <a class="btn secondary" href="https://github.com/bitbaum/accountkit">Source</a>
         </div>
       </div>
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-scarab" aria-hidden="true"><span class="scarab"><img class="fig fig-scarab" src="/art/scarab.webp" width="360" height="133" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="sunball"><img class="fig fig-sunball" src="/art/sunball.webp" width="360" height="360" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
-    <section class="wrap venture-body">
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
       <div class="prose">
         
         
@@ -87,21 +101,249 @@
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Latest version</span><span>v0.2.0 (git tag)</span></div>
-        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add github:bitbaum/accountkit#v0.2.0" aria-label="Copy install command"><code>pnpm add github:bitbaum/accountkit#v0.2.0</code></button></span></div>
+        <div><span class="label">Registry release</span><span>v0.14.0</span></div>
+        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/accountkit@^0.14.0" aria-label="Copy install command"><code>pnpm add @bitbaum/accountkit@^0.14.0</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/accountkit">bitbaum/accountkit</a></span></div>
-        <div><span class="label">Used by</span><span>4 apps</span></div>
-        <div class="uses" id="used-by"><span class="label">Used by</span><div class="chips"><a href="/heidi/">Heidi</a><a href="/loki/">Loki</a><a href="/skif/">Skif</a><a href="/solon/">Solon</a></div></div>
+        <div><span class="label">Declared consumers</span><span>17 repositories</span></div>
+
       </div>
     </section>
-    <div class="wrap"><div class="pager"><a href="/packages/threadkit/">&larr; threadkit</a><a href="/packages/">All packages</a><a href="/packages/sitekit/">sitekit &rarr;</a></div></div>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/accountkit/blob/bf272d9bcaac3d25bc71be0a5f57a89ce028b539/">source commit <code>bf272d9bcaac</code></a> · 2026-10-29. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-install">Install</a></li><li><a href="#api-password-recovery">Password recovery</a></li><li><a href="#api-use">Use</a></li><li><a href="#api-what-is-shared-and-not-configurable">What is shared, and not configurable</a></li><li><a href="#api-theming">Theming</a></li><li><a href="#api-accounts-bitbaum-accountkit-auth">Accounts (`@bitbaum/accountkit/auth`)</a></li><li><a href="#api-verify">Verify</a></li><li><a href="#api-sign-in-with-orangecat-bitbaum-accountkit-orangecat">Sign in with OrangeCat — `@bitbaum/accountkit/orangecat`</a></li><li><a href="#api-password-entry">Password entry</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>One account for every bitbaum product: the account menu (who is signed in, where to go, how to sign out), and <strong>Sign in with OrangeCat</strong> (<code>@bitbaum/accountkit/orangecat</code>).</p>
+<p>Each product had written its own — Loki's <code>AccountMenu</code>, OrangeCat's <code>UserProfileDropdown</code> — and each had learned half of what the other had. Loki took initials only from the name; OrangeCat never rebuilt a name from the email address; OrangeCat had arrow keys and a 44px target, Loki had neither; Loki's public pages had no menu at all, so a signed-in person could not find sign-out. This is the one menu, with both halves.</p>
+<p>It knows nothing about how you sign in. NextAuth, Supabase, better-auth: you pass the person, the places, and a sign-out function.</p>
+<h2 id="api-install">Install</h2>
+<p>Use the current verified installation command on the <a href="https://bitbaum.orangecat.ch/packages/accountkit/">AccountKit package page</a>. Fleet's <a href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">package registry</a> is the source for the verified artifact and install transport; npm may lag a verified Git release. <a href="https://github.com/bitbaum/accountkit/blob/bf272d9bcaac3d25bc71be0a5f57a89ce028b539/CHANGELOG.md">Release history</a> distinguishes the registration designs shipped in different versions.</p>
+<p><code>dist/</code> is committed, so the <code>github:</code> install needs no build step and no <code>allowBuilds</code> entry.</p>
+<h2 id="api-password-recovery">Password recovery</h2>
+<p><code>SignInForm</code> includes password recovery when <code>signInMethods(env, mail.configured)</code> reports <code>passwordReset</code>. It uses the product's Better Auth client and sends the reset link back to its existing <code>signInPath</code>, preserving the local <code>next</code> path. That page must remain reachable when signed out and must render <code>SignInForm</code> when the reset callback carries <code>token</code> or <code>error=INVALID_TOKEN</code>. The form removes the token from browser history after reading it. Products with a separate reset route can render <code>PasswordRecoveryForm</code> from <code>@bitbaum/accountkit/auth/react</code>.</p>
+<p><code>PasswordRecoveryForm</code> takes a <code>PasswordRecoveryClient</code>: only <code>requestPasswordReset</code> and <code>resetPassword</code>. A Better Auth client satisfies it as is. A product on Auth.js (or any other session system) passes a small adapter object with those two functions, each resolving <code>{ error }</code> on failure, and keeps its own users, passwords, roles and sessions. A call that rejects, such as a dropped connection, leaves the form usable with the unavailable message and the typed address kept, so the person can retry.</p>
+<pre><code>import type { PasswordRecoveryClient } from &quot;@bitbaum/accountkit/auth/react&quot;;
+const client: PasswordRecoveryClient = {
+  requestPasswordReset: ({ email }) => post(&quot;/api/auth/forgot-password&quot;, { email }),
+  resetPassword: ({ token, newPassword }) =>
+    post(&quot;/api/auth/reset-password&quot;, { token, password: newPassword }),
+};</code></pre>
+<p>The standard mail adapter is <code>createAuthMailer</code> from <code>@bitbaum/accountkit/auth/mail</code>:</p>
+<pre><code>import { createAuthMailer } from &quot;@bitbaum/accountkit/auth/mail&quot;;
+const mail = createAuthMailer({ site: { title: &quot;Example&quot;, url: &quot;https://example.ch&quot; } });</code></pre>
+<p>Install its optional peer <code>@bitbaum/mail-kit</code>. The adapter reads deployment configuration lazily, uses the fleet sender and the product's reply address, and supports subject overrides. It rejects malformed or foreign-origin links and never logs a token, address or credential. Configuration still needs a real Resend key and working sender; this adapter does not claim delivery readiness.</p>
+<p>The sender must actually deliver account mail: <code>createAuthRuntime({ mail })</code> calls <code>mail.send(&quot;reset&quot;, to, url)</code>. A deployment with <code>mail.configured=false</code> does not offer recovery and disables its server request handler. A no-op sender does not implement recovery. <code>authLabelsFor(locale)</code> includes recovery words; older product label overrides remain compatible through the English fallback.</p>
+<p>The package checks the complete token/callback/reset journey against Postgres, including account-existence parity, expiry, one-time use, session revocation and external-redirect rejection. Its browser suite checks the forms at 320px, 390px and desktop width. Consumers must also verify their own page wiring and delivery.</p>
+<pre><code>import &quot;@bitbaum/accountkit/styles.css&quot;;
+import { AccountMenu } from &quot;@bitbaum/accountkit&quot;;</code></pre>
+<h2 id="api-use">Use</h2>
+<pre><code>&lt;AccountMenu
+  user={{ name: session.user.name, email: session.user.email, image: session.user.image }}
+  groups={[{ id: &quot;nav&quot;, items: [{ id: &quot;settings&quot;, label: &quot;Settings&quot;, href: &quot;/settings&quot; }] }]}
+  extra={&lt;ThemeToggle />}
+  onSignOut={() => signOut({ callbackUrl: &quot;/sign-in&quot; })}
+  renderLink={(props) => &lt;Link {...props} />}
+/></code></pre>
+<ul><li><strong><code>onSignOut</code></strong> may return a promise. While it runs the row says so; if it rejects, the menu stays open and says sign-out did not complete. A sign-out that fails silently is the one thing this menu must never do.</li><li><strong><code>renderLink</code></strong> keeps your router (Next <code>&lt;Link></code>); the default is a plain <code>&lt;a></code>.</li><li><strong><code>extra</code></strong> is for rows that are not places, such as a theme switch.</li><li><strong><code>labels</code></strong> translates every string: <code>labels={{ trigger: &quot;Konto: {name}&quot;, signOut: &quot;Abmelden&quot; }}</code>.</li></ul>
+<h2 id="api-what-is-shared-and-not-configurable">What is shared, and not configurable</h2>
+<ul><li><strong>The name is never built from the email.</strong> No name: <code>@handle</code>. No handle: &quot;Account&quot;.</li><li><strong>Initials come from the name only.</strong> No name and no photo: a person glyph.</li><li><strong>A photo that fails to load</strong> falls back to initials, then the glyph.</li><li><strong>44px</strong> trigger and rows. The panel never runs off a 320–390px screen.</li><li><strong>Escape</strong> closes and returns focus to the trigger, wherever focus was. <strong>Arrows</strong>, <strong>Home</strong> and <strong>End</strong> move between items. A click outside closes.</li></ul>
+<h2 id="api-theming">Theming</h2>
+<p>Every colour, radius and font is an <code>--acct-*</code> variable. The defaults read <code>@bitbaum/design-tokens</code> at zero specificity, so apps on those tokens match with no work and an app's own <code>:root</code> always wins. An app whose tokens are full colours rather than HSL triplets (Loki's are OKLCH) maps them once:</p>
+<pre><code>:root {
+  --acct-panel: var(--surface-overlay);
+  --acct-fg: var(--text-primary);
+  /* … */
+}</code></pre>
+<h2 id="api-accounts-bitbaum-accountkit-auth">Accounts (<code>@bitbaum/accountkit/auth</code>)</h2>
+<p>Every product owns its accounts, and they are the same account system everywhere: email and password, a magic link, passkeys, two-factor codes, the shared bitbaum sign-in and Sign in with OrangeCat (each shown only when configured). Built on <a href="https://www.better-auth.com/">better-auth</a> 1.x, so a product writes none of it.</p>
+<pre><code>// lib/db/schema.ts — one identical migration in every product
+export * from &quot;@bitbaum/accountkit/auth/schema&quot;;
+
+// lib/auth.ts
+import { createAuthRuntime } from &quot;@bitbaum/accountkit/auth/next&quot;;
+export const { GET, POST, getSession, requireUser, authStatus, getAuth } = createAuthRuntime({
+  site: { url: &quot;https://app.example.ch&quot;, title: &quot;Example&quot;, slug: &quot;example&quot; },
+  mail: { configured, send },            // your mail-kit sender; never log the link
+  isDatabaseConfigured: (env) => Boolean(env.DATABASE_URL),
+  getDatabase: () => db,                 // Drizzle, built on first use
+});
+
+// app/api/auth/[...all]/route.ts
+export { GET, POST } from &quot;@/lib/auth&quot;;
+
+// lib/auth-client.ts
+import { createAuthClient } from &quot;better-auth/react&quot;;
+import { authClientPlugins } from &quot;@bitbaum/accountkit/auth/client&quot;;
+export const authClient = createAuthClient({ plugins: authClientPlugins() });</code></pre>
+<p>The screens are shared too (<code>@bitbaum/accountkit/auth/react</code>): <code>SignInForm</code>, <code>SignUpForm</code> and <code>AccountPanel</code>. They hold the logic and take the product's words (<code>labels</code>: <code>authLabelsFor(locale)</code> from <code>@bitbaum/accountkit/auth</code> has English, German, French, Italian, Romansh and Russian, so a product keeps no copy of its own; override <code>account.roles</code> if its roles have other names) and look (<code>classes</code>; without them the <code>acct-auth-*</code> classes in <code>styles.css</code> apply, on <code>--acct-*</code> variables):</p>
+<pre><code>&lt;SignInForm client={authClient} methods={signInMethods(process.env, mailConfigured)}
+  labels={myLabels} classes={{ button: &quot;btn-primary&quot;, input: &quot;field&quot; }}
+  next=&quot;/de/matters&quot; signInPath=&quot;/de/sign-in&quot; signUpLink={&lt;Link href=&quot;/sign-up&quot;>…&lt;/Link>} /></code></pre>
+<p>A product whose rows were keyed on an OrangeCat actor id before it had accounts passes <code>legacyIdentityProvider: &quot;orangecat&quot;</code>: a person whose first way in was OrangeCat keeps that id as <code>user.actorId</code>, so nothing has to be migrated; everyone else's <code>actorId</code> is their user id.</p>
+<p>What is the same everywhere, and not configurable per product: one password rule, <code>MIN_PASSWORD_LENGTH</code> = 1 and <code>MAX_PASSWORD_LENGTH</code> = 128 (exported from <code>@bitbaum/accountkit/auth/password</code>, browser-safe, together with <code>passwordProblem(password)</code>; products that keep their own account code import the rule from there), the same in sign-up, reset and the server, with no strength meter, no hint text and no other requirement; a sign-up asks for an email and a password, nothing else; sessions of 14 days; no IP addresses stored; an address is never an identity (a new method joins an account only when the signed-in person links it); provider tokens are never kept; a sign-up cannot choose its role; one rate limiter keyed on the proxy's hop (limitkit), with a stricter bucket for anything that sends mail. <code>signInMethods(env, mailConfigured)</code> says which buttons to show, as booleans.</p>
+<p>Needs <code>BETTER_AUTH_SECRET</code> (32+ characters; a product moving off next-auth may keep its <code>AUTH_SECRET</code>) and a database; without them every auth route answers 503 <code>accounts_unavailable</code> instead of crashing. Peer dependencies: <code>better-auth</code>, <code>@better-auth/passkey</code>, <code>drizzle-orm</code>, and <code>next</code> for <code>/auth/next</code>.</p>
+<h2 id="api-verify">Verify</h2>
+<pre><code>pnpm run verify   # format, lint, types, build, unit + render tests, real-browser checks</code></pre>
+<p>The browser checks run the demo at 390px in light and dark: 44px targets, no sideways scroll with the menu open, Escape after a mouse open, arrow keys, outside click, a broken photo, an anonymous account, and a failing sign-out.</p>
+<h2 id="api-sign-in-with-orangecat-bitbaum-accountkit-orangecat">Sign in with OrangeCat — <code>@bitbaum/accountkit/orangecat</code></h2>
+<p>Nine apps wrote this themselves and each learned something the others had not. This is all of it, once. Server-only, no next-auth import (the types are structural), so it serves Auth.js v5 and next-auth v4.</p>
+<pre><code>import { orangecatClient, orangecatProvider, syncOcSession } from &quot;@bitbaum/accountkit/orangecat&quot;;
+
+const orangecat = orangecatClient(); // ORANGECAT_OAUTH_CLIENT_ID / _SECRET / _ISSUER, or null
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  session: { strategy: &quot;jwt&quot; },
+  pages: { error: &quot;/auth/error&quot; },
+  providers: orangecat ? [orangecatProvider(orangecat)] : [],
+  callbacks: {
+    jwt: ({ token, account, profile }) => syncOcSession({ token, account, profile }, orangecat),
+    session: ({ session, token }) => ({ ...session, actorId: token.actorId }),
+  },
+});</code></pre>
+<p>What is not configurable, and why:</p>
+<ul><li><strong><code>client_secret_post</code> and PKCE.</strong> OrangeCat's token endpoint accepts only <code>client_secret_post</code>; the Auth.js default is answered with a 400 that reads &quot;client_id is required&quot;. PKCE is required even with a secret.</li><li><strong><code>profile()</code> has no <code>email</code>.</strong> OrangeCat auto-confirms addresses, so <code>email_verified</code> proves nothing. With an <code>email</code>, Auth.js looks a new account up by it and either links (takeover) or refuses. The address rides along as <code>contactEmail</code>, contact data only. The identity is <code>sub</code> (<code>token.actorId</code>), never the email.</li><li><strong>A revoked grant ends the session.</strong> <code>syncOcSession</code> refreshes once the access token expires; <code>invalid_grant</code> drops <code>actorId</code> (read that, never <code>token.sub</code>, as &quot;signed in&quot;); any other failure keeps the session and retries in 60 s. Safe inside <code>jwt()</code> since orangecat#1212 (confidential clients keep their refresh token).</li></ul>
+<p>Entry: <code>signIn(&quot;orangecat&quot;, { redirectTo: returnPath(from) }, authorizationParams({ mode, email, provider }))</code> → <code>prompt=create</code>, <code>login_hint</code>, <code>idp_hint</code> (google, github — the providers OrangeCat has switched on). <code>returnPath</code> accepts only same-origin paths.</p>
+<p>Apps with their own user table:</p>
+<ul><li><code>withOrangecatIdentity(adapter, store, { keepTokens })</code> — an OrangeCat sign-in resolves by <code>sub</code> alone; a new sub always creates a new user, stored with its OrangeCat address when free and <code>orangecat-&lt;sub>@users.invalid</code> when taken. Linking an existing account is Auth.js's own path (sign in, then sign in with OrangeCat). <code>keepTokens: true</code> also writes the accounts row (for an app that calls OrangeCat on the person's behalf).</li><li><code>resolveOrangecatUser(store, identity)</code> — the same, for a callback (next-auth v4, no adapter). Survives the insert race.</li><li><code>decideOrangecatSignIn(input, policy)</code> — the pure rule, with <code>whenEmailTaken</code> / <code>whenNoEmail: &quot;refuse&quot;</code> for an app that prefers to send the person to connect from their profile.</li><li><code>mintLinkToken</code> / <code>readLinkToken</code> — evig's &quot;Connect OrangeCat&quot;: a 10-minute signed cookie set from inside the session, so the identity that comes back attaches to that account and no other.</li><li><code>emailEarnsPromotion(provider)</code> — never ADMIN_EMAILS promotion for an OrangeCat login.</li><li><code>mayReceivePasswordReset({ email, hasPassword, orangecatLinked })</code> — no reset link for an account OrangeCat created, or for a placeholder.</li></ul>
+<h3 id="api-the-error-screen">The error screen</h3>
+<pre><code>import { SignInError } from &quot;@bitbaum/accountkit&quot;;
+
+// app/auth/error/page.tsx — Auth.js `pages.error`
+&lt;SignInError error={searchParams.error} retry={restartSignIn} retryFields={{ from }} home=&quot;/&quot; /></code></pre>
+<p><strong>Import <code>@bitbaum/accountkit/styles.css</code></strong> (once, in the root layout or globals) and map the <code>--acct-*</code> variables onto the app's tokens, or the screen renders as bare text — solon shipped exactly that once, and no lint or typecheck can see it. Look at it at 390px before merging.</p>
+<p><strong>Try again restarts sign-in</strong> (a server action calling <code>signIn(&quot;orangecat&quot;, …)</code>, or a GET route that does). It never goes home, and it never prints the provider's error code. No hooks: renders in a server component.</p>
+<p>MIT.</p>
+<h3 id="api-request-dependent-sessions">Request-dependent sessions</h3>
+<p><code>getSession()</code> is a server-component request API. It reads Next headers before checking deployment readiness and lets framework rendering signals propagate. A build without account secrets must not cache a signed-out page or redirect for all future sessions. Calls outside a request are errors, not signed-out users.</p>
+<h3 id="api-second-factor-policy">Second-factor policy</h3>
+<p>An enabled second factor applies to password, email-link, passkey and OIDC sign-in. The server reuses BetterAuth's native signed challenge, trusted-device validation, attempt limits and expiry. A primary credential alone does not leave an authenticated session while the challenge is pending.</p>
+<p>Shared forms complete both JSON <code>twoFactorRedirect</code> responses and app-local <code>?twoFactor=1</code> redirects. Custom clients must handle those states and supply their local sign-in screen as <code>errorCallbackURL</code> for email/OIDC callbacks. <code>SignUpForm</code> accepts an optional <code>signInPath</code> for nonstandard route names; standard <code>/sign-up</code> routes infer the sibling <code>/sign-in</code>. Challenge URLs contain no bearer credential.</p>
+<h2 id="api-password-entry">Password entry</h2>
+<p>The shared registration form has one password field with a localized show/hide control, preserves paste and password-manager autofill, and asks for no real name. The password reset form uses the same field (one input, the same show/hide control), so sign-up and reset cannot drift. Both forms and the server read the one rule from <code>src/auth/password.ts</code>; there is no other password requirement and no hint text. Passwordless methods keep their existing flow. Products consume this behavior through the package rather than duplicating it.</p>
+<p>A product that keeps its own sign-in and its own bcrypt/bcryptjs uses <code>@bitbaum/accountkit/auth/password</code> for the rule (a <code>require</code> build exists for CommonJS backends), <code>@bitbaum/accountkit/auth/password-field</code> for the field and <code>@bitbaum/accountkit/auth/hash</code> for hashing. <code>createPasswordHasher(bcrypt)</code> hashes the SHA-256 of the password, so a long password is not cut at bcrypt's 72 bytes, and still verifies old plain bcrypt hashes; its <code>verify</code> returns <code>rehash: true</code> when a sign-in matched an old hash, and the product then stores <code>hash(password)</code>. No one has to reset a password.</p>
+<p>When moving those accounts into the shared runtime, pass <code>legacyBcrypt: bcrypt</code> to <code>createAuthRuntime</code> or <code>createAuthInstance</code> and import the existing hashes under the same stable user ids. The runtime then verifies plain bcrypt and <code>$bs1$</code> hashes as well as native scrypt hashes. New registrations and password resets write native scrypt; reset still revokes existing sessions. Identity and role mapping, migration verification and product journeys remain the consumer's responsibility. This option alone does not migrate any data.</p>
+<h3 id="api-a-product-s-own-plugins">A product's own plugins</h3>
+<p><code>plugins</code> (both <code>createAuthRuntime</code> and <code>createAuthInstance</code>) mounts a product's own better-auth plugins for its domain, such as <code>organization()</code> for workspaces, after AccountKit's own. They add endpoints and tables; the shared sign-in methods, limits and cookie rules stay AccountKit's. Pass their tables in <code>schema</code> under the plugin's model names (<code>organization</code>, <code>member</code>, <code>invitation</code>), and a <code>session</code> table with any column the plugin adds.</p>
+<p>A product served on more than one host (a tenant host beside its platform host) lists the others in <code>site.trustedOrigins</code>, or passes a lookup when its hosts are data. Their requests pass the origin check and keep their own host-only cookies; mail links and passkeys use <code>site.url</code>. A lookup that fails trusts only <code>site.url</code>.</p>
+<h3 id="api-account-tables-beside-a-product-s-own">Account tables beside a product's own</h3>
+<p>A product whose tables already use the standard names (a NextAuth <code>users</code>, <code>accounts</code>, <code>sessions</code>) creates the account tables under a prefix and passes them to the runtime: <code>const tables = createAuthTables(&quot;auth_&quot;)</code>, then <code>schema: tables</code> (both <code>createAuthRuntime</code> and <code>createAuthInstance</code>). The columns are identical to the standard set; only table and index names change.</p>
+<h3 id="api-domain-credentials-during-migration">Domain credentials during migration</h3>
+<p><code>createAuthRuntime</code> and <code>createAuthInstance</code> accept an optional <code>domainCredentials.verify(credential)</code> callback. It returns <code>null</code> for an invalid proof, or <code>{ userId, bindSession? }</code> for an existing shared user. This enables <code>POST /api/auth/sign-in/domain</code> with <code>{ credential }</code>; use the runtime's <code>POST</code> handler so the shared credential limiter applies. Never accept a user id from the request as the verification result.</p>
+<p><code>bindSession(sessionId)</code> persists product-owned restrictions before the session cookie is set. For example, a staff code of a dual-identity account grants only the staff surface. Store that scope against the shared session id with cascade deletion and read it on every product request. A failed binding revokes the new session. Domain sessions have fixed expiry and cannot enroll credentials, change account security or list other sessions. Show a password/passkey/provider sign-in action before offering account management. An account with an enabled second factor must use another configured primary method; domain proof alone never bypasses MFA. The shared tables require no change for this option.</p>
+<h3 id="api-first-passwords-and-linking-a-second-identity">First passwords and linking a second identity</h3>
+<p>A product that created people before they had a password (an invitation, a login code) passes <code>provisioning.resolve(credential)</code>. It returns <code>null</code>, or <code>{ userId, link?, complete?, release? }</code> for the shared user that holds the identity the proof names. This enables <code>POST /api/auth/provision/claim</code> with <code>{ credential, email, password, name?, callbackURL? }</code>, rate limited as a credential. Take a single-use proof inside <code>resolve</code> and give it back in <code>release</code>, which runs on every failure after it.</p>
+<ul><li>A user with no password gets one, under its existing id, at the address typed.</li></ul>
+<p>An address that cannot receive mail (<code>.invalid</code>) is refused. A verified address is never replaced; the same address keeps its verification, a new one starts unverified.</p>
+<ul><li>An address that belongs to another account joins this identity to it only on</li></ul>
+<p>that account's own password, then calls <code>link(targetUserId)</code>. Without <code>link</code> the claim is refused. If that account has no password yet (invited, never claimed), the claim is refused with <code>CLAIM_EMAIL_NEEDS_RECOVERY</code>: recovery through its mailbox comes first.</p>
+<ul><li>An identity that already has a password is refused; sign in or recover.</li><li>With mail configured an unverified address gets a verification link and no</li></ul>
+<p>session (<code>status: &quot;verify_email&quot;</code>); the link signs them in. An account with a second factor is linked but must still sign in (<code>status: &quot;sign_in&quot;</code>).</p>
+<p>Refusals carry the codes in <code>CLAIM_ERRORS</code> (<code>@bitbaum/accountkit/auth</code>).</p>
+<h3 id="api-a-shorter-idle-limit-for-some-people">A shorter idle limit for some people</h3>
+<p><code>sessionLifetime(userId)</code> returns seconds, or nothing for the shared default (14 days). For a person it names, a session idle longer than that is deleted on its next request, an active one slides to now + limit at most once an hour, and the shared 14-day refresh never applies. Products use it where their own rule is stricter, for example staff on 8 hours.</p>
+<p>A used password-reset link verifies the address it was sent to, unless the account's address changed after it was sent. Recovery therefore leaves an imported or invited account with a usable sign-in when mail is configured.</p></div></details>
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><p>This maintained file was started on 2026-10-27. The entries below were reconstructed from the linked published releases; they are retrospective records, not claims that this file existed at release time.</p>
+<h2 id="change-unreleased">Unreleased</h2>
+<ul><li>Add <code>plugins</code> to the server and Next runtime: a product's own better-auth</li></ul>
+<p>plugins (for example <code>organization()</code>), mounted after AccountKit's. Tables in <code>schema</code> beyond the standard six are handed to the database adapter by model name.</p>
+<ul><li>Add <code>site.trustedOrigins</code>: further hosts of the same product pass the origin</li></ul>
+<p>check, each with its own host-only cookie. A lookup may stand in for the list when the hosts are data.</p>
+<h2 id="change-0-13-0-2026-10-29">0.13.0 — 2026-10-29</h2>
+<ul><li>Add <code>createAuthTables(prefix)</code> to <code>@bitbaum/accountkit/auth/schema</code>: the</li></ul>
+<p>account tables under a name prefix, for a product whose own tables already use the standard names. The default <code>authSchema</code> and table exports are unchanged; the SQL they generate is identical.</p>
+<h2 id="change-0-12-0-2026-10-29">0.12.0 — 2026-10-29</h2>
+<ul><li>Add opt-in <code>sessionLifetime(userId)</code> to the server and Next runtime: a</li></ul>
+<p>product-chosen idle limit for the people it names. Their sessions end after that much inactivity and slide at most hourly while active; the shared 14-day refresh no longer extends them. Everyone else keeps the default.</p>
+<h2 id="change-0-11-0-2026-10-29">0.11.0 — 2026-10-29</h2>
+<ul><li>Add opt-in <code>provisioning</code> to the server and Next runtime:</li></ul>
+<p><code>POST /api/auth/provision/claim</code> gives an identity a product created without a password (an invitation, a login code) its first password under its existing user id. A second identity joins an existing account only on that account's own password; an invited account with no password must recover through its mailbox first. Verified addresses are never replaced, <code>.invalid</code> addresses are refused, a single-use proof is given back on failure, and an unverified address gets a verification link instead of a session when mail is configured. Refusal codes are exported as <code>CLAIM_ERRORS</code>.</p>
+<ul><li>A completed password reset verifies the address the link was sent to, when</li></ul>
+<p>that address is unchanged. An imported or invited account with an unverified address could previously set a password and still be refused at sign-in.</p>
+<h2 id="change-0-10-0-2026-10-29">0.10.0 — 2026-10-29</h2>
+<ul><li>Add opt-in <code>domainCredentials</code> to the server and Next runtime for existing</li></ul>
+<p>product-owned proofs such as a housing login code. The product verifies the proof and supplies an existing shared user id; AccountKit owns the session, cookies, origin checks and credential rate-limit bucket.</p>
+<ul><li>A <code>bindSession</code> callback can persist narrower product identity scope before</li></ul>
+<p>the session is exposed. Failures revoke the new session. Domain sessions cannot manage account credentials, enroll a second factor or list other sessions; they have a fixed expiry. A password, passkey or configured provider is required for account management. Accounts with an enabled second factor must use another configured primary method; a domain proof never bypasses it.</p>
+<ul><li>No consumer data is migrated by these options. Products must preserve their</li></ul>
+<p>identity and authorization mappings and exercise their own journeys.</p>
+<h2 id="change-0-9-2-2026-10-29">0.9.2 — 2026-10-29</h2>
+<ul><li>The shared server and Next runtime accept <code>legacyBcrypt</code> during credential</li></ul>
+<p>migration. Existing plain bcrypt and AccountKit <code>$bs1$</code> passwords remain readable under their original user ids. New and reset passwords use native scrypt. Products still own identity/role mapping and must verify their data migration and browser journeys; this option does not migrate data itself.</p>
+<ul><li>Database regression coverage checks both imported formats, long-password</li></ul>
+<p>suffixes, native registration, recovery token reuse and session revocation.</p>
+<h2 id="change-0-9-1-2026-10-28">0.9.1 — 2026-10-28</h2>
+<ul><li><code>@bitbaum/accountkit/auth/password</code> now also ships a CommonJS build</li></ul>
+<p>(<code>require</code> condition, with <code>.d.cts</code> types), so a CommonJS backend can use the one password rule. The ESM entry is unchanged.</p>
+<ul><li>The reset form asks for the new password once, in the same field with the</li></ul>
+<p>same show/hide control as sign-up (<code>PasswordField</code>, shared by both). The &quot;repeat new password&quot; field is gone, along with the <code>recovery.confirmPassword</code> and <code>recovery.mismatch</code> labels; products that pass their own recovery labels can drop those two keys.</p>
+<ul><li>New entry <code>@bitbaum/accountkit/auth/password-field</code> exporting <code>PasswordField</code>,</li></ul>
+<p>so a product with its own reset or sign-up page renders the same field (pass <code>classes</code> to style it with the product's CSS).</p>
+<ul><li>New entry <code>@bitbaum/accountkit/auth/hash</code> (ESM and CommonJS):</li></ul>
+<p><code>createPasswordHasher(bcrypt)</code> for products that keep bcrypt/bcryptjs. New hashes are bcrypt over the SHA-256 of the password (stored as <code>$bs1$…</code>), so the whole password counts instead of its first 72 bytes. Old plain bcrypt hashes still verify, exactly as before, and <code>verify</code> says when to store the new form (rehash on sign-in). Nobody has to reset a password.</p>
+<h2 id="change-0-9-0-2026-10-28">0.9.0 — 2026-10-28</h2>
+<ul><li>One password rule everywhere: any non-empty password up to 128 characters</li></ul>
+<p>(<code>MIN_PASSWORD_LENGTH</code>, <code>MAX_PASSWORD_LENGTH</code>). Sign-up, reset and the server agree; the reset form no longer demands 12 characters and sign-up no longer demands 8. Existing passwords keep working.</p>
+<ul><li>New browser-safe entry <code>@bitbaum/accountkit/auth/password</code> with <code>passwordProblem()</code>,</li></ul>
+<p>so products still on their own account code use the same rule.</p>
+<ul><li>Removed the <code>passwordHint</code> label (and its text in every language) and the</li></ul>
+<p>hint paragraph under the password fields. Products that pass their own labels can drop that key.</p>
+<h2 id="change-0-8-1-2026-10-28">0.8.1 — 2026-10-28</h2>
+<ul><li><code>PasswordRecoveryForm</code> accepts a <code>PasswordRecoveryClient</code> (only</li></ul>
+<p><code>requestPasswordReset</code> and <code>resetPassword</code>), so products on Auth.js can use the shared recovery form through a small adapter. Better Auth clients are unchanged. A rejected call (network failure) leaves the form usable.</p>
+<h2 id="change-0-8-0-2026-10-26">0.8.0 — 2026-10-26</h2>
+<ul><li>Registration uses one password field with an integrated visibility control.</li><li>Added the shared release notification workflow.</li></ul>
+<p><a href="https://github.com/bitbaum/accountkit/releases/tag/v0.8.0">Published release and comparison</a>.</p>
+<h2 id="change-0-7-2-2026-10-26">0.7.2 — 2026-10-26</h2>
+<ul><li>Added registration password confirmation. The registration design was</li></ul>
+<p>subsequently replaced by the single-field design in 0.8.0.</p>
+<ul><li>Added the repository's tool-neutral instruction entrypoint.</li></ul>
+<p><a href="https://github.com/bitbaum/accountkit/releases/tag/v0.7.2">Published release and comparison</a>.</p>
+<h2 id="change-0-6-3-2026-10-25">0.6.3 — 2026-10-25</h2>
+<ul><li>Enforced enabled second factors across sign-in methods.</li><li>Added regression coverage for preserving existing accounts when mail is enabled.</li><li>Updated shared package dependency floors.</li></ul>
+<p><a href="https://github.com/bitbaum/accountkit/releases/tag/v0.6.3">Published release and comparison</a>.</p>
+<p>Other releases and earlier changes remain available in the <a href="https://github.com/bitbaum/accountkit/releases">release archive</a> and <a href="https://github.com/bitbaum/accountkit/commits/main">commit history</a>.</p></div></details>
+      <ol class="pkg-releases"><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/accountkit/releases/tag/v0.14.0">v0.14.0</a><time datetime="2026-10-29T09:17:33Z">2026-10-29</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-0-what-s-changed">What's Changed</h2>
+<p>* Let products mount their own better-auth plugins by @catomean in https://github.com/bitbaum/accountkit/pull/45 * Trust a product's further hosts in the origin check by @catomean in https://github.com/bitbaum/accountkit/pull/46</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/accountkit/compare/v0.13.0...v0.14.0</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/accountkit/releases/tag/v0.13.0">v0.13.0</a><time datetime="2026-10-29T08:43:29Z">2026-10-29</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-1-what-s-changed">What's Changed</h2>
+<p>* Add prefixed account tables for products with their own users table by @catomean in https://github.com/bitbaum/accountkit/pull/44</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/accountkit/compare/v0.12.0...v0.13.0</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/accountkit/releases/tag/v0.12.0">v0.12.0</a><time datetime="2026-10-29T07:48:48Z">2026-10-29</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-2-what-s-changed">What's Changed</h2>
+<p>* Add a product-chosen idle limit for named people's sessions by @catomean in https://github.com/bitbaum/accountkit/pull/43</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/accountkit/compare/v0.11.0...v0.12.0</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/accountkit/releases/tag/v0.11.0">v0.11.0</a><time datetime="2026-10-29T07:17:52Z">2026-10-29</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-3-what-s-changed">What's Changed</h2>
+<p>* Add shared first-password claims and recovery verification by @catomean in https://github.com/bitbaum/accountkit/pull/42</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/accountkit/compare/v0.10.0...v0.11.0</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/accountkit/releases/tag/v0.9.2">v0.9.2</a><time datetime="2026-10-29T04:59:08Z">2026-10-29</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-4-what-s-changed">What's Changed</h2>
+<p>* chore(deps-dev): bump the dev group across 1 directory with 9 updates by @dependabot[bot] in https://github.com/bitbaum/accountkit/pull/38 * chore(deps): raise shared package floors to published versions by @catomean in https://github.com/bitbaum/accountkit/pull/39 * Preserve imported passwords in the shared auth runtime by @catomean in https://github.com/bitbaum/accountkit/pull/40</p>
+<h2 id="release-4-new-contributors">New Contributors</h2>
+<p>* @dependabot[bot] made their first contribution in https://github.com/bitbaum/accountkit/pull/38</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/accountkit/compare/v0.9.1...v0.9.2</p></div></details></li></ol>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/accountkit/commit/bf272d9bcaac3d25bc71be0a5f57a89ce028b539">release v0.14.0</a> <time datetime="2026-10-29T09:17:30Z">2026-10-29</time></li><li><a href="https://github.com/bitbaum/accountkit/commit/569d7bcfa2cd6ed9ab04642c33de4dcac8e57ca8">Trust a product's further hosts in the origin check (#46)</a> <time datetime="2026-10-29T09:05:05Z">2026-10-29</time></li><li><a href="https://github.com/bitbaum/accountkit/commit/c34804756f5fe4158dcdc950fb14fd9d8a5909b9">Let products mount their own better-auth plugins (#45)</a> <time datetime="2026-10-29T08:54:20Z">2026-10-29</time></li><li><a href="https://github.com/bitbaum/accountkit/commit/247b84ff29d00298288cfa8af9deb0d8496ea87a">release v0.13.0</a> <time datetime="2026-10-29T08:43:27Z">2026-10-29</time></li><li><a href="https://github.com/bitbaum/accountkit/commit/0caa69997522d7e02df76eb980f6d6f953c9d532">Add prefixed account tables for products with their own users table (#44)</a> <time datetime="2026-10-29T08:29:24Z">2026-10-29</time></li><li><a href="https://github.com/bitbaum/accountkit/commit/db8a54b14d49e1fe61bac57b7d043d10e1388f4a">release v0.12.0</a> <time datetime="2026-10-29T07:48:46Z">2026-10-29</time></li><li><a href="https://github.com/bitbaum/accountkit/commit/afcbfe20b4796ecb86ff91fa98e8166539db8254">Add a product-chosen idle limit for named people's sessions (#43)</a> <time datetime="2026-10-29T07:36:09Z">2026-10-29</time></li><li><a href="https://github.com/bitbaum/accountkit/commit/c5752ca507f2a8a10986a5a740b96b36c4f3ad22">release v0.11.0</a> <time datetime="2026-10-29T07:17:50Z">2026-10-29</time></li></ol></details>
+      <a class="textlink" href="https://github.com/bitbaum/accountkit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/accountkit/tags">All tags</a>
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      <div class="chips"><a href="/botsmann/">Botsmann</a><a href="/causius/">Causius</a><a href="/datacat/">DataCat</a><a href="/diplodoctor/">Diplodoctor</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/skif/">Skif</a><a href="/solon/">Solon</a><a href="/substrata/">Substrata</a><a href="/surf-your-life/">Surf Your Life</a><span>4 other repositories</span></div>
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/accountkit/blob/bf272d9bcaac3d25bc71be0a5f57a89ce028b539/">source commit <code>bf272d9bcaac</code></a> · 2026-10-29. Source documentation can include work beyond the registry release.</p>
+      <a class="textlink" href="https://github.com/bitbaum/accountkit/actions">Package verification runs</a>
+    </section>
+    <div class="wrap"><div class="pager"><a href="/packages/mail-kit/">&larr; mail-kit</a><a href="/packages/">All packages</a><a href="/packages/bip-kit/">bip-kit &rarr;</a></div></div>
   </main>
   <script type="module">
     for (const btn of document.querySelectorAll(".js-copy")) {
       btn.addEventListener("click", async () => {
         const text = btn.getAttribute("data-copy") || "";
-        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); setTimeout(() => btn.classList.remove("copied"), 1200); }
-        catch { /* clipboard may be denied */ }
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
       });
     }
   </script>

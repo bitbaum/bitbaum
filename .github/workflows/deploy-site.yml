@@ -6,47 +6,76 @@ on:
   push:
     branches: [main]
     paths:
-      - '.github/workflows/deploy-site.yml'
-      - 'site/**'
-      - 'ROADMAP.md'
-      - 'CHANGELOG.md'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - 'pnpm-workspace.yaml'
+      - ".github/workflows/deploy-site.yml"
+      - "site/**"
+      - "ROADMAP.md"
+      - "CHANGELOG.md"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
   workflow_dispatch:
+  # The site is a VIEW of Loki's fleet map, and a view rebuilt only on a push
+  # here goes stale the moment a project changes there: on 2026-10-18 the work
+  # page still called Diplodoctor "not built" hours after Loki knew it was a
+  # running beta, because nobody had pushed to this repo since. Every three
+  # hours the site rebuilds from the live sources; a run that changes no page
+  # stops before committing or publishing anything.
+  schedule:
+    - cron: "41 */3 * * *"
   repository_dispatch:
     types: [package-registry-updated]
 
+# One checked publication from main at a time. Generated snapshots are proposed
+# afterward through the shared first-party PR helper; no workflow pushes main.
+# Pull-request previews keep their own lane and publish nothing.
 concurrency:
-  group: bitbaum-site-${{ github.event_name }}-${{ github.ref }}
+  group: bitbaum-site-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
   cancel-in-progress: false
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   build-and-deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
         with:
           ref: main
+          token: ${{ secrets.FLEET_PAT }}
       - uses: pnpm/action-setup@v6
         with:
-          version: 11
           cache: true
       - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Record generator package artifacts before refreshing generated data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/$GITHUB_REPOSITORY" --jq .private)" = false
+          producer="$RUNNER_TEMP/fleet-receipt-producer"
+          git init --quiet "$producer"
+          git -C "$producer" remote add origin https://github.com/bitbaum/fleet.git
+          git -C "$producer" fetch --quiet --depth 1 origin 5da9886a5211dc74dc6b7c8f5eade60c460cea6c
+          git -C "$producer" checkout --quiet --detach FETCH_HEAD
+          node "$producer/scripts/ci/release-receipt.mjs" --public \
+            --root "$GITHUB_WORKSPACE" --repo "$GITHUB_REPOSITORY" \
+            --output "$RUNNER_TEMP/bitbaum-release.json"
+      - name: Read Playwright revision
+        id: playwright
+        run: node -p '"version=" + require("playwright/package.json").version' >> "$GITHUB_OUTPUT"
       - name: Cache Playwright Chromium
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-playwright-${{ steps.playwright.outputs.version }}
       - run: pnpm exec playwright install chromium --with-deps
       - run: pnpm test
       # Every product page says its picture was "taken by a machine when this
@@ -54,17 +83,42 @@ jobs:
       # shot was eleven days and a whole redesign stale. A site that fails to
       # load keeps its previous picture (shots.mjs logs FAILED and moves on).
       - name: Retake product screenshots
+        if: github.event_name != 'schedule'
         run: node site/shots.mjs
       - name: Build from current fleet sources
         env:
+          GH_TOKEN: ${{ github.token }}
           FLEET_PACKAGES_SHA: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.packages_sha || '' }}
         run: node site/build.mjs --require-fresh
-      - run: node site/build.mjs --check
+      - name: Package card release contract
+        run: node site/check-published-packages.mjs < site/dist/packages/index.html
+      # map.json carries the time it was generated, so it differs on every
+      # run; every other file is deterministic. Nothing else changed means
+      # nothing to say, and a scheduled run ends here.
+      - name: Anything new to publish?
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && git diff --quiet -- site/dist ':(exclude)site/dist/map.json'; then
+            echo "No page changed since the last build; nothing to publish."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Site check
+        if: steps.changed.outputs.publish == 'true'
+        run: node site/build.mjs --check
+      # No text below WCAG AA in light or dark, on phone or desktop. Light mode
+      # once shipped captions at 2.2:1 on the warm sky and nobody saw it here.
+      - name: Contrast gate (built dist)
+        if: steps.changed.outputs.publish == 'true'
+        run: node site/check-contrast.mjs
       - name: Claims gate (built dist)
+        if: steps.changed.outputs.publish == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: node site/check-claims.mjs
       - name: Theme gate against local dist
+        if: steps.changed.outputs.publish == 'true'
         run: |
           python3 -m http.server 8731 --directory site/dist &
           echo $! > /tmp/bitbaum-http.pid
@@ -74,19 +128,23 @@ jobs:
           node site/check-hire.mjs http://127.0.0.1:8731 || failures=1
           node site/check-studio.mjs http://127.0.0.1:8731 || failures=1
           node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-packages.mjs http://127.0.0.1:8731 || failures=1
           node site/check-cast.mjs http://127.0.0.1:8731 || failures=1
           [ "$failures" -eq 0 ]
           kill "$(cat /tmp/bitbaum-http.pid)" || true
-      - name: Commit refreshed source snapshots and generated site
+      - name: Stage generator receipt after checked source refresh
+        if: steps.changed.outputs.publish == 'true'
         run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add site/*.snapshot.json site/dist
-          if ! git diff --cached --quiet; then
-            git commit -m 'chore(site): refresh published registry snapshots'
-            git push origin HEAD:main
-          fi
+          set -euo pipefail
+          # Only generated snapshots, pages and cast records may change during build.
+          # Executed generator source and its package lock must still match the receipt.
+          source_paths=(. ':(exclude)site/dist' ':(exclude)site/*.snapshot.json' ':(exclude)docs/CAST.md')
+          git diff --exit-code HEAD -- "${source_paths[@]}"
+          test -z "$(git ls-files --others --exclude-standard -- "${source_paths[@]}")"
+          mkdir -p site/dist/.well-known
+          cp "$RUNNER_TEMP/bitbaum-release.json" site/dist/.well-known/fleet-release.json
       - name: Configure SSH
+        if: steps.changed.outputs.publish == 'true'
         env:
           HETZNER_SSH_PRIVATE_KEY: ${{ secrets.HETZNER_SSH_PRIVATE_KEY }}
           HETZNER_IP: ${{ vars.HETZNER_IP }}
@@ -98,29 +156,76 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H "$HETZNER_IP" >> ~/.ssh/known_hosts
       - name: Publish and verify public pages
+        if: steps.changed.outputs.publish == 'true'
         env:
           BOX: ubuntu@${{ vars.HETZNER_IP }}
         run: bash site/publish.sh
+      - name: Verify served generator package receipt
+        if: steps.changed.outputs.publish == 'true'
+        run: |
+          node "$RUNNER_TEMP/fleet-receipt-producer/scripts/ci/verify-live-release-receipt.mjs" \
+            --url https://bitbaum.orangecat.ch/.well-known/fleet-release.json \
+            --expected "$RUNNER_TEMP/bitbaum-release.json"
       - name: Hire form gate (live)
+        if: steps.changed.outputs.publish == 'true'
         run: node site/check-hire.mjs https://bitbaum.orangecat.ch
+
+      - name: Load the verified first-party generated PR helper
+        if: steps.changed.outputs.publish == 'true'
+        uses: actions/checkout@v7
+        with:
+          repository: bitbaum/fleet
+          ref: c7f7904b42efecc6b01600709b470025b48cc291
+          path: .fleet-ops
+          persist-credentials: false
+          sparse-checkout: scripts/ci/generated-pr.mjs
+          sparse-checkout-cone-mode: false
+      - name: Propose the checked published snapshots through normal PR gates
+        if: steps.changed.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.FLEET_PAT }}
+        run: |
+          git add site/*.snapshot.json site/dist docs/CAST.md
+          real=$(git diff --cached -U0 -- site docs/CAST.md ':(exclude)site/dist/shots' \
+            | grep -E '^[-+][^-+]' | grep -v '"generatedAt"' | head -1 || true)
+          if [ -n "$real" ]; then
+            node .fleet-ops/scripts/ci/generated-pr.mjs site
+          else
+            echo "Only build stamps and screenshot noise changed; no source refresh needed."
+            git reset -q
+          fi
 
   preview-check:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
-        with:
-          version: 11
       - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Read Playwright revision
+        id: playwright
+        run: node -p '"version=" + require("playwright/package.json").version' >> "$GITHUB_OUTPUT"
+      - name: Cache Playwright Chromium
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.playwright.outputs.version }}
       - run: pnpm exec playwright install chromium --with-deps
       - run: pnpm test
+      # Before rebuilding: the COMMITTED chat bundle, chatkit.css, listkit and
+      # tokens must be what the locked packages build. A dependency bump that
+      # does not carry its rebuilt bundle fails here, in review (2026-10-27:
+      # package.json on chatkit ^0.17.1, site/dist still built from 0.12.0).
+      - name: Committed bundles match the locked packages
+        run: node site/build.mjs --check-bundles
       - run: node site/build.mjs --offline
+      - name: Package card release contract
+        run: node site/check-published-packages.mjs < site/dist/packages/index.html
       - run: node site/build.mjs --offline --check
       - name: Verify studio journeys and mobile geometry
         run: |
@@ -131,5 +236,6 @@ jobs:
           node site/check-hire.mjs http://127.0.0.1:8731 || failures=1
           node site/check-studio.mjs http://127.0.0.1:8731 || failures=1
           node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-packages.mjs http://127.0.0.1:8731 || failures=1
           node site/check-cast.mjs http://127.0.0.1:8731 || failures=1
           [ "$failures" -eq 0 ]

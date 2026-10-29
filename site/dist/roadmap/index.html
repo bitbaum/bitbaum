@@ -4,18 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>Roadmap — bitbaum</title>
-<meta name="description" content="Bitbaum's canonical roadmap: course, portal and studio development in public.">
+<meta name="description" content="Bitbaum's roadmap: what is done, and what comes now, next and later.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/roadmap/">
 <meta property="og:title" content="Roadmap — bitbaum">
-<meta property="og:description" content="Bitbaum's canonical roadmap: course, portal and studio development in public.">
+<meta property="og:description" content="Bitbaum's roadmap: what is done, and what comes now, next and later.">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/roadmap/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Roadmap — bitbaum">
-<meta name="twitter:description" content="Bitbaum's canonical roadmap: course, portal and studio development in public.">
+<meta name="twitter:description" content="Bitbaum's roadmap: what is done, and what comes now, next and later.">
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -64,32 +75,74 @@
       </button>
     </div>
   </header>
-<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Building in public</span><h1 class="headline-caps section-title">Roadmap.</h1><div class="record"><p>Canonical studio implementation plan. Confirmed requirements and the accepted architecture are in <a href="https://github.com/bitbaum/bitbaum/blob/main/docs/commissioning-and-portals.md">the delivery plan</a>. Order carries priority; dates and unbuilt capabilities are not promised. The public pages render these repository records through bip-kit. Checked items are implemented and verified in CI; production deployment and real pilot engagements have their own gates below.</p>
-<h2 id="now">Now</h2>
-<h3 id="separate-the-free-tool-from-studio-services">Separate the free tool from studio services</h3>
-<p>Give visitors routes to independent Loki self-service, an approved partner, or the studio waitlist.</p>
-<ul><li>[x] Record that studio engagement prices belong to Bitbaum, while Loki is a standalone free tool</li><li>[x] Put the studio URL/change intake on Bitbaum with its current offer and capacity</li><li>[x] Remove studio pricing/submission from Loki's self-serve brief; retain an optional external studio link</li><li>[x] Preserve the brief through an explicit self-serve handoff and sign-in</li><li>[x] Offer only approved partners with real availability; provide an honest path while the directory is empty</li><li>[x] One door: the waitlist, the website brief and the partner application are a single free-form field, typed or spoken, that refuses nothing and hands back a private portal link</li><li>[ ] Let the words be structured by a model on Loki (address, email, kind, engagement) so the one question the intake still asks disappears</li><li>[ ] Give a new-build idea without a website its own request kind on Loki, so it lands in the portal rather than the inbox</li></ul>
-<h3 id="make-studio-development-traceable">Make studio development traceable</h3>
-<p>Course, portal and product decisions should survive conversations and become visible work.</p>
-<ul><li>[x] Add canonical repository roadmap and changelog</li><li>[x] Separate confirmed requirements, code evidence and architecture proposals</li><li>[x] Repair Bitbaum's profile/repository join so the map reads these records instead of test notes</li><li>[x] Render and link public roadmap/changelog pages using the existing building-in-public contract</li><li>[x] Reconcile studio-owned course/approval work on Loki's roadmap with Bitbaum ownership</li></ul>
-<h3 id="prove-the-first-portal-engagement">Prove the first portal engagement</h3>
-<p>Start one Bitbaum-branded customer flow with access to only that engagement and no mandatory cross-product participation.</p>
-<ul><li>[x] Record the shared portal recommendation and two alternatives</li><li>[x] Verify scoped Loki API/guest access, revocation and a narrow delivery-review action for the accepted shared backend</li><li>[x] Build brief, receipt, status, next action, preview and change-request views</li><li>[x] Record delivery approval without customer agent-execution or credential access</li><li>[x] Verify customers and assigned partners cannot access unrelated projects</li><li>[ ] Complete the first real engagement through brief, preview, revision and exact-version acceptance</li></ul>
-<h2 id="next">Next</h2>
-<h3 id="start-the-systems-design-course">Start the systems-design course</h3>
-<p>Develop a studio-owned course through one transferable practical module and reviewed capstone before a full learning platform.</p>
-<ul><li>[x] Write the first lesson, exercise and assessment rubric</li><li>[ ] Pilot problem definition, system boundaries and a working capstone</li><li>[ ] Extend to permissions, integrations, testing, accessibility, deployment, rollback and handover</li><li>[x] Record course completion as evidence for studio review, not automatic approval</li><li>[ ] Calibrate the rubric with a real candidate and reviewer before expanding the course</li></ul>
-<h3 id="operate-partner-qualification-and-assignment">Operate partner qualification and assignment</h3>
-<p>Application, course completion, studio approval and availability are separate states with useful next actions.</p>
-<ul><li>[x] Add private application/qualification records with review reasons</li><li>[x] Give reviewers course-evidence review and explicit approve/decline/request-information actions</li><li>[x] Publish only approved, consenting partner profiles and maintain real availability</li><li>[x] Give assigned partners only their assigned briefs and delivery actions; grant no technical project access by default</li><li>[x] Preserve the current commercial model unless its owner explicitly changes it</li><li>[ ] Complete the first studio-reviewed qualification and consenting directory publication</li></ul>
-<h3 id="release-the-shared-portal">Release the shared portal</h3>
-<p>Ship the verified backend before exposing the Bitbaum views.</p>
-<ul><li>[x] Pass Loki's full CI, including real PostgreSQL isolation, revocation and retry tests</li><li>[x] Pass Bitbaum's intake, portal, theme and 135 responsive browser checks</li><li>[x] Verify the additive production migration and deployed Loki API (loki #995 is live; /api/studio-intake answers)</li><li>[x] Deploy the Bitbaum views through the API availability gate and verify the public pages (<code>site/check-studio-api.mjs</code> passes against production; /hire/, /partners/ and /portal/ answer)</li><li>[x] Notify the studio when a request or application is created (loki #1002: push, Telegram and an alert on every studio request and guest action)</li></ul>
-<h2 id="later">Later</h2>
-<h3 id="connect-products-when-the-task-needs-it">Connect products when the task needs it</h3>
-<p>Keep public discovery/funding, private execution and collective governance optional and understandable at the handoff.</p>
-<ul><li>[x] Test standalone studio and Loki journeys without OrangeCat publication or Solon membership</li><li>[ ] Test requested handoffs preserve identity, project context and explicit consent</li><li>[ ] Review authentication dependencies before promising standalone participation in every product</li><li>[ ] Add broader matching or marketplace features after actual engagements establish the need</li></ul></div><a class="textlink" href="https://github.com/bitbaum/bitbaum/blob/main/ROADMAP.md">Read the canonical repository record</a></div></section>
-    <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-unicorn" aria-hidden="true"><img class="fig fig-unicorn" src="/art/unicorn.webp" width="440" height="381" alt="" loading="lazy" decoding="async" draggable="false"></div></div></main>
+<main id="main"><section class="section record-page"><div class="wrap">
+      <span class="kicker quiet">Building in public</span>
+      <h1 class="headline-caps section-title">Roadmap.</h1>
+      <p class="lede">What the studio is building, in the order it matters. 29 of 39 steps are done and verified in CI; dates are not promised. <a class="textlink" href="https://github.com/bitbaum/bitbaum/blob/main/ROADMAP.md">The canonical record</a> has every word.</p>
+    <div class="roadmap-sum"><span class="roadmap-sum-n">29</span><span class="roadmap-sum-t">of 39 steps done across 3 horizons</span><div class="progress" role="img" aria-label="29 of 39 done"><span style="width:74%"></span></div></div>
+    <div class="board">
+      <div class="lane lane-0" role="region" aria-labelledby="lane-0">
+        <header class="lane-head"><span class="kicker quiet">Being built now</span><h2 id="lane-0" class="lane-title">Now</h2><span class="lane-count">16 of 19 done</span></header>
+        <article class="rm-theme">
+          <h3 class="rm-theme-title">Separate the free tool from studio services</h3>
+          <p class="rm-theme-summary">Give visitors routes to independent Loki self-service, an approved partner, or the studio waitlist.</p>
+          <div class="rm-theme-meter"><span class="rm-theme-count">6/8</span><div class="progress" role="img" aria-label="6 of 8 steps done"><span style="width:75%"></span></div></div>
+          <p class="rm-theme-next"><span class="label">Next step</span> Let the words be structured by a model on Loki (address, email, kind, engagement) so the one question the intake still asks disappears</p>
+          <details class="rm-theme-steps"><summary>All 8 steps</summary><ul><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Record that studio engagement prices belong to Bitbaum, while Loki is a standalone free tool</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Put the studio URL/change intake on Bitbaum with its current offer and capacity</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Remove studio pricing/submission from Loki's self-serve brief; retain an optional external studio link</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Preserve the brief through an explicit self-serve handoff and sign-in</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Offer only approved partners with real availability; provide an honest path while the directory is empty</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>One door: the waitlist, the website brief and the partner application are a single free-form field, typed or spoken, that refuses nothing and hands back a private portal link</span><span class="sr-only"> (done)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Let the words be structured by a model on Loki (address, email, kind, engagement) so the one question the intake still asks disappears</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Give a new-build idea without a website its own request kind on Loki, so it lands in the portal rather than the inbox</span><span class="sr-only"> (open)</span></li></ul></details>
+        </article>
+        <article class="rm-theme rm-theme-done">
+          <h3 class="rm-theme-title">Make studio development traceable</h3>
+          <p class="rm-theme-summary">Course, portal and product decisions should survive conversations and become visible work.</p>
+          <div class="rm-theme-meter"><span class="rm-theme-count">5/5</span><div class="progress" role="img" aria-label="5 of 5 steps done"><span style="width:100%"></span></div></div>
+          <p class="rm-theme-next"><span class="label">Done</span> Every step on this theme is in.</p>
+          <details class="rm-theme-steps"><summary>All 5 steps</summary><ul><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Add canonical repository roadmap and changelog</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Separate confirmed requirements, code evidence and architecture proposals</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Repair Bitbaum's profile/repository join so the map reads these records instead of test notes</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Render and link public roadmap/changelog pages using the existing building-in-public contract</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Reconcile studio-owned course/approval work on Loki's roadmap with Bitbaum ownership</span><span class="sr-only"> (done)</span></li></ul></details>
+        </article>
+        <article class="rm-theme">
+          <h3 class="rm-theme-title">Prove the first portal engagement</h3>
+          <p class="rm-theme-summary">Start one Bitbaum-branded customer flow with access to only that engagement and no mandatory cross-product participation.</p>
+          <div class="rm-theme-meter"><span class="rm-theme-count">5/6</span><div class="progress" role="img" aria-label="5 of 6 steps done"><span style="width:83%"></span></div></div>
+          <p class="rm-theme-next"><span class="label">Next step</span> Complete the first real engagement through brief, preview, revision and exact-version acceptance</p>
+          <details class="rm-theme-steps"><summary>All 6 steps</summary><ul><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Record the shared portal recommendation and two alternatives</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Verify scoped Loki API/guest access, revocation and a narrow delivery-review action for the accepted shared backend</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Build brief, receipt, status, next action, preview and change-request views</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Record delivery approval without customer agent-execution or credential access</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Verify customers and assigned partners cannot access unrelated projects</span><span class="sr-only"> (done)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Complete the first real engagement through brief, preview, revision and exact-version acceptance</span><span class="sr-only"> (open)</span></li></ul></details>
+        </article>
+      </div>
+      <div class="lane lane-1" role="region" aria-labelledby="lane-1">
+        <header class="lane-head"><span class="kicker quiet">Coming next</span><h2 id="lane-1" class="lane-title">Next</h2><span class="lane-count">12 of 16 done</span></header>
+        <article class="rm-theme">
+          <h3 class="rm-theme-title">Start the systems-design course</h3>
+          <p class="rm-theme-summary">Develop a studio-owned course through one transferable practical module and reviewed capstone before a full learning platform.</p>
+          <div class="rm-theme-meter"><span class="rm-theme-count">2/5</span><div class="progress" role="img" aria-label="2 of 5 steps done"><span style="width:40%"></span></div></div>
+          <p class="rm-theme-next"><span class="label">Next step</span> Pilot problem definition, system boundaries and a working capstone</p>
+          <details class="rm-theme-steps"><summary>All 5 steps</summary><ul><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Write the first lesson, exercise and assessment rubric</span><span class="sr-only"> (done)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Pilot problem definition, system boundaries and a working capstone</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Extend to permissions, integrations, testing, accessibility, deployment, rollback and handover</span><span class="sr-only"> (open)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Record course completion as evidence for studio review, not automatic approval</span><span class="sr-only"> (done)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Calibrate the rubric with a real candidate and reviewer before expanding the course</span><span class="sr-only"> (open)</span></li></ul></details>
+        </article>
+        <article class="rm-theme">
+          <h3 class="rm-theme-title">Operate partner qualification and assignment</h3>
+          <p class="rm-theme-summary">Application, course completion, studio approval and availability are separate states with useful next actions.</p>
+          <div class="rm-theme-meter"><span class="rm-theme-count">5/6</span><div class="progress" role="img" aria-label="5 of 6 steps done"><span style="width:83%"></span></div></div>
+          <p class="rm-theme-next"><span class="label">Next step</span> Complete the first studio-reviewed qualification and consenting directory publication</p>
+          <details class="rm-theme-steps"><summary>All 6 steps</summary><ul><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Add private application/qualification records with review reasons</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Give reviewers course-evidence review and explicit approve/decline/request-information actions</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Publish only approved, consenting partner profiles and maintain real availability</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Give assigned partners only their assigned briefs and delivery actions; grant no technical project access by default</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Preserve the current commercial model unless its owner explicitly changes it</span><span class="sr-only"> (done)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Complete the first studio-reviewed qualification and consenting directory publication</span><span class="sr-only"> (open)</span></li></ul></details>
+        </article>
+        <article class="rm-theme rm-theme-done">
+          <h3 class="rm-theme-title">Release the shared portal</h3>
+          <p class="rm-theme-summary">Ship the verified backend before exposing the Bitbaum views.</p>
+          <div class="rm-theme-meter"><span class="rm-theme-count">5/5</span><div class="progress" role="img" aria-label="5 of 5 steps done"><span style="width:100%"></span></div></div>
+          <p class="rm-theme-next"><span class="label">Done</span> Every step on this theme is in.</p>
+          <details class="rm-theme-steps"><summary>All 5 steps</summary><ul><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Pass Loki's full CI, including real PostgreSQL isolation, revocation and retry tests</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Pass Bitbaum's intake, portal, theme and 135 responsive browser checks</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Verify the additive production migration and deployed Loki API (loki #995 is live; /api/studio-intake answers)</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Deploy the Bitbaum views through the API availability gate and verify the public pages (site/check-studio-api.mjs passes against production; /hire/, /partners/ and /portal/ answer)</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Notify the studio when a request or application is created (loki #1002: push, Telegram and an alert on every studio request and guest action)</span><span class="sr-only"> (done)</span></li></ul></details>
+        </article>
+      </div>
+      <div class="lane lane-2" role="region" aria-labelledby="lane-2">
+        <header class="lane-head"><span class="kicker quiet">Further out</span><h2 id="lane-2" class="lane-title">Later</h2><span class="lane-count">1 of 4 done</span></header>
+        <article class="rm-theme">
+          <h3 class="rm-theme-title">Connect products when the task needs it</h3>
+          <p class="rm-theme-summary">Keep public discovery/funding, private execution and collective governance optional and understandable at the handoff.</p>
+          <div class="rm-theme-meter"><span class="rm-theme-count">1/4</span><div class="progress" role="img" aria-label="1 of 4 steps done"><span style="width:25%"></span></div></div>
+          <p class="rm-theme-next"><span class="label">Next step</span> Test requested handoffs preserve identity, project context and explicit consent</p>
+          <details class="rm-theme-steps"><summary>All 4 steps</summary><ul><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Test standalone studio and Loki journeys without OrangeCat publication or Solon membership</span><span class="sr-only"> (done)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Test requested handoffs preserve identity, project context and explicit consent</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Review authentication dependencies before promising standalone participation in every product</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Add broader matching or marketplace features after actual engagements establish the need</span><span class="sr-only"> (open)</span></li></ul></details>
+        </article>
+      </div>
+    </div>
+      <nav class="record-doors" aria-label="Where next"><a class="btn-frame-accent" href="/work/">See what is built <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn-frame" href="/changelog/">What changed lately</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
+    </div></section>
+    <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-stand guest-art-deer" aria-hidden="true"><span class="fig puppet fig-deer" data-rig='[{"poly":[[62,0],[100,0],[100,42],[72,47],[62,47]],"pivot":[71,44],"a":[0,-9],"dur":10,"delay":-4,"mode":"gesture"},{"poly":[[12,44],[23,44],[23,60],[12,60]],"pivot":[21,47],"a":[-14,10],"dur":1.2,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/deer.webp" width="246" height="320" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div></main>
   <footer>
     <div class="wrap">
       <div class="foot-cols">

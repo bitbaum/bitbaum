@@ -83,9 +83,9 @@ say((await page.$$(`${W} .ck-mic`)).length === 1, "with a microphone");
 say((await page.$$(`${W} form, ${W} input[type=email], ${W} select`)).length === 0, "and no form fields to fill");
 
 // The one door routes by what was written, never by what was filled in.
-// A line with no website and no email is kept: one question, then the
-// studio's waitlist (Loki's inbox) — the engagement a reader clicked travels
-// with it, and no address is invented.
+// A line with no website and no email is kept at once on the studio's
+// waitlist (Loki's inbox) — no question first — and the engagement a reader
+// clicked travels with it; no address is invented.
 let intakes = 0, intake = null;
 const cors = { "access-control-allow-origin": new URL(base).origin, "access-control-allow-methods": "GET, POST, OPTIONS", "access-control-allow-headers": "Content-Type, Authorization" };
 await page.route("**/api/studio-intake", async (route) => {
@@ -93,36 +93,74 @@ await page.route("**/api/studio-intake", async (route) => {
   intakes++; intake = JSON.parse(route.request().postData() || "{}");
   await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, id: "4a1bbf67-7ced-411b-9eec-9bdbb975115b", status: "waitlisted" }) });
 });
+// Loki answers the door (POST /api/widget/chat, mode "intake") AFTER the
+// words are saved: a question, never a stamp. Faked here; its rules are
+// Loki's scripts/test/widget-chat-intake.ts and site/intake-flow.test.mjs.
+const chats = [];
+await page.route("**/api/widget/chat", async (route) => {
+  if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers: cors });
+  const body = JSON.parse(route.request().postData() || "{}");
+  chats.push(body);
+  const go = /send it/i.test(body.message ?? "");
+  const text = go ? "Thank you — that is what the studio needs." : "That sounds like a Rescue (CHF 6,500, two weeks, fixed). What exists today, and what has to work when it is done?";
+  await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, reply: text, messages: [{ speaker: "loki", text }], ready: go, summary: go ? "An app, something new." : "" }) });
+});
 await page.click('[data-engagement="Rescue"]');
 await page.fill(`${W} .ck-input`, "an app");
 await page.press(`${W} .ck-input`, "Enter");
-await page.waitForTimeout(400);
-say(posts === 0 && intakes === 0, "a line without a site is not sent anywhere yet");
-say(/website that already exists/i.test(await page.innerText(`${W} .ck-thread`)), "it asks the one question: is there a site?");
+await page.waitForTimeout(600);
+say(posts === 1 && intakes === 0, `the first line joins the waitlist at once, with no question first (${posts})`);
+say(/^fcw_/.test(last?.token ?? ""), "it carries the widget token");
+say((last?.suggestion ?? "").includes("Engagement: Rescue"), "the engagement is recorded");
+say((last?.suggestion ?? "").includes("an app"), "the line is recorded as written");
+say(!last?.contact, "no address is invented");
+say((last?.page ?? "") === "/hire/", `the page is recorded (${last?.page})`);
+await page.waitForFunction((w) => /What exists today/.test(document.querySelector(`${w} .ck-thread`)?.innerText ?? ""), W, { timeout: 5000 }).catch(() => {});
+const asked = await page.innerText(`${W} .ck-thread`);
+say(chats.length === 1 && chats[0].mode === "intake" && chats[0].purpose === "studio" && chats[0].message === "an app", `then Loki is asked, in intake mode (${chats.length})`);
+say(/What exists today/.test(asked), "and its answer is what the visitor reads — a question, not a stamp");
+say(/saved as a private request/i.test(asked) && /address here — optional/i.test(asked), "the visitor is told it is kept, and that an email is optional");
+say(/books no work and agrees no price/i.test(asked), "and that sending books no work and agrees no price");
+say((await page.$$(`${W} button[aria-label="Attach a screenshot or file"]`)).length === 1, "the door takes a screenshot (+ attach)");
 await page.fill(`${W} .ck-input`, "no, something new");
 await page.press(`${W} .ck-input`, "Enter");
 await page.waitForTimeout(600);
-say(posts === 1 && intakes === 0, `"something new" joins the waitlist in one request (${posts})`);
-say(/^fcw_/.test(last?.token ?? ""), "it carries the widget token");
-say((last?.suggestion ?? "").includes("Engagement: Rescue"), "the engagement is recorded");
+say(posts === 2 && intakes === 0, `"something new" is a follow-up on the same note (${posts})`);
 say((last?.suggestion ?? "").includes("an app") && (last?.suggestion ?? "").includes("something new"), "both lines are recorded as written");
-say(!last?.contact, "no address is invented");
-say((last?.page ?? "") === "/hire/", `the page is recorded (${last?.page})`);
-const asked = await page.innerText(`${W} .ck-thread`);
-say(/on the studio waitlist/i.test(asked) && /reply by email/i.test(asked), "the visitor is told it is kept, and that an email is optional");
 
 // an email given afterwards becomes the reply address
 await page.fill(`${W} .ck-input`, "someone@example.com please");
 await page.press(`${W} .ck-input`, "Enter");
 await page.waitForTimeout(600);
-say(posts === 2, `the follow-up is kept too (${posts})`);
+say(posts === 3, `the follow-up is kept too (${posts})`);
 say(last?.contact === "someone@example.com", `the address is recorded (${last?.contact})`);
 say((last?.suggestion ?? "").includes("an app"), "tied to the first message");
+
+// "send it" files the brief once, with the whole conversation
+await page.fill(`${W} .ck-input`, "send it");
+await page.press(`${W} .ck-input`, "Enter");
+await page.waitForTimeout(800);
+say(posts === 5 && /^Studio brief — from the website conversation/.test(last?.suggestion ?? "") && /Visitor: an app/.test(last?.suggestion ?? "") && /Loki: That sounds like a Rescue/.test(last?.suggestion ?? ""), `"send it" files the brief with the conversation (${posts})`);
+say(/filed this as your brief/i.test(await page.innerText(`${W} .ck-thread`)), "and says so");
+
+// a picture travels with the words: to the record and to Loki
+await page.reload({ waitUntil: "load" });
+await page.waitForSelector(`${W} .ck-input`, { timeout: 10000 }).catch(() => {});
+const PNG = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=", "base64");
+const input = page.locator(`${W} input[type=file]`).first();
+await input.setInputFiles({ name: "shot.png", mimeType: "image/png", buffer: PNG }).catch(() => {});
+await page.waitForSelector(`${W} .ck-attach-thumb`, { timeout: 3000 }).catch(() => {});
+say((await page.$$(`${W} .ck-attach-thumb`)).length === 1, "a picture shows as a thumbnail above the send");
+await page.fill(`${W} .ck-input`, "this page is broken");
+await page.press(`${W} .ck-input`, "Enter");
+await page.waitForTimeout(800);
+say(Array.isArray(last?.screenshots) && /^data:image\/(png|jpeg);base64,/.test(last.screenshots[0] ?? ""), "the picture reaches the studio's record");
+say(Array.isArray(chats.at(-1)?.images) && chats.at(-1).images.length === 1, "and Loki's reply");
 
 // a website in the text makes a studio request with a private portal
 await page.reload({ waitUntil: "load" });
 await page.waitForSelector(`${W} .ck-input`, { timeout: 10000 }).catch(() => {});
-await page.fill(`${W} .ck-input`, "Make booking easier on phones at www.example-gym.ch, reply to ops@example.com");
+await page.fill(`${W} .ck-input`, "Make booking easier on phones at www.example-gym.ch. Reply to ops@example.com");
 await page.press(`${W} .ck-input`, "Enter");
 const portal = page.locator(W).getByRole("link", { name: "Open your portal →", exact: true });
 await portal.waitFor({ timeout: 5000 }).catch(() => {});
@@ -184,6 +222,8 @@ say((await p2.$$("form.js-request")).length === 0, "a venture page has no reques
 await p2.waitForSelector("#ask .ck-input", { timeout: 10000 }).catch(() => {});
 say((await p2.$$("#ask .ck-input")).length === 1, "a venture page has the chat");
 say((await p2.$$("#ask .ck-composer .ck-mic")).length === 1, "and its composer has a microphone");
+say((await p2.$$('#ask .ck-composer button[aria-label="Attach a screenshot or file"]')).length === 1, "and takes a screenshot");
+say(/^\d+\.\d+\.\d+$/.test((await p2.getAttribute("#ask .chat-mount", "data-chatkit")) ?? ""), "the mount names the chatkit release it runs");
 await p2.fill("#ask .ck-input", "Could this run for our organisation?");
 await p2.press("#ask .ck-input", "Enter");
 await p2.waitForSelector("#ask .ck-turn-answer .ck-md", { timeout: 5000 }).catch(() => {});
@@ -208,6 +248,13 @@ await p3.route("**/api/studio-intake", async (route) => {
   applications++; application = JSON.parse(route.request().postData() || "{}");
   await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, id: "4a1bbf67-7ced-411b-9eec-9bdbb975115b", status: "course_in_progress" }) });
 });
+const partnerChats = [];
+await p3.route("**/api/widget/chat", async (route) => {
+  if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers: cors });
+  partnerChats.push(JSON.parse(route.request().postData() || "{}"));
+  const text = "Thank you. How do you like to work with customers?";
+  await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, reply: text, messages: [{ speaker: "loki", text }], ready: false, summary: "" }) });
+});
 await p3.goto(base + "/partners/#join", { waitUntil: "load" });
 await p3.waitForSelector("#join .ck-input", { timeout: 10000 }).catch(() => {});
 say((await p3.$$("#join .ck-input")).length === 1 && (await p3.$$("#join .ck-mic")).length === 1 && (await p3.$$("#join form, #join select")).length === 0, "a partner applies in one field with a microphone, not a form");
@@ -218,7 +265,8 @@ await application_.waitFor({ timeout: 5000 }).catch(() => {});
 say(applications === 1 && application?.kind === "partner", "one message submits one partner application");
 say(application?.website === "https://builder.ch/work" && application?.changes?.includes("I build booking sites") && !application?.contact, "the work link is the website, the words are kept, and no email is needed");
 const told = await p3.innerText("#join .ck-thread");
-say(/pilot course/i.test(told) && /separate/i.test(told) && !/approved\b(?! are)/i.test(told.replace(/being approved are separate/i, "")), "it names the course as the next step and does not claim approval");
+say(/your private application; keep it/i.test(told) && !/\bapproved\b/i.test(told), "it says the application is saved and private, and does not claim approval");
+say(partnerChats.length === 1 && partnerChats[0].purpose === "partner", "Loki answers the application in partner mode");
 say((await application_.count()) === 1 && (await application_.getAttribute("href")).includes("/portal/#id="), "a saved application offers its private portal");
 await ctx3.close();
 

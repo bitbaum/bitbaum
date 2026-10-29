@@ -2,13 +2,30 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
-## 2026-10-06 — Facts brought up to date
+## 2026-10-29 — Facts brought up to date
 
-- OrangeCat no longer offers "top up in sats": its checkout is switched off until the company is registered, so the page lists only what works today. "Sign in with OrangeCat" now says what it is: the account nine of the studio's other apps accept.
+- OrangeCat no longer offers "top up in sats": its checkout stays closed until the company is registered (`PAID_PLANS_OPEN`; orangecat.ch/pricing says "Not open yet"). "Sign in with OrangeCat" now says what it is: one account across the studio's apps, Loki and Solon among them.
 - Loki names its six agent adapters as the code does (Antigravity, not Gemini; OpenClaw added), and Fleet Runner is the desktop app, not a second thing.
-- Solon's red lines list all four humans-only categories, and the map and the stack say members vote with one click or sign — not that every vote is signed.
-- AOZ Begleitung is described as it now is: real data only, 23 scored matching factors (it said 38), a resident portal in six languages.
-- Removed an unsourced recovery-rate claim from the Fundbüro concept and the fixed bonus amount from the Reparaturbonus concept. design-tokens no longer names OrangeCat as an adopter; sitekit names the two sites that render through it.
+- Solon's red lines list all four humans-only categories, and the map and the stack say members vote with one click or sign, not that every vote is signed.
+- Removed an unsourced recovery-rate claim from the Fundbüro concept.
+- Package pages name adopters the packages register shows: design-tokens is shared by Loki, Solon, Skif, Substrata and this site (not OrangeCat); sitekit by Camille, Substrata and Skif; threadkit no longer names a private client app or says OrangeCat "will" adopt it, because it already has.
+
+## 2026-10-27 — Checked publication snapshots
+
+- Publish checked source facts from main and propose generated snapshots through the normal pull-request gates, including generated cast documentation. Stop writing generated changes directly to main.
+
+## 2026-10-27 — Package publication verification
+
+- Validate each package card against its own registry version and source, independently of accessible-label wording. Detect stale displayed versions even when packages share the same release number.
+
+## 2026-10-26 — Package references with source evidence
+
+- Expanded each package page with source-pinned API documentation and examples,
+  repository changelogs and published release notes, section navigation and
+  linked declared consumers. Release facts and current-source documentation are
+  distinguished, and missing history is shown honestly.
+- Package source failures stop a fresh publish. Expanded-documentation browser
+  checks cover phone/desktop widths and both themes before publication.
 
 ## 2026-10-02 — The map
 
@@ -17,6 +34,17 @@ Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADM
 - A loop with no project is drawn as a gap and claims nothing. Allocating money is the first: named, not built, and explicitly not advice.
 - Diplodoctor and Causius now describe their own plans: a licensed clinician, or a licensed lawyer, stays in the loop and owns the result. Both remain "not built".
 - 138 responsive checks pass, including the new page.
+
+## 2026-10-08 — The private link cannot be lost
+
+- A studio request or partner application has no account; its private link is the key. Now the link also goes to the email given — at the start, or added later in the same conversation — and the portal page has "Lost the link?": the address you gave gets a fresh link to every open request under it, and the old one stops working (Loki `/api/studio-recover`).
+
+## 2026-10-02 — They move the way they would
+
+- The standing animals (Heidi's cow, the diplodocus, the elephant, the deer, the rabbit, the cat and the kit) graze along their floor: a slow walk to a spot, a rest, a turn, a slow walk back.
+- On the partners' meadow the deer comes toward us over minutes and the giant in the fog paces.
+- The scarab rolls the sun along the ground; its far start no longer floats.
+- The stylesheet and scripts lose the hooks of a plain that no page emits any more (the old gears, rye clump, cow and diplodocus doors, the cat's perch, the scene tumbleweed).
 
 ## 2026-10-02 — Every piece has a place
 

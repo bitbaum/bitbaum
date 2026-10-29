@@ -29,11 +29,16 @@ ssh -o BatchMode=yes "$BOX" "set -e
   sudo find /opt/bitbaum/app -type f -exec chmod 644 {} +"
 
 fail=0
-for rel in "" work/ packages/ packages/paykit/ studio/ hire/ partners/ portal/ academy/ roadmap/ changelog/ portal.js orangecat/ loki/ solon/ robots.txt sitemap.xml map.json commission.json og/studio.png theme.mjs chat.js chatkit.css; do
+for rel in "" work/ packages/ packages/paykit/ studio/ hire/ partners/ portal/ private/ private.js academy/ roadmap/ changelog/ portal.js orangecat/ loki/ solon/ robots.txt sitemap.xml map.json commission.json og/studio.png theme.mjs chat.js chatkit.css; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_ORIGIN/$rel")
   [ "$code" = "200" ] || { echo "$SITE_ORIGIN/$rel -> $code" >&2; fail=1; }
 done
 node "$HERE/check-widget.mjs" "$SITE_ORIGIN" || fail=1
+# The served chat must be the one just built: its first line names the chatkit
+# release (site/build.mjs). A stale or cached bundle fails the publish.
+want_chatkit=$(node -p 'require("./node_modules/@bitbaum/chatkit/package.json").version')
+served_chatkit=$(curl -fsS "$SITE_ORIGIN/chat.js?publish=$stamp" | sed -n '1s#.*@bitbaum/chatkit \([^ ]*\).*#\1#p') || served_chatkit=""
+[ "$served_chatkit" = "$want_chatkit" ] || { echo "served chat.js is chatkit '${served_chatkit:-unstamped}', built from $want_chatkit" >&2; fail=1; }
 home="$(curl -fsS "$SITE_ORIGIN/")" || { echo "home page unreachable" >&2; fail=1; }
 work="$(curl -fsS "$SITE_ORIGIN/work/?publish=$stamp")" || { echo "work page unreachable" >&2; fail=1; }
 grep -q 'id="work-grid"' <<<"$work" || { echo "work page has no project grid" >&2; fail=1; }
@@ -50,28 +55,28 @@ widget_code=$(curl -s -o /dev/null -w '%{http_code}' "$widget_src")
 hire="$(curl -fsS "$SITE_ORIGIN/hire/")" || { echo "hire page unreachable" >&2; fail=1; }
 grep -q 'data-intake' <<<"$hire" || { echo "hire page has no waitlist intake" >&2; fail=1; }
 grep -q '/chat.js' <<<"$hire" || { echo "hire page does not load the chat intake" >&2; fail=1; }
-grep -q 'data-intake data-purpose="studio"' <<<"$hire" || { echo "hire page has no studio door" >&2; fail=1; }
+# Other mount attributes (for example data-fc-avoid) may sit between these.
+# Full intake interactions are verified by check-hire.mjs after publication.
+grep -Eq '<div[^>]*data-intake[^>]*data-purpose="studio"' <<<"$hire" || { echo "hire page has no studio door" >&2; fail=1; }
 grep -q 'data-offer-id="rescue"' <<<"$hire" || { echo "hire page's door does not carry the published offer" >&2; fail=1; }
 partners="$(curl -fsS "$SITE_ORIGIN/partners/")" || { echo "partners page unreachable" >&2; fail=1; }
-grep -q 'data-intake data-purpose="partner"' <<<"$partners" || { echo "partners page has no application door" >&2; fail=1; }
+grep -Eq '<div[^>]*data-intake[^>]*data-purpose="partner"' <<<"$partners" || { echo "partners page has no application door" >&2; fail=1; }
 grep -q '/chat.js' <<<"$partners" || { echo "partners page does not load the chat intake" >&2; fail=1; }
 commission_json="$(curl -fsS "$SITE_ORIGIN/commission.json?publish=$stamp")" || { echo "commission.json unreachable" >&2; fail=1; }
 printf '%s' "$commission_json" | node -e 'const fs=require("node:fs"); const assert=require("node:assert/strict"); assert.deepEqual(JSON.parse(fs.readFileSync(0,"utf8")),JSON.parse(fs.readFileSync("site/dist/commission.json","utf8")))' || { echo "published commissioning terms differ from the generated contract" >&2; fail=1; }
 if grep -q 'mailto:' <<<"$hire"; then echo "hire page exposes a mailto again" >&2; fail=1; fi
 if grep -q 'manual steps between merge and deploy' <<<"$hire"; then echo "hire page still claims 0 manual deploy steps" >&2; fail=1; fi
 packages="$(curl -fsS "$SITE_ORIGIN/packages/?publish=$stamp")" || { echo "packages page unreachable" >&2; fail=1; }
-while IFS=$'\t' read -r slug version; do
-  [ -n "$slug" ] || continue
-  if ! grep -Fq "aria-label=\"Latest npm version $version\"" <<<"$packages"; then
-    echo "packages page is missing $slug npm version $version" >&2
-    fail=1
-  fi
-done < <(node -e 'for (const p of require("./site/packages.snapshot.json").packages) if (p.install?.source === "npm" && p.version) console.log(`${p.slug}\t${p.version}`)')
+# Compare each rendered card with its own registry row, not UI aria-label copy.
+printf '%s' "$packages" | node "$HERE/check-published-packages.mjs" || fail=1
+
 expected_packages=$(node -e 'const c=require("./site/overrides.json"); console.log(require("./site/packages.snapshot.json").packages.length + (c.upcomingPackages ?? []).length)')
 actual_packages=$(grep -o 'data-package="[^"]*"' <<<"$packages" | wc -l | tr -d ' ')
 [ "$actual_packages" = "$expected_packages" ] || { echo "packages page has $actual_packages cards; expected $expected_packages" >&2; fail=1; }
 grep -q 'data-package="paykit"' <<<"$packages" || { echo "packages page is missing the paykit card" >&2; fail=1; }
-grep -q 'distinct adopters in the fleet' <<<"$packages" || { echo "packages page missing unique-adopter eyebrow" >&2; fail=1; }
+# No count in the eyebrow (2026-10-19, no magic numbers): a count reappearing
+# would have to match its register again, which check-claims enforces.
+grep -q 'Open source &middot; MIT' <<<"$packages" || { echo "packages page missing its Open source · MIT eyebrow" >&2; fail=1; }
 if grep -q 'uses across the fleet' <<<"$packages"; then echo "packages page still sums dependency edges as uses" >&2; fail=1; fi
 for rel in packages-filter.mjs work-filter.mjs theme.mjs chat.js chatkit.css commission.json vendor/listkit/index.js vendor/listkit/LICENSE; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_ORIGIN/$rel?publish=$stamp")

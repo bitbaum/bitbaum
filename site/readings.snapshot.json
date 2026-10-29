@@ -1,31 +1,38 @@
 {
-  "generatedAt": "2026-10-05T11:48:18.152Z",
+  "generatedAt": "2026-10-28T10:47:05.738Z",
   "org": "bitbaum",
   "current": {
-    "date": "2026-10-05",
-    "stars": 2,
+    "date": "2026-10-28",
+    "stars": 3,
     "forks": 1,
     "downloads": {
-      "lastMonth": 17241,
+      "lastMonth": 22818,
       "byPackage": {
-        "@bitbaum/ai-kit": 7262,
-        "bip-kit": 3249,
-        "@bitbaum/mail-kit": 1822,
-        "limitkit": 864,
-        "ai-forms": 2330,
-        "@bitbaum/design-tokens": 539,
-        "threadkit": 550,
-        "@bitbaum/sitekit": 365,
-        "@bitbaum/speechkit": 136,
-        "@bitbaum/paykit": 124
+        "@bitbaum/ai-kit": 4567,
+        "@bitbaum/mail-kit": 2631,
+        "bip-kit": 3659,
+        "@bitbaum/chatkit": 3365,
+        "@bitbaum/accountkit": 168,
+        "limitkit": 1712,
+        "@bitbaum/design-tokens": 726,
+        "@bitbaum/whenkit": 154,
+        "@bitbaum/listkit": 159,
+        "@bitbaum/searchkit": 177,
+        "ai-forms": 2896,
+        "@bitbaum/sitekit": 1191,
+        "threadkit": 828,
+        "@bitbaum/geo-kit": 169,
+        "@bitbaum/chartkit": 166,
+        "@bitbaum/speechkit": 220,
+        "@bitbaum/paykit": 30
       }
     },
     "clients": {
-      "live": 12,
-      "products": 8,
-      "clients": 4,
+      "live": 14,
+      "products": 11,
+      "clients": 3,
       "paying": 0,
-      "favours": 4,
+      "favours": 3,
       "unknown": 0,
       "mrrChf": 0
     },
@@ -158,6 +165,132 @@
       "stars": 2,
       "forks": 1,
       "downloads": 17241,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-06",
+      "stars": 2,
+      "forks": 1,
+      "downloads": 17537,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-09",
+      "stars": 2,
+      "forks": 1,
+      "downloads": 16025,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-10",
+      "stars": 2,
+      "forks": 1,
+      "downloads": 18130,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-11",
+      "stars": 2,
+      "forks": 1,
+      "downloads": 18274,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-12",
+      "stars": 2,
+      "forks": 1,
+      "downloads": 16925,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-14",
+      "stars": 2,
+      "forks": 1,
+      "downloads": 0,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-15",
+      "stars": 2,
+      "forks": 1,
+      "downloads": 16859,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-17",
+      "stars": 3,
+      "forks": 1,
+      "downloads": 16859,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-18",
+      "stars": 3,
+      "forks": 1,
+      "downloads": 14171,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-20",
+      "stars": 3,
+      "forks": 1,
+      "downloads": 14180,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-24",
+      "stars": 3,
+      "forks": 1,
+      "downloads": 14386,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-26",
+      "stars": 3,
+      "forks": 1,
+      "downloads": 14916,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-27",
+      "stars": 3,
+      "forks": 1,
+      "downloads": 0,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-10-28",
+      "stars": 3,
+      "forks": 1,
+      "downloads": 22818,
       "payingClients": 0,
       "mrrChf": 0,
       "originatorSharePaid": 0

@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>design-tokens — bitbaum</title>
 <meta name="description" content="One tokens.css behind the products, so a retheme is an edit to one file.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/packages/design-tokens/">
@@ -65,7 +76,7 @@
     </div>
   </header>
   <main id="main">
-    <section data-lodge class="stage stage-floored venture-hero">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
       <div class="wrap">
         <span class="eyebrow">Package &middot; MIT</span>
         <h1 class="display-1">design-tokens</h1>
@@ -79,29 +90,130 @@
       </div>
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-moth" aria-hidden="true"><img class="fig fig-moth" src="/art/moth.webp" width="412" height="272" alt="" loading="lazy" decoding="async" draggable="false"></div></div>
-    <section class="wrap venture-body">
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
       <div class="prose">
         <h2>Why it exists</h2><p>Color, type and radius were being copied into each app and then drifting. A retheme meant a hunt. Dark mode meant a second hunt.</p>
         <h2>How it works</h2><p>Primitives, then semantic names, as CSS custom properties. Tailwind points at the variables and holds no literal color of its own. A product themes by overriding the variables, not by forking the components.</p>
-        <h2>Where it fits</h2><p>It is why the studio can look like one studio. Loki, Solon and this site share it. A package that draws a page is expected to use these tokens rather than invent a palette.</p>
+        <h2>Where it fits</h2><p>It is why the studio can look like one studio. Loki, Solon, Skif, Substrata and this site share it. A package that draws a page is expected to use these tokens rather than invent a palette.</p>
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Latest version</span><span>v1.1.0</span></div>
-        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/design-tokens" aria-label="Copy install command"><code>pnpm add @bitbaum/design-tokens</code></button></span></div>
+        <div><span class="label">Registry release</span><span>v1.2.0</span></div>
+        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/design-tokens@^1.2.0" aria-label="Copy install command"><code>pnpm add @bitbaum/design-tokens@^1.2.0</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/design-tokens">bitbaum/design-tokens</a></span></div>
-        <div><span class="label">Used by</span><span>6 apps</span></div>
-        <div class="uses" id="used-by"><span class="label">Used by</span><div class="chips"><span>accountkit</span><a href="/">bitbaum</a><span>chatkit</span><a href="/loki/">Loki</a><a href="/skif/">Skif</a><a href="/solon/">Solon</a></div></div>
+        <div><span class="label">Declared consumers</span><span>14 repositories</span></div>
+
       </div>
     </section>
-    <div class="wrap"><div class="pager"><a href="/packages/ai-forms/">&larr; ai-forms</a><a href="/packages/">All packages</a><a href="/packages/listkit/">listkit &rarr;</a></div></div>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/design-tokens/blob/dddb579856407f6b5d972daa7d410a4ef2d0be6a/">source commit <code>dddb57985640</code></a> · 2026-10-29. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-why">Why</a></li><li><a href="#api-retheming-the-entire-stack">Retheming the entire stack</a></li><li><a href="#api-install">Install</a></li><li><a href="#api-optional-cross-product-composition-grammar">Optional cross-product composition grammar</a></li><li><a href="#api-the-contract">The contract</a></li><li><a href="#api-typefaces">Typefaces</a></li><li><a href="#api-data-maps">Data maps</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>The design <strong>single source of truth</strong> for OrangeCat, Loki and Solon.</p>
+<p>One file — <a href="https://github.com/bitbaum/design-tokens/blob/dddb579856407f6b5d972daa7d410a4ef2d0be6a/tokens.css"><code>tokens.css</code></a> — defines every colour, typeface, weight, tracking, radius and shared primitive the three products use. They import it. Nothing is copied.</p>
+<h2 id="api-why">Why</h2>
+<p>These tokens used to be hand-copied into three repos, and they drifted. Solon's <code>globals.css</code> carried a comment claiming its tokens matched OrangeCat's while sharing <strong>zero</strong> names or values with it — so the three products looked like three different companies. Copies drift; imports cannot.</p>
+<h2 id="api-retheming-the-entire-stack">Retheming the entire stack</h2>
+<ol><li>Edit the block marked <code>▼▼▼ THE KNOBS ▼▼▼</code> in <code>tokens.css</code> for a retheme, or update the optional <code>composition.css</code> contract for interface improvements.</li><li>Bump <code>package.json</code>'s version <strong>and</strong> set the matching explicit <code>.github/release-request.txt</code>; submit a PR and pass package CI.</li><li>A successful <strong>main-branch push CI</strong> triggers <code>tag-approved-release.yml</code>. It tags only the exact latest verified SHA and never rewrites an existing version tag.</li><li>The tag workflow explicitly dispatches <code>publish.yml</code>; npm publishing is still guarded by <code>NPM_PUBLISHING</code> and requires trusted-publishing bootstrap. If that variable is off, a Git tag exists but <strong>no npm release</strong> is claimed.</li><li>Upgrade consumers to the confirmed Git tag, published npm version, or an exact source-commit SHA; run their frozen-lockfile CI.</li></ol>
+<p>The one-time release request does not automatically approve future version bumps: a request must match the manifest version.</p>
+<p>Changing the display typeface is <strong>one line</strong>:</p>
+<pre><code>--font-display: &quot;Instrument Serif&quot;, Georgia, serif;
+--font-display-weight: 400;   /* the face's weight lives WITH the face */
+--tracking-display: -0.015em; /* and so does its tracking */</code></pre>
+<h2 id="api-install">Install</h2>
+<pre><code>// package.json
+&quot;@bitbaum/design-tokens&quot;: &quot;^1.2.0&quot;</code></pre>
+<pre><code>// app/layout.tsx — import BEFORE the app's own globals.css
+import &quot;@bitbaum/design-tokens/tokens.css&quot;;
+import &quot;./globals.css&quot;;</code></pre>
+<pre><code>// tailwind.config.js (v3)
+module.exports = {
+  presets: [require(&quot;@bitbaum/design-tokens/tailwind-preset&quot;)],
+  content: [&quot;./src/**/*.{js,ts,jsx,tsx,mdx}&quot;],
+};</code></pre>
+<p>Tailwind v4 apps consume <code>tokens.css</code> through <code>@theme</code>; the variable names are identical, so both paths stay in sync.</p>
+<h2 id="api-optional-cross-product-composition-grammar">Optional cross-product composition grammar</h2>
+<p>The <strong>brand tokens</strong> above intentionally belong to OrangeCat/Loki/Solon. Their shared palette should never be imposed on unrelated products or customer websites.</p>
+<p>For spacing, control sizing, visual rhythm and interaction <em>decisions</em>, <code>composition.css</code> is an opt-in, namespaced layer. It defines no fonts, brand colours, body style or global reset.</p>
+<pre><code>// App Router — load AFTER the app's CSS reset and BEFORE product CSS modules.
+// The shared classes intentionally use :where() specificity, so importing
+// them before a later universal '*' padding reset would erase their padding.
+import './globals.css';
+import '@bitbaum/design-tokens/composition.css';</code></pre>
+<pre><code>&lt;main className=&quot;bb-frame&quot;>
+  &lt;div className=&quot;bb-stack&quot; style={{ '--bb-stack-gap': '1.5rem' }}>
+    &lt;div className=&quot;bb-measure&quot;>A product-specific headline and description&lt;/div>
+    &lt;div className=&quot;bb-actions&quot;>
+      &lt;a className=&quot;bb-button bb-button--primary&quot; href=&quot;/start&quot;>Get started&lt;/a>
+      &lt;a className=&quot;bb-button bb-button--secondary&quot; href=&quot;/method&quot;>Read the method&lt;/a>
+    &lt;/div>
+  &lt;/div>
+&lt;/main></code></pre>
+<p>Map only the small seam of <strong>semantic</strong> CSS roles once in each app:</p>
+<pre><code>:root {
+  --bb-action-bg: var(--color-action);
+  --bb-action-fg: var(--color-on-action);
+  --bb-control-bg: var(--color-surface);
+  --bb-control-fg: var(--color-text);
+  --bb-line: var(--color-border);
+  --bb-muted: var(--color-text-muted);
+  --bb-focus: var(--color-focus);
+}</code></pre>
+<p>The exported grammar includes <code>bb-frame</code>, <code>bb-measure</code>, <code>bb-section</code>, <code>bb-stack</code>, <code>bb-cluster</code>, <code>bb-grid</code>, <code>bb-actions</code>, <code>bb-choice-row</code>, <code>bb-list</code>, <code>bb-keyline</code>, <code>bb-tabular</code>, <code>bb-control</code>, <code>bb-button</code>, and <code>bb-skip</code>.</p>
+<p>It guarantees 44px controls, visible focus, responsive equal-cell choices, and reduced-motion support. Apps own typography, colours, spacing adjustments, components and their content. Do <strong>not</strong> render all information as cards: the grammar deliberately offers whitespace and hairline lists.</p>
+<p><strong>Release contract:</strong> the new composition subpath first appears in source version <code>1.2.0</code>; <code>v1.1.0</code> does <strong>not</strong> include it. The verified tagging pipeline only tags a version explicitly requested in <code>.github/release-request.txt</code> after main CI is green. Verify the <code>v1.2.0</code> Git ref and the registry separately before claiming either is published. Until then, use a verified exact commit SHA. Existing <code>tokens.css</code> consumers do not change appearance by opting out.</p>
+<h2 id="api-the-contract">The contract</h2>
+<p>Components declare <strong>intent</strong>, never mechanics.</p>
+<div class="record-table"><table><thead><tr><th>Do</th><th>Don't</th><th>Why</th></tr></thead><tbody><tr><td>`className=&quot;font-display&quot;`</td><td>`font-['Instrument_Serif']`</td><td>the face is not a component's business</td></tr><tr><td>`className=&quot;font-display&quot;`</td><td>`font-display font-bold`</td><td>the display face has **one weight**; a synthesized bold looks cheap</td></tr><tr><td>`className=&quot;bg-surface-base&quot;`</td><td>`bg-[#1c1c1c]`</td><td>retheming must not require finding hex codes</td></tr><tr><td>`className=&quot;text-accent&quot;`</td><td>`text-[#ff5c00]`</td><td>one action colour, one definition</td></tr><tr><td>`bg-accent text-on-accent`</td><td>`bg-accent text-white`</td><td>white on the accent is **3.10:1** and fails AA; the paired ink is 6.10:1</td></tr><tr><td>`className=&quot;tabular&quot;`</td><td>—</td><td>numbers that change in place must not jitter</td></tr><tr><td>`font-display` at ≥`text-2xl`</td><td>`font-display text-lg`</td><td>below 24px the high-contrast serif reads *lighter* than the body sans and hierarchy inverts</td></tr><tr><td>`className=&quot;wordmark&quot;`</td><td>`font-display` on the logo</td><td>uppercase + open tracking is the one small size a display serif survives</td></tr></tbody></table></div>
+<p>Enforce it in each repo's design gate so drift fails the build rather than shipping quietly.</p>
+<h2 id="api-typefaces">Typefaces</h2>
+<p>Self-hosted (latin + latin-ext), no runtime requests to Google:</p>
+<div class="record-table"><table><thead><tr><th>Role</th><th>Face</th><th>Weights</th><th>Carries</th></tr></thead><tbody><tr><td>display</td><td>Instrument Serif</td><td>400 only</td><td>headlines, wordmarks</td></tr><tr><td>sans</td><td>Inter</td><td>400–700 variable</td><td>all UI and body text</td></tr><tr><td>mono</td><td>IBM Plex Mono</td><td>400, 500</td><td>addresses, signatures, hashes, tallies</td></tr></tbody></table></div>
+<p>All three are SIL Open Font License.</p>
+<h3 id="api-why-a-serif">Why a serif</h3>
+<p>Every AI and infrastructure company competes inside the same dark-canvas grotesque convention, where the winner is whoever has the largest design budget. A high-contrast serif exits that comparison: it reads institutional rather than startup, which is exactly right for a stack whose product is <em>legitimacy</em> — signed votes, verifiable treasuries, an append-only audit trail.</p>
+<hr>
+<p>Part of <strong><a href="https://bitbaum.orangecat.ch/">bitbaum</a></strong> — AI-native products on open infrastructure, built in Zürich. Every package here lists the apps that use it: <strong><a href="https://bitbaum.orangecat.ch/packages/#design-tokens">which apps use design-tokens</a></strong>.</p>
+<h2 id="api-data-maps">Data maps</h2>
+<p><code>--map-scale-1</code> … <code>--map-scale-7</code> are the one sequential scale for every choropleth (viridis, dark to light; hex, so an SVG <code>fill</code> takes them as is). Luminance rises at every step, so the scale survives colour-vision deficiency and greyscale; <code>test/contrast.test.js</code> keeps it that way. <code>--map-no-data</code> and <code>--map-boundary</code> follow the theme. An area more than one authority claims is <strong>hatched</strong>, never given a colour of its own: lines of <code>--map-hatch-width</code> every <code>--map-hatch-gap</code> at <code>--map-hatch-angle</code>, in the text colour. Colour is never the only carrier: every map has a list and a legend.</p></div></details>
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><p>This retrospective record was added on 2026-10-27 from the immutable sources linked below. Git commit dates are source dates, not inferred npm publication dates. A GitHub release does not itself establish npm publication. Application adoption and deployment evidence are tracked separately.</p>
+<h2 id="change-1-2-0">1.2.0</h2>
+<ul><li><a href="https://github.com/bitbaum/design-tokens/tree/5c31f48743dabf9294bf9380a15862b4efbc68a0">Tagged source <code>v1.2.0</code></a></li><li><a href="https://github.com/bitbaum/design-tokens/commit/5c31f48743dabf9294bf9380a15862b4efbc68a0">Source commit</a>, dated 2026-10-21.</li></ul>
+<p>No authored release notes were found for this tag when this record was made. The links identify the verified source; missing feature history is not invented.</p></div></details>
+      <p>No release notes have been retrieved. This does not mean the package has never changed.</p>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/design-tokens/commit/dddb579856407f6b5d972daa7d410a4ef2d0be6a">fix(release): apply verified build-output staging contract (#44)</a> <time datetime="2026-10-29T00:32:20Z">2026-10-29</time></li><li><a href="https://github.com/bitbaum/design-tokens/commit/7b5de9f3bba1564035be9763978fa19b4502d4a5">chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#43)</a> <time datetime="2026-10-28T02:39:11Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/design-tokens/commit/6dcabc8c7586522882abf0db84e3ecccea245094">docs(agents): the org rules block, generated from bitbaum/fleet (#42)</a> <time datetime="2026-10-28T01:51:59Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/design-tokens/commit/4e45ffc3d9078fe6502cd6707c81ac2f83cc7a90">docs(readme): install from npm, the way the registry says (#41)</a> <time datetime="2026-10-28T01:40:26Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/design-tokens/commit/fa571001e2083bc918ad5263c43e4bd4bc14b55c">chore: add the fleet package template files this repo is missing (git-release.yml, release-notify.yml, release.yml, AGENTS.md, CLAUDE.md) (#39)</a> <time datetime="2026-10-28T01:28:21Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/design-tokens/commit/2215520a3aff6edb3f6ea1d061fe095f5de2a9fc">docs: record verified release history and its evidence limits (#40)</a> <time datetime="2026-10-27T23:20:06Z">2026-10-27</time></li><li><a href="https://github.com/bitbaum/design-tokens/commit/4c93ddc781e4addcad271d6b9e792db2b11fef6f">chore(deps-dev): bump eslint (#38)</a> <time datetime="2026-10-24T21:15:01Z">2026-10-24</time></li><li><a href="https://github.com/bitbaum/design-tokens/commit/5c31f48743dabf9294bf9380a15862b4efbc68a0">ci(release): safely tag approved v1.2.0 after green main and dispatch guarded publish (#37)</a> <time datetime="2026-10-21T22:59:30Z">2026-10-21</time></li></ol></details>
+      <a class="textlink" href="https://github.com/bitbaum/design-tokens/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/design-tokens/tags">All tags</a>
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      <div class="chips"><a href="/packages/accountkit/">accountkit</a><a href="/">bitbaum</a><a href="/causius/">Causius</a><a href="/packages/chartkit/">chartkit</a><a href="/packages/chatkit/">chatkit</a><a href="/diplodoctor/">Diplodoctor</a><a href="/loki/">Loki</a><a href="/skif/">Skif</a><a href="/solon/">Solon</a><a href="/substrata/">Substrata</a><a href="/packages/whenkit/">whenkit</a><span>3 other repositories</span></div>
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/design-tokens/blob/dddb579856407f6b5d972daa7d410a4ef2d0be6a/">source commit <code>dddb57985640</code></a> · 2026-10-29. Source documentation can include work beyond the registry release.</p>
+      <a class="textlink" href="https://github.com/bitbaum/design-tokens/actions">Package verification runs</a>
+    </section>
+    <div class="wrap"><div class="pager"><a href="/packages/limitkit/">&larr; limitkit</a><a href="/packages/">All packages</a><a href="/packages/whenkit/">whenkit &rarr;</a></div></div>
   </main>
   <script type="module">
     for (const btn of document.querySelectorAll(".js-copy")) {
       btn.addEventListener("click", async () => {
         const text = btn.getAttribute("data-copy") || "";
-        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); setTimeout(() => btn.classList.remove("copied"), 1200); }
-        catch { /* clipboard may be denied */ }
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
       });
     }
   </script>

@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>OrangeCat — Your AI economic agent</title>
 <meta name="description" content="OrangeCat sets up ways to earn, Bitcoin settles, and you stay in charge. Any identity — a person, a pseudonym, an AI agent — takes part in the economy without asking a bank or a platform first. Pay-links work today; funding, lending and the Cat's allocation are governed in Solon and built in the open.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/orangecat/">
@@ -82,18 +93,15 @@
     <section class="wrap venture-body">
       <div class="prose">
         <p>OrangeCat sets up ways to earn, Bitcoin settles, and you stay in charge. Any identity — a person, a pseudonym, an AI agent — takes part in the economy without asking a bank or a platform first. Pay-links work today; funding, lending and the Cat's allocation are governed in Solon and built in the open.</p>
-        <p class="caption"><strong>Products:</strong> Public beta services. Check each product page for its current scope and access.</p>
-        <p class="caption">The image is a screenshot of orangecat.ch, taken by a machine when this site was built. If the product changed, so did the picture.</p>
       </div>
       <div class="venture-facts">
-        <div><span class="label">Stage</span><span>Product</span></div>
-        <div><span class="label">Status</span><span>Beta — running, not released</span></div>
+        <div><span class="label">Stage</span><span>Beta — running, not released</span></div>
         <div><span class="label">Field</span><span><a href="/work/#work?field=infrastructure">Infrastructure</a>, <a href="/work/#work?field=ai-agents">AI agents</a></span></div>
         <div><span class="label">Since</span><span>Apr 2025</span></div>
         <div><span class="label">Address</span><span><a href="https://orangecat.ch">orangecat.ch</a></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/orangecat">bitbaum/orangecat</a></span></div>
         <div><span class="label">Profiles</span><span><a href="https://orangecat.ch/projects/cb093f00-8745-4579-98df-050ebfb37181">OrangeCat</a>, <a href="https://solon.orangecat.ch/orgs/orangecat">Solon</a></span></div>
-        <div class="uses"><span class="label">Built from</span><div class="chips"><a href="/packages/ai-kit/">ai-kit</a><a href="/packages/bip-kit/">bip-kit</a><a href="/packages/limitkit/">limitkit</a><a href="/packages/listkit/">listkit</a><a href="/packages/mail-kit/">mail-kit</a><a href="/packages/threadkit/">threadkit</a></div></div>
+        <div class="uses"><span class="label">Built from</span><div class="chips"><a href="/packages/accountkit/">accountkit</a><a href="/packages/ai-kit/">ai-kit</a><a href="/packages/bip-kit/">bip-kit</a><a href="/packages/chatkit/">chatkit</a><a href="/packages/geo-kit/">geo-kit</a><a href="/packages/limitkit/">limitkit</a><a href="/packages/listkit/">listkit</a><a href="/packages/mail-kit/">mail-kit</a><a href="/packages/searchkit/">searchkit</a><a href="/packages/threadkit/">threadkit</a><a href="/packages/whenkit/">whenkit</a></div></div>
       </div>
     </section>
     <section class="section venture-depth">
@@ -111,18 +119,18 @@
             <li>Products, services, projects, causes, events and groups, all published from one profile.</li>
             <li>Companions with memory, direct messages and a timeline — the social layer value moves through.</li>
             <li>Run the Cat on a free daily allowance, bring your own key, or use a local model.</li>
-            <li>Sign in with OrangeCat — one account for nine of the studio's other apps, Loki and Solon among them.</li>
+            <li>Sign in with OrangeCat — one account across the studio's apps, Loki and Solon among them.</li>
           </ul>
           <p class="depth-connects"><span class="label">In the stack</span> The Cat hands builds to Loki and files proposals to Solon. What it may spend is not a setting we control: it is a policy decided in Solon, and OrangeCat re-checks every vote signature before it applies one.</p>
         </div>
         <div class="depth-roadmap">
           <span class="label">Being built now</span>
           <ul>
-            <li><span>Share and fund anything</span><span class="depth-progress" role="img" aria-label="40% done"><span style="width:40%"></span></span></li>
+            <li><span>Share and fund anything</span><span class="depth-progress" role="img" aria-label="43% done"><span style="width:43%"></span></span></li>
+            <li><span>Events, end to end</span><span class="depth-progress" role="img" aria-label="91% done"><span style="width:91%"></span></span></li>
+            <li><span>The investor portal</span><span class="depth-progress" role="img" aria-label="42% done"><span style="width:42%"></span></span></li>
             <li><span>Fund-to-build</span><span class="depth-progress" role="img" aria-label="25% done"><span style="width:25%"></span></span></li>
             <li><span>Metered Cat Credits as the paid token pool for builders</span><span class="depth-progress" role="img" aria-label="50% done"><span style="width:50%"></span></span></li>
-            <li><span>Partner payouts and client funding through OrangeCat rails</span></li>
-            <li><span>More rails and deeper coordination</span></li>
           </ul>
         </div>
       </div>
@@ -133,12 +141,12 @@
           <h2 class="display-2">Ask about OrangeCat</h2>
           <p class="lede">Ask anything about OrangeCat — the Cat and Loki answer right away from the project catalogue. Want a person instead? Send them the conversation.</p>
         </div>
-        <div class="chat-mount" data-chat data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is OrangeCat?&quot;,&quot;Is OrangeCat ready to use?&quot;,&quot;How could OrangeCat work for my organisation?&quot;]">
+        <div class="chat-mount" data-chat data-fc-avoid data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-title="" data-starters="[&quot;What is OrangeCat?&quot;,&quot;Is OrangeCat ready to use?&quot;,&quot;How could OrangeCat work for my organisation?&quot;]">
           <p class="caption">The chat needs JavaScript. <a class="textlink" href="/work/">Browse every project</a> or <a class="textlink" href="/hire/#waitlist">join the waitlist</a>.</p>
         </div>
       </div>
     </section>
-    <div class="wrap"><div class="pager"><a href="/causius/">&larr; Causius</a><a href="/work/#work?stage=product">All products</a><a href="/loki/">Loki &rarr;</a></div></div>
+    <div class="wrap"><div class="pager"><a href="/camille-boulangerie/">&larr; Camille</a><a href="/work/#work?stage=product">All products</a><a href="/loki/">Loki &rarr;</a></div></div>
   </main>
   <footer>
     <div class="wrap">

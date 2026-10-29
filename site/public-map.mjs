@@ -32,13 +32,19 @@ function publicProject(p) {
   };
 }
 
-/** Strip ops fields; keep catalogue facts agents need. */
-export function publicMap(map) {
+/**
+ * Strip ops fields; keep catalogue facts agents need. Only the ventures the
+ * site shows are listed: the register may carry rows the site does not, and
+ * map.json once published client work the pages never named.
+ */
+export function publicMap(map, shown = null) {
   return {
     generatedAt: map.generatedAt ?? null,
     thesis: map.thesis ?? null,
     pillars: map.pillars ?? [],
     summary: map.summary ?? null,
-    projects: (map.projects ?? []).map(publicProject),
+    projects: (map.projects ?? [])
+      .filter((p) => !shown || shown.has(p.slug))
+      .map(publicProject),
   };
 }

@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+<script>
+// No page ever shows a broken picture. An image that fails to load is
+// fetched once more; if it fails again its figure is hidden, so a visitor
+// sees the sky where it stood rather than a browser's broken-image icon.
+addEventListener("error", function (e) {
+  var t = e.target;
+  if (!t || t.tagName !== "IMG") return;
+  if (!t.dataset.retried) { t.dataset.retried = "1"; var u = t.src.split("?")[0]; setTimeout(function () { t.src = u + "?r=" + Date.now(); }, 800); return; }
+  (t.closest(".fig, .puppet, .guest, .art-object, .rabbit, .whale, .dragonfly, .hummingbird, .walker") || t).style.visibility = "hidden";
+}, true);
+</script>
 <title>bip-kit — bitbaum</title>
 <meta name="description" content="Blog, roadmap and changelog from repo-authored markdown. Typed blocks, your design tokens on top.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/packages/bip-kit/">
@@ -65,7 +76,7 @@
     </div>
   </header>
   <main id="main">
-    <section data-lodge class="stage stage-floored venture-hero">
+    <section data-lodge class="stage stage-floored venture-hero package-hero">
       <div class="wrap">
         <span class="eyebrow">Package &middot; MIT</span>
         <h1 class="display-1">bip-kit</h1>
@@ -80,7 +91,10 @@
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="egg" hidden aria-hidden="true"><img class="fig fig-egg egg-whole" src="/art/egg.webp" width="171" height="236" alt="" loading="lazy" decoding="async" draggable="false"><img class="fig fig-egg-bottom egg-half" src="/art/egg-bottom.webp" width="190" height="176" alt="" loading="lazy" decoding="async" draggable="false"><img class="fig fig-egg-top egg-cap" src="/art/egg-top.webp" width="176" height="94" alt="" loading="lazy" decoding="async" draggable="false"></div>
   <div class="fox" hidden aria-hidden="true"><span class="fig puppet fig-fox fox-run" data-rig='[{"poly":[[60,54],[100,54],[100,100],[60,100]],"pivot":[72,55],"a":[16,-14],"dur":0.46,"delay":0,"mode":"swing"},{"poly":[[14,52],[50,52],[50,86],[14,86]],"pivot":[44,50],"a":[-14,12],"dur":0.46,"delay":0,"mode":"swing"},{"poly":[[0,4],[40,4],[40,40],[0,40]],"pivot":[40,28],"a":[-6,5],"dur":0.46,"delay":-0.1,"mode":"swing"}]'><img class="pp-body" src="/art/fox.webp" width="525" height="199" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="fig puppet fig-kit fox-kit" data-rig='[{"poly":[[44,0],[100,0],[100,46],[58,50],[44,42]],"pivot":[66,46],"a":[-7,6],"dur":5,"delay":0,"mode":"gesture"}]'><img class="pp-body" src="/art/kit.webp" width="184" height="226" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
-    <section class="wrap venture-body">
+    <nav class="wrap pkg-local-nav" aria-label="Package sections">
+      <a href="#overview">Overview</a><a href="#documentation">API &amp; examples</a><a href="#changelog">Changelog</a><a href="#used-by">Consumers</a><a href="#evidence">Sources</a>
+    </nav>
+    <section class="wrap venture-body" id="overview">
       <div class="prose">
         <h2>Why it exists</h2><p>Writing that lives in a CMS drifts from the product. Writing that is a pile of regexes drifts from itself. The studio writes in the repository, reviewed like code, and needed one dialect.</p>
         <h2>How it works</h2><p>Markdown in, typed blocks out: headings, figures, a table of contents, reading time. A reference React renderer is optional. Bring your own tokens; the kit does not own your look. A chart fence that is malformed fails at build time rather than on the reader's screen.</p>
@@ -88,21 +102,376 @@
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Latest version</span><span>v0.5.2</span></div>
-        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add bip-kit" aria-label="Copy install command"><code>pnpm add bip-kit</code></button></span></div>
+        <div><span class="label">Registry release</span><span>v0.6.1</span></div>
+        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add bip-kit@^0.6.1" aria-label="Copy install command"><code>pnpm add bip-kit@^0.6.1</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/bip-kit">bitbaum/bip-kit</a></span></div>
-        <div><span class="label">Used by</span><span>13 apps</span></div>
-        <div class="uses" id="used-by"><span class="label">Used by</span><div class="chips"><a href="/aoz-housing/">AOZ Begleitung</a><a href="/">bitbaum</a><a href="/botsmann/">Botsmann</a><a href="/datacat/">DataCat</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/kivvi/">kivvi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/skif/">Skif</a><a href="/solon/">Solon</a><a href="/substrata/">Substrata</a></div></div>
+        <div><span class="label">Declared consumers</span><span>17 repositories</span></div>
+
       </div>
     </section>
-    <div class="wrap"><div class="pager"><a href="/packages/ai-kit/">&larr; ai-kit</a><a href="/packages/">All packages</a><a href="/packages/mail-kit/">mail-kit &rarr;</a></div></div>
+    <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
+      <h2 id="documentation-title">API and examples</h2>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/bip-kit/blob/d7f50201a700287ec25a28a41c7d214ca454edb5/">source commit <code>d7f50201a700</code></a> · 2026-10-29. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-canonical-development-records">Canonical development records</a></li><li><a href="#api-quick-start-next-js-app-router">Quick start (Next.js App Router)</a></li><li><a href="#api-the-block-vocabulary">The block vocabulary</a></li><li><a href="#api-frontmatter">Frontmatter</a></li><li><a href="#api-a-folder-of-posts-bip-kit-node">A folder of posts — `bip-kit/node`</a></li><li><a href="#api-author-flavoured-markdown-normalizemarkdown">Author-flavoured markdown — `normalizeMarkdown`</a></li><li><a href="#api-questions-and-answers-parsefaq-faq">Questions and answers — `parseFaq` + `&lt;Faq>`</a></li><li><a href="#api-helpers">Helpers</a></li><li><a href="#api-slug-policy">Slug policy</a></li><li><a href="#api-the-renderer-bip-kit-react">The renderer — `bip-kit/react`</a></li><li><a href="#api-theming-contract">Theming contract</a></li><li><a href="#api-feedback-let-people-answer-the-roadmap-and-the-changelog">Feedback — let people answer the roadmap and the changelog</a></li><li><a href="#api-security-model">Security model</a></li><li><a href="#api-types-you-ll-actually-use">Types you'll actually use</a></li><li><a href="#api-starter-routes">Starter routes</a></li><li><a href="#api-company-vs-users">Company vs users</a></li><li><a href="#api-used-in-production">Used in production</a></li><li><a href="#api-license">License</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Release notes are tracked in <a href="https://github.com/bitbaum/bip-kit/blob/d7f50201a700287ec25a28a41c7d214ca454edb5/CHANGELOG.md">CHANGELOG.md</a>.</p>
+<h2 id="api-canonical-development-records">Canonical development records</h2>
+<p><code>loadDevelopmentProfile(mapUrl, slug)</code> reads the selected public profile from a remote <code>{ projects: [...] }</code> map. <code>DevelopmentPage</code> from <code>bip-kit/react</code> renders its roadmap or changelog with the same responsive layout, source links and failure states on every product. Import <code>bip-kit/styles.css</code> and override its CSS variables to match the host product. No product names or service hosts are stored in this package.</p>
+<pre><code>import { loadDevelopmentProfile } from &quot;bip-kit&quot;;
+import { DevelopmentPage } from &quot;bip-kit/react&quot;;
+import &quot;bip-kit/styles.css&quot;;
+
+const profile = await loadDevelopmentProfile(publicMapUrl, projectSlug);
+return &lt;DevelopmentPage profile={profile} section=&quot;roadmap&quot; profileHref={publicProfileUrl} />;</code></pre>
+<p>The producer is fetched with an eight-second timeout and no stored fallback. Unavailable data says unavailable; an empty history says empty. Private fields are excluded from the projection. Labels and navigation URLs are overridable for localisation; operator-authored canonical record text is left unchanged.</p>
+<h3 id="api-linking-the-roadmap-and-the-changelog">Linking the roadmap and the changelog</h3>
+<p>Put the same <code>{#id}</code> on a roadmap milestone and on the changelog line that delivered it:</p>
+<pre><code>&lt;!-- ROADMAP.md -->
+### Events, end to end {#events}
+- [x] Pay the crew from the event {#crew-pay}
+
+&lt;!-- CHANGELOG.md -->
+## 2026-10-07
+- Organizers pay each crew member in one click {#crew-pay}</code></pre>
+<p><code>DevelopmentPage</code> then links both ways: each milestone shows the dated changelog entries that delivered it (<code>/changelog#change-2026-10-07</code>), and each changelog line names the milestone it advanced (<code>/roadmap#step-crew-pay</code>). A goal's milestones are drawn as a trail, filled where done. The tokens are never printed. Ids are lowercase kebab-case starting with a letter, so <code>(#1240)</code> pull-request references are left alone; a line may cite a goal's id too.</p>
+<p>For a custom page, <code>linkDevelopment(profile)</code> returns the same model: <code>goals</code> (steps, <code>deliveredIn</code>, first/last dates, percent, next step), <code>changes</code> (lines with what each <code>advances</code>), the <code>journey</code> (shipped / now / next / later), and two honesty checks — <code>danglingRefs</code> (ids the changelog cites that nothing declares) and <code>unrecordedSteps</code> (milestones ticked done that no changelog line cites). <code>RoadmapTrail</code> and <code>ChangeAdvances</code> from <code>bip-kit/react</code> render the two halves inside any layout.</p>
+<h3 id="api-locally-authored-typed-records">Locally authored typed records</h3>
+<p>When content lives in an app's typed <code>RoadmapDoc</code> / <code>ChangelogEntry</code> modules rather than the fleet's remote public map, render the shared structure without moving or flattening product-owned copy:</p>
+<pre><code>import { RoadmapDocument, ChangelogDocument } from &quot;bip-kit/react&quot;;
+import &quot;bip-kit/styles.css&quot;;
+
+&lt;RoadmapDocument doc={roadmap} lang=&quot;de&quot; headingLevel={2} />
+&lt;ChangelogDocument
+  entries={changes}
+  lang=&quot;de&quot;
+  formatDate={(iso) => new Intl.DateTimeFormat(&quot;de-CH&quot;, { dateStyle: &quot;long&quot;, timeZone: &quot;UTC&quot; }).format(new Date(`${iso}T12:00:00Z`))}
+  tagLabels={{ feature: &quot;Neu&quot;, improvement: &quot;Verbessert&quot;, fix: &quot;Behoben&quot;, platform: &quot;Plattform&quot;, breaking: &quot;Änderung&quot; }}
+/></code></pre>
+<p>The roadmap can set <code>showHeader={false}</code> when the page already renders its title and lede. <code>essayHref</code> resolves product-local paths, and <code>essayLink</code> lets the host use its router while the renderer still rejects unsafe schemes. The changelog retains an ISO <code>dateTime</code> when <code>formatDate</code> supplies localized text. Both components use <code>bp-*</code> CSS variables and accept <code>className</code>, so a host can map its semantic tokens without copying the markup.</p>
+<p><strong>Blog · Roadmap · Changelog · Q&amp;A</strong> for product sites — one content contract, one reference renderer, instead of five blog stacks.</p>
+<p>You want to build in public. What you don't want is a CMS, a markdown pipeline, three renderers, and a security review every time a product site needs a blog. bip-kit is the small, sharp core of that stack:</p>
+<ul><li><strong><code>bip-kit</code></strong> — a zero-dependency parser that turns repo-authored markdown into <strong>typed blocks</strong> (plus the types for a roadmap and a user-facing changelog).</li><li><strong><code>bip-kit/react</code></strong> — a reference renderer: RSC-first server components, tiny client islands, semantic <code>bp-*</code> classes, every color a CSS variable.</li><li><strong><code>bip-kit/styles.css</code></strong> — a complete neutral theme (measured ~70ch line length, real vertical rhythm, dark mode, mobile-first, print-safe) that you retheme var-by-var.</li></ul>
+<p>Same vocabulary everywhere, your design tokens on top.</p>
+<pre><code>npm i bip-kit
+# optional, only if your content uses them:
+npm i shiki    # syntax highlighting
+npm i katex    # math
+npm i mermaid  # diagrams (client-side)</code></pre>
+<p>Core parser: zero dependencies. Renderer: <code>react >= 18</code> as the only required peer; shiki/katex/mermaid are <strong>optional</strong> peers — everything degrades gracefully without them.</p>
+<h2 id="api-quick-start-next-js-app-router">Quick start (Next.js App Router)</h2>
+<pre><code>// app/blog/[slug]/page.tsx — a server component; ArticleBody is async (RSC)
+import { readFileSync } from &quot;node:fs&quot;;
+import { parseFrontmatter, parseContentBlocks, extractToc, readingTime } from &quot;bip-kit&quot;;
+import { ArticleBody, Toc, ReadingProgress } from &quot;bip-kit/react&quot;;
+import &quot;bip-kit/styles.css&quot;;
+
+export default async function Post({ params }: { params: Promise&lt;{ slug: string }> }) {
+  const { slug } = await params;
+  const raw = readFileSync(`content/blog/${slug}.md`, &quot;utf8&quot;);
+  const { meta, body } = parseFrontmatter(raw);
+  const blocks = parseContentBlocks(body);
+  const toc = extractToc(blocks);
+  const { minutes } = readingTime(blocks);
+
+  return (
+    &lt;>
+      &lt;ReadingProgress />
+      &lt;h1>{meta.title}&lt;/h1>
+      &lt;p>{minutes} min read&lt;/p>
+      &lt;Toc items={toc} />
+      &lt;ArticleBody blocks={blocks} />
+    &lt;/>
+  );
+}</code></pre>
+<p>Diagrams? Mermaid is client-side and heavyweight, so it lives on its <strong>own subpath</strong> — it never enters your bundle unless you ask:</p>
+<pre><code>import { MermaidBlock } from &quot;bip-kit/react/mermaid&quot;; // requires the mermaid peer
+
+&lt;ArticleBody blocks={blocks} components={{ mermaid: MermaidBlock }} />;</code></pre>
+<p>Without the override, mermaid blocks render their source in a styled <code>&lt;pre></code> — honest degradation, never a broken build.</p>
+<p><code>MermaidBlock</code> follows your theme however you switch it: an explicit <code>data-theme=&quot;light|dark&quot;</code> on <code>&lt;html></code> wins, then a <code>light</code>/<code>dark</code> class (next-themes with <code>attribute=&quot;class&quot;</code>, Tailwind's <code>.dark</code>), then the OS preference — and it re-renders live on any of them changing. Diagram colors resolve from your <code>--bp-*</code> tokens and are normalized to a form mermaid's color parser accepts, so tokens authored in <code>oklch()</code>/<code>lab()</code> (Tailwind v4 palettes) render correctly instead of blanking the diagram (fixed in 0.2.1).</p>
+<h2 id="api-the-block-vocabulary">The block vocabulary</h2>
+<p>One syntax example per block. Everything the v0.1 parser understood still parses identically; v0.2 adds the rest of what long-form writing needs.</p>
+<h3 id="api-headings-h2-h3-h4">Headings — <code>h2</code> / <code>h3</code> / <code>h4</code></h3>
+<pre><code>## Section        → { type: &quot;h2&quot;, text, id: &quot;section&quot;, spans }
+### Subsection    → h3
+#### Detail       → h4</code></pre>
+<p>Headings carry a slugified, de-duplicated <code>id</code> (<code>## Über uns</code> → <code>ueber-uns</code>) — anchors and TOC for free. Which slug you get is a <a href="https://github.com/bitbaum/bip-kit/blob/d7f50201a700287ec25a28a41c7d214ca454edb5/#slug-policy">policy you choose</a>.</p>
+<h3 id="api-paragraphs-inline-markup-p">Paragraphs &amp; inline markup — <code>p</code></h3>
+<pre><code>Body text with **bold**, *emphasis*, `code`, [links](https://example.com) and footnote refs[^1].</code></pre>
+<p>Every text-bearing block keeps its raw <code>text</code> AND carries <code>spans: Inline[]</code> — a parsed tree of <code>text | strong | em | code | link | footnoteRef</code> nodes. Consumers stop re-parsing <code>**bold**</code> themselves.</p>
+<p>Emphasis follows <strong>CommonMark's flanking-delimiter rules</strong> (since v0.2.2), so what authors type is what every other markdown reader would show them:</p>
+<div class="record-table"><table><thead><tr><th>Markdown</th><th>Result</th><th>Why</th></tr></thead><tbody><tr><td>`\*not emphasis\*`</td><td>literal `*not emphasis*`</td><td>backslash escapes the full ASCII punctuation set</td></tr><tr><td>`` `a\*b` ``</td><td>code `a\*b`</td><td>code spans take no escapes — the backslash is content</td></tr><tr><td>`foo*bar*baz`</td><td>`foo`·_bar_·`baz`</td><td>`*` may open and close intraword</td></tr><tr><td>`snake_case_name`</td><td>literal `snake_case_name`</td><td>`_` may **not** — identifiers survive untouched</td></tr><tr><td>`***bold italic***`</td><td>em wrapping strong</td><td>also `___x___`, `**_x_**`, `_**x**_`</td></tr></tbody></table></div>
+<p>Anything that does not resolve — a dangling <code>**</code>, an unmatched <code>_</code> — stays literal text, exactly as before. There is still no raw HTML and no markdown dependency: this is a hand-rolled scanner over one line.</p>
+<h3 id="api-lists-ul-ol">Lists — <code>ul</code> / <code>ol</code></h3>
+<pre><code>- unordered item
+1. ordered item</code></pre>
+<p>Items come with parallel <code>itemSpans</code> for inline markup.</p>
+<h3 id="api-quotes-blockquote-pullquote">Quotes — <code>blockquote</code>, <code>pullquote</code></h3>
+<pre><code>> An ordinary quote.
+
+>> A big centered pull quote for the one sentence that matters.
+>> — Attribution</code></pre>
+<p>The trailing <code>— Name</code> line (on a multi-line pull quote) becomes <code>cite</code>.</p>
+<h3 id="api-callouts-callout-github-syntax-nestable">Callouts — <code>callout</code> (GitHub syntax, nestable)</h3>
+<pre><code>> [!TIP] Optional custom title
+> Callout body — full blocks, callouts can nest.</code></pre>
+<p>Kinds: <code>[!NOTE]</code> <code>[!TIP]</code> <code>[!WARN]</code>/<code>[!WARNING]</code> <code>[!CAUTION]</code>/<code>[!DANGER]</code> → <code>note | tip | warn | danger</code>.</p>
+<h3 id="api-images-image-figure-gallery">Images — <code>image</code>, <code>figure</code>, <code>gallery</code></h3>
+<pre><code>![alt](/img/a.png)                     → image (v0.1, unchanged)
+![alt](/img/a.png &quot;A caption&quot;)         → figure (caption supports inline markup)
+![one](/img/1.png)
+![two](/img/2.png)                     → adjacent image lines merge into a gallery</code></pre>
+<p>A blank line between images keeps them separate.</p>
+<h3 id="api-code-code">Code — <code>code</code></h3>
+<pre><code></code></pre>
+<p>const x: number = 1;</p>
+<pre><code></code></pre>
+<p>The first word of the fence info is the language; the rest becomes a filename label. With the <code>shiki</code> peer, blocks are highlighted <strong>server-side once</strong> with both themes emitted as CSS variables (<code>--shiki-light</code>/<code>--shiki-dark</code>) — dark mode is pure CSS, zero client JS. Without shiki: clean mono fallback. Copy button included either way.</p>
+<p>The filename label and the copy button share a toolbar row (<code>.bp-codeblock-toolbar</code>) <strong>above</strong> the code, in normal flow — since 0.2.7. Earlier versions overlaid the button on the <code>&lt;pre></code> and reserved a fixed band for it, which broke the moment a consumer's own CSS made buttons taller (a <code>min-height: 2.75rem</code> touch-target rule on coarse pointers, say). In flow, the button can be any height your stylesheet gives it and never covers code. On hover-capable pointers the button rests faded and reveals on hover/focus; on touch it is always visible.</p>
+<p><strong>Deploying with <code>output: &quot;standalone&quot;</code>?</strong> Because shiki is an <em>optional</em> peer, bip-kit's zero-config load goes through an import that bundlers (and Next.js output file tracing) cannot see — a standalone deploy would silently ship without shiki and lose highlighting. Register the loader once, at module scope (e.g. in your root layout), so the literal specifier lives in <em>your</em> code where the bundler and tracer can follow it:</p>
+<pre><code>import { setHighlighterLoader } from &quot;bip-kit/react&quot;;
+setHighlighterLoader(() => import(&quot;shiki&quot;)); // one line; traceable; only if you use shiki</code></pre>
+<p>Or pass a loaded module per render: <code>&lt;ArticleBody blocks={blocks} highlighter={shiki} /></code> (with <code>import * as shiki from &quot;shiki&quot;</code>). Consumers without shiki write neither line — nothing to resolve, builds stay green.</p>
+<h3 id="api-diagrams-mermaid">Diagrams — <code>mermaid</code></h3>
+<pre><code></code></pre>
+<p>graph TD; A-->B</p>
+<pre><code></code></pre>
+<p>First-class block since v0.2 (v0.1 parsed these as <code>code</code> with lang <code>mermaid</code> — update your switch if you special-cased that).</p>
+<h3 id="api-charts-chart">Charts — <code>chart</code></h3>
+<pre><code></code></pre>
+<p>kind: bar title: Weekly signups ylabel: signups series Organic: Jan=12, Feb=30, Mar=41 series Paid: Jan=4, Feb=9</p>
+<pre><code></code></pre>
+<p>Or strict JSON: <code>{ &quot;kind&quot;: &quot;line&quot;, &quot;series&quot;: [{ &quot;name&quot;: &quot;A&quot;, &quot;points&quot;: [[&quot;W1&quot;, 10]] }] }</code>. Kinds: <code>bar | line | area</code>. The renderer draws an inline, theme-aware SVG — axis, gridlines, legend, categorical palette from CSS vars, no chart library. <strong>A malformed spec throws at parse time</strong> with the reason — committed content is the trust boundary, and a broken chart should fail the build like a broken import, never vanish silently.</p>
+<h3 id="api-math-math">Math — <code>math</code></h3>
+<pre><code>$$e = mc^2$$
+
+$$
+\sum_{i=1}^n i = \frac{n(n+1)}{2}
+$$</code></pre>
+<p>With the <code>katex</code> peer: server-rendered (import KaTeX's stylesheet in your app: <code>import &quot;katex/dist/katex.min.css&quot;</code>). Without it: the TeX source in a styled block with <code>data-math</code> — no crash.</p>
+<h3 id="api-footnotes-footnote">Footnotes — <code>footnote</code></h3>
+<pre><code>A claim[^src] in running text.
+
+[^src]: The definition, with **inline markup**.
+  Continuation lines are indented.</code></pre>
+<p>Refs render as superscript links; definitions collect into a footnotes section at the end with backlinks.</p>
+<h3 id="api-stats-stats">Stats — <code>stats</code></h3>
+<pre><code></code></pre>
+<p>68 | essays shipped 99.9% | uptime</p>
+<pre><code></code></pre>
+<p>A row of value/label tiles.</p>
+<h3 id="api-the-rest">The rest</h3>
+<pre><code>---                          → hr
+| A | B |                    → table (GFM, separator row required)
+|---|---|
+https://youtu.be/VIDEO_ID    → embed (lone URL on its own line, allowlisted)</code></pre>
+<p>Video embeds are <strong>allowlisted, never arbitrary</strong>: only YouTube/Vimeo URLs become <code>embed</code> blocks, rendered via <code>youtube-nocookie.com</code> / <code>player.vimeo.com</code>. Everything else stays a paragraph.</p>
+<h2 id="api-frontmatter">Frontmatter</h2>
+<pre><code>---
+title: My post
+tags: [bitcoin, &quot;build in public&quot;]
+authors:
+  - Mao
+  - George
+---</code></pre>
+<p><strong><code>parseFrontmatter</code> is a <code>key: value</code> scanner, not a YAML parser.</strong> It is dependency-free on purpose and handles exactly three shapes: scalar <code>key: value</code>, <code>key: [a, b]</code> lists (also wrapped over several lines, the way prettier formats long ones, with commas allowed inside quoted items), and block <code>- item</code> lists. Every value comes back as a <code>string</code> or <code>string[]</code> — nothing else. The key ends at the first colon, so <code>title: Bitcoin: a peer-to-peer system</code> keeps its colon.</p>
+<p>It will get real YAML wrong, quietly:</p>
+<pre><code>draft: true                             → &quot;true&quot;      ← the string, not a boolean
+order: 3                                → &quot;3&quot;         ← the string, not a number
+author:                                                ← nesting is not supported
+  name: Mao</code></pre>
+<p>If your frontmatter needs booleans, numbers, dates, or nesting, use a real YAML parser — <a href="https://www.npmjs.com/package/gray-matter"><code>gray-matter</code></a> is what kivvi keeps in front of bip-kit for exactly this — and hand the <code>body</code> it returns to <code>parseContentBlocks</code>:</p>
+<pre><code>import matter from &quot;gray-matter&quot;;
+const { data: meta, content: body } = matter(raw);
+const blocks = parseContentBlocks(body);</code></pre>
+<p>bip-kit will not grow a YAML parser; one already exists.</p>
+<h2 id="api-a-folder-of-posts-bip-kit-node">A folder of posts — <code>bip-kit/node</code></h2>
+<p>Every product was writing the same fifty lines: list <code>content/blog/*.md</code>, read the frontmatter, sort newest first, 404 a bad slug. <code>readCollection</code> is that reader, and it accepts every shape those products used:</p>
+<pre><code>import { readCollection, readEntry } from &quot;bip-kit/node&quot;;
+
+const posts = readCollection(join(process.cwd(), &quot;content&quot;, &quot;blog&quot;));
+const post = readEntry(join(process.cwd(), &quot;content&quot;, &quot;blog&quot;), slug); // undefined → notFound()
+// each: { slug, title, date, summary, tags, author, meta, body, blocks, toc, readingMinutes, file }</code></pre>
+<ul><li>Slug from the file name; a <code>2026-09-30-</code> prefix is the date and leaves the slug.</li><li><code>title:</code> or the body's first <code># Heading</code>; <code>date:</code> or <code>publishedAt:</code> or the</li></ul>
+<p>file name's date (YYYY-MM-DD, or the build fails naming the file); <code>summary:</code> / <code>excerpt:</code> / <code>description:</code> or the first paragraph.</p>
+<ul><li><code>draft: true</code> or <code>published: false</code> stays out unless <code>{ includeDrafts: true }</code>.</li><li><code>README.md</code> and <code>_*.md</code> are ignored; <code>readEntry</code> only looks up plain slugs.</li></ul>
+<p>It lives on its own subpath because it reads the filesystem; the main entry stays isomorphic.</p>
+<h2 id="api-author-flavoured-markdown-normalizemarkdown">Author-flavoured markdown — <code>normalizeMarkdown</code></h2>
+<p>The parser is strict on purpose. <code>normalizeMarkdown</code> is the one lenient step in front of it: <code>*</code>/<code>+</code> bullets become <code>-</code>, nested items flatten, a body <code># h1</code> becomes <code>##</code>, single-quoted image captions become double-quoted, CRLF becomes LF, and code fences are left alone. <code>readCollection</code> and <code>parseFaq</code> apply it for you; call it yourself before <code>parseContentBlocks</code> for markdown from elsewhere (a database, a form).</p>
+<h2 id="api-questions-and-answers-parsefaq-faq">Questions and answers — <code>parseFaq</code> + <code>&lt;Faq></code></h2>
+<pre><code>## Do I need an account?
+
+No. Reading is open to anyone.
+
+# Voting
+
+## Who can vote?
+
+Members. Safety decisions: people only, not AI agents.</code></pre>
+<pre><code>import { parseFaq } from &quot;bip-kit&quot;;
+import { Faq } from &quot;bip-kit/react&quot;;
+
+const sections = parseFaq(readFileSync(&quot;content/faq.md&quot;, &quot;utf8&quot;));
+return &lt;Faq sections={sections} />;</code></pre>
+<p><code># Heading</code> starts a section (optional), <code>## Question</code> starts a question, and everything until the next heading is its answer, in the full block vocabulary. <code>&lt;Faq></code> renders native <code>&lt;details></code> (no client JavaScript, keyboard- and screen-reader-friendly, found by the browser's search), gives every question a linkable id, and adds schema.org <code>FAQPage</code> data (<code>structuredData={false}</code> to leave it out). <code>faqJsonLd(sections)</code> and <code>blocksToText(blocks)</code> are exported for your own markup.</p>
+<h2 id="api-helpers">Helpers</h2>
+<pre><code>extractToc(blocks);   // → { id, text, level }[]   (h2/h3/h4)
+readingTime(blocks);  // → { words, minutes }      (200 wpm, min 1)
+parseInline(text);    // → Inline[]                (the inline parser, standalone)
+slugify(&quot;Über uns&quot;);  // → &quot;ueber-uns&quot;</code></pre>
+<h2 id="api-slug-policy">Slug policy</h2>
+<p>A slug policy is your site's <strong>anchor contract</strong>. <code>## Das Geschäftsmodell</code> becomes <code>&lt;h2 id=&quot;…&quot;></code>, and that id is the <code>#anchor</code> in every link anyone has ever shared to that section.</p>
+<aside class="record-callout" role="note"><p><strong>Changing the policy on a published site renames every anchor.</strong> Inbound links, bookmarks, and cross-post references to <code>#…</code> break silently — nothing 404s, readers just land at the top of the page. Choose a policy once, before you publish; treat a later change as a URL migration needing redirects.</p></aside>
+<p>Because of that, bip-kit's default never moves. Two policies ship:</p>
+<div class="record-table"><table><thead><tr><th>Policy</th><th>`Geschäftsmodell` →</th><th>`日本語` →</th><th>For</th></tr></thead><tbody><tr><td>`slugify` **(default)**</td><td>`geschaeftsmodell`</td><td>`section`</td><td>ASCII anchors; German transliteration (ä→ae, ß→ss)</td></tr><tr><td>`unicodeSlugify`</td><td>`geschäftsmodell`</td><td>`日本語`</td><td>Multilingual sites keeping non-Latin anchors</td></tr></tbody></table></div>
+<p>Non-Latin headings have no ASCII spelling, so under the default they strip to nothing and fall back to <code>section</code>, <code>section-2</code>, … That is the reason <code>unicodeSlugify</code> exists.</p>
+<p>Pass a policy through the <code>slugify</code> option — <strong>to both calls</strong>, since an id and the TOC link pointing at it are the same anchor:</p>
+<pre><code>import { parseContentBlocks, extractToc, unicodeSlugify } from &quot;bip-kit&quot;;
+
+const options = { slugify: unicodeSlugify };
+const blocks = parseContentBlocks(body, options);
+const toc = extractToc(blocks, options); // same policy, or the two drift apart</code></pre>
+<p>Any <code>SlugFn</code> (<code>(text: string) => string</code>) works, so you can compose rather than reimplement — de-duplication (<code>slug</code>, <code>slug-2</code>, …) and the <code>section</code> fallback for empty results are applied on top of whatever you return:</p>
+<pre><code>import { slugify, type SlugFn } from &quot;bip-kit&quot;;
+
+const prefixed: SlugFn = (text) => `sec-${slugify(text)}`;</code></pre>
+<h2 id="api-the-renderer-bip-kit-react">The renderer — <code>bip-kit/react</code></h2>
+<p>Server components (RSC-first): <code>ArticleBody</code> (the one you usually need — an <strong>async</strong> server component that pre-awaits shiki/katex and emits a fully synchronous tree), plus <code>Figure</code>, <code>Gallery</code>, <code>Callout</code>, <code>PullQuote</code>, <code>Stats</code>, <code>Footnotes</code>, <code>CodeBlock</code>, <code>Chart</code>, <code>TableBlock</code>, <code>VideoEmbed</code>.</p>
+<p>Client islands (each tiny, dependency-free): <code>Toc</code> (sticky scroll-spy; hides itself under 3 headings), <code>ReadingProgress</code> (top-of-page hairline), <code>Lightbox</code> (figure/gallery zoom, Escape to close), <code>CopyButton</code>. And <code>MermaidBlock</code> on <code>bip-kit/react/mermaid</code> (theme colors resolved from your CSS vars at render time).</p>
+<p><code>ArticleBody</code> props: <code>blocks</code>, <code>components</code> (<code>{ mermaid }</code> override), <code>highlighter</code> (a loaded shiki module — see the code-block section), <code>lightbox</code> (default <code>true</code>), <code>className</code>.</p>
+<h2 id="api-theming-contract">Theming contract</h2>
+<p><code>bip-kit/styles.css</code> is a complete neutral theme; every visual decision is a CSS custom property you may override — light, and dark via <code>@media (prefers-color-scheme)</code> plus an explicit <code>data-theme=&quot;dark&quot; | &quot;light&quot;</code> attribute on <code>&lt;html></code> that always wins.</p>
+<div class="record-table"><table><thead><tr><th>Variable</th><th>Role</th></tr></thead><tbody><tr><td>`--bp-font-sans` / `--bp-font-mono`</td><td>Type stacks</td></tr><tr><td>`--bp-size`</td><td>Base font size (17px mobile / 18px ≥720px)</td></tr><tr><td>`--bp-leading`</td><td>Body line-height (1.7)</td></tr><tr><td>`--bp-measure`</td><td>Line length (70ch)</td></tr><tr><td>`--bp-flow`</td><td>Vertical rhythm unit (1.5rem)</td></tr><tr><td>`--bp-radius` / `--bp-radius-sm`</td><td>Corner radii</td></tr><tr><td>`--bp-bg` / `--bp-surface`</td><td>Page &amp; raised-surface backgrounds</td></tr><tr><td>`--bp-fg` / `--bp-fg-muted` / `--bp-fg-faint`</td><td>Text hierarchy</td></tr><tr><td>`--bp-border`</td><td>Hairlines &amp; frames</td></tr><tr><td>`--bp-accent` / `--bp-accent-contrast`</td><td>Links, active TOC, progress bar</td></tr><tr><td>`--bp-note` / `--bp-note-bg`</td><td>Note callout</td></tr><tr><td>`--bp-tip` / `--bp-tip-bg`</td><td>Tip callout</td></tr><tr><td>`--bp-warn` / `--bp-warn-bg`</td><td>Warning callout</td></tr><tr><td>`--bp-danger` / `--bp-danger-bg`</td><td>Danger callout</td></tr><tr><td>`--bp-chart-1` … `--bp-chart-6`</td><td>Categorical chart palette</td></tr></tbody></table></div>
+<p>Retheme by redefining vars on <code>:root</code> (and your dark scope) — zero rule overrides needed. Components emit <strong>semantic classes only</strong> (<code>bp-p</code>, <code>bp-h2</code>, <code>bp-callout bp-callout--warn</code>, <code>bp-figure</code>, …), so a from-scratch stylesheet is equally supported.</p>
+<h2 id="api-feedback-let-people-answer-the-roadmap-and-the-changelog">Feedback — let people answer the roadmap and the changelog</h2>
+<blockquote><p><strong>In bitbaum products, a vote goes through Solon, not this module.</strong> Voting</p><p>on a roadmap or having a say in its direction is a right someone holds: an</p><p>OrangeCat account and a seat in the product's organisation on</p><p><a href="https://solon.orangecat.ch/">Solon</a>. General &quot;this is broken&quot; feedback on any</p><p>page goes through the Loki feedback widget. This module collects anonymous</p><p>input under a browser key. Use it only where anonymous input is what the</p><p>product actually wants.</p></blockquote>
+<p>Readers can mark a roadmap item <strong>needed</strong> or <strong>not needed</strong>, comment on a changelog entry, and suggest what is missing. As they type a suggestion, they see similar ones already on the list and can back one of those instead. No sign-in and no language model. bip-kit supplies the rules and the UI; your product supplies storage.</p>
+<pre><code>// app/api/feedback/route.ts
+import { createFeedbackHandler, roadmapItemId, changelogEntryId } from &quot;bip-kit&quot;;
+import { ROADMAP, CHANGELOG } from &quot;@/lib/config&quot;;
+import { store } from &quot;@/lib/feedback-store&quot;; // your FeedbackStore over your DB
+
+const ids = new Set([
+  ...ROADMAP.buckets.flatMap((b) => b.items.map(roadmapItemId)),
+  ...CHANGELOG.map(changelogEntryId),
+]);
+
+export const { GET, POST } = createFeedbackHandler({
+  store,
+  isTarget: (id) => ids.has(id),
+  allow: (request, action) => myRateLimit(request, action), // e.g. limitkit
+});</code></pre>
+<pre><code>// on the roadmap page (client components; wrap once, place anywhere)
+import { FeedbackProvider, StanceButtons, CommentThread, SuggestBox } from &quot;bip-kit/react&quot;;
+
+&lt;FeedbackProvider endpoint=&quot;/api/feedback&quot; targetIds={ids} labels={t.feedback}>
+  {items.map((item) => (
+    &lt;li key={item.title}>
+      {item.title}
+      &lt;StanceButtons targetId={roadmapItemId(item)} />
+      &lt;CommentThread targetId={roadmapItemId(item)} />
+    &lt;/li>
+  ))}
+  &lt;SuggestBox />
+&lt;/FeedbackProvider>;</code></pre>
+<ul><li><strong>Give translated items an <code>id</code>.</strong> Without one, each item is keyed by the</li></ul>
+<p>slug of its title, so each language gets its own tally, and renaming an item resets its votes.</p>
+<ul><li><strong>Voters</strong> are a random key the browser keeps (<code>x-bip-voter</code>). That makes</li></ul>
+<p>&quot;one vote per person&quot; true for honest readers; the <code>allow</code> hook (rate limiting per IP) is what stops someone who games it.</p>
+<ul><li><strong>What gets refused</strong> (<code>screenText</code>): empty or 1–2 characters, over 1000</li></ul>
+<p>characters, more than one link, and floods. Criticism is not refused.</p>
+<ul><li><strong>Store contract:</strong> one stance per voter per target (a second replaces the</li></ul>
+<p>first, <code>null</code> withdraws it) and one support per voter per suggestion. The tests in <code>test/feedback.test.js</code> run against <code>memoryStore()</code> and describe the behaviour your store must match.</p>
+<h2 id="api-security-model">Security model</h2>
+<p>Typed blocks are the security model:</p>
+<ul><li><strong>No raw HTML, ever.</strong> Markdown becomes a discriminated union; the renderer emits React elements from typed data. There is no HTML passthrough for content to hide in — which makes the renderer safe for <strong>database/user-submitted content</strong> too, not just committed files.</li><li><strong>Link hrefs are guarded at render.</strong> <code>javascript:</code> and every unknown scheme degrade to plain text (<code>safeHref</code> allows http/https/mailto/tel/relative/#).</li><li><strong>Embeds are allowlisted.</strong> Only YouTube/Vimeo, always via the privacy player. A markdown file can never inject an arbitrary iframe.</li><li>The only <code>dangerouslySetInnerHTML</code> sinks are shiki/KaTeX <strong>output generated from escaped source</strong> — never author-supplied markup.</li><li>Parse errors in chart/stats fences <strong>throw</strong> instead of guessing.</li></ul>
+<h2 id="api-types-you-ll-actually-use">Types you'll actually use</h2>
+<ul><li><code>ContentBlock</code> — the discriminated union your renderer switches on</li><li><code>Inline</code> — the inline span union (<code>text | strong | em | code | link | footnoteRef</code>)</li><li><code>ChartSpec</code> / <code>ChartSeries</code> — the tiny declarative chart contract</li><li><code>TocEntry</code>, <code>ReadingTimeResult</code></li><li><code>BlogPostMeta</code> — minimal post frontmatter (slug, title, summary, tags, …)</li><li><code>RoadmapDoc</code> / <code>RoadmapBucket</code> / <code>RoadmapItem</code> — a renderable roadmap</li><li><code>ChangelogEntry</code> / <code>ChangelogTag</code> — user-facing changelog entries</li><li><code>ReleaseEntry</code> — desktop/installer release notes</li></ul>
+<h2 id="api-starter-routes">Starter routes</h2>
+<p><a href="https://github.com/bitbaum/bip-kit/blob/d7f50201a700287ec25a28a41c7d214ca454edb5/templates/next-app"><code>templates/next-app</code></a> has copy-paste Next.js route stubs for <code>/blog</code>, <code>/roadmap</code>, and <code>/changelog</code>. They're intentionally thin — copy them into your app and style with your own tokens.</p>
+<h2 id="api-company-vs-users">Company vs users</h2>
+<p>This kit is for <strong>product/company</strong> building-in-public. User-generated blogs belong on a social layer — don't bolt a UGC CMS onto every product domain.</p>
+<h2 id="api-used-in-production">Used in production</h2>
+<p>Extracted from, and dogfooded by, <a href="https://loki.com/">Loki</a> (its Thoughts/blog, roadmap, and changelog) and AOZ Wohnen before it was ever a package.</p>
+<h2 id="api-license">License</h2>
+<p>MIT</p>
+<hr>
+<p>Part of <strong><a href="https://bitbaum.orangecat.ch/">bitbaum</a></strong> — AI-native products on open infrastructure, built in Zürich. Every package here lists the apps that use it: <strong><a href="https://bitbaum.orangecat.ch/packages/#bip-kit">which apps use bip-kit</a></strong>.</p></div></details>
+    </section>
+    <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
+      <h2 id="changelog-title">Changelog and releases</h2>
+      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-6-1-2026-10-26">0.6.1 — 2026-10-26</h2>
+<ul><li>Add <code>RoadmapDocument</code> and <code>ChangelogDocument</code> to <code>bip-kit/react</code> for rendering</li></ul>
+<p>locally authored <code>RoadmapDoc</code> and <code>ChangelogEntry</code> records with the same responsive semantic structure across products. The components keep product copy and date formatting caller-owned, accept localized category labels, expose token-based styles, preserve stable item IDs, and reject unsafe essay links. Roadmap rendering can defer its title to an existing page header.</p>
+<h2 id="change-0-6-0-2026-10-07">0.6.0 — 2026-10-07</h2>
+<p>The roadmap and the changelog, read as one record.</p>
+<ul><li>A <code>{#id}</code> token on a roadmap milestone (or goal) and on a changelog line</li></ul>
+<p>links them. <code>DevelopmentPage</code> shows, under each milestone, the dated changelog entries that delivered it, and under each changelog line, the milestone it advanced — both as anchored links (<code>#step-&lt;id></code>, <code>#goal-&lt;id></code>, <code>#change-&lt;date></code>). Tokens are stripped from what is shown.</p>
+<ul><li>The roadmap is drawn as a trail per goal: one mark per milestone, filled</li></ul>
+<p>where done. Done marks keep <code>aria-label=&quot;Done&quot;</code>.</p>
+<ul><li><code>linkDevelopment(profile)</code> exposes the model for custom pages (goals with</li></ul>
+<p><code>deliveredIn</code> and first/last dates, changes with <code>advances</code>, the journey shipped/now/next/later, <code>danglingRefs</code>, <code>unrecordedSteps</code>); <code>readRefs</code>, <code>phaseOf</code>, <code>changeAnchor</code> alongside. <code>RoadmapTrail</code>, <code>ChangeAdvances</code> and <code>linkedText</code> from <code>bip-kit/react</code>.</p>
+<ul><li>Nothing upstream changes: the token rides inside the milestone titles and</li></ul>
+<p>changelog lines the fleet map already carries.</p>
+<h2 id="change-0-5-2-2026-09-30">0.5.2 — 2026-09-30</h2>
+<ul><li><code>normalizeMarkdown</code> (and so <code>readCollection</code> and <code>parseFaq</code>) joins a wrapped</li></ul>
+<p>list item's indented lines into the item, the way prettier and most changelogs wrap long bullets. Before, the rest of the sentence rendered as a paragraph of its own. Indented numbered items are flattened like <code>- </code> ones.</p>
+<h2 id="change-0-5-1-2026-09-30">0.5.1 — 2026-09-30</h2>
+<ul><li><code>parseFrontmatter</code> (and so <code>readCollection</code>) reads a <code>[…]</code> list that wraps</li></ul>
+<p>over several lines, the form prettier gives long tag lists, and keeps commas inside quoted items. Before, a wrapped list silently came back empty.</p>
+<h2 id="change-0-5-0-2026-09-30">0.5.0 — 2026-09-30</h2>
+<p>The parts every product was still writing for itself.</p>
+<ul><li><code>bip-kit/node</code>: <code>readCollection(dir)</code> / <code>readEntry(dir, slug)</code> read a folder</li></ul>
+<p>of markdown files as a list of entries, newest first. Accepts <code>title:</code> or a body <code># h1</code>; <code>date:</code>, <code>publishedAt:</code> or a <code>YYYY-MM-DD-</code> file name; <code>summary:</code>, <code>excerpt:</code>, <code>description:</code> or the first paragraph; <code>draft: true</code> / <code>published: false</code>. A malformed date fails the build, naming the file. Replaces five per-product readers.</p>
+<ul><li><code>normalizeMarkdown</code>: the lenient step in front of the strict parser (bullets,</li></ul>
+<p>nested items, body h1, single-quoted captions, CRLF). Replaces four copies.</p>
+<ul><li><code>parseFaq</code> + <code>&lt;Faq></code> (<code>bip-kit/react</code>): questions and answers from one</li></ul>
+<p>markdown file, rendered as native <code>&lt;details></code> with linkable ids and schema.org <code>FAQPage</code> data. <code>faqJsonLd</code>, <code>blocksToText</code> exported. Styles in <code>styles.css</code> (<code>bp-faq-*</code>), tokens only.</p>
+<h2 id="change-0-4-0-2026-09-25">0.4.0 — 2026-09-25</h2>
+<p>Roadmaps and changelogs people can answer.</p>
+<ul><li><code>createFeedbackHandler</code> — Web-standard <code>GET</code>/<code>POST</code> for votes (&quot;needed&quot; /</li></ul>
+<p>&quot;not needed&quot;), comments and suggestions; a Next.js route re-exports it.</p>
+<ul><li><code>FeedbackStore</code> — the persistence contract a product implements over its own</li></ul>
+<p>database; <code>memoryStore()</code> is the reference.</p>
+<ul><li>Shared rules: <code>screenText</code> (length, links, floods), a honeypot, one stance</li></ul>
+<p>per voter per item, <code>findSimilar</code> duplicate detection for suggestions (word stems, no model, any script), <code>wilson</code> ranking.</p>
+<ul><li><code>bip-kit/react</code>: <code>FeedbackProvider</code>, <code>StanceButtons</code>, <code>CommentThread</code>,</li></ul>
+<p><code>SuggestBox</code>; every word is a prop (<code>FeedbackLabels</code>). Styles in <code>styles.css</code>, tokens only.</p>
+<ul><li><code>RoadmapItem.id</code> and <code>ChangelogEntry.id</code> (optional): give them to a</li></ul>
+<p>translated roadmap so every language shares one tally.</p>
+<h2 id="change-0-3-1-2026-09-23">0.3.1 — 2026-09-23</h2>
+<ul><li>Fix <code>loadDevelopmentProfile</code> for Loki fleet-map roadmap milestones, preserving</li></ul>
+<p>completion state and source links while continuing to accept legacy strings.</p>
+<ul><li>Render checked milestones and provenance links in <code>DevelopmentPage</code>.</li></ul></div></details>
+      <ol class="pkg-releases"><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/bip-kit/releases/tag/v0.6.1">v0.6.1</a><time datetime="2026-10-26T08:53:14Z">2026-10-26</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-0-what-s-changed">What's Changed</h2>
+<p>* chore(deps-dev): Bump the minor-and-patch group across 1 directory with 5 updates by @dependabot[bot] in https://github.com/bitbaum/bip-kit/pull/41 * chore: add the fleet package template files this repo is missing (git-release.yml, release.yml) by @catomean in https://github.com/bitbaum/bip-kit/pull/48 * feat: render typed roadmap and changelog records by @catomean in https://github.com/bitbaum/bip-kit/pull/49</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/bip-kit/compare/v0.6.0...v0.6.1</p></div></details></li></ol>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/bip-kit/commit/d7f50201a700287ec25a28a41c7d214ca454edb5">fix(release): apply verified build-output staging contract (#55)</a> <time datetime="2026-10-29T00:32:50Z">2026-10-29</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/9d144decd3d70a5b30eb08997f1a0a621d751b67">chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#54)</a> <time datetime="2026-10-28T02:26:29Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/5ede4ec2ae6cb0c66219c79bd7e57e9fa8732b39">docs(agents): the org rules block, generated from bitbaum/fleet (#53)</a> <time datetime="2026-10-28T01:58:15Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/85b43ee24282d3d39e516d344c6e49f56458bfc2">fix(security): refresh sanitizer and brace parser patches (#52)</a> <time datetime="2026-10-27T22:32:24Z">2026-10-27</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/bf265da48db580c771734ecb688a4b7ec3af7e1a">chore: add the fleet package template files this repo is missing (release-notify.yml) (#51)</a> <time datetime="2026-10-26T21:36:38Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/1d5cb32719c37a736f2485f003eebdb75f873e12">chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) (#50)</a> <time datetime="2026-10-26T11:06:17Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/16cc4fabce6eb2c50db6c85f02d33387d324e23a">feat: render typed roadmap and changelog records (#49)</a> <time datetime="2026-10-26T08:52:24Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/64d79bb77991bfcd3f97d2c2e7d11d937240c7a4">chore: add the fleet package template files this repo is missing (git-release.yml, release.yml) (#48)</a> <time datetime="2026-10-25T08:31:21Z">2026-10-25</time></li></ol></details>
+      <a class="textlink" href="https://github.com/bitbaum/bip-kit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/bip-kit/tags">All tags</a>
+    </section>
+    <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
+      <h2 id="consumers-title">Where it is declared</h2>
+      <p>Linked products declare this package in their manifests. A declaration alone does not verify every feature, version or deployed integration.</p>
+      <div class="chips"><a href="/">bitbaum</a><a href="/botsmann/">Botsmann</a><a href="/causius/">Causius</a><a href="/datacat/">DataCat</a><a href="/diplodoctor/">Diplodoctor</a><a href="/evig/">evig</a><a href="/heidi/">Heidi</a><a href="/loki/">Loki</a><a href="/orangecat/">OrangeCat</a><a href="/petvity/">Petvity</a><a href="/skif/">Skif</a><a href="/solon/">Solon</a><a href="/substrata/">Substrata</a><span>4 other repositories</span></div>
+    </section>
+    <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Sources and verification</h2>
+      <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/bip-kit/blob/d7f50201a700287ec25a28a41c7d214ca454edb5/">source commit <code>d7f50201a700</code></a> · 2026-10-29. Source documentation can include work beyond the registry release.</p>
+      <a class="textlink" href="https://github.com/bitbaum/bip-kit/actions">Package verification runs</a>
+    </section>
+    <div class="wrap"><div class="pager"><a href="/packages/accountkit/">&larr; accountkit</a><a href="/packages/">All packages</a><a href="/packages/chatkit/">chatkit &rarr;</a></div></div>
   </main>
   <script type="module">
     for (const btn of document.querySelectorAll(".js-copy")) {
       btn.addEventListener("click", async () => {
         const text = btn.getAttribute("data-copy") || "";
-        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); setTimeout(() => btn.classList.remove("copied"), 1200); }
-        catch { /* clipboard may be denied */ }
+        let status = btn.nextElementSibling;
+        if (!status || !status.matches("[data-copy-status]")) {
+          status = document.createElement("span"); status.dataset.copyStatus = "";
+          status.setAttribute("role", "status"); btn.after(status);
+        }
+        try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); status.textContent = "Copied install command."; setTimeout(() => btn.classList.remove("copied"), 1200); }
+        catch { status.textContent = "Copy unavailable. Select the command to copy it manually."; }
       });
     }
   </script>

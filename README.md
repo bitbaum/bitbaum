@@ -13,13 +13,13 @@ host being up as evidence that a product is ready or generally available.
 
 ## What the site shows
 
-- The homepage features the three flagship projects (OrangeCat, Loki and
-  Solon) and a short package selection. The full catalogue lives at `/work/`; all shared packages live at
-  `/packages/`.
+- The homepage features the flagship projects and packages selected under
+  `home` in [`site/overrides.json`](site/overrides.json). The full catalogue
+  lives at `/work/`; all shared packages live at `/packages/`.
 - Project readiness is maintained in [`site/overrides.json`](site/overrides.json).
   Its stages distinguish public beta products, pilots, development, concepts,
-  and projects that are not built. In particular, Solon is a public beta,
-  Skif is in development, and Causius and Diplodoctor are not built.
+  and projects that are not built. Read each project's current stage there,
+  not from a copy in this file.
 - Project and package records, package versions and observed adopters are
   sourced from the Loki fleet map and Fleet registers. Editorial descriptions
   and the homepage selections are reviewed here. The build fails if a selected
@@ -29,6 +29,7 @@ host being up as evidence that a product is ready or generally available.
 - Studio engagements are currently closed to new starts. The waitlist is on
   `/hire/`; Loki is the self-serve path for people who need agent-assisted
   development now. Loki does not promise unsupervised or guaranteed delivery.
+- Package reference pages include source-pinned API documentation, changelogs or published release notes, linked declared consumers and source evidence. Missing records are labelled; manifest adoption does not certify production behavior.
 - The Loki feedback widget is included sitewide. Its public, write-only token
   is configured in [`site/loki-feedback.json`](site/loki-feedback.json). The
   publish check opens the live widget from Bitbaum's allowed origin.
