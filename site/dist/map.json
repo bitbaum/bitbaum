@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T16:52:39.936Z",
+  "generatedAt": "2026-10-29T17:05:41.353Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -204,7 +204,7 @@
     {
       "slug": "petvity",
       "name": "petvity",
-      "what": "Global pet care platform — owners manage multi-species pet profiles, track physical and emotional health KPIs, connect with vets and sitters, access a marketplace, and list pets for cross-border adoption.",
+      "what": "Global pet care platform — owners manage multi-species pet profiles, track physical and emotional health KPIs, connect with vets and sitters, access a marketplace, and list pets for adoption.",
       "stack": null,
       "layer": "product",
       "status": "live",

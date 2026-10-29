@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T16:52:39.936Z",
+  "generatedAt": "2026-10-29T17:05:41.353Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -2433,7 +2433,7 @@
           "title": "Release the shared portal",
           "line": "Ship the verified backend before exposing the Bitbaum views.",
           "status": "planned",
-          "progress": 80,
+          "progress": 100,
           "targetDate": null,
           "milestones": [
             {
@@ -2449,8 +2449,8 @@
               "done": true
             },
             {
-              "title": "Deploy the Bitbaum views through the API availability gate and verify the public pages",
-              "done": false
+              "title": "Deploy the Bitbaum views through the API availability gate and verify the public pages (site/check-studio-api.mjs passes against production; /hire/, /partners/ and /portal/ answer)",
+              "done": true
             },
             {
               "title": "Notify the studio when a request or application is created (loki #1002: push, Telegram and an alert on every studio request and guest action)",
@@ -2487,6 +2487,10 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-10-29",
+          "done": "OrangeCat no longer offers \"top up in sats\": its checkout stays closed until the company is registered (PAID_PLANS_OPEN; orangecat.ch/pricing says \"Not open yet\"). \"Sign in with OrangeCat\" now says what it is: one account across the studio's apps, Loki and Solon among them.\nLoki names its six agent adapters as the code does (Antigravity, not Gemini; OpenClaw added), and Fleet Runner is the desktop app, not a second thing.\nSolon's red lines list all four humans-only categories, and the map and the stack say members vote with one click or sign, not that every vote is signed.\nRemoved an unsourced recovery-rate claim from the Fundbüro concept.\nPackage pages name adopters the packages register shows: design-tokens is shared by Loki, Solon, Skif, Substrata and this site (not OrangeCat); sitekit by Camille, Substrata and Skif; threadkit no longer names a private client app or says OrangeCat \"will\" adopt it, because it already has."
+        },
         {
           "date": "2026-10-27",
           "done": "Validate each package card against its own registry version and source, independently of accessible-label wording. Detect stale displayed versions even when packages share the same release number."
@@ -4439,7 +4443,7 @@
     {
       "slug": "petvity",
       "name": "petvity",
-      "what": "Global pet care platform — owners manage multi-species pet profiles, track physical and emotional health KPIs, connect with vets and sitters, access a marketplace, and list pets for cross-border adoption.",
+      "what": "Global pet care platform — owners manage multi-species pet profiles, track physical and emotional health KPIs, connect with vets and sitters, access a marketplace, and list pets for adoption.",
       "stack": null,
       "layer": "product",
       "status": "live",
@@ -4502,24 +4506,6 @@
             },
             {
               "title": "Bookings paid through the same checkout",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/petvity/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Sign in with Google",
-          "line": "One-tap sign-in for people who do not want another password.",
-          "status": "planned",
-          "progress": 50,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Provider configured in the auth layer",
-              "done": true
-            },
-            {
-              "title": "Credentials set in production and the button shown on the login page",
               "done": false
             }
           ],
@@ -4725,6 +4711,10 @@
               "done": true
             },
             {
+              "title": "Sign in with OrangeCat (Google, GitHub or email); signing up and signing in with an email and password still works too",
+              "done": true
+            },
+            {
               "title": "Live demo account that resets itself",
               "done": true
             },
@@ -4741,6 +4731,10 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-10-02",
+          "done": "Sign in with OrangeCat. One OrangeCat account (Google, GitHub or email) signs you in; you can still sign up and sign in with an email and password.\nMail to Petvity arrives. The footer, legal pages and emails pointed at addresses on a domain Petvity does not own; they now point at cato@orangecat.ch.\nMarketing copy cut back to what the product does. Removed: plans that do not exist, the claim that vets and sitters see a client's pet records (they see the pet's name on a booking), sitters logging health, unmeasured timings such as \"in 30 seconds\", and a \"coming soon\" waitlist that led nowhere. The Arabic, Chinese, Japanese, Korean and Turkish pages now say what the English ones say."
+        },
         {
           "date": "2026-09-28",
           "done": "Roadmap and changelog pages. What is planned and what shipped are public at /roadmap and /changelog, linked from the footer.\nThe homepage is short and mobile-first. One headline, one call to action, three benefits. The call to action is visible without scrolling on a phone."
@@ -4759,7 +4753,7 @@
         },
         {
           "date": "2026-08-16",
-          "done": "Buy without an account. Add to cart on the public shop, check out on one page with an email and address, and get a receipt by email.\nHealth metrics that matter per species. What you log for a fish is not what you log for a horse.\nPrices in zero-decimal currencies (such as JPY) were shown 100 times too high.\nOne filter control on the browse pages, and sign-in screens that fit a phone.\nA missing server secret now denies cron requests instead of accepting them."
+          "done": "Buy without an account. Add to cart on the public shop, check out on one page with an email and address, and get a receipt by email.\nPrices in zero-decimal currencies (such as JPY) were shown 100 times too high.\nOne filter control on the browse pages, and sign-in screens that fit a phone.\nA missing server secret now denies cron requests instead of accepting them."
         },
         {
           "date": "2026-08-15",
@@ -4771,7 +4765,7 @@
         },
         {
           "date": "2026-08-13",
-          "done": "Grooming as a professional vertical, alongside vets and sitters.\nHumane booking flow, self-serve upgrade to a professional account, role-aware dashboard.\nCalendar conflict blocking for bookings and Stripe payment for orders.\nPublic professional directory, blog, and a six-item sidebar.\nBranded category art: no product renders as a placeholder box.\nCancelled orders restore stock, and sellers can delete their account.\nEvery fabricated trust signal removed. Nothing on the site claims what is not true.\nHeader trimmed to seven items, with a grouped sidebar and an honest footer."
+          "done": "Grooming as a professional vertical, alongside vets and sitters.\nHumane booking flow, self-serve upgrade to a professional account, role-aware dashboard.\nCalendar conflict blocking for bookings.\nPublic professional directory, blog, and a six-item sidebar.\nBranded category art: no product renders as a placeholder box.\nCancelled orders restore stock, and sellers can delete their account.\nEvery fabricated trust signal removed. Nothing on the site claims what is not true.\nHeader trimmed to seven items, with a grouped sidebar and an honest footer."
         },
         {
           "date": "2026-08-11",
