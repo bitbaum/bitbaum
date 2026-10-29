@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T09:40:33.547Z",
+  "generatedAt": "2026-10-29T16:52:39.936Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -5165,6 +5165,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-29",
+          "done": "A Substrata account of your own: sign up with an email and a password or a passkey, and turn on two-step codes, at /sign-up. \"Continue with OrangeCat\" is one way in, no longer the only one, and everything you followed through OrangeCat stays yours. You sign in once more after this change."
+        },
+        {
           "date": "2026-10-27",
           "done": "Retry after a failed answer sends your screenshot again, not only your words, and the failed answer says why it failed. A question from the home page, a \"Check this\" on a figure and a screenshot handed over from the home box are now sent by the shared chat itself (chatkit 0.19) instead of being typed into the box for you.\nA checked claim that someone said something now says what was checked: Reported when a source shows only that they said it, Confirmed only when a source establishes the thing itself.\nNo more half-links like \"](https://x.com/…))\" in an answer's reasoning: a link whose title held a full stop was cut in two when a sentence around it was removed.\nA source chip stands only on a sentence the page supports — a figure it prints or a name it gives — not on the answer's own analysis.\nThe Ask panel on a wide screen gives the answer its full width; the chat list opens as a drawer from the Chats button.\nA company page scrolls under your finger on a phone. The \"On this page\" strip pulled the page back about 70px each time the section you were reading changed, so a swipe moved the page forward and then back. The strip now moves only itself. (#267)"
         },
@@ -5239,10 +5243,6 @@
         {
           "date": "2026-09-14",
           "done": "The loop in nine stages, an assessment per bottleneck, dated events, and Today as the front page. (#35)\nThe board: bottlenecks as one scannable list, a page per bottleneck, the programme as a ladder. (#32)\nThe substrate-of-recursion programme, a research engine, a JSON map and a correction intake. (#31)\n48 of 92 producer rows sourced from the engine's candidates. (#33)\nMIT licence. (#34)"
-        },
-        {
-          "date": "2026-09-13",
-          "done": "FleetCrown was renamed to Loki throughout. (#30)"
         }
       ],
       "records": {
