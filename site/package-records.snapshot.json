@@ -808,64 +808,6 @@
       ],
       "releases": []
     },
-    "sitekit": {
-      "repo": "https://github.com/bitbaum/sitekit",
-      "commit": "30f0469a4b0c9cb996076e43ae14cfdf67035bc8",
-      "committedAt": "2026-10-30T09:44:50Z",
-      "readme": "# @bitbaum/sitekit\n\nA website as data.\n\nA site is pages; a page is sections; sections come from a **closed** union of\nshapes validated by Zod at runtime. One set of React renderers draws every\nsite. A provenance sidecar records where every generated field came from — so\n\"we fabricated nothing\" is an assertion, not a promise.\n\nExtracted from [substrata](https://github.com/bitbaum/substrata)'s hosted-site\nmodel (2026-08). Decided in orangecat's ADR-0003 (the Site Factory).\n\n## Why a closed union\n\nA generator emitting **data against this schema** is a task with a\nmachine-checkable result; a generator emitting components is not. Per-site\nquality becomes a property of the renderers — fixing the `cards` renderer\nimproves every site ever generated. And the schema is where review happens:\n`validateSite()` returns `path: message` errors a model can act on directly.\n\nThe current kinds: `hero` (with optional CTAs), `prose`, `stats`, `meter`,\n`cards`, `definitions`, `feature` (a figure beside a story), `contact`\n(locations, address, hours — the fields provenance exists to protect), `faq`,\n`index`, `table`. Most kinds take an optional `anchor`, and the schema rejects\nany index entry or hero action that points at a fragment nothing carries. Extending the union is a deliberate act in THIS repo — a new\nkind lands with its schema, its renderer, and its tests in one commit, and\nevery consumer gets it on the next version bump.\n\n## Install\n\n```bash\npnpm add @bitbaum/sitekit\n```\n\nESM-only. `react >= 18` is a peer dependency of `@bitbaum/sitekit/react`; the root\nexport is framework-free (a Node generator or CI check can use it without React).\n\n## Use\n\n```ts\nimport { validateSite, siteNavItems, sitePageAt, pageRendersOwnHeader } from '@bitbaum/sitekit';\n\nconst result = validateSite(generatorOutput);\nif (!result.success) throw new Error(result.errors.join('\\n'));\nconst site = result.data; // fully typed SiteSpec from here on\n```\n\n```tsx\nimport Link from 'next/link';\nimport { SiteMasthead, SiteFooter, SiteSections } from '@bitbaum/sitekit/react';\n\n<SiteMasthead chrome={site.chrome} navItems={siteNavItems(site.pages)} currentPath={path} Link={Link} />\n<SiteSections sections={page.sections} />\n<SiteFooter chrome={site.chrome} />\n```\n\n`Link` is the one framework seam: it defaults to a plain `<a>`, which is\ncorrect everywhere; a Next.js app passes `next/link` to get client-side\nnavigation back.\n\n## Application shell\n\nProduct apps use the same masthead, navigation and footer with the application\nappearance. Import `@bitbaum/sitekit/styles.css` once. No Tailwind setup is\nrequired for this appearance; `--sk-*` variables map it to the product's shared\ndesign tokens. Existing document sites keep their utility-class appearance.\n\n```tsx\n<SiteMasthead appearance=\"application\" chrome={chrome} navItems={nav}\n  currentPath=\"analyze\" mainId=\"main-content\" Link={Link}\n  brand={<Brand />} actions={<AccountControl />} />\n<SiteFooter appearance=\"application\" chrome={chrome} Link={Link}\n  links={[{ href: '/roadmap', label: 'Roadmap' }]} extra=\"Beta\" />\n```\n\nThe package owns the responsive menu, its native no-JavaScript fallback,\nEscape/outside/route dismissal, skip link, active states, touch targets and\nfooter layout. Products supply labels, navigation data, identity and account\nslots. Fix shared chrome here, then release and update consumers through their\nnormal dependency checks and deployment pipeline.\n\n## Provenance — the check behind \"fabricate no facts\"\n\nA closed schema invites completion: a model handed a `stats` section wants\nnumbers in it. So absence is first-class and typed. The generator emits a\nsidecar keyed by JSON path:\n\n```ts\nimport { assertDeliverable, notFoundPaths } from '@bitbaum/sitekit';\n\nconst provenance = {\n  'chrome.name':                    { kind: 'scraped', url: 'https://cafe-beispiel.ch/' },\n  'pages.0.sections.1.paragraphs.0':{ kind: 'operator' },   // a human typed it\n  'pages.0.sections.4.cards.0.meta':{ kind: 'inferred' },   // a model invented it\n  'pages.0.sections.7.rows.0.1':    { kind: 'not-found' },  // we looked; it isn't public\n};\n\nassertDeliverable(provenance); // throws: names the inferred path\nnotFoundPaths(provenance);     // the honest gaps — in a pitch, these ARE the pitch\n```\n\n`not-found` is the difference between *unknown* and *empty*: it records that\nthe looking happened, which is what makes \"here is what we could not find out\nabout you\" an honest sentence instead of an excuse.\n\n## The styling contract\n\nThe renderers emit **semantic utility classes and nothing else** — no colours,\nfaces, or radii ship in this package. Each consumer defines the tokens, which\nis how fifty sites share one renderer without looking like one company.\n(Uniform everywhere except aesthetics. Do NOT point consumers at\n`@fleet/design-tokens` values — those make things look like the fleet;\ninherit the *shape*, choose your own values.)\n\nClasses the renderers use, to be defined by the consumer's Tailwind theme:\n\n| Group | Classes |\n|---|---|\n| Text | `text-fg-primary` `text-fg-secondary` `text-fg-tertiary` `text-fg-muted` |\n| Surfaces | `bg-surface-page` `bg-surface-raised` |\n| Borders | `border-subtle` `border-strong` `divide-subtle` |\n| Accent & status | `bg-accent` `decoration-accent` `bg-status-positive` `bg-status-warning` `bg-status-negative` |\n| Type | `font-heading` `font-mono` `tracking-caps` `tracking-display` |\n| Layout | `max-w-shell` `max-w-prose` `scrollbar-hide` |\n\nWith Tailwind 4, define them as `@theme` variables (`--color-fg-primary`,\n`--font-heading`, …) and add the package to content scanning:\n\n```css\n@import 'tailwindcss';\n@source '../node_modules/@bitbaum/sitekit/dist';\n```\n\nSubstrata's `app/globals.css` is the reference implementation of the contract.\n\n## Not in this package\n\n- **No design tokens.** See above — that is the point.\n- **No scraper.** `siteFromUrl()` (extraction from a live site, with\n  provenance) is the planned next module; the schema is its target.\n- **No HTTP, no framework.** Same rule as every package in this fleet.\n\n## Verify\n\n```bash\npnpm run verify  # lint + typecheck + build + test — same command CI runs\n```\n\nTests import the package by **name** (`@bitbaum/sitekit`, `@bitbaum/sitekit/react`), so a broken\n`exports` map fails in CI, not at the first consumer.\n\n---\n\nPart of **[bitbaum](https://bitbaum.orangecat.ch)** — AI-native products on open\ninfrastructure, built in Zürich. Every package here lists the apps that use it:\n**[which apps use sitekit](https://bitbaum.orangecat.ch/packages/#sitekit)**.\n\nApplication footers can pass `groups: [{ label, links: [{ href, label }] }]` for\nsemantic navigation groups. Existing flat `links` remain supported. Consumers\ncan configure `--sk-header-height`, `--sk-mobile-header-height`,\n`--sk-display-weight`, `--sk-display-leading`, `--sk-display-tracking` and\n`--sk-footer-gap` through their theme adapter, without replacing shared markup.\n",
-      "changelog": "# Changelog\n\nThis retrospective record was added on 2026-10-27 from the immutable sources\nlinked below. Git commit dates are source dates, not inferred npm publication\ndates. A GitHub release does not itself establish npm publication.\nApplication adoption and deployment evidence are tracked separately.\n\n## 0.4.2\n\n- [Tagged source `v0.4.2`](https://github.com/bitbaum/sitekit/tree/835396d498ded73b86bb7a20eecdd5a0e581660e)\n- [Source commit](https://github.com/bitbaum/sitekit/commit/835396d498ded73b86bb7a20eecdd5a0e581660e), dated 2026-10-24.\n\nNo authored release notes were found for this tag when this record was made.\nThe links identify the verified source; missing feature history is not invented.\n",
-      "commits": [
-        {
-          "sha": "30f0469a4b0c9cb996076e43ae14cfdf67035bc8",
-          "date": "2026-10-30T09:44:50Z",
-          "subject": "docs(agents): the org rules block, generated from bitbaum/fleet (#38)",
-          "url": "https://github.com/bitbaum/sitekit/commit/30f0469a4b0c9cb996076e43ae14cfdf67035bc8"
-        },
-        {
-          "sha": "d8b42f6047eab6f6fbb8811736257b2097bd5bab",
-          "date": "2026-10-29T00:32:54Z",
-          "subject": "fix(release): apply verified build-output staging contract (#37)",
-          "url": "https://github.com/bitbaum/sitekit/commit/d8b42f6047eab6f6fbb8811736257b2097bd5bab"
-        },
-        {
-          "sha": "d16b22ba3128da7429c5e6bafca1baa2cadbdeaa",
-          "date": "2026-10-28T02:36:03Z",
-          "subject": "chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#36)",
-          "url": "https://github.com/bitbaum/sitekit/commit/d16b22ba3128da7429c5e6bafca1baa2cadbdeaa"
-        },
-        {
-          "sha": "dac29069eabda49002d2a4e381009103377f144f",
-          "date": "2026-10-28T01:55:21Z",
-          "subject": "docs(agents): the org rules block, generated from bitbaum/fleet (#35)",
-          "url": "https://github.com/bitbaum/sitekit/commit/dac29069eabda49002d2a4e381009103377f144f"
-        },
-        {
-          "sha": "9f1192410424387354e7afa01cf8b8303a50f30a",
-          "date": "2026-10-28T01:29:42Z",
-          "subject": "chore: add the fleet package template files this repo is missing (git-release.yml, release-notify.yml, release.yml, AGENTS.md, CLAUDE.md) (#33)",
-          "url": "https://github.com/bitbaum/sitekit/commit/9f1192410424387354e7afa01cf8b8303a50f30a"
-        },
-        {
-          "sha": "38230636ecb3fd2e023716659977139a25dcfad3",
-          "date": "2026-10-27T23:21:56Z",
-          "subject": "docs: record verified release history and its evidence limits (#34)",
-          "url": "https://github.com/bitbaum/sitekit/commit/38230636ecb3fd2e023716659977139a25dcfad3"
-        },
-        {
-          "sha": "835396d498ded73b86bb7a20eecdd5a0e581660e",
-          "date": "2026-10-24T14:22:25Z",
-          "subject": "Fit footer columns to configured groups and expose lead typography roles (#32)",
-          "url": "https://github.com/bitbaum/sitekit/commit/835396d498ded73b86bb7a20eecdd5a0e581660e"
-        },
-        {
-          "sha": "83c32e281586993ceccf81c21d6fd1166d9a5044",
-          "date": "2026-10-24T14:09:43Z",
-          "subject": "Support grouped application footers and configurable type hierarchy (#31)",
-          "url": "https://github.com/bitbaum/sitekit/commit/83c32e281586993ceccf81c21d6fd1166d9a5044"
-        }
-      ],
-      "releases": []
-    },
     "chartkit": {
       "repo": "https://github.com/bitbaum/chartkit",
       "commit": "4ab8e5ea492cebaff2d99d893c0eae6463bc6205",
@@ -964,6 +906,64 @@
           "url": "https://github.com/bitbaum/chartkit/releases/tag/v0.3.0"
         }
       ]
+    },
+    "sitekit": {
+      "repo": "https://github.com/bitbaum/sitekit",
+      "commit": "30f0469a4b0c9cb996076e43ae14cfdf67035bc8",
+      "committedAt": "2026-10-30T09:44:50Z",
+      "readme": "# @bitbaum/sitekit\n\nA website as data.\n\nA site is pages; a page is sections; sections come from a **closed** union of\nshapes validated by Zod at runtime. One set of React renderers draws every\nsite. A provenance sidecar records where every generated field came from — so\n\"we fabricated nothing\" is an assertion, not a promise.\n\nExtracted from [substrata](https://github.com/bitbaum/substrata)'s hosted-site\nmodel (2026-08). Decided in orangecat's ADR-0003 (the Site Factory).\n\n## Why a closed union\n\nA generator emitting **data against this schema** is a task with a\nmachine-checkable result; a generator emitting components is not. Per-site\nquality becomes a property of the renderers — fixing the `cards` renderer\nimproves every site ever generated. And the schema is where review happens:\n`validateSite()` returns `path: message` errors a model can act on directly.\n\nThe current kinds: `hero` (with optional CTAs), `prose`, `stats`, `meter`,\n`cards`, `definitions`, `feature` (a figure beside a story), `contact`\n(locations, address, hours — the fields provenance exists to protect), `faq`,\n`index`, `table`. Most kinds take an optional `anchor`, and the schema rejects\nany index entry or hero action that points at a fragment nothing carries. Extending the union is a deliberate act in THIS repo — a new\nkind lands with its schema, its renderer, and its tests in one commit, and\nevery consumer gets it on the next version bump.\n\n## Install\n\n```bash\npnpm add @bitbaum/sitekit\n```\n\nESM-only. `react >= 18` is a peer dependency of `@bitbaum/sitekit/react`; the root\nexport is framework-free (a Node generator or CI check can use it without React).\n\n## Use\n\n```ts\nimport { validateSite, siteNavItems, sitePageAt, pageRendersOwnHeader } from '@bitbaum/sitekit';\n\nconst result = validateSite(generatorOutput);\nif (!result.success) throw new Error(result.errors.join('\\n'));\nconst site = result.data; // fully typed SiteSpec from here on\n```\n\n```tsx\nimport Link from 'next/link';\nimport { SiteMasthead, SiteFooter, SiteSections } from '@bitbaum/sitekit/react';\n\n<SiteMasthead chrome={site.chrome} navItems={siteNavItems(site.pages)} currentPath={path} Link={Link} />\n<SiteSections sections={page.sections} />\n<SiteFooter chrome={site.chrome} />\n```\n\n`Link` is the one framework seam: it defaults to a plain `<a>`, which is\ncorrect everywhere; a Next.js app passes `next/link` to get client-side\nnavigation back.\n\n## Application shell\n\nProduct apps use the same masthead, navigation and footer with the application\nappearance. Import `@bitbaum/sitekit/styles.css` once. No Tailwind setup is\nrequired for this appearance; `--sk-*` variables map it to the product's shared\ndesign tokens. Existing document sites keep their utility-class appearance.\n\n```tsx\n<SiteMasthead appearance=\"application\" chrome={chrome} navItems={nav}\n  currentPath=\"analyze\" mainId=\"main-content\" Link={Link}\n  brand={<Brand />} actions={<AccountControl />} />\n<SiteFooter appearance=\"application\" chrome={chrome} Link={Link}\n  links={[{ href: '/roadmap', label: 'Roadmap' }]} extra=\"Beta\" />\n```\n\nThe package owns the responsive menu, its native no-JavaScript fallback,\nEscape/outside/route dismissal, skip link, active states, touch targets and\nfooter layout. Products supply labels, navigation data, identity and account\nslots. Fix shared chrome here, then release and update consumers through their\nnormal dependency checks and deployment pipeline.\n\n## Provenance — the check behind \"fabricate no facts\"\n\nA closed schema invites completion: a model handed a `stats` section wants\nnumbers in it. So absence is first-class and typed. The generator emits a\nsidecar keyed by JSON path:\n\n```ts\nimport { assertDeliverable, notFoundPaths } from '@bitbaum/sitekit';\n\nconst provenance = {\n  'chrome.name':                    { kind: 'scraped', url: 'https://cafe-beispiel.ch/' },\n  'pages.0.sections.1.paragraphs.0':{ kind: 'operator' },   // a human typed it\n  'pages.0.sections.4.cards.0.meta':{ kind: 'inferred' },   // a model invented it\n  'pages.0.sections.7.rows.0.1':    { kind: 'not-found' },  // we looked; it isn't public\n};\n\nassertDeliverable(provenance); // throws: names the inferred path\nnotFoundPaths(provenance);     // the honest gaps — in a pitch, these ARE the pitch\n```\n\n`not-found` is the difference between *unknown* and *empty*: it records that\nthe looking happened, which is what makes \"here is what we could not find out\nabout you\" an honest sentence instead of an excuse.\n\n## The styling contract\n\nThe renderers emit **semantic utility classes and nothing else** — no colours,\nfaces, or radii ship in this package. Each consumer defines the tokens, which\nis how fifty sites share one renderer without looking like one company.\n(Uniform everywhere except aesthetics. Do NOT point consumers at\n`@fleet/design-tokens` values — those make things look like the fleet;\ninherit the *shape*, choose your own values.)\n\nClasses the renderers use, to be defined by the consumer's Tailwind theme:\n\n| Group | Classes |\n|---|---|\n| Text | `text-fg-primary` `text-fg-secondary` `text-fg-tertiary` `text-fg-muted` |\n| Surfaces | `bg-surface-page` `bg-surface-raised` |\n| Borders | `border-subtle` `border-strong` `divide-subtle` |\n| Accent & status | `bg-accent` `decoration-accent` `bg-status-positive` `bg-status-warning` `bg-status-negative` |\n| Type | `font-heading` `font-mono` `tracking-caps` `tracking-display` |\n| Layout | `max-w-shell` `max-w-prose` `scrollbar-hide` |\n\nWith Tailwind 4, define them as `@theme` variables (`--color-fg-primary`,\n`--font-heading`, …) and add the package to content scanning:\n\n```css\n@import 'tailwindcss';\n@source '../node_modules/@bitbaum/sitekit/dist';\n```\n\nSubstrata's `app/globals.css` is the reference implementation of the contract.\n\n## Not in this package\n\n- **No design tokens.** See above — that is the point.\n- **No scraper.** `siteFromUrl()` (extraction from a live site, with\n  provenance) is the planned next module; the schema is its target.\n- **No HTTP, no framework.** Same rule as every package in this fleet.\n\n## Verify\n\n```bash\npnpm run verify  # lint + typecheck + build + test — same command CI runs\n```\n\nTests import the package by **name** (`@bitbaum/sitekit`, `@bitbaum/sitekit/react`), so a broken\n`exports` map fails in CI, not at the first consumer.\n\n---\n\nPart of **[bitbaum](https://bitbaum.orangecat.ch)** — AI-native products on open\ninfrastructure, built in Zürich. Every package here lists the apps that use it:\n**[which apps use sitekit](https://bitbaum.orangecat.ch/packages/#sitekit)**.\n\nApplication footers can pass `groups: [{ label, links: [{ href, label }] }]` for\nsemantic navigation groups. Existing flat `links` remain supported. Consumers\ncan configure `--sk-header-height`, `--sk-mobile-header-height`,\n`--sk-display-weight`, `--sk-display-leading`, `--sk-display-tracking` and\n`--sk-footer-gap` through their theme adapter, without replacing shared markup.\n",
+      "changelog": "# Changelog\n\nThis retrospective record was added on 2026-10-27 from the immutable sources\nlinked below. Git commit dates are source dates, not inferred npm publication\ndates. A GitHub release does not itself establish npm publication.\nApplication adoption and deployment evidence are tracked separately.\n\n## 0.4.2\n\n- [Tagged source `v0.4.2`](https://github.com/bitbaum/sitekit/tree/835396d498ded73b86bb7a20eecdd5a0e581660e)\n- [Source commit](https://github.com/bitbaum/sitekit/commit/835396d498ded73b86bb7a20eecdd5a0e581660e), dated 2026-10-24.\n\nNo authored release notes were found for this tag when this record was made.\nThe links identify the verified source; missing feature history is not invented.\n",
+      "commits": [
+        {
+          "sha": "30f0469a4b0c9cb996076e43ae14cfdf67035bc8",
+          "date": "2026-10-30T09:44:50Z",
+          "subject": "docs(agents): the org rules block, generated from bitbaum/fleet (#38)",
+          "url": "https://github.com/bitbaum/sitekit/commit/30f0469a4b0c9cb996076e43ae14cfdf67035bc8"
+        },
+        {
+          "sha": "d8b42f6047eab6f6fbb8811736257b2097bd5bab",
+          "date": "2026-10-29T00:32:54Z",
+          "subject": "fix(release): apply verified build-output staging contract (#37)",
+          "url": "https://github.com/bitbaum/sitekit/commit/d8b42f6047eab6f6fbb8811736257b2097bd5bab"
+        },
+        {
+          "sha": "d16b22ba3128da7429c5e6bafca1baa2cadbdeaa",
+          "date": "2026-10-28T02:36:03Z",
+          "subject": "chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#36)",
+          "url": "https://github.com/bitbaum/sitekit/commit/d16b22ba3128da7429c5e6bafca1baa2cadbdeaa"
+        },
+        {
+          "sha": "dac29069eabda49002d2a4e381009103377f144f",
+          "date": "2026-10-28T01:55:21Z",
+          "subject": "docs(agents): the org rules block, generated from bitbaum/fleet (#35)",
+          "url": "https://github.com/bitbaum/sitekit/commit/dac29069eabda49002d2a4e381009103377f144f"
+        },
+        {
+          "sha": "9f1192410424387354e7afa01cf8b8303a50f30a",
+          "date": "2026-10-28T01:29:42Z",
+          "subject": "chore: add the fleet package template files this repo is missing (git-release.yml, release-notify.yml, release.yml, AGENTS.md, CLAUDE.md) (#33)",
+          "url": "https://github.com/bitbaum/sitekit/commit/9f1192410424387354e7afa01cf8b8303a50f30a"
+        },
+        {
+          "sha": "38230636ecb3fd2e023716659977139a25dcfad3",
+          "date": "2026-10-27T23:21:56Z",
+          "subject": "docs: record verified release history and its evidence limits (#34)",
+          "url": "https://github.com/bitbaum/sitekit/commit/38230636ecb3fd2e023716659977139a25dcfad3"
+        },
+        {
+          "sha": "835396d498ded73b86bb7a20eecdd5a0e581660e",
+          "date": "2026-10-24T14:22:25Z",
+          "subject": "Fit footer columns to configured groups and expose lead typography roles (#32)",
+          "url": "https://github.com/bitbaum/sitekit/commit/835396d498ded73b86bb7a20eecdd5a0e581660e"
+        },
+        {
+          "sha": "83c32e281586993ceccf81c21d6fd1166d9a5044",
+          "date": "2026-10-24T14:09:43Z",
+          "subject": "Support grouped application footers and configurable type hierarchy (#31)",
+          "url": "https://github.com/bitbaum/sitekit/commit/83c32e281586993ceccf81c21d6fd1166d9a5044"
+        }
+      ],
+      "releases": []
     },
     "threadkit": {
       "repo": "https://github.com/bitbaum/threadkit",
