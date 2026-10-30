@@ -16,17 +16,17 @@ addEventListener("error", function (e) {
 }, true);
 </script>
 <title>geo-kit — bitbaum</title>
-<meta name="description" content="Versioned, on-demand geography resources and sourced boundary assertions for web applications.">
+<meta name="description" content="Versioned, on-demand geography resources and sourced boundary assertions for web applications, and a Canvas 2D renderer for them (globe or map).">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/packages/geo-kit/">
 <meta property="og:title" content="geo-kit — bitbaum">
-<meta property="og:description" content="Versioned, on-demand geography resources and sourced boundary assertions for web applications.">
+<meta property="og:description" content="Versioned, on-demand geography resources and sourced boundary assertions for web applications, and a Canvas 2D renderer for them (globe or map).">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/packages/geo-kit/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="geo-kit — bitbaum">
-<meta name="twitter:description" content="Versioned, on-demand geography resources and sourced boundary assertions for web applications.">
+<meta name="twitter:description" content="Versioned, on-demand geography resources and sourced boundary assertions for web applications, and a Canvas 2D renderer for them (globe or map).">
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -80,7 +80,7 @@ addEventListener("error", function (e) {
       <div class="wrap">
         <span class="eyebrow">Package &middot; MIT</span>
         <h1 class="display-1">geo-kit</h1>
-        <p class="lede">Versioned, on-demand geography resources and sourced boundary assertions for web applications.</p>
+        <p class="lede">Versioned, on-demand geography resources and sourced boundary assertions for web applications, and a Canvas 2D renderer for them (globe or map).</p>
         <div class="actions">
           <a class="btn primary" href="https://www.npmjs.com/package/@bitbaum/geo-kit">npm</a>
           <a class="btn secondary" href="https://github.com/bitbaum/geo-kit#readme">README &amp; API</a>
@@ -101,8 +101,8 @@ addEventListener("error", function (e) {
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Registry release</span><span>v0.1.2</span></div>
-        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/geo-kit@^0.1.2" aria-label="Copy install command"><code>pnpm add @bitbaum/geo-kit@^0.1.2</code></button></span></div>
+        <div><span class="label">Registry release</span><span>v0.2.0</span></div>
+        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/geo-kit@^0.2.0" aria-label="Copy install command"><code>pnpm add @bitbaum/geo-kit@^0.2.0</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/geo-kit">bitbaum/geo-kit</a></span></div>
         <div><span class="label">Declared consumers</span><span>3 repositories</span></div>
 
@@ -110,9 +110,9 @@ addEventListener("error", function (e) {
     </section>
     <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
       <h2 id="documentation-title">API and examples</h2>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/eb7d5255c39a9220f9005441cbc1444eddd159d4/">source commit <code>eb7d5255c39a</code></a> · 2026-10-30. Source documentation can include work beyond the registry release.</p>
-      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-install">Install</a></li><li><a href="#api-ownership">Ownership</a></li><li><a href="#api-data-loading">Data loading</a></li><li><a href="#api-assertions-and-proposed-boundaries">Assertions and proposed boundaries</a></li><li><a href="#api-verify">Verify</a></li></ul>
-      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Country-neutral contracts for sharing versioned geography data across applications. The package owns no country packs, political claims, source choices, personal data, HTTP server, or rendering framework.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/12463a6d01ed188dce457cfb07eeb1d02f8b32d3/">source commit <code>12463a6d01ed</code></a> · 2026-10-30. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-install">Install</a></li><li><a href="#api-ownership">Ownership</a></li><li><a href="#api-data-loading">Data loading</a></li><li><a href="#api-drawing-it-bitbaum-geo-kit-map">Drawing it: `@bitbaum/geo-kit/map`</a></li><li><a href="#api-assertions-and-proposed-boundaries">Assertions and proposed boundaries</a></li><li><a href="#api-verify">Verify</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Country-neutral contracts for sharing versioned geography data across applications, and one renderer for it (<code>@bitbaum/geo-kit/map</code>). The package owns no country packs, political claims, source choices, personal data, HTTP server, or UI framework.</p>
 <h2 id="api-install">Install</h2>
 <pre><code>pnpm add @bitbaum/geo-kit</code></pre>
 <p>Install releases from npm, not a commit: a semver range is what lets a fix reach every product. <code>@bitbaum/geo-kit@0.1.1</code> is on npm; later releases are published by this repository's <code>publish.yml</code>.</p>
@@ -146,6 +146,35 @@ const layers = await loadGeographyResources(manifest, {
 }, options);</code></pre>
 <p>Layer keys and geographic IDs in this example come from the application's data. Country packs, detailed subdivision datasets and a border drawing UI are separate deliverables owned by the applications; this package does not invent or publish them.</p>
 <p>The library never reads the system clock. Pass the date displayed by the app to support historical maps deterministically. An explicit viewpoint is opt-in; the library does not treat any boundary representation as the default truth.</p>
+<h2 id="api-drawing-it-bitbaum-geo-kit-map">Drawing it: <code>@bitbaum/geo-kit/map</code></h2>
+<p>One map for every product: an orthographic globe on Canvas 2D (<code>d3-geo</code>). Zoomed far in, the globe is a flat map of the place in front of the reader, so the world, a country and a commune are one projection and one renderer. Canvas 2D rather than WebGL: a few thousand path segments a frame fit a phone's frame budget, and it runs wherever the page runs.</p>
+<pre><code>pnpm add @bitbaum/geo-kit d3-geo topojson-client</code></pre>
+<p><code>d3-geo</code> (and <code>topojson-client</code>, for TopoJSON) are optional peer dependencies: a product that only loads data does not install them.</p>
+<pre><code>import { cameraForBounds, createMap, shapesFromTopology } from &quot;@bitbaum/geo-kit/map&quot;;
+
+const shapes = shapesFromTopology(topology, { object: &quot;communes&quot;, idOf: (f) => String(f.id) });
+const limits = { minZoom: 1, maxZoom: 2000, maxTilt: 80 };
+const map = createMap(canvas, {
+  shapes,
+  palette: { sphere: &quot;#fff&quot;, land: &quot;#eee&quot;, border: &quot;#999&quot;, hover: &quot;#555&quot;, selected: &quot;#000&quot; },
+  fills: new Map([[&quot;261&quot;, &quot;#08519c&quot;]]),
+  limits,
+  onSelect: (id) => console.log(id),
+});
+map.resize(390, 600);
+map.flyTo(cameraForBounds([5.96, 45.82, 10.49, 47.81], limits));</code></pre>
+<ul><li><strong>Framework-free.</strong> <code>createMap</code> takes a <code>&lt;canvas></code> and returns methods</li></ul>
+<p>(<code>resize</code>, <code>setFills</code>, <code>setSelected</code>, <code>flyTo</code>, <code>zoomBy</code>, <code>destroy</code>, …); a React or other page wraps it in a few lines and keeps no map state of its own.</p>
+<ul><li><strong>Input.</strong> One finger or the mouse turns it, two pinch, the wheel zooms, a</li></ul>
+<p>tap selects, a flick coasts. The keyboard treats the canvas as one control: arrows turn, + and − zoom, Home resets, Enter selects what faces the reader.</p>
+<ul><li><strong>Cost.</strong> It draws only when something changes; in motion it paints the</li></ul>
+<p>coarse shapes (every third vertex of each shared arc, so neighbours still meet), and full detail the frame after. Features on the far side, or off the canvas when zoomed, are not drawn.</p>
+<ul><li><strong>Reduced motion.</strong> Under <code>prefers-reduced-motion</code> a flight is a cut, a flick</li></ul>
+<p>does not coast and the idle turn never starts.</p>
+<ul><li><strong>Layers.</strong> The palette's sphere, graticule, glow and limb shade are each</li></ul>
+<p>optional, so a lit globe of the world and a plain map where the data is the picture are the same painter. <code>over</code> draws the caller's own layer (sites, routes, figures) on top each frame, with the frame's projection.</p>
+<ul><li><strong>Pure parts.</strong> The camera, motion, culling, picking and the fast</li></ul>
+<p>projection are exported and tested without a browser.</p>
 <h2 id="api-assertions-and-proposed-boundaries">Assertions and proposed boundaries</h2>
 <p><code>AreaAssertion</code> follows Solon's sourced <code>claims</code>, <code>administers</code>, and <code>proposes</code> records. <code>summarizeAreaAssertions</code> filters those records by an explicit date and reports distinct claimants, administrators and proposers. Its <code>disputed</code> flag is a mechanical summary of competing claims or a mismatch between claimant and administrator; it is not a legal conclusion.</p>
 <p><code>validateBoundaryDraft</code> checks a proposal's polygon, WGS84 coordinates, closed rings, input limits, source/license metadata and validity interval. Publication stays blocked until the consuming app provides both a full geometry-topology validator and an approval check for the draft's proposal. The draft contains a shape and its provenance only; claims about who owns or administers it are separate sourced assertions.</p>
@@ -156,7 +185,12 @@ pnpm run verify</code></pre>
     </section>
     <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
       <h2 id="changelog-title">Changelog and releases</h2>
-      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-1-1">0.1.1</h2>
+      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-2-0">0.2.0</h2>
+<ul><li>Add <code>@bitbaum/geo-kit/map</code>: one Canvas 2D renderer for the geography this</li></ul>
+<p>package delivers, an orthographic globe that zoomed in is a flat map, so the world and a commune are one projection. Framework-free <code>createMap</code> (turn, pinch, wheel, keyboard, tap to select, flights, coasting, reduced motion), shapes from TopoJSON or GeoJSON keyed by any id, fills by id, and the pure camera, motion, culling, picking and fast-projection helpers. Extracted from Substrata's globe, so Solon's map and Substrata's globe are one renderer.</p>
+<ul><li><code>d3-geo</code> and <code>topojson-client</code> are optional peer dependencies, needed only</li></ul>
+<p>by <code>/map</code>.</p>
+<h2 id="change-0-1-1">0.1.1</h2>
 <ul><li>Add bounded, same-origin manifest downloads with source and licence validation.</li><li>Share streamed transport between manifests and geometry; cancel stalled bodies</li></ul>
 <p>and stop cached resource loads when the consumer aborts.</p>
 <ul><li>Filter resources by viewport bounds before applying the download budget,</li></ul>
@@ -165,14 +199,16 @@ pnpm run verify</code></pre>
 <h2 id="change-0-1-0">0.1.0</h2>
 <ul><li>Introduce sourced geography manifests, bounded resource selection and loading,</li></ul>
 <p>SHA-256 verification, WGS84 geometry validation, dated area assertions and proposal-gated boundary draft validation.</p></div></details>
-      <ol class="pkg-releases"><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/geo-kit/releases/tag/v0.1.2">v0.1.2</a><time datetime="2026-10-28T06:49:11Z">2026-10-28</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-0-what-s-changed">What's Changed</h2>
+      <ol class="pkg-releases"><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/geo-kit/releases/tag/v0.2.0">v0.2.0</a><time datetime="2026-10-30T21:02:13Z">2026-10-30</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-0-what-s-changed">What's Changed</h2>
+<p>* docs(agents): the org rules block, generated from bitbaum/fleet by @catomean in https://github.com/bitbaum/geo-kit/pull/13 * feat(map): one renderer for the geography geo-kit delivers (0.2.0) by @catomean in https://github.com/bitbaum/geo-kit/pull/14</p>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/geo-kit/compare/v0.1.2...v0.2.0</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/geo-kit/releases/tag/v0.1.2">v0.1.2</a><time datetime="2026-10-28T06:49:11Z">2026-10-28</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-1-what-s-changed">What's Changed</h2>
 <p>* ci: unified tokenless trusted-publishing workflow by @catomean in https://github.com/bitbaum/geo-kit/pull/5 * chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) by @catomean in https://github.com/bitbaum/geo-kit/pull/6 * chore: add the fleet package template files this repo is missing (release-notify.yml) by @catomean in https://github.com/bitbaum/geo-kit/pull/7 * docs(readme): install from npm, the way the registry says by @catomean in https://github.com/bitbaum/geo-kit/pull/8 * ci(publish): the fleet's one publish.yml, with a no-publish check of the npm link by @catomean in https://github.com/bitbaum/geo-kit/pull/9 * docs(agents): the org rules block, generated from bitbaum/fleet by @catomean in https://github.com/bitbaum/geo-kit/pull/10 * chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it by @catomean in https://github.com/bitbaum/geo-kit/pull/11</p>
-<p><strong>Full Changelog</strong>: https://github.com/bitbaum/geo-kit/compare/v0.1.1...v0.1.2</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/geo-kit/releases/tag/v0.1.1">v0.1.1</a><time datetime="2026-10-25T12:50:37Z">2026-10-25</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-1-what-s-changed">What's Changed</h2>
+<p><strong>Full Changelog</strong>: https://github.com/bitbaum/geo-kit/compare/v0.1.1...v0.1.2</p></div></details></li><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/geo-kit/releases/tag/v0.1.1">v0.1.1</a><time datetime="2026-10-25T12:50:37Z">2026-10-25</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-2-what-s-changed">What's Changed</h2>
 <p>* feat: bound manifest downloads and select geography by viewport by @catomean in https://github.com/bitbaum/geo-kit/pull/1 * Document the usable immutable install pin by @catomean in https://github.com/bitbaum/geo-kit/pull/2 * chore: add the fleet package template files this repo is missing (dependabot.yml, auto-merge.yml, git-release.yml, release.yml) by @catomean in https://github.com/bitbaum/geo-kit/pull/3</p>
-<h2 id="release-1-new-contributors">New Contributors</h2>
+<h2 id="release-2-new-contributors">New Contributors</h2>
 <p>* @catomean made their first contribution in https://github.com/bitbaum/geo-kit/pull/1</p>
 <p><strong>Full Changelog</strong>: https://github.com/bitbaum/geo-kit/commits/v0.1.1</p></div></details></li></ol>
-      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/geo-kit/commit/eb7d5255c39a9220f9005441cbc1444eddd159d4">docs(agents): the org rules block, generated from bitbaum/fleet (#13)</a> <time datetime="2026-10-30T09:38:36Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/791dc8d00ee85c92144662bff2818c396db14382">release v0.1.2</a> <time datetime="2026-10-28T06:49:09Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/a2113ea12d2af24006e408dbbca6ef5ba4f9efc3">chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#11)</a> <time datetime="2026-10-28T02:22:09Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/d9294367d46c520911dac405bc9b8363e8d02dd8">docs(agents): the org rules block, generated from bitbaum/fleet (#10)</a> <time datetime="2026-10-28T01:52:02Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/fa43c78eebe9c180f9978da18f873901030cce30">ci(publish): the fleet's one publish.yml, with a no-publish check of the npm trusted-publisher link (#9)</a> <time datetime="2026-10-28T01:43:29Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/c826956b7e7bf998571c06b1712e47355339d4fb">docs(readme): install from npm, the way the registry says (#8)</a> <time datetime="2026-10-28T01:40:47Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/178a08bdf4b3f74270d425f74b24add219fd4d1d">chore: add the fleet package template files this repo is missing (release-notify.yml) (#7)</a> <time datetime="2026-10-26T18:12:39Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/f39a4d5d405bff7db329119cac4998de82539314">chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) (#6)</a> <time datetime="2026-10-26T16:47:37Z">2026-10-26</time></li></ol></details>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/geo-kit/commit/12463a6d01ed188dce457cfb07eeb1d02f8b32d3">feat(map): one renderer for the geography geo-kit delivers (0.2.0) (#14)</a> <time datetime="2026-10-30T21:01:34Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/eb7d5255c39a9220f9005441cbc1444eddd159d4">docs(agents): the org rules block, generated from bitbaum/fleet (#13)</a> <time datetime="2026-10-30T09:38:36Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/791dc8d00ee85c92144662bff2818c396db14382">release v0.1.2</a> <time datetime="2026-10-28T06:49:09Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/a2113ea12d2af24006e408dbbca6ef5ba4f9efc3">chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#11)</a> <time datetime="2026-10-28T02:22:09Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/d9294367d46c520911dac405bc9b8363e8d02dd8">docs(agents): the org rules block, generated from bitbaum/fleet (#10)</a> <time datetime="2026-10-28T01:52:02Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/fa43c78eebe9c180f9978da18f873901030cce30">ci(publish): the fleet's one publish.yml, with a no-publish check of the npm trusted-publisher link (#9)</a> <time datetime="2026-10-28T01:43:29Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/c826956b7e7bf998571c06b1712e47355339d4fb">docs(readme): install from npm, the way the registry says (#8)</a> <time datetime="2026-10-28T01:40:47Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/178a08bdf4b3f74270d425f74b24add219fd4d1d">chore: add the fleet package template files this repo is missing (release-notify.yml) (#7)</a> <time datetime="2026-10-26T18:12:39Z">2026-10-26</time></li></ol></details>
       <a class="textlink" href="https://github.com/bitbaum/geo-kit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/geo-kit/tags">All tags</a>
     </section>
     <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
@@ -183,7 +219,7 @@ pnpm run verify</code></pre>
     <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
       <h2 id="evidence-title">Sources and verification</h2>
       <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/eb7d5255c39a9220f9005441cbc1444eddd159d4/">source commit <code>eb7d5255c39a</code></a> · 2026-10-30. Source documentation can include work beyond the registry release.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/12463a6d01ed188dce457cfb07eeb1d02f8b32d3/">source commit <code>12463a6d01ed</code></a> · 2026-10-30. Source documentation can include work beyond the registry release.</p>
       <a class="textlink" href="https://github.com/bitbaum/geo-kit/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/threadkit/">&larr; threadkit</a><a href="/packages/">All packages</a><a href="/packages/speechkit/">speechkit &rarr;</a></div></div>
