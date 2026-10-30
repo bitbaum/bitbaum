@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T21:29:41.825Z",
+  "generatedAt": "2026-10-30T21:45:36.334Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -19,7 +19,7 @@
     }
   ],
   "summary": {
-    "projects": 29,
+    "projects": 30,
     "live": 16,
     "clients": 1,
     "inFlight": 0
@@ -6099,6 +6099,45 @@
           "date": "2026-08-12",
           "done": "Added the Loki feedback widget to src/app/layout.tsx via next/script (afterInteractive), verified headlessly (no console errors, script tag rendered with correct src + data-fc-project), and opened PR #1 (github.com/maonakamoto/prime-tower/pull/1)."
         }
+      }
+    },
+    {
+      "slug": "signin",
+      "name": "signin",
+      "what": null,
+      "stack": null,
+      "layer": "next",
+      "status": "prospect",
+      "owner": "bitbaum",
+      "client": null,
+      "since": "2026-10-30",
+      "urls": {
+        "live": "https://signin.orangecat.ch",
+        "repo": null,
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
+      "records": {
+        "roadmap": null,
+        "changelog": null,
+        "source": {
+          "roadmap": null,
+          "changelog": null
+        }
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
       }
     },
     {
