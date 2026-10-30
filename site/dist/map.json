@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T21:29:41.825Z",
+  "generatedAt": "2026-10-30T21:45:36.334Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -19,7 +19,7 @@
     }
   ],
   "summary": {
-    "projects": 29,
+    "projects": 30,
     "live": 16,
     "clients": 1,
     "inFlight": 0
