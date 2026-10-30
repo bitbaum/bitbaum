@@ -101,8 +101,8 @@ addEventListener("error", function (e) {
       </div>
       <div class="venture-facts">
         <div><span class="label">Licence</span><span>MIT</span></div>
-        <div><span class="label">Registry release</span><span>v0.2.0</span></div>
-        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/geo-kit@^0.2.0" aria-label="Copy install command"><code>pnpm add @bitbaum/geo-kit@^0.2.0</code></button></span></div>
+        <div><span class="label">Registry release</span><span>v0.3.0</span></div>
+        <div><span class="label">Install</span><span><button type="button" class="pkg-install js-copy" data-copy="pnpm add @bitbaum/geo-kit@^0.3.0" aria-label="Copy install command"><code>pnpm add @bitbaum/geo-kit@^0.3.0</code></button></span></div>
         <div><span class="label">Source</span><span><a href="https://github.com/bitbaum/geo-kit">bitbaum/geo-kit</a></span></div>
         <div><span class="label">Declared consumers</span><span>3 repositories</span></div>
 
@@ -110,7 +110,7 @@ addEventListener("error", function (e) {
     </section>
     <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
       <h2 id="documentation-title">API and examples</h2>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/12463a6d01ed188dce457cfb07eeb1d02f8b32d3/">source commit <code>12463a6d01ed</code></a> · 2026-10-30. Source documentation can include work beyond the registry release.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/61b8c97c97d50d3c5b9fff03b7190bec4c2f23f7/">source commit <code>61b8c97c97d5</code></a> · 2026-10-30. Source documentation can include work beyond the registry release.</p>
       <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-install">Install</a></li><li><a href="#api-ownership">Ownership</a></li><li><a href="#api-data-loading">Data loading</a></li><li><a href="#api-drawing-it-bitbaum-geo-kit-map">Drawing it: `@bitbaum/geo-kit/map`</a></li><li><a href="#api-assertions-and-proposed-boundaries">Assertions and proposed boundaries</a></li><li><a href="#api-verify">Verify</a></li></ul>
       <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Country-neutral contracts for sharing versioned geography data across applications, and one renderer for it (<code>@bitbaum/geo-kit/map</code>). The package owns no country packs, political claims, source choices, personal data, HTTP server, or UI framework.</p>
 <h2 id="api-install">Install</h2>
@@ -172,7 +172,7 @@ map.flyTo(cameraForBounds([5.96, 45.82, 10.49, 47.81], limits));</code></pre>
 <ul><li><strong>Reduced motion.</strong> Under <code>prefers-reduced-motion</code> a flight is a cut, a flick</li></ul>
 <p>does not coast and the idle turn never starts.</p>
 <ul><li><strong>Layers.</strong> The palette's sphere, graticule, glow and limb shade are each</li></ul>
-<p>optional, so a lit globe of the world and a plain map where the data is the picture are the same painter. <code>over</code> draws the caller's own layer (sites, routes, figures) on top each frame, with the frame's projection.</p>
+<p>optional, so a lit globe of the world and a plain map where the data is the picture are the same painter. <code>over</code> draws the caller's own layer (sites, routes, figures) on top each frame, with the frame's projection, and <code>pickFirst</code> lets that layer take a tap or a hover before the features.</p>
 <ul><li><strong>Pure parts.</strong> The camera, motion, culling, picking and the fast</li></ul>
 <p>projection are exported and tested without a browser.</p>
 <h2 id="api-assertions-and-proposed-boundaries">Assertions and proposed boundaries</h2>
@@ -185,7 +185,10 @@ pnpm run verify</code></pre>
     </section>
     <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
       <h2 id="changelog-title">Changelog and releases</h2>
-      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-2-0">0.2.0</h2>
+      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-3-0">0.3.0</h2>
+<ul><li><code>/map</code>: what a globe with its own layer needs, from moving Substrata's</li></ul>
+<p>globe onto it. <code>pickFirst</code> lets the caller's layer (a site, a marker) take a tap or a hover before the features; <code>onFacing</code> names the feature facing the reader after a keyboard turn; <code>jumpTo</code> goes to a view with no flight; each frame's <code>sinceTouch</code> tells an animated layer how long the map has been left alone. The hover label clears when a gesture starts.</p>
+<h2 id="change-0-2-0">0.2.0</h2>
 <ul><li>Add <code>@bitbaum/geo-kit/map</code>: one Canvas 2D renderer for the geography this</li></ul>
 <p>package delivers, an orthographic globe that zoomed in is a flat map, so the world and a commune are one projection. Framework-free <code>createMap</code> (turn, pinch, wheel, keyboard, tap to select, flights, coasting, reduced motion), shapes from TopoJSON or GeoJSON keyed by any id, fills by id, and the pure camera, motion, culling, picking and fast-projection helpers. Extracted from Substrata's globe, so Solon's map and Substrata's globe are one renderer.</p>
 <ul><li><code>d3-geo</code> and <code>topojson-client</code> are optional peer dependencies, needed only</li></ul>
@@ -208,7 +211,7 @@ pnpm run verify</code></pre>
 <h2 id="release-2-new-contributors">New Contributors</h2>
 <p>* @catomean made their first contribution in https://github.com/bitbaum/geo-kit/pull/1</p>
 <p><strong>Full Changelog</strong>: https://github.com/bitbaum/geo-kit/commits/v0.1.1</p></div></details></li></ol>
-      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/geo-kit/commit/12463a6d01ed188dce457cfb07eeb1d02f8b32d3">feat(map): one renderer for the geography geo-kit delivers (0.2.0) (#14)</a> <time datetime="2026-10-30T21:01:34Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/eb7d5255c39a9220f9005441cbc1444eddd159d4">docs(agents): the org rules block, generated from bitbaum/fleet (#13)</a> <time datetime="2026-10-30T09:38:36Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/791dc8d00ee85c92144662bff2818c396db14382">release v0.1.2</a> <time datetime="2026-10-28T06:49:09Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/a2113ea12d2af24006e408dbbca6ef5ba4f9efc3">chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#11)</a> <time datetime="2026-10-28T02:22:09Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/d9294367d46c520911dac405bc9b8363e8d02dd8">docs(agents): the org rules block, generated from bitbaum/fleet (#10)</a> <time datetime="2026-10-28T01:52:02Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/fa43c78eebe9c180f9978da18f873901030cce30">ci(publish): the fleet's one publish.yml, with a no-publish check of the npm trusted-publisher link (#9)</a> <time datetime="2026-10-28T01:43:29Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/c826956b7e7bf998571c06b1712e47355339d4fb">docs(readme): install from npm, the way the registry says (#8)</a> <time datetime="2026-10-28T01:40:47Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/178a08bdf4b3f74270d425f74b24add219fd4d1d">chore: add the fleet package template files this repo is missing (release-notify.yml) (#7)</a> <time datetime="2026-10-26T18:12:39Z">2026-10-26</time></li></ol></details>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/geo-kit/commit/61b8c97c97d50d3c5b9fff03b7190bec4c2f23f7">feat(map): pickFirst, onFacing, jumpTo and sinceTouch, for a globe with its own layer (0.3.0) (#15)</a> <time datetime="2026-10-30T22:25:19Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/12463a6d01ed188dce457cfb07eeb1d02f8b32d3">feat(map): one renderer for the geography geo-kit delivers (0.2.0) (#14)</a> <time datetime="2026-10-30T21:01:34Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/eb7d5255c39a9220f9005441cbc1444eddd159d4">docs(agents): the org rules block, generated from bitbaum/fleet (#13)</a> <time datetime="2026-10-30T09:38:36Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/791dc8d00ee85c92144662bff2818c396db14382">release v0.1.2</a> <time datetime="2026-10-28T06:49:09Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/a2113ea12d2af24006e408dbbca6ef5ba4f9efc3">chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#11)</a> <time datetime="2026-10-28T02:22:09Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/d9294367d46c520911dac405bc9b8363e8d02dd8">docs(agents): the org rules block, generated from bitbaum/fleet (#10)</a> <time datetime="2026-10-28T01:52:02Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/fa43c78eebe9c180f9978da18f873901030cce30">ci(publish): the fleet's one publish.yml, with a no-publish check of the npm trusted-publisher link (#9)</a> <time datetime="2026-10-28T01:43:29Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/c826956b7e7bf998571c06b1712e47355339d4fb">docs(readme): install from npm, the way the registry says (#8)</a> <time datetime="2026-10-28T01:40:47Z">2026-10-28</time></li></ol></details>
       <a class="textlink" href="https://github.com/bitbaum/geo-kit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/geo-kit/tags">All tags</a>
     </section>
     <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
@@ -219,7 +222,7 @@ pnpm run verify</code></pre>
     <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
       <h2 id="evidence-title">Sources and verification</h2>
       <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/12463a6d01ed188dce457cfb07eeb1d02f8b32d3/">source commit <code>12463a6d01ed</code></a> · 2026-10-30. Source documentation can include work beyond the registry release.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/61b8c97c97d50d3c5b9fff03b7190bec4c2f23f7/">source commit <code>61b8c97c97d5</code></a> · 2026-10-30. Source documentation can include work beyond the registry release.</p>
       <a class="textlink" href="https://github.com/bitbaum/geo-kit/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/threadkit/">&larr; threadkit</a><a href="/packages/">All packages</a><a href="/packages/speechkit/">speechkit &rarr;</a></div></div>
