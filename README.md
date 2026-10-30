@@ -36,7 +36,7 @@ host being up as evidence that a product is ready or generally available.
 
 The studio's implementation plan is [ROADMAP.md](ROADMAP.md), and completed
 changes are in [CHANGELOG.md](CHANGELOG.md). Product boundaries, portal options
-and course/partner requirements are in [the delivery plan](docs/commissioning-and-portals.md).
+and course/builder requirements are in [the delivery plan](docs/commissioning-and-portals.md).
 
 ## Build and verify
 

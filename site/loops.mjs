@@ -86,7 +86,7 @@ ${layer.loops.map(loopCard).join("\n")}
         <p class="lede">${esc(text.lede)}</p>
         <div class="actions">
           <a class="btn primary" href="/work/">The work, by stage ${ARROW}</a>
-          <a class="btn secondary" href="/partners/">Work in a loop</a>
+          <a class="btn secondary" href="/builders/">Work in a loop</a>
         </div>
       </div>
     </section>

@@ -5,13 +5,13 @@ Canonical studio implementation plan. Confirmed requirements and the accepted ar
 ## Now
 
 ### Separate the free tool from studio services
-Give visitors routes to independent Loki self-service, an approved partner, or the studio waitlist.
+Give visitors routes to independent Loki self-service, an approved builder, or the studio waitlist.
 - [x] Record that studio engagement prices belong to Bitbaum, while Loki is a standalone free tool
 - [x] Put the studio URL/change intake on Bitbaum with its current offer and capacity
 - [x] Remove studio pricing/submission from Loki's self-serve brief; retain an optional external studio link
 - [x] Preserve the brief through an explicit self-serve handoff and sign-in
-- [x] Offer only approved partners with real availability; provide an honest path while the directory is empty
-- [x] One door: the waitlist, the website brief and the partner application are a single free-form field, typed or spoken, that refuses nothing and hands back a private portal link
+- [x] Offer only approved builders with real availability; provide an honest path while the directory is empty
+- [x] One door: the waitlist, the website brief and the builder application are a single free-form field, typed or spoken, that refuses nothing and hands back a private portal link
 - [ ] Let the words be structured by a model on Loki (address, email, kind, engagement) so the one question the intake still asks disappears
 - [ ] Give a new-build idea without a website its own request kind on Loki, so it lands in the portal rather than the inbox
 
@@ -29,7 +29,7 @@ Start one Bitbaum-branded customer flow with access to only that engagement and 
 - [x] Verify scoped Loki API/guest access, revocation and a narrow delivery-review action for the accepted shared backend
 - [x] Build brief, receipt, status, next action, preview and change-request views
 - [x] Record delivery approval without customer agent-execution or credential access
-- [x] Verify customers and assigned partners cannot access unrelated projects
+- [x] Verify customers and assigned builders cannot access unrelated projects
 - [ ] Complete the first real engagement through brief, preview, revision and exact-version acceptance
 
 ## Next
@@ -42,12 +42,12 @@ Develop a studio-owned course through one transferable practical module and revi
 - [x] Record course completion as evidence for studio review, not automatic approval
 - [ ] Calibrate the rubric with a real candidate and reviewer before expanding the course
 
-### Operate partner qualification and assignment
+### Operate builder qualification and assignment
 Application, course completion, studio approval and availability are separate states with useful next actions.
 - [x] Add private application/qualification records with review reasons
 - [x] Give reviewers course-evidence review and explicit approve/decline/request-information actions
-- [x] Publish only approved, consenting partner profiles and maintain real availability
-- [x] Give assigned partners only their assigned briefs and delivery actions; grant no technical project access by default
+- [x] Publish only approved, consenting builder profiles and maintain real availability
+- [x] Give assigned builders only their assigned briefs and delivery actions; grant no technical project access by default
 - [x] Preserve the current commercial model unless its owner explicitly changes it
 - [ ] Complete the first studio-reviewed qualification and consenting directory publication
 

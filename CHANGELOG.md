@@ -2,6 +2,12 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-10-30 — Partners are builders
+
+- The independent people the studio approves on their work are now called builders: "Hire a builder" on the homepage, `/builders/` for the directory and the application, and "Become a builder" in the footer. "Partner" read as co-ownership or a revenue share, which is not on offer.
+- `/partners/` forwards to `/builders/`, keeping any `#join` in the link.
+- "Builders in the loop" is written down as the positioning in `site/PURPOSE.md`: agents do the typing, and a builder owns the judgement.
+
 ## 2026-10-29 — Facts brought up to date
 
 - OrangeCat no longer offers "top up in sats": its checkout stays closed until the company is registered (`PAID_PLANS_OPEN`; orangecat.ch/pricing says "Not open yet"). "Sign in with OrangeCat" now says what it is: one account across the studio's apps, Loki and Solon among them.

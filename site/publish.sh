@@ -29,7 +29,7 @@ ssh -o BatchMode=yes "$BOX" "set -e
   sudo find /opt/bitbaum/app -type f -exec chmod 644 {} +"
 
 fail=0
-for rel in "" work/ packages/ packages/paykit/ studio/ hire/ partners/ portal/ private/ private.js academy/ roadmap/ changelog/ portal.js orangecat/ loki/ solon/ robots.txt sitemap.xml map.json commission.json og/studio.png theme.mjs chat.js chatkit.css; do
+for rel in "" work/ packages/ packages/paykit/ studio/ hire/ builders/ partners/ portal/ private/ private.js academy/ roadmap/ changelog/ portal.js orangecat/ loki/ solon/ robots.txt sitemap.xml map.json commission.json og/studio.png theme.mjs chat.js chatkit.css; do
   code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_ORIGIN/$rel")
   [ "$code" = "200" ] || { echo "$SITE_ORIGIN/$rel -> $code" >&2; fail=1; }
 done

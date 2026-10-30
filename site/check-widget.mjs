@@ -35,10 +35,10 @@ try {
   say(stackMatches, "homepage shows its configured stack, including Solon");
   failed ||= !stackMatches;
   // "How do you want it built?" — every visitor gets all three answers:
-  // build it yourself now (Loki), a partner, or the studio's waitlist.
+  // build it yourself now (Loki), a builder, or the studio's waitlist.
   const routes = await page.locator("#start .path").evaluateAll((links) => links.map((link) => link.getAttribute("href")));
-  const clearRoutes = routes.some((href) => href?.startsWith("https://loki.orangecat.ch")) && routes.includes("/partners/") && routes.includes("/hire/#waitlist");
-  say(clearRoutes, "the start section offers building it yourself, a partner, and the studio's waitlist");
+  const clearRoutes = routes.some((href) => href?.startsWith("https://loki.orangecat.ch")) && routes.includes("/builders/") && routes.includes("/hire/#waitlist");
+  say(clearRoutes, "the start section offers building it yourself, a builder, and the studio's waitlist");
   failed ||= !clearRoutes;
   const responsive = await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth);
   say(responsive, "homepage fits the mobile viewport without horizontal scrolling");
