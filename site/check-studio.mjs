@@ -139,7 +139,7 @@ try {
     assert.equal(assessment.version, course.version);
     assert.deepEqual(Object.keys(assessment.answers), course.modules.map((m) => m.id));
     // Approved on their work, without the course: now the profile can be proposed.
-    request.partner.approved = true; request.status = { id: "approved", title: "Partner approved", next: "Propose your profile" };
+    request.partner.approved = true; request.status = { id: "approved", title: "Builder approved", next: "Propose your profile" };
     await page.reload({ waitUntil: "load" });
     await page.waitForSelector("#portal-propose_profile");
     // Approved: the profile can be kept with an OrangeCat account (optional).
