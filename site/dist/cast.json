@@ -707,16 +707,16 @@
       "horse",
       "sky"
     ],
-    "/packages/sitekit/": [
-      "fog-walker",
-      "cat",
-      "unicorn",
-      "sky"
-    ],
     "/packages/chartkit/": [
       "fog-walker",
       "cat",
       "scarab",
+      "sky"
+    ],
+    "/packages/sitekit/": [
+      "fog-walker",
+      "cat",
+      "unicorn",
       "sky"
     ],
     "/packages/threadkit/": [
