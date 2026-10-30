@@ -257,16 +257,16 @@ await p3.route("**/api/widget/chat", async (route) => {
 });
 await p3.goto(base + "/builders/#join", { waitUntil: "load" });
 await p3.waitForSelector("#join .ck-input", { timeout: 10000 }).catch(() => {});
-say((await p3.$$("#join .ck-input")).length === 1 && (await p3.$$("#join .ck-mic")).length === 1 && (await p3.$$("#join form, #join select")).length === 0, "a partner applies in one field with a microphone, not a form");
+say((await p3.$$("#join .ck-input")).length === 1 && (await p3.$$("#join .ck-mic")).length === 1 && (await p3.$$("#join form, #join select")).length === 0, "a builder applies in one field with a microphone, not a form");
 await p3.fill("#join .ck-input", "I build booking sites. My work is at https://builder.ch/work");
 await p3.press("#join .ck-input", "Enter");
 const application_ = p3.locator("#join").getByRole("link", { name: "Open your application →", exact: true });
 await application_.waitFor({ timeout: 5000 }).catch(() => {});
-say(applications === 1 && application?.kind === "partner", "one message submits one partner application");
+say(applications === 1 && application?.kind === "partner", "one message submits one builder application");
 say(application?.website === "https://builder.ch/work" && application?.changes?.includes("I build booking sites") && !application?.contact, "the work link is the website, the words are kept, and no email is needed");
 const told = await p3.innerText("#join .ck-thread");
 say(/your private application; keep it/i.test(told) && !/\bapproved\b/i.test(told), "it says the application is saved and private, and does not claim approval");
-say(partnerChats.length === 1 && partnerChats[0].purpose === "partner", "Loki answers the application in partner mode");
+say(partnerChats.length === 1 && partnerChats[0].purpose === "partner", "Loki answers the application in builder mode");
 say((await application_.count()) === 1 && (await application_.getAttribute("href")).includes("/portal/#id="), "a saved application offers its private portal");
 await ctx3.close();
 
