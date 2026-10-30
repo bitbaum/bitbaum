@@ -306,7 +306,7 @@ const AVATARS = {
   "/camille-boulangerie/": ["flutter", "hummingbird"],  // nectar, for a bakery
   "/revamp-info/": ["stand", "elephant"],      // Hirnli, the brain; an elephant never forgets
   "/studio/": ["story", "scarab"],
-  "/partners/": ["story", "horse"],
+  "/builders/": ["story", "horse"],
   "/hire/": ["story", "owl"],
   // Their old homes were client pilots, which are not shown until the client
   // agrees (Loki: docs/architecture/client-work-consent.md).
@@ -427,8 +427,8 @@ export function ventures(map, cfg, origin, packages, live = {}) {
 // Pages that are one person's: the owner's private projects and a portal that
 // opens a private request. They work by link; a search engine has no reason
 // to list them, and the sitemap used to hand them over.
-const UNLISTED = ["/private/", "/portal/"];
-const DOORS_ON = ["/work/", "/partners/", "/studio/", "/academy/", "/packages/", "/map/", "/roadmap/", "/changelog/"];
+const UNLISTED = ["/private/", "/portal/", "/partners/"];
+const DOORS_ON = ["/work/", "/builders/", "/studio/", "/academy/", "/packages/", "/map/", "/roadmap/", "/changelog/"];
 function doors(path) {
   const here = (p) => (p === path ? "" : p);
   const items = [
@@ -462,7 +462,7 @@ function shell({ title, description, path, body, nav, script, image }) {
   // something built; "Start a project" is where every path begins.
   const items = [
     ["/work/", "The work"],
-    ["/partners/", "Partners"],
+    ["/builders/", "Builders"],
     ["/hire/", "Studio"],
   ];
   const cur = (href) => (nav === href ? ' aria-current="page"' : "");
@@ -490,8 +490,8 @@ function shell({ title, description, path, body, nav, script, image }) {
   // One map of the site, rendered twice: as the phone menu and as the footer.
   // Two hand-kept lists drift; this cannot.
   const sections = [
-    ["Explore", [["/work/", "The work"], ["/map/", "The map"], ["/partners/", "Partners"], ["/studio/", "About bitbaum"], ["/roadmap/", "Roadmap"], ["/changelog/", "Changelog"], [ARTICLES, "Writing ↗"]]],
-    ["Build with us", [["/partners/#join", "Become a partner"], ["/academy/", "Systems design pilot"], ["/portal/", "Open your portal"], ["/packages/", "Packages (for developers)"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"]]],
+    ["Explore", [["/work/", "The work"], ["/map/", "The map"], ["/builders/", "Builders"], ["/studio/", "About bitbaum"], ["/roadmap/", "Roadmap"], ["/changelog/", "Changelog"], [ARTICLES, "Writing ↗"]]],
+    ["Build with us", [["/builders/#join", "Become a builder"], ["/academy/", "Systems design pilot"], ["/portal/", "Open your portal"], ["/packages/", "Packages (for developers)"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"]]],
     ["The studio", [[HIRE, "Engagements and rates"], [`${HIRE}#waitlist`, "Join the waitlist"], [LOKI_START, "Build it yourself (free Loki)"]]],
   ];
   const sectionLinks = (links) =>
@@ -806,10 +806,10 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
       cta: "Start with Loki", href: LOKI_START,
     },
     {
-      n: "02", key: "partner", title: "Hire a partner",
+      n: "02", key: "builder", title: "Hire a builder",
       price: "Their own quote", when: "Applications open · none approved yet", open: false,
       body: "Independent builders the studio approved on their work. You hire and pay them directly; the first will be listed here once approved.",
-      cta: "Meet the partners", href: "/partners/",
+      cta: "Meet the builders", href: "/builders/",
     },
     {
       n: "03", key: "studio", title: "The bitbaum studio",
@@ -838,7 +838,7 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
 ${glassHero({
     // The rabbit only leads somewhere worth landing: the pages every visitor
     // should see, and the projects that are live and shown with a screenshot.
-    burrowTo: ["/work/", "/studio/", "/partners/", ...all.filter((v) => ["product", "pilot"].includes(v.stage) && v.shot).map((v) => `/${v.slug}/`)],
+    burrowTo: ["/work/", "/studio/", "/builders/", ...all.filter((v) => ["product", "pilot"].includes(v.stage) && v.shot).map((v) => `/${v.slug}/`)],
     kicker: "AI-native product studio &middot; Zürich",
     lines: ["One trunk.", "Many products."],
     lede: "We build software products — and the tools that let anyone build their own.",
@@ -894,29 +894,52 @@ ${askSection}
   });
 }
 
-// ── partners ────────────────────────────────────────────────────────────────
-export function partnersPage() {
+// ── builders ────────────────────────────────────────────────────────────────
+export function buildersPage() {
   const body = `  <main id="main">
 ${fullBleed({ scene: "mycelium", cast: "partners", under: true, strong: true, body: `        <div class="bleed-copy rise">
-          <span class="kicker">Partners</span><h1 class="headline-caps">Build here.</h1>
-          <p class="bleed-lede">Independent builders, approved by the studio on their work. Work under your own name and agree your own scope and price.</p>
-          <div class="bleed-actions"><a class="btn-frame-accent" href="#join">Become a partner ${ARROW}</a><a class="btn-frame" href="#partners">Find a partner</a></div>
+          <span class="kicker">Builders</span><h1 class="headline-caps">Build here.</h1>
+          <p class="bleed-lede">Builders in the loop: agents do the typing, and an independent builder the studio approved on their work owns the judgement. Work under your own name and agree your own scope and price.</p>
+          <div class="bleed-actions"><a class="btn-frame-accent" href="#join">Become a builder ${ARROW}</a><a class="btn-frame" href="#builders">Find a builder</a></div>
         </div>` })}
-    <section class="section" id="partners"><div class="wrap">
-      <span class="kicker quiet">Available partners</span><h2 class="headline-caps section-title">Hire a partner.</h2>
+    <section class="section" id="builders"><div class="wrap">
+      <span class="kicker quiet">Available builders</span><h2 class="headline-caps section-title">Hire a builder.</h2>
       <div class="portal-grid" data-partner-directory data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>The directory needs JavaScript to check current availability. <a href="${HIRE}#waitlist">Send the studio a brief</a> or <a href="${LOKI_START}">use free Loki</a>.</p></noscript></div>
-      <p class="caption">Partners are independent. Customers contract with and pay the partner directly. The studio takes no cut. Loki, OrangeCat and Solon are optional tools.</p>
+      <p class="caption">Builders are independent. Customers contract with and pay the builder directly. The studio takes no cut. Loki, OrangeCat and Solon are optional tools.</p>
     </div></section>
     <section class="section" id="how"><div class="wrap"><span class="kicker quiet">How approval works</span><h2 class="headline-caps section-title">Show your work. A person decides.</h2>
       <ol class="steps"><li><span class="path-n">01</span><span class="step-title">Show what you have built</span><p>Say who you are and link the work: a live product, a repository, a site you made for someone. For an experienced builder that is the whole application.</p></li><li><span class="path-n">02</span><span class="step-title">The studio decides</span><p>A person reads your work and answers in your private application, and by email if you give an address. No exam is required.</p></li><li><span class="path-n">03</span><span class="step-title">The course, if you want it</span><p>The <a href="/academy/">systems design course</a> ends in a capstone exam reviewed against a published rubric. Pass it and your profile shows the credential. Take it to learn, to prove it, or not at all.</p></li></ol>
     </div></section>
-    <section class="section" id="join"><div class="wrap portal-layout"><div><span class="kicker quiet">Become a partner</span><h2 class="headline-caps section-title">Show what you build.</h2><p class="lede">Write it or say it — who you are, what you build, where the studio can see your work. One message opens a private application where the studio answers and, later, assigned briefs live. No account and no course needed.</p><p><a class="textlink" href="/academy/">The optional course and its exam</a></p></div>${intakeMount({ purpose: "partner", prompt: "Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application, and a person at the studio answers it there." })}</div></section>
+    <section class="section" id="join"><div class="wrap portal-layout"><div><span class="kicker quiet">Become a builder</span><h2 class="headline-caps section-title">Show what you build.</h2><p class="lede">Write it or say it — who you are, what you build, where the studio can see your work. One message opens a private application where the studio answers and, later, assigned briefs live. No account and no course needed.</p><p><a class="textlink" href="/academy/">The optional course and its exam</a></p></div>${intakeMount({ purpose: "partner", prompt: "Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application, and a person at the studio answers it there." })}</div></section>
   </main>`;
-  return shell({ title: "Partners — bitbaum", description: "Hire an approved independent partner, or apply with the work you have built.", path: "/partners/", body, nav: "/partners/", script: CHAT_SCRIPT + PORTAL_SCRIPT });
+  return shell({ title: "Builders — bitbaum", description: "Hire an approved independent builder, or apply with the work you have built.", path: "/builders/", body, nav: "/builders/", script: CHAT_SCRIPT + PORTAL_SCRIPT });
+}
+
+// A page that moved. The box serves files, not redirects, so the old address
+// keeps a page that forwards there, fragment and all: /partners/#join was
+// printed in places this build does not control.
+export function movedPage(from, to) {
+  const href = `${SITE}${to}`;
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Moved — bitbaum</title>
+<link rel="canonical" href="${esc(href)}">
+<meta http-equiv="refresh" content="0; url=${esc(to)}">
+<script>location.replace(${JSON.stringify(to)} + location.search + location.hash)</script>
+</head>
+<body>
+<p>${esc(from)} is now <a href="${esc(to)}">${esc(to)}</a>.</p>
+</body>
+</html>
+`;
 }
 
 export function portalPage() {
-  return shell({ title: "Your project portal — bitbaum", description: "Follow your private Bitbaum brief, partner application and preview review.", path: "/portal/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Your private request</span><h1 class="headline-caps section-title">Project portal.</h1><div data-studio-portal data-api-origin="${esc(LOKI_FEEDBACK.origin)}" data-course="${esc(JSON.stringify(COURSE))}"><p>Opening your request…</p><noscript><p>The private portal needs JavaScript. Keep the complete link from your receipt and open it in a browser with JavaScript enabled.</p></noscript></div></div></section></main>`, script: PORTAL_SCRIPT });
+  return shell({ title: "Your project portal — bitbaum", description: "Follow your private Bitbaum brief, builder application and preview review.", path: "/portal/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Your private request</span><h1 class="headline-caps section-title">Project portal.</h1><div data-studio-portal data-api-origin="${esc(LOKI_FEEDBACK.origin)}" data-course="${esc(JSON.stringify(COURSE))}"><p>Opening your request…</p><noscript><p>The private portal needs JavaScript. Keep the complete link from your receipt and open it in a browser with JavaScript enabled.</p></noscript></div></div></section></main>`, script: PORTAL_SCRIPT });
 }
 export function privatePage() {
   return shell({ title: "Private projects — bitbaum", description: "Client work, visible to the studio owner only.", path: "/private/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Client work</span><h1 class="headline-caps section-title">Private projects.</h1><p class="lede">Work built for clients who have not agreed to be shown in public. Only the studio owner sees it here, signed in to Loki; each client sees only their own preview, through its own link.</p><div data-private data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>Private projects need JavaScript and a Loki sign-in.</p></noscript></div></div></section></main>`, script: PRIVATE_SCRIPT });
@@ -924,7 +947,7 @@ export function privatePage() {
 
 export function academyPage() {
   const lesson = renderRecord(readFileSync(join(here, "course", "first-lesson.md"), "utf8"));
-  return shell({ title: "Systems design pilot — bitbaum", description: "Bitbaum's optional systems design course: the first lesson, the capstone exam and its rubric.", path: "/academy/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Optional course · pilot</span><h1 class="headline-caps section-title">Design a system people can use.</h1><p class="lede">Agents do most of the building now; someone still has to judge what they built. This course teaches that judgement: one practical lesson so far, and a capstone exam reviewed by a person against the rubric below. It is optional for partners. Pass it and the credential shows on your profile; skip it and you are judged on your work, as everyone is.</p><div class="record">${lesson}<h2>Submit evidence for each dimension</h2>${COURSE.modules.map((m) => `<h3>${esc(m.title)}</h3><p>${esc(m.prompt)}</p>`).join("\n")}</div><div class="bleed-actions quiet-actions"><a class="btn primary" href="/partners/#join">Apply as a partner ${ARROW}</a><a class="btn secondary" href="/portal/">Submit your capstone in your application</a><a class="textlink" href="/roadmap/">Follow course development</a></div></div></section></main>` });
+  return shell({ title: "Systems design pilot — bitbaum", description: "Bitbaum's optional systems design course: the first lesson, the capstone exam and its rubric.", path: "/academy/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Optional course · pilot</span><h1 class="headline-caps section-title">Design a system people can use.</h1><p class="lede">Agents do most of the building now; someone still has to judge what they built. This course teaches that judgement: one practical lesson so far, and a capstone exam reviewed by a person against the rubric below. It is optional for builders. Pass it and the credential shows on your profile; skip it and you are judged on your work, as everyone is.</p><div class="record">${lesson}<h2>Submit evidence for each dimension</h2>${COURSE.modules.map((m) => `<h3>${esc(m.title)}</h3><p>${esc(m.prompt)}</p>`).join("\n")}</div><div class="bleed-actions quiet-actions"><a class="btn primary" href="/builders/#join">Apply as a builder ${ARROW}</a><a class="btn secondary" href="/portal/">Submit your capstone in your application</a><a class="textlink" href="/roadmap/">Follow course development</a></div></div></section></main>` });
 }
 export function recordPage(kind) {
   // Drawn, not read: the roadmap as a board of horizons with progress, the
@@ -1311,7 +1334,8 @@ export function render({ map, packages, origin, readings, cfg, hire, live = {}, 
   files.set("index.html", homePage(all, packages, cfg, origin, readings, hire));
   files.set("work/index.html", workPage(all, cfg));
   files.set("map/index.html", loopsPage(all, cfg, packages));
-  files.set("partners/index.html", partnersPage());
+  files.set("builders/index.html", buildersPage());
+  files.set("partners/index.html", movedPage("/partners/", "/builders/"));
   files.set("portal/index.html", portalPage());
   files.set("academy/index.html", academyPage());
   files.set("roadmap/index.html", recordPage("roadmap"));
@@ -1476,7 +1500,7 @@ if (isMain) {
     writeFileSync(join(here, "..", "docs", "CAST.md"), castMd);
     // Pages for ventures that no longer exist must not linger.
     for (const d of readdirSync(DIST, { withFileTypes: true })) {
-      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "map", "studio", "hire", "og", "vendor", "partners", "art", "portal", "private", "academy", "roadmap", "changelog"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
+      if (d.isDirectory() && !["shots", "fonts", "packages", "work", "map", "studio", "hire", "og", "vendor", "builders", "partners", "art", "portal", "private", "academy", "roadmap", "changelog"].includes(d.name) && !all.some((v) => v.slug === d.name)) rmSync(join(DIST, d.name), { recursive: true });
     }
     // Retired package pages must not survive a registry removal.
     for (const entry of obsoletePackageDirs) rmSync(join(packageDir, entry.name), { recursive: true });

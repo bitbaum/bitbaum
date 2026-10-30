@@ -255,7 +255,7 @@ await p3.route("**/api/widget/chat", async (route) => {
   const text = "Thank you. How do you like to work with customers?";
   await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, reply: text, messages: [{ speaker: "loki", text }], ready: false, summary: "" }) });
 });
-await p3.goto(base + "/partners/#join", { waitUntil: "load" });
+await p3.goto(base + "/builders/#join", { waitUntil: "load" });
 await p3.waitForSelector("#join .ck-input", { timeout: 10000 }).catch(() => {});
 say((await p3.$$("#join .ck-input")).length === 1 && (await p3.$$("#join .ck-mic")).length === 1 && (await p3.$$("#join form, #join select")).length === 0, "a partner applies in one field with a microphone, not a form");
 await p3.fill("#join .ck-input", "I build booking sites. My work is at https://builder.ch/work");

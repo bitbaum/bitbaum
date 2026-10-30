@@ -116,7 +116,7 @@ version quoted a host that had been retired for two days, counted one renamed
 organisation as two systems, and used two superseded product names.
 
 The waitlist uses the one-field chat intake in `site/chat/chat.tsx`, bundled
-as `/chat.js` with `/chatkit.css`. Partner applications use that same intake
+as `/chat.js` with `/chatkit.css`. Builder applications use that same intake
 with a separate purpose. It is a conversation: the visitor's words (and
 pictures) are saved on Loki first, then Loki answers through the widget
 chat's intake mode — questions, the published engagement it resembles, never

@@ -65,7 +65,7 @@ try {
     if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)) failures.push("landscape: horizontal overflow");
     await context.close();
   }
-  for (const route of ["/", "/hire/", "/partners/", "/packages/", "/diplodoctor/"]) {
+  for (const route of ["/", "/hire/", "/builders/", "/packages/", "/diplodoctor/"]) {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
     await isolateWidget(page.context());
     await page.goto(base + route, { waitUntil: "load" });

@@ -88,6 +88,27 @@ for a list of gaps (the fleet registers publish those, not this page).
   deployed intake API without creating a request.
   Run both against the live URL after publishing.
 - **`/studio/`** — the thesis and the rules, for the reader who wants the why.
+- **`/builders/`** — the approved-builder directory and the application door.
+  `/partners/` is a forwarding page to it (kept because the old address was
+  printed elsewhere) and is left out of the sitemap.
+
+## Builders in the loop — the word and the line (decided 2026-10-30)
+
+- **"Builder"** is the public word for the independent person the studio approves
+  on their shipped work and a customer hires directly. Not "partner": a partner
+  reads as co-ownership or a revenue share, which the site must never promise,
+  and it collides with how other companies use the word (technology vendors).
+- **"Builders in the loop"** is the positioning: agents do the typing, and a
+  builder owns the judgement. It covers all three ways to start a project —
+  in Loki *you* are the builder in the loop; a hired builder is one the studio
+  approved; the studio uses its own. Where both senses could meet ("Build it
+  yourself" next to "Hire a builder"), say **approved builder** for the person
+  you hire.
+- `/hire/` keeps "senior" and "engineering" where they describe the studio's
+  paid service: that reader is asking whether a supplier is real and senior.
+- Internal identifiers that other systems read — the intake `purpose:
+  "partner"`, `/api/studio-partners`, the `#partner=` hand-off and Loki's
+  `/studio/partner` — keep their names; only words a person reads changed.
 
 ## How people arrive — the part that actually matters
 
@@ -126,6 +147,7 @@ A page nobody reaches helps nobody. In leverage order:
   company's. (The visitor's own draft email is the one place "I" is right.)
 - **"One-person studio"**, or any solo framing. The point of the stack is that
   more than one person can build here.
+- **"Partner" for an approved builder.** See "Builders in the loop" above.
 - **A payment or revenue-share promise.** No active originator-payment scheme
   is being offered. Do not imply that contributors are owed a percentage or
   that a policy vote already exists.
@@ -160,5 +182,5 @@ Measurement is no longer one of these: this host writes its own access log
 ---
 
 created_date: 2026-09-15
-last_modified_date: 2026-10-06
-last_modified_summary: Hire door is Loki's studio intake with a private portal link (one field, typed or spoken); homepage flagships are OrangeCat, Loki and Solon.
+last_modified_date: 2026-10-30
+last_modified_summary: Approved partners are now builders (/builders/, /partners/ forwards); "builders in the loop" recorded as the positioning.

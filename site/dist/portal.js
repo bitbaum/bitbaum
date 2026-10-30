@@ -1,6 +1,6 @@
 // Bitbaum owns the experience; Loki supplies request-scoped state. The
 // intake itself is the site's one-field conversation (site/chat/chat.tsx);
-// this file is the private portal and the partner directory.
+// this file is the private portal and the builder directory.
 const $ = (selector, root = document) => root.querySelector(selector);
 const read = (key) => { try { return JSON.parse(sessionStorage.getItem(key)); } catch { return null; } };
 const save = (key, value) => { try { sessionStorage.setItem(key, JSON.stringify(value)); } catch { /* optional */ } };
@@ -53,11 +53,11 @@ function remember(access) {
   save("bitbaum:portal:recent", [access, ...recent.filter((r) => r.id !== access.id)].slice(0, 10));
 }
 async function directory(root) {
-  root.replaceChildren(text("Checking partner availability…", "caption"));
+  root.replaceChildren(text("Checking builder availability…", "caption"));
   try {
     const data = await api(root.dataset.apiOrigin, "/api/studio-partners");
-    if (!data.partners?.length) { root.replaceChildren(text("No approved, available partner is listed yet. Build it yourself with Loki, or send the studio a brief while the first applications are reviewed."), link("Use free Loki", root.dataset.apiOrigin + "/commission", "btn secondary"), link("Send the studio a brief", "/hire/#waitlist", "btn secondary")); return; }
-    root.replaceChildren(...data.partners.map((p) => el("article", { class: "portal-card" }, el("h3", { text: p.name }), text(p.headline), text(`${p.rate} · ${p.availability}`), ...(p.coursePassed ? [text("Passed the bitbaum systems design course", "caption")] : []), link("View their work", p.url), link("Request this partner", `/hire/#partner=${p.id}`, "btn primary"))));
+    if (!data.partners?.length) { root.replaceChildren(text("No approved, available builder is listed yet. Build it yourself with Loki, or send the studio a brief while the first applications are reviewed."), link("Use free Loki", root.dataset.apiOrigin + "/commission", "btn secondary"), link("Send the studio a brief", "/hire/#waitlist", "btn secondary")); return; }
+    root.replaceChildren(...data.partners.map((p) => el("article", { class: "portal-card" }, el("h3", { text: p.name }), text(p.headline), text(`${p.rate} · ${p.availability}`), ...(p.coursePassed ? [text("Passed the bitbaum systems design course", "caption")] : []), link("View their work", p.url), link("Request this builder", `/hire/#partner=${p.id}`, "btn primary"))));
   } catch (err) { const retry = el("button", { type: "button", class: "btn secondary", text: "Check again" }); retry.addEventListener("click", () => directory(root)); root.replaceChildren(text(err.message, "portal-error"), retry, link("Use free Loki", root.dataset.apiOrigin + "/commission")); }
 }
 function portal(root) {
@@ -77,7 +77,7 @@ function portal(root) {
     form.append(el("h3", { text: title }));
     for (const f of fields) field(form, f.name, f.title, { ...f, value: draft[f.name] ?? f.value ?? "" });
     const consent = action === "propose_profile" ? el("input", { type: "checkbox", required: true }) : null;
-    if (consent) form.append(el("label", { class: "portal-consent" }, consent, "I consent to the studio publishing this profile and its availability in the partner directory after review."));
+    if (consent) form.append(el("label", { class: "portal-consent" }, consent, "I consent to the studio publishing this profile and its availability in the builder directory after review."));
     const error = el("p", { role: "alert", hidden: true, class: "portal-error" });
     const send = button(title); form.append(error, send);
     form.addEventListener("input", () => save(draftKey, Object.fromEntries(new FormData(form))));
@@ -217,8 +217,8 @@ function portal(root) {
       finally { told.hidden = false; send.disabled = false; }
     });
     content.append(again);
-    content.append(link("Approved partner? Sign in with OrangeCat", root.dataset.apiOrigin + "/studio/partner"));
-    content.append(link("Send a new brief", "/hire/#waitlist"), link("Apply as a partner", "/partners/#join")); root.replaceChildren(content);
+    content.append(link("Approved builder? Sign in with OrangeCat", root.dataset.apiOrigin + "/studio/partner"));
+    content.append(link("Send a new brief", "/hire/#waitlist"), link("Apply as a builder", "/builders/#join")); root.replaceChildren(content);
   }
   window.addEventListener("hashchange", () => {
     const fragment = new URLSearchParams(location.hash.slice(1));

@@ -89,7 +89,7 @@
       ],
       "marker": "fig-fog-giant",
       "selector": ".fig-fog-giant",
-      "layer": "partners hero · horizon-life",
+      "layer": "builders hero · horizon-life",
       "motion": "paces, far off in the fog (css giant-pace)",
       "visible": "immediate",
       "phone": "smaller"
@@ -102,7 +102,7 @@
       ],
       "marker": "deer-deep",
       "selector": ".deer-deep",
-      "layer": "partners hero · horizon-life",
+      "layer": "builders hero · horizon-life",
       "motion": "comes toward us across the far meadow over minutes (css deer-approach) + mesh warp",
       "visible": "immediate",
       "phone": "smaller"
@@ -116,7 +116,7 @@
       ],
       "marker": "fig-fiddlehead",
       "selector": ".foreground .fig-fern",
-      "layer": "partners hero · foreground",
+      "layer": "builders hero · foreground",
       "motion": "css sway",
       "visible": "immediate",
       "phone": "hidden"
@@ -591,7 +591,7 @@
       "scarab",
       "sky"
     ],
-    "/partners/": [
+    "/builders/": [
       "fog-giant",
       "deer-deep",
       "ferns",
