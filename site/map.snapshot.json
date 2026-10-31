@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-31T19:29:25.788Z",
+  "generatedAt": "2026-10-31T19:43:13.111Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -19,8 +19,8 @@
     }
   ],
   "summary": {
-    "projects": 30,
-    "live": 17,
+    "projects": 29,
+    "live": 16,
     "clients": 1,
     "inFlight": 0
   },
@@ -1828,411 +1828,6 @@
         "lastLog": {
           "date": "2026-09-25",
           "done": "Restored the four dependency bumps (next 16.3.5, react-dom/@types/react-dom 19.3.0, prettier 3.9.8, vitest 5.0.1) that closing #177-#180 had made Dependabot skip, and grouped minor/patch npm bumps plus dropped the nonexistent labels so it cannot recur — PR #185, CI verify+integration green, awaiting the repo's auto-merge workflow."
-        }
-      }
-    },
-    {
-      "slug": "biaslens",
-      "name": "BiasLens",
-      "what": "Public product name: BiasLens. Canonical product repository: bitbaum/biaslens.",
-      "stack": null,
-      "layer": "product",
-      "status": "live",
-      "owner": "bitbaum",
-      "client": null,
-      "since": null,
-      "urls": {
-        "live": "https://biaslens.orangecat.ch",
-        "repo": "https://github.com/bitbaum/biaslens",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Media bias and lack of transparency in information sources, making it difficult for users to understand different perspectives and make informed decisions.",
-        "solution": "BiasLens provides a dynamic, explainable, and reproducible way to measure media bias, offering a per-article dashboard with bias scores, uncertainty metrics, and missing perspectives.",
-        "mission": "BiasLens aims to provide a transparent and explainable way to measure media bias, helping users understand different perspectives and make informed decisions.",
-        "vision": "BiasLens aspires to become a leading platform for media bias analysis, enabling users to navigate complex information landscapes with confidence."
-      },
-      "roadmap": [
-        {
-          "title": "A report worth reading",
-          "line": "Every finding points to a passage in the article, and every voice is named with",
-          "status": "in progress",
-          "progress": 89,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "An evaluation harness and rubric that score reports before and after every method change",
-              "done": true
-            },
-            {
-              "title": "A test set of about twelve real Swiss and English articles in it",
-              "done": false
-            },
-            {
-              "title": "A published catalogue of writing techniques, each with what counts and what does not",
-              "done": true
-            },
-            {
-              "title": "Quotes found even when a PDF or a copy-paste changed the spacing, hyphens or quotation marks",
-              "done": true
-            },
-            {
-              "title": "Articles read from PDF links and uploaded PDFs, including press clippings",
-              "done": true
-            },
-            {
-              "title": "Claims attributed to the person who made them, not to the article",
-              "done": true
-            },
-            {
-              "title": "Figures checked for a source, a sample size and contradictions within the article",
-              "done": true
-            },
-            {
-              "title": "The article shown with its passages highlighted, one tap to see why",
-              "done": true
-            },
-            {
-              "title": "The report in the reader's language, including Swiss German",
-              "done": true
-            }
-          ],
-          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Replies you can send",
-          "line": "Someone sends you an article. You send back BiasLens's reading of it, as a",
-          "status": "planned",
-          "progress": 83,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Saved reports with their own link",
-              "done": true
-            },
-            {
-              "title": "A reply page made for the person receiving it",
-              "done": true
-            },
-            {
-              "title": "Reply lengths for every occasion: one line, a short brief, a full page",
-              "done": true
-            },
-            {
-              "title": "A printable dossier of a reading, for classes and letters to the editor",
-              "done": false
-            },
-            {
-              "title": "Share images for messages, posts and stories",
-              "done": true
-            },
-            {
-              "title": "Open any article by putting the BiasLens address in front of its link, or from the phone's share menu",
-              "done": true
-            }
-          ],
-          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Who is speaking",
-          "line": null,
-          "status": "planned",
-          "progress": 50,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Profiles of authors, quoted people and outlets from sourced public records, with a source on every line",
-              "done": true
-            },
-            {
-              "title": "What BiasLens reports on an author's or outlet's articles show, with the number of articles and its limits stated",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Rewrite studio",
-          "line": null,
-          "status": "planned",
-          "progress": 86,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "A neutral version of the article that fixes the flagged passages",
-              "done": true
-            },
-            {
-              "title": "Each change in the neutral version linked to the passage it fixes",
-              "done": false
-            },
-            {
-              "title": "A response to the article: from BiasLens, as a letter to the editor, or as a draft of your own",
-              "done": true
-            },
-            {
-              "title": "The same facts written from stated values (the eight smartvote dimensions) instead of a political label",
-              "done": true
-            },
-            {
-              "title": "\"How would this outlet write it\", always marked as a simulation",
-              "done": true
-            },
-            {
-              "title": "\"How would this public figure answer it\", only for people with a public body of work, always marked as a simulation",
-              "done": true
-            },
-            {
-              "title": "A check that a rewrite kept the original facts and added none",
-              "done": true
-            }
-          ],
-          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Investigations you can return to",
-          "line": "Preserve the path from a question and source through claims, evidence and",
-          "status": "planned",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Save, revisit and revise investigations across sessions",
-              "done": false
-            },
-            {
-              "title": "Independent source retrieval with traceable citations",
-              "done": false
-            },
-            {
-              "title": "Compare claims across sources without collapsing disagreement into a single truth or bias score",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Conversation analysis you can inspect",
-          "line": "The transcript tools keep their limits: an overlap is not proof of an",
-          "status": "later",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Reviewable source timestamps and correction history on conversation records",
-              "done": false
-            },
-            {
-              "title": "Audio and video transcription with editable speaker attribution, evaluated before any comparison is shown",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Reasons to come back",
-          "line": null,
-          "status": "later",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Several outlets' coverage of one story, compared side by side",
-              "done": false
-            },
-            {
-              "title": "A daily \"spot the technique\" round with a shareable result",
-              "done": false
-            },
-            {
-              "title": "Replies that continue as a conversation between the two people",
-              "done": false
-            },
-            {
-              "title": "Your reports and replies kept in your account",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "An open method you can challenge",
-          "line": null,
-          "status": "later",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "\"Disagree with this\" on every finding, with corrections shown on the report",
-              "done": false
-            },
-            {
-              "title": "Published accuracy per technique and per method version",
-              "done": false
-            },
-            {
-              "title": "Moderated discussion and challenge resolution with a visible record of what changed and why",
-              "done": false
-            },
-            {
-              "title": "Reproducible records of which model and provider produced a report, without implying that availability means quality",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "BiasLens as a publication",
-          "line": null,
-          "status": "later",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Regular published readings of the stories people are sending each other",
-              "done": false
-            },
-            {
-              "title": "Labelled debates: two simulated outlets answer the same facts",
-              "done": false
-            },
-            {
-              "title": "A newsletter, and audio and video versions of readings",
-              "done": false
-            },
-            {
-              "title": "An interface for newsrooms and teachers",
-              "done": false
-            }
-          ],
-          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Article examination",
-          "line": null,
-          "status": "done",
-          "progress": 100,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "Examine an article from a link or pasted text, with an exact passage behind each quoted claim",
-              "done": true
-            },
-            {
-              "title": "Ask questions about the article, answered from its text only",
-              "done": true
-            },
-            {
-              "title": "Choose the language of the analysis",
-              "done": true
-            },
-            {
-              "title": "Download a report with the method version and a digest of the examined text",
-              "done": true
-            }
-          ],
-          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
-        },
-        {
-          "title": "Foundations",
-          "line": null,
-          "status": "done",
-          "progress": 100,
-          "targetDate": null,
-          "milestones": [
-            {
-              "title": "A public method that separates facts, values and causal claims, open to challenge",
-              "done": true
-            },
-            {
-              "title": "Timed transcript analysis of debates: speaking time and overlaps",
-              "done": true
-            },
-            {
-              "title": "Accounts with passkeys and two-factor sign-in",
-              "done": true
-            }
-          ],
-          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
-        }
-      ],
-      "changelog": [
-        {
-          "date": "2026-10-26",
-          "done": "Who is speaking. Every report lists the people and organisations the article quotes or cites, how the article describes them and whether they support its main claim. The author is never listed as a source.\nThe text, marked up. The article is shown with flagged passages highlighted. Tap one to see which technique it is, why it was flagged and a neutral wording.\nA published technique catalogue. Sixteen techniques, from a claim without a source to a poll without a sample size, each with what counts and what does not, on the method page.\nThe numbers. Figures are listed with whether the article names a source, a sample size or a comparison, and figures that do not match each other are flagged.\nPDFs. Paste a link to a PDF, such as a press clipping, or upload one; its text appears in the paste box to check before examining.\nReport in your language. Headings and text follow the report language, including Swiss German with Swiss spelling, and the language is preselected from your browser.\nProgress while it works. The page says which step the examination is on.\nClaims belong to whoever made them. An explanation offered by a quoted expert is shown as that expert’s, not the article’s.\nQuotes survive copy-paste. A passage is found even when quotation marks, dashes, spaces or line breaks differ; a changed word still fails.\nNo political labels. BiasLens no longer applies left/right or similar labels in its own voice; the rule and its word list are on the method page.\nSecond sign-in factors apply everywhere. An account with two-factor sign-in now asks for it whichever way the person signs in."
-        },
-        {
-          "date": "2026-10-26",
-          "done": "Every reading has a link. A finished report is saved, without the article text, so it can be opened again and shared. The same text examined again opens the saved reading at once.\nSend a reply. Choose who it is for (a friend, a group chat, the author, a public post, a disagreement, a class), a length and what to include, and see exactly what will be sent before creating the link.\nA page for the person who receives it. It opens on their article and the three findings they can check against its own words, with an optional “guess first” question, the sender’s note and a way to reply back.\nShare images. Every reading and reply has a link preview image and downloadable square and story images that carry “AI reading · not a fact check” in the picture itself.\nMore ways in. Put the BiasLens address in front of any article link, open /analyze?u= with a link, or install BiasLens and use “Share → BiasLens” from a news app on Android."
-        },
-        {
-          "date": "2026-10-26",
-          "done": "The same facts, told another way. Under every reading: rewrite the article as a neutral report, from one or two stated values (the smartvote dimensions), as a chosen outlet would have written it, or as a public figure might — or write a response to it from BiasLens, as a letter to the editor, or as your own reply.\nLabels that cannot be lost. Every text says who wrote it. An outlet or person is always marked “Simulation · not written by …”, and that label is written by BiasLens, not by the model.\nOnly public figures. A person can be simulated only if Wikidata shows a public figure with a public body of work; private people never are, two people with the same name are not guessed between, and anyone can ask to be left out.\nWhat the framing did to the facts. A rewrite of the article is checked against the original: how many of its facts were kept, which were changed or left out, and any fact that was added.\nSend it. A rewrite can go out with a reply, and the person who receives it sees it with its label and the facts check."
-        },
-        {
-          "date": "2026-10-26",
-          "done": "Tap a name. Authors, quoted people and the outlet in a report open a profile: occupation, employer, offices, recorded party membership, owner and the owner’s owner, founding year, and the opening of the Wikipedia article — every line linked to its source on Wikidata.\nNo guessing. A name is linked only when the article’s own description of the person matches the record; when two people fit, the reader chooses. BiasLens adds no rating or label of its own, and every profile has a way to report a mistake."
-        },
-        {
-          "date": "2026-10-26",
-          "done": "No invented figures. A neutral rewrite of an article that cites a poll without its sample once supplied a sample size and a margin of error the article never gave. A rewrite now says when the article leaves something out instead of filling the gap, and when the facts check finds an added fact the text is sent back once to remove it. The check shown is always the one of the text you read. Suggested rewordings in a report follow the same rule."
-        },
-        {
-          "date": "2026-10-26",
-          "done": "Nothing else is asked. No display name, and a password needs 8 characters instead of 12, with no other rule. The same change reaches every product on the shared account package (accountkit 0.7.0), so signing up looks and works the same everywhere."
-        },
-        {
-          "date": "2026-10-26",
-          "done": "Registration confirms the chosen password before submitting and offers show/hide controls. The shared account forms also include Spanish labels.\nWhat changed for people using BiasLens, newest first."
-        },
-        {
-          "date": "2026-10-26",
-          "done": "The research notebook is one box. Say or type what you want to understand, or tap one of three examples, and the notebook sets out the question, its scope, the explanations to keep open and what would change your mind. Talk to the same box to change it (\"only Switzerland\", \"add an economic explanation\"), take a suggestion with one tap, or undo. Everything it wrote is marked as a draft and editable with a tap.\nA source is a link. Paste it and the page's title fills itself; \"supports, challenges or context\" is one tap, and where in the source is optional.\nSpeak to the article. The chat under a report has a microphone that works in every browser, and its first suggestions are the questions the report itself raised."
-        },
-        {
-          "date": "2026-10-26",
-          "done": "Signing up asks for the password once. The repeat field is gone; an eye inside the password field shows what you typed instead (accountkit 0.8.0, the same in every product on it)."
-        },
-        {
-          "date": "2026-10-25",
-          "done": "Ask about the article. A conversation under the report answers questions from the article's own text and shows the passage behind each answer.\nAnalysis language. The report can be written in English, German or French, whatever language the article is in.\nAccount recovery. Resetting a password and recovering an account now complete end to end."
-        },
-        {
-          "date": "2026-10-24",
-          "done": "One visual system. Every BiasLens page uses the same type, spacing and controls, with clearer paths into examining a source, a question or a conversation.\nBuilt on the shared fleet foundation. Site header, footer, accounts and publishing come from the shared packages used across the fleet.\nConsistent reports. Reports follow the same structure whichever model or language produced them.\nLong articles. The article body is read before the length limit is applied, so long pages no longer lose their main text to navigation and boilerplate."
-        },
-        {
-          "date": "2026-10-23",
-          "done": "Accounts. Sign up and sign in with a password or a passkey and manage your profile.\nArticle examination is easier to use. Clearer input, progress and error states on the examination page."
-        },
-        {
-          "date": "2026-10-22",
-          "done": "The open method, versioned. The Open Epistemic Method was published with its limits, evidence requirements and a public challenge path.\nDebate airtime. Paste a timestamped transcript to see each speaker's speaking time and where speakers overlapped, computed in your browser.\nJournal. Essays on the method, with an RSS feed."
-        },
-        {
-          "date": "2026-10-21",
-          "done": "Article analysis. Examine an article from a link or pasted text. The report separates factual, value and causal claims and shows the passage behind each quoted claim.\nDownloadable report. Save the report with its method version and a digest of the exact text examined.\nThe open method. A public description of how claims, evidence and causal links are examined, with a way to challenge it.\nNo false verification. The evidence-counting demonstration is no longer presented as a fact check."
-        }
-      ],
-      "records": {
-        "roadmap": "repo",
-        "changelog": "repo",
-        "source": {
-          "roadmap": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md",
-          "changelog": "https://github.com/bitbaum/biaslens/blob/HEAD/CHANGELOG.md"
-        }
-      },
-      "next": null,
-      "now": {
-        "openRuns": 0,
-        "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-10-12T08:25:59.233Z"
-        },
-        "lastLog": {
-          "date": "2026-10-12",
-          "done": "Hosted dispatch (Hermes) — no file changes — On BiasLens, do the next step the last session left: \"commit: 0d46066\". Ship it…"
         }
       }
     },
@@ -5689,6 +5284,411 @@
       }
     },
     {
+      "slug": "biaslens",
+      "name": "BiasLens",
+      "what": "Public product name: BiasLens. Canonical product repository: bitbaum/biaslens.",
+      "stack": null,
+      "layer": "next",
+      "status": "validating",
+      "owner": "bitbaum",
+      "client": null,
+      "since": "2026-10-22",
+      "urls": {
+        "live": "https://biaslens.orangecat.ch",
+        "repo": "https://github.com/bitbaum/biaslens",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": "Media bias and lack of transparency in information sources, making it difficult for users to understand different perspectives and make informed decisions.",
+        "solution": "BiasLens provides a dynamic, explainable, and reproducible way to measure media bias, offering a per-article dashboard with bias scores, uncertainty metrics, and missing perspectives.",
+        "mission": "BiasLens aims to provide a transparent and explainable way to measure media bias, helping users understand different perspectives and make informed decisions.",
+        "vision": "BiasLens aspires to become a leading platform for media bias analysis, enabling users to navigate complex information landscapes with confidence."
+      },
+      "roadmap": [
+        {
+          "title": "A report worth reading",
+          "line": "Every finding points to a passage in the article, and every voice is named with",
+          "status": "in progress",
+          "progress": 89,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "An evaluation harness and rubric that score reports before and after every method change",
+              "done": true
+            },
+            {
+              "title": "A test set of about twelve real Swiss and English articles in it",
+              "done": false
+            },
+            {
+              "title": "A published catalogue of writing techniques, each with what counts and what does not",
+              "done": true
+            },
+            {
+              "title": "Quotes found even when a PDF or a copy-paste changed the spacing, hyphens or quotation marks",
+              "done": true
+            },
+            {
+              "title": "Articles read from PDF links and uploaded PDFs, including press clippings",
+              "done": true
+            },
+            {
+              "title": "Claims attributed to the person who made them, not to the article",
+              "done": true
+            },
+            {
+              "title": "Figures checked for a source, a sample size and contradictions within the article",
+              "done": true
+            },
+            {
+              "title": "The article shown with its passages highlighted, one tap to see why",
+              "done": true
+            },
+            {
+              "title": "The report in the reader's language, including Swiss German",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Replies you can send",
+          "line": "Someone sends you an article. You send back BiasLens's reading of it, as a",
+          "status": "planned",
+          "progress": 83,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Saved reports with their own link",
+              "done": true
+            },
+            {
+              "title": "A reply page made for the person receiving it",
+              "done": true
+            },
+            {
+              "title": "Reply lengths for every occasion: one line, a short brief, a full page",
+              "done": true
+            },
+            {
+              "title": "A printable dossier of a reading, for classes and letters to the editor",
+              "done": false
+            },
+            {
+              "title": "Share images for messages, posts and stories",
+              "done": true
+            },
+            {
+              "title": "Open any article by putting the BiasLens address in front of its link, or from the phone's share menu",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Who is speaking",
+          "line": null,
+          "status": "planned",
+          "progress": 50,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Profiles of authors, quoted people and outlets from sourced public records, with a source on every line",
+              "done": true
+            },
+            {
+              "title": "What BiasLens reports on an author's or outlet's articles show, with the number of articles and its limits stated",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Rewrite studio",
+          "line": null,
+          "status": "planned",
+          "progress": 86,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A neutral version of the article that fixes the flagged passages",
+              "done": true
+            },
+            {
+              "title": "Each change in the neutral version linked to the passage it fixes",
+              "done": false
+            },
+            {
+              "title": "A response to the article: from BiasLens, as a letter to the editor, or as a draft of your own",
+              "done": true
+            },
+            {
+              "title": "The same facts written from stated values (the eight smartvote dimensions) instead of a political label",
+              "done": true
+            },
+            {
+              "title": "\"How would this outlet write it\", always marked as a simulation",
+              "done": true
+            },
+            {
+              "title": "\"How would this public figure answer it\", only for people with a public body of work, always marked as a simulation",
+              "done": true
+            },
+            {
+              "title": "A check that a rewrite kept the original facts and added none",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Investigations you can return to",
+          "line": "Preserve the path from a question and source through claims, evidence and",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Save, revisit and revise investigations across sessions",
+              "done": false
+            },
+            {
+              "title": "Independent source retrieval with traceable citations",
+              "done": false
+            },
+            {
+              "title": "Compare claims across sources without collapsing disagreement into a single truth or bias score",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Conversation analysis you can inspect",
+          "line": "The transcript tools keep their limits: an overlap is not proof of an",
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Reviewable source timestamps and correction history on conversation records",
+              "done": false
+            },
+            {
+              "title": "Audio and video transcription with editable speaker attribution, evaluated before any comparison is shown",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Reasons to come back",
+          "line": null,
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Several outlets' coverage of one story, compared side by side",
+              "done": false
+            },
+            {
+              "title": "A daily \"spot the technique\" round with a shareable result",
+              "done": false
+            },
+            {
+              "title": "Replies that continue as a conversation between the two people",
+              "done": false
+            },
+            {
+              "title": "Your reports and replies kept in your account",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "An open method you can challenge",
+          "line": null,
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "\"Disagree with this\" on every finding, with corrections shown on the report",
+              "done": false
+            },
+            {
+              "title": "Published accuracy per technique and per method version",
+              "done": false
+            },
+            {
+              "title": "Moderated discussion and challenge resolution with a visible record of what changed and why",
+              "done": false
+            },
+            {
+              "title": "Reproducible records of which model and provider produced a report, without implying that availability means quality",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "BiasLens as a publication",
+          "line": null,
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Regular published readings of the stories people are sending each other",
+              "done": false
+            },
+            {
+              "title": "Labelled debates: two simulated outlets answer the same facts",
+              "done": false
+            },
+            {
+              "title": "A newsletter, and audio and video versions of readings",
+              "done": false
+            },
+            {
+              "title": "An interface for newsrooms and teachers",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Article examination",
+          "line": null,
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Examine an article from a link or pasted text, with an exact passage behind each quoted claim",
+              "done": true
+            },
+            {
+              "title": "Ask questions about the article, answered from its text only",
+              "done": true
+            },
+            {
+              "title": "Choose the language of the analysis",
+              "done": true
+            },
+            {
+              "title": "Download a report with the method version and a digest of the examined text",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Foundations",
+          "line": null,
+          "status": "done",
+          "progress": 100,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A public method that separates facts, values and causal claims, open to challenge",
+              "done": true
+            },
+            {
+              "title": "Timed transcript analysis of debates: speaking time and overlaps",
+              "done": true
+            },
+            {
+              "title": "Accounts with passkeys and two-factor sign-in",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
+        }
+      ],
+      "changelog": [
+        {
+          "date": "2026-10-26",
+          "done": "Who is speaking. Every report lists the people and organisations the article quotes or cites, how the article describes them and whether they support its main claim. The author is never listed as a source.\nThe text, marked up. The article is shown with flagged passages highlighted. Tap one to see which technique it is, why it was flagged and a neutral wording.\nA published technique catalogue. Sixteen techniques, from a claim without a source to a poll without a sample size, each with what counts and what does not, on the method page.\nThe numbers. Figures are listed with whether the article names a source, a sample size or a comparison, and figures that do not match each other are flagged.\nPDFs. Paste a link to a PDF, such as a press clipping, or upload one; its text appears in the paste box to check before examining.\nReport in your language. Headings and text follow the report language, including Swiss German with Swiss spelling, and the language is preselected from your browser.\nProgress while it works. The page says which step the examination is on.\nClaims belong to whoever made them. An explanation offered by a quoted expert is shown as that expert’s, not the article’s.\nQuotes survive copy-paste. A passage is found even when quotation marks, dashes, spaces or line breaks differ; a changed word still fails.\nNo political labels. BiasLens no longer applies left/right or similar labels in its own voice; the rule and its word list are on the method page.\nSecond sign-in factors apply everywhere. An account with two-factor sign-in now asks for it whichever way the person signs in."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "Every reading has a link. A finished report is saved, without the article text, so it can be opened again and shared. The same text examined again opens the saved reading at once.\nSend a reply. Choose who it is for (a friend, a group chat, the author, a public post, a disagreement, a class), a length and what to include, and see exactly what will be sent before creating the link.\nA page for the person who receives it. It opens on their article and the three findings they can check against its own words, with an optional “guess first” question, the sender’s note and a way to reply back.\nShare images. Every reading and reply has a link preview image and downloadable square and story images that carry “AI reading · not a fact check” in the picture itself.\nMore ways in. Put the BiasLens address in front of any article link, open /analyze?u= with a link, or install BiasLens and use “Share → BiasLens” from a news app on Android."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "The same facts, told another way. Under every reading: rewrite the article as a neutral report, from one or two stated values (the smartvote dimensions), as a chosen outlet would have written it, or as a public figure might — or write a response to it from BiasLens, as a letter to the editor, or as your own reply.\nLabels that cannot be lost. Every text says who wrote it. An outlet or person is always marked “Simulation · not written by …”, and that label is written by BiasLens, not by the model.\nOnly public figures. A person can be simulated only if Wikidata shows a public figure with a public body of work; private people never are, two people with the same name are not guessed between, and anyone can ask to be left out.\nWhat the framing did to the facts. A rewrite of the article is checked against the original: how many of its facts were kept, which were changed or left out, and any fact that was added.\nSend it. A rewrite can go out with a reply, and the person who receives it sees it with its label and the facts check."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "Tap a name. Authors, quoted people and the outlet in a report open a profile: occupation, employer, offices, recorded party membership, owner and the owner’s owner, founding year, and the opening of the Wikipedia article — every line linked to its source on Wikidata.\nNo guessing. A name is linked only when the article’s own description of the person matches the record; when two people fit, the reader chooses. BiasLens adds no rating or label of its own, and every profile has a way to report a mistake."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "No invented figures. A neutral rewrite of an article that cites a poll without its sample once supplied a sample size and a margin of error the article never gave. A rewrite now says when the article leaves something out instead of filling the gap, and when the facts check finds an added fact the text is sent back once to remove it. The check shown is always the one of the text you read. Suggested rewordings in a report follow the same rule."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "Nothing else is asked. No display name, and a password needs 8 characters instead of 12, with no other rule. The same change reaches every product on the shared account package (accountkit 0.7.0), so signing up looks and works the same everywhere."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "Registration confirms the chosen password before submitting and offers show/hide controls. The shared account forms also include Spanish labels.\nWhat changed for people using BiasLens, newest first."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "The research notebook is one box. Say or type what you want to understand, or tap one of three examples, and the notebook sets out the question, its scope, the explanations to keep open and what would change your mind. Talk to the same box to change it (\"only Switzerland\", \"add an economic explanation\"), take a suggestion with one tap, or undo. Everything it wrote is marked as a draft and editable with a tap.\nA source is a link. Paste it and the page's title fills itself; \"supports, challenges or context\" is one tap, and where in the source is optional.\nSpeak to the article. The chat under a report has a microphone that works in every browser, and its first suggestions are the questions the report itself raised."
+        },
+        {
+          "date": "2026-10-26",
+          "done": "Signing up asks for the password once. The repeat field is gone; an eye inside the password field shows what you typed instead (accountkit 0.8.0, the same in every product on it)."
+        },
+        {
+          "date": "2026-10-25",
+          "done": "Ask about the article. A conversation under the report answers questions from the article's own text and shows the passage behind each answer.\nAnalysis language. The report can be written in English, German or French, whatever language the article is in.\nAccount recovery. Resetting a password and recovering an account now complete end to end."
+        },
+        {
+          "date": "2026-10-24",
+          "done": "One visual system. Every BiasLens page uses the same type, spacing and controls, with clearer paths into examining a source, a question or a conversation.\nBuilt on the shared fleet foundation. Site header, footer, accounts and publishing come from the shared packages used across the fleet.\nConsistent reports. Reports follow the same structure whichever model or language produced them.\nLong articles. The article body is read before the length limit is applied, so long pages no longer lose their main text to navigation and boilerplate."
+        },
+        {
+          "date": "2026-10-23",
+          "done": "Accounts. Sign up and sign in with a password or a passkey and manage your profile.\nArticle examination is easier to use. Clearer input, progress and error states on the examination page."
+        },
+        {
+          "date": "2026-10-22",
+          "done": "The open method, versioned. The Open Epistemic Method was published with its limits, evidence requirements and a public challenge path.\nDebate airtime. Paste a timestamped transcript to see each speaker's speaking time and where speakers overlapped, computed in your browser.\nJournal. Essays on the method, with an RSS feed."
+        },
+        {
+          "date": "2026-10-21",
+          "done": "Article analysis. Examine an article from a link or pasted text. The report separates factual, value and causal claims and shows the passage behind each quoted claim.\nDownloadable report. Save the report with its method version and a digest of the exact text examined.\nThe open method. A public description of how claims, evidence and causal links are examined, with a way to challenge it.\nNo false verification. The evidence-counting demonstration is no longer presented as a fact check."
+        }
+      ],
+      "records": {
+        "roadmap": "repo",
+        "changelog": "repo",
+        "source": {
+          "roadmap": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md",
+          "changelog": "https://github.com/bitbaum/biaslens/blob/HEAD/CHANGELOG.md"
+        }
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": {
+          "outcome": "timeout",
+          "at": "2026-10-12T08:25:59.233Z"
+        },
+        "lastLog": {
+          "date": "2026-10-12",
+          "done": "Hosted dispatch (Hermes) — no file changes — On BiasLens, do the next step the last session left: \"commit: 0d46066\". Ship it…"
+        }
+      }
+    },
+    {
       "slug": "botsmann",
       "name": "botsmann",
       "what": "Domain-specialized AI professionals, not another generic chatbot wrapper.",
@@ -5799,112 +5799,6 @@
         "lastRun": {
           "outcome": "timeout",
           "at": "2026-07-02T23:09:27.162Z"
-        },
-        "lastLog": null
-      }
-    },
-    {
-      "slug": "keller",
-      "name": "Keller",
-      "what": "Please build something like Airbnb for storage Keller in Zurich. We'll start with Zurich and then we'll go from there. But basically people have a place to store things from each other and it's kind of like a shared economy. Neighbors can store things for neighbors and non-neighbors can store things for non-neighbors. The target market is Zurich, make it happen.",
-      "stack": null,
-      "layer": "next",
-      "status": "not live",
-      "owner": "bitbaum",
-      "client": null,
-      "since": null,
-      "urls": {
-        "live": null,
-        "repo": "https://github.com/bitbaum/keller",
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": "Zurich residents lack convenient, affordable, and flexible storage options for personal or business items.",
-        "solution": "A marketplace where users can list available storage spaces and others can book them, leveraging local trust and proximity.",
-        "mission": "Solve the lack of affordable, flexible storage options in Zurich by connecting people who need space with those who have unused rooms or storage areas, fostering a local shared‑economy solution.",
-        "vision": "Become the leading trusted platform for community‑based storage across Switzerland, expanding beyond Zurich to a nationwide network of verified storage providers and renters."
-      },
-      "roadmap": [
-        {
-          "title": "Define core data model and API contracts",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        },
-        {
-          "title": "Implement user authentication and profile management",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        },
-        {
-          "title": "Develop marketplace core: listing, search, and booking flow",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        },
-        {
-          "title": "Integrate payment gateway and escrow logic",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        },
-        {
-          "title": "Implement review and rating system with moderation",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        },
-        {
-          "title": "Deploy production-ready infrastructure for Zurich launch",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        },
-        {
-          "title": "Plan and execute beta launch in Zurich",
-          "line": null,
-          "status": "active",
-          "progress": 0,
-          "targetDate": null,
-          "milestones": [],
-          "source": null
-        }
-      ],
-      "changelog": [],
-      "records": {
-        "roadmap": "goals",
-        "changelog": null,
-        "source": {
-          "roadmap": null,
-          "changelog": null
-        }
-      },
-      "next": null,
-      "now": {
-        "openRuns": 0,
-        "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-10-29T21:55:14.585Z"
         },
         "lastLog": null
       }
