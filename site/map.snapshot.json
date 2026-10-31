@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-31T19:11:49.218Z",
+  "generatedAt": "2026-10-31T19:29:25.788Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -20,7 +20,7 @@
   ],
   "summary": {
     "projects": 30,
-    "live": 16,
+    "live": 17,
     "clients": 1,
     "inFlight": 0
   },
@@ -4915,6 +4915,45 @@
       }
     },
     {
+      "slug": "signin",
+      "name": "signin",
+      "what": null,
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "client": null,
+      "since": "2026-10-30",
+      "urls": {
+        "live": "https://signin.orangecat.ch",
+        "repo": null,
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
+      "records": {
+        "roadmap": null,
+        "changelog": null,
+        "source": {
+          "roadmap": null,
+          "changelog": null
+        }
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
       "slug": "substrata",
       "name": "substrata",
       "what": "Open-source research on the physical chokepoints between here and a much faster technological progress.",
@@ -6099,45 +6138,6 @@
           "date": "2026-08-12",
           "done": "Added the Loki feedback widget to src/app/layout.tsx via next/script (afterInteractive), verified headlessly (no console errors, script tag rendered with correct src + data-fc-project), and opened PR #1 (github.com/maonakamoto/prime-tower/pull/1)."
         }
-      }
-    },
-    {
-      "slug": "signin",
-      "name": "signin",
-      "what": null,
-      "stack": null,
-      "layer": "next",
-      "status": "prospect",
-      "owner": "bitbaum",
-      "client": null,
-      "since": "2026-10-30",
-      "urls": {
-        "live": "https://signin.orangecat.ch",
-        "repo": null,
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
-        "vision": null
-      },
-      "roadmap": [],
-      "changelog": [],
-      "records": {
-        "roadmap": null,
-        "changelog": null,
-        "source": {
-          "roadmap": null,
-          "changelog": null
-        }
-      },
-      "next": null,
-      "now": {
-        "openRuns": 0,
-        "lastRun": null,
-        "lastLog": null
       }
     },
     {
