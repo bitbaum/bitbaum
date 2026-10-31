@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T22:56:00.561Z",
+  "generatedAt": "2026-10-31T06:13:21.622Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -695,6 +695,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-31",
+          "done": "Two companions on OrangeCat (one arguing for Loki, one against), briefed on how Ask Loki works, agreed on three changes; this is them.\nA build line only when you asked for one. {#build-line-held} Every answer used to be able to end with a bold project: task command, even \"how much did we spend last week?\". Now the line stays only when your message asked for direction (what next, what to build, propose, decide, a bare yes); otherwise it comes off the answer and the floating panel offers it under the answer as \"Next build, if you want it\" — a tap puts it in the box, sending is still yours. In the full Loki chat a \"yes\" after an answer that never offered a build no longer sends one.\nThe floating panel remembers, per project. {#panel-thread-per-project} Its transcript lives on your device, one thread per person and per project (and one for the fleet-wide pages). Leave project A for project B and you see B's thread, never A's questions as B's context; come back and A's is there, and the next ask sends it as history. Clear in the panel's header forgets the thread on this device.\nLoki says what it is. {#advisor-boundary} Both of its system prompts now open the role with the same sentence: the advisory surface, not the executor — no Calendar access, no email, no direct change to the fleet, only proposals for the approval queue. The capability list said as much, but only on fallback turns and never as part of who Loki is."
+        },
+        {
           "date": "2026-10-23",
           "done": "The owner's launcher and its microphone are now one thing.\nThe microphone lives inside the launcher. {#mic-in-pill} \"● Watching 🎤\" is one pill: one outline, one place on the screen, moved by the same drag, long-press and menu, and folded away by Minimize together. It used to be a second round button drawn beside the launcher.\nIt is never alone. {#mic-never-alone} On Loki's own pages the launcher is the spiral in the top bar, and the microphone used to stay behind as a loose circle over the tab bar that could not be moved. Now the pill and the microphone appear together or not at all; talking from there is one tap on the spiral, then Talk.\nThe first look is whole. {#panel-first-look} A visitor's panel opened scrolled to its bottom with the greeting half cut under the header, and on a short phone the \"Talk to Loki\" card was sliced in two and the owner's way in was gone. It now opens at the top, the card and the sign-in line are shorter, and on short screens the sheet is taller and the suggestion chips step aside."
         },
@@ -769,10 +773,6 @@
         {
           "date": "2026-10-11",
           "done": "The evening plan now actually arrives. The 19:00 proposal for the night shipped yesterday, but its timer only reached the server when someone ran a setup command there by hand, so no plan was made. Every deploy now installs the scheduled jobs itself, and a test fails if that ever stops.\nFix checks have their browser. The picture Loki takes of a live page needs a browser on the server. The deploy installs it too, so the first visual fix gets a real verdict instead of \"no browser\"."
-        },
-        {
-          "date": "2026-10-11",
-          "done": "A finished change comes with proof. Agents now report shipped work as the live link first, screenshots of the real deployed page (phone first), and a plain list of what was and was not checked. pnpm run ship:report produces it: it confirms the site is running the shipped build and photographs the page, instead of announcing a merge and hoping.\nLoki remembers how you use \"Build next\". Each time the row is shown, tapped, or rotated past is recorded, and Loki reads it back: ask \"how am I using Build next?\" and it says what gets tapped and what it keeps offering for nothing — and it uses the same record when you ask what to build, so it leads with the kind of suggestion you actually take."
         }
       ],
       "records": {
@@ -1104,6 +1104,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-10-31",
+          "done": "A companion keeps the job you give it. Your first answer to a new companion’s “What should I help you with most?” now becomes the companion itself: its definition and the line under its name, not a memory that might not be there. It holds in every conversation, every group chat and every clone, and the question is never asked again. Found by putting two companions on a real job in a group chat: both had been given their jobs a minute earlier and both asked again.\nA model that answers with nothing no longer ends the turn. On the platform chain an empty answer (a reasoning model that spent its budget thinking) now passes to the next link instead of coming back as a blank. A new companion may also answer at length: its cap is 2,048 tokens, not the table’s 1,000, which cut a three-part proposal mid-sentence.\nA member that answers with nothing shows as a failed line, with Retry, never as an empty bubble."
+        },
+        {
           "date": "2026-10-30",
           "done": "Your companions live in one place, and they can talk to each other. /companions/talk is now the home for every companion you made or talk to, your group chats and the fleet's own bots (Diplodoctor for a medical report, Causius for a legal letter), in one list with the last line and when, the chat beside it on a wide screen and in its place on a phone. \"+\" offers New companion and New group chat. In a group chat of two to six, the companions you address with @ answer in turn, hand the floor to each other with an @, and every line says who said it; a round stops after six lines so nobody talks forever.\nA companion in a minute. New companion asks for a name, a shape and a colour, nothing else; it asks what you need it for in its first message and remembers your answer. The full form is still on the edit page.\nA chat with a fleet bot stays in your browser. Diplodoctor and Causius keep nothing, and neither do we.\n“Diplodoctor: …” and “Causius, your turn” address them too. A name that opens a sentence, followed by a colon or a comma, hands the floor like an @ does, for you and for the bots. A bot that labels its own line with its name no longer shows the label; the thread already says who spoke.\nA group chat is a conversation, not a staging. A companion brings what it knows about you (the job you gave it) into the room, so it does not ask again. When a bot starts writing another member’s lines, its line is cut where the other voice begins and that member answers for itself. And when a line answers nobody by name but the work you asked for is not done (a discussion unfinished, a question open, a disagreement standing), the floor passes to the right member, up to the round’s six lines.\nIn a group chat, Diplodoctor and Causius know who else is in the room. Each fleet bot gets the room (the others’ names and jobs, speak as yourself only, @ a companion once when you need it) with every request, so a bot no longer writes another member’s line for it.\nAttach a photo, a PDF or a text file in any companions chat. The paperclip is the Cat’s: Camera · Photos · Files, the same limits, the same PDF reading. A companion sees the photo and reads the file, in a one-to-one chat and in a group chat; Diplodoctor and Causius read an attached document (a photo stays on their own sites, and the box says so).\nThe fleet’s agents wear their own marks. Diplodoctor and Causius show the face their own site shows, not one made up here; the first screen is one line and a way into the product, and it no longer sits under the header.\nCompanions is in the sidebar, beside Cat. In a group chat every line reads \"Name · job\", the box says which group you are writing to, and the details sheet lists the members with Add member as the last row and Remove on each while the group keeps two.\nPartners are now called builders. The independent people bitbaum's studio approves on their shipped work, who watch over projects built with Loki at their own price, are builders: \"Builders\" in the footer, orangecat.ch/builders, and bitbaum's builders (https://bitbaum.orangecat.ch/builders/). \"Partner\" read like a share in the business, which it never was. orangecat.ch/partners still works and lands in the same place."
         },
@@ -1178,10 +1182,6 @@
         {
           "date": "2026-09-19",
           "done": "Build it with Loki now asks before it builds. The handoff to Loki carried this page’s title and one public sentence, and an agent started work on exactly that. Loki now interviews you first — a few short questions about who it is for and what finished looks like — and builds from your answers."
-        },
-        {
-          "date": "2026-09-17",
-          "done": "Dates read the way you read them. OrangeCat wrote every date the American way — March 15, 2027 — regardless of where you are. Date format is now a setting, and left alone it follows the country on your profile.\nEvery wallet has a page of its own. A wallet used to exist only as a card inside somebody’s profile. It now has its own address you can send someone — and the on-chain numbers behind it were corrected."
         }
       ],
       "records": {
