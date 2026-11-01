@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-01T06:16:09.418Z",
+  "generatedAt": "2026-11-01T06:47:52.073Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -696,7 +696,7 @@
       "changelog": [
         {
           "date": "2026-11-01",
-          "done": "Bots, beside Loki and Voice. {#bots-in-sidebar} The person's bots live on OrangeCat (the Cat, the fleet's specialists, the ones they made, and their group chats) and that list is where a bot's face, price and purse are. Loki now opens that one list from its own sidebar instead of growing a second one; a bot's work, when it has hands, runs here."
+          "done": "A bot can ask Loki. {#bots-ask-loki} One of the person's OrangeCat bots can ask Loki a question, as the person, over the signed OrangeCat rail (POST /api/orangecat/ask). Loki answers from their own projects, dispatches and pages; the turn is read-only, so a relayed question can never dispatch, approve or spend. A person whose OrangeCat identity is not linked to a Loki account is told the one step that links it.\nBots, beside Loki and Voice. {#bots-in-sidebar} The person's bots live on OrangeCat (the Cat, the fleet's specialists, the ones they made, and their group chats) and that list is where a bot's face, price and purse are. Loki now opens that one list from its own sidebar instead of growing a second one; a bot's work, when it has hands, runs here."
         },
         {
           "date": "2026-10-31",
@@ -1105,7 +1105,7 @@
       "changelog": [
         {
           "date": "2026-11-01",
-          "done": "Your own bots have hands. Ask a bot you made to set something up that OrangeCat can do (an event, a project, a product, a service, a wishlist, or handing a thing to Loki to build) and it answers with what it will do and a “Do it?” card, the Cat’s own. Nothing exists until you tap; a bot never says a thing is done. The same permission check, the same consent row and the same standing grant as the Cat’s actions, so a bot can set nothing in motion that the Cat could not. Only your own bots, in their own chat, never in a group."
+          "done": "A bot can ask Loki for you. Ask a bot you made what is live, built or queued in your projects and it offers to ask Loki, the agent that builds and runs them, with a “Do it?” card; after the tap, Loki’s answer is the outcome line. Loki answers as you, from your own projects and pages, and the question can never dispatch, approve or spend anything: that stays with “send to Loki”, confirmed every time. If your OrangeCat account is not linked to Loki yet, the answer says the one step that links it.\nA bot can write first. In a bot you made, Details has one row: “Writes first, every day”. Pick a time, say what it should be asked (“Good morning. What should I know or do today?” is the default), and every day at that time the bot writes in its own thread and you get a notification. It runs on your own key only; without one the row says so and offers the way to add it, and nothing is ever spent on a timer you did not choose.\nYour own bots have hands. Ask a bot you made to set something up that OrangeCat can do (an event, a project, a product, a service, a wishlist, or handing a thing to Loki to build) and it answers with what it will do and a “Do it?” card, the Cat’s own. After the tap, an event’s outcome line now links to the event. Nothing exists until you tap; a bot never says a thing is done. The same permission check, the same consent row and the same standing grant as the Cat’s actions, so a bot can set nothing in motion that the Cat could not. Only your own bots, in their own chat, never in a group."
         },
         {
           "date": "2026-10-31",
