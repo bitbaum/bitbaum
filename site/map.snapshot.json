@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-01T08:00:19.371Z",
+  "generatedAt": "2026-11-01T10:22:02.553Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -1105,7 +1105,7 @@
       "changelog": [
         {
           "date": "2026-11-01",
-          "done": "A “Do it?” card that fails says why, in words. When a confirmed action could not go through, the card showed “[object Object]” where the reason belonged. Seen live the first time a bot asked Loki for an account not yet linked to Loki: the sentence that names the one step was there, and the card lost it. It now shows the server’s own sentence; the same fix reaches the memory import and the interests list.\nA bot can ask Loki for you. Ask a bot you made what is live, built or queued in your projects and it offers to ask Loki, the agent that builds and runs them, with a “Do it?” card; after the tap, Loki’s answer is the outcome line. Loki answers as you, from your own projects and pages, and the question can never dispatch, approve or spend anything: that stays with “send to Loki”, confirmed every time. If your OrangeCat account is not linked to Loki yet, the answer says the one step that links it.\nA bot can write first. In a bot you made, Details has one row: “Writes first, every day”. Pick a time, say what it should be asked (“Good morning. What should I know or do today?” is the default), and every day at that time the bot writes in its own thread and you get a notification. It runs on your own key only; without one the row says so and offers the way to add it, and nothing is ever spent on a timer you did not choose.\nYour own bots have hands. Ask a bot you made to set something up that OrangeCat can do (an event, a project, a product, a service, a wishlist, or handing a thing to Loki to build) and it answers with what it will do and a “Do it?” card, the Cat’s own. After the tap, an event’s outcome line now links to the event. Nothing exists until you tap; a bot never says a thing is done. The same permission check, the same consent row and the same standing grant as the Cat’s actions, so a bot can set nothing in motion that the Cat could not. Only your own bots, in their own chat, never in a group."
+          "done": "A bot keeps offering its hands. The second time you asked a bot for the same kind of thing in one chat, it could answer in words alone, with no “Do it?” card. Seen live: the second “Ask Loki” in a thread came back as “I can ask Loki for you.” and nothing to tap. The bot saw its own earlier offers as plain sentences, because the proposal is taken off before a reply is kept, and it copied them. It now remembers what it proposed, so a repeat ask gets a card like the first.\nA “Do it?” card that fails says why, in words. When a confirmed action could not go through, the card showed “[object Object]” where the reason belonged. Seen live the first time a bot asked Loki for an account not yet linked to Loki: the sentence that names the one step was there, and the card lost it. It now shows the server’s own sentence; the same fix reaches the memory import and the interests list.\nA bot can ask Loki for you. Ask a bot you made what is live, built or queued in your projects and it offers to ask Loki, the agent that builds and runs them, with a “Do it?” card; after the tap, Loki’s answer is the outcome line. Loki answers as you, from your own projects and pages, and the question can never dispatch, approve or spend anything: that stays with “send to Loki”, confirmed every time. If your OrangeCat account is not linked to Loki yet, the answer says the one step that links it.\nA bot can write first. In a bot you made, Details has one row: “Writes first, every day”. Pick a time, say what it should be asked (“Good morning. What should I know or do today?” is the default), and every day at that time the bot writes in its own thread and you get a notification. It runs on your own key only; without one the row says so and offers the way to add it, and nothing is ever spent on a timer you did not choose.\nYour own bots have hands. Ask a bot you made to set something up that OrangeCat can do (an event, a project, a product, a service, a wishlist, or handing a thing to Loki to build) and it answers with what it will do and a “Do it?” card, the Cat’s own. After the tap, an event’s outcome line now links to the event. Nothing exists until you tap; a bot never says a thing is done. The same permission check, the same consent row and the same standing grant as the Cat’s actions, so a bot can set nothing in motion that the Cat could not. Only your own bots, in their own chat, never in a group."
         },
         {
           "date": "2026-10-31",
@@ -4040,6 +4040,45 @@
       }
     },
     {
+      "slug": "morulia",
+      "name": "morulia",
+      "what": null,
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "client": null,
+      "since": "2026-11-01",
+      "urls": {
+        "live": "https://morulia.orangecat.ch",
+        "repo": null,
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
+      "records": {
+        "roadmap": null,
+        "changelog": null,
+        "source": {
+          "roadmap": null,
+          "changelog": null
+        }
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
+      }
+    },
+    {
       "slug": "petvity",
       "name": "petvity",
       "what": "Global pet care platform — owners manage multi-species pet profiles, track physical and emotional health KPIs, connect with vets and sitters, access a marketplace, and list pets for adoption.",
@@ -4507,45 +4546,6 @@
           "date": "2026-09-03",
           "done": "Diagnosed appcron-revamp-info-deadline-reminder's HTTP 500 — root cause was the missing pg_hba.conf grant for the new `hirnli` DB/`revampit` user (flagged by the prior run). Found the grant already present in /etc/postgresql/17/main/pg_hba.conf (added 2026-09-03 10:56 UTC, after the prior handoff) and confirmed live: replayed the exact cron call (GET 127.0.0.1:4012/api/cron/deadline-reminder with the real CRON_SECRET from /opt/revamp-info/app/.env) and got HTTP 200 with a real DB-backed response. Box-shaped fix was already applied by a human; no repo change was needed or made."
         }
-      }
-    },
-    {
-      "slug": "signin",
-      "name": "signin",
-      "what": null,
-      "stack": null,
-      "layer": "product",
-      "status": "live",
-      "owner": "bitbaum",
-      "client": null,
-      "since": "2026-10-30",
-      "urls": {
-        "live": "https://signin.orangecat.ch",
-        "repo": null,
-        "orangecat": null,
-        "solon": null
-      },
-      "identity": {
-        "problem": null,
-        "solution": null,
-        "mission": null,
-        "vision": null
-      },
-      "roadmap": [],
-      "changelog": [],
-      "records": {
-        "roadmap": null,
-        "changelog": null,
-        "source": {
-          "roadmap": null,
-          "changelog": null
-        }
-      },
-      "next": null,
-      "now": {
-        "openRuns": 0,
-        "lastRun": null,
-        "lastLog": null
       }
     },
     {
