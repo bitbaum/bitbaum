@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-01T00:25:24.190Z",
+  "generatedAt": "2026-11-01T05:05:53.484Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -695,6 +695,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-01",
+          "done": "Bots, beside Loki and Voice. {#bots-in-sidebar} The person's bots live on OrangeCat (the Cat, the fleet's specialists, the ones they made, and their group chats) and that list is where a bot's face, price and purse are. Loki now opens that one list from its own sidebar instead of growing a second one; a bot's work, when it has hands, runs here."
+        },
+        {
           "date": "2026-10-31",
           "done": "Two companions on OrangeCat (one arguing for Loki, one against), briefed on how Ask Loki works, agreed on three changes; this is them.\nA build line only when you asked for one. {#build-line-held} Every answer used to be able to end with a bold project: task command, even \"how much did we spend last week?\". Now the line stays only when your message asked for direction (what next, what to build, propose, decide, a bare yes); otherwise it comes off the answer and the floating panel offers it under the answer as \"Next build, if you want it\" — a tap puts it in the box, sending is still yours. In the full Loki chat a \"yes\" after an answer that never offered a build no longer sends one.\nThe floating panel remembers, per project. {#panel-thread-per-project} Its transcript lives on your device, one thread per person and per project (and one for the fleet-wide pages). Leave project A for project B and you see B's thread, never A's questions as B's context; come back and A's is there, and the next ask sends it as history. Clear in the panel's header forgets the thread on this device.\nLoki says what it is. {#advisor-boundary} Both of its system prompts now open the role with the same sentence: the advisory surface, not the executor — no Calendar access, no email, no direct change to the fleet, only proposals for the approval queue. The capability list said as much, but only on fallback turns and never as part of who Loki is."
         },
@@ -769,10 +773,6 @@
         {
           "date": "2026-10-11",
           "done": "Visual fixes get a verdict too. A layout, a colour, a thing that overlapped: page text could not say whether the fix worked, so those were the ones still sent to your eyes. Now, when text cannot tell, Loki takes a phone-sized picture of the live page — scrolled to what the reporter pointed at — and asks a vision model the same question. The card says which it did: \"Loki read /pricing\" or \"Loki looked at a picture of /pricing\".\nYou see what Loki saw. When even the picture cannot settle it, the picture is on the card, under the reason, so \"It worked / Not fixed\" can usually be answered right there. Tap it for the whole page; it is also in every row's details.\nA server with no browser says so on the card, in words, instead of a silent \"cannot tell\"."
-        },
-        {
-          "date": "2026-10-11",
-          "done": "The evening plan now actually arrives. The 19:00 proposal for the night shipped yesterday, but its timer only reached the server when someone ran a setup command there by hand, so no plan was made. Every deploy now installs the scheduled jobs itself, and a test fails if that ever stops.\nFix checks have their browser. The picture Loki takes of a live page needs a browser on the server. The deploy installs it too, so the first visual fix gets a real verdict instead of \"no browser\"."
         }
       ],
       "records": {
@@ -1104,6 +1104,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-01",
+          "done": "Your own bots have hands. Ask a bot you made to set something up that OrangeCat can do (an event, a project, a product, a service, a wishlist, or handing a thing to Loki to build) and it answers with what it will do and a “Do it?” card, the Cat’s own. Nothing exists until you tap; a bot never says a thing is done. The same permission check, the same consent row and the same standing grant as the Cat’s actions, so a bot can set nothing in motion that the Cat could not. Only your own bots, in their own chat, never in a group."
+        },
+        {
           "date": "2026-10-31",
           "done": "Companions are now Bots, and the Cat is the first row. The list at /companions/talk is called Bots, in the sidebar and on the page, and the Cat sits at the top of it: the one bot here that acts on OrangeCat (your things, your approvals), the same chat as its own page, so wanting something done never means knowing a second page. “Bot” is the word a messaging app already taught you; “companion” said friend where we meant worker.\nA shelf of bots that come with a job. New bot opens on five ready to go: Letter Reader, Pitch Coach, Day Planner, Writing Partner and Study Buddy. One tap makes one, with its job under its name and a first line that says what to send it. A blank bot from a name, a shape and a colour is still there, under the shelf.\nA new bot’s first line is there before you can type. It used to be a model’s greeting that arrived after you had already written, so the bot asked what it was for after being told. The first line is now written when the bot is made; a bot told its job in your first message takes it instead of asking again.\nIn a group chat, each bot keeps to its job. A question with a medical half and a legal half, sent to nobody by name, used to be answered whole by whichever bot spoke first. Now the question goes to each bot whose job a part of it is, a bot hands another’s part over with an @ instead of answering in its place, and the floor passes to a bot whose part is still open.\nThe New bot sheet fits the screen. On a phone and on a short desktop window its title, close button and first row were cut off above the top edge; a sheet taller than the screen now scrolls inside it, with its head in view (chatkit 0.21.5).\nA row’s last line is plain words. A preview read “What the clause says” with the asterisks; the markdown is gone from the list.\nThe group router answers for each bot. It used to be asked to name “the one or two best placed” and named one; it is now asked, bot by bot, whether a part of the message is that bot’s job, so a question with a medical half and a legal half reaches both.\nWhen the day’s free messages are spent, the chat says so. The eleventh message of the day used to come back as “That did not go through. Try again.”, which was not true and led nowhere. The chat now shows the real line (the daily limit, and that your own key lifts it) with a button to your AI settings.\nNo bot makes up a number. Every bot’s definition now says so: where it needs a figure, a name, a date or a source it does not have, it writes [X] and says what to fill in. Found when a pitch rewrite opened with a statistic from nowhere.\nA companion keeps the job you give it. Your first answer to a new companion’s “What should I help you with most?” now becomes the companion itself: its definition and the line under its name, not a memory that might not be there. It holds in every conversation, every group chat and every clone, and the question is never asked again. Found by putting two companions on a real job in a group chat: both had been given their jobs a minute earlier and both asked again.\nA model that answers with nothing no longer ends the turn. On the platform chain an empty answer (a reasoning model that spent its budget thinking) now passes to the next link instead of coming back as a blank. A new companion may also answer at length: its cap is 2,048 tokens, not the table’s 1,000, which cut a three-part proposal mid-sentence.\nA member that answers with nothing shows as a failed line, with Retry, never as an empty bubble."
         },
@@ -1178,10 +1182,6 @@
         {
           "date": "2026-09-20",
           "done": "Bring a Claude key straight to Cat. Anthropic is now wired directly, so a Claude key works on its own instead of having to go through OpenRouter. Getting a key from any provider is one click. And there is finally one page explaining what actually powers Cat.\nCat keeps more of your conversation. Cat's instructions are larger than the free tier allows in one go, so some are trimmed on every message. It was trimming your conversation before the generic advice. Now it is the other way round.\nCat keeps its footing when the free tier runs short. When Cat's instructions do not fit the free tier, some are trimmed. Two of the ones it trimmed early were the ones telling it how to answer someone having a hard time. Those are now the last things it will ever give up.\nCat on a phone, fixed end to end. A pass over every screen of Cat and AI settings on a small screen. The box you type in stayed put, replies stopped showing their own formatting marks, and the navigation bar stopped being see-through.\nPrices are real; the checkout is deliberately shut. You can now read exactly what Cat costs on every route. You cannot pay us yet, on purpose: OrangeCat is not a registered company, so it must not take money. Paying other people was never affected."
-        },
-        {
-          "date": "2026-09-19",
-          "done": "Build it with Loki now asks before it builds. The handoff to Loki carried this page’s title and one public sentence, and an agent started work on exactly that. Loki now interviews you first — a few short questions about who it is for and what finished looks like — and builds from your answers."
         }
       ],
       "records": {
