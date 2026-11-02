@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-02T16:34:24.476Z",
+  "generatedAt": "2026-11-02T19:37:50.164Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 29,
     "live": 16,
     "clients": 1,
-    "inFlight": 1
+    "inFlight": 0
   },
   "projects": [
     {
@@ -819,10 +819,10 @@
       },
       "next": null,
       "now": {
-        "openRuns": 1,
+        "openRuns": 0,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-11-02T15:41:38.786Z"
+          "outcome": "timeout",
+          "at": "2026-11-02T16:47:17.372Z"
         },
         "lastLog": {
           "date": "2026-10-20",
@@ -5446,7 +5446,7 @@
           "title": "Rewrite studio",
           "line": null,
           "status": "planned",
-          "progress": 86,
+          "progress": 88,
           "targetDate": null,
           "milestones": [
             {
@@ -5476,6 +5476,10 @@
             {
               "title": "A check that a rewrite kept the original facts and added none",
               "done": true
+            },
+            {
+              "title": "Rewrites that cite findings from a linked investigation, each marked, and list what the original left out",
+              "done": true
             }
           ],
           "source": "https://github.com/bitbaum/biaslens/blob/HEAD/ROADMAP.md"
@@ -5484,12 +5488,12 @@
           "title": "Investigations you can return to",
           "line": "Preserve the path from a question and source through claims, evidence and",
           "status": "planned",
-          "progress": 0,
+          "progress": 73,
           "targetDate": null,
           "milestones": [
             {
               "title": "Save, revisit and revise investigations across sessions",
-              "done": false
+              "done": true
             },
             {
               "title": "Independent source retrieval with traceable citations",
@@ -5497,6 +5501,54 @@
             },
             {
               "title": "Compare claims across sources without collapsing disagreement into a single truth or bias score",
+              "done": true
+            },
+            {
+              "title": "Article claims linked to specific study findings, with design, horizon, strength notes and disconfirmation criteria",
+              "done": true
+            },
+            {
+              "title": "First-principles questions for economic claims (supply elasticity, binding constraints, short vs long run, identification)",
+              "done": true
+            },
+            {
+              "title": "Gap suggestions with one-tap rewrites, a visible version history and the sources behind each version",
+              "done": true
+            },
+            {
+              "title": "Sources tagged by side, and candidate sources suggested from several sides (OpenAlex, Crossref)",
+              "done": true
+            },
+            {
+              "title": "Evidence charts from published tables",
+              "done": true
+            },
+            {
+              "title": "Draft an investigation from a saved reading and attach studies from PDFs",
+              "done": false
+            },
+            {
+              "title": "Animated evidence map and a methodology timeline",
+              "done": true
+            },
+            {
+              "title": "Evidence cards, reading mode, and a person marking a link reviewed or disputed",
+              "done": true
+            },
+            {
+              "title": "Citation check on every version, with a one-tap fix for a flagged sentence",
+              "done": true
+            },
+            {
+              "title": "Credited, openly licensed photos from Wikimedia Commons, ranked by caption match",
+              "done": true
+            },
+            {
+              "title": "AI images through @bitbaum/ai-kit/images, labelled, off until a model is configured",
+              "done": false
+            },
+            {
+              "title": "\"Reviewed by\" name and time on each review; filter cards by review state",
               "done": false
             }
           ],
@@ -5648,6 +5700,18 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-11-02",
+          "done": "An article, set against the studies. A multi-source investigation links each claim in an article to specific findings in external studies, with the study's identification design, the horizon it measures (short or long run), a strength-of-evidence note and what would disconfirm the claim. Supporting, contradicting and context evidence sit side by side; where they seem to disagree, the page says whether they measure different horizons or places. No single bias or truth score.\nFirst-principles questions for economic claims: supply elasticity, the binding constraint, short versus long run, identification and who bears the cost.\nSaved with its own link. Save a copy, come back and add studies or notes; the edit key stays in your browser and a newer save is never overwritten silently.\nA worked example: Euronews on housing cost overburden (31 October 2026) with Eurostat, Hilber & Vermeulen, Greenaway-McGrevy & Phillips, Autor, Palmer & Pathak, Kholodilin, Elfert & Thomsen and a Rosario follow-up, at /investigations/demo."
+        },
+        {
+          "date": "2026-11-02",
+          "done": "Rewrite with an investigation's evidence. Paste a saved investigation's link in the rewrite studio and the rewrite may cite its linked study findings, each marked [E1], [E2]… with design, place and horizon. A cited finding is not counted as an added fact; any other new fact still is.\nWhat the original leaves out, listed under every rewrite of the article.\nFirst-principles economics in evidence-backed rewrites: elasticity, the binding rule, short vs long run, identification and who bears the cost.\nThe Economist, Financial Times and Reason as outlet voices, always labelled as simulations they did not write."
+        },
+        {
+          "date": "2026-11-02",
+          "done": "What this article doesn't explain yet. An investigation lists its gaps, found from the evidence map: a cause stated but not explained, only one side, no numbers, something left out, data that a chart would show faster. Each has one-tap actions (Explain it, Dig deeper into the reasons, Add the other side, Add the numbers, Add a chart) that write the next version of your article from the linked sources, every source sentence cited [E1], [E2]…\nEvery version kept. The article's versions are listed newest first with the sentences added and removed, the sources that drove each version, the AI's change note (labelled) and the method version.\nSources from all sides. Each source carries a tag (official statistics, international organisation, academic, market-urbanist, tenant-protection) and a balance bar shows the mix. The housing demo adds Diamond, McQuade & Qian (San Francisco), Glaeser & Gyourko, the NYU Furman Center, the Urban Institute, the OECD, Statistik Stadt Zürich and the BFS household budget survey.\nSuggest sources from all sides on every claim: candidates from OpenAlex (Crossref as fallback) under supporting, market, tenant and critical framings. A candidate is a lead until you read it and write down what it finds.\nCharts drawn with the shared chartkit: overburden by country, the EU trend since 2014, Zurich rents for non-profit and for-profit flats."
+        },
         {
           "date": "2026-10-26",
           "done": "Who is speaking. Every report lists the people and organisations the article quotes or cites, how the article describes them and whether they support its main claim. The author is never listed as a source.\nThe text, marked up. The article is shown with flagged passages highlighted. Tap one to see which technique it is, why it was flagged and a neutral wording.\nA published technique catalogue. Sixteen techniques, from a claim without a source to a poll without a sample size, each with what counts and what does not, on the method page.\nThe numbers. Figures are listed with whether the article names a source, a sample size or a comparison, and figures that do not match each other are flagged.\nPDFs. Paste a link to a PDF, such as a press clipping, or upload one; its text appears in the paste box to check before examining.\nReport in your language. Headings and text follow the report language, including Swiss German with Swiss spelling, and the language is preselected from your browser.\nProgress while it works. The page says which step the examination is on.\nClaims belong to whoever made them. An explanation offered by a quoted expert is shown as that expert’s, not the article’s.\nQuotes survive copy-paste. A passage is found even when quotation marks, dashes, spaces or line breaks differ; a changed word still fails.\nNo political labels. BiasLens no longer applies left/right or similar labels in its own voice; the rule and its word list are on the method page.\nSecond sign-in factors apply everywhere. An account with two-factor sign-in now asks for it whichever way the person signs in."
