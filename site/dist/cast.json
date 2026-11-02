@@ -701,16 +701,16 @@
       "horse",
       "sky"
     ],
-    "/packages/ai-forms/": [
-      "fog-walker",
-      "cat",
-      "horse",
-      "sky"
-    ],
     "/packages/chartkit/": [
       "fog-walker",
       "cat",
       "scarab",
+      "sky"
+    ],
+    "/packages/ai-forms/": [
+      "fog-walker",
+      "cat",
+      "horse",
       "sky"
     ],
     "/packages/sitekit/": [
