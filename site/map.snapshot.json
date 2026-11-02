@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-02T19:37:50.164Z",
+  "generatedAt": "2026-11-02T20:33:16.427Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -5488,7 +5488,7 @@
           "title": "Investigations you can return to",
           "line": "Preserve the path from a question and source through claims, evidence and",
           "status": "planned",
-          "progress": 73,
+          "progress": 80,
           "targetDate": null,
           "milestones": [
             {
@@ -5544,8 +5544,8 @@
               "done": true
             },
             {
-              "title": "AI images through @bitbaum/ai-kit/images, labelled, off until a model is configured",
-              "done": false
+              "title": "AI illustrations through @bitbaum/ai-kit/images, labelled, off until the server names a model",
+              "done": true
             },
             {
               "title": "\"Reviewed by\" name and time on each review; filter cards by review state",
@@ -5576,9 +5576,25 @@
           "title": "Reasons to come back",
           "line": null,
           "status": "later",
-          "progress": 0,
+          "progress": 38,
           "targetDate": null,
           "milestones": [
+            {
+              "title": "Today: lead investigation, changes since your last visit, evidence of the day, claims under the most scrutiny",
+              "done": true
+            },
+            {
+              "title": "My desk with review queue, flagged sentences, follows and a visit streak (on this device)",
+              "done": true
+            },
+            {
+              "title": "One navigation with a mobile tab bar; settings for text size and motion",
+              "done": true
+            },
+            {
+              "title": "Desk and follows kept in the account across devices",
+              "done": false
+            },
             {
               "title": "Several outlets' coverage of one story, compared side by side",
               "done": false
