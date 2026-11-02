@@ -640,6 +640,12 @@
       "clockwork",
       "sky"
     ],
+    "/packages/mail-kit/": [
+      "fog-walker",
+      "cat",
+      "horse",
+      "sky"
+    ],
     "/packages/accountkit/": [
       "fog-walker",
       "cat",
@@ -647,12 +653,6 @@
       "sky"
     ],
     "/packages/ai-kit/": [
-      "fog-walker",
-      "cat",
-      "horse",
-      "sky"
-    ],
-    "/packages/mail-kit/": [
       "fog-walker",
       "cat",
       "horse",
