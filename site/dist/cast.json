@@ -743,6 +743,12 @@
       "unicorn",
       "sky"
     ],
+    "/packages/writingkit/": [
+      "fog-walker",
+      "cat",
+      "moth",
+      "sky"
+    ],
     "/studio/": [
       "fog-walker",
       "cat",
