@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T09:59:47.941Z",
+  "generatedAt": "2026-11-05T17:15:19.172Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 29,
     "live": 16,
     "clients": 1,
-    "inFlight": 15
+    "inFlight": 17
   },
   "projects": [
     {
@@ -819,10 +819,10 @@
       },
       "next": null,
       "now": {
-        "openRuns": 1,
+        "openRuns": 3,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-11-05T07:18:36.142Z"
+          "at": "2026-11-05T16:08:44.803Z"
         },
         "lastLog": {
           "date": "2026-11-05",
@@ -1138,6 +1138,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-05",
+          "done": "One place to write an article. The editor comes first, with a compact draft library and one Ask Cat entry for drafting or editing. Cancel an AI request, review its change and Undo it while your writing still matches the result. Late answers keep newer edits intact, and starting another draft clears the previous draft's AI notices. Drafts remain on this device for the signed-in account."
+        },
+        {
           "date": "2026-11-02",
           "done": "The owner’s bots write to his Telegram. When a bot of the owner’s writes first (its daily routine), the message also reaches his Telegram through Loki’s one gateway: the bot’s name, the first lines of what it wrote, and one button that opens its chat. Silent, one per routine per day, and under Loki’s rules for the phone (no button, no message; quiet at night). Everyone else still hears through OrangeCat’s own notifications; Loki’s gateway speaks only to its operator."
         },
@@ -1212,10 +1216,6 @@
         {
           "date": "2026-09-30",
           "done": "Every FAQ answer has its own link. Open a question on /faq and share the address: /faq#is-orangecat-free-to-use opens straight at that answer. The page no longer needs its scripts to open a question, and search engines now read the questions and answers directly.\nSigning in from Solon or Loki looks like it. The sign-in screen now says \"Continue to Solon\" beside the form, explains that it is one account with one password, and its back link returns you to the app you came from instead of OrangeCat's home page.\nSigning in to Solon and Loki with an email you added later. If you added or changed your email after creating your account (including an account you started without one), OrangeCat told the other app you had no email, and Solon turned you away. It now sends the email your account has."
-        },
-        {
-          "date": "2026-09-28",
-          "done": "Sign in without a password. On the sign-in screen, choose \"Email me a sign-in code instead\": type your email, get a six-digit code, enter it. New here? The same code creates your account. Solon's sign-in uses it too, and so does Loki's \"Sign in with OrangeCat\".\nWhat you can do here, on one page. Every thing this place can do, in plain words, with an example, the three steps, and a Start button — at /what-you-can-do, from the sidebar, the footer, the create page and How it works.\nSay where your public money should go. Of the money you owe the public, how would you divide it between your locality, your region and your nation? Nobody asks. Now you can say it — and see what the people of your place would choose.\nNew essay: Where the Wall Is. One Hetzner box runs the whole studio today. The piece gives the order in which it stops being enough, what fixes each wall, and why the only one that costs real money is tokens, not servers.\nOrganisations know what kind of body they are, and where. The kinds of collective — circle, family, association, cooperative, collective, company, guild, DAO, town, network state, local fund — are now one list shared with Solon, and an organisation can say where it belongs (country, region, locality) and what it legally is.\nA shorter sidebar, one page for your things, a door on Home. The sidebar had fifteen kinds of thing behind four chevrons. Now it has six lines. Everything you made or joined is one page, My things, and Home starts with a box: say what you want and your Cat drafts it.\nRoadmap and changelog now come from the fleet's canonical record. ROADMAP.md and CHANGELOG.md at the repository root are the record; the fleet map ingests them and /roadmap and /changelog render what the map holds. The local copies the pages used to read are gone."
         }
       ],
       "records": {
