@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T17:15:19.172Z",
+  "generatedAt": "2026-11-05T23:45:16.472Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 29,
     "live": 16,
     "clients": 1,
-    "inFlight": 17
+    "inFlight": 1
   },
   "projects": [
     {
@@ -819,10 +819,10 @@
       },
       "next": null,
       "now": {
-        "openRuns": 3,
+        "openRuns": 1,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-11-05T16:08:44.803Z"
+          "at": "2026-11-05T17:52:30.488Z"
         },
         "lastLog": {
           "date": "2026-11-05",
@@ -4066,10 +4066,10 @@
       },
       "next": "Putting the CHF 49/mo price live in Stripe and setting STRIPE_PRICE_ID/STRIPE_SECRET_KEY/STRIPE_WEBHOOK_SECRET on the box is the owner's step (dashboard access needed); the code path behind it is now correct and the vars are documented in .env.example.",
       "now": {
-        "openRuns": 1,
+        "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-09-21T04:01:12.805Z"
+          "outcome": "timeout",
+          "at": "2026-11-05T08:11:19.352Z"
         },
         "lastLog": {
           "date": "2026-09-21",
@@ -4925,14 +4925,14 @@
       },
       "next": null,
       "now": {
-        "openRuns": 12,
+        "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-11-04T07:41:43.156Z"
+          "outcome": "success",
+          "at": "2026-11-05T22:58:45.554Z"
         },
         "lastLog": {
-          "date": "2026-10-21",
-          "done": "Anchored chat composer to the bottom of /chat, made empty starters scrollable, and locked viewport scrolling to prevent wobble."
+          "date": "2026-11-05",
+          "done": "Verified PR #338 fix is merged and deployed; unit remains failed in systemd only until next hourly timer fires or service is restarted."
         }
       }
     },
@@ -5872,7 +5872,7 @@
       },
       "next": "Follow the canonical roadmap for planned work.",
       "now": {
-        "openRuns": 1,
+        "openRuns": 0,
         "lastRun": {
           "outcome": "error",
           "at": "2026-11-05T09:01:50.556Z"

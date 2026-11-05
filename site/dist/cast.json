@@ -737,16 +737,16 @@
       "snail",
       "sky"
     ],
-    "/packages/paykit/": [
-      "fog-walker",
-      "cat",
-      "unicorn",
-      "sky"
-    ],
     "/packages/writingkit/": [
       "fog-walker",
       "cat",
       "moth",
+      "sky"
+    ],
+    "/packages/paykit/": [
+      "fog-walker",
+      "cat",
+      "unicorn",
       "sky"
     ],
     "/studio/": [
