@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-03T11:17:10.364Z",
+  "generatedAt": "2026-11-05T09:59:47.941Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 29,
     "live": 16,
     "clients": 1,
-    "inFlight": 0
+    "inFlight": 15
   },
   "projects": [
     {
@@ -819,14 +819,14 @@
       },
       "next": null,
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-11-03T06:26:55.836Z"
+          "outcome": "success",
+          "at": "2026-11-05T07:18:36.142Z"
         },
         "lastLog": {
-          "date": "2026-10-20",
-          "done": "/loki \"New chat\" now always gives an empty, focused message box (start-page draft cleared; phone Back only leaves the thread) — PR #1356, CI green, auto-merge armed."
+          "date": "2026-11-05",
+          "done": "Hosted dispatch (Hermes) — no file changes — Automated incident dispatch from bitbaum's monitoring (incident-dispatch.sh)."
         }
       }
     },
@@ -4066,7 +4066,7 @@
       },
       "next": "Putting the CHF 49/mo price live in Stripe and setting STRIPE_PRICE_ID/STRIPE_SECRET_KEY/STRIPE_WEBHOOK_SECRET on the box is the owner's step (dashboard access needed); the code path behind it is now correct and the vars are documented in .env.example.",
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
           "outcome": "error",
           "at": "2026-09-21T04:01:12.805Z"
@@ -4925,10 +4925,10 @@
       },
       "next": null,
       "now": {
-        "openRuns": 0,
+        "openRuns": 12,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-11-03T00:07:27.161Z"
+          "outcome": "timeout",
+          "at": "2026-11-04T07:41:43.156Z"
         },
         "lastLog": {
           "date": "2026-10-21",
@@ -5348,9 +5348,13 @@
           "title": "A report worth reading",
           "line": "Every finding points to a passage in the article, and every voice is named with",
           "status": "in progress",
-          "progress": 89,
+          "progress": 90,
           "targetDate": null,
           "milestones": [
+            {
+              "title": "Long URLs stay within original/rewrite reading columns, with phone comparison and labelled-copy browser coverage",
+              "done": true
+            },
             {
               "title": "An evaluation harness and rubric that score reports before and after every method change",
               "done": true
@@ -5797,12 +5801,12 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-10-12T08:25:59.233Z"
+          "outcome": "success",
+          "at": "2026-11-05T07:13:52.359Z"
         },
         "lastLog": {
-          "date": "2026-10-12",
-          "done": "Hosted dispatch (Hermes) — no file changes — On BiasLens, do the next step the last session left: \"commit: 0d46066\". Ship it…"
+          "date": "2026-11-05",
+          "done": "biaslens-app \"failure\" was a sleep-mode nap whose stop overran TimeoutStopSec=3 (Result=timeout); fixed in the shared unit generator, bitbaum/loki PR #1590 (sleeping apps stop with SIGKILL, counted clean), auto-merge on; site serving 200."
         }
       }
     },
@@ -5868,10 +5872,10 @@
       },
       "next": "Follow the canonical roadmap for planned work.",
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-11-03T10:04:13.458Z"
+          "outcome": "error",
+          "at": "2026-11-05T09:01:50.556Z"
         },
         "lastLog": {
           "date": "2026-09-15",

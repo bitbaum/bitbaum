@@ -1,30 +1,30 @@
 {
-  "generatedAt": "2026-11-02T12:49:14.030Z",
+  "generatedAt": "2026-11-04T12:28:24.265Z",
   "org": "bitbaum",
   "current": {
-    "date": "2026-11-02",
+    "date": "2026-11-04",
     "stars": 3,
     "forks": 1,
     "downloads": {
-      "lastMonth": 60209,
+      "lastMonth": 113116,
       "byPackage": {
-        "@bitbaum/mail-kit": 5819,
-        "@bitbaum/accountkit": 4148,
-        "@bitbaum/ai-kit": 8224,
-        "bip-kit": 6903,
-        "@bitbaum/chatkit": 8069,
-        "limitkit": 5670,
-        "@bitbaum/design-tokens": 2499,
-        "@bitbaum/whenkit": 2008,
-        "@bitbaum/listkit": 1467,
-        "@bitbaum/searchkit": 1883,
-        "ai-forms": 6182,
-        "@bitbaum/chartkit": 1782,
-        "@bitbaum/sitekit": 2241,
-        "threadkit": 1632,
-        "@bitbaum/geo-kit": 918,
-        "@bitbaum/speechkit": 550,
-        "@bitbaum/paykit": 214
+        "@bitbaum/design-tokens": 6249,
+        "@bitbaum/mail-kit": 10534,
+        "@bitbaum/accountkit": 11761,
+        "@bitbaum/ai-kit": 12481,
+        "bip-kit": 10558,
+        "@bitbaum/chatkit": 13288,
+        "limitkit": 11202,
+        "@bitbaum/whenkit": 4768,
+        "@bitbaum/listkit": 3437,
+        "@bitbaum/searchkit": 4294,
+        "@bitbaum/chartkit": 4242,
+        "ai-forms": 10518,
+        "@bitbaum/sitekit": 3826,
+        "threadkit": 2863,
+        "@bitbaum/geo-kit": 2106,
+        "@bitbaum/speechkit": 748,
+        "@bitbaum/paykit": 241
       }
     },
     "clients": {
@@ -318,6 +318,24 @@
       "stars": 3,
       "forks": 1,
       "downloads": 60209,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-11-03",
+      "stars": 3,
+      "forks": 1,
+      "downloads": 105544,
+      "payingClients": 0,
+      "mrrChf": 0,
+      "originatorSharePaid": 0
+    },
+    {
+      "date": "2026-11-04",
+      "stars": 3,
+      "forks": 1,
+      "downloads": 113116,
       "payingClients": 0,
       "mrrChf": 0,
       "originatorSharePaid": 0
