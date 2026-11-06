@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T10:04:41.809Z",
+  "generatedAt": "2026-11-06T19:39:51.875Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 29,
     "live": 16,
     "clients": 1,
-    "inFlight": 3
+    "inFlight": 2
   },
   "projects": [
     {
@@ -819,10 +819,10 @@
       },
       "next": "finish orangecat PR; diagnose farmaciadelparco stop timeout",
       "now": {
-        "openRuns": 2,
+        "openRuns": 1,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-11-06T09:46:45.664Z"
+          "at": "2026-11-06T18:59:09.246Z"
         },
         "lastLog": {
           "date": "2026-11-06",
@@ -1266,11 +1266,11 @@
           "title": "The law as data: every law in Switzerland and Liechtenstein {#law}",
           "line": "The law of every authority, as the publisher published it: who enacted it, from",
           "status": "in progress",
-          "progress": 42,
+          "progress": 64,
           "targetDate": null,
           "milestones": [
             {
-              "title": "The register of what exists for the Confederation, the 26 cantons and the intercantonal agreements: 33,441 acts (22,047 in force) with title and number, read from LexFind's list, and a coverage page counted from the data. No text yet {#law-register}",
+              "title": "The register of what exists for the Confederation, the 26 cantons and the intercantonal agreements: 33,441 acts (22,047 in force) with title and number, read from LexFind's list, and a coverage page counted from the data {#law-register}",
               "done": true
             },
             {
@@ -1282,15 +1282,19 @@
               "done": false
             },
             {
-              "title": "Federal text from Fedlex, every act in force, checked against the publisher every day. The reader and the store are built and tested; the production load and the daily check are not done {#law-federal}",
-              "done": false
+              "title": "Federal text from Fedlex, every act in force, loaded in production; read again by the law sync {#law-federal}",
+              "done": true
             },
             {
-              "title": "Liechtenstein text from gesetze.li. The reader is built and tested on the real pages, and dates each version by the day it was read, because Lilex does not state when one took effect; the production load is not done {#law-li}",
-              "done": false
+              "title": "Liechtenstein text from gesetze.li, every act, loaded in production. Each version is dated by the day it was read, because Lilex does not state when one took effect {#law-li}",
+              "done": true
             },
             {
-              "title": "Cantonal text. A first pass reads each act's document, cut into articles, dated by the day it was read. Zürich now has a reader on the canton's own publication with the canton's in-force date; the other 25 cantons need theirs. The production loads are not done {#law-cantons}",
+              "title": "Cantonal text for all 26 cantons and the intercantonal agreements, loaded in production. Zürich is read from the canton's own publication with the canton's in-force date; the other 25 from each act's document, cut into articles and dated by the day it was read, until each has a reader of its own {#law-cantons}",
+              "done": true
+            },
+            {
+              "title": "The law sync on a clock: today it runs by hand, so what Solon holds is as current as its last run (/law/coverage shows the date) {#law-sync-clock}",
               "done": false
             },
             {
@@ -1310,11 +1314,117 @@
               "done": false
             },
             {
-              "title": "Municipal regulations, commune by commune. The City of Zürich's collection has a reader (one adapter per commune, a shared loader), current versions and history; the production load and the other communes are not done {#law-communes}",
+              "title": "Municipal regulations, commune by commune (one adapter per collection, a shared loader). Loaded: the City of Zürich, the eleven communes of Zug, the three of Glarus and seven of Liechtenstein's eleven. The other Swiss communes, about 2,100, are not; the most populous go first {#law-communes}",
               "done": false
             },
             {
               "title": "A public API, and Causius reading the law from here with the publisher as its fallback {#law-api}",
+              "done": false
+            },
+            {
+              "title": "Law in the site's main menu, beside Places and Decisions {#law-menu}",
+              "done": true
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Law you can act on {#law-act}",
+          "line": "A law that can only be read is half open. Anyone should be able to point at an",
+          "status": "in progress",
+          "progress": 38,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The amendment engine: changes pinned to the hash of the text they amend, immutable revisions, forks, support signed or by account, a hash-chained log anyone can verify, and the official routes as sourced data; served at /api/v1/law/amendments (design: docs/design/2026-11-amending-the-law.md) {#law-amend-engine}",
+              "done": true
+            },
+            {
+              "title": "Propose a change to any article: an editable copy, the change shown as a redline against the publisher's text, filed as a proposal that carries the hash of the text it amends {#law-redline}",
+              "done": true
+            },
+            {
+              "title": "Support a proposed change, one click or a signed vote, counted the same way as any other proposal {#law-support}",
+              "done": true
+            },
+            {
+              "title": "Signing a proposal or a support with one's own Bitcoin key from the page (the API takes signatures today; the page offers one click) {#law-sign-on-page}",
+              "done": false
+            },
+            {
+              "title": "A conversation under each proposal, the fleet's shared comment thread {#law-discuss}",
+              "done": false
+            },
+            {
+              "title": "The official route for each place, as data: who can put a change on the ballot or before the legislature, how many signatures in how long (a federal popular initiative in Switzerland: 100,000 in 18 months), with the source of each rule {#law-route}",
+              "done": false
+            },
+            {
+              "title": "A proposal that reaches the place's bar is handed on in the form the authority accepts, with its supporters counted and the record linked {#law-handoff}",
+              "done": false
+            },
+            {
+              "title": "What applies here: pick a point and see every layer of law in force there — federal, state or canton, commune — each with \"propose a change\" {#law-here}",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "One globe for every place and its law {#globe}",
+          "line": "The map is the front door to the law. One globe, from the whole Earth down to a",
+          "status": "in progress",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The globe on the home page and on /places: the Earth, then a country, then its states or cantons, then its communes or counties, each coloured by what Solon holds there {#globe-home}",
+              "done": false
+            },
+            {
+              "title": "Every place's page links to its law, and every act's page to its place on the globe {#globe-law-links}",
+              "done": false
+            },
+            {
+              "title": "The renderer stays the fleet's one map package (@bitbaum/geo-kit); what the globe needs that it lacks is added there {#globe-package}",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Beyond Switzerland: Wyoming first {#law-world}",
+          "line": "The goal is the law of every place, readable and actionable by anyone. Each new",
+          "status": "in progress",
+          "progress": 29,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Wyoming's statutes and Constitution, read from the Legislature's downloads (45 files, about 21,000 sections), cut into sections, with the publisher's link and hash; the production load is by hand, like every other publisher's (law-text.yml, source wyoleg) {#law-wy-statutes}",
+              "done": true
+            },
+            {
+              "title": "Wyoming's administrative rules {#law-wy-rules}",
+              "done": false
+            },
+            {
+              "title": "Wyoming and its 23 counties on the globe {#law-wy-places}",
+              "done": false
+            },
+            {
+              "title": "Wyoming's official route: the citizen initiative, with its thresholds and its limits, from Article 3, Section 52 of its Constitution {#law-wy-route}",
+              "done": true
+            },
+            {
+              "title": "Wyoming's referendum, the route for undoing an act the legislature passed (the same section) {#law-wy-referendum}",
+              "done": false
+            },
+            {
+              "title": "New Hampshire's statutes (the RSAs), Grafton's ordinances and the warrant-article route a town's voters can take (RSA 39:3). The General Court's site refuses Solon's readers: its firewall answers \"Web Page Blocked\" (2026-11-06). The way through is the publisher's permission, or a load from a network it allows; not an unofficial copy {#law-nh}",
+              "done": false
+            },
+            {
+              "title": "The places' and the law's data model without Swiss assumptions: a new country is configuration and an adapter, not a change to the schema {#law-world-model}",
               "done": false
             }
           ],
@@ -1419,6 +1529,58 @@
             },
             {
               "title": "One source for thresholds: the ratification check watches the profiles too",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Exit: fork a group, leave with your record {#fork}",
+          "line": "Many small rule sets beat one big one only if people can move between them.",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Fork an organization: a new one with a copy of its charter and policies, its origin recorded, founded by whoever forks it; no one's permission needed {#fork-org}",
+              "done": false
+            },
+            {
+              "title": "Every rule set shows its forks and where it came from, so rules can be compared side by side {#fork-lineage}",
+              "done": false
+            },
+            {
+              "title": "A member leaves with their own record: every act they signed, exportable and checkable elsewhere {#fork-leave}",
+              "done": false
+            },
+            {
+              "title": "Nested groups: a part of an organization adopts rules of its own for what is its own, and stays linked for what is shared {#fork-nested}",
+              "done": false
+            },
+            {
+              "title": "A rule-set template for groups that want almost no collective decisions, beside the five shipped ones; a template, never a default {#fork-minimal}",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "A record anyone can prove complete {#proof}",
+          "line": "Signed votes let anyone recount a decision. The next step is proving that",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Each audit event carries the hash of the one before it {#proof-chain}",
+              "done": false
+            },
+            {
+              "title": "The chain's head anchored to Bitcoin with OpenTimestamps, regularly, and the proofs published {#proof-anchor}",
+              "done": false
+            },
+            {
+              "title": "Every movement of a watched treasury shown beside the decision and the rule text that allowed it {#proof-money}",
               "done": false
             }
           ],
@@ -1764,6 +1926,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-06",
+          "done": "Wyoming's law. Wyoming's statutes and Constitution are read from the Legislature's own downloads, about 21,000 sections in 45 files, each with the publisher's link and hash, and found under Law › United States › Wyoming once loaded. A proposed change to a Wyoming statute shows the citizen initiative as its official route: who signs, the 15% bar and its spread across counties, what the initiative cannot do, and Article 3, Section 52 of the Constitution as the source. {#law-wy-statutes} {#law-wy-route}\nPropose a change to any article. Every article of every act Solon holds has a \"Propose a change\" link: reword it, repeal it or add an article after it, and see the redline against the published text as you write; speak instead of typing if you like. A draft survives signing in on the way. Each proposal has its own page with the redline, why, who supports it, the official route its law can take, and every revision with its hash; one click supports it or withdraws that support, and anyone can write an alternative. Proposed changes are listed under Law in the menu and on each act. {#law-redline} {#law-support}\nThe engine for amending the law. Anyone can propose a change to an act Solon holds: replace, insert or repeal provisions, each change pinned to the hash of the exact text it amends, so a proposal never silently applies to wording it was not written for. Revisions never change once filed; support binds to one revision and can be signed with a Bitcoin key; anyone may fork. Every act lands in a hash-chained log anyone can verify, and the database refuses to change or delete a row. Each amendment shows the official route its place offers, with the provision that creates it. The API is at /api/v1/law/amendments; the screens come next. {#law-amend-engine}\nLaw is in the main menu. Find a law, ask the law and what Solon holds are one click from every page; before, /law could only be reached by its address. Use cases moved to the footer to keep the header on one line. {#law-menu}\nThe home page leads with the open law, and the Glarus section now stands beside the public ledger and open-source rules as one of Solon's roots.\nThree more ideas behind Solon: the public ledger (Bitcoin, 2008), rules as open source (GNU and git), and polycentric law.\nThe law coverage page said the text of the law was not held. It has been held since 2026-11-01 for every federal, cantonal and Liechtenstein act in force; the page and the roadmap now say so. {#law-federal} {#law-li} {#law-cantons}"
+        },
+        {
           "date": "2026-10-23",
           "done": "Citations in the law chat are written so they link. The chat's answers cite provisions as [L3]; the instruction now says no spaces inside the brackets, which one model had been adding. {#law-ask}\n\"And in Lucerne?\" keeps its subject. When a follow-up question has no subject of its own and the model cannot plan from it, the whole conversation is planned as one question, with the place named last added. {#law-ask}\nA weak search plan gets a second opinion. When the model that plans a search names no act, or only repeats the words of the question instead of putting them into the law's language, the next model in the chain is asked once more, so one unlucky model no longer decides whether a rule is found. {#law-ask}\nThe law chat starts from the act a lawyer would open. The model now says which statutes or ordinances probably govern a question (it points; it does not answer), and the chat searches those acts first with the question's ideas, then reads what they say. One question asked twice no longer depends on which words ranked. {#law-ask}\nThe law chat looks wider before it chooses. It now considers up to fifteen provisions per place and lets the model pick the few that apply, so a rule the words rank twelfth is still found. {#law-ask}\nSearch puts the fundamental act first. A short ordinance that repeats the question's words no longer outranks the statute that makes the rule, and a search that would take too long is cut off instead of holding the database. A fixed set of questions (pnpm run check:law-search) measures whether the right provision is found. {#law-ask}\nThe law chat checks its own search. After searching, it reads the headings of what it found, keeps the provisions that bear on the question, drops the ones that only share a word, and searches again for an obvious rule that is missing (the permit, the canton's own act). {#law-ask}\nSearch finds a provision by its ideas. The law search and the law chat now ask for provisions that contain every idea of a question first (the animal and the permit), then the main idea alone, instead of ranking a common word like \"permit\" above the rare one that matters. The chat answers in the language of the question. {#law-ask}\nYou can ask the law a question. /law/ask is a chat, built on the same chat as Loki and OrangeCat, open to everyone and in any language. It works out which places the question is about (\"and in Lucerne?\" keeps the fox from the question before), searches those places' provisions, and answers only from them, each statement linked to the provision it rests on. Search can also take several authorities at once. {#law-ask}\nThe City of Zürich's own laws can be loaded, with their history. A reader for the city's Amtliche Sammlung takes each act's versions with the days the city states, and any other commune joins by adding one reader. The loading tool takes municipal --publisher zurich-city, and --history adds the earlier versions. {#law-communes}\nThe text of the law can be searched. GET /api/v1/law/search?q= ranks the provisions in force that match, optionally by authority or language, and each hit names the act, the article, the publisher's page and the hash of the copy, so an answer built on it can cite exactly what it read. {#law-search}\nLaws can be found and read on Solon. A new page, Find a law, searches the register by title or number and by whose law it is; each act opens with its provisions, a link to the publisher, the page the copy was read from and its hash. A version the publisher does not date says it was read on that day. {#law-reading}\nZürich's laws can be read from the canton's own collection. The loading tool takes each Zürich act's current version from ZH-Lex, the canton's PDF, with the day the canton says it took effect, and retires the first-pass reading of the same act. The constitution comes in at 139 articles, in force since 1 January\nLiechtenstein's laws are in the register. The 3,407 acts in force in the Government's Systematic Register (statutes, ordinances, notices, decrees and treaties) are listed with their LR number, their title and the Landesgesetzblatt issue that published them, beside the Swiss ones on /law/coverage and at /api/v1/law/acts?authority=li. Names and numbers only; the text from gesetze.li comes next. The communes are not listed yet. (#283) {#law-register-li}\nSolon can read Liechtenstein's laws from gesetze.li. The loading tool reads each act's consolidated page, article by article, with the page it came from and a hash that proves the copy. Lilex does not say since when a version applies, so each is dated by the day it was read and marked as such. Production is not loaded yet. (#284)\nEvery Swiss act can point to the place that publishes it. The register can now keep, for each act of the Confederation and the cantons, the address of its page at its own authority, and /api/v1/law/acts returns it as officialUrl. Production is not loaded yet. (#284)\nCantonal laws can be read as text. The loading tool reads each cantonal act's document and cuts it into articles, with the document it came from and a hash that proves the copy. This is a first pass, dated by the day it was read; the cantons' own publications will replace it canton by canton. Production is not loaded yet. (#284)\nA register of the law. Solon now lists every act of the Confederation, the 26 cantons and the intercantonal agreements: 33,441 acts, 22,047 of them in force, each with its title and its official number, read from LexFind's list and counted per authority on /law/coverage. Acts can be found by authority, number or title at /api/v1/law/acts. Only names and numbers so far: the text of the laws comes next, publisher by publisher. Liechtenstein and the communes are not listed yet. (#281) {#law-register}\nSolon can hold the text of the law. The Confederation's acts can now be read from Fedlex, article by article, with the page they came from and a hash that proves the copy, and looked up as they stood on any day a held version covers (/api/v1/law/provisions). The loading tool is built and tested on real federal acts; production is not loaded yet, so /law/coverage still shows no text held. (#282)"
         },
@@ -1838,10 +2004,6 @@
         {
           "date": "2026-08-25",
           "done": "Feedback from any page. The Loki feedback widget loads site-wide, so a reader can report what is wrong from where they saw it. (#114)"
-        },
-        {
-          "date": "2026-08-15",
-          "done": "Earlier history, in one entry. The spine of the product shipped in this week:\nSix ways to decide, one way to prove it. Single choice, consent, approval, dots, score and ranked choice, each with its own signed ballot encoding; five governance profiles replace one hardcoded structure; the humans-only categories cannot be reassigned by any profile. (#92)\nFrom reader to member to vote. /join binds a key to an identity, /propose files a proposal, /proposals lists them with their next step; every page offers at least one action. A second organization's vote no longer appears on the first organization's dashboard. (#90)\nTreasury honesty. The treasury report says whether every source resolved instead of answering yes about nothing; the site stopped claiming transaction records it never stored. Still watch-only. (#88)\nThe Townsism thesis Solon is an organ of, published at /why and in docs/TOWNSISM.md. (#87)\nOne visual language across OrangeCat, Loki and Solon, from a shared token package; orange calls to action fixed to meet contrast. (#77–#93)"
         }
       ],
       "records": {
