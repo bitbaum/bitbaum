@@ -111,14 +111,14 @@ addEventListener("error", function (e) {
     </section>
     <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
       <h2 id="documentation-title">API and examples</h2>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/bip-kit/blob/8bd947bca812ad254770bdb7d68177f752f595ab/">source commit <code>8bd947bca812</code></a> · 2026-11-06. Source documentation can include work beyond the registry release.</p>
-      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-canonical-development-records">Canonical development records</a></li><li><a href="#api-quick-start-next-js-app-router">Quick start (Next.js App Router)</a></li><li><a href="#api-the-block-vocabulary">The block vocabulary</a></li><li><a href="#api-frontmatter">Frontmatter</a></li><li><a href="#api-a-folder-of-posts-bip-kit-node">A folder of posts — `bip-kit/node`</a></li><li><a href="#api-author-flavoured-markdown-normalizemarkdown">Author-flavoured markdown — `normalizeMarkdown`</a></li><li><a href="#api-questions-and-answers-parsefaq-faq">Questions and answers — `parseFaq` + `&lt;Faq>`</a></li><li><a href="#api-helpers">Helpers</a></li><li><a href="#api-slug-policy">Slug policy</a></li><li><a href="#api-the-renderer-bip-kit-react">The renderer — `bip-kit/react`</a></li><li><a href="#api-theming-contract">Theming contract</a></li><li><a href="#api-feedback-let-people-answer-the-roadmap-and-the-changelog">Feedback — let people answer the roadmap and the changelog</a></li><li><a href="#api-security-model">Security model</a></li><li><a href="#api-types-you-ll-actually-use">Types you'll actually use</a></li><li><a href="#api-starter-routes">Starter routes</a></li><li><a href="#api-company-vs-users">Company vs users</a></li><li><a href="#api-used-in-production">Used in production</a></li><li><a href="#api-license">License</a></li></ul>
-      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Release notes are tracked in <a href="https://github.com/bitbaum/bip-kit/blob/8bd947bca812ad254770bdb7d68177f752f595ab/CHANGELOG.md">CHANGELOG.md</a>.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/bip-kit/blob/53850fbd30a533df4c46aa4cb8074403220be6a9/">source commit <code>53850fbd30a5</code></a> · 2026-11-06. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-canonical-development-records">Canonical development records</a></li><li><a href="#api-quick-start-next-js-app-router">Quick start (Next.js App Router)</a></li><li><a href="#api-the-block-vocabulary">The block vocabulary</a></li><li><a href="#api-frontmatter">Frontmatter</a></li><li><a href="#api-a-folder-of-posts-bitbaum-bip-kit-node">A folder of posts — `@bitbaum/bip-kit/node`</a></li><li><a href="#api-author-flavoured-markdown-normalizemarkdown">Author-flavoured markdown — `normalizeMarkdown`</a></li><li><a href="#api-questions-and-answers-parsefaq-faq">Questions and answers — `parseFaq` + `&lt;Faq>`</a></li><li><a href="#api-helpers">Helpers</a></li><li><a href="#api-slug-policy">Slug policy</a></li><li><a href="#api-the-renderer-bitbaum-bip-kit-react">The renderer — `@bitbaum/bip-kit/react`</a></li><li><a href="#api-theming-contract">Theming contract</a></li><li><a href="#api-feedback-let-people-answer-the-roadmap-and-the-changelog">Feedback — let people answer the roadmap and the changelog</a></li><li><a href="#api-security-model">Security model</a></li><li><a href="#api-types-you-ll-actually-use">Types you'll actually use</a></li><li><a href="#api-starter-routes">Starter routes</a></li><li><a href="#api-company-vs-users">Company vs users</a></li><li><a href="#api-used-in-production">Used in production</a></li><li><a href="#api-license">License</a></li></ul>
+      <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Release notes are tracked in <a href="https://github.com/bitbaum/bip-kit/blob/53850fbd30a533df4c46aa4cb8074403220be6a9/CHANGELOG.md">CHANGELOG.md</a>.</p>
 <h2 id="api-canonical-development-records">Canonical development records</h2>
-<p><code>loadDevelopmentProfile(mapUrl, slug)</code> reads the selected public profile from a remote <code>{ projects: [...] }</code> map. <code>DevelopmentPage</code> from <code>bip-kit/react</code> renders its roadmap or changelog with the same responsive layout, source links and failure states on every product. Import <code>bip-kit/styles.css</code> and override its CSS variables to match the host product. No product names or service hosts are stored in this package.</p>
-<pre><code>import { loadDevelopmentProfile } from &quot;bip-kit&quot;;
-import { DevelopmentPage } from &quot;bip-kit/react&quot;;
-import &quot;bip-kit/styles.css&quot;;
+<p><code>loadDevelopmentProfile(mapUrl, slug)</code> reads the selected public profile from a remote <code>{ projects: [...] }</code> map. <code>DevelopmentPage</code> from <code>@bitbaum/bip-kit/react</code> renders its roadmap or changelog with the same responsive layout, source links and failure states on every product. Import <code>@bitbaum/bip-kit/styles.css</code> and override its CSS variables to match the host product. No product names or service hosts are stored in this package.</p>
+<pre><code>import { loadDevelopmentProfile } from &quot;@bitbaum/bip-kit&quot;;
+import { DevelopmentPage } from &quot;@bitbaum/bip-kit/react&quot;;
+import &quot;@bitbaum/bip-kit/styles.css&quot;;
 
 const profile = await loadDevelopmentProfile(publicMapUrl, projectSlug);
 return &lt;DevelopmentPage profile={profile} section=&quot;roadmap&quot; profileHref={publicProfileUrl} />;</code></pre>
@@ -133,11 +133,11 @@ return &lt;DevelopmentPage profile={profile} section=&quot;roadmap&quot; profile
 ## 2026-10-07
 - Organizers pay each crew member in one click {#crew-pay}</code></pre>
 <p><code>DevelopmentPage</code> then links both ways: each milestone shows the dated changelog entries that delivered it (<code>/changelog#change-2026-10-07</code>), and each changelog line names the milestone it advanced (<code>/roadmap#step-crew-pay</code>). A goal's milestones are drawn as a trail, filled where done. The tokens are never printed. Ids are lowercase kebab-case starting with a letter, so <code>(#1240)</code> pull-request references are left alone; a line may cite a goal's id too.</p>
-<p>For a custom page, <code>linkDevelopment(profile)</code> returns the same model: <code>goals</code> (steps, <code>deliveredIn</code>, first/last dates, percent, next step), <code>changes</code> (lines with what each <code>advances</code>), the <code>journey</code> (shipped / now / next / later), and two honesty checks — <code>danglingRefs</code> (ids the changelog cites that nothing declares) and <code>unrecordedSteps</code> (milestones ticked done that no changelog line cites). <code>RoadmapTrail</code> and <code>ChangeAdvances</code> from <code>bip-kit/react</code> render the two halves inside any layout.</p>
+<p>For a custom page, <code>linkDevelopment(profile)</code> returns the same model: <code>goals</code> (steps, <code>deliveredIn</code>, first/last dates, percent, next step), <code>changes</code> (lines with what each <code>advances</code>), the <code>journey</code> (shipped / now / next / later), and two honesty checks — <code>danglingRefs</code> (ids the changelog cites that nothing declares) and <code>unrecordedSteps</code> (milestones ticked done that no changelog line cites). <code>RoadmapTrail</code> and <code>ChangeAdvances</code> from <code>@bitbaum/bip-kit/react</code> render the two halves inside any layout.</p>
 <h3 id="api-locally-authored-typed-records">Locally authored typed records</h3>
 <p>When content lives in an app's typed <code>RoadmapDoc</code> / <code>ChangelogEntry</code> modules rather than the fleet's remote public map, render the shared structure without moving or flattening product-owned copy:</p>
-<pre><code>import { RoadmapDocument, ChangelogDocument } from &quot;bip-kit/react&quot;;
-import &quot;bip-kit/styles.css&quot;;
+<pre><code>import { RoadmapDocument, ChangelogDocument } from &quot;@bitbaum/bip-kit/react&quot;;
+import &quot;@bitbaum/bip-kit/styles.css&quot;;
 
 &lt;RoadmapDocument doc={roadmap} lang=&quot;de&quot; headingLevel={2} />
 &lt;ChangelogDocument
@@ -149,9 +149,9 @@ import &quot;bip-kit/styles.css&quot;;
 <p>The roadmap can set <code>showHeader={false}</code> when the page already renders its title and lede. <code>essayHref</code> resolves product-local paths, and <code>essayLink</code> lets the host use its router while the renderer still rejects unsafe schemes. The changelog retains an ISO <code>dateTime</code> when <code>formatDate</code> supplies localized text. Both components use <code>bp-*</code> CSS variables and accept <code>className</code>, so a host can map its semantic tokens without copying the markup.</p>
 <p><strong>Blog · Roadmap · Changelog · Q&amp;A</strong> for product sites — one content contract, one reference renderer, instead of five blog stacks.</p>
 <p>You want to build in public. What you don't want is a CMS, a markdown pipeline, three renderers, and a security review every time a product site needs a blog. bip-kit is the small, sharp core of that stack:</p>
-<ul><li><strong><code>bip-kit</code></strong> — a zero-dependency parser that turns repo-authored markdown into <strong>typed blocks</strong> (plus the types for a roadmap and a user-facing changelog).</li><li><strong><code>bip-kit/react</code></strong> — a reference renderer: RSC-first server components, tiny client islands, semantic <code>bp-*</code> classes, every color a CSS variable.</li><li><strong><code>bip-kit/styles.css</code></strong> — a complete neutral theme (measured ~70ch line length, real vertical rhythm, dark mode, mobile-first, print-safe) that you retheme var-by-var.</li></ul>
+<ul><li><strong><code>@bitbaum/bip-kit</code></strong> — a zero-dependency parser that turns repo-authored markdown into <strong>typed blocks</strong> (plus the types for a roadmap and a user-facing changelog).</li><li><strong><code>@bitbaum/bip-kit/react</code></strong> — a reference renderer: RSC-first server components, tiny client islands, semantic <code>bp-*</code> classes, every color a CSS variable.</li><li><strong><code>@bitbaum/bip-kit/styles.css</code></strong> — a complete neutral theme (measured ~70ch line length, real vertical rhythm, dark mode, mobile-first, print-safe) that you retheme var-by-var.</li></ul>
 <p>Same vocabulary everywhere, your design tokens on top.</p>
-<pre><code>npm i bip-kit
+<pre><code>npm i @bitbaum/bip-kit
 # optional, only if your content uses them:
 npm i shiki    # syntax highlighting
 npm i katex    # math
@@ -160,9 +160,9 @@ npm i mermaid  # diagrams (client-side)</code></pre>
 <h2 id="api-quick-start-next-js-app-router">Quick start (Next.js App Router)</h2>
 <pre><code>// app/blog/[slug]/page.tsx — a server component; ArticleBody is async (RSC)
 import { readFileSync } from &quot;node:fs&quot;;
-import { parseFrontmatter, parseContentBlocks, extractToc, readingTime } from &quot;bip-kit&quot;;
-import { ArticleBody, Toc, ReadingProgress } from &quot;bip-kit/react&quot;;
-import &quot;bip-kit/styles.css&quot;;
+import { parseFrontmatter, parseContentBlocks, extractToc, readingTime } from &quot;@bitbaum/bip-kit&quot;;
+import { ArticleBody, Toc, ReadingProgress } from &quot;@bitbaum/bip-kit/react&quot;;
+import &quot;@bitbaum/bip-kit/styles.css&quot;;
 
 export default async function Post({ params }: { params: Promise&lt;{ slug: string }> }) {
   const { slug } = await params;
@@ -183,7 +183,7 @@ export default async function Post({ params }: { params: Promise&lt;{ slug: stri
   );
 }</code></pre>
 <p>Diagrams? Mermaid is client-side and heavyweight, so it lives on its <strong>own subpath</strong> — it never enters your bundle unless you ask:</p>
-<pre><code>import { MermaidBlock } from &quot;bip-kit/react/mermaid&quot;; // requires the mermaid peer
+<pre><code>import { MermaidBlock } from &quot;@bitbaum/bip-kit/react/mermaid&quot;; // requires the mermaid peer
 
 &lt;ArticleBody blocks={blocks} components={{ mermaid: MermaidBlock }} />;</code></pre>
 <p>Without the override, mermaid blocks render their source in a styled <code>&lt;pre></code> — honest degradation, never a broken build.</p>
@@ -194,7 +194,7 @@ export default async function Post({ params }: { params: Promise&lt;{ slug: stri
 <pre><code>## Section        → { type: &quot;h2&quot;, text, id: &quot;section&quot;, spans }
 ### Subsection    → h3
 #### Detail       → h4</code></pre>
-<p>Headings carry a slugified, de-duplicated <code>id</code> (<code>## Über uns</code> → <code>ueber-uns</code>) — anchors and TOC for free. Which slug you get is a <a href="https://github.com/bitbaum/bip-kit/blob/8bd947bca812ad254770bdb7d68177f752f595ab/#slug-policy">policy you choose</a>.</p>
+<p>Headings carry a slugified, de-duplicated <code>id</code> (<code>## Über uns</code> → <code>ueber-uns</code>) — anchors and TOC for free. Which slug you get is a <a href="https://github.com/bitbaum/bip-kit/blob/53850fbd30a533df4c46aa4cb8074403220be6a9/#slug-policy">policy you choose</a>.</p>
 <h3 id="api-paragraphs-inline-markup-p">Paragraphs &amp; inline markup — <code>p</code></h3>
 <pre><code>Body text with **bold**, *emphasis*, `code`, [links](https://example.com) and footnote refs[^1].</code></pre>
 <p>Every text-bearing block keeps its raw <code>text</code> AND carries <code>spans: Inline[]</code> — a parsed tree of <code>text | strong | em | code | link | footnoteRef</code> nodes. Consumers stop re-parsing <code>**bold**</code> themselves.</p>
@@ -228,7 +228,7 @@ export default async function Post({ params }: { params: Promise&lt;{ slug: stri
 <p>The first word of the fence info is the language; the rest becomes a filename label. With the <code>shiki</code> peer, blocks are highlighted <strong>server-side once</strong> with both themes emitted as CSS variables (<code>--shiki-light</code>/<code>--shiki-dark</code>) — dark mode is pure CSS, zero client JS. Without shiki: clean mono fallback. Copy button included either way.</p>
 <p>The filename label and the copy button share a toolbar row (<code>.bp-codeblock-toolbar</code>) <strong>above</strong> the code, in normal flow — since 0.2.7. Earlier versions overlaid the button on the <code>&lt;pre></code> and reserved a fixed band for it, which broke the moment a consumer's own CSS made buttons taller (a <code>min-height: 2.75rem</code> touch-target rule on coarse pointers, say). In flow, the button can be any height your stylesheet gives it and never covers code. On hover-capable pointers the button rests faded and reveals on hover/focus; on touch it is always visible.</p>
 <p><strong>Deploying with <code>output: &quot;standalone&quot;</code>?</strong> Because shiki is an <em>optional</em> peer, bip-kit's zero-config load goes through an import that bundlers (and Next.js output file tracing) cannot see — a standalone deploy would silently ship without shiki and lose highlighting. Register the loader once, at module scope (e.g. in your root layout), so the literal specifier lives in <em>your</em> code where the bundler and tracer can follow it:</p>
-<pre><code>import { setHighlighterLoader } from &quot;bip-kit/react&quot;;
+<pre><code>import { setHighlighterLoader } from &quot;@bitbaum/bip-kit/react&quot;;
 setHighlighterLoader(() => import(&quot;shiki&quot;)); // one line; traceable; only if you use shiki</code></pre>
 <p>Or pass a loaded module per render: <code>&lt;ArticleBody blocks={blocks} highlighter={shiki} /></code> (with <code>import * as shiki from &quot;shiki&quot;</code>). Consumers without shiki write neither line — nothing to resolve, builds stay green.</p>
 <h3 id="api-diagrams-mermaid">Diagrams — <code>mermaid</code></h3>
@@ -284,9 +284,9 @@ author:                                                ← nesting is not suppor
 const { data: meta, content: body } = matter(raw);
 const blocks = parseContentBlocks(body);</code></pre>
 <p>bip-kit will not grow a YAML parser; one already exists.</p>
-<h2 id="api-a-folder-of-posts-bip-kit-node">A folder of posts — <code>bip-kit/node</code></h2>
+<h2 id="api-a-folder-of-posts-bitbaum-bip-kit-node">A folder of posts — <code>@bitbaum/bip-kit/node</code></h2>
 <p>Every product was writing the same fifty lines: list <code>content/blog/*.md</code>, read the frontmatter, sort newest first, 404 a bad slug. <code>readCollection</code> is that reader, and it accepts every shape those products used:</p>
-<pre><code>import { readCollection, readEntry } from &quot;bip-kit/node&quot;;
+<pre><code>import { readCollection, readEntry } from &quot;@bitbaum/bip-kit/node&quot;;
 
 const posts = readCollection(join(process.cwd(), &quot;content&quot;, &quot;blog&quot;));
 const post = readEntry(join(process.cwd(), &quot;content&quot;, &quot;blog&quot;), slug); // undefined → notFound()
@@ -307,8 +307,8 @@ No. Reading is open to anyone.
 ## Who can vote?
 
 Members. Safety decisions: people only, not AI agents.</code></pre>
-<pre><code>import { parseFaq } from &quot;bip-kit&quot;;
-import { Faq } from &quot;bip-kit/react&quot;;
+<pre><code>import { parseFaq } from &quot;@bitbaum/bip-kit&quot;;
+import { Faq } from &quot;@bitbaum/bip-kit/react&quot;;
 
 const sections = parseFaq(readFileSync(&quot;content/faq.md&quot;, &quot;utf8&quot;));
 return &lt;Faq sections={sections} />;</code></pre>
@@ -325,28 +325,28 @@ slugify(&quot;Über uns&quot;);  // → &quot;ueber-uns&quot;</code></pre>
 <div class="record-table"><table><thead><tr><th>Policy</th><th>`Geschäftsmodell` →</th><th>`日本語` →</th><th>For</th></tr></thead><tbody><tr><td>`slugify` **(default)**</td><td>`geschaeftsmodell`</td><td>`section`</td><td>ASCII anchors; German transliteration (ä→ae, ß→ss)</td></tr><tr><td>`unicodeSlugify`</td><td>`geschäftsmodell`</td><td>`日本語`</td><td>Multilingual sites keeping non-Latin anchors</td></tr></tbody></table></div>
 <p>Non-Latin headings have no ASCII spelling, so under the default they strip to nothing and fall back to <code>section</code>, <code>section-2</code>, … That is the reason <code>unicodeSlugify</code> exists.</p>
 <p>Pass a policy through the <code>slugify</code> option — <strong>to both calls</strong>, since an id and the TOC link pointing at it are the same anchor:</p>
-<pre><code>import { parseContentBlocks, extractToc, unicodeSlugify } from &quot;bip-kit&quot;;
+<pre><code>import { parseContentBlocks, extractToc, unicodeSlugify } from &quot;@bitbaum/bip-kit&quot;;
 
 const options = { slugify: unicodeSlugify };
 const blocks = parseContentBlocks(body, options);
 const toc = extractToc(blocks, options); // same policy, or the two drift apart</code></pre>
 <p>Any <code>SlugFn</code> (<code>(text: string) => string</code>) works, so you can compose rather than reimplement — de-duplication (<code>slug</code>, <code>slug-2</code>, …) and the <code>section</code> fallback for empty results are applied on top of whatever you return:</p>
-<pre><code>import { slugify, type SlugFn } from &quot;bip-kit&quot;;
+<pre><code>import { slugify, type SlugFn } from &quot;@bitbaum/bip-kit&quot;;
 
 const prefixed: SlugFn = (text) => `sec-${slugify(text)}`;</code></pre>
-<h2 id="api-the-renderer-bip-kit-react">The renderer — <code>bip-kit/react</code></h2>
+<h2 id="api-the-renderer-bitbaum-bip-kit-react">The renderer — <code>@bitbaum/bip-kit/react</code></h2>
 <p>Server components (RSC-first): <code>ArticleBody</code> (the one you usually need — an <strong>async</strong> server component that pre-awaits shiki/katex and emits a fully synchronous tree), plus <code>Figure</code>, <code>Gallery</code>, <code>Callout</code>, <code>PullQuote</code>, <code>Stats</code>, <code>Footnotes</code>, <code>CodeBlock</code>, <code>Chart</code>, <code>TableBlock</code>, <code>VideoEmbed</code>.</p>
-<p>Client islands (each tiny, dependency-free): <code>Toc</code> (sticky scroll-spy; hides itself under 3 headings), <code>ReadingProgress</code> (top-of-page hairline), <code>Lightbox</code> (figure/gallery zoom, Escape to close), <code>CopyButton</code>. And <code>MermaidBlock</code> on <code>bip-kit/react/mermaid</code> (theme colors resolved from your CSS vars at render time).</p>
+<p>Client islands (each tiny, dependency-free): <code>Toc</code> (sticky scroll-spy; hides itself under 3 headings), <code>ReadingProgress</code> (top-of-page hairline), <code>Lightbox</code> (figure/gallery zoom, Escape to close), <code>CopyButton</code>. And <code>MermaidBlock</code> on <code>@bitbaum/bip-kit/react/mermaid</code> (theme colors resolved from your CSS vars at render time).</p>
 <p><code>ArticleBody</code> props: <code>blocks</code>, <code>components</code> (<code>{ mermaid }</code> override), <code>highlighter</code> (a loaded shiki module — see the code-block section), <code>lightbox</code> (default <code>true</code>), <code>className</code>.</p>
 <h2 id="api-theming-contract">Theming contract</h2>
-<p><code>bip-kit/styles.css</code> is a complete neutral theme; every visual decision is a CSS custom property you may override — light, and dark via <code>@media (prefers-color-scheme)</code> plus an explicit <code>data-theme=&quot;dark&quot; | &quot;light&quot;</code> attribute on <code>&lt;html></code> that always wins.</p>
+<p><code>@bitbaum/bip-kit/styles.css</code> is a complete neutral theme; every visual decision is a CSS custom property you may override — light, and dark via <code>@media (prefers-color-scheme)</code> plus an explicit <code>data-theme=&quot;dark&quot; | &quot;light&quot;</code> attribute on <code>&lt;html></code> that always wins.</p>
 <div class="record-table"><table><thead><tr><th>Variable</th><th>Role</th></tr></thead><tbody><tr><td>`--bp-font-sans` / `--bp-font-mono`</td><td>Type stacks</td></tr><tr><td>`--bp-size`</td><td>Base font size (17px mobile / 18px ≥720px)</td></tr><tr><td>`--bp-leading`</td><td>Body line-height (1.7)</td></tr><tr><td>`--bp-measure`</td><td>Line length (70ch)</td></tr><tr><td>`--bp-flow`</td><td>Vertical rhythm unit (1.5rem)</td></tr><tr><td>`--bp-radius` / `--bp-radius-sm`</td><td>Corner radii</td></tr><tr><td>`--bp-bg` / `--bp-surface`</td><td>Page &amp; raised-surface backgrounds</td></tr><tr><td>`--bp-fg` / `--bp-fg-muted` / `--bp-fg-faint`</td><td>Text hierarchy</td></tr><tr><td>`--bp-border`</td><td>Hairlines &amp; frames</td></tr><tr><td>`--bp-accent` / `--bp-accent-contrast`</td><td>Links, active TOC, progress bar</td></tr><tr><td>`--bp-note` / `--bp-note-bg`</td><td>Note callout</td></tr><tr><td>`--bp-tip` / `--bp-tip-bg`</td><td>Tip callout</td></tr><tr><td>`--bp-warn` / `--bp-warn-bg`</td><td>Warning callout</td></tr><tr><td>`--bp-danger` / `--bp-danger-bg`</td><td>Danger callout</td></tr><tr><td>`--bp-chart-1` … `--bp-chart-6`</td><td>Categorical chart palette</td></tr></tbody></table></div>
 <p>Retheme by redefining vars on <code>:root</code> (and your dark scope) — zero rule overrides needed. Components emit <strong>semantic classes only</strong> (<code>bp-p</code>, <code>bp-h2</code>, <code>bp-callout bp-callout--warn</code>, <code>bp-figure</code>, …), so a from-scratch stylesheet is equally supported.</p>
 <h2 id="api-feedback-let-people-answer-the-roadmap-and-the-changelog">Feedback — let people answer the roadmap and the changelog</h2>
 <blockquote><p><strong>In bitbaum products, a vote goes through Solon, not this module.</strong> Voting</p><p>on a roadmap or having a say in its direction is a right someone holds: an</p><p>OrangeCat account and a seat in the product's organisation on</p><p><a href="https://solon.orangecat.ch/">Solon</a>. General &quot;this is broken&quot; feedback on any</p><p>page goes through the Loki feedback widget. This module collects anonymous</p><p>input under a browser key. Use it only where anonymous input is what the</p><p>product actually wants.</p></blockquote>
 <p>Readers can mark a roadmap item <strong>needed</strong> or <strong>not needed</strong>, comment on a changelog entry, and suggest what is missing. As they type a suggestion, they see similar ones already on the list and can back one of those instead. No sign-in and no language model. bip-kit supplies the rules and the UI; your product supplies storage.</p>
 <pre><code>// app/api/feedback/route.ts
-import { createFeedbackHandler, roadmapItemId, changelogEntryId } from &quot;bip-kit&quot;;
+import { createFeedbackHandler, roadmapItemId, changelogEntryId } from &quot;@bitbaum/bip-kit&quot;;
 import { ROADMAP, CHANGELOG } from &quot;@/lib/config&quot;;
 import { store } from &quot;@/lib/feedback-store&quot;; // your FeedbackStore over your DB
 
@@ -361,7 +361,7 @@ export const { GET, POST } = createFeedbackHandler({
   allow: (request, action) => myRateLimit(request, action), // e.g. limitkit
 });</code></pre>
 <pre><code>// on the roadmap page (client components; wrap once, place anywhere)
-import { FeedbackProvider, StanceButtons, CommentThread, SuggestBox } from &quot;bip-kit/react&quot;;
+import { FeedbackProvider, StanceButtons, CommentThread, SuggestBox } from &quot;@bitbaum/bip-kit/react&quot;;
 
 &lt;FeedbackProvider endpoint=&quot;/api/feedback&quot; targetIds={ids} labels={t.feedback}>
   {items.map((item) => (
@@ -387,7 +387,7 @@ import { FeedbackProvider, StanceButtons, CommentThread, SuggestBox } from &quot
 <h2 id="api-types-you-ll-actually-use">Types you'll actually use</h2>
 <ul><li><code>ContentBlock</code> — the discriminated union your renderer switches on</li><li><code>Inline</code> — the inline span union (<code>text | strong | em | code | link | footnoteRef</code>)</li><li><code>ChartSpec</code> / <code>ChartSeries</code> — the tiny declarative chart contract</li><li><code>TocEntry</code>, <code>ReadingTimeResult</code></li><li><code>BlogPostMeta</code> — minimal post frontmatter (slug, title, summary, tags, …)</li><li><code>RoadmapDoc</code> / <code>RoadmapBucket</code> / <code>RoadmapItem</code> — a renderable roadmap</li><li><code>ChangelogEntry</code> / <code>ChangelogTag</code> — user-facing changelog entries</li><li><code>ReleaseEntry</code> — desktop/installer release notes</li></ul>
 <h2 id="api-starter-routes">Starter routes</h2>
-<p><a href="https://github.com/bitbaum/bip-kit/blob/8bd947bca812ad254770bdb7d68177f752f595ab/templates/next-app"><code>templates/next-app</code></a> has copy-paste Next.js route stubs for <code>/blog</code>, <code>/roadmap</code>, and <code>/changelog</code>. They're intentionally thin — copy them into your app and style with your own tokens.</p>
+<p><a href="https://github.com/bitbaum/bip-kit/blob/53850fbd30a533df4c46aa4cb8074403220be6a9/templates/next-app"><code>templates/next-app</code></a> has copy-paste Next.js route stubs for <code>/blog</code>, <code>/roadmap</code>, and <code>/changelog</code>. They're intentionally thin — copy them into your app and style with your own tokens.</p>
 <h2 id="api-company-vs-users">Company vs users</h2>
 <p>This kit is for <strong>product/company</strong> building-in-public. User-generated blogs belong on a social layer — don't bolt a UGC CMS onto every product domain.</p>
 <h2 id="api-used-in-production">Used in production</h2>
@@ -399,7 +399,9 @@ import { FeedbackProvider, StanceButtons, CommentThread, SuggestBox } from &quot
     </section>
     <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
       <h2 id="changelog-title">Changelog and releases</h2>
-      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-6-1-2026-10-26">0.6.1 — 2026-10-26</h2>
+      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-renamed-bip-kit-is-now-bitbaum-bip-kit">Renamed — <code>bip-kit</code> is now <code>@bitbaum/bip-kit</code></h2>
+<p>Same code, same version, same repository; the package now lives under the <code>@bitbaum</code> npm organization like the rest of the fleet's packages. Install <code>@bitbaum/bip-kit</code> and import from it (<code>bip-kit</code> stays installable and is deprecated once no adopter uses it). No API changed.</p>
+<h2 id="change-0-6-1-2026-10-26">0.6.1 — 2026-10-26</h2>
 <ul><li>Add <code>RoadmapDocument</code> and <code>ChangelogDocument</code> to <code>bip-kit/react</code> for rendering</li></ul>
 <p>locally authored <code>RoadmapDoc</code> and <code>ChangelogEntry</code> records with the same responsive semantic structure across products. The components keep product copy and date formatting caller-owned, accept localized category labels, expose token-based styles, preserve stable item IDs, and reject unsafe essay links. Roadmap rendering can defer its title to an existing page header.</p>
 <h2 id="change-0-6-0-2026-10-07">0.6.0 — 2026-10-07</h2>
@@ -445,7 +447,7 @@ import { FeedbackProvider, StanceButtons, CommentThread, SuggestBox } from &quot
       <ol class="pkg-releases"><li><div class="pkg-release-head"><a href="https://github.com/bitbaum/bip-kit/releases/tag/v0.6.1">v0.6.1</a><time datetime="2026-10-26T08:53:14Z">2026-10-26</time></div><details><summary>Release notes</summary><div class="record"><h2 id="release-0-what-s-changed">What's Changed</h2>
 <p>* chore(deps-dev): Bump the minor-and-patch group across 1 directory with 5 updates by @dependabot[bot] in https://github.com/bitbaum/bip-kit/pull/41 * chore: add the fleet package template files this repo is missing (git-release.yml, release.yml) by @catomean in https://github.com/bitbaum/bip-kit/pull/48 * feat: render typed roadmap and changelog records by @catomean in https://github.com/bitbaum/bip-kit/pull/49</p>
 <p><strong>Full Changelog</strong>: https://github.com/bitbaum/bip-kit/compare/v0.6.0...v0.6.1</p></div></details></li></ol>
-      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/bip-kit/commit/8bd947bca812ad254770bdb7d68177f752f595ab">docs(agents): the org rules block, generated from bitbaum/fleet (#57)</a> <time datetime="2026-11-06T08:50:14Z">2026-11-06</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/155a72e14db1408982a6fd08d506bfc133b38996">docs(agents): the org rules block, generated from bitbaum/fleet (#56)</a> <time datetime="2026-10-30T09:34:58Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/d7f50201a700287ec25a28a41c7d214ca454edb5">fix(release): apply verified build-output staging contract (#55)</a> <time datetime="2026-10-29T00:32:50Z">2026-10-29</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/9d144decd3d70a5b30eb08997f1a0a621d751b67">chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#54)</a> <time datetime="2026-10-28T02:26:29Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/5ede4ec2ae6cb0c66219c79bd7e57e9fa8732b39">docs(agents): the org rules block, generated from bitbaum/fleet (#53)</a> <time datetime="2026-10-28T01:58:15Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/85b43ee24282d3d39e516d344c6e49f56458bfc2">fix(security): refresh sanitizer and brace parser patches (#52)</a> <time datetime="2026-10-27T22:32:24Z">2026-10-27</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/bf265da48db580c771734ecb688a4b7ec3af7e1a">chore: add the fleet package template files this repo is missing (release-notify.yml) (#51)</a> <time datetime="2026-10-26T21:36:38Z">2026-10-26</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/1d5cb32719c37a736f2485f003eebdb75f873e12">chore: add the fleet package template files this repo is missing (AGENTS.md, CLAUDE.md) (#50)</a> <time datetime="2026-10-26T11:06:17Z">2026-10-26</time></li></ol></details>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/bip-kit/commit/53850fbd30a533df4c46aa4cb8074403220be6a9">ci(publish): the current Publish workflow, which can make a package's first npm release (#59)</a> <time datetime="2026-11-06T12:55:41Z">2026-11-06</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/e1dad354afe70556494a5c4601517a3eed4bf3d3">feat: publish as @bitbaum/bip-kit (same code, same version) (#58)</a> <time datetime="2026-11-06T12:49:30Z">2026-11-06</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/8bd947bca812ad254770bdb7d68177f752f595ab">docs(agents): the org rules block, generated from bitbaum/fleet (#57)</a> <time datetime="2026-11-06T08:50:14Z">2026-11-06</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/155a72e14db1408982a6fd08d506bfc133b38996">docs(agents): the org rules block, generated from bitbaum/fleet (#56)</a> <time datetime="2026-10-30T09:34:58Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/d7f50201a700287ec25a28a41c7d214ca454edb5">fix(release): apply verified build-output staging contract (#55)</a> <time datetime="2026-10-29T00:32:50Z">2026-10-29</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/9d144decd3d70a5b30eb08997f1a0a621d751b67">chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#54)</a> <time datetime="2026-10-28T02:26:29Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/5ede4ec2ae6cb0c66219c79bd7e57e9fa8732b39">docs(agents): the org rules block, generated from bitbaum/fleet (#53)</a> <time datetime="2026-10-28T01:58:15Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/bip-kit/commit/85b43ee24282d3d39e516d344c6e49f56458bfc2">fix(security): refresh sanitizer and brace parser patches (#52)</a> <time datetime="2026-10-27T22:32:24Z">2026-10-27</time></li></ol></details>
       <a class="textlink" href="https://github.com/bitbaum/bip-kit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/bip-kit/tags">All tags</a>
     </section>
     <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
@@ -456,7 +458,7 @@ import { FeedbackProvider, StanceButtons, CommentThread, SuggestBox } from &quot
     <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
       <h2 id="evidence-title">Sources and verification</h2>
       <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/bip-kit/blob/8bd947bca812ad254770bdb7d68177f752f595ab/">source commit <code>8bd947bca812</code></a> · 2026-11-06. Source documentation can include work beyond the registry release.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/bip-kit/blob/53850fbd30a533df4c46aa4cb8074403220be6a9/">source commit <code>53850fbd30a5</code></a> · 2026-11-06. Source documentation can include work beyond the registry release.</p>
       <a class="textlink" href="https://github.com/bitbaum/bip-kit/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/chatkit/">&larr; chatkit</a><a href="/packages/">All packages</a><a href="/packages/limitkit/">limitkit &rarr;</a></div></div>
