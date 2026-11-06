@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T09:42:59.397Z",
+  "generatedAt": "2026-11-06T10:04:41.809Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -817,16 +817,16 @@
           "changelog": "https://github.com/bitbaum/loki/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": "Needs George: (1) SSH agent on the laptop has stopped signing (key github-g-but), so these box steps are blocked: `sudo systemctl reset-failed signin-wake.service signin-wake.socket`, `bash scripts/hetzner/install-fleet-rag.sh` (applies #1594's embed lock + MemoryMax; deploy does not sync /opt/loki/embed), and a manual rerun of orangecat-data-invariants (otherwise tonight's 05:00 run confirms); (2) pending blocker cursor-usage-limit-switch-provider.md dates from 2026-09-22 and is probably stale, so confirm and mv it to applied/; (3) memory says autopilot is off for everything except Skif, yet next_best fired on loki, so check the loop config.",
+      "next": "finish orangecat PR; diagnose farmaciadelparco stop timeout",
       "now": {
         "openRuns": 2,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-11-06T05:56:58.737Z"
+          "outcome": "success",
+          "at": "2026-11-06T09:46:45.664Z"
         },
         "lastLog": {
           "date": "2026-11-06",
-          "done": "Closed today's incident follow-ups: loki#1594 is live (health reports 66e1d48f); orangecat#1570 deployed and its migration applied on prod (\"✓ applied + recorded\", CD run 42170138773), which removes the 3 orphaned wallet links; both worktrees and local branches removed."
+          "done": "orangecat orphan-link fix committed (94b3ef22, push in progress); diagnosing farmaciadelparco-app.service timeout failure"
         }
       }
     },
