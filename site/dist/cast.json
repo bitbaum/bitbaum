@@ -664,17 +664,17 @@
       "horse",
       "sky"
     ],
+    "/packages/chatkit/": [
+      "fog-walker",
+      "cat",
+      "moth",
+      "sky"
+    ],
     "/packages/bip-kit/": [
       "fog-walker",
       "cat",
       "egg-fox",
       "kit",
-      "sky"
-    ],
-    "/packages/chatkit/": [
-      "fog-walker",
-      "cat",
-      "moth",
       "sky"
     ],
     "/packages/limitkit/": [
