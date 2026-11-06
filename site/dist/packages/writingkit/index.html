@@ -16,17 +16,17 @@ addEventListener("error", function (e) {
 }, true);
 </script>
 <title>writingkit — bitbaum</title>
-<meta name="description" content="Revision-safe content operations: coordinate generation and edits without overwriting newer writing.">
+<meta name="description" content="Revision-safe content operations and the article composer every product shares: title and text with a microphone and writing help, speak-to-write, photos, charts, drafts that survive sign-in.">
 <link rel="canonical" href="https://bitbaum.orangecat.ch/packages/writingkit/">
 <meta property="og:title" content="writingkit — bitbaum">
-<meta property="og:description" content="Revision-safe content operations: coordinate generation and edits without overwriting newer writing.">
+<meta property="og:description" content="Revision-safe content operations and the article composer every product shares: title and text with a microphone and writing help, speak-to-write, photos, charts, drafts that survive sign-in.">
 <meta property="og:url" content="https://bitbaum.orangecat.ch/packages/writingkit/">
 <meta property="og:site_name" content="bitbaum">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="writingkit — bitbaum">
-<meta name="twitter:description" content="Revision-safe content operations: coordinate generation and edits without overwriting newer writing.">
+<meta name="twitter:description" content="Revision-safe content operations and the article composer every product shares: title and text with a microphone and writing help, speak-to-write, photos, charts, drafts that survive sign-in.">
 <meta name="twitter:image" content="https://bitbaum.orangecat.ch/og/studio.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -80,7 +80,7 @@ addEventListener("error", function (e) {
       <div class="wrap">
         <span class="eyebrow">Package &middot; MIT</span>
         <h1 class="display-1">writingkit</h1>
-        <p class="lede">Revision-safe content operations: coordinate generation and edits without overwriting newer writing.</p>
+        <p class="lede">Revision-safe content operations and the article composer every product shares: title and text with a microphone and writing help, speak-to-write, photos, charts, drafts that survive sign-in.</p>
         <div class="actions">
           <a class="btn primary" href="https://github.com/bitbaum/writingkit#readme">Read documentation</a>
           <a class="btn secondary" href="https://github.com/bitbaum/writingkit#readme">README &amp; API</a>
@@ -110,12 +110,40 @@ addEventListener("error", function (e) {
     </section>
     <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
       <h2 id="documentation-title">API and examples</h2>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/writingkit/blob/b167b55c1cd06e3234a5a1001e98197759ee5d6b/">source commit <code>b167b55c1cd0</code></a> · 2026-11-05. Source documentation can include work beyond the registry release.</p>
-      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-use">Use</a></li><li><a href="#api-ownership">Ownership</a></li><li><a href="#api-verification-and-ownership">Verification and ownership</a></li></ul>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/writingkit/blob/99fe5ae1c02827f8061cca7301439935f0173d37/">source commit <code>99fe5ae1c028</code></a> · 2026-11-06. Source documentation can include work beyond the registry release.</p>
+      <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-the-article-composer-bitbaum-writingkit-react">The article composer (`@bitbaum/writingkit/react`)</a></li><li><a href="#api-use">Use</a></li><li><a href="#api-ownership">Ownership</a></li><li><a href="#api-verification-and-ownership">Verification and ownership</a></li></ul>
       <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Revision-safe operations for an editing workspace. One coordinator serializes generation and editing, captures the requested document revision, and rejects late answers after edits, document/account changes, cancellation or disposal.</p>
-<p>The package supports authoring adapters such as OrangeCat article editing, BiasLens source rewrites and Heidi language-learning adaptations. Product package plans record actual adoption. The package has no runtime dependencies.</p>
+<p>The package supports authoring adapters such as OrangeCat article editing, BiasLens source rewrites and Heidi language-learning adaptations. Product package plans record actual adoption. The core has no runtime dependencies; <code>/react</code> needs React and <code>@bitbaum/chatkit</code> (>=0.23) as peers.</p>
+<h2 id="api-the-article-composer-bitbaum-writingkit-react">The article composer (<code>@bitbaum/writingkit/react</code>)</h2>
+<p>One place to write, the same in every product (fleet rule: the experience belongs to the package). A title and a text that both have the microphone and writing help (chatkit's <code>DictationField</code>), speak-to-write, photos, charts, a preview, a draft that survives sign-in, and a publish bar with one primary action. The app passes transports and context; it never builds a second composer.</p>
+<pre><code>import { ArticleComposer } from '@bitbaum/writingkit/react';
+import '@bitbaum/writingkit/styles.css'; // chatkit's --ck-* tokens; nothing new to map
+
+&lt;ArticleComposer
+  signedIn={!!user}
+  signInHref=&quot;/sign-in?next=/write&quot;
+  authorName={user?.name}
+  draftKey={`app:draft:new:${user?.id}`}
+  anonymousDraftKey=&quot;app:draft:new:anon&quot;
+  voice={{ transcribeUrl: '/api/transcribe' }}
+  photos={pick => &lt;MyPhotoSearch onPick={pick} />} // optional; Photo tool appears with it
+  above={&lt;WhatYouAreAnswering />} // context slot
+  below={&lt;BylineField />} // e.g. a first byline
+  extraActions={&lt;a className=&quot;wk-btn&quot; href=&quot;/desk&quot;>Cancel&lt;/a>}
+  transport={{
+    assist: async ({ mode, instruction, title, body }) => callMyRoute(...), // {title, body} | null
+    publish: async (status, { title, body }) => { /* store, then navigate */ },
+  }}
+/>;</code></pre>
+<ul><li><strong>assist</strong> is optional; without it (or signed out) no writing-help button is</li></ul>
+<p>shown that cannot work, and the Speak panel shows the way to sign in.</p>
+<ul><li><strong>publish</strong> resolves <code>{ problems }</code> to show what is wrong, throws for a</li></ul>
+<p>network failure (said in words, text kept), and navigates on success itself.</p>
+<ul><li>Headless pieces for the route side: <code>parseAssistInput</code>, <code>assistMessages</code>,</li></ul>
+<p><code>parseAssistAnswer</code> (the prompts treat the writer's text as material, never as instructions, and forbid invented facts), plus <code>restoreDraft</code>/<code>writeDraft</code>, <code>insertBlock</code>/<code>wrapRange</code>, <code>figureMarkdown</code>.</p>
+<ul><li>Labels are overridable (<code>labels</code>), so a product translates words, not layout.</li></ul>
 <h2 id="api-use">Use</h2>
-<pre><code>import { WritingSession } from '@bitbaum/writingkit';
+<pre><code>import { WritingSession } from &quot;@bitbaum/writingkit&quot;;
 
 const session = new WritingSession({ documentId, revision });
 // On every committed edit, advance the host revision and synchronize it.
@@ -125,13 +153,13 @@ session.update({ documentId, revision: nextRevision });
 const input = { ...currentDraft };
 const outcome = await session.run(
   ({ signal, base }) => proposeEdit({ input, base, signal }),
-  proposal => {
+  (proposal) => {
     applyToEditor(proposal);
-  }
+  },
 );
 
-if (outcome.status === 'stale') showWritingChanged();
-if (outcome.status === 'failed') showRetry(outcome.error);
+if (outcome.status === &quot;stale&quot;) showWritingChanged();
+if (outcome.status === &quot;failed&quot;) showRetry(outcome.error);
 // busy/cancelled outcomes must not replace the current workspace's messages.
 session.cancel(); // invalidates the answer even if the provider ignores abort
 session.dispose(); // permanently closes this owner when the workspace is removed</code></pre>
@@ -149,14 +177,20 @@ session.dispose(); // permanently closes this owner when the workspace is remove
     </section>
     <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
       <h2 id="changelog-title">Changelog and releases</h2>
-      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-1-0-bootstrap-source">0.1.0 — bootstrap source</h2>
+      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-2-0-the-article-composer">0.2.0 — the article composer</h2>
+<ul><li><code>@bitbaum/writingkit/react</code>: <code>ArticleComposer</code> (title and text with microphone</li></ul>
+<p>and writing help, Speak / Photo / Chart tools, preview, drafts that survive sign-in, one primary publish action) and <code>styles.css</code> on chatkit's tokens.</p>
+<ul><li>Core: <code>assist</code> (prompts and checks for &quot;write from a brief&quot; and &quot;improve&quot;),</li></ul>
+<p><code>text-edit</code>, <code>drafts</code>; moved here from BiasLens so no product keeps a copy.</p>
+<ul><li>Browser test at 390 / 320 (dark) / 1280px; unit and server-render tests.</li></ul>
+<h2 id="change-0-1-0-bootstrap-source">0.1.0 — bootstrap source</h2>
 <ul><li>Revision-safe operation coordinator with captured identities/revisions,</li></ul>
 <p>cancellation, disposal, synchronous application and explicit outcomes.</p>
 <ul><li>Runtime regressions exercise overlapping operations, edited/reverted drafts,</li></ul>
 <p>account switches, ignored aborts, late failures and reentrant cancellation.</p>
 <ul><li>This records source capability; package publication and app adoption are pending.</li></ul></div></details>
       <p>No release notes have been retrieved. This does not mean the package has never changed.</p>
-      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/writingkit/commit/b167b55c1cd06e3234a5a1001e98197759ee5d6b">@bitbaum/writingkit 0.1.0: its own repo</a> <time datetime="2026-11-05T09:54:55Z">2026-11-05</time></li></ol></details>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/writingkit/commit/99fe5ae1c02827f8061cca7301439935f0173d37">feat(react): ArticleComposer — the shared place to write (#1)</a> <time datetime="2026-11-06T08:29:50Z">2026-11-06</time></li><li><a href="https://github.com/bitbaum/writingkit/commit/b167b55c1cd06e3234a5a1001e98197759ee5d6b">@bitbaum/writingkit 0.1.0: its own repo</a> <time datetime="2026-11-05T09:54:55Z">2026-11-05</time></li></ol></details>
       <a class="textlink" href="https://github.com/bitbaum/writingkit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/writingkit/tags">All tags</a>
     </section>
     <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
@@ -167,7 +201,7 @@ session.dispose(); // permanently closes this owner when the workspace is remove
     <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
       <h2 id="evidence-title">Sources and verification</h2>
       <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/writingkit/blob/b167b55c1cd06e3234a5a1001e98197759ee5d6b/">source commit <code>b167b55c1cd0</code></a> · 2026-11-05. Source documentation can include work beyond the registry release.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/writingkit/blob/99fe5ae1c02827f8061cca7301439935f0173d37/">source commit <code>99fe5ae1c028</code></a> · 2026-11-06. Source documentation can include work beyond the registry release.</p>
       <a class="textlink" href="https://github.com/bitbaum/writingkit/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/speechkit/">&larr; speechkit</a><a href="/packages/">All packages</a><a href="/packages/paykit/">paykit &rarr;</a></div></div>
