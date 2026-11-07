@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T19:39:51.875Z",
+  "generatedAt": "2026-11-07T10:39:16.730Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -817,16 +817,16 @@
           "changelog": "https://github.com/bitbaum/loki/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": "finish orangecat PR; diagnose farmaciadelparco stop timeout",
+      "next": null,
       "now": {
         "openRuns": 1,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-11-06T18:59:09.246Z"
+          "at": "2026-11-07T06:21:16.124Z"
         },
         "lastLog": {
-          "date": "2026-11-06",
-          "done": "orangecat orphan-link fix committed (94b3ef22, push in progress); diagnosing farmaciadelparco-app.service timeout failure"
+          "date": "2026-11-07",
+          "done": "appcron-substrata-series failed with curl 52 (empty reply) at 06:12Z because the substrata app dropped the connection mid-request; the route cannot do that itself, no deploy was running, the app is healthy now, and the exact kill reason is in the box journal this sandbox cannot read; no repo change."
         }
       }
     },
@@ -5090,11 +5090,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-11-05T22:58:45.554Z"
+          "at": "2026-11-07T06:38:43.152Z"
         },
         "lastLog": {
-          "date": "2026-11-05",
-          "done": "Verified PR #338 fix is merged and deployed; unit remains failed in systemd only until next hourly timer fires or service is restarted."
+          "date": "2026-11-07",
+          "done": "Verified PR #341 fix is merged and deployed; unit remains failed in systemd only until next 6-hour timer fires or service is restarted."
         }
       }
     },
@@ -6036,8 +6036,8 @@
       "now": {
         "openRuns": 1,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-11-05T09:01:50.556Z"
+          "outcome": "partial",
+          "at": "2026-11-06T10:02:38.138Z"
         },
         "lastLog": {
           "date": "2026-09-15",
