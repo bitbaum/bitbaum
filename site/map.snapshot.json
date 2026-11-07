@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-07T10:39:16.730Z",
+  "generatedAt": "2026-11-07T17:50:49.143Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -822,11 +822,11 @@
         "openRuns": 1,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-11-07T06:21:16.124Z"
+          "at": "2026-11-07T15:03:15.218Z"
         },
         "lastLog": {
           "date": "2026-11-07",
-          "done": "appcron-substrata-series failed with curl 52 (empty reply) at 06:12Z because the substrata app dropped the connection mid-request; the route cannot do that itself, no deploy was running, the app is healthy now, and the exact kill reason is in the box journal this sandbox cannot read; no repo change."
+          "done": "loki-reindex failed because the embed server kept computing pages the client had abandoned at 30s, so every later page queued behind dead work; fixed in PR #1605 (auto-merge on), which drops abandoned work and pages at 16."
         }
       }
     },
@@ -1266,7 +1266,7 @@
           "title": "The law as data: every law in Switzerland and Liechtenstein {#law}",
           "line": "The law of every authority, as the publisher published it: who enacted it, from",
           "status": "in progress",
-          "progress": 64,
+          "progress": 73,
           "targetDate": null,
           "milestones": [
             {
@@ -1294,8 +1294,12 @@
               "done": true
             },
             {
-              "title": "The law sync on a clock: today it runs by hand, so what Solon holds is as current as its last run (/law/coverage shows the date) {#law-sync-clock}",
-              "done": false
+              "title": "The law sync on a clock: every Sunday it reads every publisher again, Wyoming included, so what Solon holds stays current without anyone running it (/law/coverage shows the date) {#law-sync-clock}",
+              "done": true
+            },
+            {
+              "title": "Places data kept in the repository imported after every deploy, when its bytes changed: an edited tariff reaches the site by itself {#places-data-auto}",
+              "done": true
             },
             {
               "title": "Acts can be found and read on Solon itself, with the publisher's link, the page each copy was read from and its hash {#law-reading}",
@@ -1374,11 +1378,19 @@
           "title": "One globe for every place and its law {#globe}",
           "line": "The map is the front door to the law. One globe, from the whole Earth down to a",
           "status": "in progress",
-          "progress": 0,
+          "progress": 20,
           "targetDate": null,
           "milestones": [
             {
-              "title": "The globe on the home page and on /places: the Earth, then a country, then its states or cantons, then its communes or counties, each coloured by what Solon holds there {#globe-home}",
+              "title": "The globe on the home page: the Earth, every country and state Solon holds law for shaded by how much and marked with a dot (so Liechtenstein can be tapped), a tap opening its law; the site's own colours, in every language {#globe-home}",
+              "done": true
+            },
+            {
+              "title": "The globe zooming down past a country to its cantons or states, then its communes or counties, and the same globe on /places and /law {#globe-deep}",
+              "done": false
+            },
+            {
+              "title": "The world outlines published in Solon's own geography manifest, so Substrata and every other app draw the same files through geo-kit's loader {#globe-shared}",
               "done": false
             },
             {
@@ -1396,7 +1408,7 @@
           "title": "Beyond Switzerland: Wyoming first {#law-world}",
           "line": "The goal is the law of every place, readable and actionable by anyone. Each new",
           "status": "in progress",
-          "progress": 29,
+          "progress": 30,
           "targetDate": null,
           "milestones": [
             {
@@ -1425,6 +1437,18 @@
             },
             {
               "title": "The places' and the law's data model without Swiss assumptions: a new country is configuration and an adapter, not a change to the schema {#law-world-model}",
+              "done": false
+            },
+            {
+              "title": "Estonia's national law in force, read from Riigi Teataja (the State Gazette): the register from its public search, each act's text from the gazette's own XML with the day it took effect, read again every week {#law-ee}",
+              "done": true
+            },
+            {
+              "title": "Estonia's municipalities as places, and their own regulations, which the same register lists {#law-ee-local}",
+              "done": false
+            },
+            {
+              "title": "Estonia's income tax in Places: 22% above a basic allowance of EUR 8,400 (Tulumaksuseadus § 4 and § 23), no municipal rate {#places-ee-tax}",
               "done": false
             }
           ],
@@ -1926,6 +1950,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-07",
+          "done": "The globe. The home page shows the Earth with every place whose law Solon holds shaded by how much, and a dot on each so the smallest can be found; hover names it and counts its acts, a tap opens its law. Drawn by the fleet's map package in the site's own colours, from public-domain outlines (Natural Earth, the US Census Bureau); the counts come from /api/v1/law/globe. {#globe-home}\nEstonia's law. Every national act in force in Estonia, read from Riigi Teataja, the State Gazette: its register, and each act's text from the gazette's own XML, cut into its sections (§) with their subsections and points, dated by the day the publisher says it took effect, and read again every week. {#law-ee}\nLiechtenstein beside Switzerland gave no tax for Liechtenstein. A comparison used one tax year for every column, so Liechtenstein, whose 2026 communal rates are not out yet, was held to 2026 when compared with a Swiss place. Each country now uses its own latest complete year; the places of one country still share one.\nComparing Swiss places gave no tax at all. Every comparison said \"Not recorded yet (Canton)\" because each canton's fixed per-head tax, measured and committed on 2026-10-30, had never been loaded into the site; the estimate rightly refuses to treat a missing tax as zero. It is loaded, and Geneva against Zürich gives CHF 22,351 against CHF 15,912 at a taxable income of CHF 100,000. Liechtenstein's income tax, communal surcharges and the cantonal and communal tax steps held in the repository were loaded the same day.\nData no longer waits for someone to load it. Places files kept in the repository are imported after every deploy when they changed, and the law is read again from every publisher every Sunday, so nothing merged or published stays off the site. {#law-sync-clock} {#places-data-auto}"
+        },
+        {
           "date": "2026-11-06",
           "done": "Wyoming's law. Wyoming's statutes and Constitution are read from the Legislature's own downloads, about 21,000 sections in 45 files, each with the publisher's link and hash, and found under Law › United States › Wyoming once loaded. A proposed change to a Wyoming statute shows the citizen initiative as its official route: who signs, the 15% bar and its spread across counties, what the initiative cannot do, and Article 3, Section 52 of the Constitution as the source. {#law-wy-statutes} {#law-wy-route}\nPropose a change to any article. Every article of every act Solon holds has a \"Propose a change\" link: reword it, repeal it or add an article after it, and see the redline against the published text as you write; speak instead of typing if you like. A draft survives signing in on the way. Each proposal has its own page with the redline, why, who supports it, the official route its law can take, and every revision with its hash; one click supports it or withdraws that support, and anyone can write an alternative. Proposed changes are listed under Law in the menu and on each act. {#law-redline} {#law-support}\nThe engine for amending the law. Anyone can propose a change to an act Solon holds: replace, insert or repeal provisions, each change pinned to the hash of the exact text it amends, so a proposal never silently applies to wording it was not written for. Revisions never change once filed; support binds to one revision and can be signed with a Bitcoin key; anyone may fork. Every act lands in a hash-chained log anyone can verify, and the database refuses to change or delete a row. Each amendment shows the official route its place offers, with the provision that creates it. The API is at /api/v1/law/amendments; the screens come next. {#law-amend-engine}\nLaw is in the main menu. Find a law, ask the law and what Solon holds are one click from every page; before, /law could only be reached by its address. Use cases moved to the footer to keep the header on one line. {#law-menu}\nThe home page leads with the open law, and the Glarus section now stands beside the public ledger and open-source rules as one of Solon's roots.\nThree more ideas behind Solon: the public ledger (Bitcoin, 2008), rules as open source (GNU and git), and polycentric law.\nThe law coverage page said the text of the law was not held. It has been held since 2026-11-01 for every federal, cantonal and Liechtenstein act in force; the page and the roadmap now say so. {#law-federal} {#law-li} {#law-cantons}"
         },
@@ -2000,10 +2028,6 @@
         {
           "date": "2026-08-31",
           "done": "The footer promised pages only the navigation could keep. Footer and navigation now render one list. (#122)\nA formatter (Prettier) with format:check in verify; TypeScript 6; CI and the deploy follow the box to Node 24. (#123, #133, #134)"
-        },
-        {
-          "date": "2026-08-25",
-          "done": "Feedback from any page. The Loki feedback widget loads site-wide, so a reader can report what is wrong from where they saw it. (#114)"
         }
       ],
       "records": {
