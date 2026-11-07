@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@bitbaum/chatkit':
-        specifier: ^0.22.0
-        version: 0.22.0(react@19.3.0)
+        specifier: ^0.23.0
+        version: 0.23.0(react@19.3.0)
       '@bitbaum/design-tokens':
-        specifier: 1.2.0
-        version: 1.2.0
+        specifier: 1.5.2
+        version: 1.5.2
       bip-kit:
         specifier: ^0.6.1
         version: 0.6.1(react@19.3.0)
@@ -36,16 +36,17 @@ importers:
 
 packages:
 
-  '@bitbaum/chatkit@0.22.0':
-    resolution: {integrity: sha512-JpygqcHn8fHB9XbdQiBC7ClwrZ8Z9HIJoB5ctFrUnk7BTsdO2eSLfuQadIVgKyEz15DNdY/h8QjgphxGe7PF7A==}
+  '@bitbaum/chatkit@0.23.0':
+    resolution: {integrity: sha512-iI7tyLcN7Zj3tXN9xZsb7Ixa2VPoDnuMX2taEzb2S1wMtV1A2A7tKfCJsqZp2GELrBCJTH9j59f6djbBF1H1RA==}
     engines: {node: '>=20'}
     hasBin: true
     peerDependencies:
       react: '>=18'
 
-  '@bitbaum/design-tokens@1.2.0':
-    resolution: {integrity: sha512-13TSrgYbEzSqt5FNfW3HSJIFcenUto8nKlk4J4IUsepL0gsTBoZ0YDMiJTaJKmR8sPPmcCS94Z/xgUBQW43itw==}
+  '@bitbaum/design-tokens@1.5.2':
+    resolution: {integrity: sha512-ScF091XRs5ph109PkRgI3t5w3eersltlJUGea64MPItqXaT5asXM2x3Gj4t6THuFGojZ2pvMLAtuOc3DTmCoTg==}
     engines: {node: '>=20'}
+    hasBin: true
 
   '@bitbaum/listkit@0.2.2':
     resolution: {integrity: sha512-MS7SpPodTaxXYccXW565M3sIYaDCHSpWFlJB77FdkE/fM7uktxn0u25p0BSWC97i4U6uCqPedYVt1xV34sGXnQ==}
@@ -331,12 +332,12 @@ packages:
 
 snapshots:
 
-  '@bitbaum/chatkit@0.22.0(react@19.3.0)':
+  '@bitbaum/chatkit@0.23.0(react@19.3.0)':
     dependencies:
       pdfjs-dist: 6.4.299
       react: 19.3.0
 
-  '@bitbaum/design-tokens@1.2.0': {}
+  '@bitbaum/design-tokens@1.5.2': {}
 
   '@bitbaum/listkit@0.2.2': {}
 
