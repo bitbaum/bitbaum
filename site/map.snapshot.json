@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-08T06:38:45.936Z",
+  "generatedAt": "2026-11-08T13:49:43.541Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 29,
     "live": 16,
     "clients": 1,
-    "inFlight": 3
+    "inFlight": 2
   },
   "projects": [
     {
@@ -822,11 +822,11 @@
         "openRuns": 1,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-11-08T06:20:17.176Z"
+          "at": "2026-11-08T12:38:12.383Z"
         },
         "lastLog": {
           "date": "2026-11-08",
-          "done": "petvity-smoke failed once with a curl timeout (exit 28) after a run of passes; petvity answers normally now, no deploy ran, and the smoke unit lives only on the box (in no repo), so there is no repo change; the next timer run or one manual start clears it."
+          "done": "user@1000 failed again (a second start-then-OOM-kill cycle, re-dispatched 12:37Z); its manager process itself was SIGKILLed, which #1606's OOMPolicy=continue cannot prevent, and whether this came before or after the 06:28Z install, and what filled RAM, is only in the box journal this sandbox cannot read, so no repo change."
         }
       }
     },
@@ -1318,7 +1318,7 @@
               "done": false
             },
             {
-              "title": "Municipal regulations, commune by commune (one adapter per collection, a shared loader). Loaded: the City of Zürich, the eleven communes of Zug, the three of Glarus and ten of Liechtenstein's eleven. Triesenberg is not: its site answers Solon's reader with a bot check (2026-11-07), and Solon does not get past one; its permission, or a list it publishes for readers, is the way. The other Swiss communes, about 2,100, are not; the most populous go first {#law-communes}",
+              "title": "Municipal regulations, commune by commune (one adapter per collection, a shared loader). Loaded: the City of Zürich, the eleven communes of Zug, the three of Glarus and ten of Liechtenstein's eleven. Triesenberg, the eleventh, answers Solon's reader with a bot check (2026-11-07), so its regulations are read from the Internet Archive's newest copies, each act page saying it is the archive's copy and of which day; its first load waits for a run on Solon's server, which can reach the archive. Any publisher that refuses Solon's reader is read the same way. Of Switzerland's twenty most populous communes, fifteen more are configured (2026-11-08): Winterthur, St. Gallen and Biel/Bienne on LexWork; Luzern, Thun, Chur, Schaffhausen and Sion in the i-web CMS's legal module, which Solon now reads; and Genève, Lausanne, Köniz, Fribourg, Neuchâtel, Lugano and Bellinzona, which link their acts from pages of their own and are read the same way as Liechtenstein's communes. Their first load, a dry run first, runs on Solon's server, as the sandbox they were added from could reach neither their sites nor the archive. Basel's communal law is the canton's; Bern, Vernier and La Chaux-de-Fonds are not yet read. The other Swiss communes, about 2,100, are not; the most populous go first {#law-communes}",
               "done": false
             },
             {
@@ -1336,7 +1336,7 @@
           "title": "Law you can act on {#law-act}",
           "line": "A law that can only be read is half open. Anyone should be able to point at an",
           "status": "in progress",
-          "progress": 38,
+          "progress": 44,
           "targetDate": null,
           "milestones": [
             {
@@ -1349,6 +1349,10 @@
             },
             {
               "title": "Support a proposed change, one click or a signed vote, counted the same way as any other proposal {#law-support}",
+              "done": true
+            },
+            {
+              "title": "Thinking a change through with the assistant while drafting it: what it would do, who would gain and who would bear a cost, where something like it is already law (in the law Solon holds, and studies and experience on the web), each claim cited, no side taken {#law-consult}",
               "done": true
             },
             {
@@ -1378,7 +1382,7 @@
           "title": "One globe for every place and its law {#globe}",
           "line": "The map is the front door to the law. One globe, from the whole Earth down to a",
           "status": "in progress",
-          "progress": 20,
+          "progress": 33,
           "targetDate": null,
           "milestones": [
             {
@@ -1386,7 +1390,11 @@
               "done": true
             },
             {
-              "title": "The globe zooming down past a country to its cantons or states, then its communes or counties, and the same globe on /places and /law {#globe-deep}",
+              "title": "One atlas instead of a globe and a map: the Earth, a tap flying into a country and drawing its places on the same map, coloured by tax at your income; beside it the country's law, its places and their sources; on the home page and /places, a view shared by its address {#atlas}",
+              "done": true
+            },
+            {
+              "title": "The atlas's steps between a country and its communes (cantons, counties, states), every country's places drawn (Estonia, Liechtenstein, Wyoming's counties), and the atlas on /law {#globe-deep}",
               "done": false
             },
             {
@@ -1408,7 +1416,7 @@
           "title": "Beyond Switzerland: Wyoming first {#law-world}",
           "line": "The goal is the law of every place, readable and actionable by anyone. Each new",
           "status": "in progress",
-          "progress": 30,
+          "progress": 48,
           "targetDate": null,
           "milestones": [
             {
@@ -1420,8 +1428,8 @@
               "done": false
             },
             {
-              "title": "Wyoming and its 23 counties on the globe {#law-wy-places}",
-              "done": false
+              "title": "Wyoming and its 23 counties on the globe: in Places by their FIPS codes, drawn from the Census Bureau's boundaries when the atlas opens the United States {#law-wy-places}",
+              "done": true
             },
             {
               "title": "Wyoming's official route: the citizen initiative, with its thresholds and its limits, from Article 3, Section 52 of its Constitution {#law-wy-route}",
@@ -1432,7 +1440,15 @@
               "done": false
             },
             {
-              "title": "New Hampshire's statutes (the RSAs), Grafton's ordinances and the warrant-article route a town's voters can take (RSA 39:3). The General Court's site refuses Solon's readers: its firewall answers \"Web Page Blocked\" (2026-11-06). The way through is the publisher's permission, or a load from a network it allows; not an unofficial copy {#law-nh}",
+              "title": "New Hampshire's statutes (the RSAs): every chapter the General Court's tables list as an act, each section a provision with its heading, its text and its source note, a repealed section kept as the site marks it and a chapter repealed whole marked out of force; read from gc.nh.gov 11 seconds apart, safe to stop and rerun. Where the site's firewall refuses Solon's reader (it answered \"Web Page Blocked\" on 2026-11-06), a chapter is read from the Internet Archive's dated copy, and the act page names the copy. Built and tested against the publisher's own pages as a public 2017 mirror holds them; the server's dry run against the live site and the production load are not done (law-text.yml, source gcnh) {#law-nh}",
+              "done": false
+            },
+            {
+              "title": "Grafton's ordinances {#law-nh-grafton}",
+              "done": false
+            },
+            {
+              "title": "The warrant-article route a town's voters can take (RSA 39:3: 25 registered voters or 2% of them, whichever is less but never fewer than 10, by the fifth Tuesday before the annual meeting). It changes a town's law, not the state's, so it waits for the first New Hampshire town to be an authority {#law-nh-route}",
               "done": false
             },
             {
@@ -1444,11 +1460,47 @@
               "done": true
             },
             {
-              "title": "Estonia's municipalities as places, and their own regulations, which the same register lists {#law-ee-local}",
+              "title": "Estonia's counties and municipalities as places, by their EHAK codes (Statistics Estonia and the Land Board, EHAK2026v1) {#places-ee}",
+              "done": true
+            },
+            {
+              "title": "Estonia's municipalities' own regulations, which the same register lists {#law-ee-local}",
+              "done": false
+            },
+            {
+              "title": "The European Union as the layer above its members: an authority whose law applies in each of its 27 member states, so Estonia's and Luxembourg's pages and questions include it, the way a canton's include the Confederation. The atlas draws no shape for it (a union is not a country in Natural Earth); its law is reached from each member it holds {#law-eu-layer}",
+              "done": true
+            },
+            {
+              "title": "The European Union's regulations and directives in force (tens of thousands of acts): the register from the Publications Office's Cellar SPARQL endpoint a year at a time, named by CELEX number and titled in English; each act's English text from EUR-Lex as HTML, the latest consolidated version that has begun or else the act as the Official Journal published it, dated by the day the publisher states, cut into its preamble, articles and annexes under EUR-Lex's anchors (art_1, anx_I); reuse under Commission Decision 2011/833/EU with its notice; safe to stop and rerun in batches, read again every week. Built and tested against excerpts in the publishers' shapes, because neither host answered the sandbox it was written in; the server's dry run against the live hosts and the production load are not done (law-text.yml, source eurlex) {#law-eu}",
+              "done": false
+            },
+            {
+              "title": "Germany's federal law: every act in the Federal Ministry of Justice's portal Gesetze im Internet (6,143 statutes and ordinances in force on 2026-11-08), named by the portal's abbreviation (bgb, gg) and titled by its German long title, kind from the title; each act's XML cut into its paragraphs, articles and annexes under anchors from their numbers (par_12a, art_3, anlage_1); not protected by copyright (§ 5 UrhG); dated by the day read, read again every week and stored anew only when the text changed; paced at about a request a second. Unit tests run on hand-written excerpts in the portal's shape, because the portal did not answer the sandbox it was written in; the server's dry runs against the live portal listed all 6,143 acts and cut 68 of them (the Bürgerliches Gesetzbuch, Grundgesetz, Strafgesetzbuch, Handelsgesetzbuch, Abgabenordnung, Einkommensteuergesetz and Gewerbeordnung among them) with no failures; the production load is by hand, then the weekly sync (law-text.yml, source gii) {#law-de}",
+              "done": true
+            },
+            {
+              "title": "Germany's Länder: each state publishes its own law (not read yet; federal law only) {#law-de-laender}",
+              "done": false
+            },
+            {
+              "title": "The European Union's law in its other official languages, its decisions and treaties, and the atlas showing EU law in each member's panel {#law-eu-more}",
               "done": false
             },
             {
               "title": "Estonia's income tax in Places: 22% above a basic allowance of EUR 8,400 (Tulumaksuseadus § 4 and § 23), no municipal rate {#places-ee-tax}",
+              "done": true
+            },
+            {
+              "title": "The United States in Places: the nation, its fifty states and the District of Columbia, and Wyoming's counties, by their FIPS codes (Census Bureau); another state's counties are data, not code {#places-us}",
+              "done": true
+            },
+            {
+              "title": "The federal income tax in Places for 2026, single and married filing jointly, with the standard deduction (Rev. Proc. 2025-32), and Wyoming's state income tax recorded as zero (W.S. 39-12-101) {#places-us-tax}",
+              "done": true
+            },
+            {
+              "title": "Every state's counties, and each state's own income tax beside the federal one {#places-us-states}",
               "done": false
             }
           ],
@@ -1531,6 +1583,24 @@
             },
             {
               "title": "Link signed-decision and source-code evidence from the development profile",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Light and dark, as the reader chooses {#themes}",
+          "line": "Solon was dark only. The shared tokens carry both themes; the reader should get",
+          "status": "in progress",
+          "progress": 50,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A light theme beside the dark one: the device decides until the reader picks Light, Dark or Device in the header, kept in their browser; photographs stay dark under their type {#theme-light}",
+              "done": true
+            },
+            {
+              "title": "The theme script and the toggle moved into @bitbaum/design-tokens, so Loki and the fleet's other apps switch the same way {#theme-package}",
               "done": false
             }
           ],
@@ -1950,8 +2020,12 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-08",
+          "done": "Germany's federal law. Solon is set to read every federal statute and ordinance in force from the Federal Ministry of Justice's portal Gesetze im Internet: some 6,100 acts, each in German under its long title, cut into its paragraphs, articles and annexes (§ 12a is par_12a, Art 3 is art_3), not protected by copyright. The text is read again every week and a new version is kept only when the words changed. A question that names Germany or Deutschland asks German federal law as well as the European Union's. The first load runs on Solon's server; the states' own law is not read yet. {#law-de}\nGenève, Lausanne, Köniz, Fribourg, Neuchâtel, Lugano and Bellinzona. Seven more of Switzerland's largest communes link their regulations from pages of their own, and Solon now reads them there, in German, French or Italian, leaving out forms, reports, tables of contents, and acts adopted but not yet in force or repealed. Their first load runs on Solon's server. A question that names one of them (Genf, Freiburg, Neuenburg, Lauis and Bellenz too) asks the commune's own law as well as the canton's. A page of a commune's list that cannot be read no longer stops the rest of the list from being read.\nWinterthur, St. Gallen and Biel/Bienne. Three of Switzerland's largest cities keep their regulations in the same kind of collection as Zug's and Glarus's communes, and Solon is now set to read them the same way: every act with the day each version took effect, cut into articles, from the first load on Solon's server. A question that names Winterthur, Biel or Bienne, or St. Gallen asks the city's own law as well as the canton's.\nLuzern, Thun, Chur, Schaffhausen and Sion. Five of Switzerland's largest cities publish their regulations through the same website system, and Solon now has one reader for all of them: each act with the day each version took effect, its earlier versions, and the city's own PDF, from the first load on Solon's server. A question that names one of these cities, in German or French (Lucerne, Thoune, Coire, Sitten), asks the city's own law as well as the canton's.\nEstonia and Liechtenstein drawn on the atlas. Liechtenstein's eleven communes come from the same swisstopo boundary file as Switzerland's; Estonia's municipalities from the Land Board's own file, read again each month, so opening either country on the atlas now draws its places. {#globe-deep}\nThe United States in Places. The nation, its fifty states and the District of Columbia, and Wyoming's 23 counties, by their FIPS codes from the Census Bureau; opening the United States on the atlas draws Wyoming's counties from the Bureau's boundary file. Its tax for 2026: the federal income tax for a single person and for a married couple filing jointly, from the IRS's own figures (Rev. Proc. 2025-32: the rate tables of section 4.01 and the standard deduction of 16,100 and 32,200 dollars of section 4.14), and Wyoming's own income tax, which is none (W.S. 39-12-101), recorded as zero. The estimate says what it leaves out: Social Security and Medicare, credits, itemized deductions and the other filing statuses. A question asked on a Wyoming county's page is asked of Wyoming's law. {#places-us} {#places-us-tax} {#law-wy-places}\nOne atlas. The globe on the home page and the map on Places are one now. Tap a country and the Earth turns to it and draws its places, coloured by what tax would cost you there; beside it, how much of its law Solon holds with a link to read it and propose changes, and where every figure comes from. The long lists of levels and sources under the map are gone: a place is found by tapping it or searching. A view can be shared: /places?in=ch. {#atlas}\nThink a change through before you file it. Under the form for proposing a change to a law, the assistant now reads your draft as it stands and answers what you ask about it: what it would change, what would likely follow, who would gain and who would bear a cost, and where something like it is already law, from the law Solon holds and from studies and the experience of other places on the web. Every claim cites its source; it takes no side, and the proposal stays yours. {#law-consult}\nThe assistant knows every place Solon holds. Questions about Estonia's and Wyoming's law are now searched in Estonian and English, as their law is written, not in German.\nWhen a publisher refuses Solon's reader, the law comes from a dated public copy. If a commune's site answers with a refusal (HTTP 403, 429 or 503, or a bot check in place of the page), Solon reads the newest copy the Internet Archive's Wayback Machine holds of that page or document, and keeps the publisher's own address as the act's. The act page says so in plain words: \"Copy read on {date} from the Internet Archive's copy of {date}\", with a link to that copy, in all five languages; the Markdown for machines names it too. Solon still says who it is and solves no challenge. Triesenberg, whose site answers with a bot check, is the first commune read this way, the eleventh of Liechtenstein's eleven. {#law-communes}\nA light theme. Solon follows your device: light when it is light, dark when it is dark. The new button in the header lets you pick Light, Dark or Device, and your browser remembers it; nothing is sent to us. Photographs, and the header over them, stay dark so the words on them can be read. The law globe and the Places map redraw in the theme you pick. {#theme-light}\nA reader for New Hampshire's statutes. Solon can now read the Revised Statutes Annotated from the General Court's site: every chapter as an act (\"RSA 39\"), each section with its heading, its text and its source note, repealed sections kept as the site marks them. Where the site's firewall answers \"Web Page Blocked\", as it did to Solon, the chapter comes from the Internet Archive's dated copy and the act page says so. A firewall's block page is now recognised as a refusal for every publisher, not taken for the law. The first load runs on Solon's server and has not run yet, so New Hampshire's law is not on the site today; the roadmap item stays open until it is.\nThe European Union, the layer above its members. EU law applies in every member state, above the state's own, and Solon now places it there: the pages of Estonia and Luxembourg name the European Union among the law that also applies, the way a canton's page names the Confederation, and a question about either is asked of EU law too. A reader for the EU's regulations and directives in force comes with it: the list from the Publications Office's open data, titled in English and named by CELEX number, and each act's text from EUR-Lex, in its latest consolidated version where there is one, cut into articles and annexes under EUR-Lex's own anchors, with the notice EUR-Lex's terms ask for. The first load runs on Solon's server and has not run yet, so the EU's acts are not on the site today; their roadmap item stays open until they are. {#law-eu-layer}\nA law read from an old archived copy is read again from a fresh one. When the newest copy the Internet Archive holds of a refusing site's page is more than a year old (one New Hampshire chapter's was from 2007), Solon first asks the archive to save the page today, from its own network, and reads that; the old copy is read only when no fresh one can be had, and its date is shown as before.\nThe assistant's answers about a proposed change keep closer to the evidence. It now looks for precedents nearest first (the same country's other levels, neighbouring cantons and countries) instead of anywhere at all, labels an effect it reasons out as reasoning rather than as something observed elsewhere, and suggests follow-up questions in the language of the answer.\nDocuments read from the archive arrive whole. A site that refuses Solon's reader for every document sends dozens of requests to the Internet Archive at once; the archive drops some, and some of its captures of a PDF are cut short. Solon now asks again after a dropped connection, passes over a PDF that did not arrive whole for the capture before it, and turns to the archive when the site does not answer at all.\nA site whose newest archived copy is its own bot check is read from the copy before. When the Internet Archive's latest capture of a refusing site is the challenge page too, Solon now walks back through the earlier captures, newest first, and reads the newest one that is the page itself. The act page still names the copy and its date.\nScanned regulations read blank. Most communes scan their regulations as fax- or JBIG2-compressed images, and the PDF reader drew those pages blank, so Solon reported \"no text in the PDF\" and three of Balzers' regulations were missing. The reader now has the decoders it needs, and those pages are read by OCR like any other scan."
+        },
+        {
           "date": "2026-11-07",
-          "done": "The globe. The home page shows the Earth with every place whose law Solon holds shaded by how much, and a dot on each so the smallest can be found; hover names it and counts its acts, a tap opens its law. Drawn by the fleet's map package in the site's own colours, from public-domain outlines (Natural Earth, the US Census Bureau); the counts come from /api/v1/law/globe. {#globe-home}\nEstonia's law. Every national act in force in Estonia, read from Riigi Teataja, the State Gazette: its register, and each act's text from the gazette's own XML, cut into its sections (§) with their subsections and points, dated by the day the publisher says it took effect, and read again every week. {#law-ee}\nThree more of Liechtenstein's communes. Balzers, Triesen and Mauren: each regulation linked from the commune's own page, about ninety in all, with forms left out. Ten of the eleven communes are read now. {#law-communes}\nEstonia's register skipped some acts and listed others twice. The State Gazette pages its list in an order that shifts among acts of one title, so a pass listed 77 acts twice and missed as many; the second copy of each then failed to load. Each act is now listed once, and the list is read again until every act the gazette counts has been seen.\nSchellenberg's regulations were placed on Mauren. They were filed under commune 7008, which is Mauren's number in the register; Schellenberg's is 7011. They are on Schellenberg now, and Mauren holds its own.\nLiechtenstein beside Switzerland gave no tax for Liechtenstein. A comparison used one tax year for every column, so Liechtenstein, whose 2026 communal rates are not out yet, was held to 2026 when compared with a Swiss place. Each country now uses its own latest complete year; the places of one country still share one.\nComparing Swiss places gave no tax at all. Every comparison said \"Not recorded yet (Canton)\" because each canton's fixed per-head tax, measured and committed on 2026-10-30, had never been loaded into the site; the estimate rightly refuses to treat a missing tax as zero. It is loaded, and Geneva against Zürich gives CHF 22,351 against CHF 15,912 at a taxable income of CHF 100,000. Liechtenstein's income tax, communal surcharges and the cantonal and communal tax steps held in the repository were loaded the same day.\nData no longer waits for someone to load it. Places files kept in the repository are imported after every deploy when they changed, and the law is read again from every publisher every Sunday, so nothing merged or published stays off the site. {#law-sync-clock} {#places-data-auto}"
+          "done": "Estonia in Places. Its fifteen counties and 78 municipalities, by their codes in EHAK, the official classification (Statistics Estonia and the Land Board, version 2026v1), each with its Estonian, English and Russian names; and its income tax, 22 % of what is above the tax-free income of 8,400 euros (Income Tax Act § 4 and § 23), the same in every municipality. Estonian places can be compared with each other in euros; a place in another currency asks for its own amount. {#places-ee} {#places-ee-tax}\nThe globe. The home page shows the Earth with every place whose law Solon holds shaded by how much, and a dot on each so the smallest can be found; hover names it and counts its acts, a tap opens its law. Drawn by the fleet's map package in the site's own colours, from public-domain outlines (Natural Earth, the US Census Bureau); the counts come from /api/v1/law/globe. {#globe-home}\nEstonia's law. Every national act in force in Estonia, read from Riigi Teataja, the State Gazette: its register, and each act's text from the gazette's own XML, cut into its sections (§) with their subsections and points, dated by the day the publisher says it took effect, and read again every week. {#law-ee}\nThree more of Liechtenstein's communes. Balzers, Triesen and Mauren: each regulation linked from the commune's own page, about ninety in all, with forms left out. Ten of the eleven communes are read now. {#law-communes}\nScanned regulations could stop a whole commune's load. Reading a scanned document kept every page's picture in memory until the end; ten pages scanned at 600 dpi (a Balzers regulation) used 1.2 GB and the load was killed. Each page is let go once read, and the same document now needs 300 MB.\nEstonia's register skipped some acts and listed others twice. The State Gazette pages its list in an order that shifts among acts of one title, so a pass listed 77 acts twice and missed as many; the second copy of each then failed to load. Each act is now listed once, and the list is read again until every act the gazette counts has been seen.\nSchellenberg's regulations were placed on Mauren. They were filed under commune 7008, which is Mauren's number in the register; Schellenberg's is 7011. They are on Schellenberg now, and Mauren holds its own.\nLiechtenstein beside Switzerland gave no tax for Liechtenstein. A comparison used one tax year for every column, so Liechtenstein, whose 2026 communal rates are not out yet, was held to 2026 when compared with a Swiss place. Each country now uses its own latest complete year; the places of one country still share one.\nComparing Swiss places gave no tax at all. Every comparison said \"Not recorded yet (Canton)\" because each canton's fixed per-head tax, measured and committed on 2026-10-30, had never been loaded into the site; the estimate rightly refuses to treat a missing tax as zero. It is loaded, and Geneva against Zürich gives CHF 22,351 against CHF 15,912 at a taxable income of CHF 100,000. Liechtenstein's income tax, communal surcharges and the cantonal and communal tax steps held in the repository were loaded the same day.\nData no longer waits for someone to load it. Places files kept in the repository are imported after every deploy when they changed, and the law is read again from every publisher every Sunday, so nothing merged or published stays off the site. {#law-sync-clock} {#places-data-auto}"
         },
         {
           "date": "2026-11-06",
@@ -2024,10 +2098,6 @@
         {
           "date": "2026-09-02",
           "done": "Prisma replaced by Drizzle — the fleet has one ORM. Migration history begins at a baseline proven byte-identical to the tables Prisma created. (#136)\nOne package manager (pnpm) across the fleet. (#137)\nMoved to the bitbaum organization, and verify made honest again. (#135)"
-        },
-        {
-          "date": "2026-08-31",
-          "done": "The footer promised pages only the navigation could keep. Footer and navigation now render one list. (#122)\nA formatter (Prettier) with format:check in verify; TypeScript 6; CI and the deploy follow the box to Node 24. (#123, #133, #134)"
         }
       ],
       "records": {
@@ -5111,10 +5181,10 @@
       },
       "next": null,
       "now": {
-        "openRuns": 2,
+        "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-11-07T06:38:43.152Z"
+          "outcome": "partial",
+          "at": "2026-11-07T23:24:36.426Z"
         },
         "lastLog": {
           "date": "2026-11-07",
@@ -6058,7 +6128,7 @@
       },
       "next": "Follow the canonical roadmap for planned work.",
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
           "outcome": "timeout",
           "at": "2026-11-07T10:06:15.512Z"
