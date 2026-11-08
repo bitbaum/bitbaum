@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-08T13:49:43.541Z",
+  "generatedAt": "2026-11-08T19:55:52.809Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 29,
     "live": 16,
     "clients": 1,
-    "inFlight": 2
+    "inFlight": 1
   },
   "projects": [
     {
@@ -819,14 +819,14 @@
       },
       "next": null,
       "now": {
-        "openRuns": 1,
+        "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-11-08T12:38:12.383Z"
+          "outcome": "error",
+          "at": "2026-11-08T17:55:27.101Z"
         },
         "lastLog": {
           "date": "2026-11-08",
-          "done": "user@1000 failed again (a second start-then-OOM-kill cycle, re-dispatched 12:37Z); its manager process itself was SIGKILLed, which #1606's OOMPolicy=continue cannot prevent, and whether this came before or after the 06:28Z install, and what filled RAM, is only in the box journal this sandbox cannot read, so no repo change."
+          "done": "user@1001 re-dispatched with the same 11-05 07:09 OOM journal; the repo fix (#1601, OOMPolicy=continue drop-in, deployed) is already on main, the manager has simply never been restarted since (openclaw-gateway-up.yml last ran 2026-10-15), so no repo change — George needs to run the gateway-up workflow."
         }
       }
     },
@@ -1416,7 +1416,7 @@
           "title": "Beyond Switzerland: Wyoming first {#law-world}",
           "line": "The goal is the law of every place, readable and actionable by anyone. Each new",
           "status": "in progress",
-          "progress": 48,
+          "progress": 44,
           "targetDate": null,
           "milestones": [
             {
@@ -1476,6 +1476,18 @@
               "done": false
             },
             {
+              "title": "Austria's federal law in force, read from the Federal Chancellery's RIS (Rechtsinformationssystem des Bundes) through its Open Government Data API (v2.6, application BrKons): the register of 10,681 consolidated acts (statutes, constitutional laws, ordinances, notices, treaties), each once by its Gesetzesnummer with its Kurztitel, listed in a hundred-document pages; each act's whole consolidated German text from the RIS's page, cut into its sections (§ 4), articles (Art. 7, Art. 2 § 4) and annexes (Anlage 1) under the RIS's own markers, dated by the latest day a section took effect; CC BY 4.0 with the RIS's notice on the act page; safe to stop and rerun in batches (law-text.yml, source ris). The reader is verified against the live API by dry runs on Solon's server (2026-11-08: the whole register listed, and no failure in a sample of 60 acts nor in the ABGB, ASVG, B-VG, DSG, EStG, StGB, MRG and UStG, the ABGB cut into 1,380 provisions and the B-VG into 223 with its annex); the production load is the next item {#law-at}",
+              "done": true
+            },
+            {
+              "title": "Austria's production load: the first full run of ris on Solon's server (about three seconds an act, so a few runs at limit 1500), the weekly law sync then reading it again, and the RIS told of the mass download as its FAQ asks (ris.it@bka.gv.at) {#law-at-load}",
+              "done": false
+            },
+            {
+              "title": "Austria's Länder: the RIS also holds each state's consolidated law (LrKons), its Bundesgesetzblatt and its court decisions, none read yet; and Austria in Places, which has no pack {#law-at-more}",
+              "done": false
+            },
+            {
               "title": "Germany's federal law: every act in the Federal Ministry of Justice's portal Gesetze im Internet (6,143 statutes and ordinances in force on 2026-11-08), named by the portal's abbreviation (bgb, gg) and titled by its German long title, kind from the title; each act's XML cut into its paragraphs, articles and annexes under anchors from their numbers (par_12a, art_3, anlage_1); not protected by copyright (§ 5 UrhG); dated by the day read, read again every week and stored anew only when the text changed; paced at about a request a second. Unit tests run on hand-written excerpts in the portal's shape, because the portal did not answer the sandbox it was written in; the server's dry runs against the live portal listed all 6,143 acts and cut 68 of them (the Bürgerliches Gesetzbuch, Grundgesetz, Strafgesetzbuch, Handelsgesetzbuch, Abgabenordnung, Einkommensteuergesetz and Gewerbeordnung among them) with no failures; the production load is by hand, then the weekly sync (law-text.yml, source gii) {#law-de}",
               "done": true
             },
@@ -1485,6 +1497,18 @@
             },
             {
               "title": "The European Union's law in its other official languages, its decisions and treaties, and the atlas showing EU law in each member's panel {#law-eu-more}",
+              "done": false
+            },
+            {
+              "title": "The United Kingdom's legislation, from legislation.gov.uk (The National Archives): UK Public General Acts and UK Statutory Instruments, the register from the Atom feeds a type and a year at a time (newest first), named by address (ukpga/2018/12) and titled in English; each item's current (revised) CLML text cut into its introductory text, sections and schedules under the XML's own ids (section-3, regulation-2, schedule-1), subsection numbers in brackets, a repealed or not-yet-commenced provision left out, an item repealed whole marked out of force and one with nothing commenced left for the next run, dated by the publisher's own date; Open Government Licence v3.0 with its notice; paced by the site's robots.txt crawl-delay (5 seconds when checked, 2026-11-08), within its fair use limit of 1,500 requests in 5 minutes; safe to stop and rerun. Verified live by the server's dry runs of 2026-11-08 (1,152 items listed and 45 cut with no failures); the production load is not done, and the weekly sync does not carry it (a full pass lists every year and asks 5 seconds a page; see law-uk-sync below) (law-text.yml, source ukleg) {#law-uk}",
+              "done": true
+            },
+            {
+              "title": "The devolved legislatures' acts and instruments (asp, ssi, anaw, asc, wsi, nia, nisr) as authorities of their own, and the United Kingdom's pre-1948 instruments {#law-uk-devolved}",
+              "done": false
+            },
+            {
+              "title": "The United Kingdom's law kept current each week: read only the years and items that changed (the site's change feeds), so a weekly run does not list every year of statutory instruments again; and the instruments the site holds only as a PDF until its XML appears, read from the PDF meanwhile {#law-uk-sync}",
               "done": false
             },
             {
@@ -1653,6 +1677,60 @@
             },
             {
               "title": "A rule-set template for groups that want almost no collective decisions, beside the five shipped ones; a template, never a default {#fork-minimal}",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "The law beside the numbers {#stats}",
+          "line": "A law says one thing; how it is enforced and what happened after it changed",
+          "status": "planned",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Statistical series as facts: new metrics in the registry (definition, unit, the publisher's series code), current and historical values with source, method and revisions, from national statistical offices, the OECD, Eurostat and the World Bank {#stats-series}",
+              "done": false
+            },
+            {
+              "title": "Every metric, value or enforcement record can link to the provisions it is about; links are added and retracted in the record, never rewritten {#stats-law-links}",
+              "done": false
+            },
+            {
+              "title": "Enforcement as an attributed assertion beside the statute, never in it: rates where measured, practice where described, with evidence {#stats-enforcement}",
+              "done": false
+            },
+            {
+              "title": "Law events on timelines read from the law itself (a version taking or leaving force, a proposal closing), plus sourced events for changes that are not an act {#stats-events}",
+              "done": false
+            },
+            {
+              "title": "First series loaded with sources: top income tax rate, tax wedge, government consumption as a share of GDP, credited components of published freedom indexes, one enforcement proxy {#stats-first}",
+              "done": false
+            },
+            {
+              "title": "The atlas coloured by any metric, and a place panel with the value, its source, the linked law, a short series and the enforcement beside it {#stats-map}",
+              "done": false
+            },
+            {
+              "title": "Timelines with two series, law events marked, and peer places or the national trend beside them; the chart shows caveats and never draws a cause {#stats-timeline}",
+              "done": false
+            },
+            {
+              "title": "Ranked bars, stat tiles, sparklines, law beside enforcement, scatter and parallel coordinates; each mark opens its source and its law; every chart readable as a table; all on @bitbaum/chartkit, which Solon adopts (the tally moves onto it) {#stats-charts}",
+              "done": false
+            },
+            {
+              "title": "Axes as versioned definitions with their author, weights the reader sets, what a place claims kept apart from what it achieves {#stats-axes}",
+              "done": false
+            },
+            {
+              "title": "Saved chart views, stored by hash, shared by link, and attached to a proposal as evidence {#stats-views}",
+              "done": false
+            },
+            {
+              "title": "A group's axes and weights as its own policy, amended by vote, every change in the append-only record {#stats-governed}",
               "done": false
             }
           ],
@@ -1901,6 +1979,15 @@
           "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
         },
         {
+          "title": "Explainers from the record {#stats-explainers}",
+          "line": "Short narrated summaries generated from a saved chart view and its law",
+          "status": "later",
+          "progress": null,
+          "targetDate": null,
+          "milestones": [],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
           "title": "Groups of groups, and leaving with your record",
           "line": "Organizations join a larger one as members, each voting by its own internal",
           "status": "later",
@@ -2021,7 +2108,7 @@
       "changelog": [
         {
           "date": "2026-11-08",
-          "done": "Germany's federal law. Solon is set to read every federal statute and ordinance in force from the Federal Ministry of Justice's portal Gesetze im Internet: some 6,100 acts, each in German under its long title, cut into its paragraphs, articles and annexes (§ 12a is par_12a, Art 3 is art_3), not protected by copyright. The text is read again every week and a new version is kept only when the words changed. A question that names Germany or Deutschland asks German federal law as well as the European Union's. The first load runs on Solon's server; the states' own law is not read yet. {#law-de}\nGenève, Lausanne, Köniz, Fribourg, Neuchâtel, Lugano and Bellinzona. Seven more of Switzerland's largest communes link their regulations from pages of their own, and Solon now reads them there, in German, French or Italian, leaving out forms, reports, tables of contents, and acts adopted but not yet in force or repealed. Their first load runs on Solon's server. A question that names one of them (Genf, Freiburg, Neuenburg, Lauis and Bellenz too) asks the commune's own law as well as the canton's. A page of a commune's list that cannot be read no longer stops the rest of the list from being read.\nWinterthur, St. Gallen and Biel/Bienne. Three of Switzerland's largest cities keep their regulations in the same kind of collection as Zug's and Glarus's communes, and Solon is now set to read them the same way: every act with the day each version took effect, cut into articles, from the first load on Solon's server. A question that names Winterthur, Biel or Bienne, or St. Gallen asks the city's own law as well as the canton's.\nLuzern, Thun, Chur, Schaffhausen and Sion. Five of Switzerland's largest cities publish their regulations through the same website system, and Solon now has one reader for all of them: each act with the day each version took effect, its earlier versions, and the city's own PDF, from the first load on Solon's server. A question that names one of these cities, in German or French (Lucerne, Thoune, Coire, Sitten), asks the city's own law as well as the canton's.\nEstonia and Liechtenstein drawn on the atlas. Liechtenstein's eleven communes come from the same swisstopo boundary file as Switzerland's; Estonia's municipalities from the Land Board's own file, read again each month, so opening either country on the atlas now draws its places. {#globe-deep}\nThe United States in Places. The nation, its fifty states and the District of Columbia, and Wyoming's 23 counties, by their FIPS codes from the Census Bureau; opening the United States on the atlas draws Wyoming's counties from the Bureau's boundary file. Its tax for 2026: the federal income tax for a single person and for a married couple filing jointly, from the IRS's own figures (Rev. Proc. 2025-32: the rate tables of section 4.01 and the standard deduction of 16,100 and 32,200 dollars of section 4.14), and Wyoming's own income tax, which is none (W.S. 39-12-101), recorded as zero. The estimate says what it leaves out: Social Security and Medicare, credits, itemized deductions and the other filing statuses. A question asked on a Wyoming county's page is asked of Wyoming's law. {#places-us} {#places-us-tax} {#law-wy-places}\nOne atlas. The globe on the home page and the map on Places are one now. Tap a country and the Earth turns to it and draws its places, coloured by what tax would cost you there; beside it, how much of its law Solon holds with a link to read it and propose changes, and where every figure comes from. The long lists of levels and sources under the map are gone: a place is found by tapping it or searching. A view can be shared: /places?in=ch. {#atlas}\nThink a change through before you file it. Under the form for proposing a change to a law, the assistant now reads your draft as it stands and answers what you ask about it: what it would change, what would likely follow, who would gain and who would bear a cost, and where something like it is already law, from the law Solon holds and from studies and the experience of other places on the web. Every claim cites its source; it takes no side, and the proposal stays yours. {#law-consult}\nThe assistant knows every place Solon holds. Questions about Estonia's and Wyoming's law are now searched in Estonian and English, as their law is written, not in German.\nWhen a publisher refuses Solon's reader, the law comes from a dated public copy. If a commune's site answers with a refusal (HTTP 403, 429 or 503, or a bot check in place of the page), Solon reads the newest copy the Internet Archive's Wayback Machine holds of that page or document, and keeps the publisher's own address as the act's. The act page says so in plain words: \"Copy read on {date} from the Internet Archive's copy of {date}\", with a link to that copy, in all five languages; the Markdown for machines names it too. Solon still says who it is and solves no challenge. Triesenberg, whose site answers with a bot check, is the first commune read this way, the eleventh of Liechtenstein's eleven. {#law-communes}\nA light theme. Solon follows your device: light when it is light, dark when it is dark. The new button in the header lets you pick Light, Dark or Device, and your browser remembers it; nothing is sent to us. Photographs, and the header over them, stay dark so the words on them can be read. The law globe and the Places map redraw in the theme you pick. {#theme-light}\nA reader for New Hampshire's statutes. Solon can now read the Revised Statutes Annotated from the General Court's site: every chapter as an act (\"RSA 39\"), each section with its heading, its text and its source note, repealed sections kept as the site marks them. Where the site's firewall answers \"Web Page Blocked\", as it did to Solon, the chapter comes from the Internet Archive's dated copy and the act page says so. A firewall's block page is now recognised as a refusal for every publisher, not taken for the law. The first load runs on Solon's server and has not run yet, so New Hampshire's law is not on the site today; the roadmap item stays open until it is.\nThe European Union, the layer above its members. EU law applies in every member state, above the state's own, and Solon now places it there: the pages of Estonia and Luxembourg name the European Union among the law that also applies, the way a canton's page names the Confederation, and a question about either is asked of EU law too. A reader for the EU's regulations and directives in force comes with it: the list from the Publications Office's open data, titled in English and named by CELEX number, and each act's text from EUR-Lex, in its latest consolidated version where there is one, cut into articles and annexes under EUR-Lex's own anchors, with the notice EUR-Lex's terms ask for. The first load runs on Solon's server and has not run yet, so the EU's acts are not on the site today; their roadmap item stays open until they are. {#law-eu-layer}\nA law read from an old archived copy is read again from a fresh one. When the newest copy the Internet Archive holds of a refusing site's page is more than a year old (one New Hampshire chapter's was from 2007), Solon first asks the archive to save the page today, from its own network, and reads that; the old copy is read only when no fresh one can be had, and its date is shown as before.\nThe assistant's answers about a proposed change keep closer to the evidence. It now looks for precedents nearest first (the same country's other levels, neighbouring cantons and countries) instead of anywhere at all, labels an effect it reasons out as reasoning rather than as something observed elsewhere, and suggests follow-up questions in the language of the answer.\nDocuments read from the archive arrive whole. A site that refuses Solon's reader for every document sends dozens of requests to the Internet Archive at once; the archive drops some, and some of its captures of a PDF are cut short. Solon now asks again after a dropped connection, passes over a PDF that did not arrive whole for the capture before it, and turns to the archive when the site does not answer at all.\nA site whose newest archived copy is its own bot check is read from the copy before. When the Internet Archive's latest capture of a refusing site is the challenge page too, Solon now walks back through the earlier captures, newest first, and reads the newest one that is the page itself. The act page still names the copy and its date.\nScanned regulations read blank. Most communes scan their regulations as fax- or JBIG2-compressed images, and the PDF reader drew those pages blank, so Solon reported \"no text in the PDF\" and three of Balzers' regulations were missing. The reader now has the decoders it needs, and those pages are read by OCR like any other scan."
+          "done": "United Kingdom legislation. Solon now reads the United Kingdom's Public General Acts and Statutory Instruments from legislation.gov.uk, The National Archives' official service: each item by its address (ukpga/2018/12), titled in English, with its current text cut into sections and schedules under the site's own numbers and dated by the day the site says that version began. A provision repealed or not yet in force is left out, and an act repealed whole is marked out of force. The reader asks once every five seconds, as the site's robots.txt requests, and the text is shown under the Open Government Licence v3.0 with its notice. The server's dry runs listed 1,152 items of 2024 and cut 45 of them with no failures; the full load is still to run on Solon's server, and Scotland, Wales and Northern Ireland follow. {#law-uk}\nGermany's federal law. Solon is set to read every federal statute and ordinance in force from the Federal Ministry of Justice's portal Gesetze im Internet: some 6,100 acts, each in German under its long title, cut into its paragraphs, articles and annexes (§ 12a is par_12a, Art 3 is art_3), not protected by copyright. The text is read again every week and a new version is kept only when the words changed. A question that names Germany or Deutschland asks German federal law as well as the European Union's. The first load runs on Solon's server; the states' own law is not read yet. {#law-de}\nGenève, Lausanne, Köniz, Fribourg, Neuchâtel, Lugano and Bellinzona. Seven more of Switzerland's largest communes link their regulations from pages of their own, and Solon now reads them there, in German, French or Italian, leaving out forms, reports, tables of contents, and acts adopted but not yet in force or repealed. Their first load runs on Solon's server. A question that names one of them (Genf, Freiburg, Neuenburg, Lauis and Bellenz too) asks the commune's own law as well as the canton's. A page of a commune's list that cannot be read no longer stops the rest of the list from being read.\nWinterthur, St. Gallen and Biel/Bienne. Three of Switzerland's largest cities keep their regulations in the same kind of collection as Zug's and Glarus's communes, and Solon is now set to read them the same way: every act with the day each version took effect, cut into articles, from the first load on Solon's server. A question that names Winterthur, Biel or Bienne, or St. Gallen asks the city's own law as well as the canton's.\nLuzern, Thun, Chur, Schaffhausen and Sion. Five of Switzerland's largest cities publish their regulations through the same website system, and Solon now has one reader for all of them: each act with the day each version took effect, its earlier versions, and the city's own PDF, from the first load on Solon's server. A question that names one of these cities, in German or French (Lucerne, Thoune, Coire, Sitten), asks the city's own law as well as the canton's.\nEstonia and Liechtenstein drawn on the atlas. Liechtenstein's eleven communes come from the same swisstopo boundary file as Switzerland's; Estonia's municipalities from the Land Board's own file, read again each month, so opening either country on the atlas now draws its places. {#globe-deep}\nThe United States in Places. The nation, its fifty states and the District of Columbia, and Wyoming's 23 counties, by their FIPS codes from the Census Bureau; opening the United States on the atlas draws Wyoming's counties from the Bureau's boundary file. Its tax for 2026: the federal income tax for a single person and for a married couple filing jointly, from the IRS's own figures (Rev. Proc. 2025-32: the rate tables of section 4.01 and the standard deduction of 16,100 and 32,200 dollars of section 4.14), and Wyoming's own income tax, which is none (W.S. 39-12-101), recorded as zero. The estimate says what it leaves out: Social Security and Medicare, credits, itemized deductions and the other filing statuses. A question asked on a Wyoming county's page is asked of Wyoming's law. {#places-us} {#places-us-tax} {#law-wy-places}\nOne atlas. The globe on the home page and the map on Places are one now. Tap a country and the Earth turns to it and draws its places, coloured by what tax would cost you there; beside it, how much of its law Solon holds with a link to read it and propose changes, and where every figure comes from. The long lists of levels and sources under the map are gone: a place is found by tapping it or searching. A view can be shared: /places?in=ch. {#atlas}\nThink a change through before you file it. Under the form for proposing a change to a law, the assistant now reads your draft as it stands and answers what you ask about it: what it would change, what would likely follow, who would gain and who would bear a cost, and where something like it is already law, from the law Solon holds and from studies and the experience of other places on the web. Every claim cites its source; it takes no side, and the proposal stays yours. {#law-consult}\nThe assistant knows every place Solon holds. Questions about Estonia's and Wyoming's law are now searched in Estonian and English, as their law is written, not in German.\nWhen a publisher refuses Solon's reader, the law comes from a dated public copy. If a commune's site answers with a refusal (HTTP 403, 429 or 503, or a bot check in place of the page), Solon reads the newest copy the Internet Archive's Wayback Machine holds of that page or document, and keeps the publisher's own address as the act's. The act page says so in plain words: \"Copy read on {date} from the Internet Archive's copy of {date}\", with a link to that copy, in all five languages; the Markdown for machines names it too. Solon still says who it is and solves no challenge. Triesenberg, whose site answers with a bot check, is the first commune read this way, the eleventh of Liechtenstein's eleven. {#law-communes}\nA light theme. Solon follows your device: light when it is light, dark when it is dark. The new button in the header lets you pick Light, Dark or Device, and your browser remembers it; nothing is sent to us. Photographs, and the header over them, stay dark so the words on them can be read. The law globe and the Places map redraw in the theme you pick. {#theme-light}\nA reader for New Hampshire's statutes. Solon can now read the Revised Statutes Annotated from the General Court's site: every chapter as an act (\"RSA 39\"), each section with its heading, its text and its source note, repealed sections kept as the site marks them. Where the site's firewall answers \"Web Page Blocked\", as it did to Solon, the chapter comes from the Internet Archive's dated copy and the act page says so. A firewall's block page is now recognised as a refusal for every publisher, not taken for the law. The first load runs on Solon's server and has not run yet, so New Hampshire's law is not on the site today; the roadmap item stays open until it is.\nThe European Union, the layer above its members. EU law applies in every member state, above the state's own, and Solon now places it there: the pages of Estonia and Luxembourg name the European Union among the law that also applies, the way a canton's page names the Confederation, and a question about either is asked of EU law too. A reader for the EU's regulations and directives in force comes with it: the list from the Publications Office's open data, titled in English and named by CELEX number, and each act's text from EUR-Lex, in its latest consolidated version where there is one, cut into articles and annexes under EUR-Lex's own anchors, with the notice EUR-Lex's terms ask for. The first load runs on Solon's server and has not run yet, so the EU's acts are not on the site today; their roadmap item stays open until they are. {#law-eu-layer}\nAustria's federal law. Austria is now an authority among Solon's countries, under the European Union as one of its members, and a reader for its consolidated federal law comes with it: the 10,681 acts in force that the Federal Chancellery's legal information system (RIS) lists, each by its Gesetzesnummer with its short title in German, and each act's whole text, cut into its sections, articles and annexes under the RIS's own markers (§ 4, Art. 7, Anlage 1) and dated by the day the latest of them took effect. The texts are the RIS's consolidated reading, not the authentic Federal Law Gazette, which each act's page says; they are shared under CC BY 4.0 with the RIS's notice shown beside them. A question that names Austria (Österreich too) asks its law and the European Union's. Checked against the live RIS by dry runs on Solon's server; the first load there has not run yet, so Austria's acts are not on the site today. {#law-at}\nA law read from an old archived copy is read again from a fresh one. When the newest copy the Internet Archive holds of a refusing site's page is more than a year old (one New Hampshire chapter's was from 2007), Solon first asks the archive to save the page today, from its own network, and reads that; the old copy is read only when no fresh one can be had, and its date is shown as before.\nThe assistant's answers about a proposed change keep closer to the evidence. It now looks for precedents nearest first (the same country's other levels, neighbouring cantons and countries) instead of anywhere at all, labels an effect it reasons out as reasoning rather than as something observed elsewhere, and suggests follow-up questions in the language of the answer.\nDocuments read from the archive arrive whole. A site that refuses Solon's reader for every document sends dozens of requests to the Internet Archive at once; the archive drops some, and some of its captures of a PDF are cut short. Solon now asks again after a dropped connection, passes over a PDF that did not arrive whole for the capture before it, and turns to the archive when the site does not answer at all.\nA site whose newest archived copy is its own bot check is read from the copy before. When the Internet Archive's latest capture of a refusing site is the challenge page too, Solon now walks back through the earlier captures, newest first, and reads the newest one that is the page itself. The act page still names the copy and its date.\nScanned regulations read blank. Most communes scan their regulations as fax- or JBIG2-compressed images, and the PDF reader drew those pages blank, so Solon reported \"no text in the PDF\" and three of Balzers' regulations were missing. The reader now has the decoders it needs, and those pages are read by OCR like any other scan."
         },
         {
           "date": "2026-11-07",
