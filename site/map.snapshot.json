@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-09T11:50:34.580Z",
+  "generatedAt": "2026-11-09T16:53:13.175Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -822,11 +822,11 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-11-09T03:55:19.526Z"
+          "at": "2026-11-09T14:27:13.677Z"
         },
         "lastLog": {
           "date": "2026-11-09",
-          "done": "loki-reindex timed out at 15 min because every run re-embedded every chunk for every user (~630 identical essay chunks each); PR #1610 makes upsertKnowledgeBatch embed only new or changed chunks (md5 compare), auto-merge on."
+          "done": "Same loki-reindex timeout re-dispatched; the fix (PR #1610, embed only new or changed chunks) was red only on the unrelated browser test terminal-idle-browser, so its CI is re-running and auto-merge will land it when green."
         }
       }
     },
