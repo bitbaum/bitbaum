@@ -689,6 +689,12 @@
       "snail",
       "sky"
     ],
+    "/packages/chartkit/": [
+      "fog-walker",
+      "cat",
+      "scarab",
+      "sky"
+    ],
     "/packages/listkit/": [
       "fog-walker",
       "cat",
@@ -699,12 +705,6 @@
       "fog-walker",
       "cat",
       "horse",
-      "sky"
-    ],
-    "/packages/chartkit/": [
-      "fog-walker",
-      "cat",
-      "scarab",
       "sky"
     ],
     "/packages/ai-forms/": [
@@ -731,16 +731,16 @@
       "owl",
       "sky"
     ],
-    "/packages/speechkit/": [
-      "fog-walker",
-      "cat",
-      "snail",
-      "sky"
-    ],
     "/packages/writingkit/": [
       "fog-walker",
       "cat",
       "moth",
+      "sky"
+    ],
+    "/packages/speechkit/": [
+      "fog-walker",
+      "cat",
+      "snail",
       "sky"
     ],
     "/packages/paykit/": [
