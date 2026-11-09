@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-09T10:49:41.279Z",
+  "generatedAt": "2026-11-09T11:42:43.871Z",
   "packages": [
     {
       "slug": "design-tokens",
@@ -459,10 +459,10 @@
       "name": "@bitbaum/geo-kit",
       "repo": "https://github.com/bitbaum/geo-kit",
       "description": "Versioned, on-demand geography resources and sourced boundary assertions for web applications, and a Canvas 2D renderer for them (globe or map).",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "install": {
         "source": "npm",
-        "command": "pnpm add @bitbaum/geo-kit@^0.4.0"
+        "command": "pnpm add @bitbaum/geo-kit@^0.5.0"
       },
       "adopters": 3,
       "adopterNames": [
@@ -472,7 +472,7 @@
       ],
       "release": {
         "source": "npm",
-        "version": "0.4.0"
+        "version": "0.5.0"
       }
     },
     {
