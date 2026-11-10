@@ -1,4 +1,4 @@
-import { parseContentBlocks } from "bip-kit";
+import { parseContentBlocks } from "@bitbaum/bip-kit";
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 function recordHref(raw, baseUrl) {
   try {

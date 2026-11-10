@@ -8,15 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@bitbaum/bip-kit':
+        specifier: ^0.6.1
+        version: 0.6.1(react@19.3.0)
       '@bitbaum/chatkit':
         specifier: ^0.22.0
         version: 0.22.0(react@19.3.0)
       '@bitbaum/design-tokens':
         specifier: 1.2.0
         version: 1.2.0
-      bip-kit:
-        specifier: ^0.6.1
-        version: 0.6.1(react@19.3.0)
       listkit:
         specifier: npm:@bitbaum/listkit@^0.2.2
         version: '@bitbaum/listkit@0.2.2'
@@ -35,6 +35,22 @@ importers:
         version: 1.63.0
 
 packages:
+
+  '@bitbaum/bip-kit@0.6.1':
+    resolution: {integrity: sha512-bDcAeO3+X+Dh+TVKioYWoYBdk3bgSFJSUMR4Af5K2qemRXjN4bfPrSUQWWDH7s2UlOIf297Ot28/0WPij7wVvQ==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      katex: '>=0.16'
+      mermaid: '>=10'
+      react: '>=18'
+      shiki: '>=1'
+    peerDependenciesMeta:
+      katex:
+        optional: true
+      mermaid:
+        optional: true
+      shiki:
+        optional: true
 
   '@bitbaum/chatkit@0.22.0':
     resolution: {integrity: sha512-JpygqcHn8fHB9XbdQiBC7ClwrZ8Z9HIJoB5ctFrUnk7BTsdO2eSLfuQadIVgKyEz15DNdY/h8QjgphxGe7PF7A==}
@@ -282,22 +298,6 @@ packages:
     resolution: {integrity: sha512-b87ugZpQ5ViwqVBkjervxpwa0GmJPsKHLBNoZN6GpjWeHzTbDUGryriq+2DYW2XbB+xCqSIINQysC0/I87nPbw==}
     engines: {node: '>= 10'}
 
-  bip-kit@0.6.1:
-    resolution: {integrity: sha512-lwWnRDCuhrO5YzBeaASjQwVoyIcDwGqEH3cskqa2ylIgyPagtVE6+ppDze+rkEBzVmKkUXREW5ydXOr2Kw3Oow==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      katex: '>=0.16'
-      mermaid: '>=10'
-      react: '>=18'
-      shiki: '>=1'
-    peerDependenciesMeta:
-      katex:
-        optional: true
-      mermaid:
-        optional: true
-      shiki:
-        optional: true
-
   esbuild@0.28.2:
     resolution: {integrity: sha512-HKVLS8dvII+xoKW9kmqxbRKrnWEXfJJr/FZhhJmiqIB0e053QNYFqOBouTMO/k5sID4MvCiUCvv8b9M4h32wIA==}
     engines: {node: '>=18'}
@@ -330,6 +330,10 @@ packages:
     resolution: {integrity: sha512-juorfCmIkIw8tT+p5BXSm6PJjQF/ycEYmKyzURCIt/RaZIhL+PulbQ9Yu2z1HdOJDdqDTlxA1+xKBmHXJsczAw==}
 
 snapshots:
+
+  '@bitbaum/bip-kit@0.6.1(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
 
   '@bitbaum/chatkit@0.22.0(react@19.3.0)':
     dependencies:
@@ -465,10 +469,6 @@ snapshots:
       '@napi-rs/canvas-win32-arm64-msvc': 1.0.13
       '@napi-rs/canvas-win32-x64-msvc': 1.0.13
     optional: true
-
-  bip-kit@0.6.1(react@19.3.0):
-    dependencies:
-      react: 19.3.0
 
   esbuild@0.28.2:
     optionalDependencies:

@@ -34,7 +34,7 @@ import { renderRoadmap, renderChangelog } from "./records.mjs";
 import { probeAll, shownStage } from "./live.mjs";
 import { PAGE_ART } from "./art-placement.mjs";
 import { card, esc, host, pill, slugify } from "./card.mjs";
-import { readRefs } from "bip-kit";
+import { readRefs } from "@bitbaum/bip-kit";
 // How each object in a page's ground strip moves (styles.css): gears turn,
 // rye and dandelions sway, mushrooms breathe, the tumbleweed rolls through.
 // Everything else stands still, as a painting does.

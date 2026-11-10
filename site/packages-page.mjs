@@ -1,4 +1,4 @@
-import { extractToc, parseContentBlocks } from "bip-kit";
+import { extractToc, parseContentBlocks } from "@bitbaum/bip-kit";
 import { renderRecord } from "./record-html.mjs";
 
 /**

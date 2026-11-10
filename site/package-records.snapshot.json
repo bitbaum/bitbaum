@@ -464,7 +464,7 @@
         }
       ]
     },
-    "bip-kit": {
+    "@bitbaum/bip-kit": {
       "repo": "https://github.com/bitbaum/bip-kit",
       "commit": "53850fbd30a533df4c46aa4cb8074403220be6a9",
       "committedAt": "2026-11-06T12:55:41Z",
@@ -531,7 +531,7 @@
         }
       ]
     },
-    "limitkit": {
+    "@bitbaum/limitkit": {
       "repo": "https://github.com/bitbaum/limitkit",
       "commit": "d55dd07b3570ef4b75669eaa077576872e92790c",
       "committedAt": "2026-11-07T16:06:11Z",
@@ -914,7 +914,7 @@
         }
       ]
     },
-    "ai-forms": {
+    "@bitbaum/ai-forms": {
       "repo": "https://github.com/bitbaum/ai-forms",
       "commit": "d56a0c50bd36f95f66d007a924edc9968f2e9d46",
       "committedAt": "2026-11-10T07:42:13Z",
@@ -1071,7 +1071,7 @@
         }
       ]
     },
-    "threadkit": {
+    "@bitbaum/threadkit": {
       "repo": "https://github.com/bitbaum/threadkit",
       "commit": "2f5acf54e412bd5d7850dd6e008afb4cb95c7492",
       "committedAt": "2026-11-07T22:50:32Z",
