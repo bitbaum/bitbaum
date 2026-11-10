@@ -284,7 +284,7 @@
     "featuredPackages": [
       "ai-kit",
       "mail-kit",
-      "@bitbaum/bip-kit"
+      "bip-kit"
     ],
     "stack": {
       "eyebrow": "The stack",
@@ -339,7 +339,7 @@
       "how": "You name the job, not the vendor. The kit walks a fallback chain, classifies a 429 into the three kinds that are not the same failure, and rations a shared daily allowance so one app cannot empty the free tiers for the others. When every vendor fails, it says so instead of inventing an answer.",
       "fits": "The Cat, the intake forms, the research tools and the agents in Loki all think through this. A product that calls a model and does not use it is writing the second copy."
     },
-    "@bitbaum/ai-forms": {
+    "ai-forms": {
       "group": "think",
       "what": "Fill a form from prose, then refine it in conversation. Headless, so every app keeps its own look.",
       "why": "People do not want to meet a form. They want to say what they need. Each product was about to build its own 'paste a paragraph, get fields' box, with its own prompt and its own way of being wrong.",
@@ -353,14 +353,14 @@
       "how": "Resend, over raw fetch, with no other dependencies. The call returns a result that says whether the mail went, rather than throwing and hoping a catch exists. Sandbox and placeholder addresses are refused, and the shared sender is one convention.",
       "fits": "Hire, notifications, and anything that has to reach a person outside the product. It is the boring half of 'reach someone'. threadkit is the half that stays inside."
     },
-    "@bitbaum/threadkit": {
+    "threadkit": {
       "group": "reach",
       "what": "Message threads where permission is participation \u2014 not a role column. An AI obeys the same rules as a person.",
       "why": "A chat that special-cases the assistant becomes a second permissions system. The assistant sees things the person cannot, or the person sees the assistant's notes. Both are bugs.",
       "how": "A thread is a set of participants. Unread is per person. An AI can be a participant, and it sees exactly what its participation allows, which is the same rule as everyone else. No markup, no transport: the app keeps those.",
       "fits": "OrangeCat, Heidi and Substrata already share a conversation this way. It is how a person and an agent inhabit one room."
     },
-    "@bitbaum/bip-kit": {
+    "bip-kit": {
       "group": "show",
       "what": "Blog, roadmap and changelog from repo-authored markdown. Typed blocks, your design tokens on top.",
       "why": "Writing that lives in a CMS drifts from the product. Writing that is a pile of regexes drifts from itself. The studio writes in the repository, reviewed like code, and needed one dialect.",
@@ -388,7 +388,7 @@
       "how": "A closed set of facet kinds, a URL codec that copies the query instead of rebuilding it, a comparator that sorts missing values last, and page math that cannot produce a negative offset. No React and no HTTP client.",
       "fits": "Hirnli's foundation lists and Loki's project lists are the same idea. A list you can link is part of how the studio's work stays checkable."
     },
-    "@bitbaum/limitkit": {
+    "limitkit": {
       "group": "hold",
       "what": "Rate limiting as a decision, not middleware. Bounded memory by construction, standard headers.",
       "why": "Public routes were growing one-off counters that forgot to bound themselves, and that told the client nothing when they said no. The failure mode is a process that remembers every IP forever.",
