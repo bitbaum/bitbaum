@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T11:08:47.345Z",
+  "generatedAt": "2026-11-10T17:15:49.426Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -1336,7 +1336,7 @@
           "title": "Law you can act on {#law-act}",
           "line": "A law that can only be read is half open. Anyone should be able to point at an",
           "status": "in progress",
-          "progress": 44,
+          "progress": 58,
           "targetDate": null,
           "milestones": [
             {
@@ -1353,6 +1353,18 @@
             },
             {
               "title": "Thinking a change through with the assistant while drafting it: what it would do, who would gain and who would bear a cost, where something like it is already law (in the law Solon holds, and studies and experience on the web), each claim cited, no side taken {#law-consult}",
+              "done": true
+            },
+            {
+              "title": "The law in the reader's language: a machine translation, labelled, cached by the hash of the words it translates and checked before it is kept, with the authentic text a click away; titles in lists too {#law-translated}",
+              "done": true
+            },
+            {
+              "title": "Every configured word in the reader's language: rubrics, budget lines, tax forms, sources and who published them, from one catalog keyed by the English, a test failing while any is missing {#i18n-config}",
+              "done": true
+            },
+            {
+              "title": "A code printed as a page that links its Word file is read from the file, article by article; held stubs read again with --stubs {#law-documents}",
               "done": true
             },
             {
@@ -1373,6 +1385,118 @@
             },
             {
               "title": "What applies here: pick a point and see every layer of law in force there — federal, state or canton, commune — each with \"propose a change\" {#law-here}",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Contested law: one place, two sets of law, side by side {#contested}",
+          "line": "Where a place governs itself and another state regards it as its own, two sets",
+          "status": "in progress",
+          "progress": 20,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Every place the world list marks as claimed has a comparison page and its place pages link to it; South Ossetia and Georgia compared on six questions (territory, who may propose a law, taxes, citizenship, moving and leaving, defence), each quote checked weekly {#contested-p1}",
+              "done": true
+            },
+            {
+              "title": "What each side's public budget rests on, from its own budget law, with what the figures say by arithmetic about spending the same without what was received (South Ossetia 2023: 81% of revenue was aid from the Russian Federation) {#contested-ledger}",
+              "done": true
+            },
+            {
+              "title": "South Ossetia's official route: a bill reaches the Parliament through any one deputy (Constitution, Art. 69); \"propose a change\" on every held article of the comparison {#contested-route}",
+              "done": true
+            },
+            {
+              "title": "The codes the South Ossetian Parliament publishes as Word files read into articles, so the Tax Code can be amended article by article (design: docs/design/2026-11-from-comparison-to-change.md §4) {#contested-codes}",
+              "done": false
+            },
+            {
+              "title": "Safe support where proposing is risky: counts without lists, a new pseudonym per proposal, commitments instead of account ids in the public log, a page that says what is kept; before any outreach (§5) {#contested-safe-support}",
+              "done": false
+            },
+            {
+              "title": "A tax proposal shows its static effect on own revenue against the ledger; every budget-execution law as a series {#contested-proposal-money}",
+              "done": false
+            },
+            {
+              "title": "The deputies, from the Parliament's own page, and the hand-over: the redline, the count per electorate and the log hash, sent to deputies who choose to receive them, their answer recorded {#contested-handover}",
+              "done": false
+            },
+            {
+              "title": "Support counted per electorate and tier (declared, vouched, attested), never summed (§6) {#contested-electorates}",
+              "done": false
+            },
+            {
+              "title": "Reach: a Telegram bot through chatkit, a signed static mirror, an onion address {#contested-reach}",
+              "done": false
+            },
+            {
+              "title": "Georgia's law in the register (matsne.gov.ge refuses automated readers; a dated archive copy read from the box), the statutes each constitution defers to on both sides, and the compulsion and exit rubrics coded for both with a second reader {#contested-statutes}",
+              "done": false
+            },
+            {
+              "title": "What each side's law says about acts, documents and property made under the other's, as its own question {#contested-recognition}",
+              "done": false
+            },
+            {
+              "title": "Abkhazia, Transnistria, Northern Cyprus, Somaliland and Kosovo read the same way: config and readers, no new code {#contested-more}",
+              "done": false
+            },
+            {
+              "title": "Land one state administers and another claims (the areas disputed by Russia and Ukraine): sourced claims and administers rows, both countries' registers, the area hatched on the atlas {#contested-areas}",
+              "done": false
+            },
+            {
+              "title": "Layered regimes, where law applies by zone and by who a person is (the West Bank and its settlements, Gaza): each layer from its own sources, two readers before it is shown {#contested-layers}",
+              "done": false
+            },
+            {
+              "title": "Results on each side (each statistics office's own series) beside the texts, and terms for a place proposed with support counted per electorate, never summed {#contested-results}",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Budgets: what governments raise and what they spend it on {#budgets}",
+          "line": "Every place's public money on one model: what came in and from where, what it",
+          "status": "in progress",
+          "progress": 50,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The model: COFOG and ESA 2010 taxonomies in config, scope in every key, metrics and sources generated from them; budget laws as documents held to their stated totals; one Budget shape and pure analysis for both {#budgets-model}",
+              "done": true
+            },
+            {
+              "title": "Eurostat's government finance for 30 countries from 1995, spending by function and group, revenue by kind, the balance, in shares of GDP; every division also a statistic with its map and ranking {#budgets-eurostat}",
+              "done": true
+            },
+            {
+              "title": "/budgets and /budgets/<place>: key figures, who pays, what the money is spent on with every division opened into its groups, where it comes from, the years, the sources and the publisher's own lines, and \"propose a change\"; a budget card on a country's page; the contested places' budget section through the same components {#budgets-pages}",
+              "done": true
+            },
+            {
+              "title": "Sub-national budgets (cantons, communes) and Solon organizations' budgets as holders {#budgets-entities}",
+              "done": false
+            },
+            {
+              "title": "Every amount in the reader's currency (US dollars by default; EUR, CHF, GBP, RUB, GEL), chosen once and remembered across the site,, converted at the budget year's average rate from official publishers, beside its share of GDP {#budgets-money}",
+              "done": true
+            },
+            {
+              "title": "The money code (src/lib/money/) moved into a fleet package, so OrangeCat and every product convert the same way {#money-package}",
+              "done": false
+            },
+            {
+              "title": "The IMF's Government Finance Statistics for the countries Eurostat does not cover, after its licence is read {#budgets-imf}",
+              "done": false
+            },
+            {
+              "title": "A proposal that names categories and amounts, its effect on the balance computed; a page comparing places function by function {#budgets-proposals}",
               "done": false
             }
           ],
@@ -2285,6 +2409,46 @@
           "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
         },
         {
+          "title": "States through time {#time}",
+          "line": "The atlas set to a date (1990, 1980, 1945, 1914, 1900) shows the states that",
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A time control on the atlas over the dates Solon already holds (Switzerland and Liechtenstein, from earlier versions of every act) {#time-control}",
+              "done": false
+            },
+            {
+              "title": "Historical borders from a sourced dataset (CShapes 2.0 from 1886; older maps marked as approximate), each state linked to the states before and after it {#time-borders}",
+              "done": false
+            },
+            {
+              "title": "Historical constitutions on the same questions as today's places (who decides, who votes, how rules change, whether people may leave), from the Comparative Constitutions Project and the texts themselves {#time-constitutions}",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "What if: states that never were {#whatif}",
+          "line": "A scenario is a fork: a sourced starting state on a date, plus the changes a",
+          "status": "later",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "A scenario as data: starting state and date, changes, sources, and what is invented marked as invented {#whatif-model}",
+              "done": false
+            },
+            {
+              "title": "Think a scenario through: likely effects, who gains and who pays, where something like it happened, each claim cited {#whatif-consult}",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
           "title": "Places: every Swiss commune, and its income tax at your income",
           "line": "/places maps every Swiss commune, coloured by the income tax at your income;",
           "status": "done",
@@ -2396,7 +2560,7 @@
       "changelog": [
         {
           "date": "2026-11-10",
-          "done": "Easier to find your way. The header now has four panels of four or five links each (Law, Places, Data, Governance) instead of 27 links, with statistics given their own panel. A new Find button (also Ctrl or Cmd + K, or \"/\") searches pages, statistics, places and laws in one box. The phone menu folds by section and opens on the one you are in. Every page is still in the footer. {#site-navigation}\nWhat is measured, and where it is not. /statistics/gaps sets out, for a topic, what each place's statistical office collects and publishes, crossed with what and under what law, read from the office's own pages; where the same question can be answered in one country and not in another; what must come with a new measure so it is not misread (age and sex, income and education, where people live, type of offence); the objections and their safeguards; and who decides. The first topic is crime by a person's background: Denmark, Sweden, Norway and the Netherlands publish a background the office defines, Germany and Switzerland citizenship, the United Kingdom and the United States an ethnic or racial category, and in France a Constitutional Council decision bars studies that rest on ethnic origin or race. Each page lists what was not read, and a group can propose a position from it. {#stats-gaps}"
+          "done": "Every page in your language and one currency. Money is shown in US dollars unless you pick another currency, and your pick holds on every page: budgets, contested places and the comparison of structures, where a salary quoted in francs now also shows its equivalent. The words that came from Solon's own configuration and stayed in English or Russian on translated pages (the statistics' scales, the tax forms, the budget lines and their classifications, who published each figure, the voting example) now read in German, French, Italian and Russian too. {#budgets-money} {#i18n-config}\nOne currency, one language. Money on the budget and comparison pages is shown in the currency you pick (francs by default, or euro, dollars, pounds, roubles, lari), converted at that year's average rate from Eurostat and, for the rouble since 2022, the Bank of Russia; each page says from what it was converted. A law in another language reads in yours: a machine translation, marked as one, with the authentic text a click away, and titles in lists translated too. Places are named in your language (South Ossetia, Tskhinval), not only in their own. Codes South Ossetia's Parliament publishes as Word files are read from the files, article by article. {#budgets-money} {#law-translated} {#law-documents}\nBudgets: what governments raise and what they spend it on. /budgets lists every place Solon holds a budget for, and each opens on one page: revenue, spending and the balance; what the money is spent on, every function opened into its parts (old-age pensions within social protection, hospitals within health); where it comes from; how both moved since 1995; who pays for it where part is received from elsewhere; and every figure's source, down to the publisher's own lines. Eurostat's government finance for 30 European countries is read every month; South Ossetia's 2023 budget is read from its own laws. Every budget sits on the same international classifications, so any two can be compared, and each page ends in \"propose a change to this budget\". {#budgets-model} {#budgets-eurostat} {#budgets-pages}\nContested places: two sets of law, side by side. /places/contested lists every place that governs itself while another state regards it as part of its territory, and each opens the two sets of law question by question, in each side's own words: the original beside a translation, the page it was read on and the day. South Ossetia and Georgia are compared on the territory, who may propose a law, taxes, citizenship, moving and leaving, and defence, and South Ossetia's 2023 budget is shown as its own law states it: 81% of its revenue was aid from the Russian Federation, and its own revenue covered 18.5% of what it spent. Every held article has \"propose a change\", and South Ossetia's official route is stated: a bill reaches its Parliament through any one deputy. Solon does not say which side is right. {#contested-p1} {#contested-ledger} {#contested-route}\nEasier to find your way. The header now has four panels of four or five links each (Law, Places, Data, Governance) instead of 27 links, with statistics given their own panel. A new Find button (also Ctrl or Cmd + K, or \"/\") searches pages, statistics, places and laws in one box. The phone menu folds by section and opens on the one you are in. Every page is still in the footer. {#site-navigation}\nWhat is measured, and where it is not. /statistics/gaps sets out, for a topic, what each place's statistical office collects and publishes, crossed with what and under what law, read from the office's own pages; where the same question can be answered in one country and not in another; what must come with a new measure so it is not misread (age and sex, income and education, where people live, type of offence); the objections and their safeguards; and who decides. The first topic is crime by a person's background: Denmark, Sweden, Norway and the Netherlands publish a background the office defines, Germany and Switzerland citizenship, the United Kingdom and the United States an ethnic or racial category, and in France a Constitutional Council decision bars studies that rest on ethnic origin or race. Each page lists what was not read, and a group can propose a position from it. {#stats-gaps}"
         },
         {
           "date": "2026-11-09",
@@ -4478,6 +4642,14 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-10",
+          "done": "Shared links show a picture: every page carries the preview image with a full address, including the not-found page, which used to emit it against localhost (#285).\nEvery page names its own canonical address and its own translations; /en/practice used to declare /en (#285).\n/favicon.ico and /apple-touch-icon.png exist; both answered 404 (#285).\nNew page «Pay Heidi»: one button to Heidi's public page on OrangeCat, where a learner pays Heidi directly in Bitcoin. A pass is not yet granted automatically after a payment, and the page says so (#287).\nDeleting an account now deletes the person. The login went, but a person's synced progress, reminder setting, language, conversations, group memberships, follows, push subscriptions and certificates stayed in the database. They are erased with the account (a wrong password erases nothing); a group they made passes to its longest-standing member, and their group messages stay for the others, unattributed. A test fails when a new table with a person column is not handled.\nA mistyped or outdated link no longer lands on a bare English «404» with no way home. It answers in the language of the URL or the browser and has a button to the start.\nEmail, rebuilt on the fleet's one layout. The address check, the sign-in link and the password reset were plain text; they are now laid out (Heidi's red and mark, a heading, one button, the sign-in code to type elsewhere, why it arrived), with dark mode, in all the site's languages. The layout lives in @bitbaum/mail-kit 0.3.0 and is shared by every app.\nAn optional reminder by email, off until switched on (settings, with progress sync on): one mail in the evening, at most every other day, only from five due questions, never after practising that day, and none after three that went unanswered. It names the count and one real due line, says why it came, and unsubscribes in one tap, from the mail client's own button or the footer link. Worded as a good moment to practise, never as something about to be lost.\nThe privacy page lists the mail vendor and the reminder setting.\nSigning up, used end to end. A new account was signed in at once and asked nothing about progress, so a person who made an account to keep their practice on phone and laptop had one that did not — the switch lived only in the settings. The signed-in home now asks once, «Ihren Fortschritt auf jedes Gerät mitnehmen?», with «Einschalten» and «Nur in diesem Browser» side by side; either answer is kept and it is not asked again. Sync stays off until somebody says so.\n«Meine Situationen» now travels with synced progress: a second device takes the situations chosen on the first and does not ask again, and never overrides a choice made on it.\nThe confirmation email said it would «finish signing up» for an account that already worked; it now says the account works and what confirming is for — being reachable when a password is forgotten. Sign-in and sign-up promised a one-click OrangeCat sign-in on installations without it; that sentence now appears only beside the button.\nThe chat footer named the model as a route id («google/models/gemini-flash-latest»); it names it as a person reads it («Gemini Flash»). A kept word no longer repeats its German meaning twice for a German reader. Chat asks its models for their shortest hidden reasoning, so the first words arrive sooner.\nWriting practice no longer pairs a typed word that matches one of the pack's words with a different one («für – nur»)."
+        },
+        {
+          "date": "2026-11-09",
+          "done": "Practice, used end to end and fixed where it read wrong. «Welches Wort fehlt?» showed no field and no options, which looked broken; it now says to give the answer aloud or in your head, then reveal. A word's «Warum?» used to say \"remember it in a sentence\" about every word; it now says how the word is reached — almost German (Wätter), by a sound rule named with the pack's example (chaufe: k → ch, as in Kind → Chind), or not at all. A match grid could be four words solved by their shape (bringe, finde, frage, rede — add an n); every grid now holds at least two words the German does not give away, and never one meaning twice. A built sentence checked wrong reads as one line with the misplaced words marked. Writing «nid» now says «nid» is understood, and that here one says «nöd» (the pack's own house form). The finish screen listed the German answer as the missed Zurich word («reden» for «rede»); it shows both. «1 kommen nochmals» counts in the reader's grammar.\nDialect podcasts get questions. An episode in Zurich German with no publisher transcript used to play without any — Heidi writes no transcript of the dialect, because a recogniser turns it into Standard German. It now gets exactly that, called what it is: a Standard German rendering of the opening minutes, «sinngemäss — nicht der Dialekt, wie er klingt», with comprehension questions about content. Episodes refused before are offered again.\nA show followed through its feed or a podcast app is recognised as the register's show by its name on the publisher's domain, so Heidi knows it is dialect however it was followed.\nEvery exercise now has a level — how far its Zurich German is from German: like German (schlafe, au for «auch»), by one of the pack's sound rules (Chind, chaufe), or different (nöd, öppis, and false friends like Estrich). Measured from spelling and the pack's own rules, one classification for the whole product (it also ranks the vocabulary page). A new learner practises mostly the first level; once it holds, the sittings move up.\nEvery kind of question says what it tests — understanding, words, sound rules, verb forms, articles, saying it yourself — in one table. «Was sitzt» on your page counts your answers both ways, with what holds and the level you are working at. Counts, not a score.\nPractice, rebuilt around the moment of answering. The option you tap fills with ink and a tick, or takes a red outline and a cross, with the right one then outlined in ink — in Heidi's own two colours. It used to fill the right answer black whether or not you had picked it. A right answer moves on by itself after a beat («Warum?» holds it); a wrong one stays with its explanation. A phone gives a short pulse. «3 in Folge» appears when it is true.\nNot the same sitting twice: questions that tie on what the learner needs are ordered by a seeded draw instead of the alphabet, and options, word banks and matching columns are laid out afresh every time a question is shown. Due questions and weak areas still come first.\nTwo new kinds of question: «Satz bauen» — the Zurich words of a sentence you say, shuffled with one that does not belong, tapped into order and checked — and «Stimmt das?», a heard line with a meaning beside it, right or not, one tap.\nA line is recognised before it is produced: until you recognise it reliably it comes as «Stimmt das?», the gist or a word's meaning; after that it comes back to be built or translated.\n«Wofür brauchen Sie Schweizerdeutsch?» — a new learner picks the situations they actually face (the doctor, the Kindsgi, the lunch table at work …) and every «practise» button then draws from those. Practice was already spaced repetition over a per-learner model; nothing had asked what somebody needs it for.\nThe end of a sitting is a moment: the check draws itself and the day just earned lands in the week's goal. Still no score.\nThe home page is a third shorter on a phone: the personal moments stay, without the paragraph under each; society's moments moved to «For organisations». Somebody who has practised here before, signed out, is welcomed back with their next step above the introduction.\nRead-aloud works on a device with no German voice installed: the server reads the line with a German Gemini voice, labelled as German like the device's own. Declared on the privacy page.\n«Sign in to keep it» keeps the conversation: after signing in, nobody is asked a second time.\nInter and IBM Plex Mono, self-hosted from @bitbaum/design-tokens: the same letters on every device, where before only Apple devices had the intended typeface.\nYour email address no longer appears where other people can see it. Sign-up asks for no name, so nearly every account showed its email as its name on a proposed speaking topic, a round and a study group — and the topics board is readable signed out. It now shows the display name, or a short handle such as «#4F2A»; addresses already stored were replaced by a migration.\nAccount emails (confirm your address, sign-in link, password reset) are written in the language of the page the person was on, instead of always in English.\nSign-in is in every page's header in every build: a build made without the session secret used to serve pages with no sign-in control, and CI's layout audit measured that narrower header. On a phone the floating «Practise | Ask Heidi» no longer covers the sign-in form's buttons.\nChannels and podcasts: the server fetches only public addresses for a feed, its redirects and its audio; one malformed feed no longer stops the hourly refresh for everyone else; a pasted transcript never replaces a publisher's; feeds and synced devices have ceilings."
+        },
+        {
           "date": "2026-10-27",
           "done": "The full chat at «/chat» is the fleet's chat app (chatkit's ChatApp): your conversations sit in a drawer on a phone and beside the chat on a wide screen, with a search box and Today / Yesterday / Earlier; each has one «…» for Rename and Delete. New: a temporary conversation that is written nowhere, a message written while Heidi is answering waits above the box and goes when she is done, and the conversation you had open comes back after a reload. Signed out, the list is kept in this browser and nothing reaches the database; a conversation from the home box or the floating window carries over. Stop still throws away the half answer (it had not been checked for Zurich forms) and a failure still says why. The chips under an answer («Shorter», «Word by word») and «What does it mean?» on a selected word now put their sentence in the box to send, instead of sending it at once.\nLater the same day, with chatkit 0.19: the chips under an answer and «What does it mean?» send in one tap again. Each failed turn keeps its own reason, even with two in one conversation; Retry sends the pictures again; signed out, «This conversation is only in this browser» and sign-in sit above the list of conversations. Heidi's workarounds for 0.18 are gone: Stop discarding the half answer is now chatkit's stopKeepsPartial, the failure reason a per-turn ChatTurnError, and the dialect starter carries its language.\nA message you send in a saved conversation is shown once, not twice, and a question Heidi did not answer says so: before, it appeared twice with nothing under it and no way forward; now it gets the usual «try again» bubble with Retry. A double tap on Send no longer sends twice."
         },
@@ -4548,14 +4720,6 @@
         {
           "date": "2026-09-17",
           "done": "The spoken channel. Heidi reads an answer aloud, and says what she is speaking with every time: no browser anywhere ships a Zurich voice, de-CH is Swiss Standard German, and lib/voice/variety.ts refuses to report any synthesiser as dialect at all. The variety gate, which has judged generated text since #52, now judges sound.\nCorrections became a setting, with three rules above it that no setting can switch on: never spelling (Zurich German has no correct one), never pronunciation (the correction path receives no audio, so a score would be invented), and never the forms in a transcript — recognition writes Standard German whatever was said, so flagging them corrects the machine and bills it to the learner.\nWhere to hear it (/listen): fifty Swiss podcasts, stations, channels, programmes, series and films, each labelled with what is actually spoken and what that label rests on. Half of Swiss broadcasting is Standard German by format, which is the trap a learner cannot see. Kept alive by a link sweep with three verdicts, because a Cloudflare challenge is not a dead link.\nThe explanation arrives as it is written (#67) — the answer streams rather than appearing whole."
-        },
-        {
-          "date": "2026-09-15",
-          "done": "Heidi is on every page, with an account menu; the reference pages became places that hand work to the assistant rather than pages to read; /technology published what the field can actually do with this language, with the numbers (#66)\nThe chat box got one accessible name, and a test that checks (#65)\nDictation moved onto a chain through transcribe() in @bitbaum/ai-kit rather than one fetch at one vendor with one key (#63, #64)\nSigned in, the locale root IS the dashboard (#61); the reference pages folded into one panel (#60)\nThe vocabulary that actually blocks a sentence (#59); what Swiss German is, and a page per dialect area (#58); every dialect area on a map that says which claim it is making (#57)\nA kept word comes back in a sentence it was not found in (#56)\nA middleware rewrite behind Caddy dialled TLS at an http socket and took the site down for signed-in visitors with every test green (#55)\nGrammar got a place an answer can link to (#54); any word became askable, not just the ones Heidi chose to gloss (#53)\nSwiss Standard German became an output with its own gate (#52) — the product had only ever produced the spoken half, which quietly set people up to send a chat message to an insurance company\nThe answer proposes what to do next (#51); the dashboard asks you something rather than showing you a list (#50)\nStart means start (#49); the chat got a room of its own (#48)\nA shared group link can be opened by the person it was sent to (#47)"
-        },
-        {
-          "date": "2026-09-14",
-          "done": "One renderer for every surface — groups had been storing full answers and rendering them as plain paragraphs since the day they shipped (#45)\nOne label per control, not a visible one and a hidden twin (#46)\nThe home fold became the tool rather than a picture of it (#44)\nai-kit ^0.15.0 → ^1.8.0, and the cast that was waiting on it deleted (#42)\nThe evidence became the argument rather than a page beside it (#40); citations you can follow (#39)\nThe headline promises an order in every language, not just four (#38)\nMIT licence (#37); five things the site said that a person would not (#36)"
         }
       ],
       "records": {
