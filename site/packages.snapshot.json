@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-09T11:42:43.871Z",
+  "generatedAt": "2026-11-10T05:55:23.258Z",
   "packages": [
     {
       "slug": "design-tokens",
@@ -49,11 +49,11 @@
       "slug": "mail-kit",
       "name": "@bitbaum/mail-kit",
       "repo": "https://github.com/bitbaum/mail-kit",
-      "description": "The fleet's one email layer: Resend over raw fetch, zero dependencies, honest never-throwing results, sandbox/placeholder guards, and the shared-sender convention encoded once.",
-      "version": "0.2.0",
+      "description": "The fleet's one email layer: Resend over raw fetch, one HTML layout with dark mode and a plain-text twin, signed one-click unsubscribe, zero dependencies, honest never-throwing results, sandbox/placeholder guards, and the shared-sender convention encoded once.",
+      "version": "0.3.0",
       "install": {
         "source": "npm",
-        "command": "pnpm add @bitbaum/mail-kit@^0.2.0"
+        "command": "pnpm add @bitbaum/mail-kit@^0.3.0"
       },
       "adopters": 23,
       "adopterNames": [
@@ -83,7 +83,7 @@
       ],
       "release": {
         "source": "npm",
-        "version": "0.2.0"
+        "version": "0.3.0"
       }
     },
     {
