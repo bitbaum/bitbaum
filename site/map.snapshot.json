@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-09T16:53:13.175Z",
+  "generatedAt": "2026-11-10T06:02:42.455Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 29,
     "live": 16,
     "clients": 1,
-    "inFlight": 1
+    "inFlight": 0
   },
   "projects": [
     {
@@ -821,12 +821,12 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-11-09T14:27:13.677Z"
+          "outcome": "error",
+          "at": "2026-11-10T00:40:32.454Z"
         },
         "lastLog": {
           "date": "2026-11-09",
-          "done": "Same loki-reindex timeout re-dispatched; the fix (PR #1610, embed only new or changed chunks) was red only on the unrelated browser test terminal-idle-browser, so its CI is re-running and auto-merge will land it when green."
+          "done": "user@1001 re-dispatched with the same 11-05 OOM journal; the repo fixes (#1601 OOMPolicy=continue, #1609 OOMScoreAdjust=0) are merged, but the manager has not been started since (openclaw-gateway-up.yml last ran 2026-10-15), so no repo change and George must run that workflow."
         }
       }
     },
@@ -1525,6 +1525,72 @@
             },
             {
               "title": "Every state's counties, and each state's own income tax beside the federal one {#places-us-states}",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Scope and order: what we load, where, and why {#law-scope}",
+          "line": "The goal is every law and regulation of every place. The way to get there is to",
+          "status": "in progress",
+          "progress": 43,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Switzerland: the Confederation, the 26 cantons, the intercantonal agreements: about 25,000 texts",
+              "done": true
+            },
+            {
+              "title": "Liechtenstein: 3,412 of 3,412",
+              "done": true
+            },
+            {
+              "title": "Estonia: 9,957 of 10,375; its municipalities' own regulations are not read",
+              "done": false
+            },
+            {
+              "title": "Luxembourg: 1,134 of 1,134, from Legilux. Luxembourg was asked for by the owner.",
+              "done": true
+            },
+            {
+              "title": "Wyoming's statutes and Constitution (45 of 45 files); its administrative rules and referendum route are open",
+              "done": true
+            },
+            {
+              "title": "The twenty most populous Swiss cities: loaded for Zürich, Winterthur, Luzern, Lausanne, Geneva, St. Gallen, Biel, Lugano, Fribourg, Neuchâtel, Sion, Thun, Chur, Schaffhausen, Köniz, Bellinzona, Vernier. Bern and La Chaux-de-Fonds are blocked: both publish their lists with scripts, and each needs its own reader. Basel is a canton and is covered as one.",
+              "done": false
+            },
+            {
+              "title": "European Union: 7,103 of 17,615. Measured about 470 acts an hour, so about a day. The newest consolidated texts answer \"not found\" until published, and are read on a later run.",
+              "done": false
+            },
+            {
+              "title": "Austria: 10,681 of 10,681 (federal). Its Länder are open.",
+              "done": true
+            },
+            {
+              "title": "Germany: 5,976 of 6,174; 167 acts have no text in the portal's XML. Its Länder are open.",
+              "done": true
+            },
+            {
+              "title": "United Kingdom: 5,006 of 11,228, about 420 an hour at the site's own pace. The devolved legislatures (asp, ssi, anaw, asc, wsi, nia, nisr) are open.",
+              "done": false
+            },
+            {
+              "title": "United States, federal: the United States Code (and later the regulations and the Federal Register). The Code is published free by the Office of the Law Revision Counsel; to be sized.",
+              "done": false
+            },
+            {
+              "title": "United States, states: Wyoming first (done), then New Hampshire (partly loaded), Texas, Florida and Delaware, then the rest, one sizing note each. Fifty states publish in fifty forms and under different licences; the strategic question is which few matter, not how to load all fifty.",
+              "done": false
+            },
+            {
+              "title": "United States, counties and municipalities: Grafton, New Hampshire, first (the warrant-article route is already recorded). Many municipal codes sit with commercial hosts (Municode, American Legal Publishing); sized county by county, and only for places a group on Solon asks about.",
+              "done": false
+            },
+            {
+              "title": "Microstates, DIFC and ADGM, Singapore, charter cities: each after its sizing note, in the order the owner sets.",
               "done": false
             }
           ],
@@ -2295,8 +2361,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-10-29T22:37:12.988Z"
+          "outcome": "error",
+          "at": "2026-11-10T04:35:22.233Z"
         },
         "lastLog": {
           "date": "2026-09-25",
@@ -5366,12 +5432,12 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-11-08T23:14:08.072Z"
+          "outcome": "success",
+          "at": "2026-11-10T00:43:24.970Z"
         },
         "lastLog": {
-          "date": "2026-11-07",
-          "done": "Verified PR #341 fix is merged and deployed; unit remains failed in systemd only until next 6-hour timer fires or service is restarted."
+          "date": "2026-11-10",
+          "done": "Fixed curl exit 28 timeout in appcron-substrata-sweep by bounding web search and page reads to remaining budget, forwarding abort signals, and opening PR #359."
         }
       }
     },
@@ -6311,10 +6377,10 @@
       },
       "next": "Follow the canonical roadmap for planned work.",
       "now": {
-        "openRuns": 1,
+        "openRuns": 0,
         "lastRun": {
           "outcome": "partial",
-          "at": "2026-11-08T10:03:39.055Z"
+          "at": "2026-11-09T10:03:35.472Z"
         },
         "lastLog": {
           "date": "2026-09-15",
