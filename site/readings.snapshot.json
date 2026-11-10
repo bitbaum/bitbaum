@@ -19,7 +19,7 @@
         "@bitbaum/chartkit": 4574,
         "@bitbaum/listkit": 3783,
         "@bitbaum/searchkit": 4647,
-        "@bitbaum/ai-forms": 10624,
+        "ai-forms": 10624,
         "@bitbaum/sitekit": 4556,
         "@bitbaum/threadkit": 230,
         "@bitbaum/geo-kit": 2341,
