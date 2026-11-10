@@ -4,7 +4,7 @@
 // what is done, what is next, what changed when — and open the detail only
 // if they want it. The long text used to be rendered as it stood, and a
 // phone showed a wall of checklists nobody would read.
-import { parseContentBlocks } from "bip-kit";
+import { parseContentBlocks } from "@bitbaum/bip-kit";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 /** Plain words from a span tree: links keep their text, code keeps its text. */
