@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T17:15:49.426Z",
+  "generatedAt": "2026-11-10T23:41:09.270Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 29,
     "live": 16,
     "clients": 1,
-    "inFlight": 0
+    "inFlight": 2
   },
   "projects": [
     {
@@ -819,10 +819,10 @@
       },
       "next": null,
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-11-10T00:40:32.454Z"
+          "at": "2026-11-10T22:25:31.273Z"
         },
         "lastLog": {
           "date": "2026-11-09",
@@ -1394,7 +1394,7 @@
           "title": "Contested law: one place, two sets of law, side by side {#contested}",
           "line": "Where a place governs itself and another state regards it as its own, two sets",
           "status": "in progress",
-          "progress": 20,
+          "progress": 43,
           "targetDate": null,
           "milestones": [
             {
@@ -1414,7 +1414,87 @@
               "done": false
             },
             {
-              "title": "Safe support where proposing is risky: counts without lists, a new pseudonym per proposal, commitments instead of account ids in the public log, a page that says what is kept; before any outreach (§5) {#contested-safe-support}",
+              "title": "Proposing in the reader's language: the propose-a-change pages in Russian, French and Italian as well as German; \"propose\" on a comparison opens each side's law, not an organization's form; the claimant's quotes read in the reader's language {#contested-propose-law}",
+              "done": true
+            },
+            {
+              "title": "A side no one claims in law yet, shown as a scenario and labelled one: South Ossetia as a subject of the Russian Federation, read from Russia's federal law and North Ossetia–Alania's, on the same questions {#contested-scenarios}",
+              "done": false
+            },
+            {
+              "title": "\"My life under each\": a salary, a household and a pension run through each side's tax and benefit law, every figure linked to its article {#contested-my-life}",
+              "done": false
+            },
+            {
+              "title": "Georgia's budget from its own execution law, beside South Ossetia's {#contested-budget-claimant}",
+              "done": false
+            },
+            {
+              "title": "A new pseudonym per proposal: a signed-in person is named in the public record by a keyed hash of their account and the proposal, never by the account, so their proposals cannot be linked to each other or to them {#safe-pseudonyms}",
+              "done": true
+            },
+            {
+              "title": "Safe support, the rest: counts without lists where a place's configuration asks for it, support without an account or an email, a page that says what is kept; before any outreach (§5) {#contested-safe-support}",
+              "done": false
+            },
+            {
+              "title": "Russia and its subjects listed from the official publication portal, one adapter for all 89 (a subject is one entry in PRAVO_GOV_RU.blocks): the federal laws and North Ossetia–Alania's, each linked to its official publication; the federal route (Constitution Art. 104) and the Russian Public Initiative's federal and regional bars stated (research: docs/research/2026-11-russia-sources.md) {#ru-register}",
+              "done": true
+            },
+            {
+              "title": "Russia's federal texts from a copy that publishes them openly (the portal disallows its files to robots); North Ossetia–Alania's Constitution and its own routes {#ru-texts}",
+              "done": false
+            },
+            {
+              "title": "The plan for the law of every country as data (data/law/plan.json): what each country should hold by Constitute's index, the copies Wikidata knows, the source chosen by rule or by a person, the copyright provision of its own law; progress counted from the database by pnpm run law:plan status, never written by hand (design: docs/design/2026-11-law-of-every-country.md) {#law-plan}",
+              "done": true
+            },
+            {
+              "title": "A law authority for every country of the world list, and a copy text status shown with who keeps it; one reader for any country's constitution from Wikisource or a document copy, refusing a copy older than the last amendment; Russia's (Wikisource, as amended in 2020) and Ukraine's (the Constitutional Court's copy, with the 2019 amendments) loaded, with their routes to change the law and the constitution {#law-constitutions-p1}",
+              "done": true
+            },
+            {
+              "title": "Every country's constitution: load the countries the rule resolves; choose a copy by hand for the rest; done when law:plan status shows a text for every country Constitute lists {#law-constitutions-all}",
+              "done": false
+            },
+            {
+              "title": "Ukraine's national register and texts from the Verkhovna Rada's open data, then each country's national register in the plan's order {#law-national-registers}",
+              "done": false
+            },
+            {
+              "title": "A profile on every country's, territory's, self-governing place's and proclaimed state's page: its kind in a neutral sentence (UN member since, observer, governs itself, territory, proclaimed, special jurisdiction, project), its facts from Wikidata with the day read, the way into its constitution and its law (design: docs/design/2026-11-world-of-jurisdictions.md) {#world-profiles}",
+              "done": true
+            },
+            {
+              "title": "Proclaimed states (Liberland, Sealand and the others the stated rule picks), special jurisdictions (Próspera) and seasteading projects in the world list, with pages, law authorities and places in the plan; Liberland's constitution loaded from its own repository {#world-beyond-un}",
+              "done": true
+            },
+            {
+              "title": "The map's switch: all places, or only those beyond the UN's member states, each listed by kind {#world-map-beyond}",
+              "done": true
+            },
+            {
+              "title": "Liberland's laws and the other proclaimed states' and special jurisdictions' law, through the plan {#world-beyond-law}",
+              "done": false
+            },
+            {
+              "title": "A photograph on every place's page and on the card its link shows when shared, chosen by one rule from Wikidata and Wikimedia Commons for any place an identifier finds, replaceable by a person in one line, credited on the photograph and on /credits; the world index as a wall of photographs {#place-photos}",
+              "done": true
+            },
+            {
+              "title": "Photographs for the places inside countries: every ISO 3166-2 subdivision, Swiss canton (through a crosswalk from its FSO number) and commune, US state and county Wikidata holds; the places inside a place as tiles {#place-photos-subdivisions}",
+              "done": true
+            },
+            {
+              "title": "Solon serves place photographs from its own store, read once from Wikimedia, so none fails to load and none waits on Wikimedia twice {#place-photo-store}",
+              "done": true
+            },
+            {
+              "title": "One page shape for every place: the hero with its main action, the law and what a reader can do beside the place at a glance; the world index grouped by kind of place {#place-page-shape}",
+              "done": true
+            },
+            {
+              "title": "A proposal on an act whose text Solon does not hold: the change asked for in words, pinned to the act's official publication, supported and counted like any other {#amend-without-text}",
               "done": false
             },
             {
@@ -2560,7 +2640,7 @@
       "changelog": [
         {
           "date": "2026-11-10",
-          "done": "Every page in your language and one currency. Money is shown in US dollars unless you pick another currency, and your pick holds on every page: budgets, contested places and the comparison of structures, where a salary quoted in francs now also shows its equivalent. The words that came from Solon's own configuration and stayed in English or Russian on translated pages (the statistics' scales, the tax forms, the budget lines and their classifications, who published each figure, the voting example) now read in German, French, Italian and Russian too. {#budgets-money} {#i18n-config}\nOne currency, one language. Money on the budget and comparison pages is shown in the currency you pick (francs by default, or euro, dollars, pounds, roubles, lari), converted at that year's average rate from Eurostat and, for the rouble since 2022, the Bank of Russia; each page says from what it was converted. A law in another language reads in yours: a machine translation, marked as one, with the authentic text a click away, and titles in lists translated too. Places are named in your language (South Ossetia, Tskhinval), not only in their own. Codes South Ossetia's Parliament publishes as Word files are read from the files, article by article. {#budgets-money} {#law-translated} {#law-documents}\nBudgets: what governments raise and what they spend it on. /budgets lists every place Solon holds a budget for, and each opens on one page: revenue, spending and the balance; what the money is spent on, every function opened into its parts (old-age pensions within social protection, hospitals within health); where it comes from; how both moved since 1995; who pays for it where part is received from elsewhere; and every figure's source, down to the publisher's own lines. Eurostat's government finance for 30 European countries is read every month; South Ossetia's 2023 budget is read from its own laws. Every budget sits on the same international classifications, so any two can be compared, and each page ends in \"propose a change to this budget\". {#budgets-model} {#budgets-eurostat} {#budgets-pages}\nContested places: two sets of law, side by side. /places/contested lists every place that governs itself while another state regards it as part of its territory, and each opens the two sets of law question by question, in each side's own words: the original beside a translation, the page it was read on and the day. South Ossetia and Georgia are compared on the territory, who may propose a law, taxes, citizenship, moving and leaving, and defence, and South Ossetia's 2023 budget is shown as its own law states it: 81% of its revenue was aid from the Russian Federation, and its own revenue covered 18.5% of what it spent. Every held article has \"propose a change\", and South Ossetia's official route is stated: a bill reaches its Parliament through any one deputy. Solon does not say which side is right. {#contested-p1} {#contested-ledger} {#contested-route}\nEasier to find your way. The header now has four panels of four or five links each (Law, Places, Data, Governance) instead of 27 links, with statistics given their own panel. A new Find button (also Ctrl or Cmd + K, or \"/\") searches pages, statistics, places and laws in one box. The phone menu folds by section and opens on the one you are in. Every page is still in the footer. {#site-navigation}\nWhat is measured, and where it is not. /statistics/gaps sets out, for a topic, what each place's statistical office collects and publishes, crossed with what and under what law, read from the office's own pages; where the same question can be answered in one country and not in another; what must come with a new measure so it is not misread (age and sex, income and education, where people live, type of offence); the objections and their safeguards; and who decides. The first topic is crime by a person's background: Denmark, Sweden, Norway and the Netherlands publish a background the office defines, Germany and Switzerland citizenship, the United Kingdom and the United States an ethnic or racial category, and in France a Constitutional Council decision bars studies that rest on ethnic origin or race. Each page lists what was not read, and a group can propose a position from it. {#stats-gaps}"
+          "done": "Every place's page, rebuilt around what matters. The photograph, the name, what kind of place it is and its headline facts come first, with the one thing to do next: read its constitution, or its law. Below, the law and what a resident can do sit beside the place at a glance, without repeating what the photograph already says. The cantons of Switzerland, the regions of France, the states and counties of the United States and every other subdivision Wikidata photographs now have their photograph too, and a country's places are shown as photographs. The list of the world opens on the Earth from Apollo 17 and is grouped by what each place is. {#place-page-shape} {#place-photos-subdivisions}\nEvery place opens on its photograph. A country's page, a proclaimed state's, a US state's now begins with a photograph of the place across the screen, its name, what kind of place it is, its capital, population and area; a shared link shows the same photograph with its name. The Matterhorn for Switzerland, Vaduz Castle for Liechtenstein, Fiagdon monastery for South Ossetia, Yellowstone for Wyoming. The list of every country and territory is now a wall of photographs. Every photograph is from Wikimedia Commons under a free licence, its author named on it. {#place-photos}\nEvery country, and every place beyond the UN, has a profile. Each country's page now says what kind of place it is (a UN member since a given day, an observer, a place that governs itself, a territory), with its capital, population, area, languages, currency, form of government and heads of state and government, and a way into its constitution and its law. Liberland, Sealand and other proclaimed states, Próspera, and seasteading projects have pages too, picked by one stated rule; Liberland's constitution is on Solon. The map can show only the places beyond the UN. Constitutions loaded so far include Brazil's, Japan's, Morocco's, the Netherlands', Romania's, Serbia's and others, each read from a copy whose source and date are on the page. {#world-profiles} {#world-beyond-un} {#world-map-beyond}\nRussia's and Ukraine's constitutions, and a plan for every country's law. Both constitutions are on Solon in their own language, article by article, with how each is amended and, for Ukraine, the referendum three million citizens can call. Where a government site would not serve the text, it is read from another faithful copy (Wikisource, Ukraine's Constitutional Court) and the page says whose copy it is and when it was read; a copy older than the last amendment is refused. Every country now has its place in one plan, which shows what Solon holds for it and the next step. {#law-plan} {#law-constitutions-p1}\nRussia's laws, and North Ossetia–Alania's. The federal laws and the laws of North Ossetia–Alania are listed from Russia's official publication portal, each linked to its official publication, under Russia and the republic in your language. Each says how that law is officially changed: a federal bill goes to the State Duma, and citizens cannot introduce one; the Russian Public Initiative takes 100,000 votes for a federal proposal and, for a region, 5% of its people, each vote cast through a state services account. The texts are not held yet. {#ru-register}\nYour proposals cannot be linked to each other. Whoever files or supports a proposal is named in the public record by a name of their own for that proposal only, never by their account. {#safe-pseudonyms}\nPropose a change in Russian, French and Italian. Writing a change to a law, supporting one and reading how that law is officially changed now works in every language Solon speaks, not only German and English. On a contested place, \"propose\" opens each side's law to pick the article, instead of a form that asked you to join an unrelated organization, and Georgia's constitution is quoted with a translation into your language. {#contested-propose-law}\nEvery page in your language and one currency. Money is shown in US dollars unless you pick another currency, and your pick holds on every page: budgets, contested places and the comparison of structures, where a salary quoted in francs now also shows its equivalent. The words that came from Solon's own configuration and stayed in English or Russian on translated pages (the statistics' scales, the tax forms, the budget lines and their classifications, who published each figure, the voting example) now read in German, French, Italian and Russian too. {#budgets-money} {#i18n-config}\nOne currency, one language. Money on the budget and comparison pages is shown in the currency you pick (francs by default, or euro, dollars, pounds, roubles, lari), converted at that year's average rate from Eurostat and, for the rouble since 2022, the Bank of Russia; each page says from what it was converted. A law in another language reads in yours: a machine translation, marked as one, with the authentic text a click away, and titles in lists translated too. Places are named in your language (South Ossetia, Tskhinval), not only in their own. Codes South Ossetia's Parliament publishes as Word files are read from the files, article by article. {#budgets-money} {#law-translated} {#law-documents}\nBudgets: what governments raise and what they spend it on. /budgets lists every place Solon holds a budget for, and each opens on one page: revenue, spending and the balance; what the money is spent on, every function opened into its parts (old-age pensions within social protection, hospitals within health); where it comes from; how both moved since 1995; who pays for it where part is received from elsewhere; and every figure's source, down to the publisher's own lines. Eurostat's government finance for 30 European countries is read every month; South Ossetia's 2023 budget is read from its own laws. Every budget sits on the same international classifications, so any two can be compared, and each page ends in \"propose a change to this budget\". {#budgets-model} {#budgets-eurostat} {#budgets-pages}\nContested places: two sets of law, side by side. /places/contested lists every place that governs itself while another state regards it as part of its territory, and each opens the two sets of law question by question, in each side's own words: the original beside a translation, the page it was read on and the day. South Ossetia and Georgia are compared on the territory, who may propose a law, taxes, citizenship, moving and leaving, and defence, and South Ossetia's 2023 budget is shown as its own law states it: 81% of its revenue was aid from the Russian Federation, and its own revenue covered 18.5% of what it spent. Every held article has \"propose a change\", and South Ossetia's official route is stated: a bill reaches its Parliament through any one deputy. Solon does not say which side is right. {#contested-p1} {#contested-ledger} {#contested-route}\nEasier to find your way. The header now has four panels of four or five links each (Law, Places, Data, Governance) instead of 27 links, with statistics given their own panel. A new Find button (also Ctrl or Cmd + K, or \"/\") searches pages, statistics, places and laws in one box. The phone menu folds by section and opens on the one you are in. Every page is still in the footer. {#site-navigation}\nWhat is measured, and where it is not. /statistics/gaps sets out, for a topic, what each place's statistical office collects and publishes, crossed with what and under what law, read from the office's own pages; where the same question can be answered in one country and not in another; what must come with a new measure so it is not misread (age and sex, income and education, where people live, type of offence); the objections and their safeguards; and who decides. The first topic is crime by a person's background: Denmark, Sweden, Norway and the Netherlands publish a background the office defines, Germany and Switzerland citizenship, the United Kingdom and the United States an ethnic or racial category, and in France a Constitutional Council decision bars studies that rest on ethnic origin or race. Each page lists what was not read, and a group can propose a position from it. {#stats-gaps}\nPhotographs of places always load. Solon now keeps every place photograph it shows and serves it itself; before, about one in sixteen came up black on a first visit while Wikimedia asked the site to slow down. {#place-photo-store}\nThe chat on place pages no longer reports an error for its \"Thought for…\" line, in every language."
         },
         {
           "date": "2026-11-09",
@@ -5720,14 +5800,14 @@
       },
       "next": null,
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-11-10T00:43:24.970Z"
+          "at": "2026-11-10T22:38:33.946Z"
         },
         "lastLog": {
           "date": "2026-11-10",
-          "done": "Fixed curl exit 28 timeout in appcron-substrata-sweep by bounding web search and page reads to remaining budget, forwarding abort signals, and opening PR #359."
+          "done": "Fixed curl exit 28 timeout in appcron-substrata-prices by adding timeout signals, abort-aware sleep, and signal propagation across price/fact fetches, opening PR #364."
         }
       }
     },
@@ -6669,8 +6749,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-11-10T10:04:50.118Z"
+          "outcome": "error",
+          "at": "2026-11-10T22:27:13.323Z"
         },
         "lastLog": {
           "date": "2026-09-15",
