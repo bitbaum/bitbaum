@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T07:48:28.572Z",
+  "generatedAt": "2026-11-10T10:40:46.073Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -1416,7 +1416,7 @@
           "title": "Beyond Switzerland: Wyoming first {#law-world}",
           "line": "The goal is the law of every place, readable and actionable by anyone. Each new",
           "status": "in progress",
-          "progress": 44,
+          "progress": 45,
           "targetDate": null,
           "milestones": [
             {
@@ -1524,6 +1524,14 @@
               "done": true
             },
             {
+              "title": "The globe names the world: countries, first-level subdivisions (Natural Earth 1:10m, public domain) and every place of 1,000 people or more (GeoNames, CC BY 4.0), placed without overlap and revealed by zoom, loaded a country at a time; zoom where you point; built by pnpm run geography:world {#places-globe}",
+              "done": true
+            },
+            {
+              "title": "Second-level subdivisions (districts, counties) from geoBoundaries, loaded a country at a time like the first level, and villages under 1,000 people (GeoNames cities500). geoBoundaries carries a licence per country (Public Domain for the United States, swisstopo's terms for Switzerland, \"Data license Germany – Attribution – Version 2.0\" for Germany, read from its API on 2026-11-09), so each country's licence is read against the policy before its file is built, not the set loaded in bulk {#places-globe-more}",
+              "done": false
+            },
+            {
               "title": "Every state's counties, and each state's own income tax beside the federal one {#places-us-states}",
               "done": false
             }
@@ -1591,6 +1599,84 @@
             },
             {
               "title": "Microstates, DIFC and ADGM, Singapore, charter cities: each after its sizing note, in the order the owner sets.",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/solon/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Liechtenstein, finished: the first country with every level {#li-done}",
+          "line": "Liechtenstein is the country every later one is built on, and the first where a proposal made on",
+          "status": "in progress",
+          "progress": 18,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The nation: 3,412 of 3,412 acts with text from gesetze.li, read again every week",
+              "done": true
+            },
+            {
+              "title": "The eleven communes' own regulations (337 acts; Triesenberg's from the Internet Archive's dated copy, labelled as such)",
+              "done": true
+            },
+            {
+              "title": "Text accuracy: a random sample of 30 acts holds at least 99% of its pages' words, on two samples in a row, footnotes and act headers aside (law:text verify --authority li). Now: 95.8% on one sample; the remaining gap is mostly act headers; the check ignores headers next",
+              "done": false
+            },
+            {
+              "title": "The communes' PDFs checked the same way (the check reads HTML only): how many were read from a text layer and how many by OCR, and the OCR ones read by a person",
+              "done": false
+            },
+            {
+              "title": "Every act the register lists is held, and none held is gone from the publisher (one held address answers 404 today)",
+              "done": false
+            },
+            {
+              "title": "Earlier versions and what changed between them, from the day Solon first read each act; the publisher gives no effective dates, and the page says so",
+              "done": false
+            },
+            {
+              "title": "Every page of the law, the places and the proposal flow in German, with no \"not translated\" notice, written in Liechtenstein's own legal vocabulary and read by a native speaker",
+              "done": false
+            },
+            {
+              "title": "The country page shows law per level (nation, then each commune with its own count); the two counts the atlas and the Law page show agree and say which is which",
+              "done": false
+            },
+            {
+              "title": "The atlas shows Liechtenstein as its own places, one outline, communes named, phone first",
+              "done": false
+            },
+            {
+              "title": "The official routes recorded and cited to the article: initiative and referendum for a law and for the Constitution, and the municipal assembly's",
+              "done": true
+            },
+            {
+              "title": "The routes shown on the act page and on the propose page, in German, before anyone files",
+              "done": false
+            },
+            {
+              "title": "The whole flow tried end to end on production by a person: find an act, propose a change to an article, see it as a redline pinned to the text, support it, see the route's bar beside Solon's count, and read that it is not law",
+              "done": false
+            },
+            {
+              "title": "How a proposal that reaches the bar is handed on to the Landtag or the Government, written with the people who will receive it (a decision for them, not for Solon)",
+              "done": false
+            },
+            {
+              "title": "A named list of series for Liechtenstein, each with its publisher and date. Today none loads: the World Bank's API answers the box HTTP 403, so no World Bank series has ever loaded",
+              "done": false
+            },
+            {
+              "title": "The tax model's rates read against the published tariff, with the article",
+              "done": false
+            },
+            {
+              "title": "The weekly sync demonstrably reads the nation and every commune, and a failure is reported, not silent",
+              "done": false
+            },
+            {
+              "title": "Every claim on the pages (\"word for word\", counts, dates) is read from the data or verified",
               "done": false
             }
           ],
@@ -1752,7 +1838,7 @@
           "title": "The law beside the numbers {#stats}",
           "line": "A law says one thing; how it is enforced and what happened after it changed",
           "status": "planned",
-          "progress": 49,
+          "progress": 53,
           "targetDate": null,
           "milestones": [
             {
@@ -1860,11 +1946,11 @@
               "done": false
             },
             {
-              "title": "Coded assessments: a rubric registry and an assessment record kind in the append-only log; a coding names its rubric version, a point of the written scale, the provisions and quotes it was read from, a confidence and its reason, and shows as awaiting a second reader until a person other than the coder is named. First codings, from the statutes: compulsory military service in Switzerland and Estonia (2) and the United States (1, medium confidence), and compulsory health insurance in Switzerland (2) and the United States (1, the duty stands, its payment is $0), on the compulsion dimension {#stats-assessments}",
+              "title": "Coded assessments: a rubric registry and an assessment record kind in the append-only log; a coding names its rubric version, a point of the written scale, the provisions and quotes it was read from, a confidence and its reason, and shows as awaiting a second reader until a person other than the coder is named. First codings, from the statutes: compulsory military service in Switzerland and Estonia (2) and the United States (1, medium confidence), compulsory old-age provision in Switzerland and the United States (both 3: a duty to a public scheme with no way out), and compulsory health insurance in Switzerland (2) and the United States (1, the duty stands, its payment is $0), on the compulsion dimension {#stats-assessments}",
               "done": true
             },
             {
-              "title": "Second readers for the first codings, then more places and more rubrics (compulsory insurance, compulsory membership, exit tax); the cannabis possession example for Liechtenstein and Monaco waits for readable law texts {#stats-coding-more}",
+              "title": "Second readers for the first codings, then more places and more rubrics (compulsory membership, compulsory voting, exit tax; Estonia's pension insurance and Switzerland's and Estonia's departure tax wait for a reading of the provisions); the cannabis possession example for Liechtenstein and Monaco waits for readable law texts {#stats-coding-more}",
               "done": false
             },
             {
@@ -1873,6 +1959,46 @@
             },
             {
               "title": "The same explanation on event pages and the compare and axis views, and a check of an explanation's reasoning by a second model {#stats-explain-more}",
+              "done": false
+            },
+            {
+              "title": "How the rankings are made: nine indexes of freedom and governance (Fraser, Cato/Fraser, Heritage, Freedom House, V-Dem, World Bank WGI, RSF, the Regional Authority Index, OECD fiscal decentralisation) described the same way on /statistics/methods: who makes each, what it says it measures, how, its parts, whether its data may be shown, what has not been read, the same critical questions for every index of a kind, and an AI explanation from what was read only {#stats-methods}",
+              "done": true
+            },
+            {
+              "title": "One country registry for all of Solon (config/world/countries.ts, from Natural Earth): the law globe, the statistics map and the OECD sources read their codes from it, and a test fails when anything names a country it lacks (docs/design/2026-11-places-ssot.md) {#places-ssot}",
+              "done": true
+            },
+            {
+              "title": "Every country a place: a world pack holds the nation level of all 235 countries no other pack holds, generated from the registry (pnpm run places:world-countries); every country gets the World Bank's indicators and the OECD's tax series go to its 38 members, sources generated from the registry and staggered through the morning so no publisher sees a burst {#places-world}",
+              "done": true
+            },
+            {
+              "title": "The World Bank's six governance indicators (voice, stability, effectiveness, regulation, rule of law, corruption; CC BY 4.0) for every country, on a governance dimension that says plainly they are perceptions of 35 sources and estimates, beside empty law and results layers that say what would fill them {#stats-wgi}",
+              "done": true
+            },
+            {
+              "title": "Deep research with AI (/statistics/research): a model with read-only tools reads Solon's series, dimensions, method descriptions and law (and the web where a backend is set) for up to three rounds; every fact a tool returns becomes a numbered source and the report is written from those alone and checked like every other explanation, with the sources always listed {#stats-research}",
+              "done": true
+            },
+            {
+              "title": "What is measured, and where it is not (/statistics/gaps): for a topic, what each place's statistical office collects and publishes, crossed with what and under what law (read from the office's own pages, each checked weekly, what was not read listed as unread), where the answer exists in one place and not in another, what would have to accompany a new measure so it is not misread, the objections with their safeguards, and who decides; with a position a group can propose and the checked AI explanation. First topic: crime by a person's background, for Denmark, Sweden, Norway, the Netherlands, Germany, Switzerland, the United Kingdom, the United States and France (where a decision of the Constitutional Council bars studies resting on ethnic origin or race) {#stats-gaps}",
+              "done": true
+            },
+            {
+              "title": "Navigation that scales: a header of four panels (Law, Places, Data, Governance) of four or five links each, a Find palette (button, Ctrl or Cmd + K, or \"/\") over pages, statistics, places and laws, the mobile menu as folds, and an engineering audit (docs/design/2026-11-engineering-audit.md) with import cycles gated in verify {#site-navigation}",
+              "done": true
+            },
+            {
+              "title": "The audit's debt, in order: law authorities derived from places, a page's name written once, translation coverage, the large files {#site-debt}",
+              "done": false
+            },
+            {
+              "title": "More topics and places for the gaps registry: the tax gap, enforcement of drug-possession law, clearance rates by offence, and the countries Solon models (Estonia's and Liechtenstein's offices were not read); the offices that block programs (France's Interior Ministry answers 403) read by a person and marked so {#stats-gaps-more}",
+              "done": false
+            },
+            {
+              "title": "Findings kept: a research finding a person confirms becomes a curated record or a method entry, with its evidence words checked weekly {#stats-research-keep}",
               "done": false
             },
             {
@@ -2269,8 +2395,12 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-10",
+          "done": "Easier to find your way. The header now has four panels of four or five links each (Law, Places, Data, Governance) instead of 27 links, with statistics given their own panel. A new Find button (also Ctrl or Cmd + K, or \"/\") searches pages, statistics, places and laws in one box. The phone menu folds by section and opens on the one you are in. Every page is still in the footer. {#site-navigation}\nWhat is measured, and where it is not. /statistics/gaps sets out, for a topic, what each place's statistical office collects and publishes, crossed with what and under what law, read from the office's own pages; where the same question can be answered in one country and not in another; what must come with a new measure so it is not misread (age and sex, income and education, where people live, type of offence); the objections and their safeguards; and who decides. The first topic is crime by a person's background: Denmark, Sweden, Norway and the Netherlands publish a background the office defines, Germany and Switzerland citizenship, the United Kingdom and the United States an ethnic or racial category, and in France a Constitutional Council decision bars studies that rest on ethnic origin or race. Each page lists what was not read, and a group can propose a position from it. {#stats-gaps}"
+        },
+        {
           "date": "2026-11-09",
-          "done": "What it costs to leave. A new dimension, /statistics/dimension/exit, codes from the statutes whether a citizen can give up their citizenship and whether leaving is taxed. Switzerland (BüG Art. 37: released on request if living abroad with another citizenship), Estonia (KodS § 26 and § 29) and the United States (8 U.S.C. § 1481: renunciation before a consul abroad) are each at 1, on stated conditions; the United States taxes all property of a covered expatriate as if sold (26 U.S.C. § 877A), point 2. Every coding quotes its article and awaits a second reader. {#stats-exit}\nCharts that cannot show nonsense, and help to read them. A figure that is not a number or lies outside what the measure can be is left out of the chart and listed above it, not drawn. Places read at dates more than two years apart, a trend from fewer than three figures, a ranking of fewer than three places and a scatter of fewer than five points each carry a warning above the chart. Every statistic and dimension page now lists its figures as numbered facts in plain words, and \"Explain with AI\" (with an optional question) writes an explanation from those facts only. Before it is shown, every number in it must be one of the facts, every citation a fact that exists, and every paragraph must cite; an answer that fails is asked for again once and then dropped. {#stats-explain}\nWhat the law compels, read from the statutes. /statistics/dimension/compulsion shows compulsory military service coded on a written four-point scale: Switzerland and Estonia at 2 (service with a civilian alternative), the United States at 1 (registration and liability; medium confidence, with what is left open). Each coding names the articles it was read from, quotes their wording, says how sure the reader is and why, and shows \"awaiting a second reader\" until someone other than the coder has checked it. {#stats-assessments}\nCompulsory health insurance, coded the same way. Switzerland's KVG Art. 3 requires every resident to insure within three months, with a choice of insurer (point 2). The United States' 26 U.S.C. § 5000A still states the duty, but its payment is $0 (point 1). Estonia is left uncoded until a reader decides how cover that follows from a tax is placed."
+          "done": "Compulsory provision for old age, coded. Switzerland (BV Art. 112 and 113: the old-age insurance is obligatory, and so are occupational pensions for employees) and the United States (26 U.S.C. § 3101: a tax of 6.2 percent of wages for old-age, survivors and disability insurance) both stand at 3, a duty to a public scheme with no way out; the US coding is medium confidence until exemptions are read. Estonia is left uncoded until its provisions are read. {#stats-assessments}\nResearch with AI. /statistics/research takes a question about governance, freedom, statistics or the law. An AI reads what Solon holds, for a few rounds: series with their definitions and quality notes, dimensions that keep the law, practice and results apart, how published rankings are made, and the law itself, and the open web where one is configured. Every fact it finds is listed as a numbered source, and the report is written from those alone: each number must be one a source holds, each citation a source that exists, each paragraph must cite, and nothing may pass a verdict on a place or a person. A report that fails the check is not shown; the sources still are. {#stats-research}\nEvery country is a place, and governance is measured for all. 235 more countries are now places (the countries no country pack holds in depth), each with the World Bank's indicators, and the OECD's tax series for its 38 members. New: six World Bank governance scores (voice and accountability, political stability, government effectiveness, regulatory quality, rule of law, control of corruption), on /statistics/dimension/governance, labelled as what they are: a composite of perceptions from 35 sources, estimates rather than definitive ratings. A series a law fixes (a statutory rate) is no longer flagged for staying the same for years. {#places-world} {#stats-wgi}\nHow the rankings are made. /statistics/methods describes nine indexes of freedom and governance the same way: who makes each, what it says it measures, how (experts scoring countries, a composite of other sources, perception surveys, official statistics, coding the law), its parts as the publisher names them, whether its data may be shown here with the terms quoted, what has not been read yet, and the questions worth asking of every index of its kind (who the experts are, whether weights are argued or chosen, whether law and practice are mixed). Each page can be explained by AI from what was read and nothing else. {#stats-methods}\nOne list of countries. The law globe, the statistics map and the OECD sources now read country codes from one registry instead of three hand-kept tables. {#places-ssot}\nA globe you can read. The atlas now names every country, its subdivisions and its towns (Natural Earth for countries and the world's first-level subdivisions, GeoNames for every place of 1,000 people or more), placed so that no name covers another and appearing as you zoom in. Zooming goes where you point (wheel, pinch, double tap). Subdivisions and towns load a country at a time as you reach them. Tapping any place names and outlines it; a town flies you to it. The sea is blue, the land is the page, in light and dark. {#places-globe}\nWhat it costs to leave. A new dimension, /statistics/dimension/exit, codes from the statutes whether a citizen can give up their citizenship and whether leaving is taxed. Switzerland (BüG Art. 37: released on request if living abroad with another citizenship), Estonia (KodS § 26 and § 29) and the United States (8 U.S.C. § 1481: renunciation before a consul abroad) are each at 1, on stated conditions; the United States taxes all property of a covered expatriate as if sold (26 U.S.C. § 877A), point 2. Every coding quotes its article and awaits a second reader. {#stats-exit}\nCharts that cannot show nonsense, and help to read them. A figure that is not a number or lies outside what the measure can be is left out of the chart and listed above it, not drawn. Places read at dates more than two years apart, a trend from fewer than three figures, a ranking of fewer than three places and a scatter of fewer than five points each carry a warning above the chart. Every statistic and dimension page now lists its figures as numbered facts in plain words, and \"Explain with AI\" (with an optional question) writes an explanation from those facts only. Before it is shown, every number in it must be one of the facts, every citation a fact that exists, and every paragraph must cite; an answer that fails is asked for again once and then dropped. {#stats-explain}\nWhat the law compels, read from the statutes. /statistics/dimension/compulsion shows compulsory military service coded on a written four-point scale: Switzerland and Estonia at 2 (service with a civilian alternative), the United States at 1 (registration and liability; medium confidence, with what is left open). Each coding names the articles it was read from, quotes their wording, says how sure the reader is and why, and shows \"awaiting a second reader\" until someone other than the coder has checked it. {#stats-assessments}\nCompulsory health insurance, coded the same way. Switzerland's KVG Art. 3 requires every resident to insure within three months, with a choice of insurer (point 2). The United States' 26 U.S.C. § 5000A still states the duty, but its payment is $0 (point 1). Estonia is left uncoded until a reader decides how cover that follows from a tax is placed."
         },
         {
           "date": "2026-11-08",
@@ -2343,10 +2473,6 @@
         {
           "date": "2026-09-07",
           "done": "Green pull requests merge and deploy themselves through the fleet's shared sweep instead of a stale local copy, and the sweep no longer stalls on workflow changes. (#154, #155)\nNode, React, Next, Vitest and other dependencies updated. (#140–#153)"
-        },
-        {
-          "date": "2026-09-05",
-          "done": "Design tokens come from the published package @bitbaum/design-tokens instead of a git tag, so Solon, OrangeCat and Loki share one source. (#139)"
         }
       ],
       "records": {
@@ -6379,8 +6505,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-11-09T10:03:35.472Z"
+          "outcome": "timeout",
+          "at": "2026-11-10T10:04:50.118Z"
         },
         "lastLog": {
           "date": "2026-09-15",

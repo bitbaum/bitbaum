@@ -110,7 +110,7 @@ addEventListener("error", function (e) {
     </section>
     <section class="wrap pkg-reference-section" id="documentation" aria-labelledby="documentation-title">
       <h2 id="documentation-title">API and examples</h2>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/ec13406322d674c0909715bee2bfa72e340303ad/">source commit <code>ec13406322d6</code></a> · 2026-11-09. Source documentation can include work beyond the registry release.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/1ff0c166ce594b623a14cc0172048a642c609ed1/">source commit <code>1ff0c166ce59</code></a> · 2026-11-10. Source documentation can include work beyond the registry release.</p>
       <ul class="pkg-doc-toc" aria-label="Documentation topics"><li><a href="#api-install">Install</a></li><li><a href="#api-ownership">Ownership</a></li><li><a href="#api-data-loading">Data loading</a></li><li><a href="#api-drawing-it-bitbaum-geo-kit-map">Drawing it: `@bitbaum/geo-kit/map`</a></li><li><a href="#api-assertions-and-proposed-boundaries">Assertions and proposed boundaries</a></li><li><a href="#api-verify">Verify</a></li></ul>
       <details class="pkg-document"><summary>Read the package documentation</summary><div class="record"><p>Country-neutral contracts for sharing versioned geography data across applications, and one renderer for it (<code>@bitbaum/geo-kit/map</code>). The package owns no country packs, political claims, source choices, personal data, HTTP server, or UI framework.</p>
 <h2 id="api-install">Install</h2>
@@ -181,6 +181,26 @@ map.flyTo(cameraForBounds([5.96, 45.82, 10.49, 47.81], limits));</code></pre>
 <p>optional, so a lit globe of the world and a plain map where the data is the picture are the same painter. <code>over</code> draws the caller's own layer (sites, routes, figures) on top each frame, with the frame's projection, and <code>pickFirst</code> lets that layer take a tap or a hover before the features.</p>
 <ul><li><strong>Pure parts.</strong> The camera, motion, culling, picking and the fast</li></ul>
 <p>projection are exported and tested without a browser.</p>
+<h3 id="api-which-place-the-map-is-about-createfocus">Which place the map is about: <code>createFocus</code></h3>
+<p>A map of places (a country, its provinces, their districts) needs one rule, kept in one place: choosing a place selects it, frames <strong>its own outline</strong>, draws its children as the tappable places with its own outline whole, and shows the places above it faintly. It never frames from a child's bounds, and nothing jumps to a child that was not chosen.</p>
+<pre><code>import { createFocus } from &quot;@bitbaum/geo-kit/map&quot;;
+
+const focus = createFocus(
+  {
+    cameraOf: (id) => outlineCameraOf(id), // cameraFor(its geometry), or null when none is drawn
+    childrenOf: (id) => idsInside(id),
+    parentOf: (id) => idAbove(id),
+    home: { center: [8, 40], k: 1 },
+  },
+  (view) => {
+    if (view.camera) map.flyTo(view.camera);
+    map.setSelected(view.selected);
+    // draw view.outline and view.children; view.context faintly; the card says &quot;Open &lt;view.selected>&quot;
+  },
+);
+focus.choose(&quot;some-place&quot;); // a tap, a search result, a link
+focus.up();</code></pre>
+<p><code>hatch(stripe)</code> makes a fill for land more than one authority claims.</p>
 <h2 id="api-assertions-and-proposed-boundaries">Assertions and proposed boundaries</h2>
 <p><code>AreaAssertion</code> follows Solon's sourced <code>claims</code>, <code>administers</code>, and <code>proposes</code> records. <code>summarizeAreaAssertions</code> filters those records by an explicit date and reports distinct claimants, administrators and proposers. Its <code>disputed</code> flag is a mechanical summary of competing claims or a mismatch between claimant and administrator; it is not a legal conclusion.</p>
 <p><code>validateBoundaryDraft</code> checks a proposal's polygon, WGS84 coordinates, closed rings, input limits, source/license metadata and validity interval. Publication stays blocked until the consuming app provides both a full geometry-topology validator and an approval check for the draft's proposal. The draft contains a shape and its provenance only; claims about who owns or administers it are separate sourced assertions.</p>
@@ -191,7 +211,12 @@ pnpm run verify</code></pre>
     </section>
     <section class="wrap pkg-reference-section" id="changelog" aria-labelledby="changelog-title">
       <h2 id="changelog-title">Changelog and releases</h2>
-      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-5-0">0.5.0</h2>
+      <details class="pkg-document"><summary>Read the repository changelog</summary><div class="record"><h2 id="change-0-6-0">0.6.0</h2>
+<ul><li><strong><code>createFocus</code> / <code>choose</code> / <code>up</code></strong> (<code>/map</code>): which place a map is about, as one pure state</li></ul>
+<p>machine (no canvas, no framework, no country). Choosing a place selects it, frames its <strong>own outline</strong> (never a child's, never the bounds of whatever happens to be drawn inside it: a country of which one province has boundaries is still framed as the whole country; only a place with no outline of its own is framed by what is inside it), draws its children as the tappable places with its own outline whole, and gives the places above it as faint context. Nothing jumps to a child that was not chosen; <code>up()</code> is the same choice made on the parent. The tree is three functions the app supplies (<code>cameraOf</code>, <code>childrenOf</code>, <code>parentOf</code>).</p>
+<ul><li><strong><code>hatch(stripe, options)</code></strong>: a diagonal hatch fill for land more than one authority claims, so</li></ul>
+<p>colour is never the only carrier.</p>
+<h2 id="change-0-5-0">0.5.0</h2>
 <ul><li>Labels that read like an atlas, not a wall of names:</li></ul>
 <p>- <strong>A density budget</strong> (<code>labelDensity</code>, default one name per 9,000 px²) caps how many names share the screen, most important first. - <strong>Breathing room per style</strong> (<code>padding</code>, default 4 px). - <strong>Globe-aware</strong>: nothing within 18° of the limb, where text smears, and nothing outside the globe's disc or within 6 px of the canvas edge. - <strong>Steady</strong>: a name shown last frame keeps its place against an equal newcomer, and while the reader drags, flies or coasts no newcomer jumps in. Names fade in and out (<code>labelFade</code>, default 260 ms; instant under reduced motion). - <strong>Keep clear</strong>: <code>labelKeepClear</code> returns boxes (buttons, a legend) names stay out of. - <strong>Callouts</strong>: a style with <code>box</code> draws the name on a filled box instead of a halo, and with <code>leader</code> sets it off from its dot, joined by a line, for a figure beside a country.</p>
 <ul><li><strong>Layers</strong>: a <code>MapFeature</code> can carry <code>layer</code>. Features on a higher layer (a province over its</li></ul>
@@ -229,7 +254,7 @@ pnpm run verify</code></pre>
 <h2 id="release-2-new-contributors">New Contributors</h2>
 <p>* @catomean made their first contribution in https://github.com/bitbaum/geo-kit/pull/1</p>
 <p><strong>Full Changelog</strong>: https://github.com/bitbaum/geo-kit/commits/v0.1.1</p></div></details></li></ol>
-      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/geo-kit/commit/ec13406322d674c0909715bee2bfa72e340303ad">feat(map): calm labels (density, padding, globe-aware, steady, fades, callouts) and paint layers (0.5.0) (#19)</a> <time datetime="2026-11-09T11:33:02Z">2026-11-09</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/dc5fded4951b74d821adec91d0781d642fdbd260">feat(map): labels with collision, zoom where you point, place washes (0.4.0) (#18)</a> <time datetime="2026-11-09T10:44:01Z">2026-11-09</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/20b458080559decfcac4b2e4fa07a1c810e5c288">docs(agents): the org rules block, generated from bitbaum/fleet (#16)</a> <time datetime="2026-11-06T09:05:01Z">2026-11-06</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/61b8c97c97d50d3c5b9fff03b7190bec4c2f23f7">feat(map): pickFirst, onFacing, jumpTo and sinceTouch, for a globe with its own layer (0.3.0) (#15)</a> <time datetime="2026-10-30T22:25:19Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/12463a6d01ed188dce457cfb07eeb1d02f8b32d3">feat(map): one renderer for the geography geo-kit delivers (0.2.0) (#14)</a> <time datetime="2026-10-30T21:01:34Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/eb7d5255c39a9220f9005441cbc1444eddd159d4">docs(agents): the org rules block, generated from bitbaum/fleet (#13)</a> <time datetime="2026-10-30T09:38:36Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/791dc8d00ee85c92144662bff2818c396db14382">release v0.1.2</a> <time datetime="2026-10-28T06:49:09Z">2026-10-28</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/a2113ea12d2af24006e408dbbca6ef5ba4f9efc3">chore(deps): dependabot leaves TypeScript 7 alone until typescript-eslint supports it (#11)</a> <time datetime="2026-10-28T02:22:09Z">2026-10-28</time></li></ol></details>
+      <details class="pkg-document"><summary>Recent source changes</summary><p>Repository activity can include unreleased work; it is not a list of deployed changes.</p><ol class="pkg-source-changes"><li><a href="https://github.com/bitbaum/geo-kit/commit/1ff0c166ce594b623a14cc0172048a642c609ed1">feat(map): createFocus, the rule for which place a map is about, and hatch for contested land (0.6.0) (#20)</a> <time datetime="2026-11-10T10:17:06Z">2026-11-10</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/ec13406322d674c0909715bee2bfa72e340303ad">feat(map): calm labels (density, padding, globe-aware, steady, fades, callouts) and paint layers (0.5.0) (#19)</a> <time datetime="2026-11-09T11:33:02Z">2026-11-09</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/dc5fded4951b74d821adec91d0781d642fdbd260">feat(map): labels with collision, zoom where you point, place washes (0.4.0) (#18)</a> <time datetime="2026-11-09T10:44:01Z">2026-11-09</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/20b458080559decfcac4b2e4fa07a1c810e5c288">docs(agents): the org rules block, generated from bitbaum/fleet (#16)</a> <time datetime="2026-11-06T09:05:01Z">2026-11-06</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/61b8c97c97d50d3c5b9fff03b7190bec4c2f23f7">feat(map): pickFirst, onFacing, jumpTo and sinceTouch, for a globe with its own layer (0.3.0) (#15)</a> <time datetime="2026-10-30T22:25:19Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/12463a6d01ed188dce457cfb07eeb1d02f8b32d3">feat(map): one renderer for the geography geo-kit delivers (0.2.0) (#14)</a> <time datetime="2026-10-30T21:01:34Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/eb7d5255c39a9220f9005441cbc1444eddd159d4">docs(agents): the org rules block, generated from bitbaum/fleet (#13)</a> <time datetime="2026-10-30T09:38:36Z">2026-10-30</time></li><li><a href="https://github.com/bitbaum/geo-kit/commit/791dc8d00ee85c92144662bff2818c396db14382">release v0.1.2</a> <time datetime="2026-10-28T06:49:09Z">2026-10-28</time></li></ol></details>
       <a class="textlink" href="https://github.com/bitbaum/geo-kit/releases">All releases</a> · <a class="textlink" href="https://github.com/bitbaum/geo-kit/tags">All tags</a>
     </section>
     <section class="wrap pkg-reference-section" id="used-by" aria-labelledby="consumers-title">
@@ -240,7 +265,7 @@ pnpm run verify</code></pre>
     <section class="wrap pkg-reference-section" id="evidence" aria-labelledby="evidence-title">
       <h2 id="evidence-title">Sources and verification</h2>
       <p>Install commands and declared consumers come from <a class="textlink" href="https://github.com/bitbaum/fleet/blob/main/registers/packages.json">Fleet’s generated registry</a>. Documentation and release notes come from the package repository. The catalogue does not certify production journey coverage.</p>
-      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/ec13406322d674c0909715bee2bfa72e340303ad/">source commit <code>ec13406322d6</code></a> · 2026-11-09. Source documentation can include work beyond the registry release.</p>
+      <p class="caption">Documentation from <a href="https://github.com/bitbaum/geo-kit/blob/1ff0c166ce594b623a14cc0172048a642c609ed1/">source commit <code>1ff0c166ce59</code></a> · 2026-11-10. Source documentation can include work beyond the registry release.</p>
       <a class="textlink" href="https://github.com/bitbaum/geo-kit/actions">Package verification runs</a>
     </section>
     <div class="wrap"><div class="pager"><a href="/packages/threadkit/">&larr; threadkit</a><a href="/packages/">All packages</a><a href="/packages/writingkit/">writingkit &rarr;</a></div></div>
