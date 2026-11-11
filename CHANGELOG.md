@@ -2,6 +2,14 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-11-11 — Two missing projects, the method, and search that forgives typos
+
+- Kivvi (an ERP for goods with a second life, in development) and BiasLens (read an article claim by claim, public beta) are running and on Loki's map, but had no page here. Both now have one, with a screenshot, a place on `/work/` and a loop on `/map/`.
+- The home page says how the work gets done: from idea to a running service in one place, on shared packages (counted from Fleet's register, not typed), with Loki as the same system for anyone who wants to build their own.
+- The search boxes on `/work/` and `/packages/` use `@bitbaum/searchkit`: "lokki" finds Loki, "acount" finds accountkit, "zurich" finds Zürich. listkit still owns the filters, sort and URL.
+- A venture links its screenshot only when the capture exists, so a failed capture can no longer publish a broken image.
+- chatkit 0.23 and design-tokens 1.5.2. The build copies only the font files `tokens.css` loads.
+
 ## 2026-11-11 — No more broken pictures on the figures
 
 - The painted figures that move (the fox on `/work/`, the cat, the whale and the rest) could turn into a white box with Chromium's sad face, and on the running fox it crossed the screen. Each figure held its own WebGL context, so a phone with many tabs, or one sent to the background, dropped them. Now one context serves the page and draws into plain 2D canvases, which never show that face; if the context is lost anyway, every figure goes back to its still painting.

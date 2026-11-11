@@ -1,3 +1,4 @@
+import { createSearch } from "/vendor/searchkit/index.js";
 import { applyQuery, debounce, emptyQuery, isNarrowed, parseQuery, toggleInSet, writeQuery } from "/vendor/listkit/index.js";
 
 const grid = document.querySelector("#work-grid");
@@ -31,6 +32,16 @@ if (grid && controls) {
     defaultSort: "studio",
     defaultPageSize: rows.length || 1,
   };
+  // What a typed word finds is searchkit's: typos, words still being typed,
+  // Zurich for Zürich. listkit then filters and sorts what it found.
+  const finder = createSearch(rows, {
+    fields: [{ name: "name", get: (row) => row.name }, { name: "host", get: (row) => row.host }, { name: "text", get: (row) => row.text }],
+  });
+  const found = (query) => {
+    if (!query.q) return rows;
+    // In relevance order: the studio's own order is the best match first.
+    return finder.search(query.q, { relax: false }).map((hit, i) => ({ ...hit.item, rank: i }));
+  };
   const search = document.querySelector("#work-search");
   const sort = document.querySelector("#work-sort");
   const count = document.querySelector("#work-count");
@@ -47,7 +58,7 @@ if (grid && controls) {
   function render(query) {
     search.value = query.q;
     sort.value = query.sort;
-    const applied = applyQuery(rows, spec, query);
+    const applied = applyQuery(found(query), spec, { ...query, q: "" });
     const visible = new Set(applied.rows.map((row) => row.card));
     for (const card of cards) card.hidden = !visible.has(card);
     for (const row of applied.rows) grid.append(row.card);

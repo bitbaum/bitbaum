@@ -1,3 +1,4 @@
+import { createSearch } from "/vendor/searchkit/index.js";
 import { applyQuery, debounce, emptyQuery, isNarrowed, parseQuery, writeQuery } from "/vendor/listkit/index.js";
 
 const grid = document.querySelector("#package-grid");
@@ -28,6 +29,9 @@ if (grid && controls) {
     defaultSort: "featured",
     defaultPageSize: rows.length || 1,
   };
+  // searchkit finds (typos, prefixes); listkit filters, sorts and keeps the URL.
+  const finder = createSearch(rows, { fields: [{ name: "slug", get: (row) => row.slug }, { name: "text", get: (row) => row.text }] });
+  const found = (query) => (query.q ? finder.search(query.q, { relax: false }).map((hit, i) => ({ ...hit.item, rank: i })) : rows);
   const search = document.querySelector("#package-search");
   const group = document.querySelector("#package-group");
   const adoption = document.querySelector("#package-adoption");
@@ -49,7 +53,7 @@ if (grid && controls) {
     adoption.value = query.facets.adoption?.[0] ?? "";
     sort.value = query.sort;
     guidance.textContent = group.selectedOptions[0]?.dataset.description ?? "Browse shared tools by the jobs they do across the studio.";
-    const filtered = applyQuery(rows, spec, query).rows;
+    const filtered = applyQuery(found(query), spec, { ...query, q: "" }).rows;
     const visible = new Set(filtered.map((row) => row.card));
     for (const card of cards) card.hidden = !visible.has(card);
     for (const row of filtered) grid.append(row.card);

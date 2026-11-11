@@ -2,7 +2,7 @@
   "name": "@bitbaum/site",
   "private": true,
   "version": "0.0.0",
-  "description": "The studio site. A static generator and stylesheet using shared design tokens and listkit query rules.",
+  "description": "The studio site. A static generator and stylesheet using shared design tokens, listkit query rules and searchkit search.",
   "type": "module",
   "scripts": {
     "build": "node site/build.mjs",
@@ -21,9 +21,10 @@
     "check:figures": "node site/check-figures.mjs"
   },
   "dependencies": {
-    "@bitbaum/chatkit": "^0.22.0",
-    "@bitbaum/design-tokens": "1.2.0",
     "@bitbaum/bip-kit": "^0.6.1",
+    "@bitbaum/chatkit": "^0.23.0",
+    "@bitbaum/design-tokens": "1.5.2",
+    "@bitbaum/searchkit": "^0.2.3",
     "listkit": "npm:@bitbaum/listkit@^0.2.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

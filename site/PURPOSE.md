@@ -69,7 +69,8 @@ for a list of gaps (the fleet registers publish those, not this page).
   developer can search by capability, filter by category or adoption, compare
   usage, follow the package's canonical README and release history, and judge
   what it has survived. The package/adopter facts stay derived from Fleet's
-  manifests; the shared listkit package owns the query and URL-state rules.
+  manifests; the shared listkit package owns the filter, sort and URL-state
+  rules, and searchkit owns what a typed word finds (typos, prefixes, umlauts).
 - **`/hire/`** — published rates, the method, the answers, and one door: a
   waitlist. **Rates are public and capacity is stated** (2026-09-17): the real
   number lets a reader qualify themselves before writing, and the notice under
