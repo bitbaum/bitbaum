@@ -17,7 +17,8 @@
     "check:studio": "node site/check-studio.mjs",
     "check:cast": "node site/check-cast.mjs",
     "check:contrast": "node site/check-contrast.mjs",
-    "check:packages": "node site/check-packages.mjs"
+    "check:packages": "node site/check-packages.mjs",
+    "check:figures": "node site/check-figures.mjs"
   },
   "dependencies": {
     "@bitbaum/chatkit": "^0.22.0",

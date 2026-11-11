@@ -2,6 +2,11 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-11-11 — No more broken pictures on the figures
+
+- The painted figures that move (the fox on `/work/`, the cat, the whale and the rest) could turn into a white box with Chromium's sad face, and on the running fox it crossed the screen. Each figure held its own WebGL context, so a phone with many tabs, or one sent to the background, dropped them. Now one context serves the page and draws into plain 2D canvases, which never show that face; if the context is lost anyway, every figure goes back to its still painting.
+- `node site/check-figures.mjs <base-url>` pins it in a real browser: at most one WebGL context per page, the figures really draw, and after a forced context loss every still painting is back. CI runs it before publishing.
+
 ## 2026-10-30 — Partners are builders
 
 - The independent people the studio approves on their work are now called builders: "Hire a builder" on the homepage, `/builders/` for the directory and the application, and "Become a builder" in the footer. "Partner" read as co-ownership or a revenue share, which is not on offer.
