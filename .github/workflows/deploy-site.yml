@@ -130,6 +130,7 @@ jobs:
           node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
           node site/check-packages.mjs http://127.0.0.1:8731 || failures=1
           node site/check-cast.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-figures.mjs http://127.0.0.1:8731 || failures=1
           [ "$failures" -eq 0 ]
           kill "$(cat /tmp/bitbaum-http.pid)" || true
       - name: Stage generator receipt after checked source refresh
@@ -238,4 +239,5 @@ jobs:
           node site/check-responsive.mjs http://127.0.0.1:8731 || failures=1
           node site/check-packages.mjs http://127.0.0.1:8731 || failures=1
           node site/check-cast.mjs http://127.0.0.1:8731 || failures=1
+          node site/check-figures.mjs http://127.0.0.1:8731 || failures=1
           [ "$failures" -eq 0 ]

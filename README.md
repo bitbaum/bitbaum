@@ -59,6 +59,7 @@ does not publish anything. Browser checks include:
 node site/check-theme.mjs https://bitbaum.orangecat.ch
 node site/check-hire.mjs https://bitbaum.orangecat.ch
 node site/check-widget.mjs https://bitbaum.orangecat.ch
+node site/check-figures.mjs https://bitbaum.orangecat.ch
 ```
 
 See [`site/DEPLOY.md`](site/DEPLOY.md) for source registers, configuration,
