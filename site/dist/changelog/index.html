@@ -83,6 +83,14 @@ addEventListener("error", function (e) {
       <li class="tl-entry">
         <time class="tl-date" datetime="2026-11-11">11 Nov 2026</time>
         <div class="tl-card">
+          <h2 class="tl-title">Two missing projects, the method, and search that forgives typos</h2>
+          <p class="tl-lead">Kivvi (an ERP for goods with a second life, in development) and BiasLens (read an article claim by claim, public beta) are running and on Loki's map, but had no page here.</p>
+          <details class="tl-more"><summary>5 points</summary><ul><li>Kivvi (an ERP for goods with a second life, in development) and BiasLens (read an article claim by claim, public beta) are running and on Loki's map, but had no page here. Both now have one, with a screenshot, a place on <code>/work/</code> and a loop on <code>/map/</code>.</li><li>The home page says how the work gets done: from idea to a running service in one place, on shared packages (counted from Fleet's register, not typed), with Loki as the same system for anyone who wants to build their own.</li><li>The search boxes on <code>/work/</code> and <code>/packages/</code> use <code>@bitbaum/searchkit</code>: &quot;lokki&quot; finds Loki, &quot;acount&quot; finds accountkit, &quot;zurich&quot; finds Zürich. listkit still owns the filters, sort and URL.</li><li>A venture links its screenshot only when the capture exists, so a failed capture can no longer publish a broken image.</li><li>chatkit 0.23 and design-tokens 1.5.2. The build copies only the font files <code>tokens.css</code> loads.</li></ul></details>
+        </div>
+      </li>
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-11-11">11 Nov 2026</time>
+        <div class="tl-card">
           <h2 class="tl-title">No more broken pictures on the figures</h2>
           <p class="tl-lead">The painted figures that move (the fox on /work/, the cat, the whale and the rest) could turn into a white box with Chromium's sad face, and on the running fox it crossed the screen.</p>
           <details class="tl-more"><summary>2 points</summary><ul><li>The painted figures that move (the fox on <code>/work/</code>, the cat, the whale and the rest) could turn into a white box with Chromium's sad face, and on the running fox it crossed the screen. Each figure held its own WebGL context, so a phone with many tabs, or one sent to the background, dropped them. Now one context serves the page and draws into plain 2D canvases, which never show that face; if the context is lost anyway, every figure goes back to its still painting.</li><li><code>node site/check-figures.mjs &lt;base-url></code> pins it in a real browser: at most one WebGL context per page, the figures really draw, and after a forced context loss every still painting is back. CI runs it before publishing.</li></ul></details>

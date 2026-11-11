@@ -386,7 +386,9 @@ export function ventures(map, cfg, origin, packages, live = {}) {
       url,
       repo: p.urls?.repo ?? o.repo ?? null,
       since: org?.firstCommit?.date ?? p.since ?? null,
-      shot: o.shot !== false && Boolean(url),
+      // Only a screenshot that was really taken: a capture that failed in
+      // shots.mjs must not leave the page pointing at an image that is not there.
+      shot: o.shot !== false && Boolean(url) && existsSync(join(here, "dist", "shots", `${slug}.jpg`)),
       uses: (uses.get(slug) ?? []).sort(),
       // Where else this project exists. The fleet map has carried these two
       // since it was published and this generator discarded them, so "which
@@ -770,6 +772,20 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
   const pkgLine = featuredPackages
     .map((p) => `<a class="textlink" href="/packages/${esc(p.slug)}/" data-package="${esc(p.slug)}">${esc(p.slug)}</a>`)
     .join(", ").replace(/, (?=[^,]*$)/, " and ");
+  // How the work gets done, with the numbers taken from Fleet's registry: how
+  // many shared packages there are, and how many repositories use at least one.
+  const adopterRepos = new Set((packages.packages ?? []).flatMap((p) => p.adopterNames ?? []));
+  const methodSection = `    <section class="section method-section" id="how">
+      <div class="wrap">
+        <span class="kicker quiet">How the work gets done</span>
+        <h2 class="headline-caps section-title">Execution, end to end.</h2>
+        <ol class="steps">
+          <li><span class="path-n">01</span><span class="step-title">From idea to a running service</span><p>Product, design, engineering and operations in one place: what to build, building it, and keeping it up, monitored and backed up afterwards. One team owns the whole path, so nothing is lost between hand-offs.</p></li>
+          <li><span class="path-n">02</span><span class="step-title">Built on shared parts</span><p>Sign-in, chat, search, mail and design are ${pkgCount} open packages, used across ${adopterRepos.size} repositories. Each is written once and fixed once, so a new product starts from parts that already work in production instead of from nothing. <a class="textlink" href="/packages/">The packages ${ARROW}</a></p></li>
+          <li><span class="path-n">03</span><span class="step-title">Your hands on the same system</span><p>Loki is the system the studio builds with, open to anyone. Do the work yourself, bring in an approved builder, or hand it to the studio. Every way ends with something you own and can keep running.</p></li>
+        </ol>
+      </div>
+    </section>`;
   // The front desk: the site's chat, where the Cat and Loki answer from the
   // public fleet map.
   const ask = home.ask;
@@ -839,9 +855,9 @@ ${glassHero({
     // The rabbit only leads somewhere worth landing: the pages every visitor
     // should see, and the projects that are live and shown with a screenshot.
     burrowTo: ["/work/", "/studio/", "/builders/", ...all.filter((v) => ["product", "pilot"].includes(v.stage) && v.shot).map((v) => `/${v.slug}/`)],
-    kicker: "AI-native product studio &middot; Zürich",
+    kicker: "AI-native execution studio &middot; Zürich",
     lines: ["One trunk.", "Many products."],
-    lede: "We build software products — and the tools that let anyone build their own.",
+    lede: "We take products from idea to a running service — and give you the same system, so you can build your own.",
     actions: `            <a class="btn-frame-accent" href="#start">Start a project ${ARROW}</a>
             <a class="btn-frame" href="/work/">See the work</a>`,
   })}
@@ -855,6 +871,8 @@ ${pathCards}
         </div>
       </div>
     </section>
+
+${methodSection}
 
     <section class="section" id="work-preview">
       <div class="wrap">
@@ -889,7 +907,7 @@ ${askSection}
   </main>`;
   return shell({
     title: "bitbaum — one trunk, many products",
-    description: "An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.",
+    description: "An AI-native execution studio in Zürich: products taken from idea to a running service on shared open packages, and Loki, the same system, for anyone who wants to build their own.",
     path: "/", body, nav: "/", script: CHAT_SCRIPT,
   });
 }
@@ -1368,11 +1386,16 @@ export function render({ map, packages, origin, readings, cfg, hire, live = {}, 
   });
   files.set("chat.js", bundle.outputFiles[0].text);
   files.set("chatkit.css", readFileSync(join(here, "..", "node_modules", "@bitbaum", "chatkit", "styles.css"), "utf8"));
-  const listkitDist = join(here, "..", "node_modules", "listkit", "dist");
-  if (!existsSync(join(listkitDist, "index.js"))) throw new Error("missing listkit browser modules — run: pnpm install");
-  files.set("vendor/listkit/LICENSE", readFileSync(join(here, "..", "node_modules", "listkit", "LICENSE"), "utf8"));
-  for (const name of readdirSync(listkitDist).filter((name) => name.endsWith(".js"))) {
-    files.set(`vendor/listkit/${name}`, readFileSync(join(listkitDist, name), "utf8"));
+  // Browser modules served as they are published: listkit owns the filters,
+  // sort and URL state; searchkit owns what a typed word finds.
+  for (const [name, pkg] of [["listkit", "listkit"], ["searchkit", "@bitbaum/searchkit"]]) {
+    const root = join(here, "..", "node_modules", ...pkg.split("/"));
+    const dist = join(root, "dist");
+    if (!existsSync(join(dist, "index.js"))) throw new Error(`missing ${pkg} browser modules — run: pnpm install`);
+    files.set(`vendor/${name}/LICENSE`, readFileSync(join(root, "LICENSE"), "utf8"));
+    for (const file of readdirSync(dist).filter((file) => file.endsWith(".js"))) {
+      files.set(`vendor/${name}/${file}`, readFileSync(join(dist, file), "utf8"));
+    }
   }
   const shown = shownPackages(packages, cfg);
   for (const p of shown) files.set(`packages/${p.slug}/index.html`, packagePage(p, cfg, all, shown, packageRecords.entries?.[p.slug]));
@@ -1525,11 +1548,13 @@ if (isMain) {
     }
     // The package's tokens.css asks for ./fonts/*; dist serves it from the root,
     // so the URLs are rewritten once here rather than duplicating the faces.
-    writeFileSync(
-      join(DIST, "tokens.css"),
-      readFileSync(join(tokensDir, "tokens.css"), "utf8").replace(/url\(\.\/fonts\//g, "url(/fonts/"),
-    );
-    cpSync(join(tokensDir, "fonts"), join(DIST, "fonts"), { recursive: true });
+    const tokensCss = readFileSync(join(tokensDir, "tokens.css"), "utf8");
+    writeFileSync(join(DIST, "tokens.css"), tokensCss.replace(/url\(\.\/fonts\//g, "url(/fonts/"));
+    // Only the faces tokens.css asks for: the package ships every product's
+    // faces, and a page should never carry fonts nothing loads.
+    for (const [, file] of tokensCss.matchAll(/url\(\.\/fonts\/([^)"']+)\)/g)) {
+      cpSync(join(tokensDir, "fonts", file), join(DIST, "fonts", file));
+    }
     console.log(`wrote site/dist: ${pageCount} pages (${all.length} ventures, ${(packages.packages ?? []).length} packages), map ${map.generatedAt ?? "snapshot"}`);
     const orphans = all.filter((v) => v.uses.length === 0 && v.stage !== "next" && v.stage !== "concept").map((v) => v.slug);
     if (orphans.length) console.log(`  no shared packages recorded for: ${orphans.join(", ")}`);

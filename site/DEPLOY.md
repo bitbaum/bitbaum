@@ -4,7 +4,8 @@
 
 The studio's front door. A focused home page, a filterable work catalogue, a
 page per venture, a packages page and a studio page — static HTML in `site/dist/`, no framework, no runtime
-fetch. The package catalogue's optional browser enhancement uses `listkit`
+fetch. The work and package catalogues' optional browser enhancement uses
+`@bitbaum/searchkit` for what a typed word finds and `listkit`
 for search, category/adoption facets, sorting, and shareable URL state; its
 cards remain present without JavaScript. Caddy serves `/opt/bitbaum/app` on
 the box with clean directory URLs.

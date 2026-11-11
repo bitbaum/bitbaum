@@ -202,6 +202,28 @@
       }
     },
     {
+      "slug": "kivvi",
+      "name": "kivvi",
+      "what": "The ERP that knows things have a history.",
+      "stack": null,
+      "layer": "product",
+      "status": "live",
+      "owner": "bitbaum",
+      "since": null,
+      "urls": {
+        "live": "https://kivvi.orangecat.ch",
+        "repo": "https://github.com/bitbaum/kivvi",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": "Generic ERPs do not fit the needs of secondhand businesses, leading to operational drag and limiting their ability to scale their impact.",
+        "solution": "Kivvi provides a native ERP system for secondhand businesses, handling intake, condition grading, repair workflows, and impact tracking, with a focus on automation and compliance with Swiss law and regulations.",
+        "mission": "Kivvi exists to solve the problem of generic ERPs not fitting the needs of secondhand businesses, providing a system that understands the unique workflows of these businesses.",
+        "vision": "To become the operating system for the circular economy, enabling businesses to scale their impact."
+      }
+    },
+    {
       "slug": "petvity",
       "name": "petvity",
       "what": "Global pet care platform — owners manage multi-species pet profiles, track physical and emotional health KPIs, connect with vets and sitters, access a marketplace, and list pets for adoption.",
@@ -353,6 +375,28 @@
         "solution": "A real-time platform that allows passengers to report lost items and train staff to receive notifications while the item is still on board, increasing the recovery rate",
         "mission": "To increase the recovery rate of lost items in Swiss public transport by providing a real-time platform for passengers to report lost items and for train staff to receive notifications.",
         "vision": "To become the standard solution for lost and found in Swiss public transport, making it easier for passengers to recover their lost items and reducing the workload for train staff."
+      }
+    },
+    {
+      "slug": "biaslens",
+      "name": "BiasLens",
+      "what": "Public product name: BiasLens. Canonical product repository: bitbaum/biaslens.",
+      "stack": null,
+      "layer": "next",
+      "status": "validating",
+      "owner": "bitbaum",
+      "since": "2026-10-22",
+      "urls": {
+        "live": "https://biaslens.orangecat.ch",
+        "repo": "https://github.com/bitbaum/biaslens",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": "Media bias and lack of transparency in information sources, making it difficult for users to understand different perspectives and make informed decisions.",
+        "solution": "BiasLens provides a dynamic, explainable, and reproducible way to measure media bias, offering a per-article dashboard with bias scores, uncertainty metrics, and missing perspectives.",
+        "mission": "BiasLens aims to provide a transparent and explainable way to measure media bias, helping users understand different perspectives and make informed decisions.",
+        "vision": "BiasLens aspires to become a leading platform for media bias analysis, enabling users to navigate complex information landscapes with confidence."
       }
     },
     {

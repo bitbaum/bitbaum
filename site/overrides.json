@@ -271,6 +271,28 @@
       "order": 4,
       "for": "S.Ink, Z\u00fcrich",
       "story": "The studio's own site: artists, work, booking. Built and hosted as a favour."
+    },
+    "biaslens": {
+      "name": "BiasLens",
+      "what": "Read an article claim by claim",
+      "stage": "product",
+      "tags": [
+        "Knowledge",
+        "AI agents"
+      ],
+      "order": 13,
+      "story": "Give it a link, a PDF or pasted text. It names who speaks and what each of them claims, marks the passages the argument rests on, and checks that every passage it cites is really in the text. It never labels a source politically in its own voice, and it says plainly that a model's reading is not a fact-check."
+    },
+    "kivvi": {
+      "name": "Kivvi",
+      "what": "An ERP for goods with a second life",
+      "stage": "development",
+      "tags": [
+        "Circular economy",
+        "Local business"
+      ],
+      "order": 4,
+      "story": "For second-hand shops, IT refurbishers, repair caf\u00e9s and vintage shops: every item tracked on its own, with its condition, repairs and cost from intake to sale, and Swiss QR invoices and donation receipts from the same record. Mobile intake and stock management are still being built."
     }
   },
   "extras": [],
@@ -527,7 +549,8 @@
             "retires": "Usable things ending up as waste, or lost for good.",
             "ventures": [
               "evig",
-              "sbb-fundbuero"
+              "sbb-fundbuero",
+              "kivvi"
             ]
           },
           {
@@ -536,6 +559,14 @@
             "retires": "Newcomers left alone with forms and a language they cannot yet hear.",
             "ventures": [
               "heidi"
+            ]
+          },
+          {
+            "title": "Reading the news",
+            "human": "The reader weighs the evidence and decides.",
+            "retires": "Taking an argument on trust without seeing what it rests on.",
+            "ventures": [
+              "biaslens"
             ]
           },
           {
