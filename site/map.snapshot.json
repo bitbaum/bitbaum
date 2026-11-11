@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-11T12:56:13.591Z",
+  "generatedAt": "2026-11-11T13:11:59.491Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -3003,6 +3003,10 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-11-11",
+          "done": "The painted figures that move (the fox on /work/, the cat, the whale and the rest) could turn into a white box with Chromium's sad face, and on the running fox it crossed the screen. Each figure held its own WebGL context, so a phone with many tabs, or one sent to the background, dropped them. Now one context serves the page and draws into plain 2D canvases, which never show that face; if the context is lost anyway, every figure goes back to its still painting.\nnode site/check-figures.mjs <base-url> pins it in a real browser: at most one WebGL context per page, the figures really draw, and after a forced context loss every still painting is back. CI runs it before publishing."
+        },
         {
           "date": "2026-10-30",
           "done": "The independent people the studio approves on their work are now called builders: \"Hire a builder\" on the homepage, /builders/ for the directory and the application, and \"Become a builder\" in the footer. \"Partner\" read as co-ownership or a revenue share, which is not on offer.\n/partners/ forwards to /builders/, keeping any #join in the link.\n\"Builders in the loop\" is written down as the positioning in site/PURPOSE.md: agents do the typing, and a builder owns the judgement."
