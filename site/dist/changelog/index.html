@@ -81,6 +81,14 @@ addEventListener("error", function (e) {
       <p class="lede">What shipped, newest first. One line each; open an entry for the rest. <a class="textlink" href="https://github.com/bitbaum/bitbaum/blob/main/CHANGELOG.md">The canonical record</a> has every word.</p>
     <ol class="timeline">
       <li class="tl-entry">
+        <time class="tl-date" datetime="2026-11-11">11 Nov 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">No more broken pictures on the figures</h2>
+          <p class="tl-lead">The painted figures that move (the fox on /work/, the cat, the whale and the rest) could turn into a white box with Chromium's sad face, and on the running fox it crossed the screen.</p>
+          <details class="tl-more"><summary>2 points</summary><ul><li>The painted figures that move (the fox on <code>/work/</code>, the cat, the whale and the rest) could turn into a white box with Chromium's sad face, and on the running fox it crossed the screen. Each figure held its own WebGL context, so a phone with many tabs, or one sent to the background, dropped them. Now one context serves the page and draws into plain 2D canvases, which never show that face; if the context is lost anyway, every figure goes back to its still painting.</li><li><code>node site/check-figures.mjs &lt;base-url></code> pins it in a real browser: at most one WebGL context per page, the figures really draw, and after a forced context loss every still painting is back. CI runs it before publishing.</li></ul></details>
+        </div>
+      </li>
+      <li class="tl-entry">
         <time class="tl-date" datetime="2026-10-30">30 Oct 2026</time>
         <div class="tl-card">
           <h2 class="tl-title">Partners are builders</h2>
