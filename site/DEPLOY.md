@@ -206,13 +206,25 @@ non-blocking runtime notice that `actions/cache@v4` declares Node 20 and is
 being forced onto Node 24. This did not fail or materially delay that run;
 update the action when the workflow dependencies are next reviewed.
 
-### Caddy headers (owned on the box)
+### Caddy on the box
 
 `/etc/caddy/apps.d/bitbaum.caddy` should keep at least:
 
 - `Cache-Control: public, max-age=0, must-revalidate`
 - `Referrer-Policy: strict-origin-when-cross-origin`
 - `X-Content-Type-Options: nosniff`
+
+It should also answer a missing address with the page the build writes for it
+(`site/dist/404.html`), keeping the 404 status. Measured 2026-11-12, a wrong
+address returned an empty body. In the site's block:
+
+```
+handle_errors {
+	@missing expression {err.status_code} == 404
+	rewrite @missing /404.html
+	file_server
+}
+```
 
 `publish.sh` asserts those on `/packages/`. A Content-Security-Policy that
 blocks inline scripts is a follow-on once the remaining FOUC theme boot is
@@ -222,8 +234,8 @@ hashed or moved; interactive modules already live at `/theme.mjs`,
 ---
 
 created_date: 2026-06-01
-last_modified_date: 2026-09-30
-last_modified_summary: Current chat and commissioning assets; responsive and intake gates; published commissioning contract verification.
+last_modified_date: 2026-11-12
+last_modified_summary: What the pages ask for at run time; one button family and the green accent; the page for a missing address and the Caddy block that serves it.
 
 
 ## Generator package receipt

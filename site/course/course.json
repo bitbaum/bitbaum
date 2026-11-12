@@ -16,7 +16,7 @@
     {
       "id": "auth-privacy",
       "title": "Permissions and privacy",
-      "prompt": "Show the customer, partner and reviewer permissions. Include one negative test proving that an unrelated customer cannot read or change the request."
+      "prompt": "Show the customer, builder and reviewer permissions. Include one negative test proving that an unrelated customer cannot read or change the request."
     },
     {
       "id": "integrations-failure",

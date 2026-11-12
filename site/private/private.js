@@ -61,7 +61,7 @@ function list(root, origin, projects) {
     .join("\n");
   root.replaceChildren(
     el("p", { class: "work-count", role: "status", text: projects.length === 1 ? "1 private project" : `${projects.length} private projects` }),
-    projects.length ? grid : el("p", { class: "empty", text: "Nothing private right now — every client project is on the public work page." }),
+    projects.length ? grid : el("p", { class: "empty", text: "Nothing private right now — everything is on the public work page." }),
     el("div", { class: "bleed-actions quiet-actions" }, el("a", { class: "btn secondary", href: "/work/", text: "Back to the public work" })),
   );
 }

@@ -16,7 +16,7 @@ Build a small working capstone in a repository you control. Include a preview, o
 
 ## Pilot assessment rubric
 
-The reviewer records a reason for each course decision. Every dimension must have usable evidence for a pass; missing evidence leads to a request for revision. Partner approval is a later studio decision.
+The reviewer records a reason for each course decision. Every dimension must have usable evidence for a pass; missing evidence leads to a request for revision. Builder approval is a later studio decision.
 
 | Dimension | Evidence required for a pass |
 | --- | --- |
@@ -27,4 +27,4 @@ The reviewer records a reason for each course decision. Every dimension must hav
 | Testing and accessibility | Runnable checks, working keyboard controls, labels and mobile/desktop journey evidence |
 | Deployment and handover | Working preview, repeatable deployment, rollback instructions and explicit remaining dependencies |
 
-The pilot begins with this lesson and uses the six evidence dimensions for a capstone. Further lessons, teaching examples, assessment calibration and learning-platform features remain on the roadmap. Submission records evidence; it does not automatically certify a builder or approve a partner.
+The pilot begins with this lesson and uses the six evidence dimensions for a capstone. Further lessons, teaching examples, assessment calibration and learning-platform features remain on the roadmap. Submission records evidence; it does not automatically certify or approve a builder.

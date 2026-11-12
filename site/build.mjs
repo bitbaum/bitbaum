@@ -430,12 +430,16 @@ export function ventures(map, cfg, origin, packages, live = {}) {
 // Pages that are one person's: the owner's private projects and a portal that
 // opens a private request. They work by link; a search engine has no reason
 // to list them, and the sitemap used to hand them over.
-const UNLISTED = ["/private/", "/portal/", "/partners/"];
+const UNLISTED = ["/private/", "/portal/", "/partners/", "/404.html"];
 const DOORS_ON = ["/work/", "/builders/", "/studio/", "/academy/", "/packages/", "/map/", "/roadmap/", "/changelog/"];
+// The builders page and the course are read by builders: their next step is
+// the application, not "Start a project".
+const BUILDER_PAGES = ["/builders/", "/academy/"];
 function doors(path) {
   const here = (p) => (p === path ? "" : p);
+  const first = BUILDER_PAGES.includes(path) ? ["/builders/#join", "Apply as a builder", true] : ["/#start", "Start a project", true];
   const items = [
-    ["/#start", "Start a project", true],
+    first,
     [here("/work/") && "/work/", "See the work", false],
     ["/#ask", "Ask the Cat or Loki", false],
   ].filter(([h]) => h);
@@ -589,7 +593,7 @@ ${SKY_LIFE}
       <nav class="top-links" aria-label="Site">
 ${items.map(([href, t]) => `        <a href="${href}"${cur(href)}>${t}</a>`).join("\n")}
       </nav>
-      <a class="btn-frame top-cta" href="/#start">Start a project ${ARROW}</a>
+      <a class="btn-frame top-cta" href="${path === HIRE ? "#waitlist" : "/#start"}">Start a project ${ARROW}</a>
       <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -690,7 +694,7 @@ ${stages.map(([, st]) => `                  <div><dt>${esc(st.plural)}</dt><dd>$
 ${all.map((v) => card(v, { filterable: true })).join("\n")}
           </div>
           <p class="empty" id="work-empty" hidden>Nothing at that intersection yet. <button type="button" class="linkish" data-clear>Clear the filter</button> to see everything.</p>
-          <p class="private-door"><a class="textlink" href="/private/">Client work not yet public — for the studio owner ${ARROW}</a></p>
+          <p class="private-door"><a class="textlink" href="/private/">Work that is not public yet — for the studio owner ${ARROW}</a></p>
         </div>
       </div>
     </section>`;
@@ -871,7 +875,7 @@ ${glassHero({
     // and someone who builds. The work itself is one line down and in the nav.
     kicker: "Builders in the loop &middot; Zürich",
     lines: ["One trunk.", "Many products."],
-    lede: "Agents do the typing; a person owns the judgement. Build yours with the studio's own system, join as an independent builder, or put your project on the studio's waitlist.",
+    lede: "A studio, and a place for builders who work with agents. Build yours with the studio's own system, join as an independent builder, or put your project on the waitlist.",
     actions: `            <a class="btn-frame-accent" href="#start">Start a project ${ARROW}</a>
             <a class="btn-frame" href="/builders/">Become a builder</a>`,
   })}
@@ -941,7 +945,7 @@ export function buildersPage(packages = {}) {
   // What a builder gets, in the order they would ask. Every line is something
   // the portal and the directory already do; nothing here promises work.
   const gets = [
-    ["Your own name", "You work under your own name, agree your own scope and price, and are paid by the customer directly. The studio takes no cut."],
+    ["Your own name", "You work under your own name, agree your own scope and price, and are paid by the customer directly. Applying costs nothing, and the studio takes no cut."],
     ["The studio's system", `Loki directs the agents, and ${pkgCount} open packages cover sign-in, chat, search, mail and design, so a project starts from parts that already run. <a href="/packages/">The packages</a>`],
     ["A profile people can check", "Once approved you publish a profile here: your name, what you build, a link to your work, your rate, and whether you are available. It is shown when you say so."],
     ["Briefs with a scope", "A brief the studio assigns to you arrives in your private application with its scope. You deliver previews there, and the customer accepts an exact version."],
@@ -969,7 +973,7 @@ ${gets}
         <li><strong>Then</strong> A person at the studio reads your work and answers in the application.</li>
         <li><strong>Approved</strong> You publish your profile, set your availability, and can connect an account so a lost link is never a lost profile.</li>
       </ol>
-      <p><a class="textlink" href="/academy/">The optional course and its exam</a></p></div>${intakeMount({ purpose: "partner", prompt: "Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application, and a person at the studio answers it there." })}</div></section>
+      <p><a class="textlink" href="/academy/">The optional course and its exam</a></p></div>${intakeMount({ purpose: "partner", prompt: "Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application. Loki may ask a question or two; a person at the studio reads it and answers there." })}</div></section>
     <section class="section" id="builders"><div class="wrap">
       <span class="kicker quiet">Available builders</span><h2 class="headline-caps section-title">Hire a builder.</h2>
       <div class="portal-grid" data-partner-directory data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>The directory needs JavaScript to check current availability. <a href="${HIRE}#waitlist">Send the studio a brief</a> or <a href="${LOKI_START}">use free Loki</a>.</p></noscript></div>
@@ -1006,7 +1010,14 @@ export function portalPage() {
   return shell({ title: "Your project portal — bitbaum", description: "Follow your private Bitbaum brief, builder application and preview review.", path: "/portal/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Your private request</span><h1 class="headline-caps section-title">Project portal.</h1><div data-studio-portal data-api-origin="${esc(LOKI_FEEDBACK.origin)}" data-course="${esc(JSON.stringify(COURSE))}"><p>Opening your request…</p><noscript><p>The private portal needs JavaScript. Keep the complete link from your receipt and open it in a browser with JavaScript enabled.</p></noscript></div></div></section></main>`, script: PORTAL_SCRIPT });
 }
 export function privatePage() {
-  return shell({ title: "Private projects — bitbaum", description: "Client work, visible to the studio owner only.", path: "/private/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Client work</span><h1 class="headline-caps section-title">Private projects.</h1><p class="lede">Work built for clients who have not agreed to be shown in public. Only the studio owner sees it here, signed in to Loki; each client sees only their own preview, through its own link.</p><div data-private data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>Private projects need JavaScript and a Loki sign-in.</p></noscript></div></div></section></main>`, script: PRIVATE_SCRIPT });
+  return shell({ title: "Private projects — bitbaum", description: "Work that is not public yet, visible to the studio owner only.", path: "/private/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Not public yet</span><h1 class="headline-caps section-title">Private projects.</h1><p class="lede">Work built for people who have not agreed to be shown in public. Only the studio owner sees it here, signed in to Loki; each of them sees only their own preview, through its own link.</p><div data-private data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>Private projects need JavaScript and a Loki sign-in.</p></noscript></div></div></section></main>`, script: PRIVATE_SCRIPT });
+}
+
+// What a wrong address shows. The box used to answer it with an empty page:
+// no header, no way on. This file is that answer once Caddy is told to serve
+// it for a missing path (site/DEPLOY.md, "Caddy on the box").
+export function notFoundPage() {
+  return shell({ title: "Nothing at this address — bitbaum", description: "This page moved or never existed.", path: "/404.html", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Not found</span><h1 class="headline-caps section-title">Nothing at this address.</h1><p class="lede">The page moved or never existed. Everything the site has is one step from here.</p><div class="bleed-actions quiet-actions"><a class="btn primary" href="/work/">See the work ${ARROW}</a><a class="btn secondary" href="/builders/">Builders</a><a class="btn secondary" href="/packages/">Packages</a><a class="btn secondary" href="${HIRE}">Hire the studio</a></div><p class="caption">Looking for a private request? <a class="textlink" href="/portal/">Open your portal</a>.</p></div></section></main>` });
 }
 
 export function academyPage() {
@@ -1305,8 +1316,6 @@ ${fullBleed({ scene: "rings", under: true, body: `        <div class="bleed-copy
           </div>
         </div>` })}
 
-${buildYourselfBand(all, hire)}
-
     <section class="section" id="engagements">
       <div class="wrap">
         <div class="section-head">
@@ -1369,9 +1378,19 @@ ${hire.waitlist.promises.map((w) => `          <article class="card text">
             </div>
           </article>`).join("\n")}
         </div>
+        <div class="portal-layout door-layout">
+          <ol class="next-steps" aria-label="What happens when you send it">
+            <li><strong>On send</strong> Your words are saved as a private request before anything answers. Sending books no work and agrees no price.</li>
+            <li><strong>In seconds</strong> Loki, the studio's assistant, may ask what exists today, what must work and whether there is a deadline. Answer, or say "send it".</li>
+            <li><strong>A person</strong> Someone at the studio reads all of it and replies in your private portal, and by email if you gave an address.</li>
+            <li><strong>A slot</strong> When one opens, the list is worked in the order it was joined.</li>
+          </ol>
 ${intakeMount({ prompt: hire.waitlist.prompt, offerId: hire.commissioningOffer })}
+        </div>
       </div>
     </section>
+
+${buildYourselfBand(all, hire)}
   </main>`;
   return shell({
     title: "Hire the studio — bitbaum",
@@ -1402,6 +1421,7 @@ export function render({ map, packages, origin, readings, cfg, hire, live = {}, 
   files.set("partners/index.html", movedPage("/partners/", "/builders/"));
   files.set("portal/index.html", portalPage());
   files.set("academy/index.html", academyPage());
+  files.set("404.html", notFoundPage());
   files.set("roadmap/index.html", recordPage("roadmap"));
   files.set("changelog/index.html", recordPage("changelog"));
   files.set("portal.js", readFileSync(join(here, "portal", "portal.js"), "utf8"));

@@ -137,7 +137,7 @@
         "Knowledge"
       ],
       "order": 4,
-      "story": "Finds the right Swiss foundations for a non-profit, drafts the application, and keeps the relationship history. In daily use at Revamp-IT, the Z\u00fcrich non-profit it was built inside."
+      "story": "Finds the right Swiss foundations for a non-profit, drafts the application, and keeps the relationship history."
     },
     "evig": {
       "name": "evig",
@@ -147,7 +147,7 @@
         "Circular economy"
       ],
       "order": 5,
-      "story": "Refurbished hardware, repair, and courses from Revamp-IT, a Z\u00fcrich digital-inclusion non-profit. The site, the shop and the workshop calendar."
+      "story": "Good, long-lasting computers at prices people can afford: curated refurbished hardware, repair and IT help, and workshops. evig is a non-profit association in formation, and this is the platform that runs it: the shop, a marketplace between members and the workshop calendar."
     },
     "datacat": {
       "name": "DataCat",
@@ -408,7 +408,7 @@
     "headline": "A network of loops, and the people in them.",
     "lede": "Each project here is a loop: work that recurs and still needs a person somewhere in it. Agents take the repeatable part; a person keeps the judgement, the signature or the hands. The aim is to retire each loop's routine part, so the people in it can move to the next constraint.",
     "description": "Bitbaum's projects drawn as loops: what each one serves, who stays in it, and what routine work it aims to retire \u2014 including the loops with nothing built yet.",
-    "kept": "Not every loop should disappear. In Solon, decisions about aid disbursement, membership, safety and the governance rules themselves cannot be voted by agent members \u2014 only by people. Those are red lines, not settings to tune, and the map does not count them as work to retire.",
+    "kept": "Not every loop should disappear. Every organisation in Solon starts with decisions about aid, membership, safety and its own rules closed to agent members, and only that organisation, by a vote under the rules it already has, can change which decisions are for people alone. The map does not count them as work to retire.",
     "layers": [
       {
         "id": "rails",

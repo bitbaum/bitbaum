@@ -13,8 +13,8 @@
     "lede": "One message, typed or spoken, is the whole request. It opens a private portal where replies, status and previews appear — no account needed. When a slot opens, the list is worked in the order it was joined.",
     "promises": [
       {
-        "title": "A reply from a person",
-        "what": "The request lands in the same system the work is run from, with everything you wrote attached. The answer comes from someone who read it, not an autoresponder."
+        "title": "Questions now, a person's answer later",
+        "what": "Loki, the studio's assistant, may ask a question or two straight away so the brief is complete. The request lands in the same system the work is run from, and the answer that counts comes from a person who read everything you wrote."
       },
       {
         "title": "It goes to us, nowhere else",
@@ -25,7 +25,7 @@
         "what": "Write the same way asking to be removed, and the record is deleted. There is no account to close, because there was never one to open."
       }
     ],
-    "prompt": "Hello. What would you like done? If it is about a website that exists, paste its address and say what should change; if it is something new, just describe it. A sentence is enough — and your email if you would like a reply."
+    "prompt": "Hello. What would you like done? If it is about a website that exists, paste its address and say what should change; if it is something new, just describe it. A sentence is enough — and your email if you would like a reply. Loki may ask a question or two; a person at the studio reads every word and replies."
   },
   "commissioningOffer": "rescue",
   "offers": [
