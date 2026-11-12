@@ -15,6 +15,13 @@ const browser = await chromium.launch({ args: ["--use-angle=swiftshader", "--ena
 try {
   for (const width of [390, 1440]) {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
+    // Every page loads the feedback widget from Loki, and a page's "load"
+    // waits for it. This check is about figures drawn on this page, so it
+    // must not depend on another host answering: on 2026-11-12 that host
+    // stalled, "/work/" never reached "load" in 30s, and a change to two
+    // documents could not merge. Every other browser check already answers
+    // this script itself.
+    await context.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
     await context.addInitScript(() => {
       window.__gls = [];
       const get = HTMLCanvasElement.prototype.getContext;
