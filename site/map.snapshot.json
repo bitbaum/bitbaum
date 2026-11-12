@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T09:03:36.345Z",
+  "generatedAt": "2026-11-12T10:44:25.918Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 30,
     "live": 16,
     "clients": 1,
-    "inFlight": 22
+    "inFlight": 32
   },
   "projects": [
     {
@@ -817,16 +817,16 @@
           "changelog": "https://github.com/bitbaum/loki/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": "when #1654 merges: rebase fix/home-needs-you-question (d2c09415, unpushed) on main, push, open PR; then token-kind PR (agent tokens may not act as runners) in ~/dev/loki-wt-scope.",
+      "next": "when #1679 merges: in /home/ubuntu/dev/loki-wt-seat merge origin/main, drizzle-kit generate --name seat_drives_session (0139) plus a data statement granting drives_session on qa-agent-walk memberships of the default user, add scripts/test/session-drive-db.ts to test:db and the SKIP list, push, open the PR. Resolve package.json test:db conflicts as PRs land. Then live-probe each deployed PR (unauthenticated: POST /api/token-session -> 401, GET /api/auth/loki/token-session?code=x -> 400) and tell QA to re-walk.",
       "now": {
-        "openRuns": 9,
+        "openRuns": 17,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-11-12T07:35:40.338Z"
+          "outcome": "user_abort",
+          "at": "2026-11-12T10:35:00.907Z"
         },
         "lastLog": {
           "date": "2026-11-12",
-          "done": "Took over the dogfood workstream: audited the terminal/runner/agent loop, opened #1654 (PTY tests skip off-CI when node-pty cannot load) and #1655 (chain tests clear every provider key) so pre-push can pass in agent sandboxes; item 1 (Home Needs-you row) rebased and ready to push once #1654 lands."
+          "done": "Runner breaks 1-5 were already merged and deployed (#1638-#1647); QA seat items 1, 2, 4, 5, 6 and Grok's queue finding are open PRs (#1677 #1679 #1681 #1682 #1683 #1680); item 3 is committed locally on feat/seat-drives-granted-session (0065c37d), waiting for #1679's migration 0138 to land before it takes 0139."
         }
       }
     },
@@ -1226,16 +1226,16 @@
           "changelog": "https://github.com/bitbaum/orangecat/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": "NOT PUSHED - pre-push hook fails on 8 unrelated 30s timeouts (slow box fs) and --no-verify was blocked; push test/box-safe-unit-tests, open PR, enable auto-merge",
+      "next": "triage, check PR 1664, then one PR per item",
       "now": {
         "openRuns": 11,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-11-12T05:23:18.930Z"
+          "outcome": "success",
+          "at": "2026-11-12T10:41:35.239Z"
         },
         "lastLog": {
           "date": "2026-11-12",
-          "done": "fixed 3 box-only unit test failures (AI key env leak, slow import-graph walks); full verify passed 5711/5711; committed 4b57a2e5 + cc0e3a0a on test/box-safe-unit-tests (local only)."
+          "done": "picked up the Cat Bot QA findings (P0 1-5, P1 1-11)"
         }
       }
     },
@@ -2755,16 +2755,16 @@
           "changelog": "https://github.com/bitbaum/solon/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": "Lane is free. Dispatch the real resume: gh workflow run law-text-cloud.yml -R bitbaum/solon --ref main -f source=parliamentrso-text -f lang=de -f limit=40 -f batches=5 -f dry_run=false (expect alreadyHeld 263, about 269 remaining). When it ends, a second batches=5 job, then Liechtenstein recut-lilex on law-text.yml as one job. Rate limiter is #569 (green, from another session); coverage landed as #564, my duplicate #566 is closed.",
+      "next": "wait for https://github.com/bitbaum/solon/actions/runs/43181331711 to end, then fill in found / held / stored / unread / remaining from its log",
       "now": {
         "openRuns": 2,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-11-12T07:39:34.173Z"
+          "outcome": "success",
+          "at": "2026-11-12T09:18:37.921Z"
         },
         "lastLog": {
           "date": "2026-11-12",
-          "done": "Parliament dry run 43161555619 read 40 acts with no failures (act 3344 now parses: 7 provisions, 2021-04-13); starting the real load was refused by this session's permission check, so nothing was stored."
+          "done": "Watching Parliament text load run 43181331711 (parliamentrso-text, de, limit 40, batches 5, dry_run false); checkout is on origin/main 5f27700."
         }
       }
     },
@@ -3134,6 +3134,10 @@
         {
           "date": "2026-11-12",
           "done": "Text was measured against the sky as it is painted, not against its cream base. In the light theme the top of the sky is blue, and small grey text over it read 2.4:1 to 3.0:1 where 4.5:1 is the line; in rain even the main text fell to 3.3:1. Secondary text is now near the ink, the day rain sky is a bright overcast, and the contrast check measures every page against the darkest day sky as well. The dark theme's smallest labels are lighter.\nAt the door on /hire/ and /builders/, the first thing that answers is Loki, and it now says so: \"Loki, the studio's assistant\" stands over the prompt and every line it speaks. The card that promised \"a reply from a person\" says what happens: questions now, a person's answer later.\n/hire/ shows the rates before the detour to Loki, and beside the box it says what happens when a message is sent.\n/work/, /packages/ and every project page show their content on the first screen. An empty band a screen tall, left over from a floor that had moved, sat under each headline.\nPackage names stay on one line. They broke mid-word (\"threadk / it\") on 15 of 18 tiles on a phone.\nThe builders page and the course end with \"Apply as a builder\", not \"Start a project\".\nA wrong address gets a page with the header and four ways on (once Caddy is told to serve it; see site/DEPLOY.md).\nWords the site's own rules forbid are gone from public pages: \"client\" on /work/ and /private/, \"partner\" in the course. The map no longer calls Solon's starting rules \"red lines\". evig's story no longer attributes it to another organisation, and Hirnli's no longer claims daily use that nothing here can check.\nDates in the portal read \"30 Sept 2026, 14:05\", not \"9/30/2026, 12:00:00 AM\"."
+        },
+        {
+          "date": "2026-11-12",
+          "done": "BiasLens (biaslens.orangecat.ch) was running and listed on Loki's fleet map, but had no editorial line, so the site hid it. It now has a page (/biaslens/) linking the live site and its source, a place on /work/ under Products, and a loop on /map/ (\"Reading the news\"). The words come from the BiasLens README.\nIts page carries its own problem, solution and direction: the fleet profile still describes \"a per-article dashboard with bias scores\", which BiasLens does not do and says it does not do. The profile should be corrected at its source; until then the site does not repeat it.\nNo screenshot yet (shot: false): none could be taken where this change was made. Remove the flag and run node site/shots.mjs biaslens to add one; with it, BiasLens also joins the products shown on the home page.\nIts live status is the one probe this change made (live.snapshot.json: 200, running)."
         },
         {
           "date": "2026-11-11",
@@ -5950,8 +5954,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-11-12T07:09:24.233Z"
+          "outcome": "error",
+          "at": "2026-11-12T10:07:12.176Z"
         },
         "lastLog": {
           "date": "2026-11-12",
@@ -6213,7 +6217,7 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-10-11T21:45:44.479Z"
+          "at": "2026-11-12T09:53:13.025Z"
         },
         "lastLog": null
       }
@@ -6820,16 +6824,16 @@
           "changelog": "https://github.com/bitbaum/biaslens/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": null,
+      "next": "Wait for orangecat#1660 to pass CI and merge. Someone with release rights must run accountkit \"Release patch\" (blocked for this agent), then raise BiasLens's @bitbaum/accountkit floor so OrangeCat shows first on sign-in.",
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-11-12T05:43:41.322Z"
+          "outcome": "success",
+          "at": "2026-11-12T10:17:39.117Z"
         },
         "lastLog": {
-          "date": "2026-11-05",
-          "done": "biaslens-app \"failure\" was a sleep-mode nap whose stop overran TimeoutStopSec=3 (Result=timeout); fixed in the shared unit generator, bitbaum/loki PR #1590 (sleeping apps stop with SIGKILL, counted clean), auto-merge on; site serving 200."
+          "date": "2026-11-12",
+          "done": "Live: biaslens#205, bitbaum#303, biaslens#206 (rechecked 200 on /write, /desk, /sign-in, /privacy, /terms and bitbaum.orangecat.ch/biaslens/); accountkit#93 merged but unreleased; orangecat#1660 open, CI running."
         }
       }
     },
@@ -6899,7 +6903,7 @@
       },
       "next": "From a shell that can SSH as root@167.233.22.31, in /home/ubuntu/dev/loki (install-app-crons.sh matches origin/main and includes 31d82135), run bash scripts/hetzner/install-app-crons.sh, then systemctl start appcron-botsmann-rebuild.service and confirm a journal line \"HTTP 200\". This sandbox has no root key, so it was not applied. Do not use app-secrets.yml ensure for this: botsmann's row is ORANGECAT_OAUTH_CLIENT, and ensure can restart the app.",
       "now": {
-        "openRuns": 0,
+        "openRuns": 2,
         "lastRun": {
           "outcome": "error",
           "at": "2026-11-10T22:27:13.323Z"
