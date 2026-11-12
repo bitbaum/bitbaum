@@ -53,8 +53,10 @@ addEventListener("error", function (e) {
   })();
 </script>
 <link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/styles.css">
+<noscript><style>.menu-btn[data-menu-toggle] { display: none; }</style></noscript>
 </head>
 <body>
   <canvas class="sky" aria-hidden="true"></canvas>
@@ -65,30 +67,53 @@ addEventListener("error", function (e) {
     <div class="wrap">
       <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
       <nav class="top-links" aria-label="Site">
-        <a href="/work/">The work</a>
+        <a href="/work/">Work</a>
         <a href="/builders/">Builders</a>
+        <a href="/packages/">Packages</a>
         <a href="/hire/">Studio</a>
       </nav>
-      <a class="btn primary top-cta" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="btn-frame top-cta" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
       <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
+      <noscript><a class="menu-btn menu-fallback" href="#site-map" aria-label="Menu: the site map at the foot of the page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></a></noscript>
     </div>
   </header>
 <main id="main"><section class="section record-page"><div class="wrap">
       <span class="kicker quiet">Building in public</span>
       <h1 class="headline-caps section-title">Roadmap.</h1>
-      <p class="lede">What the studio is building, in the order it matters. 29 of 39 steps are done and verified in CI; dates are not promised. <a class="textlink" href="https://github.com/bitbaum/bitbaum/blob/main/ROADMAP.md">The canonical record</a> has every word.</p>
-    <div class="roadmap-sum"><span class="roadmap-sum-n">29</span><span class="roadmap-sum-t">of 39 steps done across 3 horizons</span><div class="progress" role="img" aria-label="29 of 39 done"><span style="width:74%"></span></div></div>
+      <p class="lede">What the studio is building, in the order it matters. 33 of 54 steps are done and verified in CI; dates are not promised. <a class="textlink" href="https://github.com/bitbaum/bitbaum/blob/main/ROADMAP.md">The canonical record</a> has every word.</p>
+    <div class="roadmap-sum"><span class="roadmap-sum-n">33</span><span class="roadmap-sum-t">of 54 steps done across 3 horizons</span><div class="progress" role="img" aria-label="33 of 54 done"><span style="width:61%"></span></div></div>
     <div class="board">
       <div class="lane lane-0" role="region" aria-labelledby="lane-0">
-        <header class="lane-head"><span class="kicker quiet">Being built now</span><h2 id="lane-0" class="lane-title">Now</h2><span class="lane-count">16 of 19 done</span></header>
+        <header class="lane-head"><span class="kicker quiet">Being built now</span><h2 id="lane-0" class="lane-title">Now</h2><span class="lane-count">20 of 34 done</span></header>
         <article class="rm-theme">
           <h3 class="rm-theme-title">Separate the free tool from studio services</h3>
           <p class="rm-theme-summary">Give visitors routes to independent Loki self-service, an approved builder, or the studio waitlist.</p>
           <div class="rm-theme-meter"><span class="rm-theme-count">6/8</span><div class="progress" role="img" aria-label="6 of 8 steps done"><span style="width:75%"></span></div></div>
           <p class="rm-theme-next"><span class="label">Next step</span> Let the words be structured by a model on Loki (address, email, kind, engagement) so the one question the intake still asks disappears</p>
           <details class="rm-theme-steps"><summary>All 8 steps</summary><ul><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Record that studio engagement prices belong to Bitbaum, while Loki is a standalone free tool</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Put the studio URL/change intake on Bitbaum with its current offer and capacity</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Remove studio pricing/submission from Loki's self-serve brief; retain an optional external studio link</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Preserve the brief through an explicit self-serve handoff and sign-in</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Offer only approved builders with real availability; provide an honest path while the directory is empty</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>One door: the waitlist, the website brief and the builder application are a single free-form field, typed or spoken, that refuses nothing and hands back a private portal link</span><span class="sr-only"> (done)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Let the words be structured by a model on Loki (address, email, kind, engagement) so the one question the intake still asks disappears</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Give a new-build idea without a website its own request kind on Loki, so it lands in the portal rather than the inbox</span><span class="sr-only"> (open)</span></li></ul></details>
+        </article>
+        <article class="rm-theme">
+          <h3 class="rm-theme-title">Make the site work for a builder</h3>
+          <p class="rm-theme-summary">A builder decides in two minutes whether to join, and can get back in without hunting for a link.</p>
+          <div class="rm-theme-meter"><span class="rm-theme-count">4/7</span><div class="progress" role="img" aria-label="4 of 7 steps done"><span style="width:57%"></span></div></div>
+          <p class="rm-theme-next"><span class="label">Next step</span> The first studio-reviewed profile in the directory, which is empty today</p>
+          <details class="rm-theme-steps"><summary>All 7 steps</summary><ul><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Two doors on the first screen: start a project, become a builder</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>A builders page that says what an approved builder gets, how approval works and what happens after the one message</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>Pages open at their top; the receipt link appears where the reply names it; &quot;Copy your private link&quot; copies</span><span class="sr-only"> (done)</span></li><li class="step-done"><span class="step-mark" aria-hidden="true">✓</span><span>A chosen builder is carried with a request that has no website yet, and the page says who was asked for</span><span class="sr-only"> (done)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>The first studio-reviewed profile in the directory, which is empty today</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>A builder workspace opened by an account: applications, profile, availability and briefs in one place, without a new private link each time</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>A page per builder and a directory that can be searched by skill and availability</span><span class="sr-only"> (open)</span></li></ul></details>
+        </article>
+        <article class="rm-theme">
+          <h3 class="rm-theme-title">Sign in from the studio site</h3>
+          <p class="rm-theme-summary">The site holds no accounts; a person's account is their Loki account. The header should still know who is looking.</p>
+          <div class="rm-theme-meter"><span class="rm-theme-count">0/4</span><div class="progress" role="img" aria-label="0 of 4 steps done"><span style="width:0%"></span></div></div>
+          <p class="rm-theme-next"><span class="label">Next step</span> Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on</p>
+          <details class="rm-theme-steps"><summary>All 4 steps</summary><ul><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>accountkit: one account control for signed out, loading and signed in, and a menu that stays on the screen wherever it sits</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>The header shows who is signed in, with their application and a way to sign out</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>One name for sign-in on the portal, the private projects page and the header</span><span class="sr-only"> (open)</span></li></ul></details>
+        </article>
+        <article class="rm-theme">
+          <h3 class="rm-theme-title">Move the chrome to sitekit</h3>
+          <p class="rm-theme-summary">Header, menu and footer belong to the shared package; today they are drawn in this repository.</p>
+          <div class="rm-theme-meter"><span class="rm-theme-count">0/4</span><div class="progress" role="img" aria-label="0 of 4 steps done"><span style="width:0%"></span></div></div>
+          <p class="rm-theme-next"><span class="label">Next step</span> sitekit: its own box model, links to other origins, a footer year that does not read the clock</p>
+          <details class="rm-theme-steps"><summary>All 4 steps</summary><ul><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>sitekit: its own box model, links to other origins, a footer year that does not read the clock</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>sitekit: a menu script that works without React, a background per surface, reflow at 200% text</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>sitekit: a scroll-aware masthead, slots for the call to action, the account and the utilities, a sheet menu, a configurable collapse</span><span class="sr-only"> (open)</span></li><li class="step-open"><span class="step-mark" aria-hidden="true">○</span><span>Render the masthead and footer from sitekit at build time and delete the local menu script</span><span class="sr-only"> (open)</span></li></ul></details>
         </article>
         <article class="rm-theme rm-theme-done">
           <h3 class="rm-theme-title">Make studio development traceable</h3>
@@ -143,12 +168,12 @@ addEventListener("error", function (e) {
       <nav class="record-doors" aria-label="Where next"><a class="btn-frame-accent" href="/work/">See what is built <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn-frame" href="/changelog/">What changed lately</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
     </div></section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-stand guest-art-deer" aria-hidden="true"><span class="fig puppet fig-deer" data-rig='[{"poly":[[62,0],[100,0],[100,42],[72,47],[62,47]],"pivot":[71,44],"a":[0,-9],"dur":10,"delay":-4,"mode":"gesture"},{"poly":[[12,44],[23,44],[23,60],[12,60]],"pivot":[21,47],"a":[-14,10],"dur":1.2,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/deer.webp" width="246" height="320" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div></main>
-  <footer>
+  <footer id="site-map">
     <div class="wrap">
       <div class="foot-cols">
         <div class="foot-brand">
           <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
-          <p>AI-native products on infrastructure that is open by construction. Built in Zürich.</p>
+          <p>A studio and its builders, in Zürich. Agents do the typing; a person owns the judgement.</p>
           <div class="theme" role="group" aria-label="Colour theme">
         <button type="button" data-set-theme="light" title="Light" aria-label="Light">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
@@ -170,29 +195,31 @@ addEventListener("error", function (e) {
       </button>
         </div>
         <nav aria-label="Explore">
-          <h2 class="label">Explore</h2>
-          <a href="/work/">The work</a>
-          <a href="/map/">The map</a>
+          <p class="label">Explore</p>
+          <a href="/work/">Work</a>
           <a href="/builders/">Builders</a>
+          <a href="/packages/">Packages</a>
+          <a href="/map/">The map</a>
           <a href="/studio/">About bitbaum</a>
           <a href="/roadmap/">Roadmap</a>
           <a href="/changelog/">Changelog</a>
           <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
         </nav>
-        <nav aria-label="Build with us">
-          <h2 class="label">Build with us</h2>
+        <nav aria-label="Builders">
+          <p class="label">Builders</p>
           <a href="/builders/#join">Become a builder</a>
-          <a href="/academy/">Systems design pilot</a>
-          <a href="/portal/">Open your portal</a>
-          <a href="/packages/">Packages (for developers)</a>
+          <a href="/builders/#builders">Find a builder</a>
+          <a href="/academy/">Systems design course</a>
+          <a href="/portal/">Open your application or request</a>
+          <a href="https://loki.orangecat.ch/studio/partner" rel="noopener">Builder sign-in ↗</a>
           <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
           <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
         </nav>
         <nav aria-label="The studio">
-          <h2 class="label">The studio</h2>
-          <a href="/hire/">Engagements and rates</a>
+          <p class="label">The studio</p>
+          <a href="/hire/">Hire the studio</a>
           <a href="/hire/#waitlist">Join the waitlist</a>
-          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki)</a>
+          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki) ↗</a>
         </nav>
       </div>
       <p class="foot-note">bitbaum is built in Zürich, in the open.</p>
@@ -202,32 +229,34 @@ addEventListener("error", function (e) {
     <div class="wrap">
       <div class="menu-actions">
         <a class="btn primary" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
-        <a class="btn secondary" href="/#ask">Ask anything <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a class="btn secondary" href="/builders/">Become a builder</a>
       </div>
       <nav aria-label="Explore">
-        <h2 class="label">Explore</h2>
-        <a href="/work/">The work</a>
-          <a href="/map/">The map</a>
+        <p class="label">Explore</p>
+        <a href="/work/">Work</a>
           <a href="/builders/">Builders</a>
+          <a href="/packages/">Packages</a>
+          <a href="/map/">The map</a>
           <a href="/studio/">About bitbaum</a>
           <a href="/roadmap/">Roadmap</a>
           <a href="/changelog/">Changelog</a>
           <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
       </nav>
-      <nav aria-label="Build with us">
-        <h2 class="label">Build with us</h2>
+      <nav aria-label="Builders">
+        <p class="label">Builders</p>
         <a href="/builders/#join">Become a builder</a>
-          <a href="/academy/">Systems design pilot</a>
-          <a href="/portal/">Open your portal</a>
-          <a href="/packages/">Packages (for developers)</a>
+          <a href="/builders/#builders">Find a builder</a>
+          <a href="/academy/">Systems design course</a>
+          <a href="/portal/">Open your application or request</a>
+          <a href="https://loki.orangecat.ch/studio/partner" rel="noopener">Builder sign-in ↗</a>
           <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
           <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
       </nav>
       <nav aria-label="The studio">
-        <h2 class="label">The studio</h2>
-        <a href="/hire/">Engagements and rates</a>
+        <p class="label">The studio</p>
+        <a href="/hire/">Hire the studio</a>
           <a href="/hire/#waitlist">Join the waitlist</a>
-          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki)</a>
+          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki) ↗</a>
       </nav>
       <div class="menu-theme"><span class="label">Theme and weather</span><div class="theme" role="group" aria-label="Colour theme">
         <button type="button" data-set-theme="light" title="Light" aria-label="Light">

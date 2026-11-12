@@ -11,6 +11,8 @@ import { mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
+import { MARK_HEADER } from "./brand-mark.mjs";
+
 const here = dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
 const pw = require(process.env.PLAYWRIGHT ?? "playwright");
@@ -21,6 +23,8 @@ mkdirSync(out, { recursive: true });
 const browser = await pw.chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
 await page.goto(pathToFileURL(join(here, "og-card.html")).href, { waitUntil: "load" });
+// The mark is drawn by the same function as the header's and the favicon's.
+await page.evaluate((svg) => { document.querySelector("[data-mark]").innerHTML = svg; }, MARK_HEADER());
 await page.evaluate(() => document.fonts.ready);
 await page.screenshot({ path: join(out, "studio.png"), type: "png" });
 await browser.close();

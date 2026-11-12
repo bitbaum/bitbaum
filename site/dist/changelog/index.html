@@ -53,8 +53,10 @@ addEventListener("error", function (e) {
   })();
 </script>
 <link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/styles.css">
+<noscript><style>.menu-btn[data-menu-toggle] { display: none; }</style></noscript>
 </head>
 <body>
   <canvas class="sky" aria-hidden="true"></canvas>
@@ -65,14 +67,16 @@ addEventListener("error", function (e) {
     <div class="wrap">
       <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
       <nav class="top-links" aria-label="Site">
-        <a href="/work/">The work</a>
+        <a href="/work/">Work</a>
         <a href="/builders/">Builders</a>
+        <a href="/packages/">Packages</a>
         <a href="/hire/">Studio</a>
       </nav>
-      <a class="btn primary top-cta" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="btn-frame top-cta" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
       <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
+      <noscript><a class="menu-btn menu-fallback" href="#site-map" aria-label="Menu: the site map at the foot of the page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></a></noscript>
     </div>
   </header>
 <main id="main"><section class="section record-page"><div class="wrap">
@@ -80,6 +84,14 @@ addEventListener("error", function (e) {
       <h1 class="headline-caps section-title">Changelog.</h1>
       <p class="lede">What shipped, newest first. One line each; open an entry for the rest. <a class="textlink" href="https://github.com/bitbaum/bitbaum/blob/main/CHANGELOG.md">The canonical record</a> has every word.</p>
     <ol class="timeline">
+      <li class="tl-entry">
+        <time class="tl-date" datetime="2026-11-12">12 Nov 2026</time>
+        <div class="tl-card">
+          <h2 class="tl-title">Pages open at the top, and builders get a door</h2>
+          <p class="tl-lead">/hire/ and /builders/ opened scrolled down to the contact box: 3,400px down on a desk, 5,500px on a phone, past the headline and the prices.</p>
+          <details class="tl-more"><summary>10 points</summary><ul><li><code>/hire/</code> and <code>/builders/</code> opened scrolled down to the contact box: 3,400px down on a desk, 5,500px on a phone, past the headline and the prices. The chat's thread took the page to its own end when it loaded. Both pages now open at their top, the greeting stands above the box as a prompt, and the browser check fails if any page opens anywhere but its top. The cause is fixed in the chat package too (chatkit #84).</li><li>The home page has two doors on its first screen: &quot;Start a project&quot; and &quot;Become a builder&quot;. A new section, &quot;Build here, under your own name&quot;, says what a builder gets.</li><li><code>/builders/</code> is a landing page for builders: what an approved builder gets, how approval works, the application with what happens next beside it, then the directory. It says in words that no builder is listed yet and nobody is promised work.</li><li>After a request is sent, its private link appears above the box, where the reply names it. It used to appear under the box, off the screen. On the portal, &quot;Copy your private link&quot; copies it; the old control reloaded the page.</li><li>&quot;Request this builder&quot; keeps the builder when the first message has no website address, and the page says who was asked for.</li><li>A brief brought over from Loki takes the visitor to the filled box and says it arrived.</li><li>The header, the menu and the footer use one word per place: Work, Builders, Packages, Studio. The phone menu is no longer see-through, keeps the keyboard inside it while open, and without JavaScript the menu button leads to the site map in the footer.</li><li>One button shape. Three families of button, 2px apart in every dimension, are now one with three fills. Step titles in a row sit on one line; four of a kind are two and two.</li><li>The picture a shared link shows carries the site's tree mark and green. It still carried an older mark and OrangeCat's orange.</li><li><code>/packages/</code> gets its &quot;Where next&quot; buttons back; <code>/academy/</code> no longer sends someone who has not applied to an empty portal.</li></ul></details>
+        </div>
+      </li>
       <li class="tl-entry">
         <time class="tl-date" datetime="2026-11-11">11 Nov 2026</time>
         <div class="tl-card">
@@ -212,12 +224,12 @@ addEventListener("error", function (e) {
       <nav class="record-doors" aria-label="Where next"><a class="btn-frame-accent" href="/roadmap/">What comes next <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn-frame" href="/work/">See the work</a><a class="btn-frame" href="/#ask">Ask the Cat or Loki</a></nav>
     </div></section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-flutter guest-art-dragonfly" aria-hidden="true"><span class="fig puppet fig-dragonfly" data-rig='[{"poly":[[0,0],[46.5,0],[46.5,62],[0,62]],"pivot":[47,24],"a":[-8,8],"dur":0.12,"delay":0,"mode":"swing"},{"poly":[[53.5,0],[100,0],[100,62],[53.5,62]],"pivot":[53,24],"a":[8,-8],"dur":0.12,"delay":0,"mode":"swing"}]'><img class="pp-body" src="/art/dragonfly.webp" width="404" height="255" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div></main>
-  <footer>
+  <footer id="site-map">
     <div class="wrap">
       <div class="foot-cols">
         <div class="foot-brand">
           <a class="mark" href="/"><svg viewBox="0 0 100 100" role="img" aria-label="bitbaum"><path d="M50.0 86.5L50.0 54.6M50.0 54.6L37.9 36.6M37.9 36.6L24.2 31.1M24.2 31.1L14.4 33.1M24.2 31.1L18.6 22.7M37.9 36.6L37.9 21.8M37.9 21.8L32.2 13.5M37.9 21.8L43.5 13.5M50.0 54.6L62.1 36.6M62.1 36.6L62.1 21.8M62.1 21.8L56.5 13.5M62.1 21.8L67.8 13.5M62.1 36.6L75.8 31.1M75.8 31.1L81.4 22.7M75.8 31.1L85.6 33.1" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>bitbaum</a>
-          <p>AI-native products on infrastructure that is open by construction. Built in Zürich.</p>
+          <p>A studio and its builders, in Zürich. Agents do the typing; a person owns the judgement.</p>
           <div class="theme" role="group" aria-label="Colour theme">
         <button type="button" data-set-theme="light" title="Light" aria-label="Light">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></svg>
@@ -239,29 +251,31 @@ addEventListener("error", function (e) {
       </button>
         </div>
         <nav aria-label="Explore">
-          <h2 class="label">Explore</h2>
-          <a href="/work/">The work</a>
-          <a href="/map/">The map</a>
+          <p class="label">Explore</p>
+          <a href="/work/">Work</a>
           <a href="/builders/">Builders</a>
+          <a href="/packages/">Packages</a>
+          <a href="/map/">The map</a>
           <a href="/studio/">About bitbaum</a>
           <a href="/roadmap/">Roadmap</a>
           <a href="/changelog/">Changelog</a>
           <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
         </nav>
-        <nav aria-label="Build with us">
-          <h2 class="label">Build with us</h2>
+        <nav aria-label="Builders">
+          <p class="label">Builders</p>
           <a href="/builders/#join">Become a builder</a>
-          <a href="/academy/">Systems design pilot</a>
-          <a href="/portal/">Open your portal</a>
-          <a href="/packages/">Packages (for developers)</a>
+          <a href="/builders/#builders">Find a builder</a>
+          <a href="/academy/">Systems design course</a>
+          <a href="/portal/">Open your application or request</a>
+          <a href="https://loki.orangecat.ch/studio/partner" rel="noopener">Builder sign-in ↗</a>
           <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
           <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
         </nav>
         <nav aria-label="The studio">
-          <h2 class="label">The studio</h2>
-          <a href="/hire/">Engagements and rates</a>
+          <p class="label">The studio</p>
+          <a href="/hire/">Hire the studio</a>
           <a href="/hire/#waitlist">Join the waitlist</a>
-          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki)</a>
+          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki) ↗</a>
         </nav>
       </div>
       <p class="foot-note">bitbaum is built in Zürich, in the open.</p>
@@ -271,32 +285,34 @@ addEventListener("error", function (e) {
     <div class="wrap">
       <div class="menu-actions">
         <a class="btn primary" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
-        <a class="btn secondary" href="/#ask">Ask anything <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a class="btn secondary" href="/builders/">Become a builder</a>
       </div>
       <nav aria-label="Explore">
-        <h2 class="label">Explore</h2>
-        <a href="/work/">The work</a>
-          <a href="/map/">The map</a>
+        <p class="label">Explore</p>
+        <a href="/work/">Work</a>
           <a href="/builders/">Builders</a>
+          <a href="/packages/">Packages</a>
+          <a href="/map/">The map</a>
           <a href="/studio/">About bitbaum</a>
           <a href="/roadmap/">Roadmap</a>
           <a href="/changelog/">Changelog</a>
           <a href="https://orangecat.ch/articles" rel="noopener">Writing ↗</a>
       </nav>
-      <nav aria-label="Build with us">
-        <h2 class="label">Build with us</h2>
+      <nav aria-label="Builders">
+        <p class="label">Builders</p>
         <a href="/builders/#join">Become a builder</a>
-          <a href="/academy/">Systems design pilot</a>
-          <a href="/portal/">Open your portal</a>
-          <a href="/packages/">Packages (for developers)</a>
+          <a href="/builders/#builders">Find a builder</a>
+          <a href="/academy/">Systems design course</a>
+          <a href="/portal/">Open your application or request</a>
+          <a href="https://loki.orangecat.ch/studio/partner" rel="noopener">Builder sign-in ↗</a>
           <a href="https://github.com/bitbaum" rel="noopener">GitHub ↗</a>
           <a href="https://github.com/bitbaum/.github/blob/main/CONTRIBUTING.md" rel="noopener">Contributing ↗</a>
       </nav>
       <nav aria-label="The studio">
-        <h2 class="label">The studio</h2>
-        <a href="/hire/">Engagements and rates</a>
+        <p class="label">The studio</p>
+        <a href="/hire/">Hire the studio</a>
           <a href="/hire/#waitlist">Join the waitlist</a>
-          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki)</a>
+          <a href="https://loki.orangecat.ch/commission" rel="noopener">Build it yourself (free Loki) ↗</a>
       </nav>
       <div class="menu-theme"><span class="label">Theme and weather</span><div class="theme" role="group" aria-label="Colour theme">
         <button type="button" data-set-theme="light" title="Light" aria-label="Light">

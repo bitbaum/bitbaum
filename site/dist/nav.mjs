@@ -2,11 +2,17 @@
 // Solon pattern: on a phone the header is the mark and this button, and
 // nothing else competes with the page.
 //
-// Without JavaScript the button is inert and the same map is in the footer —
-// every destination stays one scroll away.
+// Without JavaScript the button is replaced by a link to the same map in the
+// footer (build.mjs, the <noscript> beside it), so the header still leads
+// somewhere.
 const button = document.querySelector("[data-menu-toggle]");
 const menu = document.getElementById("site-menu");
 const header = document.querySelector("[data-header]");
+
+// Everything that is not the header or the sheet. While the sheet is open it
+// is the page: a Tab that walked off its last row used to land on a link
+// behind it, out of sight.
+const behind = () => [...document.body.children].filter((el) => el !== header && el !== menu && !["SCRIPT", "STYLE", "NOSCRIPT"].includes(el.tagName));
 
 function setOpen(open) {
   if (!button || !menu) return;
@@ -14,6 +20,7 @@ function setOpen(open) {
   button.setAttribute("aria-expanded", String(open));
   button.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   document.documentElement.classList.toggle("menu-open", open);
+  for (const el of behind()) el.inert = open;
   if (open) menu.querySelector("a, button")?.focus({ preventScroll: true });
 }
 

@@ -10,7 +10,7 @@
 // person instead sends the conversation to the studio's inbox with one field —
 // their email — never a form.
 import { richAnswerText, type Attachment } from "@bitbaum/chatkit";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ChatStarters,
@@ -277,7 +277,7 @@ function Chat({ cfg, starters, title }: { cfg: Config; starters: string[]; title
 // ready — lives in ./intake-flow.mjs (tested with fakes in
 // site/intake-flow.test.mjs); this is only how it looks.
 type Access = { id: string; key: string };
-type IntakeCfg = Config & { purpose: "studio" | "partner"; offerId: string; prompt: string; topic: () => string; partner: string };
+type IntakeCfg = Config & { purpose: "studio" | "partner"; offerId: string; prompt: string; topic: () => string; partner: string; partnerName: string };
 type Said = { text: string; speaker?: "loki" | null; failed?: boolean; status?: boolean };
 
 const newKey = () =>
@@ -382,13 +382,43 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
   } catch { /* an unreadable handoff leaves an empty box */ }
 
   const fresh = messages.length === 1;
+  // A brief handed over from Loki opens the page at its top, with the filled
+  // box several screens down and nothing saying it arrived. Arriving with one
+  // is a reason to be taken to the box; arriving without one never is.
+  const card = useRef<HTMLDivElement | null>(null);
+  const handedOver = useRef(Boolean(draft));
+  useEffect(() => {
+    if (!handedOver.current) return;
+    card.current?.scrollIntoView({ block: "center" });
+    card.current?.querySelector("textarea")?.focus({ preventScroll: true });
+  }, []);
   return (
-    <div className="chat-card intake-card">
+    <div className="chat-card intake-card" ref={card}>
+      {cfg.partnerName && fresh && (
+        <p className="intake-for">
+          Asking for <strong>{cfg.partnerName}</strong>. <a className="textlink" href="/builders/#builders">Choose someone else</a>
+        </p>
+      )}
+      {handedOver.current && fresh && <p className="intake-for">Your brief from Loki is in the box. Add anything, then send it.</p>}
+      {/* Before the first message the greeting is a prompt above the box, not a
+          turn in a thread. A thread, however short, takes the page to its own
+          end when the document is its scroller (chatkit up to 0.25): /hire/
+          and /builders/ opened on this box, past the headline and the prices.
+          chatkit's `empty` slot is the place for what stands before a
+          conversation. */}
       <ChatThread
-        messages={messages}
+        messages={fresh ? [] : messages}
+        empty={<p className="intake-prompt">{cfg.prompt}</p>}
         live={sending ? { status: fresh ? "Saving it for the studio" : "Loki is reading" } : null}
         onRetry={failed ? retry : undefined}
       />
+      {/* The receipt sits where the reply that names it ends, above the box.
+          Under the box it was off the screen the moment it appeared. */}
+      {links.length > 0 && (
+        <div className="chat-links" role="status">
+          {links.map((l) => <a key={l.url} className="chat-link" href={l.url}>{l.label} →</a>)}
+        </div>
+      )}
       <Composer
         onSend={(text, attachments) => send(text, attachments)}
         defaultValue={draft}
@@ -399,11 +429,6 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
         voice={voice(cfg)}
         labels={{ attachNotes: { tooMany: (max) => `Up to ${max} pictures per message.` } }}
       />
-      {links.length > 0 && (
-        <div className="chat-links">
-          {links.map((l) => <a key={l.url} className="chat-link" href={l.url}>{l.label} →</a>)}
-        </div>
-      )}
     </div>
   );
 }
@@ -414,12 +439,16 @@ for (const el of document.querySelectorAll<HTMLElement>("[data-intake]")) {
   document.querySelectorAll<HTMLElement>("[data-engagement]").forEach((a) =>
     a.addEventListener("click", () => (topic = a.dataset.engagement ?? "")),
   );
-  const p = new URLSearchParams(location.hash.slice(1)).get("partner") ?? "";
+  const fragment = new URLSearchParams(location.hash.slice(1));
+  const p = fragment.get("partner") ?? "";
   const cfg: IntakeCfg = {
     origin: el.dataset.origin ?? "", token: el.dataset.token ?? "",
     purpose: el.dataset.purpose === "partner" ? "partner" : "studio",
     offerId: el.dataset.offerId ?? "", prompt: el.dataset.prompt ?? "", topic: () => topic,
     partner: UUID.test(p) ? p : "",
+    // The name is whatever the link carried: shown as text and sent beside
+    // the id, which is what the studio goes by.
+    partnerName: UUID.test(p) ? (fragment.get("name") ?? "").replace(/\s+/g, " ").trim().slice(0, 80) : "",
   };
   el.textContent = "";
   el.dataset.chatkit = CHATKIT_VERSION;
@@ -438,3 +467,13 @@ for (const el of document.querySelectorAll<HTMLElement>("[data-chat]")) {
   el.dataset.chatkit = CHATKIT_VERSION;
   createRoot(el).render(<Chat cfg={cfg} starters={starters} title={el.dataset.title ?? ""} />);
 }
+
+// A link on the page that leads to one of these boxes ("Ask about …", "Join
+// the waitlist") means "I want to write": the box takes the cursor once the
+// page has scrolled to it. Only for a link followed on this page; arriving on
+// a page with a hash opens no keyboard nobody asked for.
+addEventListener("hashchange", () => {
+  const section = location.hash.length > 1 ? document.getElementById(location.hash.slice(1).split("&")[0]) : null;
+  const box = section?.querySelector<HTMLTextAreaElement>("[data-chat] textarea, [data-intake] textarea");
+  if (box) setTimeout(() => box.focus({ preventScroll: true }), 350);
+});

@@ -52,13 +52,49 @@ function remember(access) {
   const recent = Array.isArray(stored) ? stored : [];
   save("bitbaum:portal:recent", [access, ...recent.filter((r) => r.id !== access.id)].slice(0, 10));
 }
+// The private link is the only key to a request, and the address bar no
+// longer shows it. "Copy" has to copy: the old control was a link to this
+// same page, which reloaded it and left the clipboard empty.
+function copyLink(access) {
+  const url = portalUrl(access);
+  const told = el("p", { role: "status", class: "caption", hidden: true });
+  const copy = el("button", { type: "button", class: "btn secondary", text: "Copy your private link" });
+  copy.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      told.textContent = "Copied. Keep it somewhere safe: this link is the only key to this request.";
+    } catch {
+      // No clipboard (an insecure page, a refused permission): show the link
+      // itself, selected, so it can be copied by hand.
+      const shown = el("input", { type: "text", readonly: true, class: "portal-link", "aria-label": "Your private link", value: url });
+      told.replaceChildren("Copy it from here: ", shown);
+      told.hidden = false;
+      shown.focus(); shown.select();
+      return;
+    }
+    told.hidden = false;
+  });
+  return el("div", { class: "portal-keep" }, copy, told);
+}
 async function directory(root) {
   root.replaceChildren(text("Checking builder availability…", "caption"));
   try {
     const data = await api(root.dataset.apiOrigin, "/api/studio-partners");
-    if (!data.partners?.length) { root.replaceChildren(text("No approved, available builder is listed yet. Build it yourself with Loki, or send the studio a brief while the first applications are reviewed."), link("Use free Loki", root.dataset.apiOrigin + "/commission", "btn secondary"), link("Send the studio a brief", "/hire/#waitlist", "btn secondary")); return; }
-    root.replaceChildren(...data.partners.map((p) => el("article", { class: "portal-card" }, el("h3", { text: p.name }), text(p.headline), text(`${p.rate} · ${p.availability}`), ...(p.coursePassed ? [text("Passed the bitbaum systems design course", "caption")] : []), link("View their work", p.url), link("Request this builder", `/hire/#partner=${p.id}`, "btn primary"))));
-  } catch (err) { const retry = el("button", { type: "button", class: "btn secondary", text: "Check again" }); retry.addEventListener("click", () => directory(root)); root.replaceChildren(text(err.message, "portal-error"), retry, link("Use free Loki", root.dataset.apiOrigin + "/commission")); }
+    if (!data.partners?.length) {
+      // An empty list is a state with a way forward, drawn as one block: what
+      // is true, then what a customer and a builder can each do now.
+      root.replaceChildren(el("div", { class: "portal-empty" },
+        el("h3", { text: "No builder is listed yet." }),
+        text("The first applications are being reviewed, and a profile appears here only when its builder is approved and available. Until then, build it yourself with Loki, or send the studio a brief."),
+        el("div", { class: "portal-empty-actions" }, link("Use free Loki", root.dataset.apiOrigin + "/commission", "btn secondary"), link("Send the studio a brief", "/hire/#waitlist", "btn secondary"), link("Apply as a builder", "#join", "btn secondary"))));
+      return;
+    }
+    root.replaceChildren(...data.partners.map((p) => el("article", { class: "portal-card" }, el("h3", { text: p.name }), text(p.headline), text(`${p.rate} · ${p.availability}`), ...(p.coursePassed ? [text("Passed the bitbaum systems design course", "caption")] : []), link("View their work", p.url), link("Request this builder", `/hire/#partner=${p.id}&name=${encodeURIComponent(p.name)}`, "btn primary"))));
+  } catch (err) {
+    const retry = el("button", { type: "button", class: "btn secondary", text: "Check again" });
+    retry.addEventListener("click", () => directory(root));
+    root.replaceChildren(el("div", { class: "portal-empty" }, text(err.message, "portal-error"), el("div", { class: "portal-empty-actions" }, retry, link("Use free Loki", root.dataset.apiOrigin + "/commission", "btn secondary"))));
+  }
 }
 function portal(root) {
   let access = null;
@@ -117,7 +153,7 @@ function portal(root) {
     const heading = el("section", { class: "portal-card" }, el("h2", { text: request.status.title }), text(request.status.next), text(request.changes, "portal-words"));
     if (request.website) heading.append(el("a", { href: request.website, target: "_blank", rel: "noreferrer", class: "textlink", text: request.website }));
     if (request.offer) heading.append(text(`${request.offer.name} · ${request.offer.price} · ${request.offer.shape}`), text(request.offer.what));
-    heading.append(link("Copy or save this private portal link", portalUrl(access)));
+    heading.append(copyLink(access));
     content.append(heading); preview(content, request, true);
     if (request.partner) {
       const p = request.partner;
@@ -212,8 +248,8 @@ function portal(root) {
     again.addEventListener("submit", async (event) => {
       event.preventDefault();
       const send = again.querySelector("button[type=submit]"); if (send.disabled) return; send.disabled = true;
-      try { const data = await api(root.dataset.apiOrigin, "/api/studio-recover", { body: { email: mail.value.trim(), company: trap.value } }); told.textContent = data.message ?? "If that address belongs to a request, a fresh link is on its way to it."; }
-      catch (err) { told.textContent = err.message; }
+      try { const data = await api(root.dataset.apiOrigin, "/api/studio-recover", { body: { email: mail.value.trim(), company: trap.value } }); told.className = ""; told.textContent = data.message ?? "If that address belongs to a request, a fresh link is on its way to it."; }
+      catch (err) { told.textContent = err.message; told.className = "portal-error"; }
       finally { told.hidden = false; send.disabled = false; }
     });
     content.append(again);
