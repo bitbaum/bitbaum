@@ -131,6 +131,9 @@ export function createIntake(cfg, io) {
   }
   const visitorWords = () => state.turns.filter((t) => t.role === "user").map((t) => t.text).join("\n\n");
   const topicLine = () => { const t = cfg.topic(); return t ? `Engagement: ${t}\n` : ""; };
+  // "Request this builder" chose someone. A first message with no website
+  // address is a note, not a brief, and used to forget who was asked for.
+  const builderLine = () => (cfg.partner ? `Preferred builder: ${cfg.partnerName ? `${cfg.partnerName} · ` : ""}${cfg.partner}\n` : "");
 
   /** Promise 1: the words reach the record. Returns a link to show, if any. */
   async function save(text, images, email) {
@@ -169,7 +172,7 @@ export function createIntake(cfg, io) {
       await picturesBeside(state.stage.access.id);
       return link;
     }
-    const data = await note(`Waitlist — from the website\n${topicLine()}\n${text}`, email, images);
+    const data = await note(`Waitlist — from the website\n${topicLine()}${builderLine()}\n${text}`, email, images);
     state.stage = { kind: "waitlist", first: text };
     return data.claimUrl?.startsWith(`${cfg.origin}/claim-feedback?token=`) ? { label: "Track this request", url: data.claimUrl } : null;
   }

@@ -3,8 +3,11 @@
 **Why this site exists and who it serves: [PURPOSE.md](PURPOSE.md).** Read it before adding a section.
 
 The studio's front door. A focused home page, a filterable work catalogue, a
-page per venture, a packages page and a studio page — static HTML in `site/dist/`, no framework, no runtime
-fetch. The package catalogue's optional browser enhancement uses `listkit`
+page per venture, a packages page and a studio page — static HTML in `site/dist/`, no framework. The
+pages carry their content; a few parts ask at run time: the chat and the
+intake (Loki), the builder directory and the portal (Loki), the feedback
+widget (Loki), and the painted sky, which looks up the weather for the
+visitor's time-zone city once per visit (open-meteo.com, `site/sky.mjs`). The package catalogue's optional browser enhancement uses `listkit`
 for search, category/adoption facets, sorting, and shareable URL state; its
 cards remain present without JavaScript. Caddy serves `/opt/bitbaum/app` on
 the box with clean directory URLs.
@@ -147,9 +150,11 @@ PLAYWRIGHT=/path/to/node_modules/playwright node site/shots.mjs orangecat  # one
 ## Design
 
 `site/styles.css`, tokens first. The values are the ones the products
-themselves ship — OrangeCat and Loki: near-black ground, Inter at a heavy
-weight with tight tracking for statements, one orange for actions. bitbaum
-looks like the things it lists. Every rule below the tokens names a role.
+themselves ship: Inter at a heavy weight with tight tracking for statements,
+ink for an action inside a page, and one green (`--baum`) for the action a
+screen is for. Orange is OrangeCat's and Bitcoin's and is used for neither
+here. One button family (`.btn`, `.btn-frame`, `.btn-frame-accent`) shares one
+box. Every rule below the tokens names a role.
 
 ## Build and publish
 

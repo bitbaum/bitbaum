@@ -126,6 +126,9 @@ const PRIVATE_SCRIPT = '<script type="module" src="/private.js"></script>';
 // The one place "build it yourself" leads: Loki's free brief. Every door on
 // the site uses this, so the free tool is never three different addresses.
 const LOKI_START = "https://loki.orangecat.ch/commission";
+// Where an approved builder who connected an account opens their application
+// without the private link. It is Loki's page: accounts live there, not here.
+const BUILDER_SIGN_IN = "https://loki.orangecat.ch/studio/partner";
 
 const ARTICLES = "https://orangecat.ch/articles";
 
@@ -440,7 +443,13 @@ function doors(path) {
 }
 
 function shell({ title, description, path, body, nav, script, image }) {
-  if (DOORS_ON.includes(path) && !body.includes('aria-label="Where next"')) body = body.replace(/\s*<\/main>\s*$/, `\n${doors(path)}  </main>`);
+  // The doors go in before the page's closing </main>, wherever that is: a
+  // page that ends with a script after it (/packages/) used to lose them.
+  if (DOORS_ON.includes(path) && !body.includes('aria-label="Where next"')) {
+    const end = body.lastIndexOf("</main>");
+    if (end < 0) throw new Error(`${path} has no </main> to put its doors before`);
+    body = `${body.slice(0, end).replace(/\s*$/, "")}\n${doors(path)}  ${body.slice(end)}`;
+  }
   // Guests get a stage of their own after the opening section. Text can grow,
   // fonts can enlarge, and a phone can rotate without a creature sitting on it.
   if (path !== "/") {
@@ -460,10 +469,13 @@ function shell({ title, description, path, body, nav, script, image }) {
   // six links wrapped onto two rows made the phone header 164px tall.
   // Three destinations and one action, as on Solon. A visitor comes to get
   // something built; "Start a project" is where every path begins.
+  // One word per destination, and the same word in the header, the menu and
+  // the footer: "Studio" is where the studio is hired, "About" is what it is.
   const items = [
-    ["/work/", "The work"],
+    ["/work/", "Work"],
     ["/builders/", "Builders"],
-    ["/hire/", "Studio"],
+    ["/packages/", "Packages"],
+    [HIRE, "Studio"],
   ];
   const cur = (href) => (nav === href ? ' aria-current="page"' : "");
   const themeSwitch = `<div class="theme" role="group" aria-label="Colour theme">
@@ -490,9 +502,11 @@ function shell({ title, description, path, body, nav, script, image }) {
   // One map of the site, rendered twice: as the phone menu and as the footer.
   // Two hand-kept lists drift; this cannot.
   const sections = [
-    ["Explore", [["/work/", "The work"], ["/map/", "The map"], ["/builders/", "Builders"], ["/studio/", "About bitbaum"], ["/roadmap/", "Roadmap"], ["/changelog/", "Changelog"], [ARTICLES, "Writing ↗"]]],
-    ["Build with us", [["/builders/#join", "Become a builder"], ["/academy/", "Systems design pilot"], ["/portal/", "Open your portal"], ["/packages/", "Packages (for developers)"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"]]],
-    ["The studio", [[HIRE, "Engagements and rates"], [`${HIRE}#waitlist`, "Join the waitlist"], [LOKI_START, "Build it yourself (free Loki)"]]],
+    // The first group opens with the header's own four, in the header's order,
+    // so the phone menu and the desk header are one list.
+    ["Explore", [["/work/", "Work"], ["/builders/", "Builders"], ["/packages/", "Packages"], ["/map/", "The map"], ["/studio/", "About bitbaum"], ["/roadmap/", "Roadmap"], ["/changelog/", "Changelog"], [ARTICLES, "Writing ↗"]]],
+    ["Builders", [["/builders/#join", "Become a builder"], ["/builders/#builders", "Find a builder"], ["/academy/", "Systems design course"], ["/portal/", "Open your application or request"], [BUILDER_SIGN_IN, "Builder sign-in ↗"], [GITHUB, "GitHub ↗"], [CONTRIBUTING, "Contributing ↗"]]],
+    ["The studio", [[HIRE, "Hire the studio"], [`${HIRE}#waitlist`, "Join the waitlist"], [LOKI_START, "Build it yourself (free Loki) ↗"]]],
   ];
   const sectionLinks = (links) =>
     links.map(([href, t]) => `<a href="${esc(href)}"${cur(href)}${href.startsWith("http") ? ' rel="noopener"' : ""}>${esc(t)}</a>`).join("\n          ");
@@ -559,8 +573,10 @@ addEventListener("error", function (e) {
   })();
 <\/script>
 <link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/styles.css">
+<noscript><style>.menu-btn[data-menu-toggle] { display: none; }</style></noscript>
 </head>
 <body>
   <canvas class="sky" aria-hidden="true"></canvas>
@@ -573,24 +589,25 @@ ${SKY_LIFE}
       <nav class="top-links" aria-label="Site">
 ${items.map(([href, t]) => `        <a href="${href}"${cur(href)}>${t}</a>`).join("\n")}
       </nav>
-      <a class="btn primary top-cta" href="/#start">Start a project ${ARROW}</a>
+      <a class="btn-frame top-cta" href="/#start">Start a project ${ARROW}</a>
       <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
+      <noscript><a class="menu-btn menu-fallback" href="#site-map" aria-label="Menu: the site map at the foot of the page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></a></noscript>
     </div>
   </header>
 ${body}
-  <footer>
+  <footer id="site-map">
     <div class="wrap">
       <div class="foot-cols">
         <div class="foot-brand">
           <a class="mark" href="/">${MARK}bitbaum</a>
-          <p>AI-native products on infrastructure that is open by construction. Built in Zürich.</p>
+          <p>A studio and its builders, in Zürich. Agents do the typing; a person owns the judgement.</p>
           ${themeSwitch}
           ${weatherSwitch}
         </div>
 ${sections.map(([title, links]) => `        <nav aria-label="${esc(title)}">
-          <h2 class="label">${esc(title)}</h2>
+          <p class="label">${esc(title)}</p>
           ${sectionLinks(links)}
         </nav>`).join("\n")}
       </div>
@@ -601,10 +618,10 @@ ${sections.map(([title, links]) => `        <nav aria-label="${esc(title)}">
     <div class="wrap">
       <div class="menu-actions">
         <a class="btn primary" href="/#start">Start a project ${ARROW}</a>
-        <a class="btn secondary" href="/#ask">Ask anything ${ARROW}</a>
+        <a class="btn secondary" href="/builders/">Become a builder</a>
       </div>
 ${sections.map(([title, links]) => `      <nav aria-label="${esc(title)}">
-        <h2 class="label">${esc(title)}</h2>
+        <p class="label">${esc(title)}</p>
         ${sectionLinks(links)}
       </nav>`).join("\n")}
       <div class="menu-theme"><span class="label">Theme and weather</span>${themeSwitch}${weatherSwitch}</div>
@@ -692,7 +709,16 @@ const CHAT_SCRIPT = `  <script>
       function load() {
         if (done) return; done = true;
         var l = document.createElement("link"); l.rel = "stylesheet"; l.href = "/chatkit.css"; document.head.appendChild(l);
-        var s = document.createElement("script"); s.type = "module"; s.src = "/chat.js"; document.body.appendChild(s);
+        var s = document.createElement("script"); s.type = "module"; s.src = "/chat.js";
+        // The box's own words say "needs JavaScript". When JavaScript is on and
+        // the script did not arrive, say that instead, with a way to try again.
+        s.onerror = function () {
+          document.querySelectorAll("[data-chat],[data-intake]").forEach(function (m) {
+            m.innerHTML = '<p class="caption">This box did not load. <button type="button" class="linkish" data-chat-retry>Try again</button></p>';
+            m.querySelector("[data-chat-retry]").addEventListener("click", function () { location.reload(); });
+          });
+        };
+        document.body.appendChild(s);
       }
       var el = document.querySelector("[data-chat],[data-intake]");
       if (el && "IntersectionObserver" in window) new IntersectionObserver(function (e, io) { if (e[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: "1200px 0px" }).observe(el);
@@ -807,9 +833,11 @@ export function homePage(all, packages, cfg, origin, readings, hire) {
     },
     {
       n: "02", key: "builder", title: "Hire a builder",
-      price: "Their own quote", when: "Applications open · none approved yet", open: false,
-      body: "Independent builders the studio approved on their work. You hire and pay them directly; the first will be listed here once approved.",
-      cta: "Meet the builders", href: "/builders/",
+      // The card speaks to someone hiring. "Applications open" was a line for
+      // builders, and "Meet the builders" led to an empty list.
+      price: "Their own quote", when: "None listed yet", open: false,
+      body: "Independent builders, approved by the studio on work they have shipped. You hire and pay them directly; the studio takes no cut. The first profiles appear once approved.",
+      cta: "How builders are approved", href: "/builders/",
     },
     {
       n: "03", key: "studio", title: "The bitbaum studio",
@@ -839,11 +867,13 @@ ${glassHero({
     // The rabbit only leads somewhere worth landing: the pages every visitor
     // should see, and the projects that are live and shown with a screenshot.
     burrowTo: ["/work/", "/studio/", "/builders/", ...all.filter((v) => ["product", "pilot"].includes(v.stage) && v.shot).map((v) => `/${v.slug}/`)],
-    kicker: "AI-native product studio &middot; Zürich",
+    // Two readers, two doors, on the first screen: someone with a project,
+    // and someone who builds. The work itself is one line down and in the nav.
+    kicker: "Builders in the loop &middot; Zürich",
     lines: ["One trunk.", "Many products."],
-    lede: "We build software products — and the tools that let anyone build their own.",
+    lede: "Agents do the typing; a person owns the judgement. Build yours with the studio's own system, join as an independent builder, or put your project on the studio's waitlist.",
     actions: `            <a class="btn-frame-accent" href="#start">Start a project ${ARROW}</a>
-            <a class="btn-frame" href="/work/">See the work</a>`,
+            <a class="btn-frame" href="/builders/">Become a builder</a>`,
   })}
 
     <section class="section paths-section" id="start">
@@ -879,40 +909,74 @@ ${tools}
       </div>
     </section>
 
-${askSection}
-
-    <section class="dev-band" id="join">
+    <section class="section join-section" id="join">
       <div class="wrap">
-        <p><span class="label">Open source</span> The MIT packages behind these products, like ${pkgLine}, are yours to use. <a class="textlink" href="/packages/">Explore packages ${ARROW}</a></p>
+        <div class="home-section-head">
+          <div><span class="kicker quiet">For builders</span><h2 class="headline-caps section-title">Build here, under your own name.</h2></div>
+          <a class="textlink" href="/builders/">How it works ${ARROW}</a>
+        </div>
+        <ol class="steps">
+          <li><span class="path-n">01</span><span class="step-title">Your customer, your price</span><p>An approved builder is hired and paid by the customer directly. You agree the scope and the price; the studio takes no cut.</p></li>
+          <li><span class="path-n">02</span><span class="step-title">The studio's own parts</span><p>Loki directs the agents, and ${pkgCount} open packages cover what a product needs first: sign-in, chat, search, mail and design. A project starts from parts that already run.</p></li>
+          <li><span class="path-n">03</span><span class="step-title">Approved on your work</span><p>Show something you built. A person at the studio reads it and answers in your private application. No exam; the course is optional.</p></li>
+        </ol>
+        <div class="bleed-actions quiet-actions"><a class="btn primary" href="/builders/#join">Become a builder ${ARROW}</a><a class="btn secondary" href="/packages/">Explore the packages</a></div>
+        <p class="caption join-open"><span class="label">Open source</span> The MIT packages behind these products, like ${pkgLine}, are yours to use.</p>
       </div>
     </section>
+
+${askSection}
+
   </main>`;
   return shell({
     title: "bitbaum — one trunk, many products",
-    description: "An AI-native product studio building tools for agent-led work, economic participation and shared governance. Explore Loki, OrangeCat and Solon.",
+    description: "A studio and its builders in Zürich. Agents do the typing and a person owns the judgement: build with Loki, join as an independent builder, or join the studio's waitlist.",
     path: "/", body, nav: "/", script: CHAT_SCRIPT,
   });
 }
 
 // ── builders ────────────────────────────────────────────────────────────────
-export function buildersPage() {
+export function buildersPage(packages = {}) {
+  const pkgCount = (packages.packages ?? []).length;
+  // What a builder gets, in the order they would ask. Every line is something
+  // the portal and the directory already do; nothing here promises work.
+  const gets = [
+    ["Your own name", "You work under your own name, agree your own scope and price, and are paid by the customer directly. The studio takes no cut."],
+    ["The studio's system", `Loki directs the agents, and ${pkgCount} open packages cover sign-in, chat, search, mail and design, so a project starts from parts that already run. <a href="/packages/">The packages</a>`],
+    ["A profile people can check", "Once approved you publish a profile here: your name, what you build, a link to your work, your rate, and whether you are available. It is shown when you say so."],
+    ["Briefs with a scope", "A brief the studio assigns to you arrives in your private application with its scope. You deliver previews there, and the customer accepts an exact version."],
+  ].map(([h, t]) => `          <div class="depth-block"><span class="label">${h}</span><p>${t}</p></div>`).join("\n");
   const body = `  <main id="main">
 ${fullBleed({ scene: "mycelium", cast: "partners", under: true, strong: true, body: `        <div class="bleed-copy rise">
           <span class="kicker">Builders</span><h1 class="headline-caps">Build here.</h1>
           <p class="bleed-lede">Builders in the loop: agents do the typing, and an independent builder the studio approved on their work owns the judgement. Work under your own name and agree your own scope and price.</p>
           <div class="bleed-actions"><a class="btn-frame-accent" href="#join">Become a builder ${ARROW}</a><a class="btn-frame" href="#builders">Find a builder</a></div>
+          <p class="bleed-note">Already applied? <a href="/portal/">Open your application</a> &middot; <a href="${esc(BUILDER_SIGN_IN)}" rel="noopener">Builder sign-in</a></p>
         </div>` })}
+    <section class="section" id="why"><div class="wrap">
+      <span class="kicker quiet">What you get</span><h2 class="headline-caps section-title">Your name. The studio's parts.</h2>
+      <div class="depth-blocks pairs">
+${gets}
+      </div>
+      <p class="caption">No builder is listed yet and nobody is promised work: the first applications are being reviewed. Loki, OrangeCat and Solon are tools you may use, never a condition.</p>
+    </div></section>
+    <section class="section" id="how"><div class="wrap"><span class="kicker quiet">How approval works</span><h2 class="headline-caps section-title">Show your work. A person decides.</h2>
+      <ol class="steps"><li><span class="path-n">01</span><span class="step-title">Show what you have built</span><p>Say who you are and link the work: a live product, a repository, a site you made for someone. For an experienced builder that is the whole application.</p></li><li><span class="path-n">02</span><span class="step-title">The studio decides</span><p>A person reads your work and answers in your private application, and by email if you give an address. No exam is required.</p></li><li><span class="path-n">03</span><span class="step-title">The course, if you want it</span><p>The <a href="/academy/">systems design course</a> ends in a capstone exam reviewed against a published rubric. Pass it and your profile shows the credential. Take it to learn, to prove it, or not at all.</p></li></ol>
+    </div></section>
+    <section class="section" id="join"><div class="wrap portal-layout"><div><span class="kicker quiet">Become a builder</span><h2 class="headline-caps section-title">Show what you build.</h2><p class="lede">Write it or say it: who you are, what you build, where the studio can see your work. No account and no course needed.</p>
+      <ol class="next-steps" aria-label="What happens next">
+        <li><strong>Now</strong> One message opens your private application. Its link appears here, and goes to your email if you give one.</li>
+        <li><strong>Then</strong> A person at the studio reads your work and answers in the application.</li>
+        <li><strong>Approved</strong> You publish your profile, set your availability, and can connect an account so a lost link is never a lost profile.</li>
+      </ol>
+      <p><a class="textlink" href="/academy/">The optional course and its exam</a></p></div>${intakeMount({ purpose: "partner", prompt: "Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application, and a person at the studio answers it there." })}</div></section>
     <section class="section" id="builders"><div class="wrap">
       <span class="kicker quiet">Available builders</span><h2 class="headline-caps section-title">Hire a builder.</h2>
       <div class="portal-grid" data-partner-directory data-api-origin="${esc(LOKI_FEEDBACK.origin)}"><noscript><p>The directory needs JavaScript to check current availability. <a href="${HIRE}#waitlist">Send the studio a brief</a> or <a href="${LOKI_START}">use free Loki</a>.</p></noscript></div>
       <p class="caption">Builders are independent. Customers contract with and pay the builder directly. The studio takes no cut. Loki, OrangeCat and Solon are optional tools.</p>
     </div></section>
-    <section class="section" id="how"><div class="wrap"><span class="kicker quiet">How approval works</span><h2 class="headline-caps section-title">Show your work. A person decides.</h2>
-      <ol class="steps"><li><span class="path-n">01</span><span class="step-title">Show what you have built</span><p>Say who you are and link the work: a live product, a repository, a site you made for someone. For an experienced builder that is the whole application.</p></li><li><span class="path-n">02</span><span class="step-title">The studio decides</span><p>A person reads your work and answers in your private application, and by email if you give an address. No exam is required.</p></li><li><span class="path-n">03</span><span class="step-title">The course, if you want it</span><p>The <a href="/academy/">systems design course</a> ends in a capstone exam reviewed against a published rubric. Pass it and your profile shows the credential. Take it to learn, to prove it, or not at all.</p></li></ol>
-    </div></section>
-    <section class="section" id="join"><div class="wrap portal-layout"><div><span class="kicker quiet">Become a builder</span><h2 class="headline-caps section-title">Show what you build.</h2><p class="lede">Write it or say it — who you are, what you build, where the studio can see your work. One message opens a private application where the studio answers and, later, assigned briefs live. No account and no course needed.</p><p><a class="textlink" href="/academy/">The optional course and its exam</a></p></div>${intakeMount({ purpose: "partner", prompt: "Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application, and a person at the studio answers it there." })}</div></section>
   </main>`;
-  return shell({ title: "Builders — bitbaum", description: "Hire an approved independent builder, or apply with the work you have built.", path: "/builders/", body, nav: "/builders/", script: CHAT_SCRIPT + PORTAL_SCRIPT });
+  return shell({ title: "Builders — bitbaum", description: "Build here under your own name: how the studio approves independent builders, what an approved builder gets, and the directory of builders to hire.", path: "/builders/", body, nav: "/builders/", script: CHAT_SCRIPT + PORTAL_SCRIPT });
 }
 
 // A page that moved. The box serves files, not redirects, so the old address
@@ -947,7 +1011,7 @@ export function privatePage() {
 
 export function academyPage() {
   const lesson = renderRecord(readFileSync(join(here, "course", "first-lesson.md"), "utf8"));
-  return shell({ title: "Systems design pilot — bitbaum", description: "Bitbaum's optional systems design course: the first lesson, the capstone exam and its rubric.", path: "/academy/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Optional course · pilot</span><h1 class="headline-caps section-title">Design a system people can use.</h1><p class="lede">Agents do most of the building now; someone still has to judge what they built. This course teaches that judgement: one practical lesson so far, and a capstone exam reviewed by a person against the rubric below. It is optional for builders. Pass it and the credential shows on your profile; skip it and you are judged on your work, as everyone is.</p><div class="record">${lesson}<h2>Submit evidence for each dimension</h2>${COURSE.modules.map((m) => `<h3>${esc(m.title)}</h3><p>${esc(m.prompt)}</p>`).join("\n")}</div><div class="bleed-actions quiet-actions"><a class="btn primary" href="/builders/#join">Apply as a builder ${ARROW}</a><a class="btn secondary" href="/portal/">Submit your capstone in your application</a><a class="textlink" href="/roadmap/">Follow course development</a></div></div></section></main>` });
+  return shell({ title: "Systems design course — bitbaum", description: "Bitbaum's optional systems design course: the first lesson, the capstone exam and its rubric.", path: "/academy/", body: `<main id="main"><section class="section"><div class="wrap portal-wrap"><span class="kicker quiet">Systems design course · pilot</span><h1 class="headline-caps section-title">Design a system people can use.</h1><p class="lede">Agents do most of the building now; someone still has to judge what they built. This course teaches that judgement: one practical lesson so far, and a capstone exam reviewed by a person against the rubric below. It is optional for builders. Pass it and the credential shows on your profile; skip it and you are judged on your work, as everyone is.</p><div class="record">${lesson}<h2>Submit evidence for each dimension</h2>${COURSE.modules.map((m) => `<h3>${esc(m.title)}</h3><p>${esc(m.prompt)}</p>`).join("\n")}</div><div class="bleed-actions quiet-actions"><a class="btn primary" href="/builders/#join">Apply as a builder ${ARROW}</a><a class="btn secondary" href="/portal/">Already applied? Open your application</a></div><p class="caption">The capstone is submitted from your builder application, so the course starts with applying. <a class="textlink" href="/roadmap/">Follow course development</a></p></div></section></main>` });
 }
 export function recordPage(kind) {
   // Drawn, not read: the roadmap as a board of horizons with progress, the
@@ -1168,11 +1232,11 @@ export function studioPage() {
   const body = `  <main id="main">
     <section data-lodge class="stage stage-floored hero compact">
       <div class="wrap">
-        <span class="eyebrow">The studio</span>
+        <span class="eyebrow">About bitbaum</span>
         <h1 class="display-1">Bit, and Baum.</h1>
         <p class="lede">Bit for software. Baum, German for tree, for the shape: many branches from one trunk, so a small group ships like a large one and the next person starts in the middle, not at the beginning.</p>
         <div class="actions">
-          <a class="btn primary" href="/#join">Build with us ${ARROW}</a>
+          <a class="btn primary" href="/builders/">Build with us ${ARROW}</a>
           <a class="btn secondary" href="/work/">See the work</a>
         </div>
       </div>
@@ -1197,7 +1261,7 @@ ${facts}
       </div>
     </section>
   </main>`;
-  return shell({ title: "The studio — bitbaum", description: "What Bitbaum builds, how its projects differ in readiness, and where the public numbers come from.", path: "/studio/", body, nav: "/studio/" });
+  return shell({ title: "About bitbaum", description: "What Bitbaum builds, how its projects differ in readiness, and where the public numbers come from.", path: "/studio/", body, nav: "/studio/" });
 }
 
 // ── hire ────────────────────────────────────────────────────────────────────
@@ -1334,7 +1398,7 @@ export function render({ map, packages, origin, readings, cfg, hire, live = {}, 
   files.set("index.html", homePage(all, packages, cfg, origin, readings, hire));
   files.set("work/index.html", workPage(all, cfg));
   files.set("map/index.html", loopsPage(all, cfg, packages));
-  files.set("builders/index.html", buildersPage());
+  files.set("builders/index.html", buildersPage(packages));
   files.set("partners/index.html", movedPage("/partners/", "/builders/"));
   files.set("portal/index.html", portalPage());
   files.set("academy/index.html", academyPage());

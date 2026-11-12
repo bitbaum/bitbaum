@@ -1,0 +1,31 @@
+{
+  "blocks": {
+    "shell": {
+      "exception": "The header, menu and footer are drawn by site/build.mjs and site/nav.mjs, not by sitekit. sitekit's chrome cannot serve this static site yet: measured 2026-11-12, it needs its own box model, links to other origins, a footer year that does not read the clock, a menu script that works without React, per-surface backgrounds and reflow at 200% text. The steps and their order are in ROADMAP.md, \"Move the chrome to sitekit\"."
+    },
+    "identity": {
+      "exception": "This site is static files and holds no accounts: a person's account is their Loki account. Until the header's account control ships from accountkit (AccountControl, with the session read from Loki), the only sign-in is a link to Loki's builder page. The steps are in ROADMAP.md, \"Sign in from the studio site\"."
+    },
+    "publishing": {
+      "package": "@bitbaum/bip-kit",
+      "surfaces": ["ROADMAP.md", "CHANGELOG.md"],
+      "bindings": [
+        { "file": "site/records.mjs", "symbols": ["parseContentBlocks"] },
+        { "file": "site/record-html.mjs", "symbols": ["parseContentBlocks"] },
+        { "file": "site/build.mjs", "symbols": ["readRefs"] }
+      ]
+    },
+    "design": {
+      "exception": "@bitbaum/design-tokens is in use, but as files rather than an import: site/build.mjs copies the package's tokens.css and fonts into site/dist, and site/styles.css reads its variables. There is no module to import in a stylesheet built without a bundler, so no binding can be named in the form this plan checks."
+    },
+    "chat": {
+      "package": "@bitbaum/chatkit",
+      "bindings": [
+        { "file": "site/chat/chat.tsx", "symbols": ["ChatThread", "ChatStarters", "Composer"] }
+      ]
+    }
+  },
+  "experience": {
+    "ceiling": {}
+  }
+}

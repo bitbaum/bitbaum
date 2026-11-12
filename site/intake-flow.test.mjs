@@ -10,7 +10,7 @@ import { ATTACH_LIMITS, MAX_DATA_URL, createIntake, fit, picturesFrom, siteIn, t
 const ORIGIN = "https://loki.example";
 const ID = "11111111-2222-3333-4444-555555555555";
 
-function harness({ purpose = "studio", replies = [], failSaves = 0 } = {}) {
+function harness({ purpose = "studio", replies = [], failSaves = 0, partner = "", partnerName = "" } = {}) {
   const posts = [];
   const chats = [];
   let failures = failSaves;
@@ -35,7 +35,7 @@ function harness({ purpose = "studio", replies = [], failSaves = 0 } = {}) {
     portalUrl: (a) => `https://site.example/portal/#id=${a.id}&key=${a.key}`,
     page: () => ({ pathname: "/hire/", href: "https://site.example/hire/", title: "Hire" }),
   };
-  const intake = createIntake({ origin: ORIGIN, token: "fcw_t", purpose, offerId: "rescue", topic: () => "", partner: "" }, io);
+  const intake = createIntake({ origin: ORIGIN, token: "fcw_t", purpose, offerId: "rescue", topic: () => "", partner, partnerName }, io);
   return { intake, posts, chats };
 }
 
@@ -162,3 +162,27 @@ test("helpers", () => {
   assert.equal(long.length, 2000);
   assert.ok(long.startsWith("head\n\n…"));
 });
+
+// "Request this builder" names someone. A first message with a website
+// address carried that choice; one without an address is a note, and the note
+// used to forget who was asked for.
+test("a chosen builder travels with a first message that has no website", async () => {
+  const BUILDER = "99999999-8888-4777-8666-555555555555";
+  const { intake, posts } = harness({ partner: BUILDER, partnerName: "Ada Builder" });
+  await intake.send("I need a booking page rebuilt, no site yet");
+  const note = posts.find((p) => p.url.endsWith("/api/feedback"));
+  assert.ok(note, "a first message with no address is saved as a note");
+  assert.match(note.body.suggestion, /^Waitlist — from the website\n/);
+  assert.match(note.body.suggestion, new RegExp(`Preferred builder: Ada Builder · ${BUILDER}`));
+
+  const withSite = harness({ partner: BUILDER, partnerName: "Ada Builder" });
+  await withSite.intake.send("Please rebuild example.ch for phones");
+  const brief = withSite.posts.find((p) => p.url.endsWith("/api/studio-intake"));
+  assert.equal(brief.body.target, "partner");
+  assert.equal(brief.body.preferredPartnerId, BUILDER);
+
+  const nobody = harness();
+  await nobody.intake.send("I need a booking page rebuilt, no site yet");
+  assert.doesNotMatch(nobody.posts.find((p) => p.url.endsWith("/api/feedback")).body.suggestion, /Preferred builder/);
+});
+

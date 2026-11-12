@@ -35,6 +35,16 @@ try {
     for (const route of routes) {
       await page.goto(base + route, { waitUntil: "load" });
       await page.evaluate(() => document.fonts.ready);
+      // A page opens at its top. /hire/ and /builders/ opened on their contact
+      // box, thousands of pixels down, because the chat's thread took the
+      // page to its own end when it mounted (2026-11-12). The chat loads when
+      // the page is idle, so give it the time it takes before measuring.
+      if (await page.locator("[data-intake], [data-chat]").count()) {
+        await page.waitForSelector("[data-intake][data-chatkit], [data-chat][data-chatkit]", { timeout: 15000 }).catch(() => {});
+        await page.waitForTimeout(400);
+      }
+      const scrolled = await page.evaluate(() => Math.round(scrollY));
+      if (scrolled !== 0) failures.push(`${width}px ${route}: opens scrolled ${scrolled}px down, not at its top`);
       const problems = await page.evaluate(() => {
         const problems = [];
         const rect = (el) => el.getBoundingClientRect();
@@ -89,4 +99,4 @@ if (failures.length) {
   for (const failure of failures) console.error(`FAIL ${failure}`);
   process.exit(1);
 }
-console.log(`PASS ${checked} page/viewport checks: mobile art and copy, overflow, rotation, enlarged text`);
+console.log(`PASS ${checked} page/viewport checks: opens at the top, mobile art and copy, overflow, rotation, enlarged text`);

@@ -41,7 +41,7 @@ So the first job is **arrival**, and layout is second. See "How people arrive".
 | 1 | **Someone who might commission work** — a founder, a team without a senior engineer, an organisation with a rescue | Is this supplier real and senior, what does it cost, and is it worth waiting for? | `/hire/`, with venture pages as evidence | the waitlist conversation |
 | 2 | **A developer who already uses a package** | Is this maintained, and what else is here? | `/packages/`, reached from a package README | install, source |
 | 3 | **An organisation receiving an application** — a public service, a non-profit, AOZ, SBB, Stadt Zürich | What exists, how real is it, can I reply? | one venture page, sent as a direct link | "Ask about …" on that page |
-| 4 | **A builder who might contribute** | What can I contribute, and how are outside changes reviewed? | `/#join` | contributor terms, a pull request |
+| 4 | **A builder who might join** — an independent person who would work here under their own name, or contribute to a package | What do I get, what is the bar, how does work reach me, and how do I get back in? | `/builders/`, reached from the first screen of the home page and from `/#join` | the application conversation; contributor terms and a pull request for a package |
 | 5 | **An agent** | What exists, where, in what state? | `/map.json` (redacted catalogue — no ops changelog) | — |
 
 Reader 1 is first because it is the only near-term path to revenue. Reader 4 is
@@ -56,10 +56,12 @@ for a list of gaps (the fleet registers publish those, not this page).
 
 ## What each page is for
 
-- **`/`** — a short introduction, the current waitlist route, Loki as the
-  self-serve option for urgent agent-assisted work, the flagship products
-  (OrangeCat, Loki and Solon), three selected packages, and stage counts linking to `/work/`.
-  The complete work catalogue and package list have their own pages.
+- **`/`** — two doors on the first screen (start a project, become a
+  builder), the three ways to get something built with the current waitlist
+  route, running work with screenshots, the flagship products (OrangeCat, Loki
+  and Solon), a section for builders (`#join`) that also names three selected
+  packages, and the front-desk chat. The complete work catalogue and package
+  list have their own pages.
 - **`/work/`** — all projects that have an editorial profile, filtered by
   readiness stage and field. “Not built” is a real stage, not a roadmap promise.
 - **Venture pages** — must stand alone, because reader 3 arrives on one with no
@@ -88,9 +90,28 @@ for a list of gaps (the fleet registers publish those, not this page).
   deployed intake API without creating a request.
   Run both against the live URL after publishing.
 - **`/studio/`** — the thesis and the rules, for the reader who wants the why.
-- **`/builders/`** — the approved-builder directory and the application door.
-  `/partners/` is a forwarding page to it (kept because the old address was
-  printed elsewhere) and is left out of the sitemap.
+- **`/builders/`** — the builder's landing page, in the order a builder asks:
+  what an approved builder gets, how approval works, the application (one
+  message, with what happens next beside it), then the directory of builders to
+  hire. Every line under "what you get" is something the portal or the
+  directory already does; the page says in words that no builder is listed yet
+  and that nobody is promised work. `/partners/` is a forwarding page to it
+  (kept because the old address was printed elsewhere) and is left out of the
+  sitemap.
+
+## One word per destination (2026-11-12)
+
+The header, the phone menu and the footer use the same word for the same
+place: **Work** (`/work/`), **Builders** (`/builders/`), **Packages**
+(`/packages/`), **Studio** / "Hire the studio" (`/hire/`), **About bitbaum**
+(`/studio/`). "Studio" used to mean `/hire/` in the header while the menu said
+"About bitbaum" for `/studio/`.
+
+Sign-in has one honest name per state. Today the site holds no accounts and
+the only sign-in is Loki's page for an approved builder who connected an
+account, so the link says **Builder sign-in**. It becomes **Sign in**, in the
+header, when the header can show who is signed in (ROADMAP, "Sign in from the
+studio site").
 
 ## Builders in the loop — the word and the line (decided 2026-10-30)
 
@@ -170,6 +191,13 @@ Read weekly, once they can be read:
 
 ## Open decisions — Cato's, not the site's
 
+0. **How far up the builder moves.** The owner's direction on 2026-11-12 is
+   that Bitbaum becomes a platform for builders, not only a studio. The site
+   now gives the builder a door on the first screen and a landing page of
+   their own, but the reader order above is unchanged and the headline is
+   still "One trunk. Many products." Whether the builder becomes reader 1,
+   and whether the headline changes, are not decided here.
+
 1. **The credibility spine on `/hire/`** — the finance-to-engineering path is
    the strongest differentiator on record and appears nowhere on the site.
    Publish only in wording Cato has confirmed.
@@ -182,5 +210,5 @@ Measurement is no longer one of these: this host writes its own access log
 ---
 
 created_date: 2026-09-15
-last_modified_date: 2026-10-30
-last_modified_summary: Approved partners are now builders (/builders/, /partners/ forwards); "builders in the loop" recorded as the positioning.
+last_modified_date: 2026-11-12
+last_modified_summary: The builder has a door on the first screen and a landing page; one word per destination across header, menu and footer; sign-in named for what it is.

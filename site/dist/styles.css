@@ -153,11 +153,17 @@ img { max-width: 100%; display: block; }
 .label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-3); }
 
 /* ─── actions ─────────────────────────────────────────────────────────── */
-.btn { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 48px; padding: 0 1.6rem; border-radius: 3px; font-weight: 600; font-size: 0.78rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; border: 1px solid transparent; transition: background 140ms ease, border-color 140ms ease, color 140ms ease; white-space: nowrap; }
+/* One button, three fills. The box, the type and the corner are the same
+   wherever a button stands: accent (the one thing this screen is for), ink
+   (an action inside the page) and outline (the other choice beside it). There
+   were three families here, 2px apart in every dimension. */
+.btn, .btn-frame, .btn-frame-accent { display: inline-flex; align-items: center; justify-content: center; gap: 0.65rem; min-height: 48px; padding: 0 1.6rem; border: 2px solid transparent; border-radius: var(--radius); font-weight: 700; font-size: 0.78rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; white-space: nowrap; transition: background 140ms ease, border-color 140ms ease, color 140ms ease, filter 140ms ease; }
 .btn.primary { background: var(--accent); color: var(--on-accent); }
 .btn.primary:hover { background: var(--accent-hover); }
-.btn.secondary { border-color: var(--line-2); color: var(--fg); background: hsl(var(--surface-base) / 0.4); backdrop-filter: blur(6px); }
-.btn.secondary:hover { border-color: var(--fg); background: hsl(var(--text-primary) / 0.08); }
+.btn.secondary, .btn-frame { color: var(--fg); border-color: currentColor; background: transparent; }
+.btn.secondary:hover, .btn-frame:hover { color: var(--bg); background: var(--fg); border-color: var(--fg); }
+.btn-frame-accent { color: var(--on-baum); background: var(--baum); }
+.btn-frame-accent:hover { filter: brightness(1.08); }
 .btn .arrow { transition: transform 120ms ease; }
 .btn:hover .arrow { transform: translateX(3px); }
 .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
@@ -192,6 +198,7 @@ img { max-width: 100%; display: block; }
   .top-links, .top-cta { display: none; }
   .menu-btn { display: grid; }
 }
+@media (min-width: 900px) { .menu-fallback { display: none; } }
 
 /* The phone menu: a sheet under the header, the site's map in three groups,
    the two actions a visitor most likely came for at the top, 44px rows. */
@@ -283,11 +290,6 @@ img { max-width: 100%; display: block; }
 .kicker.quiet { color: var(--fg-3); }
 .headline-caps { margin: 0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.005em; line-height: 0.98; text-wrap: balance; }
 .section-title { margin-top: 1rem; font-size: clamp(1.9rem, 3.8vw, 3rem); color: var(--fg); }
-.btn-frame, .btn-frame-accent { display: inline-flex; align-items: center; justify-content: center; gap: 0.7rem; min-height: 48px; padding: 0 1.75rem; font-size: 0.76rem; font-weight: 700; letter-spacing: var(--tracking-caps); text-transform: uppercase; transition: background 140ms ease, color 140ms ease, border-color 140ms ease; }
-.btn-frame { color: var(--fg); border: 2px solid currentColor; }
-.btn-frame:hover { color: var(--bg); background: var(--fg); border-color: var(--fg); }
-.btn-frame-accent { color: var(--on-baum); background: var(--baum); border: 2px solid transparent; }
-.btn-frame-accent:hover { filter: brightness(1.08); }
 .rise { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .rise { animation: none; } }
@@ -328,8 +330,19 @@ img { max-width: 100%; display: block; }
 .partner-name { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
 .partner-line { color: var(--fg-2); }
 .quiet-actions { margin-top: 1.5rem; }
+/* A quiet line under a scene hero's buttons: the way back in for someone who has been here. */
+.bleed-note { margin: 0.9rem 0 0; color: var(--fg); font-size: 0.92rem; line-height: 1.5; }
+.bleed-note a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
+/* What happens after the one message: three short lines beside the box. */
+.next-steps { list-style: none; margin: 1.5rem 0 1.25rem; padding: 0; display: grid; gap: 0.85rem; }
+.next-steps li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 0.9rem; padding-top: 0.85rem; border-top: 1px solid var(--line-2); color: var(--fg-2); line-height: 1.55; }
+.next-steps strong { color: var(--fg); font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: var(--tracking-caps); text-transform: uppercase; padding-top: 0.25rem; }
+.bleed-actions + .join-open { margin-top: 2rem; }
+.join-section .steps { margin-top: clamp(1.5rem, 3vw, 2.25rem); }
 .steps { list-style: none; margin: clamp(2rem, 4vw, 3rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 2.5rem); }
-.steps li { display: grid; gap: 0.7rem; padding-top: 1.25rem; border-top: 2px solid var(--fg); }
+/* align-content: start, or a row's spare height is shared between the three
+   lines and a title beside a longer paragraph sits 9px higher than its neighbours. */
+.steps li { display: grid; gap: 0.7rem; align-content: start; padding-top: 1.25rem; border-top: 2px solid var(--fg); }
 .step-title { font-size: 1.4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em; }
 .steps p { margin: 0; color: var(--fg-2); line-height: 1.6; }
 @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
@@ -365,11 +378,17 @@ img { max-width: 100%; display: block; }
    look comes from chatkit.css over the design tokens; this only frames it. */
 .chat-card { display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; padding: clamp(1rem, 2.5vw, 1.5rem); border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--bg-raised); }
 .chat-card .ck-thread-wrap { max-height: min(60vh, 32rem); }
+/* The intake's greeting before anything is sent: the assistant's voice, without a turn's Copy and Listen. */
+.intake-prompt { margin: 0; color: var(--fg); font-size: 1rem; line-height: 1.6; text-wrap: pretty; }
+.intake-for { margin: 0; padding: 0.6rem 0.8rem; border-left: 2px solid var(--ok); color: var(--fg-2); font-size: 0.92rem; line-height: 1.5; }
+.intake-for strong { color: var(--fg); font-weight: 600; }
 /* chatkit's quiet ink is the shared --text-muted, which on these cards read 1.4:1
    (light) and 2.7:1 (dark) for "Copy" and "Try again". The site's own measured
    tertiary holds AA on both. */
 .chat-card { --ck-muted: var(--fg-3); }
-.chat-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+/* The receipt: the one thing to keep, so it is drawn as the thing to press. */
+.chat-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chat-links .chat-link { border-color: var(--fg); font-weight: 600; }
 .chat-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.9rem; border: 1px solid var(--line-2); border-radius: var(--radius); color: var(--fg); font-size: 0.9rem; }
 .chat-link:first-child { border-color: var(--fg); }
 .chat-link:hover { background: var(--bg-overlay); }
@@ -442,7 +461,7 @@ img { max-width: 100%; display: block; }
 .notice::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--status); transform: translateY(-1px); }
 
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.skip { position: absolute; left: var(--gutter); top: 0.5rem; z-index: 20; padding: 0.55rem 0.9rem; background: var(--accent); color: var(--on-accent); border-radius: 3px; font-size: 0.8rem; font-weight: 600; transform: translateY(-200%); }
+.skip { position: absolute; left: var(--gutter); top: 0.5rem; z-index: 40; /* above the header (30), which covered it */ padding: 0.55rem 0.9rem; background: var(--accent); color: var(--on-accent); border-radius: 3px; font-size: 0.8rem; font-weight: 600; transform: translateY(-200%); }
 .skip:focus { transform: translateY(0); }
 a.spec { color: inherit; transition: color 120ms ease; }
 a.spec:hover .spec-value { color: var(--accent); }
@@ -527,6 +546,12 @@ a.card-name:hover { color: var(--accent); }
 .venture-depth { border-top: 1px solid var(--line); }
 .venture-depth .wrap { display: grid; gap: clamp(2rem, 4vw, 3.5rem); }
 .depth-blocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: clamp(1rem, 2.5vw, 2rem); }
+.section-title + .depth-blocks { margin-top: clamp(2rem, 4vw, 3rem); }
+/* Four of a kind are two and two, never three and one left over. */
+.depth-blocks.pairs { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(1.75rem, 3vw, 2.5rem); }
+@media (max-width: 700px) { .depth-blocks.pairs { grid-template-columns: minmax(0, 1fr); } }
+.depth-blocks + .caption { margin-top: 1.75rem; }
+.depth-block p a { color: inherit; border-bottom: 1px solid var(--line-2); white-space: nowrap; }
 .depth-block { display: grid; gap: 0.6rem; align-content: start; padding-top: 1rem; border-top: 2px solid var(--fg); }
 .depth-block p { margin: 0; color: var(--fg); font-size: 1.05rem; line-height: 1.6; text-wrap: pretty; }
 .depth-does { display: grid; gap: 1rem; max-width: 52rem; }
@@ -551,10 +576,10 @@ a.card-name:hover { color: var(--accent); }
 .work-side .filters[hidden] { display: none; }
 .filter-group { display: grid; gap: 0.55rem; }
 .chips.vertical { display: grid; gap: 0.3rem; }
-.chips.vertical .chip { justify-content: space-between; width: 100%; min-height: 40px; }
+.chips.vertical .chip { justify-content: space-between; width: 100%; min-height: 44px; }
 .work-side .filter-search, .work-side .filter-sort { min-width: 0; font-size: 0.72rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; font-family: var(--mono); }
 .work-side .clear { margin-left: 0; justify-self: start; }
-.stage-help summary { cursor: pointer; font-size: 0.85rem; color: var(--fg-2); }
+.stage-help summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; font-size: 0.85rem; color: var(--fg-2); }
 .stage-help .legend { grid-template-columns: 1fr; margin-top: 0.8rem; }
 .work-count { margin: 0 0 1rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-3); }
 .work-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
@@ -638,6 +663,8 @@ a.card-name:hover { color: var(--accent); }
 .caption { font-size: 0.85rem; color: var(--fg-3); line-height: 1.5; margin: 0; max-width: var(--measure-copy); }
 .pager { display: flex; justify-content: space-between; gap: 1rem; padding: 1.5rem 0 0; border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--fg-2); }
 .pager a:hover { color: var(--fg); }
+/* Standalone links are targets: 44px on a desk too, not only on a phone. */
+.pager a, .venture-facts > div > a { display: inline-flex; align-items: center; min-height: 44px; }
 
 /* ─── prose pages ─────────────────────────────────────────────────────── */
 /* align-content: start, or the grid stretches its rows to match the taller
@@ -657,7 +684,7 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
 .loop .card-what, .loop .card-story { margin: 0; }
 .loop .label { display: block; margin-bottom: 0.15rem; }
 .loop-ventures { list-style: none; margin: 0.6rem 0 0; padding: 0.6rem 0 0; border-top: 1px solid var(--line); display: grid; gap: 0.4rem; }
-.loop-ventures li { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; min-width: 0; }
+.loop-ventures li { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; min-width: 0; min-height: 44px; }
 .loop-ventures a { color: var(--fg); border-bottom: 1px solid var(--line-2); overflow-wrap: anywhere; }
 .loop-ventures a:hover { border-color: var(--fg-3); }
 .loop-gap { border-style: dashed; }
@@ -1236,7 +1263,8 @@ html { overflow-x: clip; }
 }
 
 /* ─── the menu belongs to the night ─────────────────────────────────────── */
-.site-menu { background: color-mix(in srgb, var(--sky-base) 94%, transparent); border-top-color: rgb(var(--line-rgb) / 0.12); }
+/* Opaque: at 94% the page's headline showed through the sheet and its rows. */
+.site-menu { background: var(--sky-base); border-top-color: rgb(var(--line-rgb) / 0.12); }
 .site-menu nav:first-of-type a { font-size: 1.9rem; font-weight: 600; letter-spacing: -0.02em; border-bottom: 0; padding-block: 0.35rem; }
 .site-menu nav:not(:first-of-type) { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1rem; }
 .site-menu nav:not(:first-of-type) .label { grid-column: 1 / -1; }
@@ -1434,6 +1462,10 @@ main:has(> .art-collection:last-child) ~ footer { margin-top: 0; }
 .portal-layout { display: grid; gap: var(--space-8, 2rem); grid-template-columns: minmax(0, 1fr); }
 .portal-stack, .portal-form { display: grid; gap: 1.25rem; min-width: 0; }
 .portal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 1.5rem; }
+.portal-empty { grid-column: 1 / -1; display: grid; gap: 1.1rem; justify-items: start; max-width: var(--measure-copy); padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--line-2); border-radius: var(--radius); }
+.portal-empty p { margin: 0; }
+.portal-empty h3 { margin: 0; font-size: 1.35rem; line-height: 1.3; }
+.portal-empty-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .portal-card { border: 1px solid var(--line); background: var(--bg); padding: clamp(1rem, 4vw, 2rem); display: grid; gap: 1rem; min-width: 0; }
 .portal-card h2, .portal-card h3, .portal-form h3 { font-size: 1.35rem; line-height: 1.3; }
 .portal-field { display: grid; gap: .5rem; font-weight: 500; min-width: 0; }
@@ -1444,6 +1476,8 @@ main:has(> .art-collection:last-child) ~ footer { margin-top: 0; }
 .portal-consent { display: flex; align-items: flex-start; gap: .75rem; }
 .portal-consent input { flex-shrink: 0; margin-top: .3rem; width: 1.2rem; height: 1.2rem; }
 .portal-error { color: var(--fg); border-left: 3px solid currentColor; padding-left: 1rem; }
+.portal-keep { display: grid; gap: 0.6rem; justify-items: start; }
+.portal-keep .portal-link { box-sizing: border-box; width: 100%; min-height: 44px; margin-top: 0.4rem; padding: 0.6rem 0.8rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--fg); font: inherit; font-family: var(--font-mono); font-size: 1rem; }
 .portal-words { white-space: pre-wrap; overflow-wrap: anywhere; }
 .portal-history { border-top: 1px solid var(--line); padding-top: 1rem; }
 .portal-stack a, .portal-card p, .portal-card a, .portal-field span { overflow-wrap: anywhere; }
@@ -1500,7 +1534,7 @@ footer nav a { max-width: 100%; overflow-wrap: anywhere; }
 .rm-theme-count { font-family: var(--mono); font-size: 0.72rem; color: var(--fg-3); }
 .rm-theme-next { margin: 0; font-size: 0.9rem; line-height: 1.45; color: var(--fg); }
 .rm-theme-next .label { display: block; margin-bottom: 0.15rem; }
-.rm-theme-steps summary, .tl-more summary { cursor: pointer; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-3); list-style: none; }
+.rm-theme-steps summary, .tl-more summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-3); list-style: none; }
 .rm-theme-steps summary::before, .tl-more summary::before { content: "+ "; }
 .rm-theme-steps[open] summary::before, .tl-more[open] summary::before { content: "− "; }
 .rm-theme-steps summary::-webkit-details-marker, .tl-more summary::-webkit-details-marker { display: none; }

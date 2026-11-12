@@ -2,6 +2,19 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-11-12 — Pages open at the top, and builders get a door
+
+- `/hire/` and `/builders/` opened scrolled down to the contact box: 3,400px down on a desk, 5,500px on a phone, past the headline and the prices. The chat's thread took the page to its own end when it loaded. Both pages now open at their top, the greeting stands above the box as a prompt, and the browser check fails if any page opens anywhere but its top. The cause is fixed in the chat package too (chatkit #84).
+- The home page has two doors on its first screen: "Start a project" and "Become a builder". A new section, "Build here, under your own name", says what a builder gets.
+- `/builders/` is a landing page for builders: what an approved builder gets, how approval works, the application with what happens next beside it, then the directory. It says in words that no builder is listed yet and nobody is promised work.
+- After a request is sent, its private link appears above the box, where the reply names it. It used to appear under the box, off the screen. On the portal, "Copy your private link" copies it; the old control reloaded the page.
+- "Request this builder" keeps the builder when the first message has no website address, and the page says who was asked for.
+- A brief brought over from Loki takes the visitor to the filled box and says it arrived.
+- The header, the menu and the footer use one word per place: Work, Builders, Packages, Studio. The phone menu is no longer see-through, keeps the keyboard inside it while open, and without JavaScript the menu button leads to the site map in the footer.
+- One button shape. Three families of button, 2px apart in every dimension, are now one with three fills. Step titles in a row sit on one line; four of a kind are two and two.
+- The picture a shared link shows carries the site's tree mark and green. It still carried an older mark and OrangeCat's orange.
+- `/packages/` gets its "Where next" buttons back; `/academy/` no longer sends someone who has not applied to an empty portal.
+
 ## 2026-11-11 — No more broken pictures on the figures
 
 - The painted figures that move (the fox on `/work/`, the cat, the whale and the rest) could turn into a white box with Chromium's sad face, and on the running fox it crossed the screen. Each figure held its own WebGL context, so a phone with many tabs, or one sent to the background, dropped them. Now one context serves the page and draws into plain 2D canvases, which never show that face; if the context is lost anyway, every figure goes back to its still painting.
