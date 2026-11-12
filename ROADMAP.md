@@ -29,8 +29,9 @@ A builder decides in two minutes whether to join, and can get back in without hu
 
 ### Sign in from the studio site
 The site holds no accounts; a person's account is their Loki account. The header should still know who is looking.
-- [ ] Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on (Loki #1672, open)
+- [x] Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on (Loki #1672, deployed)
 - [x] accountkit: one account control for signed out, loading and signed in, and a menu that stays on the screen wherever it sits (accountkit #92)
+- [ ] A release of accountkit that carries the account control (it is merged, and the published 0.29.0 does not have it)
 - [ ] The header shows who is signed in, with their application and a way to sign out
 - [ ] One name for sign-in on the portal, the private projects page and the header
 
