@@ -89,14 +89,20 @@
    secondary ≥ 5.9:1, tertiary ≥ 4.7:1, green ≥ 4.9:1. Dark mode is untouched.
    site/check-contrast.mjs fails the build if any text drops below AA again. */
 :root:not(.dark) {
-  --fg-2: #4d4a45;
-  --fg-3: #5c5851;
+  /* Measured against the sky as it is painted, not against its warm base: the
+     top of the day sky is a blue of luminance 0.26, and text scrolls over it.
+     On that, #4d4a45 was 2.99:1 and #5c5851 2.39:1. Both are now near the ink,
+     and hierarchy in the light theme is carried by size and weight.
+     check-contrast.mjs measures every page against that blue as well. */
+  --fg-2: #242220;
+  --fg-3: #262422;
   --ok: #185c34;
 }
 
 /* Dark keeps the shared roles except the faintest one: tertiary measured
    4.1:1 on the raised panels; #8f8f8f holds 4.6:1 on every dark surface. */
-.dark { --fg-3: #8f8f8f; }
+/* #8f8f8f read 3.2 to 3.8:1 where a night cloud drifts behind small text. */
+.dark { --fg-3: #a3a3a3; }
 
 /* Dark roles come from @bitbaum/design-tokens (.dark). Site-only cinema scrims. */
 .dark {
@@ -380,6 +386,7 @@ img { max-width: 100%; display: block; }
 .chat-card .ck-thread-wrap { max-height: min(60vh, 32rem); }
 /* The intake's greeting before anything is sent: the assistant's voice, without a turn's Copy and Listen. */
 .intake-prompt { margin: 0; color: var(--fg); font-size: 1rem; line-height: 1.6; text-wrap: pretty; }
+.intake-who { display: block; margin-bottom: 0.35rem; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-2); }
 .intake-for { margin: 0; padding: 0.6rem 0.8rem; border-left: 2px solid var(--ok); color: var(--fg-2); font-size: 0.92rem; line-height: 1.5; }
 .intake-for strong { color: var(--fg); font-weight: 600; }
 /* chatkit's quiet ink is the shared --text-muted, which on these cards read 1.4:1
@@ -626,7 +633,11 @@ a.card-name:hover { color: var(--accent); }
 /* margin-top:auto so every card in a row ends its links on the same line. */
 .pkg-links { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--fg-3); margin-top: auto; padding-top: 0.6rem; }
 .pkg-links a:hover { color: var(--fg); }
-.pkg-card .pkg-badges { display: inline-flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 0.35rem; }
+/* A package's name is one word and stays on one line: beside its badges it
+   broke as "threadk / it" on 15 of 18 tiles on a phone. Name above, badges below. */
+.pkg-card .card-top { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+.pkg-card .card-name { white-space: nowrap; overflow-wrap: normal; }
+.pkg-card .pkg-badges { display: inline-flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 0.35rem; }
 .pkg-version { color: var(--fg-2); font-variant-numeric: tabular-nums; }
 .pkg-category { color: var(--fg-3); }
 .pkg-controls { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(14rem, 2fr) repeat(3, minmax(9rem, 1fr)); align-items: end; gap: 0.85rem; margin-top: 1.5rem; padding: 1rem; border: 1px solid var(--line); background: var(--bg-raised); }
@@ -1273,6 +1284,17 @@ html { overflow-x: clip; }
    guest stands in, and the page's picture begins below it, not on it. */
 .venture-hero.stage, .stage.hero { padding-bottom: calc(var(--section-tight) + 170px); }
 .stage-floored::after { height: 200px; }
+/* The floor moved into the art stage that follows the hero (the rule further
+   down hides this one), but the room kept for it stayed: an empty band under
+   every inner page's headline, a whole screen of sky on /work/ before the
+   first project. */
+.venture-hero.stage:has(+ .art-stage), .stage.hero:has(+ .art-stage) { padding-bottom: clamp(1.6rem, 3vw, 2.5rem); }
+/* The fade that blended that floor into the page belongs to the curtains now.
+   On the whole section it washed out the last line of the headline once the
+   empty band under it was gone. (Three classes, to outrank the fade's own rule
+   further down.) */
+.stage.stage-floored.stage-floored:has(+ .art-stage) { -webkit-mask-image: none; mask-image: none; }
+.stage.stage-floored:has(+ .art-stage) .curtains { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 90px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 90px), transparent); }
 @media (max-width: 700px) {
   .venture-hero.stage, .stage.hero { padding-bottom: calc(var(--section-tight) + 120px); }
   .stage-floored::after { height: 130px; }
@@ -1476,6 +1498,10 @@ main:has(> .art-collection:last-child) ~ footer { margin-top: 0; }
 .portal-consent { display: flex; align-items: flex-start; gap: .75rem; }
 .portal-consent input { flex-shrink: 0; margin-top: .3rem; width: 1.2rem; height: 1.2rem; }
 .portal-error { color: var(--fg); border-left: 3px solid currentColor; padding-left: 1rem; }
+.portal-card p, .portal-stack > p, .portal-history p { margin: 0; }
+/* The door on /hire/: the rules on the left, the box on the right, as on /builders/. */
+.door-layout { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
+.door-layout .next-steps { margin-top: 0; }
 .portal-keep { display: grid; gap: 0.6rem; justify-items: start; }
 .portal-keep .portal-link { box-sizing: border-box; width: 100%; min-height: 44px; margin-top: 0.4rem; padding: 0.6rem 0.8rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--fg); font: inherit; font-family: var(--font-mono); font-size: 1rem; }
 .portal-words { white-space: pre-wrap; overflow-wrap: anywhere; }

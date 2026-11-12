@@ -39,6 +39,11 @@ Header, menu and footer belong to the shared package; today they are drawn in th
 - [ ] sitekit: a scroll-aware masthead, slots for the call to action, the account and the utilities, a sheet menu, a configurable collapse
 - [ ] Render the masthead and footer from sitekit at build time and delete the local menu script
 
+### Answer a wrong address
+A missing page should show the site and a way on, not an empty response.
+- [x] The build writes a page for a missing address, with the header and four ways on
+- [ ] Caddy on the box serves it for a missing path with the 404 status, and the publish check asks for it
+
 ### Make studio development traceable
 Course, portal and product decisions should survive conversations and become visible work.
 - [x] Add canonical repository roadmap and changelog

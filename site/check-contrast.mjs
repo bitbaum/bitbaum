@@ -10,7 +10,15 @@
 // page. Text over the painted scenes (a gradient or image no formula can
 // measure) is kept on the primary ink in styles.css instead, and skipped here.
 //
+// The light page is measured twice. Its base colour is a warm cream, but the
+// sky painted over it (site/sky.mjs) is a blue at the top of the screen, and
+// text scrolls across that blue: on it, secondary text that passed against
+// the cream read 2.4:1 to 3.0:1 (2026-11-12). So the second pass composites
+// every background down to the darkest colour any day sky paints, taken from
+// sky.mjs's own table, and a new weather that is darker fails here.
+//
 //   node site/check-contrast.mjs            (serves site/dist itself)
+//   CONTRAST_PAGES=/,/hire/ node site/check-contrast.mjs   (a few pages, while working)
 import { chromium } from "playwright";
 import http from "node:http";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
@@ -31,6 +39,12 @@ const server = http.createServer((req, res) => {
 await new Promise((r) => server.listen(0, r));
 const origin = `http://localhost:${server.address().port}`;
 
+// The darkest colour a day sky paints: the top of each weather's day gradient.
+const lumOf = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)).reduce((t, v, i) => t + v * [0.2126, 0.7152, 0.0722][i], 0);
+const daySkies = [...readFileSync(join(here, "sky.mjs"), "utf8").matchAll(/^\s+(\w+):\s+\{ day: \["(#[0-9a-f]{6})"/gim)].map((m) => ({ weather: m[1], top: m[2] }));
+if (daySkies.length < 4) throw new Error("could not read the day skies from site/sky.mjs (the WX table moved?)");
+const darkestSky = daySkies.reduce((a, b) => (lumOf(a.top) <= lumOf(b.top) ? a : b));
+
 const pages = ["/"];
 for (const d of readdirSync(DIST, { withFileTypes: true })) {
   if (d.isDirectory() && existsSync(join(DIST, d.name, "index.html"))) pages.push(`/${d.name}/`);
@@ -40,6 +54,9 @@ if (existsSync(join(DIST, "packages"))) {
     if (d.isDirectory()) pages.push(`/packages/${d.name}/`);
   }
 }
+
+const only = process.env.CONTRAST_PAGES?.split(",").filter(Boolean);
+if (only) pages.splice(0, pages.length, ...only);
 
 const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
 const failures = [];
@@ -64,7 +81,7 @@ for (const theme of ["light", "dark"]) {
         await box.press("Enter").catch(() => {});
         await page.waitForFunction(() => document.querySelector("[data-chat]")?.textContent?.includes("A reply long enough"), null, { timeout: 10000 }).catch(() => {});
       }
-      const bad = await page.evaluate(() => {
+      const measure = (skyTop) => page.evaluate((skyTop) => {
         const parse = (c) => { const m = c.match(/[\d.]+/g)?.map(Number) ?? [0, 0, 0, 0]; return [m[0], m[1], m[2], m[3] ?? 1]; };
         const over = (top, under) => { const a = top[3]; return [0, 1, 2].map((i) => top[i] * a + under[i] * (1 - a)).concat(1); };
         const lum = ([r, g, b]) => [r, g, b].map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }).reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
@@ -94,7 +111,7 @@ for (const theme of ["light", "dark"]) {
           }
           if (scene) continue;
           let bg = [255, 255, 255, 1];
-          const root = parse(getComputedStyle(document.documentElement).backgroundColor);
+          const root = skyTop ? [1, 3, 5].map((i) => parseInt(skyTop.slice(i, i + 2), 16)).concat(1) : parse(getComputedStyle(document.documentElement).backgroundColor);
           if (root[3] > 0) bg = over(root, bg);
           for (const l of layers.reverse()) bg = over(l, bg);
           let fg = parse(cs.color);
@@ -110,8 +127,11 @@ for (const theme of ["light", "dark"]) {
           }
         }
         return out;
-      });
-      for (const b of bad) failures.push(`${theme} ${width}px ${path}  ${b}`);
+      }, skyTop);
+      for (const b of await measure(null)) failures.push(`${theme} ${width}px ${path}  ${b}`);
+      // Dark skies are near black at every hour; the day sky is the one that
+      // differs from its base, so only the light page is measured against it.
+      if (theme === "light") for (const b of await measure(darkestSky.top)) failures.push(`light ${width}px ${path}  [on the ${darkestSky.weather} sky ${darkestSky.top}]  ${b}`);
     }
     await ctx.close();
   }
@@ -125,4 +145,4 @@ if (failures.length) {
   if (failures.length > 60) console.error(`  … and ${failures.length - 60} more`);
   process.exit(1);
 }
-console.log(`✓ contrast: ${pages.length} pages × light/dark × phone/desktop, no text below AA`);
+console.log(`✓ contrast: ${pages.length} pages × light/dark × phone/desktop, no text below AA; the light page also holds on the darkest day sky (${darkestSky.weather}, ${darkestSky.top})`);

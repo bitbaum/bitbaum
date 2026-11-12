@@ -2,6 +2,18 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-11-12 — Readable on the real sky, and the assistant says who it is
+
+- Text was measured against the sky as it is painted, not against its cream base. In the light theme the top of the sky is blue, and small grey text over it read 2.4:1 to 3.0:1 where 4.5:1 is the line; in rain even the main text fell to 3.3:1. Secondary text is now near the ink, the day rain sky is a bright overcast, and the contrast check measures every page against the darkest day sky as well. The dark theme's smallest labels are lighter.
+- At the door on `/hire/` and `/builders/`, the first thing that answers is Loki, and it now says so: "Loki, the studio's assistant" stands over the prompt and every line it speaks. The card that promised "a reply from a person" says what happens: questions now, a person's answer later.
+- `/hire/` shows the rates before the detour to Loki, and beside the box it says what happens when a message is sent.
+- `/work/`, `/packages/` and every project page show their content on the first screen. An empty band a screen tall, left over from a floor that had moved, sat under each headline.
+- Package names stay on one line. They broke mid-word ("threadk / it") on 15 of 18 tiles on a phone.
+- The builders page and the course end with "Apply as a builder", not "Start a project".
+- A wrong address gets a page with the header and four ways on (once Caddy is told to serve it; see `site/DEPLOY.md`).
+- Words the site's own rules forbid are gone from public pages: "client" on `/work/` and `/private/`, "partner" in the course. The map no longer calls Solon's starting rules "red lines". evig's story no longer attributes it to another organisation, and Hirnli's no longer claims daily use that nothing here can check.
+- Dates in the portal read "30 Sept 2026, 14:05", not "9/30/2026, 12:00:00 AM".
+
 ## 2026-11-12 — Pages open at the top, and builders get a door
 
 - `/hire/` and `/builders/` opened scrolled down to the contact box: 3,400px down on a desk, 5,500px on a phone, past the headline and the prices. The chat's thread took the page to its own end when it loaded. Both pages now open at their top, the greeting stands above the box as a prompt, and the browser check fails if any page opens anywhere but its top. The cause is fixed in the chat package too (chatkit #84).

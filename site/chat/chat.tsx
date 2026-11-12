@@ -36,6 +36,10 @@ type Reply = {
 };
 
 const SPEAKERS = { cat: { name: "Cat", id: "cat" }, loki: { name: "Loki", id: "loki" } } as const;
+// At the studio's door Loki is an assistant, and says so on every line it
+// speaks: the page promises a person's reply, and the first thing that
+// answers, within a second, is not that person.
+const DOOR_LOKI = { name: "Loki, the studio's assistant", id: "loki" } as const;
 
 /** The microphone: the widget's own transcription route, tried FIRST. One
  *  server model everywhere — the Android recogniser's cumulative partials
@@ -305,7 +309,7 @@ async function post(url: string, body: unknown, key?: string) {
 }
 
 function Intake({ cfg }: { cfg: IntakeCfg }) {
-  const [messages, setMessages] = useState<ChatMessageData[]>([{ id: "hello", role: "assistant", content: cfg.prompt, speaker: SPEAKERS.loki }]);
+  const [messages, setMessages] = useState<ChatMessageData[]>([{ id: "hello", role: "assistant", content: cfg.prompt, speaker: DOOR_LOKI }]);
   const [sending, setSending] = useState(false);
   const [links, setLinks] = useState<Link[]>([]);
   const [failed, setFailed] = useState(false);
@@ -333,7 +337,7 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
         role: "assistant" as const,
         content: m.text,
         failed: m.failed,
-        speaker: m.speaker === "loki" ? SPEAKERS.loki : undefined,
+        speaker: m.speaker === "loki" ? DOOR_LOKI : undefined,
       })),
     ]);
   const run = async (turn: Promise<{ said: Said[]; link: Link | null } | null> | null) => {
@@ -408,7 +412,8 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
           conversation. */}
       <ChatThread
         messages={fresh ? [] : messages}
-        empty={<p className="intake-prompt">{cfg.prompt}</p>}
+        showSpeakers
+        empty={<p className="intake-prompt"><span className="intake-who">{DOOR_LOKI.name}</span>{cfg.prompt}</p>}
         live={sending ? { status: fresh ? "Saving it for the studio" : "Loki is reading" } : null}
         onRetry={failed ? retry : undefined}
       />

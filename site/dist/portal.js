@@ -16,6 +16,8 @@ function el(tag, attributes = {}, ...children) {
   return node;
 }
 const text = (copy, className = "") => el("p", { class: className, text: copy ?? "" });
+// "9/30/2026, 12:00:00 AM" is a log line. A person reads "30 Sept 2026, 14:05".
+const when = (at) => { const d = new Date(at); return Number.isNaN(d.getTime()) ? "" : new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(d); };
 const button = (copy) => el("button", { type: "submit", class: "btn primary", text: copy });
 const link = (copy, href, className = "textlink") => el("a", { href, class: className, text: copy });
 function field(form, name, title, { type = "text", max = 2000, required = true, value = "", options, min } = {}) {
@@ -210,7 +212,7 @@ function portal(root) {
     }
     actionForm(content, "Send a reply", "message", [{ name: "body", title: "Add context or answer the reviewer", type: "textarea" }], (v) => ({ body: v.body }));
     const history = el("section", { class: "portal-card" }, el("h2", { text: "Request history" }));
-    for (const event of request.history) history.append(el("article", { class: "portal-history" }, text(`${event.actor} · ${new Date(event.at).toLocaleString()}${event.version ? ` · version ${event.version}` : ""}`, "caption"), text(event.body, "portal-words")));
+    for (const event of request.history) history.append(el("article", { class: "portal-history" }, text(`${event.actor} · ${when(event.at)}${event.version ? ` · version ${event.version}` : ""}`, "caption"), text(event.body, "portal-words")));
     content.append(history);
     const refresh = el("button", { type: "button", class: "btn secondary", text: "Refresh status" }); refresh.addEventListener("click", load); content.append(refresh);
     root.replaceChildren(content);

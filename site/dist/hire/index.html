@@ -72,7 +72,7 @@ addEventListener("error", function (e) {
         <a href="/packages/">Packages</a>
         <a href="/hire/" aria-current="page">Studio</a>
       </nav>
-      <a class="btn-frame top-cta" href="/#start">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="btn-frame top-cta" href="#waitlist">Start a project <span class="arrow" aria-hidden="true">&rarr;</span></a>
       <button type="button" class="menu-btn" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu" data-menu-toggle>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-open" d="M4 7h16M4 12h16M4 17h16"/><path class="menu-close" d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -99,36 +99,6 @@ addEventListener("error", function (e) {
       </div>
     </section>
     <div class="art-stage" data-art-stage aria-hidden="true"><div class="art-ground"></div>  <div class="guest guest-owl" aria-hidden="true"><span class="owl-perch"><img class="fig fig-owl" src="/art/owl.webp" width="433" height="419" alt="" loading="lazy" decoding="async" draggable="false"></span><span class="owl-flying" hidden><img class="fig fig-owl-fly" src="/art/owl-fly.webp" width="440" height="384" alt="" loading="lazy" decoding="async" draggable="false"></span></div></div>
-
-    <section class="section build-band" id="build-yourself">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="stack-head"><span class="eyebrow">Studio engagements are at capacity.</span><h2 class="display-2">Build it yourself — with the same system.</h2></div>
-          <p class="lede">The studio is at capacity. You can build independently with free Loki. If you need payment or collective decisions, explore OrangeCat or Solon; you choose which tools fit your work.</p>
-        </div>
-        <div class="build-paths">
-          <a class="build-path" href="https://loki.orangecat.ch">
-            <span class="label">Build it</span>
-            <span class="build-path-name">Loki</span>
-            <span class="build-path-line">Describe what you want; a fleet of AI agents builds, tests and ships it, and you approve what goes live. The system that built everything on this site.</span>
-            <span class="build-path-go">Open loki.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          </a>
-          <a class="build-path" href="https://orangecat.ch">
-            <span class="label">Earn from it</span>
-            <span class="build-path-name">OrangeCat</span>
-            <span class="build-path-line">Sell it and get paid: pay links, services and backing, settled in Bitcoin straight to your wallet. Nobody holds your money but you.</span>
-            <span class="build-path-go">Open orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          </a>
-          <a class="build-path" href="https://solon.orangecat.ch">
-            <span class="label">Decide it together</span>
-            <span class="build-path-name">Solon</span>
-            <span class="build-path-line">Run it with others: proposals and one-click votes for a team, a co-op or a community, with a record everyone can see.</span>
-            <span class="build-path-go">Open solon.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          </a>
-        </div>
-        <p class="build-wait">Rather have the studio build it? Engagements start from CHF 2,400 per day. <a class="textlink" href="/hire/">See the rates</a> and <a class="textlink" href="/hire/#waitlist">join the waitlist</a> to hear first when a slot opens.</p>
-      </div>
-    </section>
 
     <section class="section" id="engagements">
       <div class="wrap">
@@ -235,8 +205,8 @@ addEventListener("error", function (e) {
         <div class="grid">
           <article class="card text">
             <div class="card-body">
-              <span class="card-name">A reply from a person</span>
-              <span class="card-what">The request lands in the same system the work is run from, with everything you wrote attached. The answer comes from someone who read it, not an autoresponder.</span>
+              <span class="card-name">Questions now, a person's answer later</span>
+              <span class="card-what">Loki, the studio's assistant, may ask a question or two straight away so the brief is complete. The request lands in the same system the work is run from, and the answer that counts comes from a person who read everything you wrote.</span>
             </div>
           </article>
           <article class="card text">
@@ -252,9 +222,47 @@ addEventListener("error", function (e) {
             </div>
           </article>
         </div>
-        <div class="chat-mount intake-mount" data-intake data-fc-avoid data-purpose="studio" data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-offer-id="rescue" data-prompt="Hello. What would you like done? If it is about a website that exists, paste its address and say what should change; if it is something new, just describe it. A sentence is enough — and your email if you would like a reply.">
+        <div class="portal-layout door-layout">
+          <ol class="next-steps" aria-label="What happens when you send it">
+            <li><strong>On send</strong> Your words are saved as a private request before anything answers. Sending books no work and agrees no price.</li>
+            <li><strong>In seconds</strong> Loki, the studio's assistant, may ask what exists today, what must work and whether there is a deadline. Answer, or say "send it".</li>
+            <li><strong>A person</strong> Someone at the studio reads all of it and replies in your private portal, and by email if you gave an address.</li>
+            <li><strong>A slot</strong> When one opens, the list is worked in the order it was joined.</li>
+          </ol>
+        <div class="chat-mount intake-mount" data-intake data-fc-avoid data-purpose="studio" data-origin="https://loki.orangecat.ch" data-token="fcw_a182d39f6ef4ec8d616ef58e4ca5a693" data-offer-id="rescue" data-prompt="Hello. What would you like done? If it is about a website that exists, paste its address and say what should change; if it is something new, just describe it. A sentence is enough — and your email if you would like a reply. Loki may ask a question or two; a person at the studio reads every word and replies.">
           <p class="caption">The waitlist needs JavaScript to reach the studio. <a class="textlink" href="/academy/">Read the pilot course</a> or <a class="textlink" href="/work/">browse every project</a> in the meantime.</p>
         </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section build-band" id="build-yourself">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="stack-head"><span class="eyebrow">Studio engagements are at capacity.</span><h2 class="display-2">Build it yourself — with the same system.</h2></div>
+          <p class="lede">The studio is at capacity. You can build independently with free Loki. If you need payment or collective decisions, explore OrangeCat or Solon; you choose which tools fit your work.</p>
+        </div>
+        <div class="build-paths">
+          <a class="build-path" href="https://loki.orangecat.ch">
+            <span class="label">Build it</span>
+            <span class="build-path-name">Loki</span>
+            <span class="build-path-line">Describe what you want; a fleet of AI agents builds, tests and ships it, and you approve what goes live. The system that built everything on this site.</span>
+            <span class="build-path-go">Open loki.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          </a>
+          <a class="build-path" href="https://orangecat.ch">
+            <span class="label">Earn from it</span>
+            <span class="build-path-name">OrangeCat</span>
+            <span class="build-path-line">Sell it and get paid: pay links, services and backing, settled in Bitcoin straight to your wallet. Nobody holds your money but you.</span>
+            <span class="build-path-go">Open orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          </a>
+          <a class="build-path" href="https://solon.orangecat.ch">
+            <span class="label">Decide it together</span>
+            <span class="build-path-name">Solon</span>
+            <span class="build-path-line">Run it with others: proposals and one-click votes for a team, a co-op or a community, with a record everyone can see.</span>
+            <span class="build-path-go">Open solon.orangecat.ch <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          </a>
+        </div>
+        <p class="build-wait">Rather have the studio build it? Engagements start from CHF 2,400 per day. <a class="textlink" href="/hire/">See the rates</a> and <a class="textlink" href="/hire/#waitlist">join the waitlist</a> to hear first when a slot opens.</p>
       </div>
     </section>
   </main>

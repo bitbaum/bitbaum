@@ -70,7 +70,9 @@ export const WX = {
   clouds: { day: ["#7d97ab", "#adbfc9", "#d8d5cb", "#e6d8bf"], night: ["#030409", "#070a12", "#0c0f18"], sun: 0.5,  moon: 0.7,  stars: 0.5,  clouds: [5, 3], tone: 0.92, wind: 0,  fall: null,   fog: 0 },
   wind:   { day: ["#6a95ba", "#b0c9d6", "#e7dcc4", "#f1d2a2"], night: ["#02030a", "#050815", "#0a0d18"], sun: 0.9,  moon: 1,    stars: 0.9,  clouds: [3, 2], tone: 1,    wind: 40, fall: null,   fog: 0 },
   mist:   { day: ["#b7c1c8", "#c9cfd1", "#dcd9d1", "#e4ddd0"], night: ["#0b0e16", "#121620", "#191c26"], sun: 0.25, moon: 0.35, stars: 0.15, clouds: [0, 0], tone: 1,    wind: 0,  fall: null,   fog: 1 },
-  rain:   { day: ["#5c6b78", "#8a959e", "#b6b7b2", "#c8c1b3"], night: ["#04050b", "#080b14", "#0e1118"], sun: 0,    moon: 0.3,  stars: 0.2,  clouds: [4, 3], tone: 0.6,  wind: 15, fall: "rain", fog: 0 },
+  // The day rain sky is a bright overcast: no darker than the clear sky's own
+  // top. At #5c6b78 with clouds at tone 0.6 even the ink read 3.3:1 on it.
+  rain:   { day: ["#7d91a2", "#9da9b1", "#bcbeba", "#cbc5b8"], night: ["#04050b", "#080b14", "#0e1118"], sun: 0,    moon: 0.3,  stars: 0.2,  clouds: [4, 3], tone: 0.9,  wind: 15, fall: "rain", fog: 0 },
   snow:   { day: ["#98a4b2", "#c2c9d0", "#e1e0db", "#ebe5d9"], night: ["#070a12", "#0f131d", "#161a25"], sun: 0.15, moon: 0.6,  stars: 0.4,  clouds: [3, 2], tone: 0.85, wind: 0,  fall: "snow", fog: 0 },
 };
 export const wx = () => WX[WEATHER] ?? WX.clear;
