@@ -271,6 +271,23 @@
       "order": 4,
       "for": "S.Ink, Z\u00fcrich",
       "story": "The studio's own site: artists, work, booking. Built and hosted as a favour."
+    },
+    "biaslens": {
+      "name": "BiasLens",
+      "what": "Read an article claim by claim",
+      "stage": "product",
+      "tags": [
+        "Knowledge",
+        "AI agents"
+      ],
+      "order": 13,
+      "shot": false,
+      "story": "Give it a link, a PDF or pasted text and it shows who speaks, what each of them claims and which passages the argument rests on. Or write your own piece there and let the evidence check it.",
+      "identity": {
+        "problem": "An article mixes reporting, quotation and argument. Who is speaking, which figures have a source and which step the conclusion rests on are hard to see from the text alone.",
+        "solution": "Two model passes and one check in code: an inventory of the voices, claims and figures, then an assessment against a published catalogue of writing techniques. Every passage the model cites is searched for in the text and dropped if it is not there. It never applies political labels in its own voice, and it says plainly that a model's reading is not a fact-check.",
+        "vision": "One page per article to read it, ask about it, check it and answer it, including pieces people write on BiasLens themselves."
+      }
     }
   },
   "extras": [],
@@ -536,6 +553,14 @@
             "retires": "Newcomers left alone with forms and a language they cannot yet hear.",
             "ventures": [
               "heidi"
+            ]
+          },
+          {
+            "title": "Reading the news",
+            "human": "The reader weighs the evidence and decides.",
+            "retires": "Taking an argument on trust without seeing what it rests on.",
+            "ventures": [
+              "biaslens"
             ]
           },
           {

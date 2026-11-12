@@ -2,6 +2,13 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-11-12 — BiasLens is on the site
+
+- BiasLens (biaslens.orangecat.ch) was running and listed on Loki's fleet map, but had no editorial line, so the site hid it. It now has a page (`/biaslens/`) linking the live site and its source, a place on `/work/` under Products, and a loop on `/map/` ("Reading the news"). The words come from the BiasLens README.
+- Its page carries its own problem, solution and direction: the fleet profile still describes "a per-article dashboard with bias scores", which BiasLens does not do and says it does not do. The profile should be corrected at its source; until then the site does not repeat it.
+- No screenshot yet (`shot: false`): none could be taken where this change was made. Remove the flag and run `node site/shots.mjs biaslens` to add one; with it, BiasLens also joins the products shown on the home page.
+- Its live status is the one probe this change made (`live.snapshot.json`: 200, running).
+
 ## 2026-11-12 — Readable on the real sky, and the assistant says who it is
 
 - Text was measured against the sky as it is painted, not against its cream base. In the light theme the top of the sky is blue, and small grey text over it read 2.4:1 to 3.0:1 where 4.5:1 is the line; in rain even the main text fell to 3.3:1. Secondary text is now near the ink, the day rain sky is a bright overcast, and the contrast check measures every page against the darkest day sky as well. The dark theme's smallest labels are lighter.
