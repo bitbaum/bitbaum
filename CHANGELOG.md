@@ -2,6 +2,22 @@
 
 Completed changes are recorded here; unfinished work stays in [ROADMAP.md](ROADMAP.md).
 
+## 2026-11-12 — What a second, adversarial look found
+
+The two changes below were read again by reviewers told to break them. Ten findings held; a scan of every page at twice the text size, added to settle two of them, found more of the same kind. All are fixed here, and each now has a check.
+
+- "Request this builder" landed at the top of `/hire/`, with the line saying who was asked for 5,400px down on a phone. Arriving with a builder chosen now goes to the box, which names the builder; the cursor is not put in it, so no keyboard opens unasked.
+- After the first message the page jumped up about 300px and left the receipt and the box under the fold, with the cursor still in the box. Both stay on screen, after a failed send too. The cause is in the chat package and is fixed there as well (chatkit: following never scrolls the page up).
+- A link to the box ("Join the waitlist") put the cursor in it while it was still two screens down on a phone, which opens the keyboard over the text. The box takes the cursor only when it is on screen.
+- `/builders/` said an approved builder publishes a profile and that it is shown "when you say so". The builder proposes it and the studio reviews it before it is listed; the page says that.
+- `/hire/` promised a reply "in your private portal" for every request, and its questions said the only email is the one about a slot. A first message with no website address gets a page that follows the note, not a portal, and an address also receives the private link. Both lines now say what happens.
+- "A studio and its builders" in the footer, the home page's description and the picture a shared link shows. No builder is listed yet. It reads "A studio in Zürich, and a place for builders who work with agents."
+- `/solon/` and `/loki/` still called Solon's four closed kinds of decision fixed "red lines" after the map stopped. Each organisation can change that list by a vote, and both pages say so.
+- At twice the text size on a phone: `/studio/`, the home page and eight project pages were wider than the screen, the "what happens next" lists broke words letter by letter, and badges and prices on `/hire/`, `/map/` and `/work/` were cut off by their cards. All 48 pages are clean at 320px and 390px, and nothing moves at the normal size.
+- A file that is not a picture, sent with no words, filed a request that said "See the picture." It now says why the file was refused and files nothing.
+- On a phone the three kinds of button are one size. Without JavaScript the menu link sits at the right edge, where the button is. A portal entry with no time shows no time, not 1 January 1970. A directory entry offers "Request this builder" only with an id `/hire/` accepts, and "View their work" only for a web address.
+- The checks themselves: "opens at the top" fails when the chat never loads (it passed); the contrast check reads the contact box after a message is sent, and every kind of weather or none; the large-text check covers every page at two widths (it covered five pages at one); and `check-hire` pins the box staying on screen, the arrival with a builder, and the file that is not a picture. Six of its seven new cases fail on the site as it was published before this change.
+
 ## 2026-11-12 — Readable on the real sky, and the assistant says who it is
 
 - Text was measured against the sky as it is painted, not against its cream base. In the light theme the top of the sky is blue, and small grey text over it read 2.4:1 to 3.0:1 where 4.5:1 is the line; in rain even the main text fell to 3.3:1. Secondary text is now near the ink, the day rain sky is a bright overcast, and the contrast check measures every page against the darkest day sky as well. The dark theme's smallest labels are lighter.

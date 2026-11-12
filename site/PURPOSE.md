@@ -81,8 +81,8 @@ for a list of gaps (the fleet registers publish those, not this page).
   capacity opens. Written in the company's voice, never one person's. The door
   is one field, typed or spoken, that posts to Loki's studio intake
   (`POST /api/studio-intake`): it files a waitlist entry or a studio request,
-  hands back a private portal link (`/portal/`), and refuses nothing for its
-  shape. No mailbox and no `mailto` are rendered. On failure the visitor's
+  hands back a private link (a portal at `/portal/` once a website is named,
+  Loki's page for the note until then), and refuses nothing for its shape. No mailbox and no `mailto` are rendered. On failure the visitor's
   words stay on the page and "Try again" resends them under the same receipt. **`node site/check-hire.mjs
   <base-url>` pins this in a real browser** — rates present, no first-person
   voice, one field with a microphone, engagement carried into the request, and a

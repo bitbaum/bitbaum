@@ -40,7 +40,10 @@ try {
       // page to its own end when it mounted (2026-11-12). The chat loads when
       // the page is idle, so give it the time it takes before measuring.
       if (await page.locator("[data-intake], [data-chat]").count()) {
-        await page.waitForSelector("[data-intake][data-chatkit], [data-chat][data-chatkit]", { timeout: 15000 }).catch(() => {});
+        // A chat that never mounts leaves the page at its top too: that is
+        // not this check passing, it is this check not having run.
+        await page.waitForSelector("[data-intake][data-chatkit], [data-chat][data-chatkit]", { timeout: 15000 })
+          .catch(() => failures.push(`${width}px ${route}: the chat never mounted, so "opens at the top" was not tested`));
         await page.waitForTimeout(400);
       }
       const scrolled = await page.evaluate(() => Math.round(scrollY));
@@ -75,21 +78,49 @@ try {
     if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)) failures.push("landscape: horizontal overflow");
     await context.close();
   }
-  for (const route of ["/", "/hire/", "/builders/", "/packages/", "/diplodoctor/"]) {
-    const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
-    await isolateWidget(page.context());
-    await page.goto(base + route, { waitUntil: "load" });
-    await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
-    const enlargedOverflow = await page.evaluate(() => {
-      if (document.documentElement.scrollWidth <= innerWidth + 1) return [];
-      const boxes = [...document.querySelectorAll("header *, main *, footer *")].filter((el) => {
-        const r = el.getBoundingClientRect();
-        return r.width && r.right > innerWidth + 1 && getComputedStyle(el).visibility !== "hidden";
-      }).slice(-12).map((el) => `${el.tagName}.${el.className}(${Math.round(el.getBoundingClientRect().left)}..${Math.round(el.getBoundingClientRect().right)}, parent ${Math.round(el.parentElement.getBoundingClientRect().width)}): ${el.textContent.slice(0, 25)}`);
-      return boxes.length ? boxes : ["No visible box identified"];
-    });
-    if (enlargedOverflow.length) failures.push(`200% text ${route}: horizontal overflow (${enlargedOverflow.join("; ")})`);
-    await page.close();
+  // Text at twice its size, on the two phone widths, on every page. Three
+  // things a reader with large text met on 2026-11-12, none of which the
+  // five-page, one-width version of this check could see: a page wider than
+  // the screen (/studio/, the home page, eight project pages), words running out of their
+  // card and cut off by it (badges and prices on /hire/, /map/, /work/), and
+  // a sentence squeezed into a column so narrow its words broke letter by
+  // letter (the "what happens next" lists).
+  for (const width of [320, 390]) {
+    const context = await browser.newContext({ viewport: { width, height: 844 }, reducedMotion: "reduce" });
+    await isolateWidget(context);
+    const page = await context.newPage();
+    for (const route of routes) {
+      await page.goto(base + route, { waitUntil: "load" });
+      await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
+      await page.evaluate(() => document.fonts.ready);
+      const enlarged = await page.evaluate(() => {
+        const problems = [];
+        if (document.documentElement.scrollWidth > innerWidth + 1) problems.push(`the page is ${document.documentElement.scrollWidth}px wide`);
+        const scrollsSideways = (el) => { for (let a = el; a && a !== document.body; a = a.parentElement) if (/auto|scroll/.test(getComputedStyle(a).overflowX)) return true; return false; };
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        const past = [], broken = [];
+        while (walker.nextNode()) {
+          const node = walker.currentNode, el = node.parentElement;
+          if (!node.textContent.trim() || !el || el.closest("[aria-hidden='true'], svg, noscript, script, style")) continue;
+          const cs = getComputedStyle(el);
+          if (cs.visibility === "hidden" || cs.display === "none" || scrollsSideways(el)) continue;
+          const range = document.createRange();
+          range.selectNodeContents(node);
+          if ([...range.getClientRects()].some((c) => c.width && c.right > innerWidth + 1)) past.push(node.textContent.trim().slice(0, 30));
+          if (!el.closest(".next-steps")) continue;
+          for (const word of node.textContent.matchAll(/\S+/g)) {
+            range.setStart(node, word.index);
+            range.setEnd(node, word.index + word[0].length);
+            if (new Set([...range.getClientRects()].map((c) => Math.round(c.top))).size > 1) broken.push(word[0]);
+          }
+        }
+        if (past.length) problems.push(`text runs past the edge of the screen: ${past.slice(0, 4).join(" | ")}`);
+        if (broken.length) problems.push(`words broken across lines: ${broken.slice(0, 6).join(" ")}`);
+        return problems;
+      });
+      failures.push(...enlarged.map((p) => `200% text ${width}px ${route}: ${p}`));
+    }
+    await context.close();
   }
 } finally {
   await browser.close();

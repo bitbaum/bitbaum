@@ -10,7 +10,7 @@
     "cta": "Join the waitlist"
   },
   "waitlist": {
-    "lede": "One message, typed or spoken, is the whole request. It opens a private portal where replies, status and previews appear — no account needed. When a slot opens, the list is worked in the order it was joined.",
+    "lede": "One message, typed or spoken, is the whole request. You get a private link back, no account needed: a portal with replies, status and previews once a website is named, a page that follows your note until then. When a slot opens, the list is worked in the order it was joined.",
     "promises": [
       {
         "title": "Questions now, a person's answer later",
@@ -79,7 +79,7 @@
     },
     {
       "q": "How long is the wait?",
-      "a": "We do not know, and would rather say that than invent a date. The list is worked in the order it was joined, and the only email it produces is the one saying a slot has opened. Joining costs nothing and commits you to nothing."
+      "a": "We do not know, and would rather say that than invent a date. The list is worked in the order it was joined. An email address is optional: leave one and your private link is sent to it, and the studio's answers in a portal reach you there as well. Joining costs nothing and commits you to nothing."
     },
     {
       "q": "What happens if you become unavailable?",

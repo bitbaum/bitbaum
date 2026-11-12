@@ -21,20 +21,22 @@ A builder decides in two minutes whether to join, and can get back in without hu
 - [x] A builders page that says what an approved builder gets, how approval works and what happens after the one message
 - [x] Pages open at their top; the receipt link appears where the reply names it; "Copy your private link" copies
 - [x] A chosen builder is carried with a request that has no website yet, and the page says who was asked for
+- [x] Arriving with a builder chosen lands on the box; the box and the receipt stay on screen after a message, sent or failed
+- [ ] Take the chatkit release that never follows a page upward (chatkit #88), set `--ck-follow-gap` on the contact box, and delete the correction in `site/chat/chat.tsx` that stands in for it
 - [ ] The first studio-reviewed profile in the directory, which is empty today
 - [ ] A builder workspace opened by an account: applications, profile, availability and briefs in one place, without a new private link each time
 - [ ] A page per builder and a directory that can be searched by skill and availability
 
 ### Sign in from the studio site
 The site holds no accounts; a person's account is their Loki account. The header should still know who is looking.
-- [ ] Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on
-- [ ] accountkit: one account control for signed out, loading and signed in, and a menu that stays on the screen wherever it sits
+- [ ] Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on (Loki #1672, open)
+- [ ] accountkit: one account control for signed out, loading and signed in, and a menu that stays on the screen wherever it sits (accountkit #92, open)
 - [ ] The header shows who is signed in, with their application and a way to sign out
 - [ ] One name for sign-in on the portal, the private projects page and the header
 
 ### Move the chrome to sitekit
 Header, menu and footer belong to the shared package; today they are drawn in this repository.
-- [ ] sitekit: its own box model, links to other origins, a footer year that does not read the clock
+- [x] sitekit: its own box model, links to other origins, a footer year that does not read the clock (sitekit #51)
 - [ ] sitekit: a menu script that works without React, a background per surface, reflow at 200% text
 - [ ] sitekit: a scroll-aware masthead, slots for the call to action, the account and the utilities, a sheet menu, a configurable collapse
 - [ ] Render the masthead and footer from sitekit at build time and delete the local menu script

@@ -250,7 +250,7 @@ export function createIntake(cfg, io) {
     if (a.ready && !state.filed) {
       try {
         if (await file(a.summary))
-          status.push(`I have filed this as your ${cfg.purpose === "partner" ? "application" : "brief"} for the studio, with the whole conversation.${state.replyTo ? "" : ASK_EMAIL}`);
+          status.push(`This is now filed as your ${cfg.purpose === "partner" ? "application" : "brief"} for the studio, with the whole conversation.${state.replyTo ? "" : ASK_EMAIL}`);
       } catch {
         status.push("Your words are saved; the summary did not go through this time and will be filed with your next message.");
       }

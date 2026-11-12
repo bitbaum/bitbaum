@@ -77,7 +77,7 @@ test("ready to file: decided by Loki's code, filed once with the whole conversat
   assert.match(filed[0].body.suggestion, /Visitor: Build me a website for my bakery/);
   assert.match(filed[0].body.suggestion, /Loki: Do you have a website today\?/);
   assert.ok(filed[0].body.suggestion.length <= 2000);
-  assert.ok(second.said.some((s) => /filed this as your brief/.test(s.text)));
+  assert.ok(second.said.some((s) => /filed as your brief/.test(s.text)));
   // A third turn with ready again: saved as a follow-up, never filed twice.
   await intake.send("Also a gift card page.");
   assert.equal(posts.filter((p) => /Studio brief —/.test(p.body.suggestion ?? "")).length, 1, "idempotent filing");

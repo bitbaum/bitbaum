@@ -606,7 +606,7 @@ ${body}
       <div class="foot-cols">
         <div class="foot-brand">
           <a class="mark" href="/">${MARK}bitbaum</a>
-          <p>A studio and its builders, in Zürich. Agents do the typing; a person owns the judgement.</p>
+          <p>A studio in Zürich, and a place for builders who work with agents. Agents do the typing; a person owns the judgement.</p>
           ${themeSwitch}
           ${weatherSwitch}
         </div>
@@ -934,7 +934,7 @@ ${askSection}
   </main>`;
   return shell({
     title: "bitbaum — one trunk, many products",
-    description: "A studio and its builders in Zürich. Agents do the typing and a person owns the judgement: build with Loki, join as an independent builder, or join the studio's waitlist.",
+    description: "A studio in Zürich, and a place for builders who work with agents. Agents do the typing and a person owns the judgement: build with Loki, join as an independent builder, or join the studio's waitlist.",
     path: "/", body, nav: "/", script: CHAT_SCRIPT,
   });
 }
@@ -947,7 +947,7 @@ export function buildersPage(packages = {}) {
   const gets = [
     ["Your own name", "You work under your own name, agree your own scope and price, and are paid by the customer directly. Applying costs nothing, and the studio takes no cut."],
     ["The studio's system", `Loki directs the agents, and ${pkgCount} open packages cover sign-in, chat, search, mail and design, so a project starts from parts that already run. <a href="/packages/">The packages</a>`],
-    ["A profile people can check", "Once approved you publish a profile here: your name, what you build, a link to your work, your rate, and whether you are available. It is shown when you say so."],
+    ["A profile people can check", "Once approved you propose a profile: your name, what you build, a link to your work, your rate, and whether you are available. The studio reviews it, and it is listed here only with your consent and while you are available."],
     ["Briefs with a scope", "A brief the studio assigns to you arrives in your private application with its scope. You deliver previews there, and the customer accepts an exact version."],
   ].map(([h, t]) => `          <div class="depth-block"><span class="label">${h}</span><p>${t}</p></div>`).join("\n");
   const body = `  <main id="main">
@@ -971,7 +971,7 @@ ${gets}
       <ol class="next-steps" aria-label="What happens next">
         <li><strong>Now</strong> One message opens your private application. Its link appears here, and goes to your email if you give one.</li>
         <li><strong>Then</strong> A person at the studio reads your work and answers in the application.</li>
-        <li><strong>Approved</strong> You publish your profile, set your availability, and can connect an account so a lost link is never a lost profile.</li>
+        <li><strong>Approved</strong> You propose your profile and set your availability; the studio reviews it before it is listed. You can connect an account so a lost link is never a lost profile.</li>
       </ol>
       <p><a class="textlink" href="/academy/">The optional course and its exam</a></p></div>${intakeMount({ purpose: "partner", prompt: "Hello. Who are you, what do you build, and where can the studio see your work? Write it or say it — one message opens your private application. Loki may ask a question or two; a person at the studio reads it and answers there." })}</div></section>
     <section class="section" id="builders"><div class="wrap">
@@ -1382,7 +1382,7 @@ ${hire.waitlist.promises.map((w) => `          <article class="card text">
           <ol class="next-steps" aria-label="What happens when you send it">
             <li><strong>On send</strong> Your words are saved as a private request before anything answers. Sending books no work and agrees no price.</li>
             <li><strong>In seconds</strong> Loki, the studio's assistant, may ask what exists today, what must work and whether there is a deadline. Answer, or say "send it".</li>
-            <li><strong>A person</strong> Someone at the studio reads all of it and replies in your private portal, and by email if you gave an address.</li>
+            <li><strong>A person</strong> Someone at the studio reads all of it. What happens next shows on your private link: a portal with replies and previews once a website is named, a page that follows your note until then. Leave an email address and the link is sent there too.</li>
             <li><strong>A slot</strong> When one opens, the list is worked in the order it was joined.</li>
           </ol>
 ${intakeMount({ prompt: hire.waitlist.prompt, offerId: hire.commissioningOffer })}

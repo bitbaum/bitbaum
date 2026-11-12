@@ -308,6 +308,9 @@ async function post(url: string, body: unknown, key?: string) {
   return data;
 }
 
+// What the composer sends as the words of a message that is only a picture.
+const PICTURE_ONLY = "See the picture.";
+
 function Intake({ cfg }: { cfg: IntakeCfg }) {
   const [messages, setMessages] = useState<ChatMessageData[]>([{ id: "hello", role: "assistant", content: cfg.prompt, speaker: DOOR_LOKI }]);
   const [sending, setSending] = useState(false);
@@ -358,16 +361,19 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
     const t = text.trim();
     if ((!t && !attachments.length) || sending) return false;
     const { images, refused } = picturesFrom(attachments);
-    if (!images.length && !t) {
+    // The composer sends its stand-in words when there is an attachment and
+    // nothing typed. If no picture survived, those words describe nothing:
+    // say why, and file no request.
+    if (!images.length && (!t || (attachments.length > 0 && t === PICTURE_ONLY))) {
       show(refused.map((r) => ({ text: r })));
       return false;
     }
     setMessages((prev) => [
       ...prev.filter((m) => !m.failed),
-      { id: `${Date.now()}-u`, role: "user" as const, content: t || "See the picture.", attachments: images.map((i) => ({ kind: "image" as const, name: i.name, previewUrl: i.url })) },
+      { id: `${Date.now()}-u`, role: "user" as const, content: t || PICTURE_ONLY, attachments: images.map((i) => ({ kind: "image" as const, name: i.name, previewUrl: i.url })) },
       ...refused.map((r, i) => ({ id: `${Date.now()}-r${i}`, role: "assistant" as const, content: r })),
     ]);
-    void run(flow.current!.send(t || "See the picture.", images));
+    void run(flow.current!.send(t || PICTURE_ONLY, images));
     return true;
   };
   const retry = () => {
@@ -386,16 +392,46 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
   } catch { /* an unreadable handoff leaves an empty box */ }
 
   const fresh = messages.length === 1;
-  // A brief handed over from Loki opens the page at its top, with the filled
-  // box several screens down and nothing saying it arrived. Arriving with one
-  // is a reason to be taken to the box; arriving without one never is.
+  // Arriving with something for the box is a reason to be taken to it:
+  // a brief handed over from Loki, or a builder chosen in the directory
+  // ("Request this builder"). Both used to open the page at its top with the
+  // box several screens down and nothing saying what had arrived. Arriving
+  // with neither never moves the page. Only a brief takes the cursor: its
+  // words are already in the box; a chosen builder is read first.
   const card = useRef<HTMLDivElement | null>(null);
   const handedOver = useRef(Boolean(draft));
+  const arrived = useRef(Boolean(draft) || Boolean(cfg.partner));
   useEffect(() => {
-    if (!handedOver.current) return;
+    if (!arrived.current) return;
     card.current?.scrollIntoView({ block: "center" });
-    card.current?.querySelector("textarea")?.focus({ preventScroll: true });
+    if (handedOver.current) card.current?.querySelector("textarea")?.focus({ preventScroll: true });
   }, []);
+  // chatkit up to 0.26 follows a page-owned thread by putting the END of the
+  // thread on the bottom edge of the screen. The receipt and this box come
+  // after the thread, so the first message pushed both under the fold with
+  // the cursor still in the box (measured: 300px up on a phone), and so did
+  // a failed send, whose "Try again" makes the thread taller. Whenever the
+  // card changes, and the thread is on screen with the box under the fold,
+  // bring the box back by the least movement. A reader who has scrolled away
+  // from the conversation is left where they are. A chatkit that never
+  // follows upward leaves this little to do.
+  useEffect(() => {
+    if (fresh) return;
+    const keep = () => {
+      const box = card.current?.querySelector(".ck-composer")?.getBoundingClientRect();
+      const thread = card.current?.querySelector(".ck-thread")?.getBoundingClientRect();
+      if (!box || !thread) return;
+      // "In the conversation" is a thread with a readable part of it on
+      // screen; the page then moves only as far as the box needs.
+      const shown = Math.min(thread.bottom, innerHeight) - Math.max(thread.top, 0);
+      if (box.bottom > innerHeight && shown >= Math.min(96, thread.height)) scrollBy({ top: box.bottom - innerHeight + 12, behavior: "instant" });
+    };
+    keep();
+    if (typeof ResizeObserver === "undefined" || !card.current) return;
+    const seen = new ResizeObserver(keep);
+    seen.observe(card.current);
+    return () => seen.disconnect();
+  }, [fresh, messages.length, links.length, sending, failed]);
   return (
     <div className="chat-card intake-card" ref={card}>
       {cfg.partnerName && fresh && (
@@ -430,7 +466,7 @@ function Intake({ cfg }: { cfg: IntakeCfg }) {
         placeholder={fresh ? (cfg.purpose === "partner" ? "Who you are, what you build, and a link to your work…" : "What should be built or changed — a screenshot helps…") : "Answer, add anything, or say “send it”…"}
         sending={sending}
         attach={ATTACH_LIMITS}
-        attachmentOnlyText="See the picture."
+        attachmentOnlyText={PICTURE_ONLY}
         voice={voice(cfg)}
         labels={{ attachNotes: { tooMany: (max) => `Up to ${max} pictures per message.` } }}
       />
@@ -475,10 +511,17 @@ for (const el of document.querySelectorAll<HTMLElement>("[data-chat]")) {
 
 // A link on the page that leads to one of these boxes ("Ask about …", "Join
 // the waitlist") means "I want to write": the box takes the cursor once the
-// page has scrolled to it. Only for a link followed on this page; arriving on
+// page has scrolled to its section, and only if the box is then on screen.
+// Where the section's own words stand between the heading and the box (a
+// phone), a cursor in a box nobody can see would open the keyboard over the
+// text they came to read. Only for a link followed on this page; arriving on
 // a page with a hash opens no keyboard nobody asked for.
 addEventListener("hashchange", () => {
   const section = location.hash.length > 1 ? document.getElementById(location.hash.slice(1).split("&")[0]) : null;
   const box = section?.querySelector<HTMLTextAreaElement>("[data-chat] textarea, [data-intake] textarea");
-  if (box) setTimeout(() => box.focus({ preventScroll: true }), 350);
+  if (!box) return;
+  setTimeout(() => {
+    const r = box.getBoundingClientRect();
+    if (r.top >= 0 && r.bottom <= innerHeight) box.focus({ preventScroll: true });
+  }, 350);
 });

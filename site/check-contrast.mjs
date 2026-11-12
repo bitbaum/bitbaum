@@ -41,8 +41,13 @@ const origin = `http://localhost:${server.address().port}`;
 
 // The darkest colour a day sky paints: the top of each weather's day gradient.
 const lumOf = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)).reduce((t, v, i) => t + v * [0.2126, 0.7152, 0.0722][i], 0);
-const daySkies = [...readFileSync(join(here, "sky.mjs"), "utf8").matchAll(/^\s+(\w+):\s+\{ day: \["(#[0-9a-f]{6})"/gim)].map((m) => ({ weather: m[1], top: m[2] }));
-if (daySkies.length < 4) throw new Error("could not read the day skies from site/sky.mjs (the WX table moved?)");
+const skySource = readFileSync(join(here, "sky.mjs"), "utf8");
+const daySkies = [...skySource.matchAll(/^\s+(\w+):\s+\{ day: \["(#[0-9a-f]{6})"/gim)].map((m) => ({ weather: m[1], top: m[2] }));
+// Every kind of weather, or none: a row this pattern no longer reads would
+// drop its sky from the comparison without a word, and it may be the darkest.
+const weathers = JSON.parse(skySource.match(/^export const WEATHERS = (\[[^\]]+\]);/m)?.[1] ?? "[]");
+if (!weathers.length || weathers.some((w) => !daySkies.some((s) => s.weather === w)) || daySkies.length !== weathers.length)
+  throw new Error(`read ${daySkies.length} day skies from site/sky.mjs for ${weathers.length} kinds of weather (the WX table changed shape?)`);
 const darkestSky = daySkies.reduce((a, b) => (lumOf(a.top) <= lumOf(b.top) ? a : b));
 
 const pages = ["/"];
@@ -69,6 +74,9 @@ for (const theme of ["light", "dark"]) {
     // Order matters: Playwright tries the last-registered route first.
     await ctx.route((url) => !url.href.startsWith(origin), (r) => r.abort());
     await ctx.route("**/api/widget/chat", (r) => r.fulfill({ json: { reply: "x", messages: [{ speaker: "loki", text: "A reply long enough to measure, the way a real answer reads." }] } }));
+    // The contact box files a note before the assistant answers; a canned
+    // receipt lets its reply, its status line and the receipt link exist.
+    await ctx.route("**/api/feedback", (r) => r.fulfill({ json: { ok: true, id: "00000000-0000-4000-8000-000000000000", claimUrl: `${origin}/portal/` } }));
     const page = await ctx.newPage();
     for (const path of pages) {
       await page.goto(origin + path, { waitUntil: "load" });
@@ -80,6 +88,20 @@ for (const theme of ["light", "dark"]) {
         await box.fill("How do I start?").catch(() => {});
         await box.press("Enter").catch(() => {});
         await page.waitForFunction(() => document.querySelector("[data-chat]")?.textContent?.includes("A reply long enough"), null, { timeout: 10000 }).catch(() => {});
+      }
+      // The contact box on /hire/ and /builders/ mounts later still (when it
+      // nears the screen, or the page is idle), and none of its text was ever
+      // measured: the prompt, the assistant's name, the reply, the receipt.
+      // Whatever a sent message leaves on the page is text a person reads.
+      const door = page.locator("[data-intake]").first();
+      if (await door.count()) {
+        await door.scrollIntoViewIfNeeded();
+        const words = door.locator("textarea").first();
+        await words.waitFor({ timeout: 15000 });
+        await words.fill("A booking tool for a bakery.").catch(() => {});
+        await words.press("Enter").catch(() => {});
+        await door.locator(".chat-links a, .ck-turn").first().waitFor({ timeout: 10000 }).catch(() => {});
+        await page.waitForTimeout(300);
       }
       const measure = (skyTop) => page.evaluate((skyTop) => {
         const parse = (c) => { const m = c.match(/[\d.]+/g)?.map(Number) ?? [0, 0, 0, 0]; return [m[0], m[1], m[2], m[3] ?? 1]; };

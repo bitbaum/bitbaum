@@ -205,6 +205,12 @@ img { max-width: 100%; display: block; }
   .menu-btn { display: grid; }
 }
 @media (min-width: 900px) { .menu-fallback { display: none; } }
+/* Without scripts the link stands in for the button. The row's child is the
+   <noscript> itself, so the link's own auto margin did nothing and it sat
+   beside the wordmark. Only where scripts are off: with scripts on, a
+   <noscript> holds its markup as plain text, and showing it prints that text
+   in the header. */
+@media (scripting: none) { .top noscript { display: contents; } }
 
 /* The phone menu: a sheet under the header, the site's map in three groups,
    the two actions a visitor most likely came for at the top, 44px rows. */
@@ -263,7 +269,7 @@ img { max-width: 100%; display: block; }
    who does not yet know which of the projects is theirs. */
 .ask-section { border-top: 1px solid var(--line); }
 .ask { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(1.75rem, 5vw, 5rem); align-items: start; }
-.ask-copy { display: grid; gap: 1rem; justify-items: start; }
+.ask-copy { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; justify-items: start; }
 /* The chat sits on the page's own sky. The Starry Night that was painted
    behind it is gone: the night sky itself carries a few Van Gogh stars
    (sky.mjs), past the first screen, faint. */
@@ -340,9 +346,17 @@ img { max-width: 100%; display: block; }
 .bleed-note { margin: 0.9rem 0 0; color: var(--fg); font-size: 0.92rem; line-height: 1.5; }
 .bleed-note a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; }
 /* What happens after the one message: three short lines beside the box. */
-.next-steps { list-style: none; margin: 1.5rem 0 1.25rem; padding: 0; display: grid; gap: 0.85rem; }
+.next-steps { list-style: none; margin: 1.5rem 0 1.25rem; padding: 0; display: grid; gap: 0.85rem; container-type: inline-size; }
 .next-steps li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 0.9rem; padding-top: 0.85rem; border-top: 1px solid var(--line-2); color: var(--fg-2); line-height: 1.55; }
 .next-steps strong { color: var(--fg); font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: var(--tracking-caps); text-transform: uppercase; padding-top: 0.25rem; }
+/* The label column is sized in rem, so it grows with the reader's text size
+   while the list does not: at 200% text on a phone the sentence was left 35px
+   and broke letter by letter. Measured in the reader's own text size, a list
+   this narrow puts the label above its sentence. */
+@container (max-width: 16rem) {
+  .next-steps li { grid-template-columns: minmax(0, 1fr); gap: 0.3rem; }
+  .next-steps strong { padding-top: 0; }
+}
 .bleed-actions + .join-open { margin-top: 2rem; }
 .join-section .steps { margin-top: clamp(1.5rem, 3vw, 2.25rem); }
 .steps { list-style: none; margin: clamp(2rem, 4vw, 3rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 2.5rem); }
@@ -510,7 +524,14 @@ a.card:hover { border-color: var(--fg-3); background: hsl(var(--text-primary) / 
 /* A status word is one word: it never breaks, and a long name wraps beside it
    instead. Without this the phone rule below let "not live" stack one letter
    per line inside its pill (2026-10-18). */
-.card-top .pill { flex: none; white-space: nowrap; }
+.card-top .pill { flex: none; max-width: 100%; white-space: normal; }
+/* A badge beside a title stays whole. At 200% text on a 320px screen it was
+   wider than its card and was cut off ("FOUR TO SIX WE"). When the title has
+   less than 4.5rem left, the badge takes the next line, and wraps its own
+   words only if it is wider than the card. At normal text size no row
+   changes: the longest badge still fits beside a 4.5rem title at 320px. */
+.card:not(.pkg-card) > .card-body > .card-top { flex-wrap: wrap; }
+.card:not(.pkg-card) > .card-body > .card-top > .card-name { flex: 1 1 4.5rem; }
 a.card-name { color: inherit; text-decoration: none; }
 a.card-name:hover { color: var(--accent); }
 .card-what { color: var(--fg-2); font-size: 0.95rem; line-height: 1.5; }
@@ -558,7 +579,7 @@ a.card-name:hover { color: var(--accent); }
 .depth-blocks.pairs { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(1.75rem, 3vw, 2.5rem); }
 @media (max-width: 700px) { .depth-blocks.pairs { grid-template-columns: minmax(0, 1fr); } }
 .depth-blocks + .caption { margin-top: 1.75rem; }
-.depth-block p a { color: inherit; border-bottom: 1px solid var(--line-2); white-space: nowrap; }
+.depth-block p a { color: inherit; border-bottom: 1px solid var(--line-2); }
 .depth-block { display: grid; gap: 0.6rem; align-content: start; padding-top: 1rem; border-top: 2px solid var(--fg); }
 .depth-block p { margin: 0; color: var(--fg); font-size: 1.05rem; line-height: 1.6; text-wrap: pretty; }
 .depth-does { display: grid; gap: 1rem; max-width: 52rem; }
@@ -567,8 +588,11 @@ a.card-name:hover { color: var(--accent); }
 .depth-does li::before { content: ""; position: absolute; left: 0; top: 0.65em; width: 0.55rem; height: 1px; background: var(--fg-3); }
 .depth-connects { margin: 0.5rem 0 0; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--fg-2); line-height: 1.55; }
 .depth-connects .label { display: block; margin-bottom: 0.3rem; }
-.depth-roadmap { display: grid; gap: 0.8rem; max-width: 52rem; }
-.depth-roadmap ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+/* One column is `minmax(0, 1fr)`, never the default `auto`: an auto track is
+   as wide as its widest unbreakable content, which at 200% text made these
+   lists, the "ask" block and the work filters wider than a phone. */
+.depth-roadmap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.8rem; max-width: 52rem; }
+.depth-roadmap ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
 .depth-roadmap li { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; padding: 0 0.9rem; border: 1px solid var(--line-2); border-radius: var(--radius); background: var(--bg-raised); }
 .depth-progress { flex: 0 0 6rem; height: 4px; border-radius: 999px; background: var(--line-2); overflow: hidden; }
 .depth-progress span { display: block; height: 100%; background: var(--fg); }
@@ -579,10 +603,10 @@ a.card-name:hover { color: var(--accent); }
 .work-layout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: clamp(1.5rem, 3vw, 3rem); align-items: start; }
 .work-side { position: sticky; top: calc(var(--nav-h) + 1rem); max-height: calc(100vh - var(--nav-h) - 2rem); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
 .work-filters-summary { display: none; }
-.work-side .filters { display: grid; gap: 1.4rem; padding: 0; border: 0; }
+.work-side .filters { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.4rem; padding: 0; border: 0; }
 .work-side .filters[hidden] { display: none; }
-.filter-group { display: grid; gap: 0.55rem; }
-.chips.vertical { display: grid; gap: 0.3rem; }
+.filter-group { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.55rem; }
+.chips.vertical { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.3rem; }
 .chips.vertical .chip { justify-content: space-between; width: 100%; min-height: 44px; }
 .work-side .filter-search, .work-side .filter-sort { min-width: 0; font-size: 0.72rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; font-family: var(--mono); }
 .work-side .clear { margin-left: 0; justify-self: start; }
@@ -607,7 +631,7 @@ a.card-name:hover { color: var(--accent); }
   .work-filters-summary::after { content: "+"; font-size: 1.25rem; color: var(--fg-3); }
   .work-filters-box[open] .work-filters-summary::after { content: "−"; }
   .work-filters-box .filters { padding: 0 1rem 1.25rem; }
-  .chips.vertical { grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); }
+  .chips.vertical { grid-template-columns: repeat(auto-fill, minmax(min(10rem, 100%), 1fr)); }
 }
 
 /* ─── "used by" / "built from": the same idiom in both directions ──────── */
@@ -634,9 +658,10 @@ a.card-name:hover { color: var(--accent); }
 .pkg-links { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--fg-3); margin-top: auto; padding-top: 0.6rem; }
 .pkg-links a:hover { color: var(--fg); }
 /* A package's name is one word and stays on one line: beside its badges it
-   broke as "threadk / it" on 15 of 18 tiles on a phone. Name above, badges below. */
+   broke as "threadk / it" on 15 of 18 tiles on a phone. Name above, badges
+   below, so the name has the whole tile. It is not forced onto one line:
+   at 200% text on a 320px screen a forced line was cut off by the tile. */
 .pkg-card .card-top { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-.pkg-card .card-name { white-space: nowrap; overflow-wrap: normal; }
 .pkg-card .pkg-badges { display: inline-flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 0.35rem; }
 .pkg-version { color: var(--fg-2); font-variant-numeric: tabular-nums; }
 .pkg-category { color: var(--fg-3); }
@@ -732,7 +757,7 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .home-stack-name { font-size: 1.05rem; }
   .home-stack-line { font-size: 0.79rem; }
   .stack-layer { grid-template-columns: 1fr; padding-block: 2.25rem; }
-  .ask { grid-template-columns: 1fr; }
+  .ask { grid-template-columns: minmax(0, 1fr); }
   .stack-layer.flip .stack-layer-copy { order: 0; }
   .stack-layer-shot { order: -1; position: static; }
   .home-section-head { align-items: flex-start; flex-wrap: wrap; }
@@ -747,7 +772,7 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .pkg-guidance, .pkg-result { grid-column: 1; }
   .uses .chips a, .uses .chips span, .chip { display: inline-flex; align-items: center; min-height: 44px; }
   .hero-cinema { min-height: 74vh; }
-  .btn { padding: 0 1.15rem; font-size: 0.72rem; }
+  .btn, .btn-frame, .btn-frame-accent { padding: 0 1.15rem; }
   .grid, .grid.two, .grid.four { grid-template-columns: 1fr; }
   .hero { padding-top: var(--section-tight); }
   .eyebrow { font-size: 0.64rem; letter-spacing: 0.1em; padding: 0.35rem 0.7rem; }
@@ -1531,7 +1556,7 @@ footer nav a { max-width: 100%; overflow-wrap: anywhere; }
   .foot-cols nav:last-child { grid-column: auto; width: 100%; max-width: 100%; }
   .foot-cols nav:last-child .label { flex-basis: auto; }
   footer nav a { display: block; align-self: stretch; width: 100%; white-space: normal; }
-  .price { flex-wrap: wrap; }
+  .price { flex-wrap: wrap; white-space: normal; }
   .price-unit { max-width: 100%; }
 }
 

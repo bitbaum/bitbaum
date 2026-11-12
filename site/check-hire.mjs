@@ -43,6 +43,12 @@ const say = (ok, m) => {
   console.log((ok ? "PASS " : "FAIL ") + m);
 };
 
+// On screen: wholly inside the viewport, the way a person sees it.
+const onScreen = (p, selector) => p.evaluate((selector) => {
+  const r = document.querySelector(selector)?.getBoundingClientRect();
+  return Boolean(r) && r.width > 0 && r.top >= 0 && r.bottom <= innerHeight;
+}, selector);
+
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 // The live widget keeps a connection open, so "networkidle" never comes; the
 // checks wait for the page's own input instead.
@@ -121,6 +127,10 @@ say(chats.length === 1 && chats[0].mode === "intake" && chats[0].purpose === "st
 say(/What exists today/.test(asked), "and its answer is what the visitor reads — a question, not a stamp");
 say(/saved as a private request/i.test(asked) && /address here — optional/i.test(asked), "the visitor is told it is kept, and that an email is optional");
 say(/books no work and agrees no price/i.test(asked), "and that sending books no work and agrees no price");
+// The page followed the thread to its end and left the receipt and the box
+// under the fold, with the cursor still in the box (2026-11-12).
+say(await onScreen(page, `${W} .ck-input`), "after the first message the box is still on screen");
+say(await onScreen(page, `${W} .chat-links`), "and the receipt is on screen with it");
 say((await page.$$(`${W} button[aria-label="Attach a screenshot or file"]`)).length === 1, "the door takes a screenshot (+ attach)");
 await page.fill(`${W} .ck-input`, "no, something new");
 await page.press(`${W} .ck-input`, "Enter");
@@ -141,7 +151,7 @@ await page.fill(`${W} .ck-input`, "send it");
 await page.press(`${W} .ck-input`, "Enter");
 await page.waitForTimeout(800);
 say(posts === 5 && /^Studio brief — from the website conversation/.test(last?.suggestion ?? "") && /Visitor: an app/.test(last?.suggestion ?? "") && /Loki: That sounds like a Rescue/.test(last?.suggestion ?? ""), `"send it" files the brief with the conversation (${posts})`);
-say(/filed this as your brief/i.test(await page.innerText(`${W} .ck-thread`)), "and says so");
+say(/filed as your brief/i.test(await page.innerText(`${W} .ck-thread`)), "and says so");
 
 // a picture travels with the words: to the record and to Loki
 await page.reload({ waitUntil: "load" });
@@ -268,7 +278,43 @@ const told = await p3.innerText("#join .ck-thread");
 say(/your private application; keep it/i.test(told) && !/\bapproved\b/i.test(told), "it says the application is saved and private, and does not claim approval");
 say(partnerChats.length === 1 && partnerChats[0].purpose === "partner", "Loki answers the application in builder mode");
 say((await application_.count()) === 1 && (await application_.getAttribute("href")).includes("/portal/#id="), "a saved application offers its private portal");
+await p3.waitForTimeout(400);
+say((await onScreen(p3, "#join .ck-input")) && (await onScreen(p3, "#join .chat-links")), "on a phone the box and the receipt are on screen after the first message");
 await ctx3.close();
+
+// Arriving from the directory with a builder chosen, on a phone. The page
+// opened at its top with "Asking for …" 5,400px down (2026-11-12).
+const ctx4 = await browser.newContext({ viewport: { width: 390, height: 844 } });
+await ctx4.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
+const p4 = await ctx4.newPage();
+let stray = 0;
+for (const api of ["**/api/feedback", "**/api/studio-intake", "**/api/widget/chat"]) {
+  await p4.route(api, async (route) => {
+    if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers: cors });
+    stray++;
+    await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, id: "4a1bbf67-7ced-411b-9eec-9bdbb975115b", reply: "x", messages: [{ speaker: "loki", text: "x" }] }) });
+  });
+}
+await p4.goto(base + "/hire/#partner=4a1bbf67-7ced-411b-9eec-9bdbb975115b&name=Ann%20Muster", { waitUntil: "load" });
+await p4.waitForSelector(`${W} .ck-input`, { timeout: 15000 }).catch(() => {});
+await p4.waitForTimeout(700);
+say((await onScreen(p4, `${W} .intake-for`)) && /Asking for Ann Muster/.test(await p4.innerText(`${W} .intake-for`).catch(() => "")), "arriving with a builder chosen lands on the box, which names the builder");
+say(await p4.evaluate(() => document.activeElement?.tagName !== "TEXTAREA"), "without putting the cursor in it (no keyboard opens unasked)");
+// A link on the page that leads to the box takes the cursor only if the box
+// is then on screen. On a phone the section's words stand before it.
+await p4.goto(base + "/hire/", { waitUntil: "load" });
+await p4.waitForSelector(`${W} .ck-input`, { timeout: 15000 }).catch(() => {});
+await p4.locator('main a[href="#waitlist"]:visible').first().click();
+await p4.waitForTimeout(1200);
+say((await p4.evaluate(() => document.activeElement?.tagName !== "TEXTAREA")) || (await onScreen(p4, `${W} .ck-input`)), "a link to the box never puts the cursor in a box that is off the screen");
+// A file that is not a picture, and no words: nothing to file.
+await p4.locator(`${W} .ck-input`).scrollIntoViewIfNeeded();
+await p4.locator(`${W} input[type=file]`).first().setInputFiles({ name: "notes.txt", mimeType: "text/plain", buffer: Buffer.from("hello") });
+await p4.waitForTimeout(300);
+await p4.press(`${W} .ck-input`, "Enter");
+await p4.waitForTimeout(900);
+say(stray === 0, `a file that is not a picture, with no words, files no request (${stray})`);
+await ctx4.close();
 
 await browser.close();
 console.log(fail ? `\n${fail} FAILED` : "\nall intake checks passed");

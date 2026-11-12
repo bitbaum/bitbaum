@@ -17,7 +17,8 @@ function el(tag, attributes = {}, ...children) {
 }
 const text = (copy, className = "") => el("p", { class: className, text: copy ?? "" });
 // "9/30/2026, 12:00:00 AM" is a log line. A person reads "30 Sept 2026, 14:05".
-const when = (at) => { const d = new Date(at); return Number.isNaN(d.getTime()) ? "" : new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(d); };
+// No time given is no time shown: `new Date(null)` is 1 January 1970.
+const when = (at) => { const d = at == null || at === "" ? null : new Date(at); return !d || Number.isNaN(d.getTime()) ? "" : new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(d); };
 const button = (copy) => el("button", { type: "submit", class: "btn primary", text: copy });
 const link = (copy, href, className = "textlink") => el("a", { href, class: className, text: copy });
 function field(form, name, title, { type = "text", max = 2000, required = true, value = "", options, min } = {}) {
@@ -78,24 +79,39 @@ function copyLink(access) {
   });
   return el("div", { class: "portal-keep" }, copy, told);
 }
-async function directory(root) {
+// A profile's link is whatever its builder wrote. Only a web address becomes
+// a link on this origin.
+const webUrl = (raw) => { try { const u = new URL(raw); return u.protocol === "https:" || u.protocol === "http:" ? u.href : ""; } catch { return ""; } };
+async function directory(root, again = false) {
   root.replaceChildren(text("Checking builder availability…", "caption"));
+  // "Check again" removes the button that had the keyboard's place. Hand it
+  // to what replaced the button, so the next Tab starts from the answer.
+  const settle = (...nodes) => {
+    root.replaceChildren(...nodes);
+    if (!again) return;
+    root.tabIndex = -1;
+    root.focus({ preventScroll: true });
+  };
   try {
     const data = await api(root.dataset.apiOrigin, "/api/studio-partners");
     if (!data.partners?.length) {
       // An empty list is a state with a way forward, drawn as one block: what
       // is true, then what a customer and a builder can each do now.
-      root.replaceChildren(el("div", { class: "portal-empty" },
+      settle(el("div", { class: "portal-empty" },
         el("h3", { text: "No builder is listed yet." }),
         text("The first applications are being reviewed, and a profile appears here only when its builder is approved and available. Until then, build it yourself with Loki, or send the studio a brief."),
         el("div", { class: "portal-empty-actions" }, link("Use free Loki", root.dataset.apiOrigin + "/commission", "btn secondary"), link("Send the studio a brief", "/hire/#waitlist", "btn secondary"), link("Apply as a builder", "#join", "btn secondary"))));
       return;
     }
-    root.replaceChildren(...data.partners.map((p) => el("article", { class: "portal-card" }, el("h3", { text: p.name }), text(p.headline), text(`${p.rate} · ${p.availability}`), ...(p.coursePassed ? [text("Passed the bitbaum systems design course", "caption")] : []), link("View their work", p.url), link("Request this builder", `/hire/#partner=${p.id}&name=${encodeURIComponent(p.name)}`, "btn primary"))));
+    // A request can only name a builder by an id /hire/ accepts; a card
+    // without one offers no button that would silently drop the choice.
+    settle(...data.partners.map((p) => el("article", { class: "portal-card" }, el("h3", { text: p.name }), text(p.headline), text(`${p.rate} · ${p.availability}`), ...(p.coursePassed ? [text("Passed the bitbaum systems design course", "caption")] : []),
+      webUrl(p.url) ? link("View their work", webUrl(p.url)) : null,
+      /^[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}$/i.test(p.id) ? link("Request this builder", `/hire/#partner=${p.id}&name=${encodeURIComponent(p.name)}`, "btn primary") : null)));
   } catch (err) {
     const retry = el("button", { type: "button", class: "btn secondary", text: "Check again" });
-    retry.addEventListener("click", () => directory(root));
-    root.replaceChildren(el("div", { class: "portal-empty" }, text(err.message, "portal-error"), el("div", { class: "portal-empty-actions" }, retry, link("Use free Loki", root.dataset.apiOrigin + "/commission", "btn secondary"))));
+    retry.addEventListener("click", () => directory(root, true));
+    settle(el("div", { class: "portal-empty" }, text(err.message, "portal-error"), el("div", { class: "portal-empty-actions" }, retry, link("Use free Loki", root.dataset.apiOrigin + "/commission", "btn secondary"))));
   }
 }
 function portal(root) {
@@ -212,7 +228,7 @@ function portal(root) {
     }
     actionForm(content, "Send a reply", "message", [{ name: "body", title: "Add context or answer the reviewer", type: "textarea" }], (v) => ({ body: v.body }));
     const history = el("section", { class: "portal-card" }, el("h2", { text: "Request history" }));
-    for (const event of request.history) history.append(el("article", { class: "portal-history" }, text(`${event.actor} · ${when(event.at)}${event.version ? ` · version ${event.version}` : ""}`, "caption"), text(event.body, "portal-words")));
+    for (const event of request.history) history.append(el("article", { class: "portal-history" }, text([event.actor, when(event.at), event.version ? `version ${event.version}` : ""].filter(Boolean).join(" · "), "caption"), text(event.body, "portal-words")));
     content.append(history);
     const refresh = el("button", { type: "button", class: "btn secondary", text: "Refresh status" }); refresh.addEventListener("click", load); content.append(refresh);
     root.replaceChildren(content);
