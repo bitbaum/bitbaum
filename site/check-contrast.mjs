@@ -74,9 +74,13 @@ for (const theme of ["light", "dark"]) {
     // Order matters: Playwright tries the last-registered route first.
     await ctx.route((url) => !url.href.startsWith(origin), (r) => r.abort());
     await ctx.route("**/api/widget/chat", (r) => r.fulfill({ json: { reply: "x", messages: [{ speaker: "loki", text: "A reply long enough to measure, the way a real answer reads." }] } }));
-    // The contact box files a note before the assistant answers; a canned
-    // receipt lets its reply, its status line and the receipt link exist.
-    await ctx.route("**/api/feedback", (r) => r.fulfill({ json: { ok: true, id: "00000000-0000-4000-8000-000000000000", claimUrl: `${origin}/portal/` } }));
+    // The contact box saves the words before the assistant answers: as a
+    // note on /hire/ (which shows a receipt only for a link on the host it
+    // posted to), as an application on /builders/. Canned answers to both
+    // let the reply, the status line and the receipt exist.
+    const SAVED = "00000000-0000-4000-8000-000000000000";
+    await ctx.route("**/api/feedback", (r) => r.fulfill({ json: { ok: true, id: SAVED, claimUrl: `${new URL(r.request().url()).origin}/claim-feedback?token=x` } }));
+    await ctx.route("**/api/studio-intake", (r) => r.fulfill({ json: { ok: true, id: SAVED } }));
     const page = await ctx.newPage();
     for (const path of pages) {
       await page.goto(origin + path, { waitUntil: "load" });
@@ -98,9 +102,16 @@ for (const theme of ["light", "dark"]) {
         await door.scrollIntoViewIfNeeded();
         const words = door.locator("textarea").first();
         await words.waitFor({ timeout: 15000 });
-        await words.fill("A booking tool for a bakery.").catch(() => {});
-        await words.press("Enter").catch(() => {});
-        await door.locator(".chat-links a, .ck-turn").first().waitFor({ timeout: 10000 }).catch(() => {});
+        await words.fill("A booking tool for a bakery.");
+        await words.press("Enter");
+        // A step that measures less than it says is worse than none: if the
+        // reply or the receipt never appears, that is a failure, not a pass.
+        const arrived = await Promise.all([
+          door.getByText("A reply long enough").first().waitFor({ timeout: 10000 }).then(() => true, () => false),
+          door.locator(".chat-links a").first().waitFor({ timeout: 10000 }).then(() => true, () => false),
+        ]);
+        if (!arrived[0]) failures.push(`${path} ${theme} ${width}px: the contact box showed no reply to a sent message, so its text was not measured`);
+        if (!arrived[1]) failures.push(`${path} ${theme} ${width}px: the contact box showed no receipt link, so it was not measured`);
         await page.waitForTimeout(300);
       }
       const measure = (skyTop) => page.evaluate((skyTop) => {
@@ -162,7 +173,7 @@ await browser.close();
 server.close();
 
 if (failures.length) {
-  console.error(`✗ ${failures.length} text element(s) below WCAG AA contrast:`);
+  console.error(`✗ ${failures.length} contrast finding(s): text below WCAG AA, or text that could not be measured:`);
   for (const f of failures.slice(0, 60)) console.error(`  ${f}`);
   if (failures.length > 60) console.error(`  … and ${failures.length - 60} more`);
   process.exit(1);

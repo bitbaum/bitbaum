@@ -30,7 +30,7 @@ A builder decides in two minutes whether to join, and can get back in without hu
 ### Sign in from the studio site
 The site holds no accounts; a person's account is their Loki account. The header should still know who is looking.
 - [ ] Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on (Loki #1672, open)
-- [ ] accountkit: one account control for signed out, loading and signed in, and a menu that stays on the screen wherever it sits (accountkit #92, open)
+- [x] accountkit: one account control for signed out, loading and signed in, and a menu that stays on the screen wherever it sits (accountkit #92)
 - [ ] The header shows who is signed in, with their application and a way to sign out
 - [ ] One name for sign-in on the portal, the private projects page and the header
 
@@ -45,6 +45,12 @@ Header, menu and footer belong to the shared package; today they are drawn in th
 A missing page should show the site and a way on, not an empty response.
 - [x] The build writes a page for a missing address, with the header and four ways on
 - [ ] Caddy on the box serves it for a missing path with the 404 status, and the publish check asks for it
+
+### Read well at any text size
+A reader who doubles their text size on a phone gets every word, whole.
+- [x] No page is wider than the screen and no text is cut off at 200% text on 320px and 390px, checked on every page
+- [ ] A one-word card title ("Diplodoctor", "design-tokens") still breaks mid-word at 200% text on a 320px screen, because the card's padding grows with the text; size it so the word fits
+- [ ] A reading surface behind text sections, so a drifting cloud never passes behind a line
 
 ### Make studio development traceable
 Course, portal and product decisions should survive conversations and become visible work.

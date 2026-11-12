@@ -1382,7 +1382,7 @@ ${hire.waitlist.promises.map((w) => `          <article class="card text">
           <ol class="next-steps" aria-label="What happens when you send it">
             <li><strong>On send</strong> Your words are saved as a private request before anything answers. Sending books no work and agrees no price.</li>
             <li><strong>In seconds</strong> Loki, the studio's assistant, may ask what exists today, what must work and whether there is a deadline. Answer, or say "send it".</li>
-            <li><strong>A person</strong> Someone at the studio reads all of it. What happens next shows on your private link: a portal with replies and previews once a website is named, a page that follows your note until then. Leave an email address and the link is sent there too.</li>
+            <li><strong>A person</strong> Someone at the studio reads all of it. What happens next shows on your private link: a portal with replies and previews once a website is named, a page that follows your note until then. Leave an email address and a link to follow it is sent there too.</li>
             <li><strong>A slot</strong> When one opens, the list is worked in the order it was joined.</li>
           </ol>
 ${intakeMount({ prompt: hire.waitlist.prompt, offerId: hire.commissioningOffer })}

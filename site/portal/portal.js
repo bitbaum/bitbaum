@@ -86,15 +86,23 @@ async function directory(root, again = false) {
   root.replaceChildren(text("Checking builder availability…", "caption"));
   // "Check again" removes the button that had the keyboard's place. Hand it
   // to what replaced the button, so the next Tab starts from the answer.
+  // The answer's first words take it, not the whole grid: a focus ring drawn
+  // round the grid was a 350px box whose top edge ran into the heading above.
   const settle = (...nodes) => {
     root.replaceChildren(...nodes);
     if (!again) return;
-    root.tabIndex = -1;
-    root.focus({ preventScroll: true });
+    const first = root.querySelector("h3, .portal-error") ?? root;
+    first.tabIndex = -1;
+    first.focus({ preventScroll: true });
   };
   try {
     const data = await api(root.dataset.apiOrigin, "/api/studio-partners");
-    if (!data.partners?.length) {
+    // A profile is what its builder wrote, so any part of it can be missing:
+    // only what is there is printed ("null · undefined" was a rate line), and
+    // an entry with no name is not a profile anyone can ask for.
+    const said = (v) => (typeof v === "string" ? v.trim() : "");
+    const listed = (Array.isArray(data.partners) ? data.partners : []).filter((p) => said(p?.name));
+    if (!listed.length) {
       // An empty list is a state with a way forward, drawn as one block: what
       // is true, then what a customer and a builder can each do now.
       settle(el("div", { class: "portal-empty" },
@@ -105,9 +113,12 @@ async function directory(root, again = false) {
     }
     // A request can only name a builder by an id /hire/ accepts; a card
     // without one offers no button that would silently drop the choice.
-    settle(...data.partners.map((p) => el("article", { class: "portal-card" }, el("h3", { text: p.name }), text(p.headline), text(`${p.rate} · ${p.availability}`), ...(p.coursePassed ? [text("Passed the bitbaum systems design course", "caption")] : []),
+    settle(...listed.map((p) => el("article", { class: "portal-card" }, el("h3", { text: said(p.name) }),
+      said(p.headline) ? text(said(p.headline)) : null,
+      said(p.rate) || said(p.availability) ? text([said(p.rate), said(p.availability)].filter(Boolean).join(" · ")) : null,
+      ...(p.coursePassed ? [text("Passed the bitbaum systems design course", "caption")] : []),
       webUrl(p.url) ? link("View their work", webUrl(p.url)) : null,
-      /^[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}$/i.test(p.id) ? link("Request this builder", `/hire/#partner=${p.id}&name=${encodeURIComponent(p.name)}`, "btn primary") : null)));
+      /^[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}$/i.test(p.id) ? link("Request this builder", `/hire/#partner=${p.id}&name=${encodeURIComponent(said(p.name))}`, "btn primary") : null)));
   } catch (err) {
     const retry = el("button", { type: "button", class: "btn secondary", text: "Check again" });
     retry.addEventListener("click", () => directory(root, true));

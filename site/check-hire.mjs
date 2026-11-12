@@ -112,6 +112,12 @@ await page.route("**/api/widget/chat", async (route) => {
   await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, reply: text, messages: [{ speaker: "loki", text }], ready: go, summary: go ? "An app, something new." : "" }) });
 });
 await page.click('[data-engagement="Rescue"]');
+// The page glides to the section here (no reduced motion). A link to the box
+// puts the cursor in it once the page has come to rest; asked mid-glide, the
+// box was not yet on screen and was left without it (2026-11-12).
+const tookCursor = await page.waitForFunction((w) => document.activeElement === document.querySelector(`${w} .ck-input`), W, { timeout: 5000 }).then(() => true, () => false);
+await page.waitForTimeout(800); // the last few pixels glide too
+say(tookCursor && (await onScreen(page, `${W} .ck-input`)), "a link to the box puts the cursor in it once the page has come to rest, with the whole box in sight");
 await page.fill(`${W} .ck-input`, "an app");
 await page.press(`${W} .ck-input`, "Enter");
 await page.waitForTimeout(600);
@@ -195,6 +201,7 @@ await page.press(`${W} .ck-input`, "Enter");
 await page.waitForTimeout(600);
 const failed = await page.innerText(`${W} .ck-thread`);
 say(/did not reach us/i.test(failed) && /Rails app/.test(failed), "a failed request says so and keeps the words");
+say(await onScreen(page, `${W} .ck-input`), "and the box is still on screen after the failure");
 await page.locator(W).getByRole("button", { name: /try again|retry/i }).first().click().catch(() => {});
 await page.locator(W).getByRole("link", { name: "Open your portal →", exact: true }).waitFor({ timeout: 5000 }).catch(() => {});
 say(tries === 2 && bodies[0].requestId === bodies[1].requestId && bodies[0].accessKey === bodies[1].accessKey, `retry sends the same receipt again, never a second request (${tries})`);
@@ -238,6 +245,10 @@ await p2.fill("#ask .ck-input", "Could this run for our organisation?");
 await p2.press("#ask .ck-input", "Enter");
 await p2.waitForSelector("#ask .ck-turn-answer .ck-md", { timeout: 5000 }).catch(() => {});
 say((await p2.$$("#ask .ck-turn-answer .ck-md")).length >= 1, "a question gets an answer in place");
+// The small chat had the contact box's defect: the first answer left the box
+// to type in under the fold (2026-11-12). It shares the fix.
+await p2.waitForTimeout(400);
+say(await onScreen(p2, "#ask .ck-input"), "and the box to answer in is still on screen");
 await p2.fill("#ask .chat-handoff input", "someone@example.com");
 await p2.click("#ask .chat-handoff button[type=submit]");
 await p2.waitForTimeout(600);
@@ -314,7 +325,43 @@ await p4.waitForTimeout(300);
 await p4.press(`${W} .ck-input`, "Enter");
 await p4.waitForTimeout(900);
 say(stray === 0, `a file that is not a picture, with no words, files no request (${stray})`);
+say(/notes\.txt is not a picture/.test(await p4.innerText(`${W} .intake-note`).catch(() => "")), "it says why, beside the box");
+say((await p4.locator(`${W} .ck-attach-item`).count()) === 0, "the refused file is let go, so it is not sent and refused again with the next message");
+say(/What should be built or changed/.test((await p4.getAttribute(`${W} .ck-input`, "placeholder")) ?? ""), "and no conversation has started: the box still asks its first question");
 await ctx4.close();
+
+// Scrolling away while a reply is pending is the reader's choice. The box
+// used to be pulled back on screen when the reply arrived, 500px down a
+// page the reader had just scrolled up (2026-11-12).
+const ctx5 = await browser.newContext({ viewport: { width: 390, height: 844 } });
+await ctx5.route("**/widget.js", (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
+const p5 = await ctx5.newPage();
+await p5.route("**/api/feedback", async (route) => {
+  if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers: cors });
+  await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, id: "4a1bbf67-7ced-411b-9eec-9bdbb975115b", claimUrl: `${new URL(route.request().url()).origin}/claim-feedback?token=x` }) });
+});
+await p5.route("**/api/widget/chat", async (route) => {
+  if (route.request().method() === "OPTIONS") return route.fulfill({ status: 204, headers: cors });
+  await new Promise((done) => setTimeout(done, 1500));
+  const text = "What exists today, and what has to work when it is done?";
+  await route.fulfill({ status: 200, headers: cors, contentType: "application/json", body: JSON.stringify({ ok: true, reply: text, messages: [{ speaker: "loki", text }], ready: false, summary: "" }) });
+});
+await p5.goto(base + "/hire/", { waitUntil: "load" });
+await p5.waitForSelector(`${W} .ck-input`, { timeout: 15000 }).catch(() => {});
+await p5.locator(`${W} .ck-input`).scrollIntoViewIfNeeded();
+await p5.fill(`${W} .ck-input`, "an app");
+await p5.press(`${W} .ck-input`, "Enter");
+await p5.waitForTimeout(400);
+await p5.mouse.move(195, 300);
+await p5.mouse.wheel(0, -350);
+await p5.waitForTimeout(300);
+const leftAt = await p5.evaluate(() => Math.round(scrollY));
+// (In the thread: the page's own words beside the box say "what exists today" too.)
+await p5.locator(`${W} .ck-thread`).getByText("What exists today").first().waitFor({ timeout: 6000 }).catch(() => {});
+await p5.waitForTimeout(500);
+const stayedAt = await p5.evaluate(() => Math.round(scrollY));
+say(/What exists today/.test(await p5.innerText(`${W} .ck-thread`).catch(() => "")) && Math.abs(stayedAt - leftAt) <= 2, `a reader who scrolled up while the reply was pending is left where they are (${leftAt} then ${stayedAt})`);
+await ctx5.close();
 
 await browser.close();
 console.log(fail ? `\n${fail} FAILED` : "\nall intake checks passed");

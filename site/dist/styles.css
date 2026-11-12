@@ -403,6 +403,8 @@ img { max-width: 100%; display: block; }
 .intake-who { display: block; margin-bottom: 0.35rem; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-2); }
 .intake-for { margin: 0; padding: 0.6rem 0.8rem; border-left: 2px solid var(--ok); color: var(--fg-2); font-size: 0.92rem; line-height: 1.5; }
 .intake-for strong { color: var(--fg); font-weight: 600; }
+/* Why a file was not taken: the same line as "Asking for …", in the warning colour. */
+.intake-note { border-left-color: var(--status); }
 /* chatkit's quiet ink is the shared --text-muted, which on these cards read 1.4:1
    (light) and 2.7:1 (dark) for "Copy" and "Try again". The site's own measured
    tertiary holds AA on both. */
@@ -526,7 +528,7 @@ a.card:hover { border-color: var(--fg-3); background: hsl(var(--text-primary) / 
    per line inside its pill (2026-10-18). */
 .card-top .pill { flex: none; max-width: 100%; white-space: normal; }
 /* A badge beside a title stays whole. At 200% text on a 320px screen it was
-   wider than its card and was cut off ("FOUR TO SIX WE"). When the title has
+   wider than its card and was cut off by it. When the title has
    less than 4.5rem left, the badge takes the next line, and wraps its own
    words only if it is wider than the card. At normal text size no row
    changes: the longest badge still fits beside a 4.5rem title at 320px. */
@@ -579,7 +581,11 @@ a.card-name:hover { color: var(--accent); }
 .depth-blocks.pairs { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(1.75rem, 3vw, 2.5rem); }
 @media (max-width: 700px) { .depth-blocks.pairs { grid-template-columns: minmax(0, 1fr); } }
 .depth-blocks + .caption { margin-top: 1.75rem; }
-.depth-block p a { color: inherit; border-bottom: 1px solid var(--line-2); }
+/* A link here is a name ("origin register", "Software Heritage") and stays in
+   one piece: it moves to the next line whole. It may break only when it is
+   wider than its column, which happens at 200% text on a phone, where a link
+   that could not break ran 101px off the screen. */
+.depth-block p a { display: inline-block; max-width: 100%; color: inherit; border-bottom: 1px solid var(--line-2); }
 .depth-block { display: grid; gap: 0.6rem; align-content: start; padding-top: 1rem; border-top: 2px solid var(--fg); }
 .depth-block p { margin: 0; color: var(--fg); font-size: 1.05rem; line-height: 1.6; text-wrap: pretty; }
 .depth-does { display: grid; gap: 1rem; max-width: 52rem; }
@@ -772,7 +778,11 @@ footer .wrap { display: grid; gap: clamp(2rem, 4vw, 3rem); }
   .pkg-guidance, .pkg-result { grid-column: 1; }
   .uses .chips a, .uses .chips span, .chip { display: inline-flex; align-items: center; min-height: 44px; }
   .hero-cinema { min-height: 74vh; }
-  .btn, .btn-frame, .btn-frame-accent { padding: 0 1.15rem; }
+  /* One size on a phone, and it is the smaller one: at the larger type ten
+     labels that fitted on one line wrapped ("SEND THE STUDIO A / BRIEF").
+     Inline padding only, so a label that does wrap keeps the room above and
+     below it that the 1023px rule gives it. */
+  .btn, .btn-frame, .btn-frame-accent { padding-inline: 1.15rem; font-size: 0.72rem; }
   .grid, .grid.two, .grid.four { grid-template-columns: 1fr; }
   .hero { padding-top: var(--section-tight); }
   .eyebrow { font-size: 0.64rem; letter-spacing: 0.1em; padding: 0.35rem 0.7rem; }

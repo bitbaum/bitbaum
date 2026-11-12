@@ -79,10 +79,11 @@ for a list of gaps (the fleet registers publish those, not this page).
   place in the queue rather than a start date. That also makes the list a
   demand signal — who wants what, at these prices, is worth knowing before
   capacity opens. Written in the company's voice, never one person's. The door
-  is one field, typed or spoken, that posts to Loki's studio intake
-  (`POST /api/studio-intake`): it files a waitlist entry or a studio request,
-  hands back a private link (a portal at `/portal/` once a website is named,
-  Loki's page for the note until then), and refuses nothing for its shape. No mailbox and no `mailto` are rendered. On failure the visitor's
+  is one field, typed or spoken, that posts to Loki: a message that names a
+  website, or a builder's application, goes to the studio intake
+  (`POST /api/studio-intake`) and hands back a private portal at `/portal/`;
+  a message with no website is filed as a note (`POST /api/feedback`) and
+  hands back Loki's page for that note. It refuses nothing for its shape. No mailbox and no `mailto` are rendered. On failure the visitor's
   words stay on the page and "Try again" resends them under the same receipt. **`node site/check-hire.mjs
   <base-url>` pins this in a real browser** — rates present, no first-person
   voice, one field with a microphone, engagement carried into the request, and a

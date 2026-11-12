@@ -13,8 +13,8 @@
     "lede": "One message, typed or spoken, is the whole request. You get a private link back, no account needed: a portal with replies, status and previews once a website is named, a page that follows your note until then. When a slot opens, the list is worked in the order it was joined.",
     "promises": [
       {
-        "title": "Questions now, a person's answer later",
-        "what": "Loki, the studio's assistant, may ask a question or two straight away so the brief is complete. The request lands in the same system the work is run from, and the answer that counts comes from a person who read everything you wrote."
+        "title": "Questions now, then a person reads it all",
+        "what": "Loki, the studio's assistant, may ask a question or two straight away so the brief is complete. The request lands in the same system the work is run from, and a person at the studio reads everything you wrote. What happens next shows on your private link."
       },
       {
         "title": "It goes to us, nowhere else",
@@ -25,7 +25,7 @@
         "what": "Write the same way asking to be removed, and the record is deleted. There is no account to close, because there was never one to open."
       }
     ],
-    "prompt": "Hello. What would you like done? If it is about a website that exists, paste its address and say what should change; if it is something new, just describe it. A sentence is enough — and your email if you would like a reply. Loki may ask a question or two; a person at the studio reads every word and replies."
+    "prompt": "Hello. What would you like done? If it is about a website that exists, paste its address and say what should change; if it is something new, just describe it. A sentence is enough, and your email if you want a link to it sent to you. Loki may ask a question or two; a person at the studio reads every word."
   },
   "commissioningOffer": "rescue",
   "offers": [
@@ -79,7 +79,7 @@
     },
     {
       "q": "How long is the wait?",
-      "a": "We do not know, and would rather say that than invent a date. The list is worked in the order it was joined. An email address is optional: leave one and your private link is sent to it, and the studio's answers in a portal reach you there as well. Joining costs nothing and commits you to nothing."
+      "a": "We do not know, and would rather say that than invent a date. The list is worked in the order it was joined. An email address is optional: leave one and a link to follow your request is sent to it, and the studio's answers in a portal reach you there as well. Joining costs nothing and commits you to nothing."
     },
     {
       "q": "What happens if you become unavailable?",
