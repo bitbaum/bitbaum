@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T10:44:25.918Z",
+  "generatedAt": "2026-11-12T20:23:09.932Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -22,7 +22,7 @@
     "projects": 30,
     "live": 16,
     "clients": 1,
-    "inFlight": 32
+    "inFlight": 2
   },
   "projects": [
     {
@@ -360,7 +360,7 @@
           "title": "Builders on other people's sites",
           "line": "A builder found on Bitbaum is an OrangeCat account with a seat on one project and their own engine; the client pays them through the builder's own OrangeCat service. Bitbaum is the directory and the door.",
           "status": "later",
-          "progress": 67,
+          "progress": 60,
           "targetDate": null,
           "milestones": [
             {
@@ -370,6 +370,14 @@
             {
               "title": "A fee on the assignment, paid to the builder's own wallet when the client accepts",
               "done": true
+            },
+            {
+              "title": "The studio site can ask who is signed in, and sign-in from it returns to the page a person was on",
+              "done": true
+            },
+            {
+              "title": "A builder's applications and briefs opened by their account, without making a new private link each time",
+              "done": false
             },
             {
               "title": "More parallelism without routing work to a different machine silently",
@@ -729,6 +737,18 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-12",
+          "done": "bitbaum.orangecat.ch can show who is signed in. The studio site is static files with no accounts of its own; a person's account there is their Loki account. GET /api/studio-session answers that site, and only that site, with the reader's own session: a name, a handle, a picture, whether they run the studio, and their builder applications by status. No email address, no account or application id, no access key. Signed out is an answer too, with the address to sign in at.\nSigning in from the studio site comes back to the page you were on. /studio/return?to=/builders/ sends a signed-out visitor through sign-in and then back to that page of the studio site. The destination is a path on the studio's own origin and nothing else; anything that does not fit goes to its home page. Signing out from there ends on the studio site as well."
+        },
+        {
+          "date": "2026-11-12",
+          "done": "The homepage has a box to say it in. {#say-it-first} Under \"Say what you want\" there is now the same box and microphone as Loki's chat. Type or say what you want built, and it is kept: sign-up shows your sentence back, and it is waiting in the new-project form when you arrive. Before, the only thing under the headline was a button to a form that never mentioned a project.\nA shorter homepage, with something to look at. {#homepage-shorter} It was more than ten phone screens of text and is now seven and a half, with a small picture for each of the three steps. The twelve problems Loki solves are three on the homepage and all of them on Why Loki.\nThe menu stays with you. {#public-header-stays} The header on every public page now stays at the top while you scroll. It was meant to and did not. From a keyboard, the phone menu takes the focus when it opens and gives it back when it closes, and the Product menu opens when pressed, not when the pointer passes over it.\nA wrong address is not a dead end. {#not-found} An address that leads nowhere shows one line and the way back, inside and outside the app. It used to be a bare \"404\" on a black screen.\nWords a person would say. {#plain-words-2026-11} The Terminal says who the cloud computer is for and what works instead. Home's running rows lead with what the agent is doing this minute. \"Connect a runner\" is \"Connect your computer\"."
+        },
+        {
+          "date": "2026-11-12",
+          "done": "A short message stays on one line. {#chat-bubble-width} A message you sent was drawn narrower than its own words, so \"yes\" could appear as three letters under each other. It takes the room it needs now.\nA wrong password says so. {#wrong-password-says-so} The sign-in form used to say nothing and show the same form again.\nTyping a project name keeps the box. {#onboarding-name-stays} When you added your first project by hand, the name box disappeared after the first letter.\nA long first sentence is accepted. {#long-brief} What you say on the homepage may be up to 2,000 characters, and the new-project form now takes all of it. It used to refuse anything over 300 with \"Invalid body\".\nRevoking a computer's token asks first. {#revoke-asks} One tap on the bin used to revoke it at once. And if the server refuses, the list no longer pretends it is gone.\nPages no longer slide when they load. {#no-load-slide} On a desktop the sidebar was drawn open and then folded, moving the whole page each time.\nEasier by keyboard. {#keyboard-round-two} \"Skip to content\" is the first Tab stop inside the app. The notifications panel, the More sheet, the sessions list and the command box take the keyboard when they open, close with Escape and give it back. A click beside the notifications panel closes it and nothing else."
+        },
+        {
           "date": "2026-11-02",
           "done": "See where Loki presses. {#robot-pointer} While Loki reviews your site, its pointer glides to whatever it is about to press and the thing lights up, with one line saying what it is doing. On the workbench and on Review alike.\nReadable on any screen. {#robot-readable} A desktop page fills a tall column instead of shrinking, a phone page stands like a phone, and on a small screen the view leans in and slides so the press stays in sight. No dark empty band, no squinting.\nLet Loki try it. {#robot-try} On the workbench, a site Loki hasn't looked at yet offers one button: Loki opens it and uses it while you watch, and its agent starts in the next column at the same moment.\nAn ending. {#robot-ending} When a walk finishes while you watch, Loki says so: \"All done. Loki looked at 3 pages and found 2 things worth fixing.\" with one button to see them — or, when nothing needs you, that it looks good."
         },
@@ -795,18 +815,6 @@
         {
           "date": "2026-10-14",
           "done": "Release from the package's page. Under \"Unreleased\", a package's page lists what changed since its last release, newest first, each change marked breaking, new or fix, and says which version that makes — a fix or a feature is the next small step, a breaking change the next big one (under 1.0, the middle number, which is what every project treats as breaking). Release vX.Y.Z asks once, then starts the package repository's own release step: it refuses unless the latest change passed its checks, builds, tags the version and writes the release notes. The panel follows it — releasing, released, or failed with a link to what happened — and the new version reaches every project through its usual updates.\nOnly the package's owner releases. That is whoever owns the Loki project that is the package's repository; for a package no project is, anyone whose GitHub access can write to it. Everyone else sees why not, and the way to connect GitHub when that is what is missing.\nNo dead ends. A repository without the release step says so and links the fleet's pull request that adds it (or the one-tap way to get one); a failing or still-running check links to it; nothing to release says so.\nRollout per version. For each recent version: how many of your projects are on it, have an update to it ready, waiting on tests, held or paused, or are behind with none yet. A version whose update fails its tests anywhere is flagged — \"Red in 2 projects — their tests fail on v0.3.0\" — with the projects and their pull requests.\nPause a release everywhere. The owner's Pause vX.Y.Z everywhere holds every open update to that version, in every project, whatever its setting, at once; those updates show \"Paused by the package owner\" on Approvals, the project and the package page. Resume takes off only the holds the pause added — a project on \"Ask me\" stays held, a hold someone put on by hand stays. An answer given on a paused update applies when it is resumed."
-        },
-        {
-          "date": "2026-10-12",
-          "done": "No download for an account that has the cloud builder. Opened on a second computer, Loki said Fleet Runner was not connected “on this computer” and offered one fix: download the desktop app. “This computer” is the one machine where your account’s desktop app runs, so from any other device that offer was a trap — and the account’s cloud builder was online the whole time. Now the card under a dispatch says “Run it in the cloud” (one tap, the work moves), the empty terminal says “Use the cloud builder”, and the Control banner says plainly that there is nothing to install. The download is offered only to accounts whose cloud builder is private.\nThe Terminal no longer says \"start it\" to a builder that is down. A deep link to a project with no session read “isn’t running on Cloud builder — start it, and it opens here” while the chip beside it said the cloud builder was offline. Now that screen says the builder is offline and what happens to the work, and the start offer waits for a builder that can take it.\nThe cloud builder's pulse is public. /api/health/builder answers 200 while the shared cloud builder is connected and 503 when it is not, so the box watchdog and the fleet sweep alert on it the way they already alert on a dead site. It was offline all night on 2026-10-11 and only a chip inside a signed-in page knew. Each deploy now prints the builder's state and its last journal lines into the CI log, and the feedback queue says “Cloud builder offline” instead of “Watch shows why” when that is the case.\nThe Mac download is not damaged. macOS says the app “is damaged and can’t be opened” because the build is not yet signed by Apple, and right-click → Open does not clear it. /download now leads with the .zip and one Terminal line that installs, clears the refusal and launches it. Signed builds need an Apple Developer account (USD 99 a year); the pipeline is ready for the certificate.\nA Suggestions page. The \"Build next\" row on the Loki start screen only knew about code. The new page under Now reads every front Loki keeps records on — Build, Business, Goals, People, Money, Habits — and offers one thing to do per fact: the report nobody fixed, the delivery waiting on your yes, the goal due Friday at 40%, the subscription renewing Tuesday, the friend you have not spoken to in forty days, the twelve-day streak not checked off yet. Every card says which record it came from.\nTwo answers, no typing. \"Do it\" hands the ask to Loki, already written and already scoped to the project, or opens the one place only you can do it (checking off a habit, accepting a delivery). \"Not now\" puts it away for a month, with an undo. What you put away stays away on the start screen and on Control too.\nIt keeps score, from records. Taken this week, days in a row, taken in all — counted from the decisions you actually made, never estimated.\nPrivate fronts stay private. People, Money and Habits are read only while your PIN zone is unlocked; locked, the page says so and offers the unlock."
-        },
-        {
-          "date": "2026-10-12",
-          "done": "Work sent to the cloud starts again. Since 22:25 UTC on 2026-10-11 the cloud builder stopped itself a few seconds after every start — 220 times — so every cloud dispatch waited in the queue. The form-filling window added to Fleet Runner that evening belongs to the desktop app, and the cloud builder, which runs the same code without a screen, tried to load it at start-up. It now loads only when a form arrives, which only happens on a computer. A new check fails the build if anything the cloud builder loads ever needs the desktop app again. Fleet Runner 0.8.42."
-        },
-        {
-          "date": "2026-10-12",
-          "done": "Search forgives a slip. ⌘K, People, Projects, Control's \"Find project\", Prompts, Goals, Events, chats, essays, the model store and the project pickers all matched the exact letters typed, so \"lkoi\" found nothing and \"jonh\" found nobody. Now one wrong, missing, doubled or swapped letter still finds the thing (two in long words), accents need not be typed (\"zurich\" finds Zürich), and \"orange cat\" finds OrangeCat.\nThe best match comes first in ⌘K, People, Prompts and the pickers, and ⌘K and the prompt picker mark the part of each result that matched. Lists with an order of their own — the sort you picked on Projects, Control and the model store, deadlines, recent chats, the goal tree — keep it; the search only narrows them."
         }
       ],
       "records": {
@@ -817,16 +825,16 @@
           "changelog": "https://github.com/bitbaum/loki/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": "when #1679 merges: in /home/ubuntu/dev/loki-wt-seat merge origin/main, drizzle-kit generate --name seat_drives_session (0139) plus a data statement granting drives_session on qa-agent-walk memberships of the default user, add scripts/test/session-drive-db.ts to test:db and the SKIP list, push, open the PR. Resolve package.json test:db conflicts as PRs land. Then live-probe each deployed PR (unauthenticated: POST /api/token-session -> 401, GET /api/auth/loki/token-session?code=x -> 400) and tell QA to re-walk.",
+      "next": null,
       "now": {
-        "openRuns": 17,
+        "openRuns": 1,
         "lastRun": {
-          "outcome": "user_abort",
-          "at": "2026-11-12T10:35:00.907Z"
+          "outcome": "error",
+          "at": "2026-11-12T14:50:07.549Z"
         },
         "lastLog": {
           "date": "2026-11-12",
-          "done": "Runner breaks 1-5 were already merged and deployed (#1638-#1647); QA seat items 1, 2, 4, 5, 6 and Grok's queue finding are open PRs (#1677 #1679 #1681 #1682 #1683 #1680); item 3 is committed locally on feat/seat-drives-granted-session (0065c37d), waiting for #1679's migration 0138 to land before it takes 0139."
+          "done": "Hosted dispatch (Hermes) FAILED — Automated incident dispatch from bitbaum's monitoring (incident-dispatch.sh). — Command failed: hermes -z Recent activity on this project (newest first — already done, do NOT repeat or undo it):"
         }
       }
     },
@@ -1139,7 +1147,7 @@
       "changelog": [
         {
           "date": "2026-11-12",
-          "done": "A pay page no longer vanishes for a moment. When the database was briefly unreachable, a real pay page answered \"not found\" and a wallet paying a Lightning address was told the person did not exist. A lookup that could not be made is now reported as an error to retry, never as a missing person.\nThe bottom bar shows where you are. On a phone, the tab you were on lost its icon: Explore showed a blank white disc instead of a compass. The icon stays drawn now; the current tab is marked by a heavier line and a bold label.\nA sign-in code survives the trip to your mail app. On a phone, leaving the sign-in page to read the code could bring you back to an empty form, and you had to ask for another code. The page now reopens on the code field, with what you had typed, for fifteen minutes. If you ask for too many codes it says how long to wait instead of \"We could not send a code\", and you can still enter a code you already hold.\nEasier to tap on a phone. \"Forgot password?\", \"Create an account\" and \"Remember me\" on the sign-in page, the logo in the header and the \"Also here\" links on Discover are now full-size tap targets (44px) instead of a line of text. The feedback button no longer sits on top of \"Sign in\".\nChoose which identity signs in to an app. When Loki, Solon or another app sends you to OrangeCat to sign in, the screen that asks \"Allow …?\" now lists your other identities under \"Or continue as\". Tap one and the same screen comes back as that identity; nothing is shared with the app until you press Allow. An identity no longer shows a made-up email address there."
+          "done": "Handing an identity to an address that already has an account says so, and changes nothing. The person accepting the link was told something went wrong, and the identity had already lost its ways in for a hand-over that never happened. The address is now checked as soon as the link proves good: a taken address is refused with \"that address already has an account\", the link keeps working for another address, and the identity is untouched.\nYou can delete your account again after creating an identity. Settings → Delete account failed with an error for anyone who held an identity, and for the identity itself, because a database rule that tidies up hand-over links was not allowed to run during deletion. It runs now, and CI deletes a holder and its identity the way production does on every migration change. The hand-over page that says a link no longer works now offers a way back to OrangeCat.\nSmall text is readable, in light and in dark. Dates, labels, helper lines and footnotes were set in a grey too faint to read comfortably, in the light theme most of all. Grey text and the status colours now clear the accessibility minimum (4.5:1) on every surface in both themes, and a check in the build keeps it there.\nNothing disappears in dark mode. The closing banner on About, Docs, Security and Domains showed only its button, the step numbers on How it works were white on white, and the \"Share via…\" label could not be read. They all show now. Orange buttons such as \"Open in wallet\" have dark lettering in place of white, which was hard to read.\nEasier to use on a phone. Footer links, switches, tabs and the rows of a menu or a select are full-size touch targets, and the footer is about a third shorter. A switch shows clearly whether it is on or off. Headings no longer split a word with a hyphen (\"permission-less\").\nThe status page says only what it measures. It showed \"Bitcoin Integration: Outage\" under \"All Systems Operational\", for a row nothing was monitoring. The row is gone and the headline follows the worst row on the page.\nThe Send button is where you can press it. On a phone, \"Review payment\" sat underneath the bottom bar after you chose a person and an amount, so the form looked unfinished. It now stays just above the bar.\nWorks better with a keyboard or a screen reader. One home link in the header, a main heading on sign-in and the Cat chat, named switches in the Cat's permissions, progress bars that announce their value, a visible focus outline in high-contrast mode, and no smooth scrolling when reduced motion is asked for.\nIdentities are harder to break into, and handing one over really hands it over. An identity that has been given a password or an address of its own can no longer get back to your other identities, by any route. A handed-over identity keeps no way in for the person who gave it: no passkey, linked Google or GitHub login, second factor, password or app sign-in they set up. Mail about an identity now reaches you at your main address instead of going nowhere. Settings says plainly when your identities could not be loaded, warns that deleting your main account deletes your identities too, and the menu stays up to date as you add, delete or hand over identities.\nSee what is waiting in your other identities. The menu under your picture shows an unread count beside each of your other identities, and a dot on your picture when any of them has something waiting, so you no longer have to switch into each one to find out. Settings shows the same count.\nHand an identity over to someone else. In Settings, under an identity, \"Hand over\" creates a link. Send it to the person who should have the identity. When they open it, give their email and accept, it is their account, with everything it owns including its wallets, and you can no longer switch to it. The link is shown once, works for seven days, and you can cancel it until it is used.\nThe menu under your picture is the same one every bitbaum product has. It lists your other identities first, then Dashboard, My projects, Your page and Edit profile, then Appearance and Sign out. Arrow keys move through every row, Escape closes it, and if signing out or switching fails the menu stays open and says so. It replaces OrangeCat's own menu, which is gone.\nA pay page no longer vanishes for a moment. When the database was briefly unreachable, a real pay page answered \"not found\" and a wallet paying a Lightning address was told the person did not exist. A lookup that could not be made is now reported as an error to retry, never as a missing person.\nThe bottom bar shows where you are. On a phone, the tab you were on lost its icon: Explore showed a blank white disc instead of a compass. The icon stays drawn now; the current tab is marked by a heavier line and a bold label.\nA sign-in code survives the trip to your mail app. On a phone, leaving the sign-in page to read the code could bring you back to an empty form, and you had to ask for another code. The page now reopens on the code field, with what you had typed, for fifteen minutes. If you ask for too many codes it says how long to wait instead of \"We could not send a code\", and you can still enter a code you already hold.\nEasier to tap on a phone. \"Forgot password?\", \"Create an account\" and \"Remember me\" on the sign-in page, the logo in the header and the \"Also here\" links on Discover are now full-size tap targets (44px) instead of a line of text. The feedback button no longer sits on top of \"Sign in\".\nChoose which identity signs in to an app. When Loki, Solon or another app sends you to OrangeCat to sign in, the screen that asks \"Allow …?\" now lists your other identities under \"Or continue as\". Tap one and the same screen comes back as that identity; nothing is shared with the app until you press Allow. An identity no longer shows a made-up email address there."
         },
         {
           "date": "2026-11-11",
@@ -1226,16 +1234,16 @@
           "changelog": "https://github.com/bitbaum/orangecat/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": "triage, check PR 1664, then one PR per item",
+      "next": null,
       "now": {
-        "openRuns": 11,
+        "openRuns": 0,
         "lastRun": {
           "outcome": "success",
-          "at": "2026-11-12T10:41:35.239Z"
+          "at": "2026-11-12T18:46:31.402Z"
         },
         "lastLog": {
           "date": "2026-11-12",
-          "done": "picked up the Cat Bot QA findings (P0 1-5, P1 1-11)"
+          "done": "e2e ok — no changes (mwdwf70c)"
         }
       }
     },
@@ -2757,10 +2765,10 @@
       },
       "next": "wait for https://github.com/bitbaum/solon/actions/runs/43181331711 to end, then fill in found / held / stored / unread / remaining from its log",
       "now": {
-        "openRuns": 2,
+        "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-11-12T09:18:37.921Z"
+          "outcome": "timeout",
+          "at": "2026-11-12T13:20:13.758Z"
         },
         "lastLog": {
           "date": "2026-11-12",
@@ -2837,7 +2845,7 @@
           "title": "Make the site work for a builder",
           "line": "A builder decides in two minutes whether to join, and can get back in without hunting for a link.",
           "status": "in progress",
-          "progress": 57,
+          "progress": 56,
           "targetDate": null,
           "milestones": [
             {
@@ -2855,6 +2863,14 @@
             {
               "title": "A chosen builder is carried with a request that has no website yet, and the page says who was asked for",
               "done": true
+            },
+            {
+              "title": "Arriving with a builder chosen lands on the box; the box and the receipt stay on screen after a message, sent or failed",
+              "done": true
+            },
+            {
+              "title": "Take the chatkit release that never follows a page upward (chatkit #88), set --ck-follow-gap on the contact box, and delete the correction in site/chat/chat.tsx that stands in for it",
+              "done": false
             },
             {
               "title": "The first studio-reviewed profile in the directory, which is empty today",
@@ -2875,15 +2891,19 @@
           "title": "Sign in from the studio site",
           "line": "The site holds no accounts; a person's account is their Loki account. The header should still know who is looking.",
           "status": "in progress",
-          "progress": 0,
+          "progress": 40,
           "targetDate": null,
           "milestones": [
             {
-              "title": "Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on",
-              "done": false
+              "title": "Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on (Loki #1672, deployed)",
+              "done": true
             },
             {
-              "title": "accountkit: one account control for signed out, loading and signed in, and a menu that stays on the screen wherever it sits",
+              "title": "accountkit: one account control for signed out, loading and signed in, and a menu that stays on the screen wherever it sits (accountkit #92)",
+              "done": true
+            },
+            {
+              "title": "A release of accountkit that carries the account control (it is merged, and the published 0.29.0 does not have it)",
               "done": false
             },
             {
@@ -2901,12 +2921,12 @@
           "title": "Move the chrome to sitekit",
           "line": "Header, menu and footer belong to the shared package; today they are drawn in this repository.",
           "status": "in progress",
-          "progress": 0,
+          "progress": 25,
           "targetDate": null,
           "milestones": [
             {
-              "title": "sitekit: its own box model, links to other origins, a footer year that does not read the clock",
-              "done": false
+              "title": "sitekit: its own box model, links to other origins, a footer year that does not read the clock (sitekit #51)",
+              "done": true
             },
             {
               "title": "sitekit: a menu script that works without React, a background per surface, reflow at 200% text",
@@ -2936,6 +2956,28 @@
             },
             {
               "title": "Caddy on the box serves it for a missing path with the 404 status, and the publish check asks for it",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Read well at any text size",
+          "line": "A reader who doubles their text size on a phone gets every word, whole.",
+          "status": "in progress",
+          "progress": 33,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "No page is wider than the screen and no text is cut off at 200% text on 320px and 390px, checked on every page",
+              "done": true
+            },
+            {
+              "title": "A one-word card title (\"Diplodoctor\", \"design-tokens\") still breaks mid-word at 200% text on a 320px screen, because the card's padding grows with the text; size it so the word fits",
+              "done": false
+            },
+            {
+              "title": "A reading surface behind text sections, so a drifting cloud never passes behind a line",
               "done": false
             }
           ],
@@ -3138,6 +3180,10 @@
         {
           "date": "2026-11-12",
           "done": "BiasLens (biaslens.orangecat.ch) was running and listed on Loki's fleet map, but had no editorial line, so the site hid it. It now has a page (/biaslens/) linking the live site and its source, a place on /work/ under Products, and a loop on /map/ (\"Reading the news\"). The words come from the BiasLens README.\nIts page carries its own problem, solution and direction: the fleet profile still describes \"a per-article dashboard with bias scores\", which BiasLens does not do and says it does not do. The profile should be corrected at its source; until then the site does not repeat it.\nNo screenshot yet (shot: false): none could be taken where this change was made. Remove the flag and run node site/shots.mjs biaslens to add one; with it, BiasLens also joins the products shown on the home page.\nIts live status is the one probe this change made (live.snapshot.json: 200, running)."
+        },
+        {
+          "date": "2026-11-12",
+          "done": "The two changes below were read again by reviewers told to break them. Ten findings held; a scan of every page at twice the text size, added to settle two of them, found more of the same kind. The fixes were then reviewed the same way before they were opened for merge, and that review found nine more that held, all made by the fixes themselves: six in what a visitor sees and three in the new checks. All are fixed here, and each now has a check.\n\"Request this builder\" landed at the top of /hire/, with the line saying who was asked for 5,400px down on a phone. Arriving with a builder chosen now goes to the box, which names the builder; the cursor is not put in it, so no keyboard opens unasked. A reader who has already started down the page is not taken anywhere.\nAfter the first message the page jumped up about 300px and left the receipt and the box under the fold, with the cursor still in the box. Both stay on screen, after a failed send too, in the contact box and in the small chat on the home page and every project page. A reader who scrolls away while a reply is pending is left where they are: the first version of this fix pulled them 500px back down when the reply arrived. The cause is in the chat package and is fixed there as well (chatkit #88).\nA link to the box (\"Join the waitlist\") put the cursor in it while it was still two screens down on a phone, which opens the keyboard over the text. The box takes the cursor only when it is in sight, and the page is asked once it has come to rest: asked while it was still gliding, a box about to be on screen on a desk was left without the cursor.\n/builders/ said an approved builder publishes a profile and that it is shown \"when you say so\". The builder proposes it and the studio reviews it before it is listed; the page says that.\n/hire/ promised a reply \"in your private portal\" for every request, its questions said the only email is the one about a slot, and the box offered \"the reply by email\" to everyone. A first message with no website address gets a page that follows the note, not a portal, and an email address gets a link to that page; nothing mails a person's reply to a note. The page, the prompt and what the box says after an address now say what happens for each kind of request.\n\"A studio and its builders\" in the footer, the home page's description and the picture a shared link shows. No builder is listed yet. The footer and the description read \"A studio in Zürich, and a place for builders who work with agents.\"; the picture says the same without the city.\n/solon/ and /loki/ still called Solon's four closed kinds of decision fixed \"red lines\" after the map stopped. Each organisation can change that list by a vote, and both pages say so.\nAt twice the text size on a phone: /studio/, the home page and eight project pages were wider than the screen, the \"what happens next\" lists broke words letter by letter, and badges and prices on /hire/, /map/ and /work/ were cut off by their cards. Every page is clean at 320px and 390px. At the normal size nothing moves: no button label and no link in running text takes more lines than before, at eight widths from 320px to 1440px. (The first version of this fix made ten button labels wrap on phones and split two-word links on /studio/ across lines.)\nA file that is not a picture, sent with no words, filed a request that said \"See the picture.\" It now says why beside the box, files nothing, lets go of the file, and starts no conversation.\nOn a phone the three kinds of button are one size. Without JavaScript the menu link sits at the right edge, where the button is. A portal entry with no time shows no time, not 1 January 1970. A directory entry prints only the parts of a profile that exist (\"null · undefined\" was a rate line), offers \"Request this builder\" only with an id /hire/ accepts, and \"View their work\" only for a web address.\nThe checks themselves: \"opens at the top\" fails when the chat never loads (it passed). The contrast check reads the contact box after a message is sent and fails if no reply or receipt appears, and reads every kind of weather or none. The large-text check covers every page at two widths with the chat loaded (it covered five pages at one width, before the chat), and catches text cut off by its own card inside the screen. check-hire pins the box and the receipt on screen after a message and after a failure, the arrival with a builder, the cursor after the page glides, the reader who scrolls away, and the file that is not a picture. Nine of its new cases fail on the site as it was published before this change."
         },
         {
           "date": "2026-11-11",
@@ -5952,10 +5998,10 @@
       },
       "next": "monitor PR #385 through CI, sweep, and deploy, then verify all tasks on the live URL",
       "now": {
-        "openRuns": 0,
+        "openRuns": 1,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-11-12T10:07:12.176Z"
+          "outcome": "timeout",
+          "at": "2026-11-12T12:51:40.211Z"
         },
         "lastLog": {
           "date": "2026-11-12",
@@ -6903,10 +6949,10 @@
       },
       "next": "From a shell that can SSH as root@167.233.22.31, in /home/ubuntu/dev/loki (install-app-crons.sh matches origin/main and includes 31d82135), run bash scripts/hetzner/install-app-crons.sh, then systemctl start appcron-botsmann-rebuild.service and confirm a journal line \"HTTP 200\". This sandbox has no root key, so it was not applied. Do not use app-secrets.yml ensure for this: botsmann's row is ORANGECAT_OAUTH_CLIENT, and ensure can restart the app.",
       "now": {
-        "openRuns": 2,
+        "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-11-10T22:27:13.323Z"
+          "outcome": "timeout",
+          "at": "2026-11-12T12:22:30.327Z"
         },
         "lastLog": {
           "date": "2026-11-10",
@@ -7339,8 +7385,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "partial",
-          "at": "2026-10-09T09:31:48.802Z"
+          "outcome": "error",
+          "at": "2026-11-12T14:14:17.404Z"
         },
         "lastLog": {
           "date": "2026-10-09",
