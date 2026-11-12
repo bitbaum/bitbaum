@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-11T13:28:45.372Z",
+  "generatedAt": "2026-11-12T08:44:14.839Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -19,10 +19,10 @@
     }
   ],
   "summary": {
-    "projects": 29,
+    "projects": 30,
     "live": 16,
     "clients": 1,
-    "inFlight": 0
+    "inFlight": 22
   },
   "projects": [
     {
@@ -817,16 +817,16 @@
           "changelog": "https://github.com/bitbaum/loki/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": null,
+      "next": "when #1654 merges: rebase fix/home-needs-you-question (d2c09415, unpushed) on main, push, open PR; then token-kind PR (agent tokens may not act as runners) in ~/dev/loki-wt-scope.",
       "now": {
-        "openRuns": 0,
+        "openRuns": 9,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-11-11T11:15:43.100Z"
+          "outcome": "success",
+          "at": "2026-11-12T07:35:40.338Z"
         },
         "lastLog": {
-          "date": "2026-11-11",
-          "done": "Hosted dispatch (Hermes) — no file changes — Automated incident dispatch from bitbaum's monitoring (incident-dispatch.sh)."
+          "date": "2026-11-12",
+          "done": "Took over the dogfood workstream: audited the terminal/runner/agent loop, opened #1654 (PTY tests skip off-CI when node-pty cannot load) and #1655 (chain tests clear every provider key) so pre-push can pass in agent sandboxes; item 1 (Home Needs-you row) rebased and ready to push once #1654 lands."
         }
       }
     },
@@ -1138,6 +1138,14 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-12",
+          "done": "A pay page no longer vanishes for a moment. When the database was briefly unreachable, a real pay page answered \"not found\" and a wallet paying a Lightning address was told the person did not exist. A lookup that could not be made is now reported as an error to retry, never as a missing person.\nThe bottom bar shows where you are. On a phone, the tab you were on lost its icon: Explore showed a blank white disc instead of a compass. The icon stays drawn now; the current tab is marked by a heavier line and a bold label.\nA sign-in code survives the trip to your mail app. On a phone, leaving the sign-in page to read the code could bring you back to an empty form, and you had to ask for another code. The page now reopens on the code field, with what you had typed, for fifteen minutes. If you ask for too many codes it says how long to wait instead of \"We could not send a code\", and you can still enter a code you already hold.\nEasier to tap on a phone. \"Forgot password?\", \"Create an account\" and \"Remember me\" on the sign-in page, the logo in the header and the \"Also here\" links on Discover are now full-size tap targets (44px) instead of a line of text. The feedback button no longer sits on top of \"Sign in\".\nChoose which identity signs in to an app. When Loki, Solon or another app sends you to OrangeCat to sign in, the screen that asks \"Allow …?\" now lists your other identities under \"Or continue as\". Tap one and the same screen comes back as that identity; nothing is shared with the app until you press Allow. An identity no longer shows a made-up email address there."
+        },
+        {
+          "date": "2026-11-11",
+          "done": "One person, several identities. In Settings you can add an identity: a separate account with its own name, page, wallet and inbox, and switch between them without signing out. Nobody else can see that two identities belong to the same person. Sign out everywhere ends all of them, and deleting your main account deletes them with it. You need an email address on your main account first, so you can always get back into it.\nSwitch identity from the menu. Your other identities are listed in the menu under your picture; one tap switches. An identity no longer shows a made-up email address under its name.\nYour own wishlist knows it is yours. The owner of a wishlist could rate their own items and never saw \"add proof\", because the page compared two ids that can never match. A person whose account held duplicate identities also saw zero listings on their profile and could not write messages as themselves. All fixed."
+        },
+        {
           "date": "2026-11-05",
           "done": "One place to write an article. The editor comes first, with a compact draft library and one Ask Cat entry for drafting or editing. Cancel an AI request, review its change and Undo it while your writing still matches the result. Late answers keep newer edits intact, and starting another draft clears the previous draft's AI notices. Drafts remain on this device for the signed-in account."
         },
@@ -1208,14 +1216,6 @@
         {
           "date": "2026-10-05",
           "done": "Review the people you buy from and sell to, and only them. Every paid order is now a deal, listed under \"Your deals\" in the sidebar. Each side can answer a few yes/no questions about the other (\"Would you deal with them again?\") and add a note. Only the two people in a deal can review it, once each, and a review can never be edited.\nYou're asked to review, so reviews actually get written. A few days after a deal is paid, each side gets a notification and an email asking how it went, and one more a few days before the review window closes. When the other person reviews you, you hear about it at once (that they reviewed, not what they said). Your Cat's suggestions on the dashboard now include the deal most in need of your review.\nProfiles show a track record. A profile now shows what OrangeCat itself saw: how many paid deals the person had, with how many different people, how many were refunded, and what share of the reviews about them say \"would deal again\". The counts come from settled payments nobody typed in. A profile with no deals shows nothing new."
-        },
-        {
-          "date": "2026-10-02",
-          "done": "Explain a transaction by telling your Cat what it was for. Say \"the 0.002 that came in on Tuesday was the laptop for Amina\" and the Cat, after you confirm, saves it as your note on that transaction. If the wallet publishes its ledger, the note appears there publicly, and it counts toward the wallet's transparency score. Ask the Cat about your wallets and it now lists the recent transactions that still have no note, and the score as the ledger page computes it.\nA fund's page shows where to check where its money went. When a cause, research or project page's receiving wallet is fully public and publishes its ledger, the page now says \"This fund publishes its ledger\" and links to it: every transaction, read from the chain, with the owner's note on what each was for. Funds that have not opted in show nothing new.\nA project owner can see their project wallet's transactions. The transaction history checked only who created the wallet row, so the owner of a project wallet could be refused their own history. It now uses the same owner check as every other wallet action."
-        },
-        {
-          "date": "2026-09-30",
-          "done": "Every FAQ answer has its own link. Open a question on /faq and share the address: /faq#is-orangecat-free-to-use opens straight at that answer. The page no longer needs its scripts to open a question, and search engines now read the questions and answers directly.\nSigning in from Solon or Loki looks like it. The sign-in screen now says \"Continue to Solon\" beside the form, explains that it is one account with one password, and its back link returns you to the app you came from instead of OrangeCat's home page.\nSigning in to Solon and Loki with an email you added later. If you added or changed your email after creating your account (including an account you started without one), OrangeCat told the other app you had no email, and Solon turned you away. It now sends the email your account has."
         }
       ],
       "records": {
@@ -1226,16 +1226,16 @@
           "changelog": "https://github.com/bitbaum/orangecat/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": "run pnpm run verify, push branch, open PR, enable auto-merge",
+      "next": "NOT PUSHED - pre-push hook fails on 8 unrelated 30s timeouts (slow box fs) and --no-verify was blocked; push test/box-safe-unit-tests, open PR, enable auto-merge",
       "now": {
-        "openRuns": 0,
+        "openRuns": 11,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-11-11T13:13:02.988Z"
+          "at": "2026-11-12T05:23:18.930Z"
         },
         "lastLog": {
-          "date": "2026-11-11",
-          "done": "fix committed on fix/auth-ssr-hydration (passkey button hydration mismatch + removed auth/loading.tsx); regression test passes, and fails on old code"
+          "date": "2026-11-12",
+          "done": "fixed 3 box-only unit test failures (AI key env leak, slow import-graph walks); full verify passed 5711/5711; committed 4b57a2e5 + cc0e3a0a on test/box-safe-unit-tests (local only)."
         }
       }
     },
@@ -1394,7 +1394,7 @@
           "title": "Contested law: one place, two sets of law, side by side {#contested}",
           "line": "Where a place governs itself and another state regards it as its own, two sets",
           "status": "in progress",
-          "progress": 45,
+          "progress": 46,
           "targetDate": null,
           "milestones": [
             {
@@ -1499,6 +1499,10 @@
             },
             {
               "title": "A place's profile says how its law is changed by the people it applies to, from the nearest authority up, and what in that law changed over the past year {#place-change}",
+              "done": true
+            },
+            {
+              "title": "The places inside every country: every subdivision with an ISO 3166-2 code, from Wikidata, under its region where it has one, each with a page of its own {#world-subdivisions}",
               "done": true
             },
             {
@@ -1880,7 +1884,7 @@
               "done": false
             },
             {
-              "title": "A named list of series for Liechtenstein, each with its publisher and date. Today none loads: the World Bank's API answers the box HTTP 403, so no World Bank series has ever loaded",
+              "title": "A named list of series for Liechtenstein, each with its publisher and date. The World Bank's API answers the box HTTP 403, so its series are read daily from a GitHub runner instead (fetchFrom: \"runner\", 2026-11-12); loaded once that run has applied them",
               "done": false
             },
             {
@@ -2054,7 +2058,7 @@
           "title": "The law beside the numbers {#stats}",
           "line": "A law says one thing; how it is enforced and what happened after it changed",
           "status": "planned",
-          "progress": 53,
+          "progress": 52,
           "targetDate": null,
           "milestones": [
             {
@@ -2211,6 +2215,18 @@
             },
             {
               "title": "More topics and places for the gaps registry: the tax gap, enforcement of drug-possession law, clearance rates by offence, and the countries Solon models (Estonia's and Liechtenstein's offices were not read); the offices that block programs (France's Interior Ministry answers 403) read by a person and marked so {#stats-gaps-more}",
+              "done": false
+            },
+            {
+              "title": "Why laws and numbers (/statistics/why): why Solon keeps each place's law beside its statistics, what is measured and what is not, trends and changes to the law, how it keeps itself honest and how groups decide, with every claim's status read from DATA_CAPABILITIES; South Ossetia as the worked example, its law and budget live, its statistics office's figures and gaps marked \"researched, not yet loaded\"; in five languages {#stats-why}",
+              "done": true
+            },
+            {
+              "title": "A place's missing measures, and how to start: for one place, the measures it does not publish, the comparable places that do, the responsible office and its official channel, and a pre-filled proposal; the gap model to accept places without an ISO code (South Ossetia, by Wikidata) and a status for \"not in the source read\", so South Ossetia's gaps from docs/research/2026-11-south-ossetia-sources.md §5 can be loaded {#stats-place-gaps}",
+              "done": false
+            },
+            {
+              "title": "What other places did about a trend: beside a series, the law events of places whose figures moved the same way, and what followed, never ranked as right or wrong {#stats-policy-by-trend}",
               "done": false
             },
             {
@@ -2651,8 +2667,12 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-12",
+          "done": "The places inside every country. Every country's page now lists its states, regions, provinces and departments, 4,759 places in 194 countries, each with a page of its own and a photograph where Wikimedia Commons has one. A French department sits in its region, an Italian province in its region. Taiwan, Abkhazia, Transnistria and Kosovo keep their own pages and are not listed inside the state that regards them as its territory. {#world-subdivisions}\nOne person, one seat. A person on OrangeCat can hold several identities, each its own account, so a seat per account could become several seats for one person. Solon now asks OrangeCat for an opaque tag per account, keyed to the organization, and refuses a second human seat for the same person there. The tag says nothing about who the person is or about their seats elsewhere. A suspended seat still counts, so a suspension cannot be dodged under another identity. The founding seat and an organization's founder are tagged as they are created; the operator's add-member script checks before seating.\nPlace pages no longer wait on an import. Each import of figures rebuilt the index of where places sit, which holds every page that reads it until it is done, though figures move no place. It is now rebuilt only when places or their borders changed, and once a day. An import whose publisher's file had not changed since the last one stops at once instead of reading it again.\nEvery country's figures can now load. The governance, spending and safety figures on country pages had loaded for four countries only: the scheduled import did all its work inside one request that is cut off after five minutes, and asked the World Bank for one country at a time, thousands of requests on one day. The import is now a queue that works through whatever is behind, hour by hour, tries a publisher that was down again the next day, and records every attempt; and the World Bank is asked for all countries at once, eight requests in all.\nA country's page reads its figures in one query instead of one per figure.\nOne person, one seat now holds after an identity changes hands. Solon compared a newcomer with the person each seat had when it was given, so once an OrangeCat identity was handed over, its former holder was refused a seat they did not hold, and its new holder could take a second. Solon now asks OrangeCat about the newcomer and every seat at once, decides on that answer, and updates the seats whose person changed; two seats that turn out to be one person's are named for the organization to decide. Without OrangeCat's client keys an admission now says it could not ask instead of seating unchecked, the tagging script asks once per organization and can re-check every seat (--refresh), and one Bitcoin key can no longer hold a second seat under its uncompressed address.\nA region named like its country no longer shows the country's page. The Djibouti Region and the City of San Marino showed their country's profile, photograph and budget, and a shared link to the US state of Georgia showed the country Georgia's card. A place's country is now its own ISO country code, never its name.\nThe statistics page reads every statistic at once: four queries instead of 136, and a new statistic adds none. A place ranked on it shows its latest plausible figure, as its chart does.\nThe World Bank's figures are read from a machine it answers. It refuses Solon's server, so the governance, spending and safety figures it publishes had never loaded in production. They are now fetched every day they are due from a GitHub runner, into the same database.\nThe OECD's and Eurostat's figures load in one go. They were asked for one country at a time, 68 sources due on two days a month; each publisher is now one source that asks for every country it covers at once. The national figures behind country pages take 17 requests instead of 350.\nEvery figure is credited to whoever published it. Liechtenstein's tax revenue and public spending come from its statistics office, which the OECD does not cover, yet charts, the statistics index and the country card named the OECD and linked its pages. Each place's figures now name, and link, the publisher they were read from."
+        },
+        {
           "date": "2026-11-11",
-          "done": "What a place is like, measured. A country's page now shows the few figures a reader would act on: what the state takes in tax and spends, how it is governed (voice and accountability, rule of law, control of corruption, government effectiveness, from the World Bank), and how safe it is. Each gives the latest value and its year, where it stands among the countries reporting that year, how it moved over fifteen years, and its source. A figure Solon does not hold for a place is left out, never guessed. {#place-figures}\nHow the law is changed here, and what changed. A place's page now sets out the official ways the people it applies to can change its law, from the commune up to the country, each with its bar and the provision that sets it, and lists the laws that took effect there in the past year. {#place-change}\nNew sources load without waiting for their day. A source added after its day of the month waited for the next one, and the World Bank's figures for the countries Solon holds only as places of the world have not loaded yet. The daily run now loads up to forty sources that were never loaded, whatever their day, so every country's figures arrive within a week; one that fails is tried again a week later.\nRussian place pages read correctly where a sentence named the place after a preposition (\"для Россия\"), and the law card no longer calls every place below a country a \"commune\"."
+          "done": "What a place is like, measured. A country's page now shows the few figures a reader would act on: what the state takes in tax and spends, how it is governed (voice and accountability, rule of law, control of corruption, government effectiveness, from the World Bank), and how safe it is. Each gives the latest value and its year, where it stands among the countries reporting that year, how it moved over fifteen years, and its source. A figure Solon does not hold for a place is left out, never guessed. {#place-figures}\nHow the law is changed here, and what changed. A place's page now sets out the official ways the people it applies to can change its law, from the commune up to the country, each with its bar and the provision that sets it, and lists the laws that took effect there in the past year. {#place-change}\nWhy laws and numbers. A new page, /statistics/why, says why Solon keeps each place's law beside its statistics: to see how a place is governed and how it is doing, to mark what a place does not measure, and to let groups decide together. Each thing it names says whether it is available now or planned; per-place gap reports and \"what other places did about a trend\" are planned, not built. South Ossetia is the worked example: its law and its 2023 budget are on Solon, its statistics office's figures and gaps are researched but not yet loaded. In all five languages. {#stats-why}\nNew sources load without waiting for their day. A source added after its day of the month waited for the next one, and the World Bank's figures for the countries Solon holds only as places of the world have not loaded yet. The daily run now loads up to forty sources that were never loaded, whatever their day, so every country's figures arrive within a week; one that fails is tried again a week later.\nRussian place pages read correctly where a sentence named the place after a preposition (\"для Россия\"), and the law card no longer calls every place below a country a \"commune\".\nOne Bitcoin key is one seat. A key answers to three address forms (legacy, native segwit, wrapped segwit), and the founding-seat check compared only the form that was claimed. A key already seated under one form could take a second seat in the same organization under another. The check now asks for the key under every form."
         },
         {
           "date": "2026-11-10",
@@ -2725,10 +2745,6 @@
         {
           "date": "2026-09-17",
           "done": "Anyone may found an organization. The only way to create one used to be a database migration. Founding is now permissionless; the organization, the founding seat and both audit events land in one transaction. One identity holds one seat per organization, and an organization is attributed to a Loki project only through a grant Loki signed — never because the names match. (#166) {#founding}\nGovernance, taught from the product's own code. Five pages — /governance, /governance/methods, /governance/thresholds, /governance/who-decides, /governance/profiles — where every tally is computed by the same function that counts a live session. (#168)\nThe approval floor is visible. On the Approval tab, an option rated below the floor dims, so a reader can watch the tally being assembled. (#169)\nA localization that was never wired up is gone. Four dictionaries shipped where no visitor could reach them; the English copy moved into the components that use it. (#170)"
-        },
-        {
-          "date": "2026-09-14",
-          "done": "Value routing to originators. originator_share v1: 10% of a product's net revenue, by default, to the originators of the code it is built from — equal per originator, monthly, in Bitcoin, on a public ledger. The split is deterministic and anyone can recount it; every later version needs an approved allocation-policy vote. (#164) {#originator-share}\nOne signature step for claiming a seat and filing a proposal. (#165)\nFleetCrown is now called Loki everywhere on the site. (#157)"
         }
       ],
       "records": {
@@ -2739,16 +2755,16 @@
           "changelog": "https://github.com/bitbaum/solon/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": null,
+      "next": "Lane is free. Dispatch the real resume: gh workflow run law-text-cloud.yml -R bitbaum/solon --ref main -f source=parliamentrso-text -f lang=de -f limit=40 -f batches=5 -f dry_run=false (expect alreadyHeld 263, about 269 remaining). When it ends, a second batches=5 job, then Liechtenstein recut-lilex on law-text.yml as one job. Rate limiter is #569 (green, from another session); coverage landed as #564, my duplicate #566 is closed.",
       "now": {
-        "openRuns": 0,
+        "openRuns": 2,
         "lastRun": {
           "outcome": "error",
-          "at": "2026-11-10T04:35:22.233Z"
+          "at": "2026-11-12T07:39:34.173Z"
         },
         "lastLog": {
-          "date": "2026-09-25",
-          "done": "Restored the four dependency bumps (next 16.3.5, react-dom/@types/react-dom 19.3.0, prettier 3.9.8, vitest 5.0.1) that closing #177-#180 had made Dependabot skip, and grouped minor/patch npm bumps plus dropped the nonexistent labels so it cannot recur — PR #185, CI verify+integration green, awaiting the repo's auto-merge workflow."
+          "date": "2026-11-12",
+          "done": "Parliament dry run 43161555619 read 40 acts with no failures (act 3344 now parses: 7 provisions, 2021-04-13); starting the real load was refused by this session's permission check, so nothing was stored."
         }
       }
     },
@@ -2812,6 +2828,114 @@
             },
             {
               "title": "Give a new-build idea without a website its own request kind on Loki, so it lands in the portal rather than the inbox",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Make the site work for a builder",
+          "line": "A builder decides in two minutes whether to join, and can get back in without hunting for a link.",
+          "status": "in progress",
+          "progress": 57,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Two doors on the first screen: start a project, become a builder",
+              "done": true
+            },
+            {
+              "title": "A builders page that says what an approved builder gets, how approval works and what happens after the one message",
+              "done": true
+            },
+            {
+              "title": "Pages open at their top; the receipt link appears where the reply names it; \"Copy your private link\" copies",
+              "done": true
+            },
+            {
+              "title": "A chosen builder is carried with a request that has no website yet, and the page says who was asked for",
+              "done": true
+            },
+            {
+              "title": "The first studio-reviewed profile in the directory, which is empty today",
+              "done": false
+            },
+            {
+              "title": "A builder workspace opened by an account: applications, profile, availability and briefs in one place, without a new private link each time",
+              "done": false
+            },
+            {
+              "title": "A page per builder and a directory that can be searched by skill and availability",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Sign in from the studio site",
+          "line": "The site holds no accounts; a person's account is their Loki account. The header should still know who is looking.",
+          "status": "in progress",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on",
+              "done": false
+            },
+            {
+              "title": "accountkit: one account control for signed out, loading and signed in, and a menu that stays on the screen wherever it sits",
+              "done": false
+            },
+            {
+              "title": "The header shows who is signed in, with their application and a way to sign out",
+              "done": false
+            },
+            {
+              "title": "One name for sign-in on the portal, the private projects page and the header",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Move the chrome to sitekit",
+          "line": "Header, menu and footer belong to the shared package; today they are drawn in this repository.",
+          "status": "in progress",
+          "progress": 0,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "sitekit: its own box model, links to other origins, a footer year that does not read the clock",
+              "done": false
+            },
+            {
+              "title": "sitekit: a menu script that works without React, a background per surface, reflow at 200% text",
+              "done": false
+            },
+            {
+              "title": "sitekit: a scroll-aware masthead, slots for the call to action, the account and the utilities, a sheet menu, a configurable collapse",
+              "done": false
+            },
+            {
+              "title": "Render the masthead and footer from sitekit at build time and delete the local menu script",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/bitbaum/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "Answer a wrong address",
+          "line": "A missing page should show the site and a way on, not an empty response.",
+          "status": "in progress",
+          "progress": 50,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The build writes a page for a missing address, with the header and four ways on",
+              "done": true
+            },
+            {
+              "title": "Caddy on the box serves it for a missing path with the 404 status, and the publish check asks for it",
               "done": false
             }
           ],
@@ -3003,6 +3127,14 @@
         }
       ],
       "changelog": [
+        {
+          "date": "2026-11-12",
+          "done": "/hire/ and /builders/ opened scrolled down to the contact box: 3,400px down on a desk, 5,500px on a phone, past the headline and the prices. The chat's thread took the page to its own end when it loaded. Both pages now open at their top, the greeting stands above the box as a prompt, and the browser check fails if any page opens anywhere but its top. The cause is fixed in the chat package too (chatkit #84).\nThe home page has two doors on its first screen: \"Start a project\" and \"Become a builder\". A new section, \"Build here, under your own name\", says what a builder gets.\n/builders/ is a landing page for builders: what an approved builder gets, how approval works, the application with what happens next beside it, then the directory. It says in words that no builder is listed yet and nobody is promised work.\nAfter a request is sent, its private link appears above the box, where the reply names it. It used to appear under the box, off the screen. On the portal, \"Copy your private link\" copies it; the old control reloaded the page.\n\"Request this builder\" keeps the builder when the first message has no website address, and the page says who was asked for.\nA brief brought over from Loki takes the visitor to the filled box and says it arrived.\nThe header, the menu and the footer use one word per place: Work, Builders, Packages, Studio. The phone menu is no longer see-through, keeps the keyboard inside it while open, and without JavaScript the menu button leads to the site map in the footer.\nOne button shape. Three families of button, 2px apart in every dimension, are now one with three fills. Step titles in a row sit on one line; four of a kind are two and two.\nThe picture a shared link shows carries the site's tree mark and green. It still carried an older mark and OrangeCat's orange.\n/packages/ gets its \"Where next\" buttons back; /academy/ no longer sends someone who has not applied to an empty portal."
+        },
+        {
+          "date": "2026-11-12",
+          "done": "Text was measured against the sky as it is painted, not against its cream base. In the light theme the top of the sky is blue, and small grey text over it read 2.4:1 to 3.0:1 where 4.5:1 is the line; in rain even the main text fell to 3.3:1. Secondary text is now near the ink, the day rain sky is a bright overcast, and the contrast check measures every page against the darkest day sky as well. The dark theme's smallest labels are lighter.\nAt the door on /hire/ and /builders/, the first thing that answers is Loki, and it now says so: \"Loki, the studio's assistant\" stands over the prompt and every line it speaks. The card that promised \"a reply from a person\" says what happens: questions now, a person's answer later.\n/hire/ shows the rates before the detour to Loki, and beside the box it says what happens when a message is sent.\n/work/, /packages/ and every project page show their content on the first screen. An empty band a screen tall, left over from a floor that had moved, sat under each headline.\nPackage names stay on one line. They broke mid-word (\"threadk / it\") on 15 of 18 tiles on a phone.\nThe builders page and the course end with \"Apply as a builder\", not \"Start a project\".\nA wrong address gets a page with the header and four ways on (once Caddy is told to serve it; see site/DEPLOY.md).\nWords the site's own rules forbid are gone from public pages: \"client\" on /work/ and /private/, \"partner\" in the course. The map no longer calls Solon's starting rules \"red lines\". evig's story no longer attributes it to another organisation, and Hirnli's no longer claims daily use that nothing here can check.\nDates in the portal read \"30 Sept 2026, 14:05\", not \"9/30/2026, 12:00:00 AM\"."
+        },
         {
           "date": "2026-11-11",
           "done": "The painted figures that move (the fox on /work/, the cat, the whale and the rest) could turn into a white box with Chromium's sad face, and on the running fox it crossed the screen. Each figure held its own WebGL context, so a phone with many tabs, or one sent to the background, dropped them. Now one context serves the page and draws into plain 2D canvases, which never show that face; if the context is lost anyway, every figure goes back to its still painting.\nnode site/check-figures.mjs <base-url> pins it in a real browser: at most one WebGL context per page, the figures really draw, and after a forced context loss every still painting is back. CI runs it before publishing."
@@ -4826,16 +4958,16 @@
           "changelog": "https://github.com/bitbaum/heidi/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": null,
+      "next": "Heidi PRs for pass-page padding, Try-it tap target, IT register, footer/menu/RU labels, OrangeCat link locale, sign-in fold; then release accountkit and bump Heidi.",
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-10-21T23:12:04.716Z"
+          "outcome": "error",
+          "at": "2026-11-12T04:40:28.804Z"
         },
         "lastLog": {
-          "date": "2026-10-21",
-          "done": "The German start page now has a one-line title, the second sentence under it, and a “Jetzt testen” button, and “Vorlesen” is announced once."
+          "date": "2026-11-12",
+          "done": "Opened bitbaum/morulia#41 and bitbaum/accountkit#90 (sign-in carries the page language as ui_locales); Heidi findings 1,2,4,5,6 in progress."
         }
       }
     },
@@ -5814,16 +5946,16 @@
           "changelog": "https://github.com/bitbaum/substrata/blob/HEAD/CHANGELOG.md"
         }
       },
-      "next": null,
+      "next": "monitor PR #385 through CI, sweep, and deploy, then verify all tasks on the live URL",
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "error",
-          "at": "2026-11-11T10:52:16.557Z"
+          "outcome": "success",
+          "at": "2026-11-12T07:09:24.233Z"
         },
         "lastLog": {
-          "date": "2026-11-11",
-          "done": "Hosted dispatch (Hermes) FAILED — Automated incident dispatch from bitbaum's monitoring (incident-dispatch.sh). — Command failed: hermes -z Recent activity on this project (newest first — already done, do NOT repeat or undo it):"
+          "date": "2026-11-12",
+          "done": "opened PR #385 to add robots.ts and sitemap.ts; PRs #375, #377, #378 merged"
         }
       }
     },
@@ -6692,8 +6824,8 @@
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "success",
-          "at": "2026-11-05T07:13:52.359Z"
+          "outcome": "error",
+          "at": "2026-11-12T05:43:41.322Z"
         },
         "lastLog": {
           "date": "2026-11-05",
@@ -7049,6 +7181,45 @@
           "date": "2026-08-12",
           "done": "Added the Loki feedback widget to src/app/layout.tsx via next/script (afterInteractive), verified headlessly (no console errors, script tag rendered with correct src + data-fc-project), and opened PR #1 (github.com/maonakamoto/prime-tower/pull/1)."
         }
+      }
+    },
+    {
+      "slug": "qa-agent-walk",
+      "name": "qa-agent-walk",
+      "what": "Disposable project for the scripted agent walk. Safe to close.",
+      "stack": null,
+      "layer": "next",
+      "status": "not live",
+      "owner": "bitbaum",
+      "client": null,
+      "since": null,
+      "urls": {
+        "live": null,
+        "repo": null,
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": null,
+        "solution": null,
+        "mission": null,
+        "vision": null
+      },
+      "roadmap": [],
+      "changelog": [],
+      "records": {
+        "roadmap": null,
+        "changelog": null,
+        "source": {
+          "roadmap": null,
+          "changelog": null
+        }
+      },
+      "next": null,
+      "now": {
+        "openRuns": 0,
+        "lastRun": null,
+        "lastLog": null
       }
     },
     {
