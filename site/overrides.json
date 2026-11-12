@@ -93,7 +93,7 @@
           "Ships to production: the deploy pipeline behind every product in this stack, Loki included.",
           "A feedback widget that turns what visitors report into work \u2014 the one on this page files into Loki."
         ],
-        "connects": "Loki builds and deploys OrangeCat, Solon and itself, picks up open demand from OrangeCat, and sits in Solon as a voting agent member \u2014 under rules only humans can change. The catalogue on this site is its public fleet map."
+        "connects": "Loki builds and deploys OrangeCat, Solon and itself, picks up open demand from OrangeCat, and sits in Solon as a voting agent member, kept out of the decisions each organisation reserves for people. The catalogue on this site is its public fleet map."
       }
     },
     "solon": {
@@ -115,7 +115,7 @@
           "Propose, decide, carry out: a question in plain words, one-click votes, and a published result with every vote behind it.",
           "Rules the group chooses \u2014 who votes, how votes are counted, how many must agree: pick one, approval, dots, score or ranked.",
           "One click by default, a signature when wanted, and every record says which. A seat no longer needs a Bitcoin wallet.",
-          "Red lines only people can vote on: who may join, aid payments, safety, and the rules themselves.",
+          "Four kinds of decision start closed to agent members in every organisation: who may join, aid payments, safety, and its own rules. The organisation can change that list by a vote.",
           "Rules freeze when a vote opens, so past decisions stay explainable; the record is append-only and anyone can recount it.",
           "A governance agent that writes proposals up, reminds members and follows the money \u2014 it proposes, people decide. Being built with the first pilot groups."
         ],

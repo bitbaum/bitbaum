@@ -77,7 +77,7 @@ test("ready to file: decided by Loki's code, filed once with the whole conversat
   assert.match(filed[0].body.suggestion, /Visitor: Build me a website for my bakery/);
   assert.match(filed[0].body.suggestion, /Loki: Do you have a website today\?/);
   assert.ok(filed[0].body.suggestion.length <= 2000);
-  assert.ok(second.said.some((s) => /filed this as your brief/.test(s.text)));
+  assert.ok(second.said.some((s) => /filed as your brief/.test(s.text)));
   // A third turn with ready again: saved as a follow-up, never filed twice.
   await intake.send("Also a gift card page.");
   assert.equal(posts.filter((p) => /Studio brief —/.test(p.body.suggestion ?? "")).length, 1, "idempotent filing");
@@ -186,3 +186,21 @@ test("a chosen builder travels with a first message that has no website", async 
   assert.doesNotMatch(nobody.posts.find((p) => p.url.endsWith("/api/feedback")).body.suggestion, /Preferred builder/);
 });
 
+
+test("the box promises by email only what the request can be mailed", async () => {
+  // No website: a note. Loki mails a link to the page that follows it and
+  // never a person's reply, so the box does not say "the reply will go to".
+  const note = harness({ replies: [loki("What does it need to do?"), loki("Thank you.")] });
+  const first = await note.intake.send("A booking tool for a bakery");
+  assert.match(first.said.at(-1).text, /Want a link to this by email\?/);
+  assert.doesNotMatch(first.said.map((s) => s.text).join(" "), /reply by email|reply will go/);
+  const later = await note.intake.send("someone@example.com");
+  assert.ok(later.said.some((s) => s.text === "A link to follow this goes to someone@example.com."));
+  assert.doesNotMatch(later.said.map((s) => s.text).join(" "), /reply will go/);
+  // A website: a portal, which is mailed its link and the studio's answers.
+  const site = harness({ replies: [loki("What should change?"), loki("Thank you.")] });
+  const opened = await site.intake.send("https://bakery.example needs online ordering");
+  assert.match(opened.said.at(-1).text, /Want the reply by email\?/);
+  const mailed = await site.intake.send("someone@example.com");
+  assert.ok(mailed.said.some((s) => s.text === "The reply will go to someone@example.com, and the private link is on its way there too."));
+});

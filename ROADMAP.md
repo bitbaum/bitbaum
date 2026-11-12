@@ -21,20 +21,22 @@ A builder decides in two minutes whether to join, and can get back in without hu
 - [x] A builders page that says what an approved builder gets, how approval works and what happens after the one message
 - [x] Pages open at their top; the receipt link appears where the reply names it; "Copy your private link" copies
 - [x] A chosen builder is carried with a request that has no website yet, and the page says who was asked for
+- [x] Arriving with a builder chosen lands on the box; the box and the receipt stay on screen after a message, sent or failed
+- [ ] Take the chatkit release that never follows a page upward (chatkit #88), set `--ck-follow-gap` on the contact box, and delete the correction in `site/chat/chat.tsx` that stands in for it
 - [ ] The first studio-reviewed profile in the directory, which is empty today
 - [ ] A builder workspace opened by an account: applications, profile, availability and briefs in one place, without a new private link each time
 - [ ] A page per builder and a directory that can be searched by skill and availability
 
 ### Sign in from the studio site
 The site holds no accounts; a person's account is their Loki account. The header should still know who is looking.
-- [ ] Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on
-- [ ] accountkit: one account control for signed out, loading and signed in, and a menu that stays on the screen wherever it sits
+- [ ] Loki answers the studio site with who is signed in, and sign-in returns to the page a person was on (Loki #1672, open)
+- [x] accountkit: one account control for signed out, loading and signed in, and a menu that stays on the screen wherever it sits (accountkit #92)
 - [ ] The header shows who is signed in, with their application and a way to sign out
 - [ ] One name for sign-in on the portal, the private projects page and the header
 
 ### Move the chrome to sitekit
 Header, menu and footer belong to the shared package; today they are drawn in this repository.
-- [ ] sitekit: its own box model, links to other origins, a footer year that does not read the clock
+- [x] sitekit: its own box model, links to other origins, a footer year that does not read the clock (sitekit #51)
 - [ ] sitekit: a menu script that works without React, a background per surface, reflow at 200% text
 - [ ] sitekit: a scroll-aware masthead, slots for the call to action, the account and the utilities, a sheet menu, a configurable collapse
 - [ ] Render the masthead and footer from sitekit at build time and delete the local menu script
@@ -43,6 +45,12 @@ Header, menu and footer belong to the shared package; today they are drawn in th
 A missing page should show the site and a way on, not an empty response.
 - [x] The build writes a page for a missing address, with the header and four ways on
 - [ ] Caddy on the box serves it for a missing path with the 404 status, and the publish check asks for it
+
+### Read well at any text size
+A reader who doubles their text size on a phone gets every word, whole.
+- [x] No page is wider than the screen and no text is cut off at 200% text on 320px and 390px, checked on every page
+- [ ] A one-word card title ("Diplodoctor", "design-tokens") still breaks mid-word at 200% text on a 320px screen, because the card's padding grows with the text; size it so the word fits
+- [ ] A reading surface behind text sections, so a drifting cloud never passes behind a line
 
 ### Make studio development traceable
 Course, portal and product decisions should survive conversations and become visible work.

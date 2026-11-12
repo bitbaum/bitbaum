@@ -82,7 +82,15 @@ export function fit(head, transcript, max = 2000) {
 }
 
 const SAVED_NOTE = "A person at the studio reads every word; sending books no work and agrees no price.";
-const ASK_EMAIL = " Want the reply by email? Write your address here — optional.";
+// What an address is good for depends on what the request became. A portal
+// (a website was named, or a builder applied) is mailed its private link and
+// the studio's answers. A note with no website is mailed a link to the page
+// that follows it, and nothing mails a person's reply to it, so the box does
+// not promise one.
+const ASK_EMAIL = {
+  portal: " Want the reply by email? Write your address here — optional.",
+  note: " Want a link to this by email? Write your address here — optional.",
+};
 
 /**
  * One intake on one page. `io` is everything that touches the world:
@@ -246,15 +254,16 @@ export function createIntake(cfg, io) {
       const keep = !link ? "" : state.stage.kind === "portal" ? ` — the link below is your private ${where()}; keep it` : " — the link below follows it";
       status.push(`Your words are saved as a private request${keep}. ${SAVED_NOTE}`);
     }
-    if (newEmail) status.push(`The reply will go to ${email}${state.stage.kind === "portal" ? ", and the private link is on its way there too" : ""}.`);
+    const ask = () => ASK_EMAIL[state.stage.kind === "portal" ? "portal" : "note"];
+    if (newEmail) status.push(state.stage.kind === "portal" ? `The reply will go to ${email}, and the private link is on its way there too.` : `A link to follow this goes to ${email}.`);
     if (a.ready && !state.filed) {
       try {
         if (await file(a.summary))
-          status.push(`I have filed this as your ${cfg.purpose === "partner" ? "application" : "brief"} for the studio, with the whole conversation.${state.replyTo ? "" : ASK_EMAIL}`);
+          status.push(`This is now filed as your ${cfg.purpose === "partner" ? "application" : "brief"} for the studio, with the whole conversation.${state.replyTo ? "" : ask()}`);
       } catch {
         status.push("Your words are saved; the summary did not go through this time and will be filed with your next message.");
       }
-    } else if (first && !state.replyTo) status[status.length - 1] += ASK_EMAIL;
+    } else if (first && !state.replyTo) status[status.length - 1] += ask();
     for (const s of status) out.push({ text: s, speaker: null, status: true });
     return { said: out, link };
   }
