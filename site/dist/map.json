@@ -356,6 +356,28 @@
       }
     },
     {
+      "slug": "biaslens",
+      "name": "BiasLens",
+      "what": "Public product name: BiasLens. Canonical product repository: bitbaum/biaslens.",
+      "stack": null,
+      "layer": "next",
+      "status": "validating",
+      "owner": "bitbaum",
+      "since": "2026-10-22",
+      "urls": {
+        "live": "https://biaslens.orangecat.ch",
+        "repo": "https://github.com/bitbaum/biaslens",
+        "orangecat": null,
+        "solon": null
+      },
+      "identity": {
+        "problem": "Media bias and lack of transparency in information sources, making it difficult for users to understand different perspectives and make informed decisions.",
+        "solution": "BiasLens provides a dynamic, explainable, and reproducible way to measure media bias, offering a per-article dashboard with bias scores, uncertainty metrics, and missing perspectives.",
+        "mission": "BiasLens aims to provide a transparent and explainable way to measure media bias, helping users understand different perspectives and make informed decisions.",
+        "vision": "BiasLens aspires to become a leading platform for media bias analysis, enabling users to navigate complex information landscapes with confidence."
+      }
+    },
+    {
       "slug": "botsmann",
       "name": "botsmann",
       "what": "Domain-specialized AI professionals, not another generic chatbot wrapper.",

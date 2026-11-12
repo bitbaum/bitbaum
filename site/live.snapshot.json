@@ -1,4 +1,8 @@
 {
+  "https://biaslens.orangecat.ch": {
+    "status": 200,
+    "running": true
+  },
   "https://botsmann.orangecat.ch": {
     "status": 200,
     "running": true
