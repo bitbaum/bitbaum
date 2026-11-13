@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T02:05:55.155Z",
+  "generatedAt": "2026-11-13T11:29:29.461Z",
   "thesis": "With Bitcoin, a fleet of AI agents and cryptographic governance, anyone can do what used to need the permission of a corporation, bank, platform or state.",
   "pillars": [
     {
@@ -50,7 +50,7 @@
       "roadmap": [
         {
           "title": "Private builders",
-          "line": "One sealed builder per account on the box you already have: its own Linux user, home, token and agent sign-ins, and the rule that whoever asks for a change pays for it with their own engine — a Loki plan, their own key, or their own subscription signed in with the CLI's /login. Nobody's request runs on another person's subscription. Plan: docs/architecture/private-builders.md.",
+          "line": "Your work runs in its own private space on Loki's computer, and whoever asks for a change pays for it their own way: a Loki plan, their own AI key, or their own AI subscription. Nobody's request runs on another person's subscription.",
           "status": "in progress",
           "progress": 67,
           "targetDate": null,
@@ -152,7 +152,7 @@
         },
         {
           "title": "Sealed builds",
-          "line": "After private builders: each build in its own throwaway box (a container, then a microVM when the box exposes KVM), so a tricked agent cannot reach even its own tenant's other work. SandboxExecutor is the seed.",
+          "line": "After private builders: every build runs in its own throwaway space, so an agent that is tricked cannot reach anything else, not even your other projects.",
           "status": "planned",
           "progress": 0,
           "targetDate": null,
@@ -174,13 +174,13 @@
         },
         {
           "title": "One box becomes a pool",
-          "line": "Runners on several boxes claim from the one queue; each site knows which box serves it.",
+          "line": "Loki's work spreads over several computers instead of one, and each site knows which computer serves it.",
           "status": "planned",
           "progress": 0,
           "targetDate": null,
           "milestones": [
             {
-              "title": "new-site.sh --host, and a register that records the host per site",
+              "title": "A new site can be placed on any of Loki's computers, and the record says which one",
               "done": false
             },
             {
@@ -222,7 +222,7 @@
               "done": true
             },
             {
-              "title": "BYOK as the default execution path for new accounts",
+              "title": "New accounts build on their own AI key by default",
               "done": false
             },
             {
@@ -830,7 +830,7 @@
         "openRuns": 0,
         "lastRun": {
           "outcome": "partial",
-          "at": "2026-11-12T23:01:32.936Z"
+          "at": "2026-11-13T09:16:05.171Z"
         },
         "lastLog": {
           "date": "2026-11-12",
@@ -894,6 +894,104 @@
             },
             {
               "title": "The tax line suggested from Solon's tax figures for your own commune, instead of a percentage you type.",
+              "done": false
+            }
+          ],
+          "source": "https://github.com/bitbaum/orangecat/blob/HEAD/ROADMAP.md"
+        },
+        {
+          "title": "A messenger for words, agents and value {#messenger}",
+          "line": "Messages on OrangeCat are a messenger in their own right: people, bots and groups of both in one list, under whichever of your names you choose; anything they exchange, and anything of value, in one conversation. The screen is a package (@bitbaum/chatkit/messenger), so every bitbaum product and any customer can embed the same one. Interface first; the security work below is the direction, and nothing in it is presented as done. What was learned from Signal, SimpleX, Telegram and the others, with sources: the article (https://orangecat.ch/blog/a-messenger-for-words-agents-and-money).",
+          "status": "in progress",
+          "progress": 27,
+          "targetDate": null,
+          "milestones": [
+            {
+              "title": "The Messenger as a package: one screen for a phone and a desk, the same in every product. {#messenger-package}",
+              "done": true
+            },
+            {
+              "title": "An agent is never mistaken for a person: its own face, the word \"Agent\", whom it answered for. {#messenger-agent}",
+              "done": true
+            },
+            {
+              "title": "Photos, videos and files on a message, in private storage, with a quota per person. {#messenger-files}",
+              "done": true
+            },
+            {
+              "title": "Reply to a message; the answer leads back to what it answers. {#messenger-reply}",
+              "done": true
+            },
+            {
+              "title": "React to a message with an emoji. {#messenger-reactions}",
+              "done": true
+            },
+            {
+              "title": "Ask for money in a conversation: a card with a Pay button, marked paid when it is. Send money from the same menu. {#messenger-money}",
+              "done": true
+            },
+            {
+              "title": "Voice messages. {#messenger-voice}",
+              "done": false
+            },
+            {
+              "title": "Search inside a conversation; forward a message; pin and mute a conversation. {#messenger-search}",
+              "done": false
+            },
+            {
+              "title": "A payment made from a conversation shows in it as a card; gifts. {#messenger-gifts}",
+              "done": false
+            },
+            {
+              "title": "Disappearing messages, with a timer per conversation. {#messenger-disappearing}",
+              "done": false
+            },
+            {
+              "title": "Link previews made by the sender's device, never by the server. {#messenger-previews}",
+              "done": false
+            },
+            {
+              "title": "Polls and events in a group. {#messenger-polls}",
+              "done": false
+            },
+            {
+              "title": "Your own bots in \"New conversation\", beside people: a bot is an account of its own, as a person is. Decision: docs/architecture/adr/ADR-0015-one-messenger-for-people-and-bots.md. {#messenger-bot-seat}",
+              "done": false
+            },
+            {
+              "title": "Write to a bot the way you write to a person: every message answered. {#messenger-bot-direct}",
+              "done": false
+            },
+            {
+              "title": "A bot in a group of people answers when it is named, and bots cannot keep each other talking. {#messenger-bot-group}",
+              "done": false
+            },
+            {
+              "title": "Above the list: which of your names you are writing as, what waits in the others, and a switch (heteronyms). Nothing in a conversation links one name to another. {#messenger-heteronyms}",
+              "done": false
+            },
+            {
+              "title": "Other people's public bots as contacts, with the price shown before the first message. {#messenger-bot-contacts}",
+              "done": false
+            },
+            {
+              "title": "One list: the bot rooms move into Messages and the second screen goes. {#messenger-one-list}",
+              "done": false
+            },
+            {
+              "title": "Start a conversation by link or QR code, without a directory. {#messenger-links}",
+              "done": false
+            },
+            {
+              "title": "End-to-end encryption by default, for two people and for groups, with the Cat a visible member when it is called. Research: MLS (RFC 9420), keys per device, what a browser can and cannot protect. {#messenger-e2ee}",
+              "done": false
+            },
+            {
+              "title": "The server knows as little as it can: not who is in which group, not what a group is called. {#messenger-metadata}",
+              "done": false
+            },
+            {
+              "title": "A messenger of its own, beside the one inside OrangeCat. {#messenger-standalone}",
               "done": false
             }
           ],
@@ -1146,8 +1244,12 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-13",
+          "done": "Reply, react and ask for money in a conversation. Hold a message (or right-click it) to answer that one message or put an emoji on it; an answer shows the line it answers, and tapping it takes you there. In a conversation with one person, the \"+\" now offers \"Request money\" (a card with the amount and a Pay button, marked paid when it is) and \"Send money\" (their pay page). {#messenger-reply} {#messenger-reactions} {#messenger-money}\nSigning up is one clear step. Sign-in and sign-up each have one highlighted button, a mistake shows under the field it belongs to, and wherever you sign in from you land in the same place: the Cat if you are new, your dashboard if you are back.\nThe phone app is easier to move around. The menu closes when you pick a page and stays closed after a reload, Create lists what you can make in plain words with the page's own kind first, and the money tab is called \"Money\" everywhere.\nPaying and getting paid say what is happening. The pay page shows who you are paying, buttons wait until the amount is within the limits, and Send takes you straight to connecting a wallet when you need one.\nListings always offer a next step. When the owner has not added a wallet yet, you can ask them how to pay; prices and the book button sit at the top of the page.\nThe Cat's permissions read like sentences. Each row says what the Cat may do in plain words, a new account is no longer shown payments as on, and spending limits are entered in your own currency.\nSettings are easier to find. Account is split into sections, and currency, date format and theme have their own Preferences page.\nAn article can go on your projects' walls too. Under \"Who can read this?\" in the article editor, \"Also post on a project\" offers your own projects, the same list a short post cross-posts to, and the article appears on each one you choose as well as on your profile. A sister product can link straight to the editor with the article and the project already chosen (/articles/new?import=…&project=solon); a project that is not yours is not chosen, and the editor says so. Signing in on the way keeps both."
+        },
+        {
           "date": "2026-11-12",
-          "done": "Your tasks are yours. A task is seen and changed by the person who made it and by the person it was asked of; before, every signed-in account could see and complete it. Asking someone to do a task now means picking that person, instead of notifying every account on OrangeCat.\nSetting a spending limit for your Cat no longer turns payments on. Saving a limit used to switch Send Payment and five other payment actions from Off to \"Ask first\" for anyone who had never turned them on.\nThe home page says what OrangeCat solves before it shows the studio. On a phone that section used to be a dozen screens down.\nHanding an identity to an address that already has an account says so, and changes nothing. The person accepting the link was told something went wrong, and the identity had already lost its ways in for a hand-over that never happened. The address is now checked as soon as the link proves good: a taken address is refused with \"that address already has an account\", the link keeps working for another address, and the identity is untouched.\nYou can delete your account again after creating an identity. Settings → Delete account failed with an error for anyone who held an identity, and for the identity itself, because a database rule that tidies up hand-over links was not allowed to run during deletion. It runs now, and CI deletes a holder and its identity the way production does on every migration change. The hand-over page that says a link no longer works now offers a way back to OrangeCat.\nEvery public page opens the same way. About, Pricing, FAQ, Docs, Security, Roadmap and some twenty more each had their own header: titles from small to very large, some centred and some not, an icon above one, a badge above another, a grey band behind a third. They now share one: the title, one line that says what the page is for, and the same space around both. Pages you read top to bottom (the legal pages, the whitepaper, the changelog, the roadmap) start at the left of the column.\nThe phone menu for visitors has what the desktop header has, and a way to sign in. It showed \"Blog\" and \"Support\" and then the whole footer, 27 links, with no Sign in anywhere. It now lists Product and Ecosystem with one line under each link, and ends with Sign In and Get Started. It has a close button, dims the page behind it, keeps keyboard focus inside while it is open, and the button that opens it says whether it is open.\nSmall text is readable, in light and in dark. Dates, labels, helper lines and footnotes were set in a grey too faint to read comfortably, in the light theme most of all. Grey text and the status colours now clear the accessibility minimum (4.5:1) on every surface in both themes, and a check in the build keeps it there.\nNothing disappears in dark mode. The closing banner on About, Docs, Security and Domains showed only its button, the step numbers on How it works were white on white, and the \"Share via…\" label could not be read. They all show now. Orange buttons such as \"Open in wallet\" have dark lettering in place of white, which was hard to read.\nEasier to use on a phone. Footer links, switches, tabs and the rows of a menu or a select are full-size touch targets, and the footer is about a third shorter. A switch shows clearly whether it is on or off. Headings no longer split a word with a hyphen (\"permission-less\").\nThe status page says only what it measures. It showed \"Bitcoin Integration: Outage\" under \"All Systems Operational\", for a row nothing was monitoring. The row is gone and the headline follows the worst row on the page.\nThe Send button is where you can press it. On a phone, \"Review payment\" sat underneath the bottom bar after you chose a person and an amount, so the form looked unfinished. It now stays just above the bar.\nWorks better with a keyboard or a screen reader. One home link in the header, a main heading on sign-in and the Cat chat, named switches in the Cat's permissions, progress bars that announce their value, a visible focus outline in high-contrast mode, and no smooth scrolling when reduced motion is asked for.\nIdentities are harder to break into, and handing one over really hands it over. An identity that has been given a password or an address of its own can no longer get back to your other identities, by any route. A handed-over identity keeps no way in for the person who gave it: no passkey, linked Google or GitHub login, second factor, password or app sign-in they set up. Mail about an identity now reaches you at your main address instead of going nowhere. Settings says plainly when your identities could not be loaded, warns that deleting your main account deletes your identities too, and the menu stays up to date as you add, delete or hand over identities.\nSee what is waiting in your other identities. The menu under your picture shows an unread count beside each of your other identities, and a dot on your picture when any of them has something waiting, so you no longer have to switch into each one to find out. Settings shows the same count.\nHand an identity over to someone else. In Settings, under an identity, \"Hand over\" creates a link. Send it to the person who should have the identity. When they open it, give their email and accept, it is their account, with everything it owns including its wallets, and you can no longer switch to it. The link is shown once, works for seven days, and you can cancel it until it is used.\nThe menu under your picture is the same one every bitbaum product has. It lists your other identities first, then Dashboard, My projects, Your page and Edit profile, then Appearance and Sign out. Arrow keys move through every row, Escape closes it, and if signing out or switching fails the menu stays open and says so. It replaces OrangeCat's own menu, which is gone.\nA pay page no longer vanishes for a moment. When the database was briefly unreachable, a real pay page answered \"not found\" and a wallet paying a Lightning address was told the person did not exist. A lookup that could not be made is now reported as an error to retry, never as a missing person.\nThe bottom bar shows where you are. On a phone, the tab you were on lost its icon: Explore showed a blank white disc instead of a compass. The icon stays drawn now; the current tab is marked by a heavier line and a bold label.\nA sign-in code survives the trip to your mail app. On a phone, leaving the sign-in page to read the code could bring you back to an empty form, and you had to ask for another code. The page now reopens on the code field, with what you had typed, for fifteen minutes. If you ask for too many codes it says how long to wait instead of \"We could not send a code\", and you can still enter a code you already hold.\nEasier to tap on a phone. \"Forgot password?\", \"Create an account\" and \"Remember me\" on the sign-in page, the logo in the header and the \"Also here\" links on Discover are now full-size tap targets (44px) instead of a line of text. The feedback button no longer sits on top of \"Sign in\".\nChoose which identity signs in to an app. When Loki, Solon or another app sends you to OrangeCat to sign in, the screen that asks \"Allow …?\" now lists your other identities under \"Or continue as\". Tap one and the same screen comes back as that identity; nothing is shared with the app until you press Allow. An identity no longer shows a made-up email address there."
+          "done": "Your tasks are yours. A task is seen and changed by the person who made it and by the person it was asked of; before, every signed-in account could see and complete it. Asking someone to do a task now means picking that person, instead of notifying every account on OrangeCat.\nSetting a spending limit for your Cat no longer turns payments on. Saving a limit used to switch Send Payment and five other payment actions from Off to \"Ask first\" for anyone who had never turned them on.\nThe home page says what OrangeCat solves before it shows the studio. On a phone that section used to be a dozen screens down.\nHanding an identity to an address that already has an account says so, and changes nothing. The person accepting the link was told something went wrong, and the identity had already lost its ways in for a hand-over that never happened. The address is now checked as soon as the link proves good: a taken address is refused with \"that address already has an account\", the link keeps working for another address, and the identity is untouched.\nYou can delete your account again after creating an identity. Settings → Delete account failed with an error for anyone who held an identity, and for the identity itself, because a database rule that tidies up hand-over links was not allowed to run during deletion. It runs now, and CI deletes a holder and its identity the way production does on every migration change. The hand-over page that says a link no longer works now offers a way back to OrangeCat.\nEvery public page opens the same way. About, Pricing, FAQ, Docs, Security, Roadmap and some twenty more each had their own header: titles from small to very large, some centred and some not, an icon above one, a badge above another, a grey band behind a third. They now share one: the title, one line that says what the page is for, and the same space around both. Pages you read top to bottom (the legal pages, the whitepaper, the changelog, the roadmap) start at the left of the column.\nThe phone menu for visitors has what the desktop header has, and a way to sign in. It showed \"Blog\" and \"Support\" and then the whole footer, 27 links, with no Sign in anywhere. It now lists Product and Ecosystem with one line under each link, and ends with Sign In and Get Started. It has a close button, dims the page behind it, keeps keyboard focus inside while it is open, and the button that opens it says whether it is open.\nSmall text is readable, in light and in dark. Dates, labels, helper lines and footnotes were set in a grey too faint to read comfortably, in the light theme most of all. Grey text and the status colours now clear the accessibility minimum (4.5:1) on every surface in both themes, and a check in the build keeps it there.\nNothing disappears in dark mode. The closing banner on About, Docs, Security and Domains showed only its button, the step numbers on How it works were white on white, and the \"Share via…\" label could not be read. They all show now. Orange buttons such as \"Open in wallet\" have dark lettering in place of white, which was hard to read.\nEasier to use on a phone. Footer links, switches, tabs and the rows of a menu or a select are full-size touch targets, and the footer is about a third shorter. A switch shows clearly whether it is on or off. Headings no longer split a word with a hyphen (\"permission-less\").\nThe status page says only what it measures. It showed \"Bitcoin Integration: Outage\" under \"All Systems Operational\", for a row nothing was monitoring. The row is gone and the headline follows the worst row on the page.\nThe Send button is where you can press it. On a phone, \"Review payment\" sat underneath the bottom bar after you chose a person and an amount, so the form looked unfinished. It now stays just above the bar.\nWorks better with a keyboard or a screen reader. One home link in the header, a main heading on sign-in and the Cat chat, named switches in the Cat's permissions, progress bars that announce their value, a visible focus outline in high-contrast mode, and no smooth scrolling when reduced motion is asked for.\nIdentities are harder to break into, and handing one over really hands it over. An identity that has been given a password or an address of its own can no longer get back to your other identities, by any route. A handed-over identity keeps no way in for the person who gave it: no passkey, linked Google or GitHub login, second factor, password or app sign-in they set up. Mail about an identity now reaches you at your main address instead of going nowhere. Settings says plainly when your identities could not be loaded, warns that deleting your main account deletes your identities too, and the menu stays up to date as you add, delete or hand over identities.\nSee what is waiting in your other identities. The menu under your picture shows an unread count beside each of your other identities, and a dot on your picture when any of them has something waiting, so you no longer have to switch into each one to find out. Settings shows the same count.\nHand an identity over to someone else. In Settings, under an identity, \"Hand over\" creates a link. Send it to the person who should have the identity. When they open it, give their email and accept, it is their account, with everything it owns including its wallets, and you can no longer switch to it. The link is shown once, works for seven days, and you can cancel it until it is used.\nThe menu under your picture is the same one every bitbaum product has. It lists your other identities first, then Dashboard, My projects, Your page and Edit profile, then Appearance and Sign out. Arrow keys move through every row, Escape closes it, and if signing out or switching fails the menu stays open and says so. It replaces OrangeCat's own menu, which is gone.\nA pay page no longer vanishes for a moment. When the database was briefly unreachable, a real pay page answered \"not found\" and a wallet paying a Lightning address was told the person did not exist. A lookup that could not be made is now reported as an error to retry, never as a missing person.\nMessages tell you who is speaking. When Cat answered in a conversation between two people, its answer looked like the other person's. Cat's messages now carry its own mark, the word \"Agent\" and whom it answered for, in a bubble of their own; the top of the conversation says when Cat is in it, and you see \"Cat is thinking…\" from the moment you tag it. {#messenger-agent}\nSend photos, videos and files in a message. Tap the paperclip for Camera, Photos, Videos or Files. Photos are made smaller on your phone before they are sent, each file shows its progress, and a picture opens on the whole screen. Only the people in the conversation can open what was sent. {#messenger-files}\nA conversation uses the whole phone. Opening a conversation used to leave an empty band under the message box and the box sat in the middle of the screen. The box is now one row at the bottom, and the rest of the screen is the conversation. {#messenger-package}\nThe bottom bar shows where you are. On a phone, the tab you were on lost its icon: Explore showed a blank white disc instead of a compass. The icon stays drawn now; the current tab is marked by a heavier line and a bold label.\nA sign-in code survives the trip to your mail app. On a phone, leaving the sign-in page to read the code could bring you back to an empty form, and you had to ask for another code. The page now reopens on the code field, with what you had typed, for fifteen minutes. If you ask for too many codes it says how long to wait instead of \"We could not send a code\", and you can still enter a code you already hold.\nEasier to tap on a phone. \"Forgot password?\", \"Create an account\" and \"Remember me\" on the sign-in page, the logo in the header and the \"Also here\" links on Discover are now full-size tap targets (44px) instead of a line of text. The feedback button no longer sits on top of \"Sign in\".\nChoose which identity signs in to an app. When Loki, Solon or another app sends you to OrangeCat to sign in, the screen that asks \"Allow …?\" now lists your other identities under \"Or continue as\". Tap one and the same screen comes back as that identity; nothing is shared with the app until you press Allow. An identity no longer shows a made-up email address there."
         },
         {
           "date": "2026-11-11",
@@ -1220,10 +1322,6 @@
         {
           "date": "2026-10-06",
           "done": "Reviews and track records now show far less about you. Yesterday's version made more public than it should have; this corrects it.\nReview reminders respect your email settings. They can be turned off with \"Progress & digests\" in your notification settings without losing payment receipts, are limited to two emails a day, and several deals waiting at once arrive as one message instead of one each.\nA payment OrangeCat sends for you now leaves a record on our side. Until now, money sent from the Send screen or by asking your Cat moved from your wallet and OrangeCat kept no trace that it had. Every send now writes a private record of the payment, the amount and who it went to, and a payment that fails writes one too."
-        },
-        {
-          "date": "2026-10-05",
-          "done": "Review the people you buy from and sell to, and only them. Every paid order is now a deal, listed under \"Your deals\" in the sidebar. Each side can answer a few yes/no questions about the other (\"Would you deal with them again?\") and add a note. Only the two people in a deal can review it, once each, and a review can never be edited.\nYou're asked to review, so reviews actually get written. A few days after a deal is paid, each side gets a notification and an email asking how it went, and one more a few days before the review window closes. When the other person reviews you, you hear about it at once (that they reviewed, not what they said). Your Cat's suggestions on the dashboard now include the deal most in need of your review.\nProfiles show a track record. A profile now shows what OrangeCat itself saw: how many paid deals the person had, with how many different people, how many were refunded, and what share of the reviews about them say \"would deal again\". The counts come from settled payments nobody typed in. A profile with no deals shows nothing new."
         }
       ],
       "records": {
@@ -6931,6 +7029,10 @@
       ],
       "changelog": [
         {
+          "date": "2026-11-13",
+          "done": "Diagnosed appcron-botsmann-rebuild exit 1 as the box's stale /opt/_appcron/run.sh (aborts under set -e when the app .env has no CRON_SECRET); the fix is already merged in bitbaum/loki 804d0a29 (#1603) but the installer was never re-run on the box. No botsmann repo change."
+        },
+        {
           "date": "2026-11-10",
           "done": "2026-11-10 09:00 UTC failed the same way as 11-06 through 11-09 (status 1, no HTTP line) because the box still runs the pre-#1598 cron runner; the app route returns 200 and no repo change is needed."
         },
@@ -6947,16 +7049,16 @@
           "changelog": null
         }
       },
-      "next": "From a shell that can SSH as root@167.233.22.31, in /home/ubuntu/dev/loki (install-app-crons.sh matches origin/main and includes 31d82135), run bash scripts/hetzner/install-app-crons.sh, then systemctl start appcron-botsmann-rebuild.service and confirm a journal line \"HTTP 200\". This sandbox has no root key, so it was not applied. Do not use app-secrets.yml ensure for this: botsmann's row is ORANGECAT_OAUTH_CLIENT, and ensure can restart the app.",
+      "next": "Operator re-runs bitbaum/loki scripts/hetzner/install-app-crons.sh from origin/main, then reset-failed + starts appcron-botsmann-rebuild.service and checks the journal for \"HTTP 200\".",
       "now": {
         "openRuns": 0,
         "lastRun": {
-          "outcome": "timeout",
-          "at": "2026-11-12T12:22:30.327Z"
+          "outcome": "success",
+          "at": "2026-11-13T09:04:30.519Z"
         },
         "lastLog": {
-          "date": "2026-11-10",
-          "done": "2026-11-10 09:00 UTC failed the same way as 11-06 through 11-09 (status 1, no HTTP line) because the box still runs the pre-#1598 cron runner; the app route returns 200 and no repo change is needed."
+          "date": "2026-11-13",
+          "done": "Diagnosed appcron-botsmann-rebuild exit 1 as the box's stale /opt/_appcron/run.sh (aborts under set -e when the app .env has no CRON_SECRET); the fix is already merged in bitbaum/loki 804d0a29 (#1603) but the installer was never re-run on the box. No botsmann repo change."
         }
       }
     },
